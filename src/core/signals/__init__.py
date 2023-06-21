@@ -1,0 +1,2 @@
+from .on_lecturer_save_make_thumbnails import on_lecturer_save_make_thumbnails
+from .on_webinar_create_metadata import on_webinar_create_metadata

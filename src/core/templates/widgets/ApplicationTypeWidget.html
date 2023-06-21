@@ -1,0 +1,27 @@
+{% for choice, value in choices %}
+    <!--begin::Option-->
+    <input
+        id="{{choice}}_option"
+        type="radio"
+        class="btn-check"
+        name="{{name}}" value="{{choice}}" {% if choice == 'COMPANY' %}checked{% endif %}
+    />
+    <label
+        class="btn btn-outline btn-outline-dashed btn-active-light-primary p-7 d-flex align-items-center mb-5"
+        for="{{choice}}_option"
+    >
+        <i class="ki-duotone ki-setting-2 fs-4x me-4">
+            <span class="path1"></span><span class="path2"></span>
+        </i>
+        <span class="d-block fw-semibold text-start">
+            <span class="text-dark fw-bold d-block fs-3">
+                {{value}}
+            </span>
+            <span class="text-muted fw-semibold fs-6">
+                XYZ
+            </span>
+        </span>
+    </label>
+    <!--end::Option-->
+{% endfor %}
+

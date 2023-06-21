@@ -1,0 +1,23 @@
+[tool.poetry]
+authors = ["Bartosz Nowakowski <b.nowakowski112@gmail.com>"]
+description = ""
+name = "wykladowca-pl-v2"
+packages = [{include = "wykladowca"}]
+readme = "README.md"
+version = "0.1.0"
+
+[tool.poetry.dependencies]
+django = "~4.2.2"
+pillow = "^9.5.0"
+python = "^3.9"
+python-dotenv = "^1.0.0"
+pytest = "^7.3.2"
+pytest-django = "^4.5.2"
+django-quill-editor = "^0.1.40"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core"]

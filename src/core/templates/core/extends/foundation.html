@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl_PL">
+  
+<!--begin::Head-->
+  <head>
+    <base href="" />
+    {% block title %}{% endblock title %}
+    {% block meta %}{% endblock meta %}
+    {% block fonts_mandatory %}{% endblock fonts_mandatory %}
+    {% block head_stylesheets %}
+    <!-- Head stylesheets placeholder (for this page only) -->
+    {% endblock head_stylesheets %}
+    {% block head_stylesheets_mandatory %}{% endblock head_stylesheets_mandatory %}
+  </head>
+  <!--end::Head-->
+  
+  <!--begin::Body-->
+  {% block body_tag %}
+  <body
+    id="kt_body"
+    class="header-fixed header-tablet-and-mobile-fixed aside-enabled sidebar-enabled"
+  >
+  {% endblock body_tag %}
+  
+    {% include '../includes/ThemeModeSetup.html' %}
+    {% block root %}{% endblock root %}
+    
+  
+    {% include './drawers.html' %}
+    {% include '../includes/ScrollTop.html' %}
+    {% include './modals.html' %}
+    <!--begin::Javascript-->
+    <script>
+      var hostUrl = "static/";
+    </script>
+    {% block body_scripts_mandatory %}{% endblock body_scripts_mandatory %}
+    {% block body_scripts %}
+    <!-- Body scripts placeholder (for this page only) -->
+    {% endblock body_scripts %}
+    <!--end::Javascript-->
+  </body>
+  <!--end::Body-->
+</html>

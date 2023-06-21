@@ -1,0 +1,24 @@
+
+{% extends 'core/extends/base.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+
+{% endblock head_stylesheets %}
+
+{% block rightbar %}{% endblock rightbar %}
+
+{% block content %}
+
+<form action="{% url 'core:application_type_page' pk=webinar.pk %}" method="post">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock content %}
+
+
+{% block body_scripts %}
+  
+{% endblock body_scripts %}

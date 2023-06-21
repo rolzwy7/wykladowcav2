@@ -1,0 +1,87 @@
+{% extends './foundation.html' %}
+{% load static %}
+
+{% block title %}
+  <title>DEFAULT TITLE</title>
+{% endblock title %}
+
+{% block fonts_mandatory %}
+  <!--begin::Fonts(mandatory for all pages)-->
+  <link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700"
+  />
+  <!--end::Fonts-->
+{% endblock fonts_mandatory %}
+
+{% block head_stylesheets_mandatory %}
+  <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
+  <link
+    href="{% static 'plugins/global/plugins.bundle.css' %}"
+    rel="stylesheet"
+    type="text/css"
+  />
+  <link
+    href="{% static 'css/style.bundle.css' %}"
+    rel="stylesheet"
+    type="text/css"
+  />
+  <!--end::Global Stylesheets Bundle-->
+{% endblock head_stylesheets_mandatory %}
+
+{% block meta %}
+    <meta charset="utf-8" />
+    <meta name="description" content="TODO" />
+    <meta name="keywords" content="TODO" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="TODO" />
+    <meta property="og:url" content="TODO" />
+    <meta property="og:site_name" content="TODO" />
+    <link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
+		<link rel="shortcut icon" href="{% static 'media/logos/favicon.ico' %}" />
+{% endblock meta %}
+
+{% block body_scripts_mandatory %}
+  <!--begin::Global Javascript Bundle(mandatory for all pages)-->
+  <script src="{% static 'plugins/global/plugins.bundle.js' %}"></script>
+  <script src="{% static 'js/scripts.bundle.js' %}"></script>
+  <!--end::Global Javascript Bundle-->
+{% endblock body_scripts_mandatory %}
+
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+  
+{% block body_scripts %}{% endblock body_scripts %}
+
+{% block root %}
+  <!--begin::Main-->
+  <!--begin::Root-->
+  <div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="page d-flex flex-column flex-column-fluid">
+      {% block header %}
+        {% include './header.html' %}
+      {% endblock header %}
+      <!--begin::Container-->
+      <div
+        id="kt_content_container"
+        class="d-flex flex-column-fluid align-items-stretch container-xxl"
+      >
+        {% block leftbar %}
+          {% include './leftbar.html' %}
+        {% endblock leftbar %}
+        
+        {% block content %}{% endblock content %}
+        
+        {% block rightbar %}
+          {% include './rightbar.html' %}
+        {% endblock rightbar %}
+      </div>
+      <!--end::Container-->
+    </div>
+    <!--end::Page-->
+  </div>
+  <!--end::Root-->
+  <!--end::Main-->
+{% endblock root %}

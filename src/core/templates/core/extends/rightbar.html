@@ -1,0 +1,297 @@
+{% load static %}
+<!--begin::Sidebar-->
+<div
+  class="sidebar p-5 px-lg-0 py-lg-11"
+  data-kt-drawer="true"
+  data-kt-drawer-name="sidebar"
+  data-kt-drawer-activate="{default: true, lg: false}"
+  data-kt-drawer-overlay="true"
+  data-kt-drawer-width="275px"
+  data-kt-drawer-direction="end"
+  data-kt-drawer-toggle="#kt_sidebar_toggle"
+>
+  <div class="card-body d-flex flex-center flex-column py-9 px-5">
+    <!--begin::Avatar-->
+    <div class="symbol symbol-100px symbol-circle mb-5">
+      <img src="{% static 'media//avatars/300-6.jpg' %}" alt="image" />
+    </div>
+    <!--end::Avatar-->
+    <!--begin::Name-->
+    <a href="#" class="fs-4 text-gray-800 text-hover-primary fw-bold mb-0"
+      >Wioletta Konieczka</a
+    >
+    <!--end::Name-->
+    <!--begin::Position-->
+    <div class="fw-semibold text-gray-400 mb-6">Menedżer ds. Szkoleń</div>
+    <!--end::Position-->
+    <!--begin::Info-->
+    <div class="d-flex flex-column flex-start flex-wrap mb-5">
+      <!--begin::Stats-->
+      <div class="border border-dashed rounded min-w-90px py-3 px-4 mx-2 mb-3">
+        <div>
+          <a class="fs-6 fw-bold text-gray-700" href="mailto:wioletta.konieczka@wykladowca.pl">
+            wioletta.konieczka@wykladowca.pl
+          </a>
+        </div>
+        <div class="fw-semibold text-gray-400">Adres E-mail</div>
+      </div>
+      <!--end::Stats-->
+      <!--begin::Stats-->
+      <div class="border border-dashed rounded min-w-90px py-3 px-4 mx-2 mb-3">
+        <div class="fs-6 fw-bold text-gray-700">531 244 871</div>
+        <div class="fw-semibold text-gray-400">Numer Telefonu</div>
+      </div>
+      <!--end::Stats-->
+    </div>
+    <!--end::Info-->
+    <!--begin::Follow-->
+    <button
+      class="btn btn-sm btn-flex btn-center btn-light-primary"
+      data-kt-follow-btn="true"
+    >
+      <i class="ki-duotone ki-plus follow fs-3 d-none"></i>
+      <i class="ki-duotone ki-check following fs-3"></i>
+      <!--begin::Indicator label-->
+      <span class="indicator-label">Following</span>
+      <!--end::Indicator label-->
+      <!--begin::Indicator progress-->
+      <span class="indicator-progress"
+        >Please wait...
+        <span class="spinner-border spinner-border-sm align-middle ms-2"></span
+      ></span>
+      <!--end::Indicator progress-->
+    </button>
+    <!--end::Follow-->
+  </div>
+
+  <!--begin::Quick Search-->
+  <form
+    id="kt_sidebar_search_form"
+    action="../../demo5/dist/apps/devs/search.html"
+    class="w-100 position-relative mb-5 mb-lg-10"
+    autocomplete="off"
+  >
+    <!--begin::Hidden input(Added to disable form autocomplete)-->
+    <input type="hidden" />
+    <!--end::Hidden input-->
+    <!--begin::Icon-->
+    <i
+      class="ki-duotone ki-magnifier fs-2 text-gray-700 position-absolute top-50 translate-middle-y ms-4"
+    >
+      <span class="path1"></span>
+      <span class="path2"></span>
+    </i>
+    <!--end::Icon-->
+    <!--begin::Input-->
+    <input
+      type="text"
+      class="form-control bg-transparent ps-13 fs-7 h-40px"
+      name="search"
+      value=""
+      placeholder="Search"
+    />
+    <!--end::Input-->
+  </form>
+  <!--end::Quick Search-->
+  <!--begin::Popular Questions-->
+  <div class="card bg-light mb-5 mb-lg-10 shadow-none border-0">
+    <!--begin::Header-->
+    <div class="card-header align-items-center border-0">
+      <!--begin::Title-->
+      <h3 class="card-title fw-bold text-gray-900 fs-3">Popular Questions 1</h3>
+      <!--end::Title-->
+    </div>
+    <!--end::Header-->
+    <!--begin::Body-->
+    <div class="card-body pt-0">
+      <!--begin::Item-->
+      <div class="d-flex mb-5">
+        <!--begin::Arrow-->
+        <i class="ki-duotone ki-right-square fs-2 mt-0 me-2">
+          <span class="path1"></span>
+          <span class="path2"></span>
+        </i>
+        <!--end::Arrow-->
+        <!--begin::Title-->
+        <a
+          href="../../demo5/dist/apps/devs/question.html"
+          class="text-gray-700 text-hover-primary fs-6 fw-bold"
+          >How to use Metrponic with Django Framework ?</a
+        >
+        <!--end::Title-->
+      </div>
+      <!--end::Item-->
+      <!--begin::Item-->
+      <div class="d-flex mb-5">
+        <!--begin::Arrow-->
+        <i class="ki-duotone ki-right-square fs-2 mt-0 me-2">
+          <span class="path1"></span>
+          <span class="path2"></span>
+        </i>
+        <!--end::Arrow-->
+        <!--begin::Title-->
+        <a
+          href="../../demo5/dist/apps/devs/question.html"
+          class="text-gray-700 text-hover-primary fs-6 fw-bold"
+          >When to expect new version of Metronic Laravel ?</a
+        >
+        <!--end::Title-->
+      </div>
+      <!--end::Item-->
+      <!--begin::Item-->
+      <div class="d-flex mb-5">
+        <!--begin::Arrow-->
+        <i class="ki-duotone ki-right-square fs-2 mt-0 me-2">
+          <span class="path1"></span>
+          <span class="path2"></span>
+        </i>
+        <!--end::Arrow-->
+        <!--begin::Title-->
+        <a
+          href="../../demo5/dist/apps/devs/question.html"
+          class="text-gray-700 text-hover-primary fs-6 fw-bold"
+          >Could not get Metronic Demo 7 working</a
+        >
+        <!--end::Title-->
+      </div>
+      <!--end::Item-->
+      <!--begin::Item-->
+      <div class="d-flex mb-5">
+        <!--begin::Arrow-->
+        <i class="ki-duotone ki-right-square fs-2 mt-0 me-2">
+          <span class="path1"></span>
+          <span class="path2"></span>
+        </i>
+        <!--end::Arrow-->
+        <!--begin::Title-->
+        <a
+          href="../../demo5/dist/apps/devs/question.html"
+          class="text-gray-700 text-hover-primary fs-6 fw-bold"
+          >I want to get a refund</a
+        >
+        <!--end::Title-->
+      </div>
+      <!--end::Item-->
+      <!--begin::Item-->
+      <div class="d-flex">
+        <!--begin::Arrow-->
+        <i class="ki-duotone ki-right-square fs-2 mt-0 me-2">
+          <span class="path1"></span>
+          <span class="path2"></span>
+        </i>
+        <!--end::Arrow-->
+        <!--begin::Title-->
+        <a
+          href="../../demo5/dist/apps/devs/question.html"
+          class="text-gray-700 text-hover-primary fs-6 fw-bold"
+          >How to use Metrponic with Rails Framework ?</a
+        >
+        <!--end::Title-->
+      </div>
+      <!--end::Item-->
+    </div>
+    <!--end: Card Body-->
+  </div>
+  <!--end::Popular Questions-->
+  <!--begin::Popular Questions-->
+  <div class="card bg-light mb-5 mb-lg-10 shadow-none border-0">
+    <!--begin::Header-->
+    <div class="card-header align-items-center border-0">
+      <!--begin::Title-->
+      <h3 class="card-title fw-bold text-gray-900 fs-3">Latest Tutorials</h3>
+      <!--end::Title-->
+    </div>
+    <!--end::Header-->
+    <!--begin::Body-->
+    <div class="card-body pt-0">
+      <!--begin::Item-->
+      <div class="d-flex mb-5">
+        <!--begin::Arrow-->
+        <i class="ki-duotone ki-right-square fs-2 mt-0 me-2">
+          <span class="path1"></span>
+          <span class="path2"></span>
+        </i>
+        <!--end::Arrow-->
+        <!--begin::Title-->
+        <a
+          href="../../demo5/dist/apps/devs/question.html"
+          class="text-gray-700 text-hover-primary fs-6 fw-bold"
+          >How to use customize Metronoc's SASS</a
+        >
+        <!--end::Title-->
+      </div>
+      <!--end::Item-->
+      <!--begin::Item-->
+      <div class="d-flex mb-5">
+        <!--begin::Arrow-->
+        <i class="ki-duotone ki-right-square fs-2 mt-0 me-2">
+          <span class="path1"></span>
+          <span class="path2"></span>
+        </i>
+        <!--end::Arrow-->
+        <!--begin::Title-->
+        <a
+          href="../../demo5/dist/apps/devs/question.html"
+          class="text-gray-700 text-hover-primary fs-6 fw-bold"
+          >How to change web font globally</a
+        >
+        <!--end::Title-->
+      </div>
+      <!--end::Item-->
+      <!--begin::Item-->
+      <div class="d-flex mb-5">
+        <!--begin::Arrow-->
+        <i class="ki-duotone ki-right-square fs-2 mt-0 me-2">
+          <span class="path1"></span>
+          <span class="path2"></span>
+        </i>
+        <!--end::Arrow-->
+        <!--begin::Title-->
+        <a
+          href="../../demo5/dist/apps/devs/question.html"
+          class="text-gray-700 text-hover-primary fs-6 fw-bold"
+          >How to setup dark mode</a
+        >
+        <!--end::Title-->
+      </div>
+      <!--end::Item-->
+      <!--begin::Item-->
+      <div class="d-flex mb-5">
+        <!--begin::Arrow-->
+        <i class="ki-duotone ki-right-square fs-2 mt-0 me-2">
+          <span class="path1"></span>
+          <span class="path2"></span>
+        </i>
+        <!--end::Arrow-->
+        <!--begin::Title-->
+        <a
+          href="../../demo5/dist/apps/devs/question.html"
+          class="text-gray-700 text-hover-primary fs-6 fw-bold"
+          >Metronic file structure and build tools</a
+        >
+        <!--end::Title-->
+      </div>
+      <!--end::Item-->
+      <!--begin::Item-->
+      <div class="d-flex">
+        <!--begin::Arrow-->
+        <i class="ki-duotone ki-right-square fs-2 mt-0 me-2">
+          <span class="path1"></span>
+          <span class="path2"></span>
+        </i>
+        <!--end::Arrow-->
+        <!--begin::Title-->
+        <a
+          href="../../demo5/dist/apps/devs/question.html"
+          class="text-gray-700 text-hover-primary fs-6 fw-bold"
+          >Metronic integration with Blazor server side</a
+        >
+        <!--end::Title-->
+      </div>
+      <!--end::Item-->
+    </div>
+    <!--end: Card Body-->
+  </div>
+  <!--end::Popular Questions-->
+</div>
+<!--end::Sidebar-->

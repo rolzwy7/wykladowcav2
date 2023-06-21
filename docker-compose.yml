@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+
+  redis:
+    container_name: redis_db
+    image: redis:7
+
+  worker:
+    container_name: celery_worker
+    build: ./src
+    command: celery -A notifications_app.celery worker --loglevel=info
+    volumes:
+      - ./src:/app
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/5
+      - CELERY_RESULT_BACKEND=redis://redis:6379/5
+    depends_on:
+      - redis
+
+  web:
+    container_name: notifications_app
+    build: ./src
+    command: python manage.py runserver 0.0.0.0:8080
+    volumes:
+      - ./src:/app
+    ports:
+      - 8080:8080
+    depends_on:
+      - worker
