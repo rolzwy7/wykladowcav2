@@ -1,0 +1,222 @@
+
+{% extends 'core/pages/application/ApplicationBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+
+{% endblock head_stylesheets %}
+
+{% block rightbar %}{% endblock rightbar %}
+
+{% block application_toolbar_actions %}
+<div class="d-flex align-items-center py-1">
+    <!--begin::Button-->
+    <a
+        href="#"
+        class="btn btn-flex btn-sm btn-primary fw-bold border-0 fs-6 h-40px">
+    Popraw zgłoszenie
+    </a>
+    <!--end::Button-->
+</div>
+{% endblock application_toolbar_actions %}
+
+{% block application_content %}
+
+<div class="post" id="kt_post">
+    <!--begin::Layout-->
+    <div class="d-flex flex-column flex-lg-row">
+        <!--begin::Content-->
+        <div class="flex-lg-row-fluid me-lg-15 order-2 order-lg-1 mb-10 mb-lg-0">
+            <!--begin::Card-->
+            <div class="card card-flush pt-3 mb-5 mb-xl-10">
+                <!--begin::Card header-->
+                <div class="card-header">
+                    <!--begin::Card title-->
+                    <div class="card-title">
+                        <h2 class="fw-bold">Szczegóły zgłoszenia</h2>
+                    </div>
+                    <!--begin::Card title-->
+                    <!--begin::Card toolbar-->
+                    <div class="card-toolbar">
+                        <a href="../../demo5/dist/apps/subscriptions/add.html" class="btn btn-light-warning">
+                            <i class="ki-duotone ki-cloud-download fs-1"><i class="path1"></i><i class="path2"></i></i>
+                            Pobierz kartę zgłoszeniową
+                        </a>
+                    </div>
+                    <!--end::Card toolbar-->
+                </div>
+                <!--end::Card header-->
+                <!--begin::Card body-->
+                <div class="card-body pt-3">
+                    {% include './snippets/SummaryParticipants.html' with participants=participants %}
+                    
+                    {% if application.buyer %}
+                        {% include './snippets/SummaryCompany.html' with title="Nabywca" company=application.buyer %}
+                    {% endif %}
+                    
+                    {% if application.receiver %}
+                    {% include './snippets/SummaryCompany.html' with title="Odbiorca" company=application.receiver %}
+                    {% endif %}
+                    
+                    {% include './snippets/SummaryInvoice.html' with invoice=application.invoice %}
+                    
+                    {% include './snippets/SummaryAdditionalInformation.html' with application=application %}
+                </div>
+                <!--end::Card body-->
+            </div>
+            <!--end::Card-->
+
+        </div>
+        <!--end::Content-->
+        <!--begin::Sidebar-->
+        <div class="flex-column flex-lg-row-auto w-lg-250px w-xl-300px mb-10 order-1 order-lg-2">
+            <!--begin::Card-->
+            <div
+                class="card card-flush mb-0"
+                data-kt-sticky="true"
+                data-kt-sticky-name="subscription-summary"
+                data-kt-sticky-offset="{default: false, lg: '200px'}"
+                data-kt-sticky-width="{lg: '250px', xl: '300px'}"
+                data-kt-sticky-left="auto"
+                data-kt-sticky-top="150px"
+                data-kt-sticky-animation="false"
+                data-kt-sticky-zindex="95"
+            >
+                <!--begin::Card header-->
+                <div class="card-header">
+                    <!--begin::Card title-->
+                    <div class="card-title">
+                        <h2>Osoba zgłaszająca</h2>
+                    </div>
+                    <!--end::Card title-->
+                </div>
+                <!--end::Card header-->
+                <!--begin::Card body-->
+                <div class="card-body pt-0 fs-6">
+                    <!--begin::Section-->
+                    <div class="mb-7">
+                        <!--begin::Details-->
+                        <div class="d-flex align-items-center">
+                            {% with application.submitter as submitter %}
+                            <!--begin::Info-->
+                            <div class="d-flex flex-column">
+                                <!--begin::Name-->
+                                <a href="#" class="fs-4 fw-bold text-gray-900 text-hover-primary me-2">
+                                    {{submitter.fullname}}
+                                </a>
+                                <!--end::Name-->
+                                <!--begin::Email-->
+                                <a href="#" class="fw-semibold text-gray-600 text-hover-primary">
+                                    {{submitter.email}}
+                                </a>
+                                <!--end::Email-->
+                                <!--begin::Phone-->
+                                <a href="#" class="fw-semibold text-gray-600 text-hover-primary">
+                                    {{submitter.phone}}
+                                </a>
+                                <!--end::Phone-->
+                            </div>
+                            <!--end::Info-->
+                            {% endwith %}
+                        </div>
+                        <!--end::Details-->
+                    </div>
+                    <!--end::Section-->
+                    <!--begin::Seperator-->
+                    <div class="separator separator-dashed mb-4"></div>
+                    <!--end::Seperator-->
+                    <!--begin::Section-->
+                    <div class="mb-7">
+                        <!--begin::Title-->
+                        <h5 class="mb-4">Cena NETTO</h5>
+                        <!--end::Title-->
+                        <!--begin::Details-->
+                        <div class="d-flex justify-content-start">
+                            <!--begin::Section-->
+                            <div class="mw-300px">
+                                <!--begin::Item-->
+                                <div class="d-flex flex-stack mb-3">
+                                    <!--begin::Accountname-->
+                                    <div class="fw-semibold pe-10 text-gray-600 fs-7">Za osobe:</div>
+                                    <!--end::Accountname-->
+                                    <!--begin::Label-->
+                                    <div class="text-end fw-bold fs-6 text-gray-800">$ 20,600.00</div>
+                                    <!--end::Label-->
+                                </div>
+                                <!--end::Item-->
+                                <!--begin::Item-->
+                                <div class="d-flex flex-stack mb-3">
+                                    <!--begin::Accountname-->
+                                    <div class="fw-semibold pe-10 text-gray-600 fs-7">VAT 0%</div>
+                                    <!--end::Accountname-->
+                                    <!--begin::Label-->
+                                    <div class="text-end fw-bold fs-6 text-gray-800">0.00</div>
+                                    <!--end::Label-->
+                                </div>
+                                <!--end::Item-->
+                            </div>
+                            <!--end::Section-->
+                        </div>
+                        <!--end::Details-->
+                        <!--begin::Seperator-->
+                        <div class="separator separator-dashed mb-4"></div>
+                        <!--end::Seperator-->
+                        <!--begin::Title-->
+                        <h5 class="mb-4">Całkowita cena</h5>
+                        <!--end::Title-->
+                        <!--begin::Details-->
+                        <div class="d-flex justify-content-start">
+                            <!--begin::Section-->
+                            <div class="mw-300px">
+                                <!--begin::Item-->
+                                <div class="d-flex flex-stack mb-3">
+                                    <!--begin::Label-->
+                                    <div class="text-start fw-bold fs-6 text-gray-800">$ 20,600.00</div>
+                                    <!--end::Label-->
+                                </div>
+                                <!--end::Item-->
+                            </div>
+                            <!--end::Section-->
+                        </div>
+                        <!--begin::Title-->
+                    </div>
+                    <!--end::Section-->
+                    <!--begin::Seperator-->
+                    <div class="separator separator-dashed mb-4"></div>
+                    <!--end::Seperator-->
+                    <a href="#">Przeczytaj regulamin</a>
+                    <!--begin::Seperator-->
+                    <div class="separator separator-dashed mb-4"></div>
+                    <!--end::Seperator-->
+                    <!--begin::Actions-->
+                    <div class="mb-0">
+                        <form action="{% url 'core:application_summary_page' uuid=application.uuid %}">
+                            {% csrf_token %}
+                            {{form.accept_terms_of_service}}
+                            <button
+                                type="submit"
+                                class="btn btn-danger mt-3"
+                            >
+                                <i class="ki-duotone ki-send fs-1"><i class="path1"></i><i class="path2"></i></i>
+                                Wyślij zgłoszenie
+                            </a>
+                        </form>
+                    </div>
+                    <!--end::Actions-->
+                </div>
+                <!--end::Card body-->
+            </div>
+            <!--end::Card-->
+        </div>
+        <!--end::Sidebar-->
+    </div>
+    <!--end::Layout-->
+</div>
+
+
+
+{% endblock application_content %}
+
+{% block body_scripts %}
+  
+{% endblock body_scripts %}

@@ -1,0 +1,47 @@
+<!--begin::Section-->
+<div class="mb-10">
+    <!--begin::Title-->
+    <h5 class="mb-4">Uczestnicy:</h5>
+    <!--end::Title-->
+    <!--begin::Product table-->
+    <div class="table-responsive">
+        <!--begin::Table-->
+        <table class="table align-middle table-row-dashed fs-6 gy-4 mb-0">
+            <!--begin::Table head-->
+            <thead>
+                <!--begin::Table row-->
+                <tr class="border-bottom border-gray-200 text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                    <th class="min-w-150px">Imię</th>
+                    <th class="min-w-125px">Nazwisko</th>
+                    <th class="min-w-125px">Adres E-mail</th>
+                    <th class="min-w-125px">Numer telefonu</th>
+                </tr>
+                <!--end::Table row-->
+            </thead>
+            <!--end::Table head-->
+            <!--begin::Table body-->
+            <tbody class="fw-semibold text-gray-800">
+                {% for participant in participants %}
+                <tr>
+                    <td>
+                        <div class="fw-normal text-gray-900">{{participant.first_name}}</div>
+                    </td>
+                    <td>
+                        <div class="fw-normal text-gray-900">{{participant.last_name}}</div>
+                    </td>
+                    <td>
+                        <div class="fw-normal text-gray-900">{{participant.email}}</div>
+                    </td>
+                    <td>
+                        <div class="fw-normal text-gray-900">{{participant.phone}}</div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <!--end::Table body-->
+        </table>
+        <!--end::Table-->
+    </div>
+    <!--end::Product table-->
+</div>
+<!--end::Section-->

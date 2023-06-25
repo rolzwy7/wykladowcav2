@@ -1,8 +1,11 @@
 from .application_forms import (
-    ApplicationBuyerForm,
+    ApplicationAdditionalInformationForm,
+    ApplicationCompanyForm,
     ApplicationInvoiceForm,
-    ApplicationReceiverForm,
+    ApplicationParticipantForm,
+    ApplicationPersonDetailForm,
     ApplicationSubmitterForm,
+    ApplicationSummarySubmitForm,
     ApplicationTypeForm,
 )
 from .login_form import LoginForm  # noqa

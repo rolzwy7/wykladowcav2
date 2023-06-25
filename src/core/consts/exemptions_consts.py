@@ -1,5 +1,15 @@
+from dataclasses import dataclass
+
 from core.models.enums import WebinarApplicationType
-from core.structs import VatExemption
+
+
+@dataclass
+class VatExemption:
+    db_key: str  # Key that will be save in database
+    description: str
+    identifier: int  # For 3rd party invoiving API
+    legal_basis: str
+
 
 VAT_EXEMPTION_0 = VatExemption(
     "VAT_EXEMPTION_0", "Brak zwolnienia z VAT", 0, ""
@@ -7,14 +17,14 @@ VAT_EXEMPTION_0 = VatExemption(
 
 VAT_EXEMPTION_13 = VatExemption(
     "VAT_EXEMPTION_13",
-    "Szkolenia zawodowe finansowane ze środków publicznych",
+    "art. 43. ust. 1 pkt 29 lit. c - Szkolenia zawodowe finansowane ze środków publicznych",
     13,
     "art. 43. ust. 1 pkt 29 lit. c",
 )
 
 VAT_EXEMPTION_36 = VatExemption(
     "VAT_EXEMPTION_36",
-    "Szkolenia zawodowe dofinansowane co najmniej w 70% ze środków publicznych",  # noqa
+    "par. 3. ust. 1 pkt 14 - Szkolenia zawodowe dofinansowane co najmniej w 70% ze środków publicznych",  # noqa
     36,
     "par. 3. ust. 1 pkt 14",
 )

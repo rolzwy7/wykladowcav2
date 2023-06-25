@@ -1,0 +1,13 @@
+<div class="form-floating mb-3">
+    <textarea
+        data-kt-autosize="true"
+        name="{{widget.name}}"
+        class="form-control form-control-solid"
+        placeholder="{{widget.name}}"
+        {% if widget.required %}required{% endif %}
+        id="{{widget.attrs.id}}"
+    >{% if widget.value %}{{ widget.value }}{% endif %}</textarea>
+    <label for="{{widget.attrs.id}}">
+        {{widget.attrs.label}}
+    </label>
+</div>

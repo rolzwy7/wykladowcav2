@@ -1,0 +1,18 @@
+<div class="form-check">
+    <input
+        class="form-check-input"
+        type="{{widget.type}}"
+        name="{{widget.name}}"
+        {% if widget.attrs.checked %}
+        checked
+        {% endif %}
+        id="{{widget.attrs.id}}"
+        style="cursor: pointer!important;"
+    />
+    <label
+        class="form-check-label text-gray-700 fw-bold"
+        for="{{widget.attrs.id}}"
+        style="cursor: pointer!important; user-select: none;">
+        {{widget.attrs.label}}
+    </label>
+</div>

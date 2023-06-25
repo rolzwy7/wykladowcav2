@@ -15,21 +15,11 @@ from core.utils.text import slugify
 
 
 class WebinarCategoryManager(Manager):
-    def get_queryset(self):
-        return super().get_queryset()
-
     def sidebar_categories(self) -> QuerySet["WebinarCategory"]:
         return self.get_queryset().filter()
 
 
 class WebinarCategory(Model):
-    class Meta:
-        verbose_name = "Kategoria"
-        verbose_name_plural = "Kategorie"
-
-    def __str__(self):
-        return self.name
-
     manager = WebinarCategoryManager()
 
     visible = BooleanField("Widoczna na stronie", default=True)
@@ -56,6 +46,13 @@ class WebinarCategory(Model):
             "Im niższa wartość tym wyższa pozycja kategorii przy wyświetlaniu"
         ),
     )
+
+    class Meta:
+        verbose_name = "Kategoria"
+        verbose_name_plural = "Kategorie"
+
+    def __str__(self):
+        return str(self.name)
 
     def save(self, *args, **kwargs) -> None:
         self.slug = slugify(self.name)

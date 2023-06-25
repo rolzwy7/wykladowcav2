@@ -1,0 +1,57 @@
+<!--begin:Option-->
+<label class="d-flex flex-stack mb-5 cursor-pointer">
+    <!--begin:Label-->
+    <span class="d-flex align-items-center me-2">
+        <!--begin:Icon-->
+        <span class="symbol symbol-50px me-6">
+            {% if option.value == "COMPANY" %}
+                <span class="symbol-label bg-light-primary">
+                    <i class="ki-duotone ki-briefcase fs-1 text-primary"><i class="path1"></i><i class="path2"></i></i>
+                </span>
+            {% elif option.value == "JSFP" %}
+                <span class="symbol-label bg-light-danger">
+                    <i class="ki-duotone ki-bank fs-1 text-danger"><i class="path1"></i><i class="path2"></i></i>
+                </span>
+            {% elif option.value == "PRIVATE_PERSON" %}
+                <span class="symbol-label bg-light-success">
+                    <i class="ki-duotone ki-user-square fs-1 text-success"><i class="path1"></i><i class="path2"></i><i class="path3"></i></i>
+                </span>
+            {% endif %}
+        </span>
+        <!--end:Icon-->
+
+        <!--begin:Info-->
+        <span class="d-flex flex-column">
+        {% if option.value == "COMPANY" %}
+            <span class="fw-bold fs-6">Firma</span>
+            <span class="fs-7 text-muted">Nabywca</span>
+        {% elif option.value == "JSFP" %}
+            <span class="fw-bold fs-6">JSFP</span>
+            <span class="fs-7 text-muted">Nabywca / Odbiorca</span>
+        {% elif option.value == "PRIVATE_PERSON" %}
+            <span class="fw-bold fs-6">Osoba prywatna</span>
+            <span class="fs-7 text-muted"></span>
+        {% endif %}
+        </span>
+        <!--end:Info-->
+    </span>
+    <!--end:Label-->
+
+    <!--begin:Input-->
+    <span class="ms-10 form-check form-check-custom form-check-solid">
+        <input
+            class="form-check-input"
+            {% if widget.required %}
+            required
+            {% endif %}
+            type="{{option.type}}"
+            name="{{option.name}}"
+            value="{{option.value}}"
+            {% if option.value == "COMPANY" %}
+            checked
+            {% endif %}
+        />
+    </span>
+    <!--end:Input-->
+</label>
+<!--end::Option-->

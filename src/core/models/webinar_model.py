@@ -11,6 +11,7 @@ from django.db.models import (
     OneToOneField,
     PositiveSmallIntegerField,
     Q,
+    QuerySet,
     SlugField,
     TextField,
     URLField,
@@ -25,10 +26,14 @@ from .enums import WebinarStatus
 
 
 class WebinarManager(Manager):
-    def get_queryset(self):
-        return super().get_queryset()
+    """Webinar query Manager"""
 
-    def homepage_webinars(self):
+    def homepage_webinars(self) -> QuerySet["Webinar"]:
+        """Returns webinars visible on homepage
+
+        Returns:
+            QuerySet['Webinar']: queryset of webinars
+        """
         return self.get_queryset().filter(
             # Only show webinars with given status
             Q(status__in=[WebinarStatus.INIT, WebinarStatus.CONFIRMED])
@@ -41,14 +46,6 @@ class WebinarManager(Manager):
 
 
 class Webinar(Model):
-    class Meta:
-        verbose_name = "Webinar"
-        verbose_name_plural = "Webinary"
-        ordering = ["date"]
-
-    def __str__(self) -> str:
-        return self.title
-
     manager = WebinarManager()
 
     STATUS = [
@@ -111,6 +108,14 @@ class Webinar(Model):
     )
     external_url = URLField("Zewnętrzny dostawca - URL", blank=True)
     external_description = TextField("Zewnętrzny dostawca - Opis", blank=True)
+
+    class Meta:
+        verbose_name = "Webinar"
+        verbose_name_plural = "Webinary"
+        ordering = ["date"]
+
+    def __str__(self) -> str:
+        return str(self.title)
 
     def save(self, *args, **kwargs) -> None:
         self.slug = slugify(self.title)

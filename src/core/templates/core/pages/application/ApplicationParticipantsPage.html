@@ -1,0 +1,88 @@
+{% extends 'core/pages/application/ApplicationBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+
+{% endblock head_stylesheets %}
+
+{% block rightbar %}{% endblock rightbar %}
+
+{% block application_content %}
+
+
+<div class="d-flex flex-row justify-content-center" id="kt_participants_repeater">
+    {{formset.non_form_errors}}
+    <form
+        action="{% url 'core:application_participants_page' uuid=application.uuid %}"
+        method="post"
+    >
+        {% csrf_token %}
+        {{formset.management_form }}
+        <div data-repeater-list="kt_participants_repeater">
+            {% for form in formset %}
+                <div class="card shadow-lg mb-5" data-repeater-item>
+                    <div class="card-header">
+                        <h3 class="card-title">Uczestnik {{forloop.counter}}</h3>
+                        <div class="card-toolbar">
+                            <a
+                                id="remove-form-{{forloop.counter0}}"
+                                class="btn btn-sm btn-light-danger"
+                                href="javascript:;"
+                                data-repeater-delete
+                            >
+                                Usuń uczestnika
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex flex-column">
+                            <div class="d-flex flex-row">
+                                {% include './snippets/FieldWithErrors.html' with field=form.first_name %}
+                                {% include './snippets/FieldWithErrors.html' with field=form.last_name %}
+                                {% include './snippets/FieldWithErrors.html' with field=form.email %}
+                                {% include './snippets/FieldWithErrors.html' with field=form.phone %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    
+        <div class="d-flex justify-content-center">
+            <a data-repeater-create class="btn btn-bg-light-success hover-scale">
+                <i class="ki-outline ki-plus fs-2x"></i>
+                Dodaj kolejnego uczestnika
+            </a>
+        </div>
+        <div class="d-flex justify-content-between my-5">
+            {% if previous_step_url %}
+                {% include './snippets/PreviousStepButton.html' with previous_step_url=previous_step_url previous_step_title=previous_step_title %}
+            {% endif %}
+            {% include './snippets/NextStepButton.html' %}
+        </div>
+    </form>
+</div>
+{% endblock application_content %}
+
+{% block body_scripts %}
+<script src="{% static 'plugins/custom/formrepeater/formrepeater.bundle.js' %}"></script>
+<script>
+    $('#kt_participants_repeater').repeater({
+        isFirstItemUndeletable: true,
+        initEmpty: false,
+        show: function () {
+            document.querySelector("#id_form-TOTAL_FORMS").setAttribute("value", 
+                1 + Number(document.querySelector("#id_form-TOTAL_FORMS").getAttribute("value"))
+            )
+            $(this).slideDown();
+        },
+        hide: function (deleteElement) {
+            document.querySelector("#id_form-TOTAL_FORMS").setAttribute("value", 
+                -1 + Number(document.querySelector("#id_form-TOTAL_FORMS").getAttribute("value"))
+            )
+            $(this).slideUp(deleteElement);
+            
+        }
+    });
+</script>
+{% endblock body_scripts %}

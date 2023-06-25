@@ -1,4 +1,4 @@
-{% extends 'core/extends/base.html' %} 
+{% extends 'core/pages/application/ApplicationBase.html' %} 
 {% load static %}
 
 {% block head_stylesheets %}
@@ -7,19 +7,24 @@
 
 {% block rightbar %}{% endblock rightbar %}
 
-{% block content %}
+{% block application_content %}
+<div class="d-flex flex-row justify-content-center">
+    <form action="{% url 'core:application_invoice_page' uuid=application.uuid %}" method="post">
+        {% csrf_token %}
 
-Faktura
+        {% include './snippets/FieldWithErrors.html' with field=form.invoice_type %}
+        {% include './snippets/FieldWithErrors.html' with field=form.invoice_email %}
+        {% include './snippets/FieldWithErrors.html' with field=form.invoice_additional_info %}
+        {% include './snippets/FieldWithErrors.html' with field=form.vat_exemption %}
 
-<form action="{% url 'core:application_invoice_page' uuid=application.uuid %}" method="post">
-    {% csrf_token %}
-    {{form}}
-    <input type="submit" value="Submit">
-</form>
+        <div class="d-flex justify-content-between my-5">
+            {% if previous_step_url %}
+                {% include './snippets/PreviousStepButton.html' with previous_step_url=previous_step_url previous_step_title=previous_step_title %}
+            {% endif %}
+            {% include './snippets/NextStepButton.html' %}
+        </div>
+    </form>    
+</div>
+{% endblock application_content %}
 
-{% endblock content %}
-
-
-{% block body_scripts %}
-  
-{% endblock body_scripts %}
+{% block body_scripts %}{% endblock body_scripts %}

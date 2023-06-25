@@ -1,23 +1,34 @@
-from django.shortcuts import get_object_or_404
-from django.template.response import TemplateResponse
+from typing import Any
 
-from core.consts.requests_consts import POST
-from core.forms import ApplicationReceiverForm
+from django.db import transaction
+from django.urls import reverse
+from django.views import View
+
 from core.models import WebinarApplication
+from core.models.enums import WebinarApplicationStep
+
+from .application_buyer_page import ApplicationBuyerPage
 
 
-def application_receiver_page(request, uuid: str):
-    template_name = "core/pages/application/ApplicationReceiverPage.html"
-    application = get_object_or_404(WebinarApplication, uuid=uuid)
-    webinar = application.webinar
+class ApplicationReceiverPage(ApplicationBuyerPage):
+    """Application receiver page"""
 
-    if request.method == POST:
-        form = ApplicationReceiverForm(request.POST)
-        if form.is_valid():
-            ...
-    else:
-        form = ApplicationReceiverForm()
+    def get_action_url(self, uuid: str):
+        """Get action URL for form"""
+        return reverse("core:application_receiver_page", kwargs={"uuid": uuid})
 
-    return TemplateResponse(
-        request, template_name, {"webinar": webinar, "form": form}
-    )
+    def get_company(self, application: WebinarApplication):
+        """Get company"""
+        return application.receiver
+
+    def get_step_type(self):
+        """Get current step type"""
+        return WebinarApplicationStep.RECEIVER
+
+    def atomic_save(
+        self, form: Any, company: Any, application: WebinarApplication
+    ):
+        with transaction.atomic():
+            company = form.save()
+            application.receiver = company
+            application.save()

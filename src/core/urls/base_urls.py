@@ -19,5 +19,6 @@ urlpatterns = [
     path("szkolenie/", include(webinar_urlpatterns)),
     path("wykladowcy/", include(lecturer_urlpatterns)),
     path("kategoria/", include(webinar_categories_urlpatterns)),
+    path("api/", include("api.urls")),
     path("", home_page, name="homepage"),
 ]

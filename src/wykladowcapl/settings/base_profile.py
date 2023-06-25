@@ -44,8 +44,10 @@ SECURE_SSL_REDIRECT = os.environ.get("SECURE_SSL_REDIRECT", False)
 INSTALLED_APPS = [
     # Monolith apps
     "core",
+    "api",
     # 3rd party
     "django_quill",
+    "rest_framework",
     # Django
     "django.contrib.admin",
     "django.contrib.auth",

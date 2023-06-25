@@ -1,0 +1,47 @@
+<!--begin::Section-->
+<div class="mb-10">
+    <!--begin::Title-->
+    <h5 class="mb-4">Faktura:</h5>
+    <!--end::Title-->
+    <!--begin::Details-->
+    <div class="d-flex flex-wrap py-5">
+        <!--begin::Row-->
+        <div class="flex-equal me-5">
+            <!--begin::Details-->
+            <table class="table fs-6 fw-semibold gs-0 gy-2 gx-2 m-0">
+                <!--begin::Row-->
+                <tbody>
+                <tr>
+                    <td class="text-gray-400 min-w-175px w-175px">Typ faktury</td>
+                    <td class="text-gray-800 min-w-200px">
+                        {{invoice.get_invoice_type_display}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-gray-400 min-w-175px w-175px">E-mail</td>
+                    <td class="text-gray-800 min-w-200px">
+                        {{invoice.invoice_email}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-gray-400 min-w-175px w-175px">Uwagi na fakturze</td>
+                    <td class="text-gray-800 min-w-200px">
+                        {{invoice.invoice_additional_info|default:"Brak uwag na fakturze"}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-gray-400 min-w-175px w-175px">Zwolnienie z VAT</td>
+                    <td class="text-gray-800 min-w-200px">
+                        {{invoice.get_vat_exemption_display}}
+                    </td>
+                </tr>
+                <!--end::Row-->
+            </tbody></table>
+            <!--end::Details-->
+        </div>
+        <!--end::Row-->
+
+    </div>
+    <!--end::Row-->
+</div>
+<!--end::Section-->

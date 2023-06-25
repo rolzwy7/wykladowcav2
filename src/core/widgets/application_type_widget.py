@@ -1,19 +1,13 @@
-from django.forms.widgets import Select
-from django.template.loader import render_to_string
-from django.utils.safestring import mark_safe
+from django.forms.widgets import RadioSelect
 
 
-class ApplicationTypeWidget(Select):
+class ApplicationTypeWidget(RadioSelect):
+    input_type = "radio"
+    template_name = "core/widgets/application_type.html"
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    def render(self, name, value, attrs=None, renderer=None):
-        return mark_safe(
-            render_to_string(
-                "widgets/ApplicationTypeWidget.html",
-                {
-                    "name": name,
-                    "choices": self.choices,
-                },
-            )
-        )
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        return context

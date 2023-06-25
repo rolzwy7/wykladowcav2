@@ -15,12 +15,7 @@ from core.utils.text import slugify
 
 
 class Lecturer(Model):
-    class Meta:
-        verbose_name = "Wykładowca"
-        verbose_name_plural = "Wykładowcy"
-
-    def __str__(self) -> str:
-        return self.fullname
+    """This model represents Lecturer"""
 
     fullname = CharField("Imie i Nazwisko", max_length=100)
     slug = SlugField(
@@ -34,7 +29,8 @@ class Lecturer(Model):
         blank=True,
         upload_to="uploads/lecturers",
         help_text=(
-            "Obrazek powinien być dobrej jakości o wymiarach kwadratowych (np. 500px na 500px)"  # noqa
+            "Obrazek powinien być dobrej jakości"
+            "o wymiarach kwadratowych (np. 500px na 500px)"
         ),
     )
 
@@ -47,6 +43,13 @@ class Lecturer(Model):
         blank=True,
         verbose_name="Użytkownik",
     )
+
+    class Meta:
+        verbose_name = "Wykładowca"
+        verbose_name_plural = "Wykładowcy"
+
+    def __str__(self) -> str:
+        return str(self.fullname)
 
     def save(self, *args, **kwargs) -> None:
         self.slug = slugify(self.fullname)

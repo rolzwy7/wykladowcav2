@@ -1,4 +1,4 @@
-{% extends 'core/extends/base.html' %} 
+{% extends 'core/pages/application/ApplicationBase.html' %} 
 {% load static %}
 
 {% block head_stylesheets %}
@@ -7,18 +7,36 @@
 
 {% block rightbar %}{% endblock rightbar %}
 
-{% block content %}
 
-Osoba zgl
-
-<form action="{% url 'core:application_invoice_page' uuid=application.uuid %}" method="post">
-    {% csrf_token %}
-    {{form}}
-    <input type="submit" value="Submit">
-</form>
-
-{% endblock content %}
-
+{% block application_content %}
+<div class="d-flex flex-row justify-content-center">
+    <form
+        action="{% url 'core:application_submitter_page' uuid=application.uuid %}"
+        method="post"
+    >
+        {% csrf_token %}
+        <div class="d-flex flex-column">
+            <div class="d-flex flex-row mb-4">
+                {{form.is_participant}}
+            </div>
+            <div class="d-flex flex-row">
+                {% include './snippets/FieldWithErrors.html' with field=form.first_name %}
+                {% include './snippets/FieldWithErrors.html' with field=form.last_name %}
+            </div>
+            <div class="d-flex flex-row">
+                {% include './snippets/FieldWithErrors.html' with field=form.email %}
+                {% include './snippets/FieldWithErrors.html' with field=form.phone %}
+            </div>
+            <div class="d-flex justify-content-between my-5">
+                {% if previous_step_url %}
+                    {% include './snippets/PreviousStepButton.html' with previous_step_url=previous_step_url previous_step_title=previous_step_title %}
+                {% endif %}
+                {% include './snippets/NextStepButton.html' %}
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock application_content %}
 
 {% block body_scripts %}
   
