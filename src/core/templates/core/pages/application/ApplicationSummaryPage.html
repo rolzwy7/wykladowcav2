@@ -190,12 +190,16 @@
                     <!--end::Seperator-->
                     <!--begin::Actions-->
                     <div class="mb-0">
-                        <form action="{% url 'core:application_summary_page' uuid=application.uuid %}">
+                        <form
+                            action="{% url 'core:application_summary_page' uuid=application.uuid %}"
+                            method="post">
                             {% csrf_token %}
                             {{form.accept_terms_of_service}}
                             <button
                                 type="submit"
                                 class="btn btn-danger mt-3"
+                                disabled
+                                id="send-application-btn"
                             >
                                 <i class="ki-duotone ki-send fs-1"><i class="path1"></i><i class="path2"></i></i>
                                 Wyślij zgłoszenie
@@ -218,5 +222,16 @@
 {% endblock application_content %}
 
 {% block body_scripts %}
-  
+<script>
+    
+    
+    var checkInput = document.querySelector("#id_accept_terms_of_service");
+    
+    checkInput.closest("label").innerHTML = "TEST";
+
+    checkInput.addEventListener("click", function(e) {
+        let btn = document.querySelector("#send-application-btn");
+        btn.disabled = !btn.disabled;
+    })
+</script>
 {% endblock body_scripts %}

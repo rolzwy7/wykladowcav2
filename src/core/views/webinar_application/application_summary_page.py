@@ -5,7 +5,7 @@ from core.consts import POST
 from core.forms import ApplicationSummarySubmitForm
 from core.models import WebinarApplication, WebinarParticipant
 from core.models.enums import WebinarApplicationStep
-from core.structs import ApplicationStepState
+from core.services import ApplicationFormService
 
 APPLICATION_STEP = WebinarApplicationStep.SUMMARY
 
@@ -14,9 +14,10 @@ def application_summary_page(request, uuid):
     template_name = "core/pages/application/ApplicationSummaryPage.html"
     application = get_object_or_404(WebinarApplication, uuid=uuid)
     webinar = application.webinar
-    state = ApplicationStepState(
+    service = ApplicationFormService(
         webinar, application, WebinarApplicationStep.SUMMARY
     )
+    service.redirect_on_application_error()
 
     participants = WebinarParticipant.objects.filter(application=application)
 
@@ -25,10 +26,10 @@ def application_summary_page(request, uuid):
     if request.method == POST:
         form = ApplicationSummarySubmitForm(request.POST)
         if form.is_valid():
-            a = 1
+            a = 1  # TODO: Finish this
 
     return TemplateResponse(
         request,
         template_name,
-        {**state.get_context(), "participants": participants, "form": form},
+        {**service.get_context(), "participants": participants, "form": form},
     )

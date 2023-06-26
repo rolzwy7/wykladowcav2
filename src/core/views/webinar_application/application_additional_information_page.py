@@ -5,14 +5,14 @@ from core.consts.requests_consts import POST
 from core.forms import ApplicationAdditionalInformationForm
 from core.models import WebinarApplication
 from core.models.enums import WebinarApplicationStep
-from core.structs import ApplicationStepState
+from core.services import ApplicationFormService
 
 
 def application_additional_information_page(request, uuid):
     template_name = "core/pages/application/AdditionalInformationPage.html"
     application = get_object_or_404(WebinarApplication, uuid=uuid)
     webinar = application.webinar
-    state = ApplicationStepState(
+    state = ApplicationFormService(
         webinar, application, WebinarApplicationStep.ADDITIONAL_INFO
     )
 

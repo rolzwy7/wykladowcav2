@@ -21,8 +21,11 @@
         <div data-repeater-list="kt_participants_repeater">
             {% for form in formset %}
                 <div class="card shadow-lg mb-5" data-repeater-item>
-                    <div class="card-header">
-                        <h3 class="card-title">Uczestnik {{forloop.counter}}</h3>
+                    <div class="card-header p-4">
+                        <h3 class="card-title">
+                            <i class="ki-duotone ki-profile-circle me-2 fs-1"><i class="path1"></i><i class="path2"></i><i class="path3"></i></i>
+                            Uczestnik
+                        </h3>
                         <div class="card-toolbar">
                             <a
                                 id="remove-form-{{forloop.counter0}}"
@@ -30,11 +33,12 @@
                                 href="javascript:;"
                                 data-repeater-delete
                             >
+                            <i class="ki-duotone ki-cross fs-1"><i class="path1"></i><i class="path2"></i></i>
                                 Usuń uczestnika
                             </a>
                         </div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-4">
                         <div class="d-flex flex-column">
                             <div class="d-flex flex-row">
                                 {% include './snippets/FieldWithErrors.html' with field=form.first_name %}

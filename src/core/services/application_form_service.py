@@ -1,14 +1,19 @@
 from typing import Optional
 from uuid import UUID
 
+from django.db.models import Q
+from django.http import HttpRequest
 from django.shortcuts import redirect
 from django.urls import reverse
 
 from core.consts import VAT_EXEMPTION_0
+from core.exceptions import RedirectException
 from core.models import (
     Webinar,
     WebinarApplication,
     WebinarApplicationInvoice,
+    WebinarApplicationPrivatePerson,
+    WebinarApplicationSubmitter,
     WebinarParticipant,
 )
 from core.models.enums import WebinarApplicationStep, WebinarApplicationType
@@ -28,7 +33,7 @@ JSFP = WebinarApplicationType.JSFP
 PRIVATE_PERSON = WebinarApplicationType.PRIVATE_PERSON
 
 
-class ApplicationStepState:
+class ApplicationFormService:
     """Represents application step state"""
 
     def __init__(
@@ -357,3 +362,148 @@ class ApplicationStepState:
             "step_description": self.get_step_description(),
             "application_timeline": self.get_timeline(),
         }
+
+    def redirect_on_application_error(self):
+        """Raise redirect exception if application can't be filled"""
+        webinar: Webinar = self.application.webinar
+
+        # If webinar is not in `homepage_webinars` queryset
+        homepage_webinar_ids = Webinar.manager.init_or_confirmed().values_list(
+            "id", flat=True
+        )
+        webinar_id: int = webinar.id  # type: ignore
+        if webinar_id not in homepage_webinar_ids:
+            raise RedirectException(
+                reverse(
+                    "core:webinar_program_page",
+                    kwargs={"slug": self.webinar.slug},
+                )
+            )
+
+    @staticmethod
+    def transform_post_data(request: HttpRequest):
+        """Transform POST data from `form repeater` to `formset` data
+
+        Example:
+            Key `kt_participants_repeater[0][first_name]`
+            will be transformed to `form-0-first_name`
+
+        Args:
+            request (HttpRequest): Http request object
+
+        Returns:
+            HttpRequest: Http request with modifed POST data
+        """
+        transformed_post_keys = {}
+        post_keys_to_delete = []
+
+        # TODO: Potentially insecure, add some key checking with RegExp
+        for post_key, post_value in request.POST.items():
+            if not post_key.startswith("kt_participants_repeater"):
+                continue
+            post_keys_to_delete.append(post_key)
+            key_index = post_key.split("][")[0].split("[")[1]
+            field_name = post_key.split("-")[-1].strip("]")
+            new_post_key = f"form-{key_index}-{field_name}"
+            transformed_post_keys[new_post_key] = post_value
+
+        # Yes I know this is kinda hacky but it works
+        request.POST._mutable = True  # pylint: disable=protected-access
+
+        # Delete post keys
+        for key_to_delete in post_keys_to_delete:
+            del request.POST[key_to_delete]
+
+        # Add new keys
+        for key, item in transformed_post_keys.items():
+            request.POST[key] = item
+
+        # Yes I know this is kinda hacky but it works
+        request.POST._mutable = False  # pylint: disable=protected-access
+
+        return request
+
+    @staticmethod
+    def populate_private_person_data(
+        application: WebinarApplication,
+        private_person: WebinarApplicationPrivatePerson,
+    ):
+        """Populate application fields based on private person data
+
+        Args:
+            application (WebinarApplication): application
+            private_person (WebinarApplicationPrivatePerson): person data
+        """
+
+        # Save participant
+        # Delete all participants and save new one
+        WebinarParticipant.objects.filter(application=application).delete()
+        WebinarParticipant(
+            application=application,
+            first_name=private_person.first_name,
+            last_name=private_person.last_name,
+            email=private_person.email,
+            phone=private_person.phone,
+        ).save()
+
+        # Save invoice
+        if application.invoice:
+            invoice = application.invoice
+            invoice.invoice_email = private_person.email
+        else:
+            invoice = WebinarApplicationInvoice(
+                invoice_email=private_person.email
+            )
+            application.invoice = invoice  # type: ignore
+
+        invoice.save()
+
+        # Save submitter
+        if application.submitter:
+            submitter = application.submitter
+            submitter.first_name = private_person.first_name
+            submitter.last_name = private_person.last_name
+            submitter.email = private_person.email
+            submitter.phone = private_person.phone
+        else:
+            submitter = WebinarApplicationSubmitter(
+                first_name=private_person.first_name,
+                last_name=private_person.last_name,
+                email=private_person.email,
+                phone=private_person.phone,
+            )
+            application.submitter = submitter  # type: ignore
+
+        submitter.save()
+        application.save()
+
+    @staticmethod
+    def save_submitter_as_participant(
+        application: WebinarApplication, submitter: WebinarApplicationSubmitter
+    ):
+        """Save submitter as participant if `is_participant` checkbox is checked
+
+        Args:
+            application (WebinarApplication): _description_
+            submitter (WebinarApplicationSubmitter): _description_
+        """
+
+        # Is user selected `is_participant`
+        # and there is not participant with submitter's email already
+        # in participants then save submitter as participant
+        is_submiter_in_participants = WebinarParticipant.objects.filter(
+            Q(application=application) & Q(email=submitter.email)
+        ).exists()
+        if all(
+            [
+                submitter.is_participant is True,
+                not is_submiter_in_participants,
+            ]
+        ):
+            WebinarParticipant(
+                application=application,
+                first_name=submitter.first_name,
+                last_name=submitter.last_name,
+                email=submitter.email,
+                phone=submitter.phone,
+            ).save()

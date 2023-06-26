@@ -28,8 +28,8 @@ from .enums import WebinarStatus
 class WebinarManager(Manager):
     """Webinar query Manager"""
 
-    def homepage_webinars(self) -> QuerySet["Webinar"]:
-        """Returns webinars visible on homepage
+    def init_or_confirmed(self) -> QuerySet["Webinar"]:
+        """Returns `initialized` of `confirmed` webinars
 
         Returns:
             QuerySet['Webinar']: queryset of webinars
@@ -37,11 +37,18 @@ class WebinarManager(Manager):
         return self.get_queryset().filter(
             # Only show webinars with given status
             Q(status__in=[WebinarStatus.INIT, WebinarStatus.CONFIRMED])
+        )
+
+    def homepage_webinars(self) -> QuerySet["Webinar"]:
+        """Returns webinars visible on homepage
+
+        Returns:
+            QuerySet['Webinar']: queryset of webinars
+        """
+        return self.init_or_confirmed().filter(
             # Show webinar on homepage N-15 minutes after the start
-            & Q(
-                date__gte=now()
-                - timedelta(minutes=settings.WEBINAR_ARCHIVE_DELAY_MINUTES)
-            )
+            date__gte=now()
+            - timedelta(minutes=settings.WEBINAR_ARCHIVE_DELAY_MINUTES)
         )
 
 

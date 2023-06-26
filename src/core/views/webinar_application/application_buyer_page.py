@@ -9,7 +9,7 @@ from django.views import View
 from core.forms import ApplicationCompanyForm
 from core.models import WebinarApplication
 from core.models.enums import WebinarApplicationStep
-from core.structs import ApplicationStepState
+from core.services import ApplicationFormService
 
 
 class ApplicationBuyerPage(View):
@@ -39,6 +39,7 @@ class ApplicationBuyerPage(View):
     def atomic_save(
         self, form: Any, company: Any, application: WebinarApplication
     ):
+        """Save company in transaction"""
         with transaction.atomic():
             company = form.save()
             application.buyer = company
@@ -59,6 +60,11 @@ class ApplicationBuyerPage(View):
             },
         )
 
+    def get_service(self, application, webinar):
+        return ApplicationFormService(
+            webinar, application, self.get_step_type()
+        )
+
     def get(self, request, uuid: str):
         """Handle GET request"""
         application = self._get_application(uuid)
@@ -66,8 +72,9 @@ class ApplicationBuyerPage(View):
         company = self.get_company(application)
         form_class = self.get_form_class()
         form = form_class(instance=company)
-        state = ApplicationStepState(webinar, application, self.get_step_type())
-        return self._get_template_response(request, uuid, form, state)
+        service = self.get_service(application, webinar)
+        service.redirect_on_application_error()
+        return self._get_template_response(request, uuid, form, service)
 
     def post(self, request, uuid: str):
         """Handle POST request"""
@@ -75,39 +82,12 @@ class ApplicationBuyerPage(View):
         webinar = application.webinar
         company = self.get_company(application)
         form_class = self.get_form_class()
-        state = ApplicationStepState(webinar, application, self.get_step_type())
+        service = self.get_service(application, webinar)
+        service.redirect_on_application_error()
 
         form = form_class(request.POST, instance=company)
         if form.is_valid():
             self.atomic_save(form, company, application)
-            return state.get_next_step_redirect()
+            return service.get_next_step_redirect()
 
-        return self._get_template_response(request, uuid, form, state)
-
-
-# def application_buyer_page(request, uuid: str):
-#     """Controller for `buyer` application step"""
-#     template_name = "core/pages/application/ApplicationBuyerPage.html"
-#     application = get_object_or_404(WebinarApplication, uuid=uuid)
-#     webinar = application.webinar
-#     buyer = application.buyer  # None or WebinarApplicationCompany
-#     state = ApplicationStepState(
-#         webinar, application, WebinarApplicationStep.BUYER
-#     )
-
-#     if request.method == POST:
-#         form = ApplicationCompanyForm(request.POST, instance=buyer)
-#         if form.is_valid():
-#             with transaction.atomic():
-#                 buyer = form.save()
-#                 application.buyer = buyer
-#                 application.save()
-#             return state.get_next_step_redirect()
-#     else:
-#         form = ApplicationCompanyForm(instance=buyer)
-
-#     return TemplateResponse(
-#         request,
-#         template_name,
-#         {"form": form, **state.get_context()},
-#     )
+        return self._get_template_response(request, uuid, form, service)

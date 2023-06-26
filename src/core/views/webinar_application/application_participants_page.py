@@ -7,18 +7,19 @@ from core.consts.requests_consts import POST
 from core.forms import ApplicationParticipantForm
 from core.models import WebinarApplication, WebinarParticipant
 from core.models.enums import WebinarApplicationStep
-from core.structs import ApplicationStepState
-from core.utils.application import transform_post_data
+from core.services import ApplicationFormService
 
 
 def application_participants_page(request, uuid: str):
+    """Application participants page"""
     template_name = "core/pages/application/ApplicationParticipantsPage.html"
     application = get_object_or_404(WebinarApplication, uuid=uuid)
     webinar = application.webinar
     participants = WebinarParticipant.objects.filter(application=application)
-    state = ApplicationStepState(
+    service = ApplicationFormService(
         webinar, application, WebinarApplicationStep.PARTICIPANTS
     )
+    service.redirect_on_application_error()
 
     # Already saved participants
     data = [
@@ -42,7 +43,7 @@ def application_participants_page(request, uuid: str):
     )
 
     if request.method == POST:
-        request = transform_post_data(request)
+        request = ApplicationFormService.transform_post_data(request)
         formset = ApplicationParticipantsFormSet(request.POST, initial=data)
         if formset.is_valid():
             with transaction.atomic():
@@ -60,12 +61,12 @@ def application_participants_page(request, uuid: str):
                     )
                     participant.save()
 
-            return state.get_next_step_redirect()
+            return service.get_next_step_redirect()
     else:
         formset = ApplicationParticipantsFormSet(initial=data)
 
     return TemplateResponse(
         request,
         template_name,
-        {"formset": formset, **state.get_context()},
+        {"formset": formset, **service.get_context()},
     )

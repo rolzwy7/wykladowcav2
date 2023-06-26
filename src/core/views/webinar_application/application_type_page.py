@@ -4,7 +4,7 @@ from django.template.response import TemplateResponse
 from core.consts import POST
 from core.forms import ApplicationTypeForm
 from core.models import Webinar, WebinarApplication
-from core.structs import ApplicationStepState
+from core.services import ApplicationFormService
 
 
 def application_type_page(request, pk: int):
@@ -21,7 +21,7 @@ def application_type_page(request, pk: int):
                 webinar=webinar,
             )
             application.save()
-            return ApplicationStepState.get_application_type_redirect(
+            return ApplicationFormService.get_application_type_redirect(
                 application.application_type, application.uuid
             )
     else:
