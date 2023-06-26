@@ -16,8 +16,6 @@ def categories(request):
 
     sidebar_categories = []
     for category in sidebar_categories_qs:
-        # TODO: in english please
-        # If parent add after it "all" url
         if category.parent:
             sidebar_categories.append(
                 (
@@ -46,15 +44,15 @@ def categories(request):
                 (
                     ITEM,
                     category.order + 1,
-                    reverse(
+                    "/"
+                    if category.is_homepage_category
+                    else reverse(
                         "core:webinar_category_page",
                         kwargs={"slug": category.slug},
                     ),
                     "Wszystkie",
                 )
             )
-
-    # TODO: Sorting
 
     sidebar_categories = sorted(sidebar_categories, key=lambda x: x[1])
 

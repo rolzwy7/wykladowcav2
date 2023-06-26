@@ -72,29 +72,26 @@
       <!--begin::Info-->
       <div class="d-flex align-items-center py-1">
         <!--begin::Answers-->
-        <a
+        <span
           href="../../demo5/dist/apps/devs/question.html#answers"
           class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2"
-          >16 Answers</a
-        >
+          >{{webinar.date|date:"j E Y"}} r.
+        </span>
         <!--end::Answers-->
-        <!--begin::Tags-->
-        <a
-          href="../../demo5/dist/apps/devs/tag.html"
-          class="btn btn-sm btn-light px-4 me-2"
-          >Metronic</a
-        >
-        <!--end::Tags-->
-        <!--begin::Upvote-->
-        <a
-          href="#"
-          class="btn btn-sm btn-flex btn-light px-3"
-          data-bs-toggle="tooltip"
-          title="Upvote this question"
-          data-bs-dismiss="click"
-          >23 <i class="ki-duotone ki-black-right fs-7ms-2 me-0"></i
-        ></a>
-        <!--end::Upvote-->
+        <!--begin::Answers-->
+        <span
+          href="../../demo5/dist/apps/devs/question.html#answers"
+          class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2"
+          >Godz. {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}
+        </span>
+        <!--end::Answers-->
+        <!--begin::Answers-->
+        <span
+          href="../../demo5/dist/apps/devs/question.html#answers"
+          class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2"
+          >{{webinar.price}}zł netto/brutto
+        </span>
+        <!--end::Answers-->
       </div>
       <!--end::Info-->
     </div>

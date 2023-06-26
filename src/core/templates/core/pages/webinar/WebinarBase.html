@@ -8,6 +8,16 @@
   type="text/css"
 />
 <!--end::Vendor Stylesheets-->
+<link
+  href="{% static 'css/simplyCountdown.theme.default.css' %}"
+  rel="stylesheet"
+  type="text/css"
+/>
+<style>
+    .simply-section {
+        margin-right: 3px;
+    }
+</style>
 {% endblock head_stylesheets %}
 
 {% block rightbar %}{% endblock rightbar %}
@@ -21,10 +31,8 @@
             <!--begin::Page title-->
             <div class="page-title d-flex flex-column py-1">
                 <!--begin::Title-->
-                <h1 class="d-flex align-items-center my-1">
-                    <span class="text-dark fw-bold fs-1">
-                        {{webinar.title}}
-                    </span>
+                <h1 class="d-flex align-items-center my-1 text-dark fw-bold fs-1">
+                    {{webinar.title}}
                 </h1>
                 <h2>
                     {{webinar.description}}
@@ -60,12 +68,17 @@
                                         <a href="#" class="text-gray-900 text-hover-primary fs-2 fw-bold me-1">
                                             {{webinar.lecturer.fullname}}
                                         </a>
-                                        <a href="#">
-                                            <i class="ki-duotone ki-verify fs-1 text-primary">
-                                                <span class="path1"></span>
-                                                <span class="path2"></span>
-                                            </i>
-                                        </a>
+                                        <i
+                                            class="ki-duotone ki-verify fs-1 text-primary"
+                                            data-bs-toggle="tooltip"
+                                            data-bs-custom-class="tooltip-inverse"
+                                            data-bs-placement="top"
+                                            title="Wykładowca zweryfikowany"
+                                            style="cursor: pointer;"
+                                        >
+                                            <span class="path1"></span>
+                                            <span class="path2"></span>
+                                        </i>
                                     </div>
                                     <!--end::Name-->
                                     <!--begin::Info-->
@@ -232,12 +245,12 @@
                                         <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
                                             <!--begin::Number-->
                                             <div class="d-flex align-items-center">
-                                                <i class="ki-duotone ki-arrow-up fs-3 text-success me-2">
-                                                    <span class="path1"></span>
-                                                    <span class="path2"></span>
+                                                <i class="ki-duotone ki-calendar fs-3 text-grey me-2">
+                                                    <i class="path1"></i>
+                                                    <i class="path2"></i>
                                                 </i>
                                                 <div class="fs-2 fw-bold counted">
-                                                    12 lipca 2023 r.
+                                                    {{webinar.date|date:"j E Y"}} r.
                                                 </div>
                                             </div>
                                             <!--end::Number-->
@@ -250,17 +263,17 @@
                                         <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
                                             <!--begin::Number-->
                                             <div class="d-flex align-items-center">
-                                                <i class="ki-duotone ki-arrow-down fs-3 text-danger me-2">
-                                                    <span class="path1"></span>
-                                                    <span class="path2"></span>
+                                                <i class="ki-duotone ki-time fs-3 text-grey me-2">
+                                                    <i class="path1"></i>
+                                                    <i class="path2"></i>
                                                 </i>
                                                 <div class="fs-2 fw-bold counted">
-                                                    10:00 - 15:00
+                                                    {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}
                                                 </div>
                                             </div>
                                             <!--end::Number-->
                                             <!--begin::Label-->
-                                            <div class="fw-semibold fs-6 text-gray-400">Godzina</div>
+                                            <div class="fw-semibold fs-6 text-gray-400">Godzina szkolenia</div>
                                             <!--end::Label-->
                                         </div>
                                         <!--end::Stat-->
@@ -268,17 +281,39 @@
                                         <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
                                             <!--begin::Number-->
                                             <div class="d-flex align-items-center">
-                                                <i class="ki-duotone ki-arrow-up fs-3 text-success me-2">
-                                                    <span class="path1"></span>
-                                                    <span class="path2"></span>
+                                                <i class="ki-duotone ki-price-tag fs-3 text-grey me-2">
+                                                    <i class="path1"></i>
+                                                    <i class="path2"></i>
                                                 </i>
                                                 <div class="fs-2 fw-bold counted">
-                                                    350zł <span class="fs-4">netto/brutto</span>
+                                                    {% if webinar.is_discounted %}
+                                                    <span class="text-decoration-line-through fw-bolder text-danger">{{webinar.price_netto}}zł</span>
+                                                    <span>{{webinar.price}}zł</span>
+                                                    {% else %}
+                                                    {{webinar.price}}zł
+                                                    {% endif %}
+                                                    <span class="fs-4">netto/brutto</span>
                                                 </div>
                                             </div>
                                             <!--end::Number-->
                                             <!--begin::Label-->
-                                            <div class="fw-semibold fs-6 text-gray-400">Cena (od osoby)</div>
+                                            <div class="fw-semibold fs-6 text-gray-400">
+                                                Cena {% if webinar.is_discounted %}<span class="fw-bolder text-success fs-3">promocyjna</span>{% endif %} (od osoby)
+                                                {% if WE_ARE_TAX_EXEMPT %}
+                                                <i
+                                                    class="ki-duotone ki-question-2 fs-1"
+                                                    style="vertical-align: middle; cursor: pointer;"
+                                                    data-bs-toggle="tooltip"
+                                                    data-bs-custom-class="tooltip-inverse"
+                                                    data-bs-placement="top"
+                                                    title="{{TAX_EXEMPT_TOOLTIP}}"
+                                                >
+                                                    <i class="path1"></i>
+                                                    <i class="path2"></i>
+                                                    <i class="path3"></i>
+                                                </i>
+                                                {% endif %}
+                                            </div>
                                             <!--end::Label-->
                                         </div>
                                         <!--end::Stat-->
@@ -286,17 +321,19 @@
                                     <!--end::Stats-->
                                 </div>
                                 <!--end::Wrapper-->
+                                {% if webinar.is_discounted %}
                                 <!--begin::Progress-->
                                 <div class="d-flex align-items-center w-200px w-sm-300px flex-column mt-3">
                                     <div class="d-flex justify-content-between w-100 mt-auto mb-2">
                                         <span class="fw-semibold fs-6 text-gray-400">Do końca promocji pozostało</span>
-                                        <span class="fw-bold fs-6">3d 8g 20m 30s</span>
+                                        <div class="fw-bold fs-6 d-flex" id="discount-countdown"></div>
                                     </div>
                                     <div class="h-5px mx-3 w-100 bg-light mb-3">
-                                        <div class="bg-success rounded h-5px" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="bg-danger rounded h-5px" role="progressbar" style="width: 100%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
                                 <!--end::Progress-->
+                                {% endif %}
                             </div>
                             <!--end::Stats-->
                         </div>
@@ -305,13 +342,16 @@
                     <!--end::Details-->
                     <!--begin::Navs-->
                     <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold">
-                        {% for tab_name, tab_url, tab_is_active in webinar_tabs %}
+                        {% for tab_name, tab_url, tab_is_active, tab_icon in webinar_tabs %}
                         <!--begin::Nav item-->
                         <li class="nav-item mt-2">
                             <a
                                 class="nav-link text-active-primary ms-0 me-10 py-5 {% if tab_is_active %}active{% endif %}"
                                 href="{{tab_url}}"
-                            >
+                            >   
+                                {% if tab_icon %}
+                                    <i class="ki-duotone {{tab_icon}} fs-1 me-2"><i class="path1"></i><i class="path2"></i></i>
+                                {% endif %}
                                 {{tab_name}}
                             </a>
                         </li>
@@ -325,9 +365,29 @@
             <!--begin::Row-->
             <div class="row g-6 g-xl-9">
                 <!--begin::Col-->
-                <div class="col-md-6 col-xl-4">
+                {% block webinar_main_col %}
+                <div class="col-xl-8">
+                {% endblock webinar_main_col %}
                     {% block webinar_content %}{% endblock webinar_content %}
                 </div>
+
+                {% block webinar_rightbar %}
+                <div class="col-xl-4">
+                    <div
+                        class="card card-flush mb-0"
+                        data-kt-sticky="true"
+                        data-kt-sticky-name="subscription-summary"
+                        data-kt-sticky-offset="{default: false, lg: '200px'}"
+                        data-kt-sticky-width="{lg: '250px', xl: '300px'}"
+                        data-kt-sticky-left="auto"
+                        data-kt-sticky-top="150px"
+                        data-kt-sticky-animation="false"
+                        data-kt-sticky-zindex="95"
+                    >
+                    {% include 'core/includes/Patron.html' %}
+                    </div>
+                </div>
+                {% endblock webinar_rightbar %}
                 <!--end::Col-->
             </div>
             <!--end::Row-->
@@ -2917,6 +2977,7 @@ Experience share market at your fingertips with TICK PRO stock investment mobile
     <script src="{% static 'plugins/custom/datatables/datatables.bundle.js' %}"></script>
     <!--end::Vendors Javascript-->
     <!--begin::Custom Javascript(used for this page only)-->
+    <script src="{% static 'js/simplyCountdown.min.js' %}"></script>
     <script src="{% static 'js/custom/pages/user-profile/general.js' %}"></script>
     <script src="{% static 'js/widgets.bundle.js' %}"></script>
     <script src="{% static 'js/custom/widgets.js' %}"></script>
@@ -2938,4 +2999,21 @@ Experience share market at your fingertips with TICK PRO stock investment mobile
     <script src="{% static 'js/custom/utilities/modals/create-project/main.js' %}"></script>
     <script src="{% static 'js/custom/utilities/modals/users-search.js' %}"></script>
     <!--end::Custom Javascript-->
+    <script>
+        console.log("count")
+        simplyCountdown('#discount-countdown', {
+            year: {{webinar.discount_until|date:"Y"}}, // The target year
+            month: {{webinar.discount_until|date:"n"}}, // The target month (0-11)
+            day: {{webinar.discount_until|date:"j"}}, // The target day
+            hours: {{webinar.discount_until|date:"H"}}, // The target hour
+            minutes: '{{webinar.discount_until|date:"i"}}' == '00' ? 0 : {{webinar.discount_until|date:"i"}}, // The target minute
+            seconds: '{{webinar.discount_until|date:"s"}}' == '00' ? 0 : {{webinar.discount_until|date:"s"}}, // The target second
+            words: { //words displayed into the countdown
+                days: { singular: 'd', plural: 'd' },
+                hours: { singular: 'g', plural: 'g' },
+                minutes: { singular: 'm', plural: 'm' },
+                seconds: { singular: 's', plural: 's' }
+            },
+        });
+    </script>
 {% endblock body_scripts %}

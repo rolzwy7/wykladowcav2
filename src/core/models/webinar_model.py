@@ -22,7 +22,7 @@ from django_quill.fields import QuillField
 from core.consts import SLUG_HELP_TEXT
 from core.utils.text import slugify
 
-from .enums import WebinarStatus
+from .enums import WebinarDuration, WebinarStatus
 
 
 class WebinarManager(Manager):
@@ -88,8 +88,34 @@ class Webinar(Model):
         help_text="Dodatkowy opis webinaru",
     )
 
+    DURATION = [
+        (WebinarDuration.H1_M00, "1 godzina"),
+        (WebinarDuration.H1_M30, "1,5 godziny"),
+        (WebinarDuration.H2_M00, "2 godziny"),
+        (WebinarDuration.H2_M30, "2,5 godziny"),
+        (WebinarDuration.H3_M00, "3 godziny"),
+        (WebinarDuration.H3_M30, "3,5 godziny"),
+        (WebinarDuration.H4_M00, "4 godziny"),
+        (WebinarDuration.H4_M30, "4,5 godziny"),
+        (WebinarDuration.H5_M00, "5 godzin"),
+        (WebinarDuration.H5_M30, "5,5 godziny"),
+        (WebinarDuration.H6_M00, "6 godzin"),
+        (WebinarDuration.H6_M30, "6,5 godziny"),
+        (WebinarDuration.H7_M00, "7 godzin"),
+        (WebinarDuration.H7_M30, "7,5 godziny"),
+        (WebinarDuration.H8_M00, "8 godzin"),
+        (WebinarDuration.H8_M30, "8,5 godziny"),
+        (WebinarDuration.H9_M00, "9 godzin"),
+    ]
+
     # Date
     date = DateTimeField("Data i Godzina")
+    duration = CharField(
+        "Czas trwania",
+        choices=DURATION,
+        max_length=16,
+        default=WebinarDuration.H4_M00,
+    )
 
     # Price
     price_netto = PositiveSmallIntegerField("Cena NETTO")
@@ -123,6 +149,30 @@ class Webinar(Model):
 
     def __str__(self) -> str:
         return str(self.title)
+
+    @property
+    def date_end(self):
+        """Returns webinar's end datetime"""
+        duration_minutes = int(self.duration)
+        ret = self.date + timedelta(minutes=duration_minutes)
+        return ret
+
+    @property
+    def is_discounted(self) -> bool:
+        """Tells if webinar is discounted"""
+        if self.discount_until:
+            is_active = self.discount_until >= now()
+            return is_active
+        else:
+            return False
+
+    @property
+    def price(self):
+        """Resolves price"""
+        if self.is_discounted:
+            return self.discount_netto
+        else:
+            return self.price_netto
 
     def save(self, *args, **kwargs) -> None:
         self.slug = slugify(self.title)

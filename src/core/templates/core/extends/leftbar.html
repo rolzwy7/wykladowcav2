@@ -43,7 +43,7 @@ data-kt-sticky-zindex="95"
         <div class="menu-content pb-2">
           <span
             class="menu-section text-muted text-uppercase fs-7 fw-bold"
-            >Szkolenia {{category_name}}</span
+            >{{category_name}}</span
           >
         </div>
       </div>
@@ -54,7 +54,7 @@ data-kt-sticky-zindex="95"
       <div class="menu-item">
         <a
           href="{{category_url}}"
-          class="menu-link active"
+          class="menu-link {% if request.path == category_url %}active{% endif %}"
         >
           <span class="menu-title">{{category_name}}</span>
           <span class="menu-badge">6,234</span>
@@ -63,6 +63,48 @@ data-kt-sticky-zindex="95"
       <!--end::Menu item-->
     {% endif %}
   {% endfor %}
+  <!--begin::Heading-->
+  <div class="menu-item">
+    <div class="menu-content pb-2">
+      <span
+        class="menu-section text-muted text-uppercase fs-7 fw-bold"
+        >
+          Odnośniki
+        </span
+      >
+    </div>
+  </div>
+  <!--end::Heading-->
+  <!--begin::Menu item-->
+  <div class="menu-item">
+    <a
+      href="#"
+      class="menu-link"
+    >
+      <span class="menu-title">Wykładowcy</span>
+    </a>
+  </div>
+  <!--end::Menu item-->
+  <!--begin::Menu item-->
+  <div class="menu-item">
+    <a
+      href="#"
+      class="menu-link"
+    >
+      <span class="menu-title">Kontakt</span>
+    </a>
+  </div>
+  <!--end::Menu item-->
+  <!--begin::Menu item-->
+  <div class="menu-item">
+    <a
+      href="#"
+      class="menu-link"
+    >
+      <span class="menu-title">O nas</span>
+    </a>
+  </div>
+  <!--end::Menu item-->
   </div>
   <!--end::Menu-->
 </div>

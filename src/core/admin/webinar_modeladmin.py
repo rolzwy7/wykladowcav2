@@ -41,7 +41,7 @@ class WebinarModelAdmin(ModelAdmin):
         (
             "Data",
             {
-                "fields": ["date"],
+                "fields": ["date", "duration"],
             },
         ),
         (

@@ -46,6 +46,7 @@ class WebinarCategory(Model):
             "Im niższa wartość tym wyższa pozycja kategorii przy wyświetlaniu"
         ),
     )
+    is_homepage_category = BooleanField("Jest kategorią domową", default=False)
 
     class Meta:
         verbose_name = "Kategoria"

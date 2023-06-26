@@ -33,6 +33,7 @@ VAT_EXEMPTION_36 = VatExemption(
 # What does it do?:
 # - Hides select input on application form page
 WE_ARE_TAX_EXEMPT = True
+TAX_EXEMPT_TOOLTIP = "Faktura wystawiana bez podatku VAT na podstawie art. 113 ust. 1 i 9 ustawy o VAT"
 
 # Here place ALL defined VAT exemptions
 VAT_EXEMPTIONS = [

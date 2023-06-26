@@ -1,6 +1,18 @@
 {% extends './WebinarBase.html' %}
 
+{% block webinar_main_col %}
+<div class="col-xl-12">
+{% endblock webinar_main_col %}
+
+{% block webinar_rightbar %}{% endblock webinar_rightbar %}
 
 {% block webinar_content %}
-    Opinie
+<div class="text-left mb-5"><h2 class="mb-1">Opinie</h2></div>
+
+<div class="row">
+    <div class="col-md-6">
+        {% include './snippets/OpinionAboutLecturer.html' %}
+    </div>
+</div>
+
 {% endblock webinar_content %}
