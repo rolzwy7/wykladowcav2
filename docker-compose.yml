@@ -9,7 +9,7 @@ services:
   worker:
     container_name: celery_worker
     build: ./src
-    command: celery -A notifications_app.celery worker --loglevel=info
+    command: celery -A wykladowcapl.celery worker --loglevel=info
     volumes:
       - ./src:/app
     environment:
@@ -19,7 +19,7 @@ services:
       - redis
 
   web:
-    container_name: notifications_app
+    container_name: wykladowcapl
     build: ./src
     command: python manage.py runserver 0.0.0.0:8080
     volumes:

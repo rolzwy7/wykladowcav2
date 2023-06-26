@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     # 3rd party
     "django_quill",
     "rest_framework",
+    "django_celery_results",
     # Django
     "django.contrib.admin",
     "django.contrib.auth",

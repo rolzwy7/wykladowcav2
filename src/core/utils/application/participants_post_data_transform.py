@@ -1,6 +1,6 @@
 def transform_post_data(request):
     """Transform POST repeater data to formset data"""
-    # TODO: Potentially insecure
+    # TODO: Potentially insecure, add some key checking with RegExp
     transformed_post_keys = {}
     post_keys_to_delete = []
     for post_key, post_value in request.POST.items():
@@ -12,7 +12,8 @@ def transform_post_data(request):
         new_post_key = f"form-{key_index}-{field_name}"
         transformed_post_keys[new_post_key] = post_value
 
-    request.POST._mutable = True
+    # Yes I know this is kinda hacky but it works
+    request.POST._mutable = True  # pylint: disable=protected-access
 
     # Delete post keys
     for key_to_delete in post_keys_to_delete:
@@ -22,6 +23,7 @@ def transform_post_data(request):
     for key, item in transformed_post_keys.items():
         request.POST[key] = item
 
-    request.POST._mutable = False
+    # Yes I know this is kinda hacky but it works
+    request.POST._mutable = False  # pylint: disable=protected-access
 
     return request

@@ -7,6 +7,7 @@ ITEM = "ITEM"
 
 
 def categories(request):
+    """Adds categories into global context"""
     # TODO: Caching
     # TODO: Active category
     # TODO: Document this

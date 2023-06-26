@@ -18,6 +18,8 @@ zeep = "~4.2.1"
 djangorestframework = "~3.14.0"
 requests = "^2.31.0"
 lxml = "~4.9.2"
+celery = {version = "~5.3.0", extras = ["redis"]}
+django-celery-results = "^2.5.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"

@@ -14,6 +14,9 @@ from zeep.transports import Transport
 from api.base.throttling import RegonAutocompleteThrottle
 from core.libs.validators.nip_validator import validate_nip
 
+# TODO: This shouldn't be in controller
+# movie this to separate service
+
 
 @api_view(["POST"])
 @renderer_classes([JSONRenderer])  # policy decorator

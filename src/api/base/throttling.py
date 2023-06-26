@@ -2,6 +2,8 @@ from rest_framework.throttling import SimpleRateThrottle
 
 
 class RegonAutocompleteThrottle(SimpleRateThrottle):
+    """Throttling for REGON API calls"""
+
     rate = "10/minute"
 
     def get_cache_key(self, request, view):
@@ -13,7 +15,7 @@ class RegonAutocompleteThrottle(SimpleRateThrottle):
         """
 
         view_name = view.__class__.__name__
-        ip_address = request.META.get("REMOTE_ADDR")
+        ip_address = request.META.get("REMOTE_ADDR")  # TODO: This might be None
 
         if not ip_address:
             return None
