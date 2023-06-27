@@ -55,8 +55,8 @@ def regon_autocomplete(request):
         wsdl=wsdl,
         transport=Transport(
             session=session,
-            timeout=5,
-            operation_timeout=5,
+            timeout=3,
+            operation_timeout=3,
         ),
     )
     service = create_service(client)

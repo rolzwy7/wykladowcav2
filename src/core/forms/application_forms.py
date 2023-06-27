@@ -1,21 +1,15 @@
 from django.forms import CharField, Form, ModelForm
 
-from core.models import (
-    WebinarApplication,
-    WebinarApplicationCompany,
-    WebinarApplicationInvoice,
-    WebinarApplicationPrivatePerson,
-    WebinarApplicationSubmitter,
-    WebinarParticipant,
-)
-from core.widgets import (
-    ApplicationTypeWidget,
-    CheckboxWidget,
-    EmailFloatingInputWidget,
-    SelectFloatingInputWidget,
-    TextareaFloatingInputWidget,
-    TextFloatingInputWidget,
-)
+from core.consts import ALLOWED_EXEMPTIONS_BY_APPLICATION_TYPE
+from core.forms.widgets import (ApplicationTypeWidget, CheckboxWidget,
+                                EmailFloatingInputWidget,
+                                SelectFloatingInputWidget,
+                                TextareaFloatingInputWidget,
+                                TextFloatingInputWidget)
+from core.models import (WebinarApplication, WebinarApplicationCompany,
+                         WebinarApplicationInvoice,
+                         WebinarApplicationPrivatePerson,
+                         WebinarApplicationSubmitter, WebinarParticipant)
 
 
 class ApplicationTypeForm(ModelForm):
@@ -115,6 +109,12 @@ class ApplicationInvoiceForm(ModelForm):
                 attrs={"label": "Zwolnienie z VAT"}
             ),
         }
+
+    def set_choices(self, application_type: str):
+        """Set invoice choices"""
+        self.fields[
+            "vat_exemption"
+        ].choices = ALLOWED_EXEMPTIONS_BY_APPLICATION_TYPE[application_type]
 
 
 class ApplicationSubmitterForm(ModelForm):

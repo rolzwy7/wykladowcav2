@@ -8,16 +8,19 @@
 
 {% block rightbar %}{% endblock rightbar %}
 
+
 {% block application_toolbar_actions %}
+{% if application.status == 'INIT' %}
 <div class="d-flex align-items-center py-1">
     <!--begin::Button-->
     <a
-        href="#"
-        class="btn btn-flex btn-sm btn-primary fw-bold border-0 fs-6 h-40px">
+    href="#"
+    class="btn btn-flex btn-sm btn-primary fw-bold border-0 fs-6 h-40px">
     Popraw zgłoszenie
-    </a>
-    <!--end::Button-->
+</a>
+<!--end::Button-->
 </div>
+{% endif %}
 {% endblock application_toolbar_actions %}
 
 {% block application_content %}
@@ -37,18 +40,22 @@
                     </div>
                     <!--begin::Card title-->
                     <!--begin::Card toolbar-->
-                    <div class="card-toolbar">
+                    {% comment %} <div class="card-toolbar">
                         <a href="../../demo5/dist/apps/subscriptions/add.html" class="btn btn-light-warning">
                             <i class="ki-duotone ki-cloud-download fs-1"><i class="path1"></i><i class="path2"></i></i>
                             Pobierz kartę zgłoszeniową
                         </a>
-                    </div>
+                    </div> {% endcomment %}
                     <!--end::Card toolbar-->
                 </div>
                 <!--end::Card header-->
                 <!--begin::Card body-->
                 <div class="card-body pt-3">
                     {% include './snippets/SummaryParticipants.html' with participants=participants %}
+
+                    {% with application.submitter as submitter %}
+                        {% include './snippets/SummarySubmitter.html' with submitter=submitter %}
+                    {% endwith %}
                     
                     {% if application.buyer %}
                         {% include './snippets/SummaryCompany.html' with title="Nabywca" company=application.buyer %}
@@ -73,6 +80,7 @@
             <!--begin::Card-->
             <div
                 class="card card-flush mb-0"
+                {% if application.status == 'INIT' %}
                 data-kt-sticky="true"
                 data-kt-sticky-name="subscription-summary"
                 data-kt-sticky-offset="{default: false, lg: '200px'}"
@@ -81,76 +89,77 @@
                 data-kt-sticky-top="150px"
                 data-kt-sticky-animation="false"
                 data-kt-sticky-zindex="95"
+                {% endif %}
             >
-                <!--begin::Card header-->
-                <div class="card-header">
-                    <!--begin::Card title-->
-                    <div class="card-title">
-                        <h2>Osoba zgłaszająca</h2>
-                    </div>
-                    <!--end::Card title-->
-                </div>
-                <!--end::Card header-->
+
                 <!--begin::Card body-->
                 <div class="card-body pt-0 fs-6">
-                    <!--begin::Section-->
-                    <div class="mb-7">
-                        <!--begin::Details-->
-                        <div class="d-flex align-items-center">
-                            {% with application.submitter as submitter %}
-                            <!--begin::Info-->
-                            <div class="d-flex flex-column">
-                                <!--begin::Name-->
-                                <a href="#" class="fs-4 fw-bold text-gray-900 text-hover-primary me-2">
-                                    {{submitter.fullname}}
-                                </a>
-                                <!--end::Name-->
-                                <!--begin::Email-->
-                                <a href="#" class="fw-semibold text-gray-600 text-hover-primary">
-                                    {{submitter.email}}
-                                </a>
-                                <!--end::Email-->
-                                <!--begin::Phone-->
-                                <a href="#" class="fw-semibold text-gray-600 text-hover-primary">
-                                    {{submitter.phone}}
-                                </a>
-                                <!--end::Phone-->
-                            </div>
-                            <!--end::Info-->
-                            {% endwith %}
-                        </div>
-                        <!--end::Details-->
-                    </div>
-                    <!--end::Section-->
                     <!--begin::Seperator-->
                     <div class="separator separator-dashed mb-4"></div>
                     <!--end::Seperator-->
                     <!--begin::Section-->
                     <div class="mb-7">
                         <!--begin::Title-->
-                        <h5 class="mb-4">Cena NETTO</h5>
+                        <h5 class="mb-4">Cena</h5>
                         <!--end::Title-->
                         <!--begin::Details-->
-                        <div class="d-flex justify-content-start">
+                        {% comment %} <div class="d-flex justify-content-start"> {% endcomment %}
+                        <div>
                             <!--begin::Section-->
                             <div class="mw-300px">
                                 <!--begin::Item-->
                                 <div class="d-flex flex-stack mb-3">
                                     <!--begin::Accountname-->
-                                    <div class="fw-semibold pe-10 text-gray-600 fs-7">Za osobe:</div>
+                                    <div class="fw-semibold pe-10 text-gray-600 fs-7">
+                                        Uczestników:
+                                    </div>
                                     <!--end::Accountname-->
                                     <!--begin::Label-->
-                                    <div class="text-end fw-bold fs-6 text-gray-800">$ 20,600.00</div>
+                                    <div class="text-end fw-bold fs-6 text-gray-800">
+                                        {{participants|length}}
+                                    </div>
                                     <!--end::Label-->
                                 </div>
                                 <!--end::Item-->
                                 <!--begin::Item-->
                                 <div class="d-flex flex-stack mb-3">
                                     <!--begin::Accountname-->
-                                    <div class="fw-semibold pe-10 text-gray-600 fs-7">VAT 0%</div>
+                                    <div class="fw-semibold pe-10 text-gray-600 fs-7">
+                                        Za uczestnika:
+                                    </div>
                                     <!--end::Accountname-->
                                     <!--begin::Label-->
-                                    <div class="text-end fw-bold fs-6 text-gray-800">0.00</div>
+                                    <div class="text-end fw-bold fs-6 text-gray-800">
+                                        {% if application.discount_applied %}
+
+                                        <span class="text-decoration-line-through fw-bolder text-danger me-1">
+                                            {{application.price_old}}zł
+                                        </span>
+                                        <span class="fw-bold text-success">
+                                            {{application.price_netto}}zł
+                                        </span>
+                                        {% else %}
+                                            {{application.price_netto}}zł
+                                        {% endif %}
+                                    </div>
+                                    <!--end::Label-->
+                                </div>
+                                <!--end::Item-->
+                                <!--begin::Item-->
+                                <div class="d-flex flex-stack mb-3">
+                                    <!--begin::Accountname-->
+                                    <div class="fw-semibold pe-10 text-gray-600 fs-7">
+                                        VAT
+                                    </div>
+                                    <!--end::Accountname-->
+                                    <!--begin::Label-->
+                                    <div class="text-end fw-bold fs-6 text-gray-800">
+                                        {% if application.invoice.vat_exemption == "VAT_EXEMPTION_0" %}
+                                        23%
+                                        {% else %}
+                                        Zwolnienie
+                                        {% endif %}
+                                    </div>
                                     <!--end::Label-->
                                 </div>
                                 <!--end::Item-->
@@ -171,7 +180,12 @@
                                 <!--begin::Item-->
                                 <div class="d-flex flex-stack mb-3">
                                     <!--begin::Label-->
-                                    <div class="text-start fw-bold fs-6 text-gray-800">$ 20,600.00</div>
+                                    <div class="text-start fw-bold fs-6 text-gray-800">
+                                        {{application.total_price_netto}}zł
+                                        {% if application.invoice.vat_exemption == "VAT_EXEMPTION_0" %}
+                                        + 23% VAT
+                                        {% endif %}
+                                    </div>
                                     <!--end::Label-->
                                 </div>
                                 <!--end::Item-->
@@ -184,17 +198,18 @@
                     <!--begin::Seperator-->
                     <div class="separator separator-dashed mb-4"></div>
                     <!--end::Seperator-->
-                    <a href="#">Przeczytaj regulamin</a>
-                    <!--begin::Seperator-->
-                    <div class="separator separator-dashed mb-4"></div>
-                    <!--end::Seperator-->
+                    {% if application.status == 'INIT' %}
+                    <a href="#" class="fw-bold">Przeczytaj regulamin szkoleń</a>
                     <!--begin::Actions-->
-                    <div class="mb-0">
+                    <div class="mb-0 mt-3">
                         <form
                             action="{% url 'core:application_summary_page' uuid=application.uuid %}"
                             method="post">
                             {% csrf_token %}
                             {{form.accept_terms_of_service}}
+                            <!--begin::Seperator-->
+                            <div class="separator separator-dashed mb-4"></div>
+                            <!--end::Seperator-->
                             <button
                                 type="submit"
                                 class="btn btn-danger mt-3"
@@ -207,6 +222,7 @@
                         </form>
                     </div>
                     <!--end::Actions-->
+                    {% endif %}
                 </div>
                 <!--end::Card body-->
             </div>
@@ -227,8 +243,6 @@
     
     var checkInput = document.querySelector("#id_accept_terms_of_service");
     
-    checkInput.closest("label").innerHTML = "TEST";
-
     checkInput.addEventListener("click", function(e) {
         let btn = document.querySelector("#send-application-btn");
         btn.disabled = !btn.disabled;

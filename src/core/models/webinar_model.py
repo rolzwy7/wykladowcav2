@@ -39,6 +39,17 @@ class WebinarManager(Manager):
             Q(status__in=[WebinarStatus.INIT, WebinarStatus.CONFIRMED])
         )
 
+    def done_or_canceled(self) -> QuerySet["Webinar"]:
+        """Returns `done` of `canceled` webinars
+
+        Returns:
+            QuerySet['Webinar']: queryset of webinars
+        """
+        return self.get_queryset().filter(
+            # Only show webinars with given status
+            Q(status__in=[WebinarStatus.DONE, WebinarStatus.CANCELED])
+        )
+
     def homepage_webinars(self) -> QuerySet["Webinar"]:
         """Returns webinars visible on homepage
 

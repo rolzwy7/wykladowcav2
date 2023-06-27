@@ -1,0 +1,20 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+{% for webinar in webinars %}
+  <p>
+    <a href="{% url 'core:crm_webinar_detail_dashboard' pk=webinar.pk %}">
+      {{webinar.pk}}
+    </a>
+  </p>
+{% endfor %}
+{% endblock crm_content %}
+
+{% block body_scripts %}
+
+{% endblock body_scripts %}

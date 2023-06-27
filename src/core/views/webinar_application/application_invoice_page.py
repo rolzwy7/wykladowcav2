@@ -30,6 +30,7 @@ def application_invoice_page(request, uuid: str):
             return service.get_next_step_redirect()
     else:
         form = ApplicationInvoiceForm(instance=invoice)
+        form.set_choices(application.application_type)
 
     return TemplateResponse(
         request,

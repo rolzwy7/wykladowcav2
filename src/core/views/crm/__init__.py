@@ -1,0 +1,2 @@
+from .crm_upcoming_webinars import crm_upcoming_webinars
+from .crm_webinar_detail import crm_webinar_detail_dashboard

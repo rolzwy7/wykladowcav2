@@ -9,23 +9,27 @@ from core.views import (
 )
 
 from .application_urls import urlpatterns as application_urlpatterns
+from .crm_urls import urlpatterns as crm_urlpatterns
 from .lecturer_urls import urlpatterns as lecturer_urlpatterns
+from .previews_urls import urlpatterns as previews_urlpatterns
 from .webinar_urls import urlpatterns as webinar_urlpatterns
 
 app_name = "core"
 
 urlpatterns = [
     path("wykladowcy/", lecturer_list_page, name="lecturers"),
-    path("login/", login_page, name="login"),
-    path("rejestracja/", register_page, name="register"),
-    path("zgloszenie-online/", include(application_urlpatterns)),
-    path("szkolenie/", include(webinar_urlpatterns)),
-    path("wykladowcy/", include(lecturer_urlpatterns)),
     path(
         "szkolenia-<slug:slug>/",
         webinar_category_page,
         name="webinar_category_page",
     ),
     path("api/", include("api.urls")),
+    path("zgloszenie-online/", include(application_urlpatterns)),
+    path("szkolenie/", include(webinar_urlpatterns)),
+    path("wykladowcy/", include(lecturer_urlpatterns)),
+    path("crm/", include(crm_urlpatterns)),
+    path("login/", login_page, name="login"),
+    path("rejestracja/", register_page, name="register"),
+    path("preview/", include(previews_urlpatterns)),
     path("", home_page, name="homepage"),
 ]

@@ -48,6 +48,8 @@
 <script>
     var csrf = "{{ csrf_token }}";
 
+    var regon_is_down = false;
+
     var blockUI = new KTBlockUI(
         document.querySelector("#kt_block_ui_target"),
         {
@@ -106,13 +108,15 @@
         })
         .catch(error => {
             blockUI.release();
-            console.error('Error:', error);
+            regon_is_down = true;
+            alert("Nie udało się pobrać danych firmy z rejestru REGON. Prosimy o wypełnienie danych ręcznie.")
         });
 
     }
 
     // Function to perform the actual search
     function performSearch() {
+        if(regon_is_down) return;
         let nip = document.querySelector('#id_nip').value.replaceAll("-", "").replaceAll("_", "");;
         if(nip.length == 10) {
             populateCompany(nip);

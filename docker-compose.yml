@@ -14,7 +14,6 @@ services:
       - ./src:/app
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/5
-      - CELERY_RESULT_BACKEND=redis://redis:6379/5
     depends_on:
       - redis
 
@@ -26,5 +25,17 @@ services:
       - ./src:/app
     ports:
       - 8080:8080
+    depends_on:
+      - worker
+
+  flower:
+    container_name: celery_flower
+    build: ./src
+    ports:
+      - 5566:5566
+    command: celery -A wykladowcapl.celery flower --address=0.0.0.0 --port=5566
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/5
+      - CELERY_RESULT_BACKEND=redis://redis:6379/5
     depends_on:
       - worker

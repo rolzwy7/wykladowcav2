@@ -1,0 +1,24 @@
+{% extends 'core/extends/base.html' %} 
+{% load static %}
+
+{% block title %}
+    <title>CRM</title>
+{% endblock title %}
+
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+
+{% block leftbar %}
+    {% include './leftbar.html' %}
+{% endblock leftbar %}
+
+{% block rightbar %}{% endblock rightbar %}
+
+{% block header %}
+    {% include './header.html' %}
+{% endblock header %}
+
+{% block content %}
+    {% block crm_content %}{% endblock crm_content %}
+{% endblock content %}
+
+{% block body_scripts %}{% endblock body_scripts %}

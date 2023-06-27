@@ -18,6 +18,7 @@ from core.consts import CHOICES_VAT_EXEMPTIONS, VAT_EXEMPTION_0
 from core.libs.validators import validate_nip_modelfield
 
 from .enums import ApplicationStatus, InvoiceType, WebinarApplicationType
+from .webinar_participant import WebinarParticipant
 
 
 class WebinarApplicationCompany(Model):
@@ -125,6 +126,7 @@ class WebinarApplication(Model):
     # Price
     discount_applied = BooleanField("Promocja nałożona", default=False)
     price_netto = PositiveSmallIntegerField("Cena NETTO")
+    price_old = PositiveSmallIntegerField("Stara cena", null=True)
 
     # Application Type
     application_type = CharField(
@@ -189,12 +191,25 @@ class WebinarApplication(Model):
     # Additional Information
     additional_information = TextField("Uwagi", blank=True)
 
+    @property
+    def total_price_netto(self):
+        return (
+            WebinarParticipant.objects.filter(application=self).count()
+            * self.price_netto
+        )
+
     class Meta:
         verbose_name = "Zgłoszenie"
         verbose_name_plural = "Zgłoszenia"
 
 
 class WebinarApplicationMetadata(Model):
+    """Metadata for Webinar Application"""
+
     application = ForeignKey("WebinarApplication", on_delete=CASCADE)
 
     phoned = BooleanField(default=False)
+
+    invoice_id = CharField(max_length=32, blank=True)
+    invoice_number = CharField(max_length=64, blank=True)
+    invoice_url = CharField(max_length=300, blank=True)

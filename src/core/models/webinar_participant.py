@@ -14,5 +14,5 @@ class WebinarParticipant(Model):
         return f"{self.first_name} {self.last_name} ({self.email})"
 
     class Meta:
-        verbose_name = "Uczestnicy"
-        verbose_name_plural = "Uczestnik"
+        verbose_name = "Uczestnik"
+        verbose_name_plural = "Uczestnicy"
