@@ -1,3 +1,4 @@
+# flake8: noqa
 from .application_forms import (
     ApplicationAdditionalInformationForm,
     ApplicationCompanyForm,
@@ -8,4 +9,5 @@ from .application_forms import (
     ApplicationSummarySubmitForm,
     ApplicationTypeForm,
 )
-from .login_form import LoginForm  # noqa
+from .crm_forms import CrmAreYouSureForm
+from .login_form import LoginForm

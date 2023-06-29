@@ -1,8 +1,9 @@
-from .base_profile import *  # noqa
-from .celery import *  # noqa
-from .clickmeeting import *  # noqa
-from .company import *  # noqa
-from .database import *  # noqa
+# flake8: noqa
+from .base_profile import *
+from .celery import *
+from .clickmeeting import *
+from .company import *
+from .database import *
 from .email import (
     EMAIL_BACKEND,
     EMAIL_FILE_PATH,
@@ -13,11 +14,12 @@ from .email import (
     EMAIL_PORT,
     EMAIL_TIMEOUT,
 )
-from .fakturownia import FAKTUROWNIA_API_KEY, FAKTUROWNIA_API_URL  # noqa
-from .images import *  # noqa
-from .ingksiegowosc import *  # noqa
-from .quill import *  # noqa
-from .redis import *  # noqa
-from .regon import *  # noqa
-from .rest_framework import *  # noqa
-from .webinar import *  # noqa
+from .fakturownia import FAKTUROWNIA_API_KEY, FAKTUROWNIA_API_URL
+from .images import *
+from .ingksiegowosc import *
+from .quill import *
+from .redis import *
+from .regon import *
+from .rest_framework import *
+from .telegram import *
+from .webinar import *

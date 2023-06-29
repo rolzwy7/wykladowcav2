@@ -4,5 +4,4 @@ if DEBUG:
     FAKTUROWNIA_API_URL = "https://rolzwy7.fakturownia.pl"
     FAKTUROWNIA_API_KEY = "FI6fTUUD8Pfjg7nFwG1M"
 else:
-    FAKTUROWNIA_API_URL = "https://rolzwy7.fakturownia.pl"
-    FAKTUROWNIA_API_KEY = "FI6fTUUD8Pfjg7nFwG1M"
+    ...  # TODO: Set Fakturownia's settings

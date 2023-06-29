@@ -1,15 +1,22 @@
 from django.forms import CharField, Form, ModelForm
 
 from core.consts import ALLOWED_EXEMPTIONS_BY_APPLICATION_TYPE
-from core.forms.widgets import (ApplicationTypeWidget, CheckboxWidget,
-                                EmailFloatingInputWidget,
-                                SelectFloatingInputWidget,
-                                TextareaFloatingInputWidget,
-                                TextFloatingInputWidget)
-from core.models import (WebinarApplication, WebinarApplicationCompany,
-                         WebinarApplicationInvoice,
-                         WebinarApplicationPrivatePerson,
-                         WebinarApplicationSubmitter, WebinarParticipant)
+from core.forms.widgets import (
+    ApplicationTypeWidget,
+    CheckboxWidget,
+    EmailFloatingInputWidget,
+    SelectFloatingInputWidget,
+    TextareaFloatingInputWidget,
+    TextFloatingInputWidget,
+)
+from core.models import (
+    WebinarApplication,
+    WebinarApplicationCompany,
+    WebinarApplicationInvoice,
+    WebinarApplicationPrivatePerson,
+    WebinarApplicationSubmitter,
+    WebinarParticipant,
+)
 
 
 class ApplicationTypeForm(ModelForm):
@@ -28,6 +35,11 @@ class ApplicationCompanyForm(ModelForm):
         """Clean NIP number"""
         nip = self.cleaned_data["nip"]
         return nip.replace("-", "").replace(" ", "")
+
+    def clean_email(self):
+        """Clean email"""
+        email = self.cleaned_data["email"]
+        return email.lower()
 
     class Meta:
         model = WebinarApplicationCompany
@@ -60,6 +72,11 @@ class ApplicationCompanyForm(ModelForm):
 class ApplicationPersonDetailForm(ModelForm):
     """Invoice form for webinar application"""
 
+    def clean_email(self):
+        """Clean email"""
+        email = self.cleaned_data["email"]
+        return email.lower()
+
     class Meta:
         model = WebinarApplicationPrivatePerson
         fields = [
@@ -86,6 +103,11 @@ class ApplicationPersonDetailForm(ModelForm):
 
 class ApplicationInvoiceForm(ModelForm):
     """Invoice form for webinar application"""
+
+    def clean_invoice_email(self):
+        """Clean email"""
+        invoice_email = self.cleaned_data["invoice_email"]
+        return invoice_email.lower()
 
     class Meta:
         model = WebinarApplicationInvoice
@@ -120,6 +142,11 @@ class ApplicationInvoiceForm(ModelForm):
 class ApplicationSubmitterForm(ModelForm):
     """Submitter form for webinar application"""
 
+    def clean_email(self):
+        """Clean email"""
+        email = self.cleaned_data["email"]
+        return email.lower()
+
     class Meta:
         model = WebinarApplicationSubmitter
         fields = [
@@ -147,6 +174,11 @@ class ApplicationSubmitterForm(ModelForm):
 
 class ApplicationParticipantForm(ModelForm):
     """Participant form for webinar application"""
+
+    def clean_email(self):
+        """Clean email"""
+        email = self.cleaned_data["email"]
+        return email.lower()
 
     class Meta:
         model = WebinarParticipant

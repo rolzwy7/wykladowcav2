@@ -1,0 +1,23 @@
+<!--begin::Button-->
+{% if webinar.status == "INIT" %}
+<a href="{% url 'core:crm_webinar_confirm' pk=webinar.pk %}"
+class="btn btn-flex btn-sm btn-light-warning fw-bold border-0 fs-6 h-40px"
+>
+<i class="ki-duotone ki-rocket fs-2 me-2"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i></i>
+Potwierdź termin
+</a>
+
+{% elif webinar.status == "CONFIRMED" %}
+<a href="{% url 'core:crm_webinar_confirm' pk=webinar.pk %}"
+class="btn btn-flex btn-sm btn-light-success fw-bold border-0 fs-6 h-40px"
+>
+<i class="ki-duotone ki-medal-star fs-2 me-2"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i></i>
+Zakończ szkolenie
+</a>
+
+{% elif webinar.status == "CANCELED" %}
+
+{% elif webinar.status == "DONE" %}
+
+{% endif %}
+<!--end::Button-->

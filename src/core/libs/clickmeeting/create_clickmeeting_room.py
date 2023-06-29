@@ -5,6 +5,8 @@ import requests
 from django.conf import settings
 from django.template.defaultfilters import date as _date
 
+CLICKMEETING_API_URL = settings.CLICKMEETING_API_URL
+
 
 def create_clickmeeting_room(
     room_name: str, lobby_description: str, date: datetime, duration: str
@@ -20,7 +22,7 @@ def create_clickmeeting_room(
     Returns:
         int: created room id
     """
-    url = f"{settings.CLICKMEETING_API_URL}/conferences"
+    url = f"{CLICKMEETING_API_URL}/conferences"
     data = {
         "name": room_name,
         "custom_room_url_name": f"webinar-{int(time())}",

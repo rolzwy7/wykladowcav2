@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db.models import (
     CASCADE,
     CharField,
+    EmailField,
     ImageField,
     ManyToManyField,
     Model,
@@ -42,6 +43,10 @@ class Lecturer(Model):
         null=True,
         blank=True,
         verbose_name="Użytkownik",
+    )
+
+    email = EmailField(
+        "Adres E-mail", blank=True, help_text="E-mail kontaktowy do wykładowcy"
     )
 
     class Meta:

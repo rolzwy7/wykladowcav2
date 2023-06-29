@@ -1,0 +1,45 @@
+<!--begin::Timeline item-->
+<div class="timeline-item">
+    <!--begin::Timeline line-->
+    <div class="timeline-line w-40px"></div>
+    <!--end::Timeline line-->
+    <!--begin::Timeline icon-->
+    <div class="timeline-icon symbol symbol-circle symbol-40px me-4">
+        <div class="symbol-label bg-light">
+            <i class="ki-duotone ki-message-text-2 fs-2 text-gray-500">
+                <span class="path1"></span>
+                <span class="path2"></span>
+                <span class="path3"></span>
+            </i>
+        </div>
+    </div>
+    <!--end::Timeline icon-->
+    <!--begin::Timeline content-->
+    <div class="timeline-content mb-10 mt-n1">
+        <!--begin::Timeline heading-->
+        <div class="pe-3 mb-5">
+            <!--begin::Title-->
+            <div class="fs-5 fw-semibold mb-2">
+                {{log.title_html|safe}}    
+            </div>
+            <!--end::Title-->
+            <!--begin::Description-->
+            <div class="d-flex align-items-center mt-1 fs-6">
+                <!--begin::Info-->
+                <div class="text-muted me-2 fs-7">
+                    <b>{{log.created_at|date:"j E Y"}}</b> godzina <b>{{log.created_at|date:"H:i"}}</b>
+                </div>
+                <!--end::Info-->
+            </div>
+            <!--end::Description-->
+        </div>
+        <!--end::Timeline heading-->
+        <!--begin::Timeline details-->
+        <div class="overflow-auto pb-5">
+            {{log.content_html|safe}}
+        </div>
+        <!--end::Timeline details-->
+    </div>
+    <!--end::Timeline content-->
+</div>
+<!--end::Timeline item-->

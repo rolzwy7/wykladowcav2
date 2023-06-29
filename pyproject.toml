@@ -23,6 +23,7 @@ django-celery-results = "^2.5.1"
 html2text = "^2020.1.16"
 pydantic = "^1.10.9"
 flower = "^2.0.0"
+dnspython = "^2.3.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"

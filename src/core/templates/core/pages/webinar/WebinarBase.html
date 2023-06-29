@@ -34,9 +34,11 @@
                 <h1 class="d-flex align-items-center my-1 text-dark fw-bold fs-1">
                     {{webinar.title}}
                 </h1>
+                {% if webinar.description %}
                 <h2>
                     {{webinar.description}}
                 </h2>
+                {% endif %}
                 <!--end::Title-->
             </div>
             <!--end::Page title-->

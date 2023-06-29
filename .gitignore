@@ -6,7 +6,8 @@
 __pycache__
 .env
 .vscode
-media
+public/
+media/
 
 ### Github generated .gitignore
 

@@ -8,6 +8,7 @@ from core.utils.image import create_thumbnails_for_lecturer
 
 @receiver(post_save, sender=Lecturer, dispatch_uid="47db377000")
 def on_lecturer_save_make_thumbnails(sender, **kwargs):
+    """Make thumbnails for lecturer after save"""
     if not kwargs.get("instance"):
         return
 

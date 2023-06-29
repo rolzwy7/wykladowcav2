@@ -191,6 +191,8 @@ class Webinar(Model):
 
 
 class WebinarMetadata(Model):
+    """Metadata for Webinar model"""
+
     webinar = OneToOneField("Webinar", on_delete=CASCADE)
     clickmeeting_id = CharField("ClickMeeting ID", blank=True, max_length=100)
     auto_send_invoices = BooleanField(
@@ -201,8 +203,23 @@ class WebinarMetadata(Model):
     is_confirmed = BooleanField(
         "Termin potwierdzony",
         default=False,
-        help_text="Oznacza termin jako `Termin potwierdzony` na stronie. To czysto kosmetyczna funckja.",  # noqa
+        help_text="Oznacza termin jako `Termin potwierdzony` na stronie. To czysto kosmetyczna funkcja.",  # noqa
     )
     remaining_places = PositiveSmallIntegerField(
         "Pozostało miejsc", default=0, blank=True
     )
+
+    def __str__(self) -> str:
+        return f"Metadata for webinar {self.pk}"
+
+
+class WebinarEventlog(Model):
+    """Metadat for Webinar model"""
+
+    created_at = DateTimeField(auto_now_add=True)
+    webinar = ForeignKey("Webinar", on_delete=CASCADE, verbose_name="Webinar")
+    title_html = CharField("Tytuł (HTML)", max_length=350)
+    content_html = TextField("Treść (HTML)", blank=True)
+
+    icon = CharField("Ikona", max_length=32, blank=True)
+    color = CharField("Kolor", max_length=32, blank=True)

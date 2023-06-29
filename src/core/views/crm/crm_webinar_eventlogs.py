@@ -1,0 +1,15 @@
+from django.shortcuts import get_object_or_404
+from django.template.response import TemplateResponse
+
+from core.models import Webinar, WebinarEventlog
+
+
+def crm_webinar_eventlogs(request, pk: int):
+    template_name = "core/pages/crm/webinar/CrmWebinarEventlogs.html"
+    webinar = get_object_or_404(Webinar, pk=pk)
+    webinar_eventlogs = WebinarEventlog.objects.filter(webinar=webinar)
+    return TemplateResponse(
+        request,
+        template_name,
+        {"webinar": webinar, "webinar_eventlogs": webinar_eventlogs},
+    )

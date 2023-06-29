@@ -1,0 +1,34 @@
+<!--begin::Title-->
+<h1 class="d-flex align-items-center my-1">
+    <span class="d-inline-block position-relative ms-2">
+        <!--begin::Label-->
+        <span class="d-inline-block mb-2 fs-1tx fw-bold">
+            {% if webinar.status == "INIT" %}
+            Status: Zebrano N uczestników
+            {% elif webinar.status == "CONFIRMED" %}
+            Status: Potwierdzony (N uczestników)
+            {% elif webinar.status == "CANCELED" %}
+            Status: Odwołany
+            {% elif webinar.status == "DONE" %}
+            Status: Zrealizowany (N uczestników)
+            {% endif %}
+        </span>
+        <!--end::Label-->
+        <!--begin::Line-->
+        <span class="
+        
+        {% if webinar.status == "INIT" %}
+        bg-primary
+        {% elif webinar.status == "CONFIRMED" %}
+        bg-warning
+        {% elif webinar.status == "CANCELED" %}
+        bg-danger
+        {% elif webinar.status == "DONE" %}
+        bg-success
+        {% endif %}
+        d-inline-block position-absolute h-8px bottom-0 end-0 start-0 translate rounded">
+        </span>
+        <!--end::Line-->
+    </span>
+</h1>
+<!--end::Title-->

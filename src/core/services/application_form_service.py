@@ -380,6 +380,19 @@ class ApplicationFormService:
                 )
             )
 
+        # If submitter is not set, redirect to form step
+        if self.current_step == SUMMARY and self.application.submitter is None:
+            if self.application.application_type == PRIVATE_PERSON:
+                url_name = "core:application_person_details_page"
+            else:
+                url_name = "core:application_submitter_page"
+            raise RedirectException(
+                reverse(
+                    url_name,
+                    kwargs={"uuid": self.application.uuid},
+                )
+            )
+
     @staticmethod
     def transform_post_data(request: HttpRequest):
         """Transform POST data from `form repeater` to `formset` data
@@ -435,6 +448,24 @@ class ApplicationFormService:
             private_person (WebinarApplicationPrivatePerson): person data
         """
 
+        # Save submitter
+        if application.submitter:
+            submitter: WebinarApplicationSubmitter = application.submitter
+            submitter.first_name = private_person.first_name
+            submitter.last_name = private_person.last_name
+            submitter.email = private_person.email
+            submitter.phone = private_person.phone
+            submitter.save()
+        else:
+            submitter = WebinarApplicationSubmitter(
+                first_name=private_person.first_name,
+                last_name=private_person.last_name,
+                email=private_person.email,
+                phone=private_person.phone,
+            )
+            application.submitter = submitter  # type: ignore
+            submitter.save()
+
         # Save participant
         # Delete all participants and save new one
         WebinarParticipant.objects.filter(application=application).delete()
@@ -450,13 +481,13 @@ class ApplicationFormService:
         if application.invoice:
             invoice = application.invoice
             invoice.invoice_email = private_person.email
+            invoice.save()
         else:
             invoice = WebinarApplicationInvoice(
                 invoice_email=private_person.email
             )
             application.invoice = invoice  # type: ignore
-
-        invoice.save()
+            invoice.save()
 
         # Save submitter
         if application.submitter:
@@ -465,6 +496,7 @@ class ApplicationFormService:
             submitter.last_name = private_person.last_name
             submitter.email = private_person.email
             submitter.phone = private_person.phone
+            submitter.save()
         else:
             submitter = WebinarApplicationSubmitter(
                 first_name=private_person.first_name,
@@ -473,8 +505,8 @@ class ApplicationFormService:
                 phone=private_person.phone,
             )
             application.submitter = submitter  # type: ignore
+            submitter.save()
 
-        submitter.save()
         application.save()
 
     @staticmethod

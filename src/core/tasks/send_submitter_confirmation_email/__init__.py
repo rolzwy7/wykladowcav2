@@ -1,2 +1,2 @@
-from .procedure import create_params, send_submitter_confirmation_email
+from .procedure import params as params_send_submitter_confirmation_email
 from .task import task_send_submitter_confirmation_email

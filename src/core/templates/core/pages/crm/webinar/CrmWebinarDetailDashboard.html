@@ -1,0 +1,156 @@
+{% extends './CrmWebinarBase.html' %}
+{% load static %}
+
+{% block head_stylesheets %}
+
+{% endblock head_stylesheets %}
+
+{% block crm_webinar_content %}
+<!--begin::Row-->
+<div class="row g-6 g-xl-9 mb-10">
+    <!--begin::Col-->
+    <div class="col-md-6 col-xl-6">
+        <div class="card shadow-sm card-flush h-md-100 mb-5 mb-xl-10">
+            <!--begin::Header-->
+            <div class="card-header pt-5">
+                <!--begin::Title-->
+                <div class="card-title d-flex flex-column">
+                    <!--begin::Info-->
+                    <div class="d-flex align-items-center">
+                        <!--begin::Currency-->
+                        <span class="fs-4 fw-semibold text-gray-400 me-1 align-self-start">PLN</span>
+                        <!--end::Currency-->
+                        <!--begin::Amount-->
+                        <span class="fs-2hx fw-bold text-dark me-2 lh-1 ls-n2">4,320</span>
+                        <!--end::Amount-->
+                    </div>
+                    <!--end::Info-->
+                    <!--begin::Subtitle-->
+                    <span class="text-gray-400 pt-1 fw-semibold fs-6">
+                        Wartość NETTO szkolenia
+                    </span>
+                    <!--end::Subtitle-->
+                </div>
+                <!--end::Title-->
+            </div>
+            <!--end::Header-->
+            <!--begin::Card body-->
+            <div class="card-body pt-2 pb-4 d-flex align-items-center">
+                <!--begin::Labels-->
+                <div class="d-flex flex-column content-justify-center w-100">
+                    <!--begin::Label-->
+                    <div class="d-flex fs-6 fw-semibold align-items-center">
+                        <!--begin::Bullet-->
+                        <div class="bullet w-8px h-6px rounded-2 bg-danger me-3"></div>
+                        <!--end::Bullet-->
+                        <!--begin::Label-->
+                        <div class="text-gray-500 flex-grow-1 me-4">Firma</div>
+                        <!--end::Label-->
+                        <!--begin::Stats-->
+                        <div class="fw-bolder text-gray-700 text-xxl-end">2</div>
+                        <!--end::Stats-->
+                    </div>
+                    <!--end::Label-->
+                    <!--begin::Label-->
+                    <div class="d-flex fs-6 fw-semibold align-items-center my-3">
+                        <!--begin::Bullet-->
+                        <div class="bullet w-8px h-6px rounded-2 bg-primary me-3"></div>
+                        <!--end::Bullet-->
+                        <!--begin::Label-->
+                        <div class="text-gray-500 flex-grow-1 me-4">JSFP</div>
+                        <!--end::Label-->
+                        <!--begin::Stats-->
+                        <div class="fw-bolder text-gray-700 text-xxl-end">1</div>
+                        <!--end::Stats-->
+                    </div>
+                    <!--end::Label-->
+                    <!--begin::Label-->
+                    <div class="d-flex fs-6 fw-semibold align-items-center">
+                        <!--begin::Bullet-->
+                        <div class="bullet w-8px h-6px rounded-2 me-3" style="background-color: #E4E6EF"></div>
+                        <!--end::Bullet-->
+                        <!--begin::Label-->
+                        <div class="text-gray-500 flex-grow-1 me-4">Osoba prywatna</div>
+                        <!--end::Label-->
+                        <!--begin::Stats-->
+                        <div class="fw-bolder text-gray-700 text-xxl-end">0</div>
+                        <!--end::Stats-->
+                    </div>
+                    <!--end::Label-->
+                </div>
+                <!--end::Labels-->
+            </div>
+            <!--end::Card body-->
+        </div>
+    </div>
+    <!--end::Col-->
+    <!--begin::Col-->
+    <div class="col-md-6 col-xl-6">
+        <div class="card shadow-sm card-flush h-md-100 mb-xl-10">
+            <!--begin::Header-->
+            <div class="card-header pt-5">
+                <!--begin::Title-->
+                <div class="card-title d-flex flex-column">
+                    <!--begin::Info-->
+                    <div class="d-flex align-items-center">
+                        <!--begin::Currency-->
+                        <span class="fs-4 fw-semibold text-gray-400 me-1 align-self-start">PLN</span>
+                        <!--end::Currency-->
+                        <!--begin::Amount-->
+                        <span class="fs-2hx fw-bold text-dark me-2 lh-1 ls-n2">2,500</span>
+                        <!--end::Amount-->
+                    </div>
+                    <!--end::Info-->
+                    <!--begin::Subtitle-->
+                    <span class="text-gray-400 pt-1 fw-semibold fs-6">Cena NETTO wykładowcy</span>
+                    <!--end::Subtitle-->
+                </div>
+                <!--end::Title-->
+            </div>
+            <!--end::Header-->
+            <!--begin::Card body-->
+            <div class="card-body d-flex align-items-end pt-0">
+                <!--begin::Progress-->
+                <div class="d-flex align-items-center flex-column mt-3 w-100">
+                    <div class="d-flex justify-content-between w-100 mt-auto mb-2">
+                        <span class="fw-bolder fs-6 text-dark">+ 1,820 PLN</span>
+                        <span class="fw-bold fs-6 text-gray-400">173%</span>
+                    </div>
+                    <div class="h-8px mx-3 w-100 bg-light-success rounded">
+                        <div
+                            class="bg-success rounded h-8px"
+                            role="progressbar"
+                            style="width: 100%;"
+                        >
+                        </div>
+                    </div>
+                </div>
+                <!--end::Progress-->
+            </div>
+            <!--end::Card body-->
+        </div>
+    </div>
+    <!--end::Col-->
+    <!--start::Col-->
+    <div class="col-md-12">
+
+
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h3 class="card-title">Przesłane zgłoszenia</h3>
+            </div>
+            <div class="card-body">
+                {% include './snippets/ApplicationItem.html' %}
+            </div>
+        </div>
+    
+    </div>
+    <!--end::Col-->
+    
+</div>
+<!--end::Row-->
+{% endblock crm_webinar_content %}
+
+{% block body_scripts %}
+
+{% endblock body_scripts %}

@@ -11,22 +11,22 @@ class SendSubmitterConfirmationEmailParams(BaseModel):
     email: str
 
 
-def create_params(email: str) -> list[str]:
+def params(email: str) -> str:
     """Create params"""
     json_dump = json.dumps(
         SendSubmitterConfirmationEmailParams(email=email).dict()
     )
-    return [json_dump]
+    return json_dump
 
 
 def send_submitter_confirmation_email(
-    params: SendSubmitterConfirmationEmailParams,
+    procedure_params: SendSubmitterConfirmationEmailParams,
 ):
     """Send submitter confirmation email after application has been sent"""
     email_template = EmailTemplate("email/EmailSubmitterConfirmation.html", {})
     email_message = EmailMessage(
         email_template,
         "Potwierdzamy otrzymanie zgłoszenia na szkolenie",
-        params.email,
+        procedure_params.email,
     )
     email_message.send()

@@ -1,16 +1,15 @@
-from .base_profile import DEBUG
+from .base_profile import APP_ENV
 from .redis import REDIS_DB, REDIS_HOST, REDIS_PASSWORD, REDIS_PORT, REDIS_USER
 
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_RESULT_EXTENDED = True
-
 CELERY_TIMEZONE = "Europe/Warsaw"
 
 # CELERY_TASK_TRACK_STARTED = True
 # CELERY_TASK_TIME_LIMIT = 30 * 60
 
 
-if DEBUG:
+if APP_ENV == "develop":
     CELERY_BROKER_URL = "redis://redis:6379/5"
 else:
     user_pass = f"{REDIS_USER}:{REDIS_PASSWORD}"

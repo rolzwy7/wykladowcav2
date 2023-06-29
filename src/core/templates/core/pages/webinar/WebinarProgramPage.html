@@ -2,5 +2,9 @@
 
 
 {% block webinar_content %}
-    {{webinar.program.html|safe}}
+    <div class="card">
+        <div class="card-body">
+            {{webinar.program.html|safe}}
+        </div>
+    </div>
 {% endblock webinar_content %}

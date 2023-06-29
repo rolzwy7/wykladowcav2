@@ -25,19 +25,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
+APP_ENV = os.environ.get("APP_ENV", "develop")
+ALLOWED_APP_ENVS = ["develop", "production", "staging", "testing"]
+assert APP_ENV in ALLOWED_APP_ENVS
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = (
-    "django-insecure-%oe-y!4+9afkbwlo@m%(i24ffd)%2!#n6p-n@owt%x@_f$@b0x"
-)
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = APP_ENV in ["develop", "testing"]
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split("||")
 
 AUTH_USER_MODEL = "core.User"
 
-SECURE_SSL_REDIRECT = os.environ.get("SECURE_SSL_REDIRECT", False)
+SECURE_SSL_REDIRECT = os.environ.get("SECURE_SSL_REDIRECT") == "1"
 
 # Application definition
 
@@ -129,11 +131,12 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
-STATIC_ROOT = "static/"
-
-MEDIA_ROOT = "media/"
+STATIC_ROOT = os.path.join(BASE_DIR, "./public/static/")
 
 MEDIA_URL = "media/"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "./public/media/")
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

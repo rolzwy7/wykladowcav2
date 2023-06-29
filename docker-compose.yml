@@ -16,6 +16,17 @@ services:
       - CELERY_BROKER_URL=redis://redis:6379/5
     depends_on:
       - redis
+  
+  beat:
+    container_name: celery_beat
+    build: ./src
+    command: celery -A wykladowcapl.celery beat --loglevel=info
+    volumes:
+      - ./src:/app
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/5
+    depends_on:
+      - redis
 
   web:
     container_name: wykladowcapl
@@ -36,6 +47,5 @@ services:
     command: celery -A wykladowcapl.celery flower --address=0.0.0.0 --port=5566
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/5
-      - CELERY_RESULT_BACKEND=redis://redis:6379/5
     depends_on:
       - worker
