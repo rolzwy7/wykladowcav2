@@ -15,7 +15,7 @@ def application_participants_page(request, uuid: str):
     template_name = "core/pages/application/ApplicationParticipantsPage.html"
     application = get_object_or_404(WebinarApplication, uuid=uuid)
     webinar = application.webinar
-    participants = WebinarParticipant.objects.filter(application=application)
+    participants = WebinarParticipant.manager.filter(application=application)
     service = ApplicationFormService(
         webinar, application, WebinarApplicationStep.PARTICIPANTS
     )

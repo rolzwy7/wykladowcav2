@@ -2,11 +2,11 @@ from django.urls import include, path
 
 from core.views import (
     home_page,
-    lecturer_list_page,
     login_page,
     register_page,
     webinar_category_page,
 )
+from core.views.lecturer import lecturer_list_page
 
 from .application_urls import urlpatterns as application_urlpatterns
 from .crm_urls import urlpatterns as crm_urlpatterns
@@ -17,7 +17,6 @@ from .webinar_urls import urlpatterns as webinar_urlpatterns
 app_name = "core"
 
 urlpatterns = [
-    path("wykladowcy/", lecturer_list_page, name="lecturers"),
     path(
         "szkolenia-<slug:slug>/",
         webinar_category_page,
@@ -26,7 +25,8 @@ urlpatterns = [
     path("api/", include("api.urls")),
     path("zgloszenie-online/", include(application_urlpatterns)),
     path("szkolenie/", include(webinar_urlpatterns)),
-    path("wykladowcy/", include(lecturer_urlpatterns)),
+    path("wykladowcy/", lecturer_list_page, name="lecturer_list_page"),
+    path("wykladowca/", include(lecturer_urlpatterns)),
     path("crm/", include(crm_urlpatterns)),
     path("login/", login_page, name="login"),
     path("rejestracja/", register_page, name="register"),

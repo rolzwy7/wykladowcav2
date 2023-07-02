@@ -66,6 +66,15 @@ class WebinarManager(Manager):
 class Webinar(Model):
     manager = WebinarManager()
 
+    is_confirmed = BooleanField(
+        "Pewny termin",
+        default=False,
+        help_text="Pokaż `Pewny termin` przy szkoleniu na stronie",  # noqa
+    )
+    remaining_places = PositiveSmallIntegerField(
+        "Pozostało miejsc", default=0, blank=True
+    )
+
     STATUS = [
         (WebinarStatus.INIT, "Termin wystawiony"),
         (WebinarStatus.CONFIRMED, "Termin potwierdzony"),
@@ -200,13 +209,9 @@ class WebinarMetadata(Model):
         default=True,
         help_text="Czy po zrealizowanym szkoleniu faktury mają być wysłane automatycznie do wszystkich",  # noqa
     )
-    is_confirmed = BooleanField(
-        "Termin potwierdzony",
-        default=False,
-        help_text="Oznacza termin jako `Termin potwierdzony` na stronie. To czysto kosmetyczna funkcja.",  # noqa
-    )
-    remaining_places = PositiveSmallIntegerField(
-        "Pozostało miejsc", default=0, blank=True
+
+    lecturer_price_netto = PositiveSmallIntegerField(
+        "Cena NETTO wykładowcy", default=0
     )
 
     def __str__(self) -> str:

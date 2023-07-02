@@ -4,7 +4,8 @@ from django.template.response import TemplateResponse
 from core.consts import POST
 from core.forms import CrmAreYouSureForm
 from core.models import Webinar
-from core.tasks_dispatch import after_webinar_confirm
+from core.models.enums import WebinarStatus
+from core.tasks_dispatch import after_webinar_confirm_dispatch
 
 
 def crm_webinar_confirm(request, pk: int):
@@ -15,7 +16,9 @@ def crm_webinar_confirm(request, pk: int):
     if request.method == POST:
         form = CrmAreYouSureForm(request.POST)
         if form.is_valid():
-            after_webinar_confirm(webinar)
+            webinar.status = WebinarStatus.CONFIRMED
+            webinar.save()
+            after_webinar_confirm_dispatch(webinar)
     else:
         form = CrmAreYouSureForm()
 

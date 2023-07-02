@@ -21,7 +21,7 @@ def application_summary_page(request, uuid):
         webinar, application, WebinarApplicationStep.SUMMARY
     )
     service.redirect_on_application_error()
-    participants = WebinarParticipant.objects.filter(application=application)
+    participants = WebinarParticipant.manager.filter(application=application)
 
     form = ApplicationSummarySubmitForm()
 

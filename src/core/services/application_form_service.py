@@ -83,7 +83,7 @@ class ApplicationFormService:
             if self.application.submitter
             else ""
         )
-        participants_count = WebinarParticipant.objects.filter(
+        participants_count = WebinarParticipant.manager.filter(
             application=self.application
         ).count()
         participants_conj = (
@@ -468,7 +468,7 @@ class ApplicationFormService:
 
         # Save participant
         # Delete all participants and save new one
-        WebinarParticipant.objects.filter(application=application).delete()
+        WebinarParticipant.manager.filter(application=application).delete()
         WebinarParticipant(
             application=application,
             first_name=private_person.first_name,
@@ -523,7 +523,7 @@ class ApplicationFormService:
         # Is user selected `is_participant`
         # and there is not participant with submitter's email already
         # in participants then save submitter as participant
-        is_submiter_in_participants = WebinarParticipant.objects.filter(
+        is_submiter_in_participants = WebinarParticipant.manager.filter(
             Q(application=application) & Q(email=submitter.email)
         ).exists()
         if all(

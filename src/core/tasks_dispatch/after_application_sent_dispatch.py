@@ -1,4 +1,4 @@
-from celery import group
+from celery import chain
 
 from core.models import (
     WebinarApplication,
@@ -10,6 +10,7 @@ from core.tasks import (
     params_send_submitter_confirmation_email,
     task_send_participant_confirmation_email,
     task_send_submitter_confirmation_email,
+    task_send_telegram_notification,
 )
 
 
@@ -19,18 +20,18 @@ def after_application_sent_dispatch(
     """Dispatch tasks after application sent"""
 
     # Prepare data
-    participants = WebinarParticipant.objects.filter(application=application)
+    participants = WebinarParticipant.manager.filter(application=application)
 
-    job = group(
-        task_send_submitter_confirmation_email.s(
+    # Dispatch tasks
+    chain(
+        task_send_submitter_confirmation_email.si(
             params_send_submitter_confirmation_email(submitter.email)
         ),
         *[
-            task_send_participant_confirmation_email.s(
+            task_send_participant_confirmation_email.si(
                 params_send_participant_confirmation_email(participant.email)
             )
             for participant in participants
         ],
-    )
-
-    job.apply_async()
+        task_send_telegram_notification.si("Wysłano zgłoszenie na szkolenie")
+    ).apply_async()

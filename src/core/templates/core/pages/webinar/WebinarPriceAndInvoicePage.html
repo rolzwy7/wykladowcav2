@@ -5,8 +5,11 @@
 <div class="text-left mb-5"><h2 class="mb-1">Cena</h2></div>
 <div class="fs-5 fw-bold text-gray-600">
   <p class="mb-8">
-    399zł netto/brutto (Faktura wystawiana bez podatku VAT na podstawie art.
-    113 ust. 1 i 9 ustawy o VAT)
+    399zł {{PRICE_ADNOTATION}}
+    {% if TAX_EXEMPT_TOOLTIP %}
+      <br>
+      ({{TAX_EXEMPT_TOOLTIP}})
+    {% endif %}
   </p>
   <p class="mb-8">
     Zapłata przelewem na konto następuje do 14 dni po szkoleniu.
@@ -20,16 +23,14 @@
       czasie realizacji szkolenia
     </li>
     <li class="d-flex align-items-center py-2">
-      <span class="bullet me-5"></span>autorskie materiały szkoleniowe (w
-      formie pdf – przesłane dzień przed szkoleniem)
+      <span class="bullet me-5"></span>autorskie materiały szkoleniowe
     </li>
     <li class="d-flex align-items-center py-2">
-      <span class="bullet me-5"></span>możliwość zadawania pytań na chatcie
-      wykładowcy
+      <span class="bullet me-5"></span>możliwość zadawania pytań wykładowcy na chatcie
     </li>
     <li class="d-flex align-items-center py-2">
       <span class="bullet me-5"></span>imienny certyfikaty ukończenia
-      szkolenia (na życzenie zostanie wysłany pocztą)
+      szkolenia
     </li>
   </div>
 </div>
@@ -55,7 +56,7 @@
   <div class="d-flex flex-column">
     <li class="d-flex align-items-center py-2">
       <span class="bullet me-5"></span>Uczestnik zgłasza się na szkolenie
-      porzez zgłoszenie online, bądź telefonicznie: 531 244 871
+      poprzez zgłoszenie online, bądź telefonicznie: 531 244 871
     </li>
     <li class="d-flex align-items-center py-2">
       <span class="bullet me-5"></span>Uczestnik otrzymuje potwierdzenie o

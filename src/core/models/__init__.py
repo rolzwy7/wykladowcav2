@@ -2,6 +2,7 @@
 
 from .crm_todo_model import CrmTodo
 from .lecturer_model import Lecturer
+from .lecturer_opinion import LecturerOpinion
 from .user_model import User
 from .webinar_application_model import (
     WebinarApplication,

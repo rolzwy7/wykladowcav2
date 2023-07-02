@@ -1,5 +1,4 @@
 {% load static %}
-
 <div class="card mb-5 mb-xxl-8">
     <!--begin::Body-->
     <div class="card-body pb-0">
@@ -9,15 +8,17 @@
             <div class="d-flex align-items-center flex-grow-1">
                 <!--begin::Avatar-->
                 <div class="symbol symbol-45px me-5">
-                    <img src="{% static '/media/avatars/300-23.jpg' %}" alt="">
+                    <div class="symbol-label fs-2 fw-semibold text-success">A</div>
                 </div>
                 <!--end::Avatar-->
                 <!--begin::Info-->
                 <div class="d-flex flex-column">
                     <a href="#" class="text-gray-900 text-hover-primary fs-6 fw-bold">
-                        Mirela Nowak
+                        {{opinion.fullname}}
                     </a>
-                    <span class="text-gray-400 fw-bold">Główna księgowa</span>
+                    <span class="text-gray-400 fw-bold">
+                        {{opinion.job_title}}
+                    </span>
                 </div>
                 <!--end::Info-->
             </div>
@@ -28,27 +29,17 @@
         <div class="mb-5">
             <!--begin::Text-->
             <p class="text-gray-800 fw-normal mb-5">
-                Outlines keep you honest. They stop you from indulging in poorly thought-out metaphors about driving and keep you focused on the overall structure of your post
+                {{opinion.opinion_text}}
             </p>
             <!--end::Text-->
             <!--begin::Toolbar-->
             <div class="d-flex align-items-center mb-5">
                 <div class="rating">
-                    <div class="rating-label checked">
-                        <i class="ki-duotone ki-star fs-1"></i>
-                    </div>
-                    <div class="rating-label checked">
-                        <i class="ki-duotone ki-star fs-1"></i>
-                    </div>
-                    <div class="rating-label checked">
-                        <i class="ki-duotone ki-star fs-1"></i>
-                    </div>
-                    <div class="rating-label">
-                        <i class="ki-duotone ki-star fs-1"></i>
-                    </div>
-                    <div class="rating-label">
-                        <i class="ki-duotone ki-star fs-1"></i>
-                    </div>
+                    {% for rating in opinions_sequence %}
+                        <div class="rating-label {% if rating <= opinion.rating_number %}checked{% endif %}">
+                            <i class="ki-duotone ki-star fs-1"></i>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
             <!--end::Toolbar-->
@@ -59,7 +50,7 @@
         <!--end::Separator-->
         <!--begin::Text-->
         <p class="text-gray-800 fw-normal mb-5 fst-italic fw-lighter">
-            ~ Przedsiębiorstwo Wodociągów i Kanalizacji Sp.z o.o.
+            ~ {{opinion.company_name}}
         </p>
         <!--end::Text-->
     </div>

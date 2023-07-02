@@ -1,3 +1,6 @@
+# flake8: noqa: E501
+# pylint: disable=line-too-long
+
 from dataclasses import dataclass
 
 from core.models.enums import WebinarApplicationType
@@ -41,6 +44,9 @@ VAT_EXEMPTION_113 = VatExemption(
 # - Hides select input on application form page
 WE_ARE_TAX_EXEMPT = True
 TAX_EXEMPT_TOOLTIP = VAT_EXEMPTION_113.description
+
+# Visible next to price: "350zł {{PRICE_ADNOTATION}}"
+PRICE_ADNOTATION = "netto/brutto"
 
 # Here place ALL defined VAT exemptions
 VAT_EXEMPTIONS = [

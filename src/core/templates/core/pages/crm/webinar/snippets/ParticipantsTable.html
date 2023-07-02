@@ -12,17 +12,20 @@
     </tr>
   </thead>
   <tbody class="text-gray-600 fw-semibold">
+    {% for participant in participants %}
     <tr class="odd">
       <td class="p-0">1</td>
-      <td class="p-0 fw-bold">Joanna Nowak</td>
+      <td class="p-0 fw-bold">
+        {{participant.fullname}}
+      </td>
       <td class="p-0">
         <a href="mailto:drac@frimatrail-frenoplast.pl">
-          drac@frimatrail-frenoplast.pl
+          {{participant.email}}
         </a>
       </td>
       <td class="p-0">
         <a href="tel:517174906">
-          517174906
+          {{participant.phone}}
         </a>
       </td>
       <td class="p-0">
@@ -61,5 +64,6 @@
         <!--end::Menu-->
       </td>
     </tr>
+    {% endfor %}
   </tbody>
 </table>

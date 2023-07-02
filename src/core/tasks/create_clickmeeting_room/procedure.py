@@ -27,7 +27,7 @@ def params(webinar: Webinar) -> str:
 
 def create_clickmeeting_room(
     procedure_params: CreateClickmeetingRoomParams,
-):
+) -> int:
     """Create clickmeeting room and save it's ID to webinar metadata"""
 
     webinar: Webinar = Webinar.manager.get(id=procedure_params.webinar_id)
@@ -43,3 +43,5 @@ def create_clickmeeting_room(
     metadata, _ = WebinarMetadata.objects.get_or_create(webinar=webinar)
     metadata.clickmeeting_id = str(room_id)
     metadata.save()
+
+    return room_id

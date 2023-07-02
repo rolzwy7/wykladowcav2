@@ -1,8 +1,10 @@
 {% load static %}
+
+
 <!--begin::Question-->
 <div class="mb-0">
     <!--begin::Head-->
-    <div class="d-flex align-items-center mb-4">
+    <div class="d-flex align-items-center justify-content-between mb-2">
       <!--begin::Title-->
       <a
         href="{% url 'core:webinar_program_page' slug=webinar.slug %}"
@@ -12,7 +14,7 @@
       <!--end::Title-->
       <!--begin::Icons-->
       <div class="d-flex align-items-center">
-        <span class="ms-1" data-bs-toggle="tooltip" title="New question">
+        {% comment %} <span class="ms-1" data-bs-toggle="tooltip" title="New question">
           <i class="ki-duotone ki-information-5 text-primary fs-1">
             <span class="path1"></span>
             <span class="path2"></span>
@@ -24,14 +26,25 @@
             <span class="path1"></span>
             <span class="path2"></span>
           </i>
+        </span> {% endcomment %}
+        {% if webinar.is_confirmed %}
+        <span class="badge badge-warning fs-7">
+          <i class="ki-duotone ki-star fs-4 text-light-warning me-1"><i class="path1"></i><i class="path2"></i></i>
+          Pewny termin
         </span>
+        {% endif %}
       </div>
       <!--end::Icons-->
     </div>
     <!--end::Head-->
     <!--begin::Summary-->
     <div class="fs-base fw-normal text-gray-700 mb-4">
-      {{webinar.description}}
+      {% if webinar.description %}
+        <p class="mb-0">
+          {{webinar.description}}
+        </p>
+      {% endif %}
+
     </div>
     <!--end::Summary-->
     <!--begin::Foot-->
@@ -53,7 +66,11 @@
           class="d-flex flex-column align-items-start justify-content-center"
         >
           <span class="text-gray-900 fs-7 fw-semibold lh-1 mb-2"
-            >{{webinar.lecturer.fullname}}</span
+            >
+            <a href="{% url 'core:lecturer_experience_page' slug=webinar.lecturer.slug %}">
+              {{webinar.lecturer.fullname}}
+            </a>
+            </span
           >
           <span class="text-muted fs-8 fw-semibold lh-1">
             {% for category in webinar.lecturer.categories.all %}
@@ -72,29 +89,93 @@
       <!--begin::Info-->
       <div class="d-flex align-items-center py-1">
         <!--begin::Answers-->
-        <span
+        {% comment %} <span
           href="../../demo5/dist/apps/devs/question.html#answers"
           class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2"
           >{{webinar.date|date:"j E Y"}} r.
-        </span>
+        </span> {% endcomment %}
         <!--end::Answers-->
         <!--begin::Answers-->
-        <span
+        {% comment %} <span
           href="../../demo5/dist/apps/devs/question.html#answers"
           class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2"
           >Godz. {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}
-        </span>
+        </span> {% endcomment %}
         <!--end::Answers-->
         <!--begin::Answers-->
-        <span
+        {% comment %} <span
           href="../../demo5/dist/apps/devs/question.html#answers"
           class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2"
-          >{{webinar.price}}zł netto/brutto
-        </span>
+          >
+          {% if webinar.is_discounted %}
+          <span class="text-decoration-line-through fw-bolder text-danger">
+            {{webinar.price_netto}}zł
+          </span>
+          <span>{{webinar.price}}zł</span>
+          {% else %}
+          {{webinar.price}}zł
+          {% endif %}
+          {{PRICE_ADNOTATION}}
+        </span> {% endcomment %}
         <!--end::Answers-->
+        
+        
+        <!--begin::Stat-->
+        <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6">
+          <!--begin::Number-->
+          <div class="d-flex align-items-center">
+              <i class="ki-duotone ki-calendar fs-5 text-grey me-2">
+                  <i class="path1"></i>
+                  <i class="path2"></i>
+              </i>
+              <div class="fs-7 fw-bold counted">
+                  {{webinar.date|date:"j E Y"}}, {{webinar.date|date:"H:i"}}-{{webinar.date_end|date:"H:i"}}
+              </div>
+          </div>
+          <!--end::Number-->
+          <!--begin::Label-->
+          <div class="fw-semibold fs-8 text-gray-400">Data i godzina szkolenia</div>
+          <!--end::Label-->
+      </div>
+        <!--begin::Stat-->
+        <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6">
+          <!--begin::Number-->
+          <div class="d-flex align-items-center">
+              <i class="ki-duotone ki-calendar fs-5 text-grey me-2">
+                  <i class="path1"></i>
+                  <i class="path2"></i>
+              </i>
+              <div class="fs-7 fw-bold counted">
+                {% if webinar.is_discounted %}
+                <span class="text-decoration-line-through fw-bolder text-danger">
+                  {{webinar.price_netto}}zł
+                </span>
+                <span>{{webinar.price}}zł</span>
+                {% else %}
+                {{webinar.price}}zł
+                {% endif %}
+                {{PRICE_ADNOTATION}}
+              </div>
+          </div>
+          <!--end::Number-->
+          <!--begin::Label-->
+          <div class="fw-semibold fs-8 text-gray-400">
+            Cena
+            {% if webinar.is_discounted %}
+                <span class="text-success fw-bold">
+                  (promocja do {{webinar.discount_until|date:"j E Y"}} {{webinar.discount_until|date:"H:i"}})
+                </span>
+          {% endif %}
+          </div>
+          <!--end::Label-->
+      </div>
+      <!--end::Stat-->
+
+
       </div>
       <!--end::Info-->
     </div>
     <!--end::Foot-->
+    <div class="separator border-4 my-5 border-secondary"></div>
   </div>
   <!--end::Question-->

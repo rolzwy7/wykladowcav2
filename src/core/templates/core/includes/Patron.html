@@ -1,36 +1,49 @@
 {% load static %}
 <div class="d-flex flex-column align-items-center">
-    <!--begin::Avatar-->
-<div class="symbol symbol-100px symbol-circle mb-5 mt-5">
-    <img src="{% static 'media//avatars/300-6.jpg' %}" alt="image" />
-</div>
-<!--end::Avatar-->
-<!--begin::Name-->
-<a href="#" class="fs-4 text-gray-800 text-hover-primary fw-bold mb-0"
->Wioletta Konieczka</a
->
-<!--end::Name-->
-<!--begin::Position-->
-<div class="fw-semibold text-gray-400 mb-6">Menedżer ds. Szkoleń</div>
-<!--end::Position-->
-<!--begin::Info-->
-<div class="d-flex flex-column flex-start flex-wrap mb-5">
-<!--begin::Stats-->
-<div class="border border-dashed rounded min-w-90px py-3 px-4 mx-2 mb-3">
-    <div>
-    <a class="fs-6 fw-bold text-gray-700" href="mailto:wioletta.konieczka@wykladowca.pl">
-        wioletta.konieczka@wykladowca.pl
-    </a>
+  <!--begin::Avatar-->
+  <div class="symbol symbol-100px symbol-circle mb-5 mt-5">
+    <img src="{% static 'media//avatars/300-12.jpg' %}" alt="image" />
+  </div>
+  <!--end::Avatar-->
+  <!--begin::Name-->
+  <a href="#" class="fs-4 text-gray-800 text-hover-primary fw-bold mb-0"
+    >Wioletta Konieczka</a
+  >
+  <!--end::Name-->
+  <!--begin::Position-->
+  <div class="fw-semibold text-gray-400 mb-6">Menedżer ds. Szkoleń</div>
+  <!--end::Position-->
+  <!--begin::Info-->
+  <div class="d-flex flex-column flex-start flex-wrap">
+    <!--begin::Stats-->
+    <div class="border border-dashed rounded min-w-90px py-3 px-4 mx-2 mb-3">
+      <div>
+        <a
+          class="fs-6 fw-bold text-gray-700"
+          href="mailto:wioletta.konieczka@wykladowca.pl"
+        >
+          wioletta.konieczka@wykladowca.pl
+        </a>
+      </div>
+      <div class="fw-semibold text-gray-400">Adres E-mail</div>
     </div>
-    <div class="fw-semibold text-gray-400">Adres E-mail</div>
-</div>
-<!--end::Stats-->
-<!--begin::Stats-->
-<div class="border border-dashed rounded min-w-90px py-3 px-4 mx-2 mb-3">
-    <div class="fs-6 fw-bold text-gray-700">531 244 871</div>
-    <div class="fw-semibold text-gray-400">Numer Telefonu</div>
-</div>
-<!--end::Stats-->
-</div>
-<!--end::Info-->
+    <!--end::Stats-->
+    <!--begin::Stats-->
+    <div class="border border-dashed rounded min-w-90px py-3 px-4 mx-2 mb-3">
+      <div class="fs-6 fw-bold text-gray-700">531 244 871</div>
+      <div class="fw-semibold text-gray-400">Numer Telefonu</div>
+    </div>
+    <!--end::Stats-->
+  </div>
+  <!--end::Info-->
+  <div class="mb-3">
+    {% if webinar %}
+    <a
+    href="{% url 'core:application_type_page' pk=webinar.pk %}"
+    class="btn btn btn-danger me-3">
+    <i class="ki-duotone ki-send fs-1 me-2"><i class="path1"></i><i class="path2"></i></i>
+    Wyślij zgłoszenie
+  </a>
+  {% endif %}
+  </div>
 </div>

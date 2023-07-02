@@ -29,6 +29,8 @@ class WebinarModelAdmin(ModelAdmin):
             None,
             {
                 "fields": [
+                    "is_confirmed",
+                    "remaining_places",
                     ("status", "slug"),
                     "lecturer",
                     "title_original",

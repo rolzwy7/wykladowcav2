@@ -7,8 +7,9 @@ from .procedure import CreateClickmeetingRoomParams, create_clickmeeting_room
 
 
 @app.task(name="create_clickmeeting_room", base=BaseTaskWithRetry)
-def task_create_clickmeeting_room(serialized_params: str):
+def task_create_clickmeeting_room(serialized_params: str) -> int:
     """Task for `create_clickmeeting_room`"""
-    create_clickmeeting_room(
+    room_id = create_clickmeeting_room(
         CreateClickmeetingRoomParams(**json.loads(serialized_params))
     )
+    return room_id

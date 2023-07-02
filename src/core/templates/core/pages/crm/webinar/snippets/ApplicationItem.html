@@ -1,15 +1,23 @@
 <div class="card mb-6">
-  <div class="card-body pt-9 pb-0">
+  <div class="card-body p-0">
     <!--begin::Details-->
     <div class="d-flex flex-wrap flex-sm-nowrap">
       <!--begin: Pic-->
       <div class="me-7 mb-4">
         <span class="symbol symbol-50px">
-          <span class="symbol-label bg-light-primary">
-            <i class="ki-duotone ki-briefcase fs-1 text-primary"
-              ><i class="path1"></i><i class="path2"></i
-            ></i>
-          </span>
+          {% if application.application_type == "COMPANY" %}
+            <span class="symbol-label bg-light-primary">
+              <i class="ki-duotone ki-briefcase fs-1 text-primary"><i class="path1"></i><i class="path2"></i></i>
+            </span>
+          {% elif application.application_type == "JSFP" %}
+            <span class="symbol-label bg-light-danger">
+              <i class="ki-duotone ki-bank fs-1 text-danger"><i class="path1"></i><i class="path2"></i></i>
+            </span>
+          {% elif application.application_type == "PRIVATE_PERSON" %}
+            <span class="symbol-label bg-light-success">
+              <i  class="ki-duotone ki-user-square fs-1 text-success"><i class="path1"></i><i class="path2"></i><i class="path3"></i></i>
+            </span>
+          {% endif %}
         </span>
       </div>
       <!--end::Pic-->
@@ -27,10 +35,18 @@
                 href="#"
                 class="text-gray-900 text-hover-primary fs-4 fw-bold me-1"
               >
-                EKOPRZEDSIĘBIORSTWO SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ
+              {% if application.application_type == "COMPANY" %}
+                {{application.buyer.name}}
+              {% elif application.application_type == "JSFP" %}
+                Nabywca: {{application.buyer.name}}
+              {% elif application.application_type == "PRIVATE_PERSON" %}
+                {{application.private_person.fullname}}
+              {% endif %}
               </a>
             </div>
             <!--end::Name-->
+            
+            {% if application.application_type == "COMPANY" or application.application_type == "JSFP" %}
             <!--begin::Info-->
             <div class="d-flex flex-wrap fs-6 pe-2">
               <span class="d-flex align-items-center text-gray-400 me-5 mb-2">
@@ -38,35 +54,80 @@
                   <span class="path1"></span>
                   <span class="path2"></span>
                 </i>
-                <b>NIP 499-055-54-65</b></span
+                <b>NIP {{application.buyer.nip}}</b></span
               >
-              <span class="d-flex align-items-center text-danger me-5 mb-2">
+              {% comment %} <span class="d-flex align-items-center text-danger me-5 mb-2">
                 <i class="ki-duotone ki-abstract-13 fs-4 me-1 text-danger">
                   <span class="path1"></span>
                   <span class="path2"></span> </i
-                >Problematyczny klient</span
-              >
+                >
+                  Problematyczny klient
+                </span> {% endcomment %}
             </div>
             <!--end::Info-->
+            {% endif %}
+
+            {% if application.application_type == "JSFP" %}
+            <!--begin::Name-->
+            <div class="d-flex align-items-center mb-2">
+              <a
+                href="#"
+                class="text-gray-900 text-hover-primary fs-4 fw-bold me-1"
+              >
+                Odbiorca: {{application.receiver.name}}
+            </a>
+          </div>
+          <!--end::Name-->
+          {% endif %}
+
+          {% if application.application_type == "JSFP" %}
+          <!--begin::Info-->
+          <div class="d-flex flex-wrap fs-6 pe-2">
+            <span class="d-flex align-items-center text-gray-400 me-5 mb-2">
+              <i class="ki-duotone ki-geolocation fs-4 me-1">
+                <span class="path1"></span>
+                <span class="path2"></span>
+              </i>
+              <b>NIP {{application.receiver.nip}}</b></span
+            >
+            {% comment %} <span class="d-flex align-items-center text-danger me-5 mb-2">
+              <i class="ki-duotone ki-abstract-13 fs-4 me-1 text-danger">
+                <span class="path1"></span>
+                <span class="path2"></span> </i
+              >
+                Problematyczny klient
+              </span> {% endcomment %}
+          </div>
+          <!--end::Info-->
+          {% endif %}  
+
+
+          
+            <div class="separator my-1"></div>
+            
             <!--begin::Info-->
             <div class="d-flex flex-wrap fs-6 pe-2">
               <span class="d-flex align-items-center me-5 mb-2">
                 <i class="ki-duotone ki-user fs-4 me-1"><span class="path1"></span><span class="path2"></span></i>
-                zgł.&nbsp;<b>Bartosz Nowakowski</b>
+                Zgłaszająca:&nbsp;<b>{{application.submitter.fullname}}</b>
                 </span>
                 <span class="d-flex align-items-center text-gray-400 me-5 mb-2">
                   <i class="ki-duotone ki-sms fs-4 me-1">
                     <span class="path1"></span>
                     <span class="path2"></span> </i
                   >
-                  <a href="mailto:rolzwy7@gmail.com">rolzwy7@gmail.com</a>
+                  <a href="mailto:{{application.submitter.email}}">
+                    {{application.submitter.email}}
+                  </a>
                 </span>
                 <span class="d-flex align-items-center text-gray-400 me-5 mb-2">
                   <i class="ki-duotone ki-phone fs-4 me-1">
                     <span class="path1"></span>
                     <span class="path2"></span> </i
                   >
-                  <a href="tel:517174906">517174906</a>
+                  <a href="tel:{{application.submitter.fullname}}">
+                    {{application.submitter.phone}}
+                  </a>
                 </span>
             </div>
             <!--end::Info-->
@@ -74,11 +135,14 @@
           <!--end::User-->
         </div>
         <!--end::Title-->
+
+        
+
         <!--begin::Stats-->
         <div class="d-flex align-items-start flex-wrap">
           <!--begin::Stat-->
           <div
-            class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3"
+            class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-2"
           >
             <!--begin::Number-->
             <div class="d-flex align-items-center">
@@ -86,17 +150,20 @@
                 <i class="path1"></i>
                 <i class="path2"></i>
               </i>
-              <div class="fs-5 fw-bold counted">20 lipca 2023 r.</div>
+              <div class="fs-5 fw-bold counted">
+                {{application.created_at|date:"j E Y"}} godz.
+                {{application.created_at|date:"H:i"}}
+              </div>
             </div>
             <!--end::Number-->
             <!--begin::Label-->
-            <div class="fw-semibold fs-8 text-gray-400">Wysłano zgłoszenie</div>
+            <div class="fw-semibold fs-8 text-gray-400">Zgłoszenie wysłano</div>
             <!--end::Label-->
           </div>
           <!--end::Stat-->
           <!--begin::Stat-->
           <div
-            class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3"
+            class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-2"
           >
             <!--begin::Number-->
             <div class="d-flex align-items-center">
@@ -104,20 +171,23 @@
                 <i class="path1"></i>
                 <i class="path2"></i>
               </i>
-              <div class="fs-5 fw-bold counted">350zł / 700zł</div>
+              <div class="fs-5 fw-bold counted">
+                {{application.price_netto}}zł / {{application.total_price_netto}}zł
+              </div>
             </div>
             <!--end::Number-->
             <!--begin::Label-->
             <div class="fw-semibold fs-8 text-gray-400">
-              od osoby / całkowicie
+              od osoby / wartość zgłoszenia
             </div>
             <!--end::Label-->
           </div>
           <!--end::Stat-->
         </div>
         <!--end::Stats-->
+        <div class="separator my-4"></div>
         <div class="d-flex flex-wrap">
-          {% include './ParticipantsTable.html' %}
+          {% include './ParticipantsTable.html' with participants=application.participants %}
         </div>
       </div>
       <!--end::Info-->

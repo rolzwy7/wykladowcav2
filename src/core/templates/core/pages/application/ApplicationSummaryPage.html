@@ -51,6 +51,8 @@
                 <!--end::Card header-->
                 <!--begin::Card body-->
                 <div class="card-body pt-3">
+                    {% include './snippets/SummaryWebinar.html' with webinar=webinar %}
+                    
                     {% include './snippets/SummaryParticipants.html' with participants=participants %}
 
                     {% with application.submitter as submitter %}

@@ -24,7 +24,7 @@
 <div class="toolbar d-flex flex-stack flex-wrap mb-5 mb-lg-7" id="kt_toolbar">
     <!--begin::Page title-->
     <div class="page-title d-flex flex-column py-1">
-        {% include './snippets/WebinarStatusTitle.html' with webinar=webinar %}
+        {% include './snippets/WebinarStatusTitle.html' with webinar=webinar count=gathered_participants_count %}
     </div>
     <!--end::Page title-->
     <!--begin::Actions-->
@@ -109,6 +109,13 @@
                                         <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">Payments</div>
                                     </div>
                                     <!--end::Heading-->
+                                    <!--begin::Menu item-->
+                                    <div class="menu-item px-3">
+                                        <a href="{% url 'admin:core_webinar_change' object_id=webinar.id %}" class="menu-link px-3">
+                                            Edytuj w CMS
+                                        </a>
+                                    </div>
+                                    <!--end::Menu item-->
                                     <!--begin::Menu item-->
                                     <div class="menu-item px-3">
                                         <a href="#" class="menu-link px-3">Create Invoice</a>
@@ -275,6 +282,36 @@
                     >
                         <i class="ki-duotone ki-element-8 fs-2 me-2"><i class="path1"></i><i class="path2"></i></i>
                         Panel główny
+                    </a>
+                </li>
+                <!--end::Nav item-->
+                <!--begin::Nav item-->
+                <li class="nav-item mt-2">
+                    <a
+                        class="
+                        {% if request.path == '/crm/webinar/'|add:webinar_pk_str|add:'/uczestnicy/' %}
+                        active
+                        {% endif %}
+                        nav-link text-active-primary ms-0 me-10 py-5"
+                        href="{% url 'core:crm_webinar_eventlogs' pk=webinar.pk %}"
+                    >
+                    <i class="ki-duotone ki-user fs-2 me-2"><i class="path1"></i><i class="path2"></i></i>
+                        Uczestnicy
+                    </a>
+                </li>
+                <!--end::Nav item-->
+                <!--begin::Nav item-->
+                <li class="nav-item mt-2">
+                    <a
+                        class="
+                        {% if request.path == '/crm/webinar/'|add:webinar_pk_str|add:'/clickmeeting/' %}
+                        active
+                        {% endif %}
+                        nav-link text-active-primary ms-0 me-10 py-5"
+                        href="{% url 'core:crm_webinar_eventlogs' pk=webinar.pk %}"
+                    >
+                    <i class="ki-duotone ki-youtube fs-2 me-2"><i class="path1"></i><i class="path2"></i></i>
+                        Clickmeeting
                     </a>
                 </li>
                 <!--end::Nav item-->

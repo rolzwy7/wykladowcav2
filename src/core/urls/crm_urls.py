@@ -4,6 +4,7 @@ from core.views.crm import (
     crm_upcoming_webinars,
     crm_webinar_confirm,
     crm_webinar_detail_dashboard,
+    crm_webinar_done,
     crm_webinar_eventlogs,
 )
 
@@ -22,6 +23,11 @@ urlpatterns = [
         "webinar/<int:pk>/potwierdz-termin/",
         crm_webinar_confirm,
         name="crm_webinar_confirm",
+    ),
+    path(
+        "webinar/<int:pk>/zakoncz-szkolenie/",
+        crm_webinar_done,
+        name="crm_webinar_done",
     ),
     path(
         "",

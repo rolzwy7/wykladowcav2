@@ -3,15 +3,35 @@ from django.db.models import (
     BooleanField,
     CharField,
     ForeignKey,
+    Manager,
     Model,
     OneToOneField,
+    Q,
+    QuerySet,
 )
 
-from .enums import WebinarParticipantIsMxValidType
+from .enums import ApplicationStatus, WebinarParticipantIsMxValidType
+from .webinar_model import Webinar
+
+
+class WebinarParticipantManager(Manager):
+    """WebinarParticipant query Manager"""
+
+    def get_participants_from_sent_applications(
+        self, webinar: Webinar
+    ) -> QuerySet["WebinarParticipant"]:
+        """Get participants from applications marked as `sent`"""
+        return self.get_queryset().filter(
+            # Only participants from applications that have been sent
+            Q(application__status=ApplicationStatus.SENT)
+            & Q(application__webinar=webinar)
+        )
 
 
 class WebinarParticipant(Model):
     """Represents webinar participant"""
+
+    manager = WebinarParticipantManager()
 
     application = ForeignKey(
         "WebinarApplication", on_delete=CASCADE, verbose_name="Zgłoszenie"
@@ -20,6 +40,10 @@ class WebinarParticipant(Model):
     last_name = CharField("Nazwisko", max_length=100)
     email = CharField("E-mail", max_length=100)
     phone = CharField("Numer telefonu", max_length=100, blank=True)
+
+    @property
+    def fullname(self):
+        return f"{self.first_name} {self.last_name}"
 
     class Meta:
         verbose_name = "Uczestnik"
@@ -50,3 +74,6 @@ class WebinarParticipantMetadata(Model):
     )
 
     confirmation_email_opened = BooleanField(default=False)
+
+    def __str__(self) -> str:
+        return f"Metadata for webinar participant {self.id}"  # type: ignore

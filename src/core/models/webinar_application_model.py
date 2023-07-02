@@ -7,9 +7,12 @@ from django.db.models import (
     DateTimeField,
     EmailField,
     ForeignKey,
+    Manager,
     Model,
     OneToOneField,
     PositiveSmallIntegerField,
+    Q,
+    QuerySet,
     TextField,
     UUIDField,
 )
@@ -18,7 +21,22 @@ from core.consts import CHOICES_VAT_EXEMPTIONS, VAT_EXEMPTION_0
 from core.libs.validators import validate_nip_modelfield
 
 from .enums import ApplicationStatus, InvoiceType, WebinarApplicationType
+from .webinar_model import Webinar
 from .webinar_participant import WebinarParticipant
+
+
+class WebinarApplicationManager(Manager):
+    """WebinarApplication query Manager"""
+
+    def sent_applications(
+        self, webinar: Webinar
+    ) -> QuerySet["WebinarApplication"]:
+        """Get applications marked as `sent`"""
+        return self.get_queryset().filter(
+            # Only application that have been sent
+            Q(status=ApplicationStatus.SENT)
+            & Q(webinar=webinar)
+        )
 
 
 class WebinarApplicationCompany(Model):
@@ -114,6 +132,8 @@ class WebinarApplication(Model):
         (ApplicationStatus.RESIGNATION, "Rezygnacja ze zgłoszenia"),
     ]
 
+    manager = WebinarApplicationManager()
+
     status = CharField(
         max_length=32, default=ApplicationStatus.INIT, choices=STATUS
     )
@@ -192,9 +212,15 @@ class WebinarApplication(Model):
     additional_information = TextField("Uwagi", blank=True)
 
     @property
+    def participants(self) -> QuerySet["WebinarParticipant"]:
+        """Return paticipants for this application"""
+        return WebinarParticipant.manager.filter(application=self)
+
+    @property
     def total_price_netto(self):
+        """Calculate total NETTO price for this application"""
         return (
-            WebinarParticipant.objects.filter(application=self).count()
+            WebinarParticipant.manager.filter(application=self).count()
             * self.price_netto
         )
 

@@ -1,0 +1,16 @@
+{% extends './LecturerBase.html' %}
+{% load static %}
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+{% block rightbar %}{% endblock rightbar %}
+
+{% block lecturer_content %}
+<div class="card">
+    <div class="card-body">
+        {{lecturer.biography.html|safe}}
+    </div>
+</div>
+{% endblock lecturer_content %}
+
+{%block body_scripts %}
+
+{% endblock body_scripts %}

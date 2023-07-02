@@ -1,3 +1,4 @@
+import urllib.parse
 from datetime import datetime
 from time import time
 
@@ -34,8 +35,12 @@ def create_clickmeeting_room(
         "duration": duration,
         "timezone": "Europe/Warsaw",
     }
-    headers = {"X-Api-Key": settings.CLICKMEETING_API_KEY}
-    result = requests.post(url, data=data, headers=headers, timeout=10)
+    payload = urllib.parse.urlencode(data)
+    headers = {
+        "X-Api-Key": settings.CLICKMEETING_API_KEY,
+        "Content-Type": "application/x-www-form-urlencoded",
+    }
+    result = requests.post(url, data=payload, headers=headers, timeout=10)
     result.raise_for_status()
     room_id: int = result.json()["room"]["id"]
     return room_id

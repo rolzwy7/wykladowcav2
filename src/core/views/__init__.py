@@ -1,7 +1,7 @@
-from .home_page import home_page  # noqa
-from .lecturer.lecturer_list_page import lecturer_list_page  # noqz
-from .login_page import login_page  # noqa
-from .register_page import register_page  # noqa
+# flake8: noqa
+from .home_page import home_page
+from .login_page import login_page
+from .register_page import register_page
 from .webinar import (
     webinar_lecturer_biography_page,
     webinar_opinions_page,

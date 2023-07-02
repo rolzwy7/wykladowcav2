@@ -1,6 +1,8 @@
-from .application_type_widget import ApplicationTypeWidget  # noqa
-from .checkbox_widget import CheckboxWidget  # noqa
+# flake8: noqa
+from .application_type_widget import ApplicationTypeWidget
+from .checkbox_widget import CheckboxWidget
 from .email_floating_input_widget import EmailFloatingInputWidget
+from .rating_widget import RatingWidget
 from .select_floating_input_widget import SelectFloatingInputWidget
 from .text_floating_input_widget import TextFloatingInputWidget
 from .textarea_floating_input_widget import TextareaFloatingInputWidget
