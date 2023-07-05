@@ -3,5 +3,6 @@ from .base_admin import *
 from .crm_todo_modeladmin import CrmTodoModelAdmin
 from .lecturer_lecturermodel import LecturerModelAdmin
 from .webinar_category_modeladmin import WebinarCategoryModelAdmin
+from .webinar_certificate_modeladmin import WebinarCertificateModelAdmin
 from .webinar_metadata_modeladmin import WebinarMetadataModelAdmin
 from .webinar_modeladmin import WebinarModelAdmin

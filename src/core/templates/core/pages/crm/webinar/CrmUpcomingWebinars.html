@@ -6,8 +6,9 @@
 {% endblock head_stylesheets %}
 
 {% block crm_content %}
+<h1>Nadchodzące szkolenia</h1>
   {% for webinar in webinars %}
-    {% include './snippets/UpcomingWebinarCard.html' with webinar=webinar %}
+    {% include './snippets/CrmWebinarCard.html' with webinar=webinar %}
   {% endfor %}
 {% endblock crm_content %}
 

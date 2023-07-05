@@ -20,7 +20,7 @@ from core.models.enums import WebinarApplicationStep, WebinarApplicationType
 
 APPLICATION_TYPE = WebinarApplicationStep.APPLICATION_TYPE
 BUYER = WebinarApplicationStep.BUYER
-RECEIVER = WebinarApplicationStep.RECEIVER
+RECIPIENT = WebinarApplicationStep.RECIPIENT
 INVOICE = WebinarApplicationStep.INVOICE
 SUBMITTER = WebinarApplicationStep.SUBMITTER
 PARTICIPANTS = WebinarApplicationStep.PARTICIPANTS
@@ -61,8 +61,8 @@ class ApplicationFormService:
     def get_timeline(self):
         """Returns step's timeline"""
         buyer_nip = self.application.buyer.nip if self.application.buyer else ""
-        receiver_nip = (
-            self.application.receiver.nip if self.application.receiver else ""
+        recipient_nip = (
+            self.application.recipient.nip if self.application.recipient else ""
         )
 
         invoice: Optional[WebinarApplicationInvoice] = self.application.invoice
@@ -136,31 +136,31 @@ class ApplicationFormService:
         jsfp_map = {
             APPLICATION_TYPE: [],
             BUYER: [("Nabywca", "-", True, "")],
-            RECEIVER: [
+            RECIPIENT: [
                 ("Nabywca", f"NIP {buyer_nip}", False, ""),
                 ("Odbiorca", "-", True, ""),
             ],
             INVOICE: [
                 ("Nabywca", f"NIP {buyer_nip}", False, ""),
-                ("Odbiorca", f"NIP {receiver_nip}", False, ""),
+                ("Odbiorca", f"NIP {recipient_nip}", False, ""),
                 ("Faktura", "-", True, ""),
             ],
             SUBMITTER: [
                 ("Nabywca", f"NIP {buyer_nip}", False, ""),
-                ("Odbiorca", f"NIP {receiver_nip}", False, ""),
+                ("Odbiorca", f"NIP {recipient_nip}", False, ""),
                 (invoice_type, invoice_email, False, is_vat_exempt),
                 ("Osoba zgłaszająca", "-", True, ""),
             ],
             PARTICIPANTS: [
                 ("Nabywca", f"NIP {buyer_nip}", False, ""),
-                ("Odbiorca", f"NIP {receiver_nip}", False, ""),
+                ("Odbiorca", f"NIP {recipient_nip}", False, ""),
                 (invoice_type, invoice_email, False, is_vat_exempt),
                 ("Osoba zgłaszająca", submitter_fullname, False, ""),
                 ("Uczestnicy", "-", True, ""),
             ],
             ADDITIONAL_INFO: [
                 ("Nabywca", f"NIP {buyer_nip}", False, ""),
-                ("Odbiorca", f"NIP {receiver_nip}", False, ""),
+                ("Odbiorca", f"NIP {recipient_nip}", False, ""),
                 (invoice_type, invoice_email, False, is_vat_exempt),
                 ("Osoba zgłaszająca", submitter_fullname, False, ""),
                 ("Uczestnicy", participants_conj, False, ""),
@@ -168,7 +168,7 @@ class ApplicationFormService:
             ],
             SUMMARY: [
                 ("Nabywca", f"NIP {buyer_nip}", False, ""),
-                ("Odbiorca", f"NIP {receiver_nip}", False, ""),
+                ("Odbiorca", f"NIP {recipient_nip}", False, ""),
                 (invoice_type, invoice_email, False, is_vat_exempt),
                 ("Osoba zgłaszająca", submitter_fullname, False, ""),
                 ("Uczestnicy", participants_conj, False, ""),
@@ -211,7 +211,7 @@ class ApplicationFormService:
             },
             JSFP: {
                 BUYER: "1",
-                RECEIVER: "2",
+                RECIPIENT: "2",
                 INVOICE: "3",
                 SUBMITTER: "4",
                 PARTICIPANTS: "5",
@@ -231,7 +231,7 @@ class ApplicationFormService:
         title_map = {
             APPLICATION_TYPE: "Wybierz typ zgłoszenia",
             BUYER: "Nabywca",
-            RECEIVER: "Odbiorca",
+            RECIPIENT: "Odbiorca",
             PERSON_DETAILS: "Osoba prywatna",
             INVOICE: "Faktura",
             SUBMITTER: "Osoba Zgłaszająca",
@@ -246,7 +246,7 @@ class ApplicationFormService:
         description_map = {
             APPLICATION_TYPE: "",
             BUYER: "Wprowadź dane nabywcy",
-            RECEIVER: "Wprowadź dane odbiorcy",
+            RECIPIENT: "Wprowadź dane odbiorcy",
             PERSON_DETAILS: "Wprowadź swoje dane",
             INVOICE: (
                 "Wypełnij dane dotyczące Faktury"
@@ -285,8 +285,8 @@ class ApplicationFormService:
             },
             JSFP: {
                 BUYER: (None, ""),
-                RECEIVER: ("application_buyer_page", "Wróć do Nabywcy"),
-                INVOICE: ("application_receiver_page", "Wróć do Odbiorcy"),
+                RECIPIENT: ("application_buyer_page", "Wróć do Nabywcy"),
+                INVOICE: ("application_recipient_page", "Wróć do Odbiorcy"),
                 SUBMITTER: ("application_invoice_page", "Wróć do Faktury"),
                 PARTICIPANTS: (
                     "application_submitter_page",
@@ -328,8 +328,8 @@ class ApplicationFormService:
                 ADDITIONAL_INFO: "application_summary_page",
             },
             JSFP: {
-                BUYER: "application_receiver_page",
-                RECEIVER: "application_invoice_page",
+                BUYER: "application_recipient_page",
+                RECIPIENT: "application_invoice_page",
                 INVOICE: "application_submitter_page",
                 SUBMITTER: "application_participants_page",
                 PARTICIPANTS: "application_additional_information_page",

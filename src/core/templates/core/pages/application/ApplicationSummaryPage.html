@@ -30,6 +30,80 @@
     <div class="d-flex flex-column flex-lg-row">
         <!--begin::Content-->
         <div class="flex-lg-row-fluid me-lg-15 order-2 order-lg-1 mb-10 mb-lg-0">
+
+            {% if request.user.is_authenticated %}
+            <!--begin::Alert-->
+            <div class="p-5 mb-5 alert alert-dismissible bg-light-success d-flex flex-column flex-sm-row">
+                <!--begin::Icon-->
+                <i class="ki-outline ki-check-circle fs-2hx text-success me-4 mb-5 mb-sm-0"></i>
+                <!--end::Icon-->
+                
+                <!--begin::Wrapper-->
+                <div class="d-flex flex-column pe-0 pe-sm-10">
+                    <!--begin::Title-->
+                    <h4 class="fw-semibold">Jesteś zalogowany</h4>
+                    <!--end::Title-->
+                    
+                    <!--begin::Content-->
+                    <span>
+                        To zgłoszenie zostanie przypisane do twojego konta w naszym serwise.
+                    </span>
+                    <!--end::Content-->
+                </div>
+                <!--end::Wrapper-->
+            </div>
+            <!--end::Alert-->
+            {% endif %}
+
+            {% if application.discount_applied %}
+            <!--begin::Alert-->
+            <div class="p-5 mb-5 alert alert-dismissible bg-light-success d-flex flex-column flex-sm-row">
+                <!--begin::Icon-->
+                <i class="ki-outline ki-dollar fs-2hx text-success me-4 mb-5 mb-sm-0"></i>
+                <!--end::Icon-->
+                
+                <!--begin::Wrapper-->
+                <div class="d-flex flex-column pe-0 pe-sm-10">
+                    <!--begin::Title-->
+                    <h4 class="fw-semibold">Promocja została zapisana</h4>
+                    <!--end::Title-->
+                    
+                    <!--begin::Content-->
+                    <span>
+                        Przesyłasz zgłoszenie w promocyjnej cenie: {{application.price_netto}}zł netto za uczestnika
+                    </span>
+                    <!--end::Content-->
+                </div>
+                <!--end::Wrapper-->
+            </div>
+            <!--end::Alert-->
+            {% else %}
+            {% endif %}
+
+
+            <!--begin::Alert-->
+            <div class="p-5 mb-5 alert alert-dismissible bg-secondary d-flex flex-column flex-sm-row">
+                <!--begin::Icon-->
+                <i class="ki-outline ki-medal-star fs-2hx text-white me-4 mb-5 mb-sm-0"></i>
+                <!--end::Icon-->
+                
+                <!--begin::Wrapper-->
+                <div class="d-flex flex-column pe-0 pe-sm-10">
+                    <!--begin::Title-->
+                    <h4 class="fw-semibold">Weź udział w programie lojalnościowym</h4>
+                    <!--end::Title-->
+                    
+                    <!--begin::Content-->
+                    <span>
+                        ...
+                    </span>
+                    <!--end::Content-->
+                </div>
+                <!--end::Wrapper-->
+            </div>
+            <!--end::Alert-->
+
+
             <!--begin::Card-->
             <div class="card card-flush pt-3 mb-5 mb-xl-10">
                 <!--begin::Card header-->
@@ -63,8 +137,8 @@
                         {% include './snippets/SummaryCompany.html' with title="Nabywca" company=application.buyer %}
                     {% endif %}
                     
-                    {% if application.receiver %}
-                    {% include './snippets/SummaryCompany.html' with title="Odbiorca" company=application.receiver %}
+                    {% if application.recipient %}
+                    {% include './snippets/SummaryCompany.html' with title="Odbiorca" company=application.recipient %}
                     {% endif %}
                     
                     {% include './snippets/SummaryInvoice.html' with invoice=application.invoice %}
@@ -170,10 +244,10 @@
                         </div>
                         <!--end::Details-->
                         <!--begin::Seperator-->
-                        <div class="separator separator-dashed mb-4"></div>
+                        <div class="separator separator-dashed mb-2"></div>
                         <!--end::Seperator-->
                         <!--begin::Title-->
-                        <h5 class="mb-4">Całkowita cena</h5>
+                        <h5 class="mb-2">Całkowita cena</h5>
                         <!--end::Title-->
                         <!--begin::Details-->
                         <div class="d-flex justify-content-start">
@@ -198,29 +272,46 @@
                     </div>
                     <!--end::Section-->
                     <!--begin::Seperator-->
-                    <div class="separator separator-dashed mb-4"></div>
+                    <div class="separator separator-dashed my-2"></div>
                     <!--end::Seperator-->
                     {% if application.status == 'INIT' %}
-                    <a href="#" class="fw-bold">Przeczytaj regulamin szkoleń</a>
+                    <div class="d-flex justify-content-center">
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-bg-secondary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#kt_modal_terms_and_conditions"
+                        >
+                        <i class="ki-outline ki-question-2 fs-3"></i>
+                            Przeczytaj regulamin szkoleń
+                        </button>
+                    </div>
+                    <!--begin::Seperator-->
+                    <div class="separator separator-dashed my-2"></div>
+                    <!--end::Seperator-->
                     <!--begin::Actions-->
                     <div class="mb-0 mt-3">
                         <form
                             action="{% url 'core:application_summary_page' uuid=application.uuid %}"
                             method="post">
                             {% csrf_token %}
+                            <div class="d-flex justify-content-center">
                             {{form.accept_terms_of_service}}
+                            </div>
                             <!--begin::Seperator-->
-                            <div class="separator separator-dashed mb-4"></div>
+                            <div class="separator separator-dashed my-4"></div>
                             <!--end::Seperator-->
-                            <button
-                                type="submit"
-                                class="btn btn-danger mt-3"
-                                disabled
-                                id="send-application-btn"
-                            >
-                                <i class="ki-duotone ki-send fs-1"><i class="path1"></i><i class="path2"></i></i>
-                                Wyślij zgłoszenie
-                            </a>
+                            <div class="d-flex justify-content-center">
+                                <button
+                                    type="submit"
+                                    class="btn btn-danger mt-3"
+                                    disabled
+                                    id="send-application-btn"
+                                >
+                                    <i class="ki-duotone ki-send fs-1"><i class="path1"></i><i class="path2"></i></i>
+                                    Wyślij zgłoszenie
+                                </button>
+                            </div>
                         </form>
                     </div>
                     <!--end::Actions-->
@@ -233,6 +324,30 @@
         <!--end::Sidebar-->
     </div>
     <!--end::Layout-->
+</div>
+
+
+
+<div class="modal bg-body fade" tabindex="-1" id="kt_modal_terms_and_conditions">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content shadow-none">
+            <div class="modal-header">
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-2x"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body">
+                {% include 'core/pages/terms_and_conditions/snippets/TermsAndConditionsWebinarsCard.html' %}
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Zamknij regulamin szkoleń</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 

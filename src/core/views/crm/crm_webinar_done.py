@@ -5,6 +5,7 @@ from core.consts import POST
 from core.forms import CrmAreYouSureForm
 from core.models import Webinar
 from core.models.enums import WebinarStatus
+from core.tasks_dispatch import after_webinar_done_dispatch
 
 
 def crm_webinar_done(request, pk: int):
@@ -17,6 +18,7 @@ def crm_webinar_done(request, pk: int):
         if form.is_valid():
             webinar.status = WebinarStatus.DONE
             webinar.save()
+            after_webinar_done_dispatch(webinar)
     else:
         form = CrmAreYouSureForm()
 

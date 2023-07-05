@@ -73,7 +73,18 @@
                                 <!--end::Heading-->
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="#" class="menu-link px-3">Potwierdź termin</a>
+
+                                    {% if webinar.status == "INIT" %}
+                                    <a href="{% url 'core:crm_webinar_confirm' pk=webinar.pk %}" class="menu-link px-3">
+                                        Potwierdź termin
+                                    </a>
+                                    {% elif webinar.status == "CONFIRMED" %}
+                                    <a href="{% url 'core:crm_webinar_done' pk=webinar.pk %}" class="menu-link px-3">
+                                        Zakończ szkolenie
+                                    </a>
+                                    {% endif %}
+
+                                
                                 </div>
                             </div>
                             <!--end::Menu 3-->

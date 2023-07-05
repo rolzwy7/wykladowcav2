@@ -30,13 +30,17 @@ ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split("||")
 AUTH_USER_MODEL = "core.User"
 
 SECURE_SSL_REDIRECT = os.environ.get("SECURE_SSL_REDIRECT") == "1"
+HTTP_SCHEMA = "https" if SECURE_SSL_REDIRECT else "http"
+
+SITE_DOMAIN = os.environ.get("SITE_DOMAIN", "localhost:8080")
+BASE_URL = f"{HTTP_SCHEMA}://{SITE_DOMAIN}"
 
 # Application definition
 
 INSTALLED_APPS = [
     # Monolith apps
-    "core",
     "api",
+    "core",
     # 3rd party
     "django_quill",
     "rest_framework",

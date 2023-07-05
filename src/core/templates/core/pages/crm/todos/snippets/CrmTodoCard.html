@@ -1,0 +1,42 @@
+<!--begin::Alert-->
+<div class="alert alert-dismissible bg-light-{{todo.color|default:'info'}} d-flex flex-center flex-column py-10 px-10 px-lg-20 mb-10">
+    <!--begin::Icon-->
+    <i class="ki-duotone ki-{{todo.icon|default:'cd'}} fs-2tx text-{{todo.color|default:'info'}} mb-5"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i><i class="path5"></i><i class="path6"></i></i>
+    <!--end::Icon-->
+
+    <!--begin::Wrapper-->
+    <div class="text-center">
+        <!--begin::Title-->
+        <h1 class="fw-bold mb-5">{{todo.title}}</h1>
+        <!--end::Title-->
+
+        <!--begin::Separator-->
+        <div class="separator separator-dashed border-{{todo.color|default:'info'}} opacity-25 mb-5"></div>
+        <!--end::Separator-->
+
+        <!--begin::Content-->
+        <div class="mb-9 text-dark">
+            {{todo.created_at}}: application={{todo.application}}, webinar={{todo.webinar}}
+            <div class="separator my-2"></div>
+            {{todo.html}}
+        </div>
+        <!--end::Content-->
+
+        <!--begin::Buttons-->
+        <div class="d-flex flex-center flex-wrap">
+            <a target="_blank" href="{{todo.url}}" class="btn btn-{{todo.color|default:'info'}} m-2">
+                Wykonaj zadanie
+            </a>
+            <button class="btn {% if todo.is_done %}btn-danger{% else %}btn-success{% endif %}" hx-post="{% url 'api:crm_todo_toggle_done' pk=todo.pk %}">
+                {% if todo.is_done %}
+                    Oznacz niewykonane
+                {% else %}
+                    Oznacz jako wykonane
+                {% endif %}
+              </button>
+        </div>
+        <!--end::Buttons-->
+    </div>
+    <!--end::Wrapper-->
+</div>
+<!--end::Alert-->

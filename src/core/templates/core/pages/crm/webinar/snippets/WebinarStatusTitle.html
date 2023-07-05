@@ -4,7 +4,7 @@
         <!--begin::Label-->
         <span class="d-inline-block mb-2 fs-1tx fw-bold">
             {% if webinar.status == "INIT" %}
-            Status: Zebrano N uczestników
+            Status: Zebrano {{count}} uczestników
             {% elif webinar.status == "CONFIRMED" %}
             Status: Potwierdzony ({{count}} uczestników)
             {% elif webinar.status == "CANCELED" %}

@@ -17,13 +17,13 @@ def application_type_page(request, pk: int):
         if form.is_valid():
             application = WebinarApplication(
                 application_type=form.cleaned_data["application_type"],
-                price_netto=webinar.discount_netto
-                if webinar.is_discounted
-                else webinar.price_netto,
+                price_netto=webinar.price,
                 price_old=webinar.price_netto,
                 webinar=webinar,
                 discount_applied=webinar.is_discounted,
             )
+            if request.user.is_authenticated:
+                application.user = request.user
             application.save()
             return ApplicationFormService.get_application_type_redirect(
                 application.application_type, application.uuid

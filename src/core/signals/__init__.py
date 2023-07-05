@@ -1,4 +1,5 @@
 # flake8: noqa
+from .on_application_create_metadata import on_application_create_metadata
 from .on_lecturer_save_make_thumbnails import on_lecturer_save_make_thumbnails
 from .on_webinar_create_metadata import on_webinar_create_metadata
 from .on_webinar_participanta_create_metadata import (

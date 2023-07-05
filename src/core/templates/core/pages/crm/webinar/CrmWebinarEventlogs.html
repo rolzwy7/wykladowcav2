@@ -15,7 +15,7 @@
       <div class="card-body">
         <div class="timeline">
             {% for webinar_eventlog in webinar_eventlogs %}
-                {% include './snippets/WebinarEventlogTimelineItem.html' with log=webinar_eventlog %}
+                {% include 'core/includes/EventlogTimelineItem.html' with log=webinar_eventlog %}
             {% endfor %}
         </div>
       </div>

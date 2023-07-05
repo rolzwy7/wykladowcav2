@@ -1,19 +1,32 @@
 # flake8: noqa
+from .create_application_invoice import task_create_application_invoice
 from .create_clickmeeting_room import (
     params_create_clickmeeting_room,
     task_create_clickmeeting_room,
 )
 from .create_crm_todo import task_create_crm_todo
-from .create_webinar_eventlog import (
-    params_create_webinar_eventlog,
-    task_create_webinar_eventlog,
+from .create_eventlog import params_create_eventlog, task_create_eventlog
+from .create_participant_certificate import task_create_participant_certificate
+from .save_application_invoice_metadata import (
+    task_save_application_invoice_metadata,
+)
+from .send_clickmeeting_invitation_lecturer import (
+    task_send_clickmeeting_invitation_lecturer,
 )
 from .send_clickmeeting_invitation_participant import (
     task_send_clickmeeting_invitation_participant,
 )
+from .send_participant_certificate_email import (
+    params_send_participant_certificate_email,
+    task_send_participant_certificate_email,
+)
 from .send_participant_confirmation_email import (
     params_send_participant_confirmation_email,
     task_send_participant_confirmation_email,
+)
+from .send_participant_opinion_email import (
+    params_send_participant_opinion_email,
+    task_send_participant_opinion_email,
 )
 from .send_submitter_confirmation_email import (
     params_send_submitter_confirmation_email,

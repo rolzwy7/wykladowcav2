@@ -1,3 +1,4 @@
 # flake8: noqa
 from .after_application_sent_dispatch import after_application_sent_dispatch
 from .after_webinar_confirm_dispatch import after_webinar_confirm_dispatch
+from .after_webinar_done_dispatch import after_webinar_done_dispatch

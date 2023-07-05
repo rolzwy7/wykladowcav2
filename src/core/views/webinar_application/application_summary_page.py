@@ -28,7 +28,7 @@ def application_summary_page(request, uuid):
     if request.method == POST and application.status == ApplicationStatus.INIT:
         form = ApplicationSummarySubmitForm(request.POST)
         if form.is_valid():
-            after_application_sent_dispatch(application, submitter)  # type: ignore
+            after_application_sent_dispatch(application, submitter)
             application.status = ApplicationStatus.SENT
             application.save()
 

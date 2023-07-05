@@ -4,7 +4,7 @@ from django.urls import reverse
 
 from core.consts import POST
 from core.forms import LecturerOpinionForm
-from core.models import Lecturer
+from core.models import Lecturer, LecturerOpinion
 from core.services.lecturer_service import LecturerService
 from core.tasks.create_crm_todo.procedure import create_crm_todo
 
@@ -17,13 +17,13 @@ def lecturer_opinion_form_page(request, slug: str):
     if request.method == POST:
         form = LecturerOpinionForm(request.POST)
         if form.is_valid():
-            instance = form.save(commit=False)
-            instance.lecturer = lecturer
-            instance.save()
+            lecturer_opinion: LecturerOpinion = form.save(commit=False)
+            lecturer_opinion.lecturer = lecturer
+            lecturer_opinion.save()
 
             todo_url = reverse(
                 "admin:core_lectureropinion_change",
-                kwargs={"object_id": instance.id},
+                kwargs={"object_id": lecturer_opinion.id},  # type: ignore
             )
             create_crm_todo(
                 f"Przesłano opinie o wykładowcy `{lecturer.fullname}`",

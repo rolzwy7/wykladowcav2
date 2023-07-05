@@ -64,22 +64,19 @@
                             <!--end::Name-->
                             <!--begin::Info-->
                             <div class="d-flex flex-wrap fw-semibold fs-6 mb-4 pe-2">
-                                <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
-                                <i class="ki-duotone ki-profile-circle fs-4 me-1">
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                    <span class="path3"></span>
-                                </i>Developer</a>
-                                <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
-                                <i class="ki-duotone ki-geolocation fs-4 me-1">
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                </i>SF, Bay Area</a>
-                                <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary mb-2">
-                                <i class="ki-duotone ki-sms fs-4 me-1">
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                </i>max@kt.com</a>
+                                {% if webinar.lecturer.email %}
+                                <a href="mailto:{{webinar.lecturer.email}}" class="d-flex align-items-center text-gray-900 text-hover-primary mb-2">
+                                    <i class="ki-duotone ki-sms fs-4 me-1">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                    {{webinar.lecturer.email}}
+                                </a>
+                                {% else %}
+                                <span class="text-danger">
+                                    Nie podano adresu e-mail !
+                                </span>
+                                {% endif %}
                             </div>
                             <!--end::Info-->
                         </div>
@@ -112,7 +109,14 @@
                                     <!--begin::Menu item-->
                                     <div class="menu-item px-3">
                                         <a href="{% url 'admin:core_webinar_change' object_id=webinar.id %}" class="menu-link px-3">
-                                            Edytuj w CMS
+                                            Edytuj webinar w CMS
+                                        </a>
+                                    </div>
+                                    <!--end::Menu item-->
+                                    <!--begin::Menu item-->
+                                    <div class="menu-item px-3">
+                                        <a href="{% url 'admin:core_lecturer_change' object_id=webinar.lecturer.id %}" class="menu-link px-3">
+                                            Edytuj wykładowce w CMS
                                         </a>
                                     </div>
                                     <!--end::Menu item-->
@@ -300,6 +304,7 @@
                     </a>
                 </li>
                 <!--end::Nav item-->
+                {% if webinar.status == "CONFIRMED" or webinar.status == "DONE" %}
                 <!--begin::Nav item-->
                 <li class="nav-item mt-2">
                     <a
@@ -309,12 +314,13 @@
                         {% endif %}
                         nav-link text-active-primary ms-0 me-10 py-5"
                         href="{% url 'core:crm_webinar_eventlogs' pk=webinar.pk %}"
-                    >
+                        >
                     <i class="ki-duotone ki-youtube fs-2 me-2"><i class="path1"></i><i class="path2"></i></i>
-                        Clickmeeting
-                    </a>
+                    Clickmeeting
+                </a>
                 </li>
                 <!--end::Nav item-->
+                {% endif %}
                 <!--begin::Nav item-->
                 <li class="nav-item mt-2">
                     <a

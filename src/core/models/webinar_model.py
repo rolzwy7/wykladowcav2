@@ -170,6 +170,10 @@ class Webinar(Model):
     def __str__(self) -> str:
         return str(self.title)
 
+    def save(self, *args, **kwargs) -> None:
+        self.slug = slugify(self.title)
+        return super().save(*args, **kwargs)
+
     @property
     def date_end(self):
         """Returns webinar's end datetime"""
@@ -188,15 +192,11 @@ class Webinar(Model):
 
     @property
     def price(self):
-        """Resolves price"""
+        """Resolves current NETTO price"""
         if self.is_discounted:
             return self.discount_netto
         else:
             return self.price_netto
-
-    def save(self, *args, **kwargs) -> None:
-        self.slug = slugify(self.title)
-        return super().save(*args, **kwargs)
 
 
 class WebinarMetadata(Model):
@@ -216,15 +216,3 @@ class WebinarMetadata(Model):
 
     def __str__(self) -> str:
         return f"Metadata for webinar {self.pk}"
-
-
-class WebinarEventlog(Model):
-    """Metadat for Webinar model"""
-
-    created_at = DateTimeField(auto_now_add=True)
-    webinar = ForeignKey("Webinar", on_delete=CASCADE, verbose_name="Webinar")
-    title_html = CharField("Tytuł (HTML)", max_length=350)
-    content_html = TextField("Treść (HTML)", blank=True)
-
-    icon = CharField("Ikona", max_length=32, blank=True)
-    color = CharField("Kolor", max_length=32, blank=True)

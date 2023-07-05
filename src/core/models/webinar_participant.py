@@ -23,8 +23,8 @@ class WebinarParticipantManager(Manager):
         """Get participants from applications marked as `sent`"""
         return self.get_queryset().filter(
             # Only participants from applications that have been sent
-            Q(application__status=ApplicationStatus.SENT)
-            & Q(application__webinar=webinar)
+            Q(application__webinar=webinar)
+            & Q(application__status=ApplicationStatus.SENT)
         )
 
 
@@ -41,16 +41,17 @@ class WebinarParticipant(Model):
     email = CharField("E-mail", max_length=100)
     phone = CharField("Numer telefonu", max_length=100, blank=True)
 
-    @property
-    def fullname(self):
-        return f"{self.first_name} {self.last_name}"
-
     class Meta:
         verbose_name = "Uczestnik"
         verbose_name_plural = "Uczestnicy"
 
     def __str__(self) -> str:
         return f"{self.first_name} {self.last_name} ({self.email})"
+
+    @property
+    def fullname(self):
+        """Get participant fullname"""
+        return f"{self.first_name} {self.last_name}"
 
 
 class WebinarParticipantMetadata(Model):

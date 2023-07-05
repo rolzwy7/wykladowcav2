@@ -2,10 +2,10 @@ import json
 
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
 
-from core.models import Webinar, WebinarEventlog
+from core.models import Eventlog, Webinar
 
 
-class CreateWebinarEventlogParams(BaseModel):
+class CreateEventlogParams(BaseModel):
     """Params"""
 
     webinar_id: int
@@ -15,22 +15,33 @@ class CreateWebinarEventlogParams(BaseModel):
     color: str
 
 
-def params(webinar: Webinar) -> str:
+def params(
+    webinar: Webinar,
+    title_html: str,
+    content_html: str,
+    icon: str,
+    color: str,
+) -> str:
     """Create params"""
+    webinar_id: int = webinar.id  # type: ignore
     json_dump = json.dumps(
-        CreateWebinarEventlogParams(
-            webinar_id=webinar.id,  # type: ignore
+        CreateEventlogParams(
+            webinar_id=webinar_id,
+            title_html=title_html,
+            content_html=content_html,
+            icon=icon,
+            color=color,
         ).dict()
     )
     return json_dump
 
 
-def create_webinar_eventlog(
-    procedure_params: CreateWebinarEventlogParams,
+def create_eventlog(
+    procedure_params: CreateEventlogParams,
 ):
     """Create webinar eventlog"""
     webinar: Webinar = Webinar.manager.get(id=procedure_params.webinar_id)
-    eventlog = WebinarEventlog(
+    eventlog = Eventlog(
         webinar=webinar,
         title_html=procedure_params.title_html,
         content_html=procedure_params.content_html,

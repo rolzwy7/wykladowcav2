@@ -8,5 +8,7 @@ from core.models import WebinarParticipant, WebinarParticipantMetadata
 def on_webinar_participanta_create_metadata(sender, **kwargs):
     """Create webinar's metadata after save"""
     if kwargs.get("instance"):
-        instance: WebinarParticipant = kwargs["instance"]
-        WebinarParticipantMetadata.objects.get_or_create(participant=instance)
+        participant: WebinarParticipant = kwargs["instance"]
+        WebinarParticipantMetadata.objects.get_or_create(
+            participant=participant
+        )

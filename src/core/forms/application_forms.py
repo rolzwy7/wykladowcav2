@@ -29,7 +29,7 @@ class ApplicationTypeForm(ModelForm):
 
 
 class ApplicationCompanyForm(ModelForm):
-    """Company (buyer, receiver) form for webinar application"""
+    """Company (buyer, recipient) form for webinar application"""
 
     def clean_nip(self):
         """Clean NIP number"""
@@ -218,6 +218,10 @@ class ApplicationSummarySubmitForm(Form):
 
     accept_terms_of_service = CharField(
         widget=CheckboxWidget(
-            attrs={"label": ("Akceptuję postanowienia Regulaminu Szkoleń")}
+            attrs={
+                "label": (
+                    "Klikając tutaj akceptuję postanowienia regulaminu szkoleń"
+                )
+            }
         )
     )

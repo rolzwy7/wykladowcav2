@@ -1,5 +1,6 @@
 import uuid
 
+from django.conf import settings
 from django.db.models import (
     CASCADE,
     BooleanField,
@@ -17,7 +18,11 @@ from django.db.models import (
     UUIDField,
 )
 
-from core.consts import CHOICES_VAT_EXEMPTIONS, VAT_EXEMPTION_0
+from core.consts import (
+    CHOICES_VAT_EXEMPTIONS,
+    VAT_EXEMPTION_0,
+    VAT_VALUE_PERCENT,
+)
 from core.libs.validators import validate_nip_modelfield
 
 from .enums import ApplicationStatus, InvoiceType, WebinarApplicationType
@@ -40,7 +45,7 @@ class WebinarApplicationManager(Manager):
 
 
 class WebinarApplicationCompany(Model):
-    """Represents application company (buyer or receiver)"""
+    """Represents application company (buyer or recipient)"""
 
     nip = CharField("NIP", max_length=32, validators=[validate_nip_modelfield])
     name = CharField("Nazwa", max_length=250)
@@ -68,6 +73,9 @@ class WebinarApplicationSubmitter(Model):
         """Returns submitter's fullname"""
         return f"{self.first_name} {self.last_name}"
 
+    def __str__(self):
+        return f"{self.fullname}"
+
 
 class WebinarApplicationPrivatePerson(Model):
     """Represents application submitter"""
@@ -86,6 +94,9 @@ class WebinarApplicationPrivatePerson(Model):
     def fullname(self):
         """Returns submitter's fullname"""
         return f"{self.first_name} {self.last_name}"
+
+    def __str__(self):
+        return f"{self.fullname}"
 
 
 class WebinarApplicationInvoice(Model):
@@ -117,6 +128,9 @@ class WebinarApplicationInvoice(Model):
         choices=CHOICES_VAT_EXEMPTIONS,
         default=VAT_EXEMPTION_0.db_key,
     )
+
+    def __str__(self):
+        return f"{self.invoice_email}"
 
 
 class WebinarApplication(Model):
@@ -169,13 +183,13 @@ class WebinarApplication(Model):
         verbose_name="Nabywca",
     )
 
-    # Receiver
-    receiver = OneToOneField(
+    # Recipient
+    recipient = OneToOneField(
         "WebinarApplicationCompany",
         on_delete=CASCADE,
         null=True,
         blank=True,
-        related_name="application_receiver",
+        related_name="application_recipient",
         verbose_name="Odbiorca",
     )
 
@@ -211,6 +225,18 @@ class WebinarApplication(Model):
     # Additional Information
     additional_information = TextField("Uwagi", blank=True)
 
+    user = ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=CASCADE,
+        null=True,
+        blank=True,
+        verbose_name="Użytkownik",
+    )
+
+    class Meta:
+        verbose_name = "Zgłoszenie"
+        verbose_name_plural = "Zgłoszenia"
+
     @property
     def participants(self) -> QuerySet["WebinarParticipant"]:
         """Return paticipants for this application"""
@@ -224,9 +250,11 @@ class WebinarApplication(Model):
             * self.price_netto
         )
 
-    class Meta:
-        verbose_name = "Zgłoszenie"
-        verbose_name_plural = "Zgłoszenia"
+    @property
+    def price_brutto(self):
+        """Calculate total NETTO price for this application"""
+        multiplier = round((100 + VAT_VALUE_PERCENT) / 100, 2)
+        return round(self.price_netto * multiplier, 2)
 
 
 class WebinarApplicationMetadata(Model):

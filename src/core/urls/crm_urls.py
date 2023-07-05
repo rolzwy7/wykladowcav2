@@ -1,6 +1,10 @@
 from django.urls import path
 
 from core.views.crm import (
+    crm_archived_webinars,
+    crm_eventlogs,
+    crm_todos_done_list,
+    crm_todos_list,
     crm_upcoming_webinars,
     crm_webinar_confirm,
     crm_webinar_detail_dashboard,
@@ -28,6 +32,26 @@ urlpatterns = [
         "webinar/<int:pk>/zakoncz-szkolenie/",
         crm_webinar_done,
         name="crm_webinar_done",
+    ),
+    path(
+        "archiwum/",
+        crm_archived_webinars,
+        name="crm_archived_webinars",
+    ),
+    path(
+        "zadania/wykonane/",
+        crm_todos_done_list,
+        name="crm_todos_done_list",
+    ),
+    path(
+        "zadania/",
+        crm_todos_list,
+        name="crm_todos_list",
+    ),
+    path(
+        "logi/",
+        crm_eventlogs,
+        name="crm_eventlogs",
     ),
     path(
         "",
