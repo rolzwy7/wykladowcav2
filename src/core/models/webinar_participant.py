@@ -60,7 +60,8 @@ class WebinarParticipantMetadata(Model):
     participant = OneToOneField(
         "WebinarParticipant", on_delete=CASCADE, verbose_name="Uczestnik"
     )
-    phoned = BooleanField(default=False)
+
+    phoned = BooleanField("Czy zadzwoniono przed szkoleniem?", default=False)
 
     IS_MX_VALID = [
         (WebinarParticipantIsMxValidType.NOT_CHECKED, "Nie sprawdzono"),
@@ -73,8 +74,6 @@ class WebinarParticipantMetadata(Model):
         choices=IS_MX_VALID,
         default=WebinarParticipantIsMxValidType.NOT_CHECKED,
     )
-
-    confirmation_email_opened = BooleanField(default=False)
 
     def __str__(self) -> str:
         return f"Metadata for webinar participant {self.id}"  # type: ignore

@@ -13,6 +13,7 @@ from .webinar_application_model import (
     WebinarApplicationPrivatePerson,
     WebinarApplicationSubmitter,
 )
+from .webinar_asset import WebinarAsset
 from .webinar_category_model import WebinarCategory
 from .webinar_certificate import WebinarCertificate
 from .webinar_model import Webinar, WebinarMetadata

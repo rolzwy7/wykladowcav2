@@ -5,4 +5,4 @@ from core.models import WebinarMetadata
 
 @register(WebinarMetadata)
 class WebinarMetadataModelAdmin(ModelAdmin):
-    readonly_fields = ["clickmeeting_id"]
+    readonly_fields = ["webinar", "clickmeeting_id", "assets_token"]

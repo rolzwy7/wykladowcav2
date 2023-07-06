@@ -1,3 +1,5 @@
+import uuid
+
 from django.conf import settings
 from django.db.models import (
     CASCADE,
@@ -15,6 +17,7 @@ from django.db.models import (
     SlugField,
     TextField,
     URLField,
+    UUIDField,
 )
 from django.utils.timezone import now, timedelta
 from django_quill.fields import QuillField
@@ -213,6 +216,8 @@ class WebinarMetadata(Model):
     lecturer_price_netto = PositiveSmallIntegerField(
         "Cena NETTO wykładowcy", default=0
     )
+
+    assets_token = UUIDField("Token dostępu do materiałów", default=uuid.uuid4)
 
     def __str__(self) -> str:
         return f"Metadata for webinar {self.pk}"

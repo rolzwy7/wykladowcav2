@@ -1,7 +1,5 @@
 from django.test import TestCase
 
-from core.utils.text import slugify
-
 
 class WebinarTestCase(TestCase):
     def test_WhenWebinarBeforeDate_ThenPresentInHomepage(self):

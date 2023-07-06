@@ -181,6 +181,8 @@ click==8.1.3 ; python_version >= "3.9" and python_version < "4.0" \
 colorama==0.4.6 ; python_version >= "3.9" and python_version < "4.0" and (sys_platform == "win32" or platform_system == "Windows") \
     --hash=sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44 \
     --hash=sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6
+cron-descriptor==1.4.0 ; python_version >= "3.9" and python_version < "4.0" \
+    --hash=sha256:b6ff4e3a988d7ca04a4ab150248e9f166fb7a5c828a85090e75bcc25aa93b4dd
 cryptography==41.0.1 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:059e348f9a3c1950937e1b5d7ba1f8e968508ab181e75fc32b879452f08356db \
     --hash=sha256:1a5472d40c8f8e91ff7a3d8ac6dfa363d8e3138b961529c996f3e2df0c7a411a \
@@ -201,12 +203,18 @@ cryptography==41.0.1 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:d34579085401d3f49762d2f7d6634d6b6c2ae1242202e860f4d26b046e3a1006 \
     --hash=sha256:eb8163f5e549a22888c18b0d53d6bb62a20510060a22fd5a995ec8a05268df8a \
     --hash=sha256:f73bff05db2a3e5974a6fd248af2566134d8981fd7ab012e5dd4ddb1d9a70699
+django-celery-beat==2.5.0 ; python_version >= "3.9" and python_version < "4.0" \
+    --hash=sha256:ae460faa5ea142fba0875409095d22f6bd7bcc7377889b85e8cab5c0dfb781fe \
+    --hash=sha256:cd0a47f5958402f51ac0c715bc942ae33d7b50b4e48cba91bc3f2712be505df1
 django-celery-results==2.5.1 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:0da4cd5ecc049333e4524a23fcfc3460dfae91aa0a60f1fae4b6b2889c254e01 \
     --hash=sha256:3ecb7147f773f34d0381bac6246337ce4cf88a2ea7b82774ed48e518b67bb8fd
 django-quill-editor==0.1.40 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:26b42aef27168517898c25207d22202402e2816d4a1fa9e3fcc083ae1da0a70c \
     --hash=sha256:276bf3e344531c923b82012f04cec8373c3239d9f7124d4f2bce5f8c5f2b5749
+django-timezone-field==5.1 ; python_version >= "3.9" and python_version < "4.0" \
+    --hash=sha256:16ca9955a4e16064e32168b1a0d1cdb2839679c6cb56856c1f49f506e2ca4281 \
+    --hash=sha256:73fc49519273cd5da1c7f16abc04a4bcad87b00cc02968d0d384c0fecf9a8a86
 django==4.2.2 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:2a6b6fbff5b59dd07bef10bcb019bee2ea97a30b2a656d51346596724324badf \
     --hash=sha256:672b3fa81e1f853bb58be1b51754108ab4ffa12a77c06db86aa8df9ed0c46fe5
@@ -487,6 +495,9 @@ pytest==7.3.2 ; python_version >= "3.9" and python_version < "4.0" \
 python-barcode==0.14.0 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:241b34aa5c5cb6a9889882f9409b0182903a2c5d19b4218be3609cdbbd5ffdf9 \
     --hash=sha256:eefbb2583ba7bdb09baba6f8663129883109c61df7e23c9b9b473087521c926f
+python-crontab==2.7.1 ; python_version >= "3.9" and python_version < "4.0" \
+    --hash=sha256:9c374d1c9d401afdd8dd958f20077f74c158ab3fffb9604296802715e887fe48 \
+    --hash=sha256:b21af4647c7bbb848fef2f020616c6b0289dcb9f94b4f991a55310ff9bec5749
 python-dateutil==2.8.2 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86 \
     --hash=sha256:961d03dc3453ebbc59dbdea9e4e11c5651520a876d0f4db161e8674aae935da9

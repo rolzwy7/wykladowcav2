@@ -6,6 +6,7 @@ from core.views.crm import (
     crm_todos_done_list,
     crm_todos_list,
     crm_upcoming_webinars,
+    crm_webinar_assets,
     crm_webinar_confirm,
     crm_webinar_detail_dashboard,
     crm_webinar_done,
@@ -22,6 +23,11 @@ urlpatterns = [
         "webinar/<int:pk>/logi/",
         crm_webinar_eventlogs,
         name="crm_webinar_eventlogs",
+    ),
+    path(
+        "webinar/<int:pk>/materialy-szkoleniowe/",
+        crm_webinar_assets,
+        name="crm_webinar_assets",
     ),
     path(
         "webinar/<int:pk>/potwierdz-termin/",

@@ -325,6 +325,21 @@
                 <li class="nav-item mt-2">
                     <a
                         class="
+                        {% if request.path == '/crm/webinar/'|add:webinar_pk_str|add:'/materialy-szkoleniowe/' %}
+                        active
+                        {% endif %}
+                        nav-link text-active-primary ms-0 me-10 py-5"
+                        href="{% url 'core:crm_webinar_assets' pk=webinar.pk %}"
+                    >
+                    <i class="ki-duotone ki-file-up fs-2 me-2"><i class="path1"></i><i class="path2"></i></i>
+                        Materiały
+                    </a>
+                </li>
+                <!--end::Nav item-->
+                <!--begin::Nav item-->
+                <li class="nav-item mt-2">
+                    <a
+                        class="
                         {% if request.path == '/crm/webinar/'|add:webinar_pk_str|add:'/logi/' %}
                         active
                         {% endif %}

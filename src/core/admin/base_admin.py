@@ -7,11 +7,13 @@ from core.models import (
     WebinarApplication,
     WebinarApplicationMetadata,
     WebinarApplicationSubmitter,
+    WebinarAsset,
     WebinarParticipant,
     WebinarParticipantMetadata,
 )
 
 admin.site.register(User)
+admin.site.register(WebinarAsset)
 admin.site.register(Eventlog)
 admin.site.register(LecturerOpinion)
 admin.site.register(WebinarApplicationMetadata)

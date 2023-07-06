@@ -15,5 +15,6 @@ def webinar_lecturer_biography_page(request, slug: str):
         {
             "webinar": webinar,
             "webinar_tabs": service.get_webinar_tabs(3),
+            **service.get_context(),
         },
     )

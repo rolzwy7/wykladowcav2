@@ -15,6 +15,7 @@ from .email import (
     EMAIL_TIMEOUT,
 )
 from .fakturownia import FAKTUROWNIA_API_KEY, FAKTUROWNIA_API_URL
+from .files import *
 from .images import *
 from .ingksiegowosc import *
 from .invoice import *

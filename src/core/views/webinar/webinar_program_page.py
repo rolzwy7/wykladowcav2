@@ -16,5 +16,6 @@ def webinar_program_page(request, slug: str):
         {
             "webinar": webinar,
             "webinar_tabs": service.get_webinar_tabs(0),
+            **service.get_context(),
         },
     )

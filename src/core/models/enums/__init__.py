@@ -10,3 +10,4 @@ from .webinar_enums import (
     WebinarDuration,
     WebinarStatus,
 )
+from .webinar_recording_enums import WebinarRecordingStatus

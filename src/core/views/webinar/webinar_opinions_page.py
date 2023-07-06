@@ -15,5 +15,6 @@ def webinar_opinions_page(request, slug: str):
         {
             "webinar": webinar,
             "webinar_tabs": service.get_webinar_tabs(1),
+            **service.get_context(),
         },
     )
