@@ -5,7 +5,7 @@ from django.template.response import TemplateResponse
 from core.consts import POST
 from core.forms import WebinarAssetForm
 from core.models import Webinar, WebinarAsset
-from core.services import WebinarAssetsService
+from core.services import CrmWebinarService, WebinarAssetsService
 
 
 def crm_webinar_assets(request, pk: int):
@@ -13,20 +13,18 @@ def crm_webinar_assets(request, pk: int):
     template_name = "core/pages/crm/webinar/CrmWebinarAssets.html"
     webinar = get_object_or_404(Webinar, pk=pk)
     assets = WebinarAsset.manager.filter(webinar=webinar).order_by("filename")
-    service = WebinarAssetsService(webinar)
+    asset_service = WebinarAssetsService(webinar)
+    webinar_service = CrmWebinarService(webinar)
 
     if request.method == POST:
         form = WebinarAssetForm(request.POST, request.FILES)
         if form.is_valid():
             file = form.cleaned_data["file"]
-            service.save_asset(file)
+            asset_service.save_asset(file)
             return HttpResponse("OK")
 
     return TemplateResponse(
         request,
         template_name,
-        {
-            "webinar": webinar,
-            "assets": assets,
-        },
+        {"webinar": webinar, "assets": assets, **webinar_service.get_context()},
     )

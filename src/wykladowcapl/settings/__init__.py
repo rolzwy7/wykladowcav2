@@ -19,6 +19,7 @@ from .files import *
 from .images import *
 from .ingksiegowosc import *
 from .invoice import *
+from .logging import *
 from .quill import *
 from .redis import *
 from .regon import *

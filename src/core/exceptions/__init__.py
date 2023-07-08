@@ -1,1 +1,2 @@
-from .exceptions import RedirectException  # noqa
+# flake8: noqa
+from .exceptions import RedirectException, UnauthorizedException

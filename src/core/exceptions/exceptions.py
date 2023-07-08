@@ -1,5 +1,12 @@
 class RedirectException(Exception):
-    """Instead of showing 5xx page it redirects user to given URL"""
+    """Redirect Exception"""
 
     def __init__(self, url: str):
         self.url = url
+
+
+class UnauthorizedException(Exception):
+    """Unauthorized Exception"""
+
+    def __init__(self):
+        pass

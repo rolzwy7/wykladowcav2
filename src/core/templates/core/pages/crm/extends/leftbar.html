@@ -55,7 +55,12 @@ data-kt-sticky-zindex="95"
     >
       <span class="menu-title">
         Webinary
-    </span>
+      </span>
+      <span class="menu-badge">
+        <span class="badge badge-sm badge-circle badge-light">
+          {{CRM_LEFBAR_WEBINAR_COUNT}}
+        </span>
+      </span>
     </a>
   </div>
   <!--end::Menu item-->
@@ -66,6 +71,13 @@ data-kt-sticky-zindex="95"
       class="menu-link {% if request.path == '/crm/zadania/' or request.path == '/crm/zadania/wykonane/' %}active{% endif %}"
     >
       <span class="menu-title">Zadania</span>
+      {% if CRM_LEFBAR_TODO_LEFT_COUNT %}
+      <span class="menu-badge">
+        <span class="badge badge-sm badge-circle badge-danger">
+          {{CRM_LEFBAR_TODO_LEFT_COUNT}}
+        </span>
+      </span>
+      {% endif %}
     </a>
   </div>
   <!--end::Menu item-->
@@ -107,6 +119,11 @@ data-kt-sticky-zindex="95"
       >
         <span class="menu-title">
           Archiwum
+      </span>
+      <span class="menu-badge">
+        <span class="badge badge-sm badge-circle badge-light">
+          {{CRM_LEFBAR_ARCHIVE_COUNT}}
+        </span>
       </span>
       </a>
     </div>

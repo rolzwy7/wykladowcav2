@@ -1,0 +1,2 @@
+# flake8: noqa
+from .crm_lecturer_price_card_form import CrmLecturerPriceCardForm

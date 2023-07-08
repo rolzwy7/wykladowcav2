@@ -4,6 +4,7 @@ from core.models import Webinar
 
 
 def crm_archived_webinars(request):
+    """CRM webinars archive"""
     template_name = "core/pages/crm/webinar/CrmArchivedWebinars.html"
     webinar = Webinar.manager.done_or_canceled()
     return TemplateResponse(

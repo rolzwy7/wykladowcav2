@@ -39,8 +39,9 @@ BASE_URL = f"{HTTP_SCHEMA}://{SITE_DOMAIN}"
 
 INSTALLED_APPS = [
     # Monolith apps
-    "api",
     "core",
+    "api",
+    "htmx",
     # 3rd party
     "django_quill",
     "rest_framework",
@@ -56,7 +57,6 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    "core.middleware.RedirectOnRaiseMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -64,6 +64,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "core.middleware.CoreMiddleware",
 ]
 
 ROOT_URLCONF = "wykladowcapl.urls"
@@ -82,6 +83,7 @@ TEMPLATES = [
                 # Custom context processors
                 "core.context_processors.categories",
                 "core.context_processors.settings",
+                "core.context_processors.crm",
             ],
         },
     },

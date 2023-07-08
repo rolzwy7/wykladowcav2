@@ -3,5 +3,4 @@ class WebinarRecordingStatus:
 
     DOWNLOADING = "DOWNLOADING"
     DOWNLOADED = "DOWNLOADED"
-    CONVERTED = "CONVERTED"
     FAILED = "FAILED"

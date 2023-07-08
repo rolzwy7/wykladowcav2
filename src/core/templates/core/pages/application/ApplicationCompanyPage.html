@@ -96,7 +96,7 @@
             console.log('REGON:', result);
             const success = result.success;
             if(!success) return;
-            const data = result.data;
+            const data = result.company;
             const name = data.name
             populateFieldById("id_name", name)
             const address = data.address

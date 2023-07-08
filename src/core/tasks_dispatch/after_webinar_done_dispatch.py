@@ -1,14 +1,17 @@
 # flake8: noqa:E501
 # pylint: disable=line-too-long
+import json
+from datetime import timedelta
+
 from celery import chain, group
+from django.utils.timezone import now
+from django_celery_beat.models import IntervalSchedule, PeriodicTask
 
 from core.models import Webinar, WebinarApplication, WebinarParticipant
 from core.tasks import (
-    params_create_eventlog,
     params_send_participant_certificate_email,
     params_send_participant_opinion_email,
     task_create_application_invoice,
-    task_create_eventlog,
     task_create_participant_certificate,
     task_save_application_invoice_metadata,
     task_send_participant_certificate_email,
@@ -18,6 +21,24 @@ from core.tasks import (
 
 def after_webinar_done_dispatch(webinar: Webinar):
     """Performs actions after webinar is done"""
+
+    webinar_id: int = webinar.id  # type: ignore
+
+    # Schedule periodic tasks
+    # Create "every 35 minutes" interval
+    schedule, _ = IntervalSchedule.objects.get_or_create(
+        every=35,
+        period=IntervalSchedule.MINUTES,
+    )
+
+    # Download recording periodict task
+    PeriodicTask.objects.create(
+        interval=schedule,
+        name=f"Downloading clickmeeting recording for webinar ID={webinar_id}",
+        task="download_and_process_clickmeeting_recording",
+        args=json.dumps([webinar_id]),
+        expires=now() + timedelta(days=1),
+    )
 
     # Prepare data
     participants = (
@@ -31,6 +52,7 @@ def after_webinar_done_dispatch(webinar: Webinar):
         chain(
             task_create_application_invoice.si(application.id),  # type: ignore
             task_save_application_invoice_metadata.s(application.id),  # type: ignore
+            # TODO: Send invoice via e-mail
         )
         for application in applications
     ]
@@ -46,16 +68,6 @@ def after_webinar_done_dispatch(webinar: Webinar):
                     participant.application.webinar,
                 )
             ),
-            # Save Weblog
-            # task_create_eventlog.si(
-            #     params_create_eventlog(
-            #         webinar=participant.application.webinar,
-            #         title_html=f"Stworzono i wysłano certyfikat ({participant.fullname})",
-            #         content_html=f"E-mail: {participant.email}",
-            #         icon="",
-            #         color="",
-            #     )
-            # ),
         )
         for participant in participants
     ]
@@ -68,7 +80,7 @@ def after_webinar_done_dispatch(webinar: Webinar):
     ]
 
     chain(
-        # Send invoices
+        # Create invoices
         group(*invoice_jobs),
         # Create and send certificates
         group(*certificate_jobs),

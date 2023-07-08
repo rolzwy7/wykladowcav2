@@ -1,9 +1,12 @@
+# pylint: disable=invalid-name
 from django.test import TestCase
 
 from core.utils.text import slugify
 
 
 class SlugifyTestCase(TestCase):
+    """Slugify test case"""
+
     def test_WhenCalledCorrectly_ThenSlugifyCorrectly(self):
         """Assert that custom slugify works"""
         assert slugify("a---a") == "a-a"

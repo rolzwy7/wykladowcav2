@@ -1,7 +1,14 @@
 {% extends './CrmWebinarBase.html' %}
 {% load static %}
 
-{% block head_stylesheets %} {% endblock head_stylesheets %}
+{% block head_stylesheets %}
+<style>
+    tr.htmx-swapping td {
+        opacity: 0;
+        transition: opacity 2s ease-out;
+    }
+</style>
+{% endblock head_stylesheets %}
 
 {% block crm_webinar_content %}
 <!--begin::Row-->
@@ -18,7 +25,7 @@
        <div class="separator border-3 my-10"></div>
 
         <div class="table-responsive">
-            <table class="table">
+            <table class="table table-striped">
             <thead>
                 <tr class="fw-bold fs-6 text-gray-800">
                     <th></th>
@@ -26,11 +33,14 @@
                     <th>Data przesłania</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody hx-confirm="Na pewno chcesz usunąć?" hx-target="closest tr" hx-swap="outerHTML swap:1s">
                 {% for asset in assets %}
                     <tr>
                     <td style="vertical-align: middle; cursor: pointer;">
-                        <i class="ki-outline ki-cross fs-1"></i>
+                        <i
+                            class="ki-outline ki-cross fs-1"
+                            hx-delete="{% url 'htmx:htmx_delete_webinar_asset' pk=asset.id %}"
+                        ></i>
                     </td>
                     <td>
                         <!--begin::Item-->
@@ -41,7 +51,7 @@
                         <!--begin::Info-->
                         <div class="ms-1 fw-semibold">
                         <!--begin::Desc-->
-                        <a href="../../demo5/dist/apps/projects/project.html" class="fs-6 text-hover-primary fw-bold">
+                        <a href="{% get_media_prefix %}{{asset.file}}" class="fs-6 text-hover-primary fw-bold">
                         {{asset.filename}}
                         </a>
                         <!--end::Desc-->

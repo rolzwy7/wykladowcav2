@@ -7,6 +7,7 @@ from django.conf import settings
 from django.template.defaultfilters import date as _date
 
 CLICKMEETING_API_URL = settings.CLICKMEETING_API_URL
+CLICKMEETING_API_KEY = settings.CLICKMEETING_API_KEY
 
 
 def create_clickmeeting_room(
@@ -37,7 +38,7 @@ def create_clickmeeting_room(
     }
     payload = urllib.parse.urlencode(data)
     headers = {
-        "X-Api-Key": settings.CLICKMEETING_API_KEY,
+        "X-Api-Key": CLICKMEETING_API_KEY,
         "Content-Type": "application/x-www-form-urlencoded",
     }
     result = requests.post(url, data=payload, headers=headers, timeout=10)

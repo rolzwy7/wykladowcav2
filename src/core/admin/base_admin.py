@@ -10,6 +10,8 @@ from core.models import (
     WebinarAsset,
     WebinarParticipant,
     WebinarParticipantMetadata,
+    WebinarRecording,
+    WebinarRecordingToken,
 )
 
 admin.site.register(User)
@@ -21,3 +23,5 @@ admin.site.register(WebinarParticipant)
 admin.site.register(WebinarParticipantMetadata)
 admin.site.register(WebinarApplication)
 admin.site.register(WebinarApplicationSubmitter)
+admin.site.register(WebinarRecording)
+admin.site.register(WebinarRecordingToken)

@@ -27,7 +27,7 @@ from core.libs.validators import validate_nip_modelfield
 
 from .enums import ApplicationStatus, InvoiceType, WebinarApplicationType
 from .webinar_model import Webinar
-from .webinar_participant import WebinarParticipant
+from .webinar_participant_model import WebinarParticipant
 
 
 class WebinarApplicationManager(Manager):

@@ -27,7 +27,10 @@
             <a target="_blank" href="{{todo.url}}" class="btn btn-{{todo.color|default:'info'}} m-2">
                 Wykonaj zadanie
             </a>
-            <button class="btn {% if todo.is_done %}btn-danger{% else %}btn-success{% endif %}" hx-post="{% url 'api:crm_todo_toggle_done' pk=todo.pk %}">
+            <button
+                hx-post="{% url 'htmx:htmx_toggle_crm_todo' pk=todo.pk %}"
+                class="btn {% if todo.is_done %}btn-danger{% else %}btn-success{% endif %}"
+            >
                 {% if todo.is_done %}
                     Oznacz niewykonane
                 {% else %}

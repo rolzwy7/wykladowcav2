@@ -7,6 +7,9 @@ from .create_clickmeeting_room import (
 from .create_crm_todo import task_create_crm_todo
 from .create_eventlog import params_create_eventlog, task_create_eventlog
 from .create_participant_certificate import task_create_participant_certificate
+from .download_and_process_clickmeeting_recording import (
+    task_download_and_process_clickmeeting_recording,
+)
 from .save_application_invoice_metadata import (
     task_save_application_invoice_metadata,
 )
