@@ -38,7 +38,7 @@ class CrmPermissionsTestCase(TestCase):
             else:
                 url = reverse(f"core:{urlpattern.name}")
 
-            response = client.get(url)
+            response = client.get(url, follow=True)
             status_code = response.status_code
 
             # Assert that response status code is 401
@@ -65,7 +65,7 @@ class CrmPermissionsTestCase(TestCase):
             else:
                 url = reverse(f"core:{urlpattern.name}")
 
-            response = client.get(url)
+            response = client.get(url, follow=True)
             status_code = response.status_code
 
             # Assert that response status code is 401
