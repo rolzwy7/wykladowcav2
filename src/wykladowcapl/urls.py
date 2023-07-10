@@ -7,6 +7,7 @@ urlpatterns = [
     path("cms/", admin.site.urls),
     path("api/", include("api.urls", namespace="api")),
     path("htmx/", include("htmx.urls", namespace="htmx")),
+    path("tinymce/", include("tinymce.urls")),
     path("", include("core.urls", namespace="core")),
 ]
 

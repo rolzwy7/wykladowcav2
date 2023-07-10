@@ -43,10 +43,10 @@ INSTALLED_APPS = [
     "api",
     "htmx",
     # 3rd party
-    "django_quill",
     "rest_framework",
     "django_celery_results",
     "django_celery_beat",
+    "tinymce",
     # Django
     "django.contrib.admin",
     "django.contrib.auth",

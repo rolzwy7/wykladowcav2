@@ -652,20 +652,6 @@ celery = ">=5.2.7,<6.0"
 Django = ">=3.2.18"
 
 [[package]]
-name = "django-quill-editor"
-version = "0.1.40"
-description = "Integrate Quill editor with Django project."
-optional = false
-python-versions = ">3.6"
-files = [
-    {file = "django-quill-editor-0.1.40.tar.gz", hash = "sha256:26b42aef27168517898c25207d22202402e2816d4a1fa9e3fcc083ae1da0a70c"},
-    {file = "django_quill_editor-0.1.40-py3-none-any.whl", hash = "sha256:276bf3e344531c923b82012f04cec8373c3239d9f7124d4f2bce5f8c5f2b5749"},
-]
-
-[package.dependencies]
-django = ">=3.0"
-
-[[package]]
 name = "django-timezone-field"
 version = "5.1"
 description = "A Django app providing DB, form, and REST framework fields for zoneinfo and pytz timezone objects."
@@ -679,6 +665,17 @@ files = [
 [package.dependencies]
 Django = ">=2.2,<3.0.dev0 || >=3.2.dev0,<5.0"
 pytz = "*"
+
+[[package]]
+name = "django-tinymce"
+version = "3.6.1"
+description = "A Django application that contains a widget to render a form field as a TinyMCE editor."
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-tinymce-3.6.1.tar.gz", hash = "sha256:6f4f6227c2c608052081a436a1e3054c441caae24c9e0c8c3010536e24749e29"},
+    {file = "django_tinymce-3.6.1-py3-none-any.whl", hash = "sha256:da5732413f51cf854352e3148f06f170b59d95a6c6a43fd9f7ccfdd1849f4bf9"},
+]
 
 [[package]]
 name = "djangorestframework"
@@ -884,6 +881,25 @@ files = [
     {file = "idna-3.4-py3-none-any.whl", hash = "sha256:90b77e79eaa3eba6de819a0c442c0b4ceefc341a7a2ab77d7562bf49f425c5c2"},
     {file = "idna-3.4.tar.gz", hash = "sha256:814f528e8dead7d329833b91c5faa87d60bf71824cd12a7530b5526063d02cb4"},
 ]
+
+[[package]]
+name = "importlib-metadata"
+version = "6.8.0"
+description = "Read metadata from Python packages"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "importlib_metadata-6.8.0-py3-none-any.whl", hash = "sha256:3ebb78df84a805d7698245025b975d9d67053cd94c79245ba4b3eb694abe68bb"},
+    {file = "importlib_metadata-6.8.0.tar.gz", hash = "sha256:dbace7892d8c0c4ac1ad096662232f831d4e64f4c4545bd53016a3e9d4654743"},
+]
+
+[package.dependencies]
+zipp = ">=0.5"
+
+[package.extras]
+docs = ["furo", "jaraco.packaging (>=9)", "jaraco.tidelift (>=1.4)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-lint"]
+perf = ["ipython"]
+testing = ["flufl.flake8", "importlib-resources (>=1.3)", "packaging", "pyfakefs", "pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-mypy (>=0.9.1)", "pytest-perf (>=0.9.2)", "pytest-ruff"]
 
 [[package]]
 name = "iniconfig"
@@ -1154,6 +1170,38 @@ cssselect = ["cssselect (>=0.7)"]
 html5 = ["html5lib"]
 htmlsoup = ["BeautifulSoup4"]
 source = ["Cython (>=0.29.7)"]
+
+[[package]]
+name = "markdown"
+version = "3.4.3"
+description = "Python implementation of John Gruber's Markdown."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "Markdown-3.4.3-py3-none-any.whl", hash = "sha256:065fd4df22da73a625f14890dd77eb8040edcbd68794bcd35943be14490608b2"},
+    {file = "Markdown-3.4.3.tar.gz", hash = "sha256:8bf101198e004dc93e84a12a7395e31aac6a9c9942848ae1d99b9d72cf9b3520"},
+]
+
+[package.dependencies]
+importlib-metadata = {version = ">=4.4", markers = "python_version < \"3.10\""}
+
+[package.extras]
+testing = ["coverage", "pyyaml"]
+
+[[package]]
+name = "markdownify"
+version = "0.11.6"
+description = "Convert HTML to markdown."
+optional = false
+python-versions = "*"
+files = [
+    {file = "markdownify-0.11.6-py3-none-any.whl", hash = "sha256:ba35fe289d5e9073bcd7d2cad629278fe25f1a93741fcdc0bfb4f009076d8324"},
+    {file = "markdownify-0.11.6.tar.gz", hash = "sha256:009b240e0c9f4c8eaf1d085625dcd4011e12f0f8cec55dedf9ea6f7655e49bfe"},
+]
+
+[package.dependencies]
+beautifulsoup4 = ">=4.9,<5"
+six = ">=1.15,<2"
 
 [[package]]
 name = "matplotlib-inline"
@@ -2092,7 +2140,22 @@ docs = ["sphinx (>=1.4.0)"]
 test = ["coverage[toml] (==5.2.1)", "flake8 (==3.8.3)", "flake8-blind-except (==0.1.1)", "flake8-debugger (==3.2.1)", "flake8-imports (==0.1.1)", "freezegun (==0.3.15)", "isort (==5.3.2)", "pretend (==1.0.9)", "pytest (==6.2.5)", "pytest-asyncio", "pytest-cov (==2.8.1)", "pytest-httpx", "requests-mock (>=0.7.0)"]
 xmlsec = ["xmlsec (>=0.6.1)"]
 
+[[package]]
+name = "zipp"
+version = "3.16.0"
+description = "Backport of pathlib-compatible object wrapper for zip files"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "zipp-3.16.0-py3-none-any.whl", hash = "sha256:5dadc3ad0a1f825fe42ce1bce0f2fc5a13af2e6b2d386af5b0ff295bc0a287d3"},
+    {file = "zipp-3.16.0.tar.gz", hash = "sha256:1876cb065531855bbe83b6c489dcf69ecc28f1068d8e95959fe8bbc77774c941"},
+]
+
+[package.extras]
+docs = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-lint"]
+testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-mypy (>=0.9.1)", "pytest-ruff"]
+
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "05b51c0ca5cdac0b31e919fd6e70f2e6b30163b4af6b1d2403b026877d0d0230"
+content-hash = "75b934906eb3c6eb78971da201e1161e79a3f466ad2f5b4e54196670cbf9638b"

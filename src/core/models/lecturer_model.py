@@ -11,8 +11,8 @@ from django.db.models import (
     OneToOneField,
     QuerySet,
     SlugField,
+    TextField,
 )
-from django_quill.fields import QuillField
 
 from core.consts import SLUG_HELP_TEXT
 from core.utils.text import slugify
@@ -55,7 +55,7 @@ class Lecturer(Model):
         ),
     )
 
-    biography = QuillField("Biografia", blank=True)
+    biography = TextField("Biografia", blank=True)
 
     user = OneToOneField(
         settings.AUTH_USER_MODEL,

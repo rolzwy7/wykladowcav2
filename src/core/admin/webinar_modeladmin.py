@@ -1,28 +1,45 @@
 from django.contrib.admin import ModelAdmin, StackedInline, register
-from django.db.models import TextField
-from django.forms.widgets import Textarea
+from django.forms import ModelForm
+from tinymce.widgets import TinyMCE
 
 from core.models import Webinar, WebinarMetadata
 
 
 class WebinarModelAdminInline(StackedInline):
+    """Webinar Model Admin Inline"""
+
     model = WebinarMetadata
     can_delete = False
     classes = ["collapse"]
     readonly_fields = ["clickmeeting_id"]
 
 
+class WebinarModelAdminForm(ModelForm):
+    class Meta:
+        model = Webinar
+        fields = "__all__"
+        widgets = {"program": TinyMCE(attrs={"cols": 80, "rows": 30})}
+
+
 @register(Webinar)
 class WebinarModelAdmin(ModelAdmin):
+    """Webinar Model Admin"""
+
+    def save_related(self, request, form, formsets, change):
+        super().save_related(request, form, formsets, change)
+
+        # Add lecturer's categories to webinar after save
+        webinar = form.instance
+        for category in webinar.lecturer.categories.all():
+            webinar.categories.add(category)
+
+    form = WebinarModelAdminForm
     inlines = [
         WebinarModelAdminInline,
     ]
     prepopulated_fields = {"slug": ("title",)}
     filter_horizontal = ("categories",)
     list_display = ["title", "date", "status", "lecturer", "price_netto"]
-    formfield_overrides = {
-        TextField: {"widget": Textarea(attrs={"rows": 5, "cols": 80})},
-    }
 
     fieldsets = (
         (
@@ -36,7 +53,6 @@ class WebinarModelAdmin(ModelAdmin):
                     "title_original",
                     "title",
                     "description",
-                    "categories",
                 ],
             },
         ),
@@ -56,6 +72,24 @@ class WebinarModelAdmin(ModelAdmin):
             "Program szkolenia",
             {
                 "fields": ["program"],
+            },
+        ),
+        (
+            "Kategorie",
+            {
+                "fields": [
+                    "categories",
+                ],
+            },
+        ),
+        (
+            "Program (inne formy)",
+            {
+                "classes": ["collapse"],
+                "fields": [
+                    "program_markdown",
+                    "program_enchanted",
+                ],
             },
         ),
         (

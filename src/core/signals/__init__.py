@@ -5,3 +5,4 @@ from .on_webinar_create_metadata import on_webinar_create_metadata
 from .on_webinar_participanta_create_metadata import (
     on_webinar_participanta_create_metadata,
 )
+from .on_webinar_presave import on_webinar_presave

@@ -1,29 +1,14 @@
 import uuid
 
 from django.conf import settings
-from django.db.models import (
-    CASCADE,
-    BooleanField,
-    CharField,
-    DateTimeField,
-    ForeignKey,
-    Manager,
-    ManyToManyField,
-    Model,
-    OneToOneField,
-    PositiveSmallIntegerField,
-    Q,
-    QuerySet,
-    SlugField,
-    TextField,
-    URLField,
-    UUIDField,
-)
+from django.db.models import (CASCADE, BooleanField, CharField, DateTimeField,
+                              ForeignKey, Manager, ManyToManyField, Model,
+                              OneToOneField, PositiveSmallIntegerField, Q,
+                              QuerySet, SlugField, TextField, URLField,
+                              UUIDField)
 from django.utils.timezone import now, timedelta
-from django_quill.fields import QuillField
 
 from core.consts import SLUG_HELP_TEXT
-from core.utils.text import slugify
 
 from .enums import WebinarDuration, WebinarStatus
 
@@ -153,10 +138,14 @@ class Webinar(Model):
     )
 
     # Categories
-    categories = ManyToManyField("WebinarCategory", verbose_name="Kategorie")
+    categories = ManyToManyField(
+        "WebinarCategory", verbose_name="Kategorie", blank=True
+    )
 
     # Program
-    program = QuillField("Program szkolenia", default="[Program Szkolenia]")
+    program = TextField("Program szkolenia", default="[Program Szkolenia]")
+    program_markdown = TextField("Program szkolenia (markdown)", blank=True)
+    program_enchanted = TextField("Program szkolenia (enchanted)", blank=True)
 
     # External
     external_name = CharField(
@@ -174,7 +163,6 @@ class Webinar(Model):
         return str(self.title)
 
     def save(self, *args, **kwargs) -> None:
-        self.slug = slugify(self.title)
         return super().save(*args, **kwargs)
 
     @property

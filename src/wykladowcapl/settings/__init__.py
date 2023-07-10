@@ -20,9 +20,9 @@ from .images import *
 from .ingksiegowosc import *
 from .invoice import *
 from .logging import *
-from .quill import *
 from .redis import *
 from .regon import *
 from .rest_framework import *
 from .telegram import *
+from .tinymce import *
 from .webinar import *

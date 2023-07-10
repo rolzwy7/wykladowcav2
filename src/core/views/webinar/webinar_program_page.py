@@ -6,6 +6,7 @@ from core.services import WebinarService
 
 
 def webinar_program_page(request, slug: str):
+    """Webinar program controller"""
     template_name = "core/pages/webinar/WebinarProgramPage.html"
     webinar = get_object_or_404(Webinar, slug=slug)
     service = WebinarService(webinar)
@@ -15,6 +16,7 @@ def webinar_program_page(request, slug: str):
         template_name,
         {
             "webinar": webinar,
+            "program": webinar.program_enchanted,
             "webinar_tabs": service.get_webinar_tabs(0),
             **service.get_context(),
         },

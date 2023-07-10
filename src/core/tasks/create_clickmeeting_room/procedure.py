@@ -35,7 +35,7 @@ def create_clickmeeting_room(
 
     room_id = lib_create_clickmeeting_room(
         room_name=webinar.title,
-        lobby_description=webinar.program.html,  # type: ignore
+        lobby_description=webinar.program,
         date=webinar.date,
         duration=WEBINAR_CLICKMEETING_DURATION[webinar.duration],
     )

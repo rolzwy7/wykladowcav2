@@ -1,3 +1,5 @@
+import uuid
+
 from django.db.models import (
     CASCADE,
     CharField,
@@ -7,6 +9,7 @@ from django.db.models import (
     Manager,
     Model,
     QuerySet,
+    UUIDField,
 )
 
 from .webinar_model import Webinar
@@ -27,6 +30,8 @@ class WebinarAsset(Model):
 
     created_at = DateTimeField(auto_now_add=True)
 
+    token = UUIDField("Token materiału", default=uuid.uuid4, unique=True)
+
     webinar = ForeignKey("Webinar", verbose_name="Webinar", on_delete=CASCADE)
 
     filename = CharField("Nazwa pliku", max_length=300)
@@ -37,16 +42,6 @@ class WebinarAsset(Model):
 
     file = FileField("Plik", upload_to="uploads/webinar_assets")
 
-    @property
-    def filesize_human(self):
-        suffix = "B"
-        num = int(self.filesize)
-        for unit in ("", "K", "M", "G", "T", "P", "E", "Z"):
-            if abs(num) < 1024.0:
-                return f"{num:3.1f} {unit}{suffix}"
-            num /= 1024.0
-        return f"{num:.1f} Y{suffix}"
-
     class Meta:
         verbose_name = "Materiał szkoleniowy"
         verbose_name_plural = "Materiały szkoleniowe"
@@ -54,3 +49,14 @@ class WebinarAsset(Model):
 
     def __str__(self) -> str:
         return f"{self.filename}"
+
+    @property
+    def filesize_human(self):
+        """Get filesize in human format"""
+        suffix = "B"
+        num = int(self.filesize)
+        for unit in ("", "K", "M", "G", "T", "P", "E", "Z"):
+            if abs(num) < 1024.0:
+                return f"{num:3.1f} {unit}{suffix}"
+            num /= 1024.0
+        return f"{num:.1f} Y{suffix}"
