@@ -363,6 +363,17 @@ class ApplicationFormService:
             "application_timeline": self.get_timeline(),
         }
 
+    def get_first_step_url(self):
+        """Get first step URL for application"""
+        if self.application.application_type == PRIVATE_PERSON:
+            url_name = "core:application_person_details_page"
+        else:
+            url_name = "core:application_submitter_page"
+        return reverse(
+            url_name,
+            kwargs={"uuid": self.application.uuid},
+        )
+
     def redirect_on_application_error(self):
         """Raise redirect exception if application can't be filled"""
         webinar: Webinar = self.application.webinar
@@ -382,16 +393,7 @@ class ApplicationFormService:
 
         # If submitter is not set, redirect to form step
         if self.current_step == SUMMARY and self.application.submitter is None:
-            if self.application.application_type == PRIVATE_PERSON:
-                url_name = "core:application_person_details_page"
-            else:
-                url_name = "core:application_submitter_page"
-            raise RedirectException(
-                reverse(
-                    url_name,
-                    kwargs={"uuid": self.application.uuid},
-                )
-            )
+            raise RedirectException(self.get_first_step_url())
 
     @staticmethod
     def transform_post_data(request: HttpRequest):

@@ -8,6 +8,7 @@ from core.views.webinar_application import (
     application_participants_page,
     application_person_details_page,
     application_submitter_page,
+    application_success_page,
     application_summary_page,
     application_type_page,
 )
@@ -57,5 +58,10 @@ urlpatterns = [
         "<uuid:uuid>/podsumowanie/",
         application_summary_page,
         name="application_summary_page",
+    ),
+    path(
+        "wyslano/",
+        application_success_page,
+        name="application_success_page",
     ),
 ]

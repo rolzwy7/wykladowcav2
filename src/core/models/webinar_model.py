@@ -201,6 +201,11 @@ class Webinar(Model):
         else:
             return self.price_netto
 
+    @property
+    def discount_value(self):
+        """Discount NETTO value"""
+        return self.price_netto - self.discount_netto
+
 
 class WebinarMetadata(Model):
     """Metadata for Webinar model"""

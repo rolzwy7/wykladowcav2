@@ -82,8 +82,11 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 # Custom context processors
                 "core.context_processors.categories",
-                "core.context_processors.settings",
+                "core.context_processors.consts",
                 "core.context_processors.crm",
+                "core.context_processors.dates",
+                "core.context_processors.company",
+                "core.context_processors.links",
             ],
         },
     },

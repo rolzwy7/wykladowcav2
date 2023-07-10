@@ -29,7 +29,7 @@
         <!--begin::Toolbar-->
         <div class="toolbar d-flex flex-stack flex-wrap mb-5 mb-lg-7" id="kt_toolbar">
             <!--begin::Page title-->
-            <div class="page-title d-flex flex-column py-1">
+            <div class="page-title d-flex flex-column py-1 px-9">
                 <!--begin::Title-->
                 <h1 class="d-flex align-items-center my-1 text-dark fw-bold fs-1">
                     {{webinar.title}}
@@ -124,7 +124,7 @@
                                     <a
                                         href="{% url 'core:application_type_page' pk=webinar.pk %}"
                                         class="btn btn-sm btn-danger me-3">
-                                        Wyślij zgłoszenie
+                                        Wyślij zgłoszenie teraz
                                     </a>
                                     {% if request.user.is_staff %}
                                     <!--begin::Menu-->
@@ -143,14 +143,14 @@
                                             <!--end::Heading-->
                                             <!--begin::Menu item-->
                                             <div class="menu-item px-3">
-                                                <a href="{% url 'admin:core_webinar_change' object_id=webinar.id %}" class="menu-link px-3">
+                                                <a target="_blank" href="{% url 'admin:core_webinar_change' object_id=webinar.id %}" class="menu-link px-3">
                                                     Edytuj w CMS
                                                 </a>
                                             </div>
                                             <!--end::Menu item-->
                                             <!--begin::Menu item-->
                                             <div class="menu-item px-3">
-                                                <a href="{% url 'core:crm_webinar_detail_dashboard' pk=webinar.pk %}" class="menu-link px-3">
+                                                <a target="_blank" href="{% url 'core:crm_webinar_detail_dashboard' pk=webinar.pk %}" class="menu-link px-3">
                                                     Zobacz w CRM
                                                 </a>
                                             </div>
@@ -308,11 +308,29 @@
 
                 {% block webinar_rightbar %}
                 <div class="col-xl-4">
+
+
+                    <div class="card mb-4">
+                        <div class="card-body p-0">
+                            <ul class="list-group">
+                                <li class="list-group-item py-4">
+                                    Płatność do {{INVOICE_DEADLINE_DAYS}} dni po szkoleniu
+                                </li>
+                                <li class="list-group-item py-4">
+                                    Imienny certyfikat dla uczestników
+                                </li>
+                                <li class="list-group-item py-4">
+                                    Dostęp do nagrania po szkoleniu
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
                     <div
                         class="card card-flush mb-0"
-                        data-kt-sticky="true"
-                        data-kt-sticky-name="subscription-summary"
-                        data-kt-sticky-offset="{default: false, lg: '200px'}"
+                        data-kt-sticky="false"
+                        data-kt-sticky-name="patron-sticky"
+                        data-kt-sticky-offset="{default: false, xl: '200px'}"
                         data-kt-sticky-width="{lg: '250px', xl: '300px'}"
                         data-kt-sticky-left="auto"
                         data-kt-sticky-top="150px"
@@ -2879,29 +2897,6 @@ Experience share market at your fingertips with TICK PRO stock investment mobile
         <!--end::Post-->
     </div>
     <!--end::Content-->
-    <!--begin::Footer-->
-    <div class="footer pt-10 pb-5 d-flex flex-column flex-md-row flex-stack" id="kt_footer">
-        <!--begin::Copyright-->
-        <div class="text-dark order-2 order-md-1">
-            <span class="text-muted fw-semibold me-1">2023©</span>
-            <a href="https://keenthemes.com" target="_blank" class="text-gray-800 text-hover-primary">Keenthemes</a>
-        </div>
-        <!--end::Copyright-->
-        <!--begin::Menu-->
-        <ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
-            <li class="menu-item">
-                <a href="https://keenthemes.com" target="_blank" class="menu-link px-2">About</a>
-            </li>
-            <li class="menu-item">
-                <a href="https://devs.keenthemes.com" target="_blank" class="menu-link px-2">Support</a>
-            </li>
-            <li class="menu-item">
-                <a href="https://1.envato.market/EA4JP" target="_blank" class="menu-link ps-2 pe-0">Purchase</a>
-            </li>
-        </ul>
-        <!--end::Menu-->
-    </div>
-    <!--end::Footer-->
 </div>
 
 {% endblock content %}

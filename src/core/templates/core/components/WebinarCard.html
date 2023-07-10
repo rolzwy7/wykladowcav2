@@ -56,7 +56,9 @@
 
         <div class="symbol symbol-35px me-2">
             <img
-                src="{% get_media_prefix %}uploads/lecturers/{{webinar.lecturer.slug}}_35x35.webp"
+                src="{% static 'media/misc/spinner.gif' %}"
+                data-src="{% get_media_prefix %}uploads/lecturers/{{webinar.lecturer.slug}}_35x35.webp"
+                class="lozad"
                 alt="{{webinar.lecturer.fullname}}"
             />
         </div>

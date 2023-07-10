@@ -1,6 +1,6 @@
 from django.urls import reverse
 
-from core.models import WebinarCategory
+from core.models import Webinar, WebinarCategory
 
 HEADER = "HEADER"
 ITEM = "ITEM"
@@ -9,14 +9,16 @@ ITEM = "ITEM"
 def categories(request):
     """Categories context processor"""
 
-    # TODO: Caching
-    # TODO: Active category
-    # TODO: Document this
-
     sidebar_categories_qs = WebinarCategory.manager.sidebar_categories()
 
     sidebar_categories = []
     for category in sidebar_categories_qs:
+        category_count = (
+            Webinar.manager.init_or_confirmed()
+            .filter(categories__in=[category])
+            .count()
+        )
+
         if category.parent:
             sidebar_categories.append(
                 (
@@ -27,6 +29,7 @@ def categories(request):
                         kwargs={"slug": category.slug},
                     ),
                     category.name,
+                    category_count,
                 )
             )
         else:
@@ -39,6 +42,7 @@ def categories(request):
                         kwargs={"slug": category.slug},
                     ),
                     category.name,
+                    category_count,
                 )
             )
             sidebar_categories.append(
@@ -52,6 +56,7 @@ def categories(request):
                         kwargs={"slug": category.slug},
                     ),
                     "Wszystkie",
+                    None,
                 )
             )
 

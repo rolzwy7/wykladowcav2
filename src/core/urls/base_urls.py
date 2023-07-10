@@ -28,7 +28,7 @@ urlpatterns = [
     ),
     # path("api/", include("api.urls"), namespace="api"),
     path("zgloszenie-online/", include(application_urlpatterns)),
-    path("szkolenie/", include(webinar_urlpatterns)),
+    path("szkolenia-online/", include(webinar_urlpatterns)),
     path("wykladowcy/", lecturer_list_page, name="lecturer_list_page"),
     path("wykladowca/", include(lecturer_urlpatterns)),
     path("crm/", include(crm_urlpatterns)),

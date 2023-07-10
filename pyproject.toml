@@ -26,6 +26,7 @@ flower = "^2.0.0"
 dnspython = "^2.3.0"
 borb = "^2.1.15"
 django-celery-beat = "^2.5.0"
+beautifulsoup4 = "^4.12.2"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"

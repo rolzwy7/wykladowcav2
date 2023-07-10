@@ -11,5 +11,6 @@ from .exemptions_consts import (
     VAT_VALUE_PERCENT,
     WE_ARE_TAX_EXEMPT,
 )
+from .patron_consts import PATRON_EMAIL, PATRON_PHONE
 from .requests_consts import GET, POST
 from .slugs_consts import SLUG_HELP_TEXT

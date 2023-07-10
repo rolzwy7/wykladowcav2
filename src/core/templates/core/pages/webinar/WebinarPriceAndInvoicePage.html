@@ -12,7 +12,7 @@
     {% endif %}
   </p>
   <p class="mb-8">
-    Zapłata przelewem na konto następuje do 14 dni po szkoleniu.
+    Zapłata przelewem na konto następuje do {{INVOICE_DEADLINE_DAYS}} dni po szkoleniu.
   </p>
 </div>
 <div class="text-left my-5"><h2 class="mb-1">Cena zawiera</h2></div>
@@ -37,17 +37,20 @@
 <div class="text-left my-5"><h2 class="mb-1">Faktura</h2></div>
 <div class="fs-5 fw-bold text-gray-600">
   <div class="d-flex flex-column">
+    
+    {% if WE_ARE_TAX_EXEMPT %}
     <li class="d-flex align-items-center py-2">
-      <span class="bullet me-5"></span>Faktura wystawiana bez podatku VAT na
-      podstawie art. 113 ust. 1 i 9 ustawy o VAT
+      <span class="bullet me-5"></span>{{TAX_EXEMPT_TOOLTIP}}
     </li>
+    {% endif %}
+
     <li class="d-flex align-items-center py-2">
-      <span class="bullet me-5"></span>Faktura za udział w szkoleniu będzie
-      wysłana do Państwa po zajęciach emailem w formacie PDF lub listownie
+      <span class="bullet me-5"></span>Faktura za udział w szkoleniu zostanie
+      wysłana mailem do Państwa po zajęciach emailem w formacie PDF lub listownie
     </li>
     <li class="d-flex align-items-center py-2">
       <span class="bullet me-5"></span>Płatności należy dokonać przelewem do
-      14 dni po szkoleniu.
+      {{INVOICE_DEADLINE_DAYS}} dni po szkoleniu.
     </li>
   </div>
 </div>
@@ -56,7 +59,7 @@
   <div class="d-flex flex-column">
     <li class="d-flex align-items-center py-2">
       <span class="bullet me-5"></span>Uczestnik zgłasza się na szkolenie
-      poprzez zgłoszenie online, bądź telefonicznie: 531 244 871
+      poprzez zgłoszenie online, bądź telefonicznie: {{PATRON_PHONE}} lub poprzez kartę zgłoszeniową
     </li>
     <li class="d-flex align-items-center py-2">
       <span class="bullet me-5"></span>Uczestnik otrzymuje potwierdzenie o
@@ -86,7 +89,7 @@
       <span class="bullet me-5"></span>Po szkoleniu zostaje wysyłana:
     </li>
     <li class="d-flex align-items-center py-2 ms-10">
-      <span class="bullet me-5"></span>faktura z terminem płatności do 14
+      <span class="bullet me-5"></span>faktura z terminem płatności do {{INVOICE_DEADLINE_DAYS}}
       dni po szkoleniu
     </li>
     <li class="d-flex align-items-center py-2 ms-10">

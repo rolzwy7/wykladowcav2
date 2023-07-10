@@ -36,7 +36,7 @@ data-kt-sticky-zindex="95"
     data-kt-menu="true"
   >
 
-  {% for widget_type, category_order, category_url, category_name in SIDEBAR_CATEGORIES %}
+  {% for widget_type, category_order, category_url, category_name, category_count in SIDEBAR_CATEGORIES %}
     {% if widget_type == "HEADER" %}
       <!--begin::Heading-->
       <div class="menu-item">
@@ -57,12 +57,15 @@ data-kt-sticky-zindex="95"
           class="menu-link {% if request.path == category_url %}active{% endif %}"
         >
           <span class="menu-title">{{category_name}}</span>
-          <span class="menu-badge">6,234</span>
+          {% if category_count %}
+            <span class="menu-badge">{{category_count}}</span>
+          {% endif %}
         </a>
       </div>
       <!--end::Menu item-->
     {% endif %}
   {% endfor %}
+  {% comment %}
   <!--begin::Heading-->
   <div class="menu-item">
     <div class="menu-content pb-2">
@@ -135,6 +138,7 @@ data-kt-sticky-zindex="95"
     </a>
   </div>
   <!--end::Menu item-->
+  {% endcomment %}
   </div>
   <!--end::Menu-->
 </div>

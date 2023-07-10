@@ -8,5 +8,6 @@ from .application_participants_page import application_participants_page
 from .application_person_details_page import application_person_details_page
 from .application_recipient_page import ApplicationRecipientPage
 from .application_submitter_page import application_submitter_page
+from .application_success_page import application_success_page
 from .application_summary_page import application_summary_page
 from .application_type_page import application_type_page
