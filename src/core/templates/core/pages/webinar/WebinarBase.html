@@ -308,24 +308,7 @@
 
                 {% block webinar_rightbar %}
                 <div class="col-xl-4">
-
-
-                    <div class="card mb-4">
-                        <div class="card-body p-0">
-                            <ul class="list-group">
-                                <li class="list-group-item py-4">
-                                    Płatność do {{INVOICE_DEADLINE_DAYS}} dni po szkoleniu
-                                </li>
-                                <li class="list-group-item py-4">
-                                    Imienny certyfikat dla uczestników
-                                </li>
-                                <li class="list-group-item py-4">
-                                    Dostęp do nagrania po szkoleniu
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
+                    {% include './snippets/WhatWeOffer.html' %}
                     <div
                         class="card card-flush mb-0"
                         data-kt-sticky="false"

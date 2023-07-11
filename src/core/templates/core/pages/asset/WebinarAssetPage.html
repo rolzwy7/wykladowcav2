@@ -1,0 +1,85 @@
+{% extends 'core/extends/base.html' %} 
+{% load static %}
+{% block head_stylesheets %} {% endblock head_stylesheets %}
+
+{% block rightbar %}{%endblock rightbar %}
+
+{% block content %}
+<!--begin::Wrapper-->
+<div
+  class="wrapper d-flex flex-column flex-row-fluid mt-5 mt-lg-10"
+  id="kt_wrapper"
+>
+    <!--begin::Content-->
+    <div class="content flex-column-fluid" id="kt_content">
+        
+        <!--begin::Page title-->
+        <div class="page-title d-flex flex-column py-1">
+        <!--begin::Title-->
+        <h1 class="d-flex align-items-center my-1">
+          <span class="text-dark fw-bold fs-1 me-1">Materiały szkoleniowe</span>
+        </h1>
+        <!--end::Title-->
+      </div>
+      <!--end::Page title-->
+
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+            <thead>
+                <tr class="fw-bold fs-6 text-gray-800">
+                    <th>Plik</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for asset in webinar_assets %}
+                    <tr>
+                    <td>
+                        <!--begin::Item-->
+                        <div class="d-flex flex-aligns-center pe-10 pe-lg-20 mb-4">
+                        <!--begin::Icon-->
+                        <img alt="" class="w-30px me-3" src="{% static 'media/svg/files/file.svg' %}">
+                        <!--end::Icon-->
+                        <!--begin::Info-->
+                        <div class="ms-1 fw-semibold">
+                        <!--begin::Desc-->
+                        <a href="{% url 'core:webinar_asset_download' uuid=asset.token %}" class="fs-6 text-hover-primary fw-bold">
+                        {{asset.filename}}
+                        </a>
+                        <!--end::Desc-->
+                        <!--begin::Number-->
+                        <div
+                            class="text-gray-600 fw-bold"
+                            title="{{asset.content_type}}"
+                        >{{asset.filesize_human}}</div>
+                        <!--end::Number-->
+                        </div>
+                        <!--begin::Info-->
+                        </div>
+                        <!--end::Item-->
+                    </td>
+                    <td>
+                        <a
+                            href="{% url 'core:webinar_asset_download' uuid=asset.token %}"
+                            class="btn btn-sm btn-primary"
+                        >
+                            Pobierz
+                        </a>
+                    </td>
+                    <td>
+
+                    </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+
+
+    </div>
+    <!--end::Content-->
+</div>
+<!--end::Wrapper-->
+{% endblock content %} 
+{% block body_scripts %} {% endblock body_scripts %}

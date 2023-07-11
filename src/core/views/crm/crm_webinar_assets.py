@@ -4,7 +4,7 @@ from django.template.response import TemplateResponse
 
 from core.consts import POST
 from core.forms import WebinarAssetForm
-from core.models import Webinar, WebinarAsset
+from core.models import Webinar, WebinarAsset, WebinarMetadata
 from core.services import CrmWebinarService, WebinarAssetsService
 
 
@@ -12,6 +12,7 @@ def crm_webinar_assets(request, pk: int):
     """Assets for given webinar"""
     template_name = "core/pages/crm/webinar/CrmWebinarAssets.html"
     webinar = get_object_or_404(Webinar, pk=pk)
+    webinar_metadata = WebinarMetadata.objects.get(webinar=webinar)
     assets = WebinarAsset.manager.filter(webinar=webinar).order_by("filename")
     asset_service = WebinarAssetsService(webinar)
     webinar_service = CrmWebinarService(webinar)
@@ -26,5 +27,10 @@ def crm_webinar_assets(request, pk: int):
     return TemplateResponse(
         request,
         template_name,
-        {"webinar": webinar, "assets": assets, **webinar_service.get_context()},
+        {
+            "webinar": webinar,
+            "webinar_metadata": webinar_metadata,
+            "assets": assets,
+            **webinar_service.get_context(),
+        },
     )

@@ -27,6 +27,7 @@
     type="text/css"
   />
   <!--end::Global Stylesheets Bundle-->
+  <link href="{% static 'plugins/custom/cookiealert/cookiealert.bundle.css' %}" rel="stylesheet" type="text/css"/>
 {% endblock head_stylesheets_mandatory %}
 
 {% block meta %}
@@ -48,6 +49,7 @@
   <script src="{% static 'plugins/global/plugins.bundle.js' %}"></script>
   <script src="{% static 'js/scripts.bundle.js' %}"></script>
   <!--end::Global Javascript Bundle-->
+  <script src="{% static 'plugins/custom/cookiealert/cookiealert.bundle.js' %}"></script>
 {% endblock body_scripts_mandatory %}
 
 {% block head_stylesheets %}{% endblock head_stylesheets %}
@@ -82,6 +84,16 @@
     </div>
     <!--end::Page-->
     {% include './footer.html' %}
+    <!--begin::Cookie alert-->
+    <div class="d-flex d-lg-block flex-column bg-dark text-gray-300 text-center rounded-0 cookiealert py-5">
+      Strona korzysta z plików cookies w celu realizacji usług i zgodnie z <a href="{% url 'core:cookies_policy' %}">Polityką Plików Cookies</a>.
+      Możesz określić warunki przechowywania lub dostępu do plików cookies w Twojej przeglądarce.
+
+      <button type="button" class="btn btn-primary d-inline mx-auto ms-lg-5 acceptcookies mt-5 mt-lg-0">
+          Akceptuj
+      </button>
+    </div>
+    <!--end::Cookie alert-->
   </div>
   <!--end::Root-->
   <!--end::Main-->

@@ -134,6 +134,8 @@ class WebinarApplicationInvoice(Model):
 
 
 class WebinarApplication(Model):
+    """Webinar Application Model"""
+
     APPLICATION_TYPE = [
         (WebinarApplicationType.COMPANY, "Firma"),
         (WebinarApplicationType.JSFP, "JSFP"),
@@ -144,6 +146,7 @@ class WebinarApplication(Model):
         (ApplicationStatus.INIT, "Zgłoszenie rozpoczęte"),
         (ApplicationStatus.SENT, "Zgłoszenie wysłane"),
         (ApplicationStatus.RESIGNATION, "Rezygnacja ze zgłoszenia"),
+        (ApplicationStatus.PAYED, "Faktura opłacona"),
     ]
 
     manager = WebinarApplicationManager()

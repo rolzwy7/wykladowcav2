@@ -9,10 +9,12 @@ from core.views import (
 from core.views.lecturer import lecturer_list_page
 
 from .application_urls import urlpatterns as application_urlpatterns
+from .assets_urls import urlpatterns as assets_urlpatterns
 from .certificate_urls import urlpatterns as certificate_urlpatterns
 from .crm_urls import urlpatterns as crm_urlpatterns
 from .lecturer_urls import urlpatterns as lecturer_urlpatterns
 from .previews_urls import urlpatterns as previews_urlpatterns
+from .recording_urls import urlpatterns as recording_urlpatterns
 from .terms_and_conditions_urls import (
     urlpatterns as terms_and_conditions_urlpatterns,
 )
@@ -32,10 +34,12 @@ urlpatterns = [
     path("wykladowcy/", lecturer_list_page, name="lecturer_list_page"),
     path("wykladowca/", include(lecturer_urlpatterns)),
     path("crm/", include(crm_urlpatterns)),
-    path("login/", login_page, name="login"),
+    path("logowanie/", login_page, name="login"),
     path("rejestracja/", register_page, name="register"),
     path("preview/", include(previews_urlpatterns)),
     path("certyfikat/", include(certificate_urlpatterns)),
+    path("nagrania/", include(recording_urlpatterns)),
+    path("materialy-szkoleniowe/", include(assets_urlpatterns)),
     *terms_and_conditions_urlpatterns,
     path("", home_page, name="homepage"),
 ]

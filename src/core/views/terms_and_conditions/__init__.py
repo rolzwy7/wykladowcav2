@@ -1,5 +1,5 @@
 # flake8: noqa
-from .terms_and_conditions import (
+from .terms_and_conditions_page import (
     cookies_policy,
     privacy_policy,
     terms_and_conditions_webinars,

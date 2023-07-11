@@ -18,6 +18,14 @@
     <div class="card shadow-sm">
       <div class="card-header">
         <h3 class="card-title">Materiały szkoleniowe</h3>
+        <div class="card-toolbar">
+            <a
+                href="{% url 'core:webinar_assets_page' uuid=webinar_metadata.assets_token %}"
+                type="button"
+                class="btn btn-sm btn-primary">
+                Zobacz stronę dla uczestników
+            </a>
+        </div>
       </div>
       <div class="card-body">
        {% include './snippets/AssetsUploadForm.html' %}

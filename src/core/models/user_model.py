@@ -4,6 +4,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 class User(AbstractUser):
+    """User model"""
+
     username = models.EmailField(
         _("username"),
         unique=True,
@@ -11,6 +13,9 @@ class User(AbstractUser):
             "unique": _("A user with that username already exists."),
         },
     )
+
+    def __str__(self) -> str:
+        return f"{self.username}"
 
     def save(self, *args, **kwargs):
         self.username = self.username.lower()

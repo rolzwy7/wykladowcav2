@@ -40,6 +40,13 @@ class LecturerOpinion(Model):
 
     rating = CharField("Ocena", max_length=16, choices=RATING)
 
+    class Meta:
+        verbose_name = "Opinia o wykładowcy"
+        verbose_name_plural = "Opinie o wykładowcy"
+
+    def __str__(self) -> str:
+        return str(self.fullname)
+
     @property
     def rating_number(self):
         """Get rating number"""
@@ -50,10 +57,3 @@ class LecturerOpinion(Model):
             LecturerOpinionRating.START_4: 4,
             LecturerOpinionRating.START_5: 5,
         }[self.rating]
-
-    class Meta:
-        verbose_name = "Opinia o wykładowcy"
-        verbose_name_plural = "Opinie o wykładowcy"
-
-    def __str__(self) -> str:
-        return str(self.fullname)

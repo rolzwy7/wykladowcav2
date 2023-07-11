@@ -11,6 +11,7 @@ class WebinarAssetsService:
         self.webinar = webinar
 
     def save_asset(self, file: UploadedFile):
+        """Save uploaded asset in database"""
         asset = WebinarAsset(
             webinar=self.webinar,
             filename=file.name,

@@ -65,6 +65,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "core.middleware.CoreMiddleware",
+    "core.middleware.LoyaltyProgramMiddleware",
 ]
 
 ROOT_URLCONF = "wykladowcapl.urls"

@@ -21,12 +21,12 @@ def login_page(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect(next_param or reverse("core:dashboard_page"))
+                return redirect(next_param or reverse("core:homepage"))
             else:
                 auth_failed = True
     else:
         if request.user.is_authenticated:
-            return redirect(reverse("core:dashboard_page"))
+            return redirect(reverse("core:homepage"))
         form = LoginForm()
 
     return TemplateResponse(
