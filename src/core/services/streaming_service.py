@@ -4,6 +4,7 @@ from pathlib import Path
 
 from django.conf import settings
 from django.http import HttpRequest, HttpResponse
+from django.utils.timezone import now
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
 
 from core.models import WebinarRecording, WebinarRecordingToken
@@ -33,8 +34,28 @@ class StreamingService:
             f"{self.recording.recording_id}.mp4",
         )
 
+    def is_token_valid(self) -> bool:
+        """Check if streaming token is valid
+
+        Returns:
+            bool: True if is valid, False otherwise
+        """
+
+        # Deny access if denied manually by checkbox
+        deny_access = self.recording_token.deny_access
+        if deny_access:
+            return False
+
+        # Check if token expires
+        # If expired then deny access
+        expires_at = self.recording_token.expires_at
+        if expires_at and expires_at > now():
+            return False
+
+        return True
+
     def get_streaming_response(self, request: HttpRequest):
-        """Get http response to answer video player video request"""
+        """Get HTTP response to answer video player video request"""
 
         # Get chunk config
         chunk_config = self.get_chunk_config(request)

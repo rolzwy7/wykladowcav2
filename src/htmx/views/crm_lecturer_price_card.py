@@ -4,9 +4,9 @@ from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
 
 from core.consts import POST
+from core.forms.crm import CrmLecturerPriceCardForm
 from core.models import Webinar, WebinarMetadata
 from core.services import CrmWebinarService
-from htmx.forms import CrmLecturerPriceCardForm
 
 
 def crm_lecturer_price_card(request: HttpRequest, webinar_pk: int, mode: str):

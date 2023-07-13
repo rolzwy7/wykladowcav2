@@ -3,8 +3,8 @@ from django.db.models import CharField, DateTimeField, Model
 from core.libs.validators import validate_nip_modelfield
 
 
-class CrmCompany(Model):  # TODO
-    """Represents Company"""
+class CrmCompany(Model):
+    """Represents CRM Company"""
 
     created_at = DateTimeField(auto_now_add=True)
 

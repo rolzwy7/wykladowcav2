@@ -1,0 +1,21 @@
+<!--begin::Discount-->
+{% if webinar %}
+{% if webinar.is_discounted %}
+    <!--begin::Alert-->
+    <div class="alert alert-dismissible bg-light-danger border border-danger d-flex flex-column flex-sm-row p-2 mb-2">
+    <!--begin::Wrapper-->
+    <div class="d-flex flex-column pe-0 pe-sm-10">
+        <!--begin::Content-->
+        <span>
+            To szkolenie po
+            <b>{{webinar.discount_until|date:"j E Y"}} godz. {{webinar.discount_until|date:"H:i"}}</b>
+            będzie <b>{{webinar.discount_value}}zł</b> droższe od osoby
+        </span>
+        <!--end::Content-->
+    </div>
+    <!--end::Wrapper-->
+    </div>
+    <!--end::Alert-->
+{% endif %}
+{% endif %}
+<!--end::Discount-->

@@ -1,6 +1,7 @@
 from django.urls import include, path
 
 from core.views import (
+    contact_page,
     home_page,
     login_page,
     register_page,
@@ -34,8 +35,9 @@ urlpatterns = [
     path("wykladowcy/", lecturer_list_page, name="lecturer_list_page"),
     path("wykladowca/", include(lecturer_urlpatterns)),
     path("crm/", include(crm_urlpatterns)),
-    path("logowanie/", login_page, name="login"),
-    path("rejestracja/", register_page, name="register"),
+    path("logowanie/", login_page, name="login_page"),
+    path("rejestracja/", register_page, name="register_page"),
+    path("kontakt/", contact_page, name="contact_page"),
     path("preview/", include(previews_urlpatterns)),
     path("certyfikat/", include(certificate_urlpatterns)),
     path("nagrania/", include(recording_urlpatterns)),

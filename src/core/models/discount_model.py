@@ -1,6 +1,5 @@
 import uuid
 
-from django.conf import settings
 from django.db.models import (
     RESTRICT,
     BooleanField,
@@ -9,10 +8,9 @@ from django.db.models import (
     ForeignKey,
     Manager,
     Model,
-    OneToOneField,
     Q,
     QuerySet,
-    TextField,
+    SmallIntegerField,
     UUIDField,
 )
 from django.utils.timezone import now
@@ -21,9 +19,17 @@ from .enums import DiscountCodeType, DiscountCodeUseType
 
 
 class DiscountCodeManager(Manager):
-    """Eventlog query Manager"""
+    """DiscountCode query Manager"""
 
-    ...
+    def valid_discount_codes(self) -> QuerySet["DiscountCode"]:
+        """Get valid discount codes
+
+        Returns:
+            QuerySet["DiscountCode"]: valid discount codes
+        """
+        return self.get_queryset().filter(
+            Q(expired=False) & (Q(expires__gte=now()) | Q(expires=None))
+        )
 
 
 class DiscountCode(Model):
@@ -35,7 +41,13 @@ class DiscountCode(Model):
         "Identyfikator kodu promocyjnego", default=uuid.uuid4, unique=True
     )
 
-    discount_code = ...
+    discount_code = CharField("Kod promocyjny", max_length=32, unique=True)
+
+    discount_value = SmallIntegerField(
+        "Wartość promocji",
+        default=5,
+        help_text="W zależności od typu. Albo `zł` albo `%`",
+    )
 
     expired = BooleanField(
         "Zużyty", default=False, help_text="Kod został zużyty."
@@ -45,13 +57,15 @@ class DiscountCode(Model):
         (DiscountCodeUseType.ONE_TIME, "Jednorazowy"),
         (DiscountCodeUseType.MANY_TIMES, "Wielorazowy"),
     ]
-    use_type = CharField("Typ użycia", choices=USE_TYPE)
+    use_type = CharField("Typ użycia", max_length=32, choices=USE_TYPE)
 
     DISCOUNT_TYPE = [
         (DiscountCodeType.PERCENT, "( % ) Procentowa"),
         (DiscountCodeType.VALUE, "( zł ) Złotówkowa"),
     ]
-    discount_type = CharField("Typ zniżki", choices=DISCOUNT_TYPE)
+    discount_type = CharField(
+        "Typ zniżki", max_length=32, choices=DISCOUNT_TYPE
+    )
 
     expires = DateTimeField(
         "Zniżka wygasa",
@@ -80,48 +94,12 @@ class DiscountApplicationApplied(Model):
         blank=True,
     )
 
-    # code (optional)
+    amount = SmallIntegerField("Wartość zniżki (zł)")
 
-    # - amount
+    name = CharField("Krótka nazwa", max_length=64)
 
-    # desc
+    description = CharField("Krótki opis", max_length=150, blank=True)
 
     class Meta:
         verbose_name = "Zniżka (zgłoszenie)"
         verbose_name_plural = "Zniżka (zgłoszenia)"
-
-
-# class LoyaltyProgramIncome(Model):
-#     """Represents loyality program income"""
-
-#     created_at = DateTimeField(auto_now_add=True)
-
-#     fk: LoyaltyProgram
-
-#     fk: Application
-
-#     status = ...  # realizacja, odmowiono, zrealizowano
-
-#     amount = ...  # integer, brutto, netto ???
-
-#     class Meta:
-#         verbose_name = "Program partnerski (Należność)"
-#         verbose_name_plural = "Program partnerski (Należności)"
-
-
-# class LoyaltyProgramPayout(Model):
-#     """Represents loyality program payout"""
-
-#     created_at = DateTimeField(auto_now_add=True)
-
-#     fk: LoyaltyProgram
-
-#     status = ...  # realizacja, odmowiono, zrealizowano
-
-#     amount = ...  # integer, brutto, netto ???
-
-#     invoice_attachment = ...  # file
-
-#     class Meta:
-#         verbose_name = "Program partnerski (Wypłata)"
-#         verbose_name_plural = "Program partnerski (Wypłaty)"

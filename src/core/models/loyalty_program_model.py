@@ -1,17 +1,13 @@
+# TODO: finish this
 from django.conf import settings
 from django.db.models import (
     CASCADE,
     CharField,
     DateTimeField,
-    ForeignKey,
     Manager,
     Model,
     OneToOneField,
-    Q,
-    QuerySet,
-    TextField,
 )
-from django.utils.timezone import now
 
 
 class LoyaltyProgramManager(Manager):
@@ -27,7 +23,7 @@ class LoyaltyProgram(Model):
 
     created_at = DateTimeField(auto_now_add=True)
 
-    ref_number = CharField(max_length=32, primary_key=True)  # TODO: Validation
+    ref_number = CharField(max_length=32, primary_key=True)
 
     user = OneToOneField(
         settings.AUTH_USER_MODEL,

@@ -1,32 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-</head>
-<body>
+{% extends './extends/EmailBase.html' %}
 
-<p>
-    Szanowni Państwo 
-</p>
+{% block content %}
+<!--email-template from database: START-->
+<tr>
+  <td align="center" style="max-width: 640px;" valign="top">
+    <table width="100%" align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" style="border-spacing:0;background-color: #ffffff;">
+      <tbody>
+        
+        <tr><td height="50">&nbsp;</td></tr>
 
-<p>
-    Zostali państwo zapisani na szkolenie: <b>{{title}}</b>, którego
-    planowany termin to {{date}} godzina {{hour}},
-    wykładowca: {{lecturer}}
-</p>
+        <tr>
+          <td align="left" valign="top" style="border-collapse:collapse;">
+            <table border="0" cellpadding="0" cellspacing="0" style="border-spacing:0;width: 100%;max-width: 640px;">
+              <tbody>
+                {% include './includes/EmailDearRecipientIntro.html' %}
 
-<p>
-    <b>Dzień przed planowanym terminem</b> szkolenia prześlemy każdemu z uczestników
-    dodatkową wiadomość e-mail ze wszystkimi informacjami potrzebnymi
-    do połączenia się do webinaru.
-</p>
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;">
+                    Zostali Państwo zapisani jako uczestnicy na szkolenie: <br> <b>{{webinar.title_original}}</b>
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    Szkolenie planowane jest na dzień <b>{{webinar.date|date:"j E Y"}}</b> godz. <b>{{webinar.date|date:"H:i"}}</b>.
+                  </td>
+                </tr>
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    Wykładowca <b>{{webinar.lecturer.fullname}}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    <b>Dzień przed planowanym terminem</b> szkolenia prześlemy każdemu z uczestników dodatkową wiadomość e-mail ze wszystkimi informacjami potrzebnymi do połączenia się do webinaru poprzez platformę ClickMeeting.
+                  </td>
+                </tr>
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    Prosimy o zapoznanie się z wymaganiami technicznymi platformy ClickMeeting: <br> <a href="https://utilities.clickmeeting.com/connection-tester">https://utilities.clickmeeting.com/connection-tester</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    <b>Program szkolenia:</b>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    {{webinar.program_enchanted|safe}}
+                  </td>
+                </tr>
 
-<p>
-    Prosimy o zapoznanie się z wymaganiami technicznymi platformy ClickMeeting: <br>
-    <a href="https://utilities.clickmeeting.com/connection-tester">
-        https://utilities.clickmeeting.com/connection-tester
-    </a>
-</p>
+                {% include './includes/EmailThankYouForChoosingUs.html' %}
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        
+        <tr>
+          <td height="50" style="border-collapse:collapse;font-size:1px; line-height:0px;">&nbsp;
+          </td>
+        </tr>
 
-</body>
-</html>
+      </tbody>
+    </table>
+  </td>
+</tr>
+<!--email-template from database: END-->
+{% endblock content %}

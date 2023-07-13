@@ -19,6 +19,7 @@ from .send_clickmeeting_invitation_lecturer import (
 from .send_clickmeeting_invitation_participant import (
     task_send_clickmeeting_invitation_participant,
 )
+from .send_invoice_email import task_send_invoice_email
 from .send_participant_certificate_email import (
     params_send_participant_certificate_email,
     task_send_participant_certificate_email,
@@ -30,6 +31,10 @@ from .send_participant_confirmation_email import (
 from .send_participant_opinion_email import (
     params_send_participant_opinion_email,
     task_send_participant_opinion_email,
+)
+from .send_participant_preparation_email import (
+    params_send_participant_preparation_email,
+    task_send_participant_preparation_email,
 )
 from .send_submitter_confirmation_email import (
     params_send_submitter_confirmation_email,

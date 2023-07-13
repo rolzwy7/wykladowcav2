@@ -4,6 +4,7 @@ from django.db.models import Count
 from core.models import (
     Webinar,
     WebinarApplication,
+    WebinarAsset,
     WebinarMetadata,
     WebinarParticipant,
 )
@@ -85,10 +86,15 @@ class CrmWebinarService:
             for _ in qs
         ]
 
+    def get_webinar_assets(self):
+        """Get webinar's assets"""
+        return WebinarAsset.manager.get_for_webinar(webinar=self.webinar)
+
     def get_context(self):
         """Number of gathered participants"""
         gathered_participants = self.gathered_participants()
         total_netto_value_of_webinar = self.total_netto_value_of_webinar()
+        webinar_assets_count = self.get_webinar_assets().count()
         return {
             "webinar": self.webinar,
             "sent_applications": self.sent_applications(),
@@ -98,4 +104,5 @@ class CrmWebinarService:
             "total_netto_value_of_webinar": total_netto_value_of_webinar,
             "total_netto_value_of_webinar_display": f"{total_netto_value_of_webinar:,}",
             "get_groupby_application_type_count": self.get_groupby_application_type_count(),
+            "webinar_assets_count": webinar_assets_count,
         }

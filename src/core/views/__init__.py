@@ -1,4 +1,5 @@
 # flake8: noqa
+from .contact_page import contact_page
 from .home_page import home_page
 from .login_page import login_page
 from .register_page import register_page

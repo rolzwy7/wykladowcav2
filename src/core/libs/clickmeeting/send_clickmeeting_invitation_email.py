@@ -35,7 +35,7 @@ def send_clickmeeting_invitation_email(room_id: str, email: str, role: str):
     }
     result = requests.post(url, data=payload, headers=headers, timeout=10)
     result.raise_for_status()
-    if result.json()["status"] != "OK":  # TODO: too broad exception
+    if result.json()["status"] != "OK":
         raise Exception("response `status` is not OK")
     return result.json()
 

@@ -71,7 +71,7 @@ class WebinarRecordingToken(Model):
 
     deny_access = BooleanField(
         "Odmówiono dostępu",
-        default=True,
+        default=False,
         help_text="Zaznacz aby odmówić dostępu do nagrania przez ten token",
     )
 

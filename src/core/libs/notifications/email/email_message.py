@@ -12,11 +12,11 @@ class EmailMessage:
         self.subject = subject
         self.email_message = EmailMultiAlternatives(
             subject=self.subject,
-            body=self.email_template.text,
+            body=self.email_template.get_text(),
             from_email=f"{settings.COMPANY_NAME} <{settings.EMAIL_OFFICE}>",
             to=[email],
             cc=[settings.EMAIL_OFFICE],
-            alternatives=[(self.email_template.html, "text/html")],
+            alternatives=[(self.email_template.get_html(), "text/html")],
             headers={"Organization": settings.COMPANY_NAME_FULL},
             reply_to=[settings.EMAIL_OFFICE],
         )

@@ -12,6 +12,7 @@ def eventlog_submitter_confirmation_email(webinar_id: int, email: str):
         eventlog = Eventlog(
             webinar=Webinar.manager.get(id=webinar_id),
             title_html=title_html,
+            content_html=f"SNIPPET:SUBMITTER_EMAIL_CONF:{webinar_id}",
             icon="notification",
             color="success",
         )

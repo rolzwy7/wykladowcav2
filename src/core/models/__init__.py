@@ -1,6 +1,9 @@
 # flake8: noqa
 
+from .crm_company_model import CrmCompany
+from .crm_contact_model import CrmContact
 from .crm_todo_model import CrmTodo
+from .discount_model import DiscountApplicationApplied, DiscountCode
 from .eventlog_model import Eventlog
 from .lecturer_model import Lecturer
 from .lecturer_opinion_model import LecturerOpinion

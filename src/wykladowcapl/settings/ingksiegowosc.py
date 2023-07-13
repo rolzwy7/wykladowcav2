@@ -4,7 +4,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# TODO: ingksiegowosc to delete
+# TODO: ING Ksiegowosc - Delete this because we no longer use it
+
 # Base URL for Ing Księgowość API
 INGKSIEGOWOSC_API_BASE_URL = "https://ksiegowosc.ing.pl/v2"
 

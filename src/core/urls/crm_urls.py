@@ -11,6 +11,7 @@ from core.views.crm import (
     crm_webinar_detail_dashboard,
     crm_webinar_done,
     crm_webinar_eventlogs,
+    crm_webinar_participants,
 )
 
 urlpatterns = [
@@ -23,6 +24,11 @@ urlpatterns = [
         "webinar/<int:pk>/logi/",
         crm_webinar_eventlogs,
         name="crm_webinar_eventlogs",
+    ),
+    path(
+        "webinar/<int:pk>/uczestnicy/",
+        crm_webinar_participants,
+        name="crm_webinar_participants",
     ),
     path(
         "webinar/<int:pk>/materialy-szkoleniowe/",

@@ -7,7 +7,12 @@
             <!--begin: Pic-->
             <div class="me-7 mb-4">
                 <div class="symbol symbol-fixed position-relative">
-                    <img src="{% get_media_prefix %}uploads/lecturers/{{webinar.lecturer.slug}}_50x50.webp" alt="image" />
+                    <img
+                        src="{% static 'media/misc/spinner.gif' %}"
+                        data-src="{% get_media_prefix %}uploads/lecturers/{{webinar.lecturer.slug}}_50x50.webp"
+                        class="lozad"
+                        alt="{{webinar.lecturer.fullname}}"
+                    />
                 </div>
             </div>
             <!--end::Pic-->

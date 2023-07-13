@@ -22,6 +22,7 @@ from core.consts import (
     CHOICES_VAT_EXEMPTIONS,
     VAT_EXEMPTION_0,
     VAT_VALUE_PERCENT,
+    WE_ARE_TAX_EXEMPT,
 )
 from core.libs.validators import validate_nip_modelfield
 
@@ -68,13 +69,13 @@ class WebinarApplicationSubmitter(Model):
     email = EmailField("Email")
     phone = CharField("Numer telefonu", max_length=100)
 
+    def __str__(self):
+        return f"{self.fullname}"
+
     @property
     def fullname(self):
         """Returns submitter's fullname"""
         return f"{self.first_name} {self.last_name}"
-
-    def __str__(self):
-        return f"{self.fullname}"
 
 
 class WebinarApplicationPrivatePerson(Model):
@@ -90,13 +91,13 @@ class WebinarApplicationPrivatePerson(Model):
     email = EmailField("Email")
     phone = CharField("Numer telefonu", max_length=100)
 
+    def __str__(self):
+        return f"{self.fullname}"
+
     @property
     def fullname(self):
         """Returns submitter's fullname"""
         return f"{self.first_name} {self.last_name}"
-
-    def __str__(self):
-        return f"{self.fullname}"
 
 
 class WebinarApplicationInvoice(Model):
@@ -160,8 +161,9 @@ class WebinarApplication(Model):
         "Identyfikator zgłoszenia", default=uuid.uuid4, unique=True
     )
 
+    refcode = CharField("Kod referencyjny", max_length=32, blank=True)
+
     # Price
-    discount_applied = BooleanField("Promocja nałożona", default=False)
     price_netto = PositiveSmallIntegerField("Cena NETTO")
     price_old = PositiveSmallIntegerField("Stara cena", null=True)
 
@@ -240,6 +242,9 @@ class WebinarApplication(Model):
         verbose_name = "Zgłoszenie"
         verbose_name_plural = "Zgłoszenia"
 
+    def __str__(self) -> str:
+        return f"Zgłoszenie {self.id}"  # type: ignore
+
     @property
     def participants(self) -> QuerySet["WebinarParticipant"]:
         """Return paticipants for this application"""
@@ -248,14 +253,20 @@ class WebinarApplication(Model):
     @property
     def total_price_netto(self):
         """Calculate total NETTO price for this application"""
-        return (
-            WebinarParticipant.manager.filter(application=self).count()
-            * self.price_netto
-        )
+        return self.participants.count() * self.price_netto
 
     @property
     def price_brutto(self):
-        """Calculate total NETTO price for this application"""
+        """Calculate BRUTTO price for one participant"""
+
+        # Take exemption into consideration
+        if WE_ARE_TAX_EXEMPT:
+            return self.price_netto
+
+        # Application is not VAT exempt
+        if self.invoice.vat_exemption != VAT_EXEMPTION_0.db_key:  # type: ignore
+            return self.price_netto
+
         multiplier = round((100 + VAT_VALUE_PERCENT) / 100, 2)
         return round(self.price_netto * multiplier, 2)
 
@@ -270,3 +281,8 @@ class WebinarApplicationMetadata(Model):
     invoice_id = CharField(max_length=32, blank=True)
     invoice_number = CharField(max_length=64, blank=True)
     invoice_url = CharField(max_length=300, blank=True)
+
+    terms_accepted = BooleanField("Zaakceptowano regulamin", default=False)
+
+    def __str__(self) -> str:
+        return f"Zgłoszenie {self.application.id} metadata"

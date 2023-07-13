@@ -1,6 +1,7 @@
 from celery import chain, group
 
 from core.models import (
+    Webinar,
     WebinarApplication,
     WebinarApplicationSubmitter,
     WebinarParticipant,
@@ -21,25 +22,28 @@ def after_application_sent_dispatch(
 
     # Prepare data
     participants = WebinarParticipant.manager.filter(application=application)
-    webinar_id: int = application.webinar.id
+    webinar: Webinar = application.webinar
+    webinar_id: int = webinar.id  # type: ignore
+    application_id: int = application.id  # type: ignore
 
     # Dispatch tasks
     chain(
         group(
             task_send_submitter_confirmation_email.si(
                 params_send_submitter_confirmation_email(
-                    submitter.email,
-                    webinar_id,
+                    submitter.email, webinar_id, application_id
                 )
             ),
             *[
                 task_send_participant_confirmation_email.si(
                     params_send_participant_confirmation_email(
-                        participant.email, webinar_id
+                        participant.email, application_id, webinar_id
                     )
                 )
                 for participant in participants
-            ]
+            ],
         ),
-        task_send_telegram_notification.si("Wysłano zgłoszenie na szkolenie"),
+        task_send_telegram_notification.si(
+            f"Wysłano zgłoszenie na szkolenie #{webinar_id}"
+        ),
     ).apply_async()

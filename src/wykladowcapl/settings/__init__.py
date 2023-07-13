@@ -17,7 +17,6 @@ from .email import (
 from .fakturownia import FAKTUROWNIA_API_KEY, FAKTUROWNIA_API_URL
 from .files import *
 from .images import *
-from .ingksiegowosc import *
 from .invoice import *
 from .logging import *
 from .loyalty_program import *

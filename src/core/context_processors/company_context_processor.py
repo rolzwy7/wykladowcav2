@@ -2,8 +2,8 @@ from django.conf import settings
 from django.http import HttpRequest
 
 
-def company(request: HttpRequest):
-    """Company context processor"""
+def company_non_request_context():
+    """Get context variables that are not dependant on request"""
     return {
         "COMPANY_NAME": settings.COMPANY_NAME,
         "COMPANY_NAME_FULL": settings.COMPANY_NAME_FULL,
@@ -24,3 +24,8 @@ def company(request: HttpRequest):
         "COMPANY_OFFICE_PHONE": settings.COMPANY_OFFICE_PHONE,
         "COMPANY_WWW": settings.COMPANY_WWW,
     }
+
+
+def company(request: HttpRequest):
+    """Company context processor"""
+    return company_non_request_context()

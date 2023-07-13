@@ -1,3 +1,4 @@
+from django.core.exceptions import PermissionDenied
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
 
@@ -10,10 +11,10 @@ def recording_streaming(request: HttpRequest, uuid: str):
 
     # Get recording token
     recording_token = get_object_or_404(WebinarRecordingToken, token=uuid)
+    streaming_service = StreamingService(recording_token)
 
-    # Check if expired, if so then deny access
-    # TODO: token expiration
+    if not streaming_service.is_token_valid():
+        raise PermissionDenied()
 
     # Call streaming service
-    service = StreamingService(recording_token)
-    return service.get_streaming_response(request)
+    return streaming_service.get_streaming_response(request)

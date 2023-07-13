@@ -219,9 +219,7 @@ class ApplicationSummarySubmitForm(Form):
     accept_terms_of_service = CharField(
         widget=CheckboxWidget(
             attrs={
-                "label": (
-                    "Klikając tutaj akceptuję postanowienia regulaminu szkoleń"
-                )
+                "label": ("Kliknij tutaj, aby zaakceptować regulamin szkoleń")
             }
         )
     )

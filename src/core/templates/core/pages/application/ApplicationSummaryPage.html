@@ -7,20 +7,32 @@
 {% endblock head_stylesheets %}
 
 {% block rightbar %}{% endblock rightbar %}
+{% block leftbar %}{% endblock leftbar %}
 
 
 {% block application_toolbar_actions %}
-{% if application.status == 'INIT' %}
 <div class="d-flex align-items-center py-1">
-    <!--begin::Button-->
-    <a
-    href="#"
-    class="btn btn-flex btn-sm btn-primary fw-bold border-0 fs-6 h-40px">
+<!--begin::Button-->
+<button
+    type="button"
+    class="btn btn-sm btn-bg-secondary me-3"
+    data-bs-toggle="modal"
+    data-bs-target="#kt_modal_terms_and_conditions"
+>
+<i class="ki-outline ki-question-2 fs-3"></i>
+    Przeczytaj regulamin szkoleń
+</button>
+<!--end::Button-->
+{% if application.status == 'INIT' %}
+<!--begin::Button-->
+<a
+    href="{{first_step_url}}"
+    class="btn btn-sm btn-flex btn-primary fw-bold border-0">
     Popraw zgłoszenie
 </a>
 <!--end::Button-->
-</div>
 {% endif %}
+</div>
 {% endblock application_toolbar_actions %}
 
 {% block application_content %}
@@ -30,6 +42,32 @@
     <div class="d-flex flex-column flex-lg-row">
         <!--begin::Content-->
         <div class="flex-lg-row-fluid me-lg-15 order-2 order-lg-1 mb-10 mb-lg-0">
+
+
+            {% if application.refcode %}            
+            <!--begin::Alert-->
+            <div class="p-5 mb-5 alert alert-dismissible bg-light-success d-flex flex-column flex-sm-row">
+                <!--begin::Icon-->
+                <i class="ki-outline ki-medal-star fs-2hx text-success me-4 mb-5 mb-sm-0"></i>
+                <!--end::Icon-->
+                
+                <!--begin::Wrapper-->
+                <div class="d-flex flex-column pe-0 pe-sm-10">
+                    <!--begin::Title-->
+                    <h4 class="fw-semibold">Bierzesz udział w programie lojalnościowym</h4>
+                    <!--end::Title-->
+                    
+                    <!--begin::Content-->
+                    <span>
+                        Używając kodu referencyjnego <b>{{application.refcode}}</b> otrzymujesz od nas dodatkowe -5% zniżki
+                    </span>
+                    <!--end::Content-->
+                </div>
+                <!--end::Wrapper-->
+            </div>
+            <!--end::Alert-->
+            {% endif %}
+
 
             {% if request.user.is_authenticated %}
             <!--begin::Alert-->
@@ -54,54 +92,6 @@
             </div>
             <!--end::Alert-->
             {% endif %}
-
-            {% if application.discount_applied %}
-            <!--begin::Alert-->
-            <div class="p-5 mb-5 alert alert-dismissible bg-light-success d-flex flex-column flex-sm-row">
-                <!--begin::Icon-->
-                <i class="ki-outline ki-dollar fs-2hx text-success me-4 mb-5 mb-sm-0"></i>
-                <!--end::Icon-->
-                
-                <!--begin::Wrapper-->
-                <div class="d-flex flex-column pe-0 pe-sm-10">
-                    <!--begin::Title-->
-                    <h4 class="fw-semibold">Promocja została zapisana</h4>
-                    <!--end::Title-->
-                    
-                    <!--begin::Content-->
-                    <span>
-                        Przesyłasz zgłoszenie w promocyjnej cenie: {{application.price_netto}}zł netto za uczestnika
-                    </span>
-                    <!--end::Content-->
-                </div>
-                <!--end::Wrapper-->
-            </div>
-            <!--end::Alert-->
-            {% else %}
-            {% endif %}
-
-
-            <!--begin::Alert-->
-            <div class="p-5 mb-5 alert alert-dismissible bg-secondary d-flex flex-column flex-sm-row">
-                <!--begin::Icon-->
-                <i class="ki-outline ki-medal-star fs-2hx text-white me-4 mb-5 mb-sm-0"></i>
-                <!--end::Icon-->
-                
-                <!--begin::Wrapper-->
-                <div class="d-flex flex-column pe-0 pe-sm-10">
-                    <!--begin::Title-->
-                    <h4 class="fw-semibold">Weź udział w programie lojalnościowym</h4>
-                    <!--end::Title-->
-                    
-                    <!--begin::Content-->
-                    <span>
-                        ...
-                    </span>
-                    <!--end::Content-->
-                </div>
-                <!--end::Wrapper-->
-            </div>
-            <!--end::Alert-->
 
 
             <!--begin::Card-->
@@ -170,13 +160,10 @@
 
                 <!--begin::Card body-->
                 <div class="card-body pt-0 fs-6">
-                    <!--begin::Seperator-->
-                    <div class="separator separator-dashed mb-4"></div>
-                    <!--end::Seperator-->
                     <!--begin::Section-->
-                    <div class="mb-7">
+                    <div class="mb-4 mt-4">
                         <!--begin::Title-->
-                        <h5 class="mb-4">Cena</h5>
+                        <h5 class="mb-4">Cena podstawowa</h5>
                         <!--end::Title-->
                         <!--begin::Details-->
                         {% comment %} <div class="d-flex justify-content-start"> {% endcomment %}
@@ -187,12 +174,19 @@
                                 <div class="d-flex flex-stack mb-3">
                                     <!--begin::Accountname-->
                                     <div class="fw-semibold pe-10 text-gray-600 fs-7">
-                                        Uczestników:
+                                        Ilość:
                                     </div>
                                     <!--end::Accountname-->
                                     <!--begin::Label-->
                                     <div class="text-end fw-bold fs-6 text-gray-800">
-                                        {{participants|length}}
+                                        {% with participants|length as participants_length %}
+                                        {{participants_length}}
+                                        {% if participants_length == 1 %}
+                                        uczestnik
+                                        {% else %}
+                                        uczestników
+                                        {% endif %}
+                                        {% endwith %}
                                     </div>
                                     <!--end::Label-->
                                 </div>
@@ -206,8 +200,7 @@
                                     <!--end::Accountname-->
                                     <!--begin::Label-->
                                     <div class="text-end fw-bold fs-6 text-gray-800">
-                                        {% if application.discount_applied %}
-
+                                        {% if application.webinar.is_discounted %}
                                         <span class="text-decoration-line-through fw-bolder text-danger me-1">
                                             {{application.price_old}}zł
                                         </span>
@@ -217,6 +210,7 @@
                                         {% else %}
                                             {{application.price_netto}}zł
                                         {% endif %}
+                                        {{PRICE_ADNOTATION}}
                                     </div>
                                     <!--end::Label-->
                                 </div>
@@ -233,7 +227,24 @@
                                         {% if application.invoice.vat_exemption == "VAT_EXEMPTION_0" %}
                                         23%
                                         {% else %}
+
+                                        {% if WE_ARE_TAX_EXEMPT %}
+                                            <i
+                                                class="ki-duotone ki-question-2 fs-1"
+                                                style="vertical-align: middle; cursor: pointer;"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-custom-class="tooltip-inverse"
+                                                data-bs-placement="top"
+                                                title="{{TAX_EXEMPT_TOOLTIP}}"
+                                            >
+                                                <i class="path1"></i>
+                                                <i class="path2"></i>
+                                                <i class="path3"></i>
+                                            </i>
+                                        {% endif %}
+
                                         Zwolnienie
+
                                         {% endif %}
                                     </div>
                                     <!--end::Label-->
@@ -243,30 +254,8 @@
                             <!--end::Section-->
                         </div>
                         <!--end::Details-->
-                        <!--begin::Seperator-->
-                        <div class="separator separator-dashed mb-2"></div>
-                        <!--end::Seperator-->
-                        <!--begin::Title-->
-                        <h5 class="mb-2">Całkowita cena</h5>
-                        <!--end::Title-->
-                        <!--begin::Details-->
-                        <div class="d-flex justify-content-start">
-                            <!--begin::Section-->
-                            <div class="mw-300px">
-                                <!--begin::Item-->
-                                <div class="d-flex flex-stack mb-3">
-                                    <!--begin::Label-->
-                                    <div class="text-start fw-bold fs-6 text-gray-800">
-                                        {{application.total_price_netto}}zł
-                                        {% if application.invoice.vat_exemption == "VAT_EXEMPTION_0" %}
-                                        + 23% VAT
-                                        {% endif %}
-                                    </div>
-                                    <!--end::Label-->
-                                </div>
-                                <!--end::Item-->
-                            </div>
-                            <!--end::Section-->
+                        <div hx-get="{% url 'htmx:htmx_application_discount_panel' pk=application.pk %}" hx-trigger="load">
+                            <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
                         </div>
                         <!--begin::Title-->
                     </div>
@@ -275,20 +264,6 @@
                     <div class="separator separator-dashed my-2"></div>
                     <!--end::Seperator-->
                     {% if application.status == 'INIT' %}
-                    <div class="d-flex justify-content-center">
-                        <button
-                            type="button"
-                            class="btn btn-sm btn-bg-secondary"
-                            data-bs-toggle="modal"
-                            data-bs-target="#kt_modal_terms_and_conditions"
-                        >
-                        <i class="ki-outline ki-question-2 fs-3"></i>
-                            Przeczytaj regulamin szkoleń
-                        </button>
-                    </div>
-                    <!--begin::Seperator-->
-                    <div class="separator separator-dashed my-2"></div>
-                    <!--end::Seperator-->
                     <!--begin::Actions-->
                     <div class="mb-0 mt-3">
                         <form
@@ -299,12 +274,12 @@
                             {{form.accept_terms_of_service}}
                             </div>
                             <!--begin::Seperator-->
-                            <div class="separator separator-dashed my-4"></div>
+                            <div class="separator separator-dashed my-1"></div>
                             <!--end::Seperator-->
                             <div class="d-flex justify-content-center">
                                 <button
                                     type="submit"
-                                    class="btn btn-danger mt-3"
+                                    class="btn btn-danger mt-3 w-100"
                                     disabled
                                     id="send-application-btn"
                                 >
@@ -355,9 +330,13 @@
 {% endblock application_content %}
 
 {% block body_scripts %}
+<script src="{% static 'js/htmx.min.js' %}"></script>
 <script>
-    
-    
+    document.body.addEventListener('htmx:configRequest', (event) => {
+        event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+    })
+</script>
+<script>
     var checkInput = document.querySelector("#id_accept_terms_of_service");
     
     checkInput.addEventListener("click", function(e) {

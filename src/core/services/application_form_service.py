@@ -361,6 +361,7 @@ class ApplicationFormService:
             "step_title": self.get_step_title(),
             "step_description": self.get_step_description(),
             "application_timeline": self.get_timeline(),
+            "first_step_url": self.get_first_step_url(),
         }
 
     def get_first_step_url(self):
@@ -368,7 +369,7 @@ class ApplicationFormService:
         if self.application.application_type == PRIVATE_PERSON:
             url_name = "core:application_person_details_page"
         else:
-            url_name = "core:application_submitter_page"
+            url_name = "core:application_buyer_page"
         return reverse(
             url_name,
             kwargs={"uuid": self.application.uuid},

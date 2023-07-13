@@ -1,6 +1,10 @@
 from django.contrib import admin
 
 from core.models import (
+    CrmCompany,
+    CrmContact,
+    DiscountApplicationApplied,
+    DiscountCode,
     Eventlog,
     LecturerOpinion,
     User,
@@ -15,6 +19,10 @@ from core.models import (
 )
 
 admin.site.register(User)
+admin.site.register(DiscountCode)
+admin.site.register(DiscountApplicationApplied)
+admin.site.register(CrmCompany)
+admin.site.register(CrmContact)
 admin.site.register(WebinarAsset)
 admin.site.register(Eventlog)
 admin.site.register(LecturerOpinion)

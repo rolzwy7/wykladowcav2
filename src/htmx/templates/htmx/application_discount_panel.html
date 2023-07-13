@@ -1,0 +1,74 @@
+{% load static %}
+<div hx-target="this" hx-swap="outerHTML">
+  <form
+    hx-post="{% url 'htmx:htmx_application_discount_panel' pk=application.pk %}"
+    method="post"
+  >
+    <div class="d-flex flex-row">
+      <div class="input-group mb-1">
+        <input
+          type="text"
+          name="discount_code"
+          required
+          class="form-control form-control-solid"
+          placeholder="Kod promocyjny"
+        />
+        <span class="input-group-text p-0">
+          <button
+            type="submit"
+            class="btn btn-icon btn-primary"
+            style="border-top-left-radius: 0; border-bottom-left-radius: 0"
+          >
+            <i class="ki-duotone ki-price-tag fs-2"
+              ><i class="path1"></i><i class="path2"></i><i class="path3"></i
+            ></i>
+          </button>
+        </span>
+      </div>
+    </div>
+  </form>
+  
+  {% if error_msg %}
+  <span class="text-danger">{{error_msg}}</span>
+  {% endif %}
+
+
+{% if application_discounts_exists %}
+  <!--begin::Seperator-->
+  <div class="separator separator-dashed my-2"></div>
+  <!--end::Seperator-->
+  <!--begin::Title-->
+  <h5 class="mb-4">Zniżki</h5>
+  <!--end::Title-->
+  <!--begin::Section-->
+  <div class="mw-300px">
+    {% for application_discount in application_discounts %}
+    <!--begin::Item-->
+    <div class="d-flex flex-stack mb-3">
+      <!--begin::Accountname-->
+      <div class="fw-semibold pe-10 text-gray-600 fs-7">
+        {{application_discount.name}}
+      </div>
+      <!--end::Accountname-->
+      <!--begin::Label-->
+      <div class="text-end text-success fw-bold fs-6">
+        -{{application_discount.amount}} zł
+      </div>
+      <!--end::Label-->
+    </div>
+    <!--end::Item-->
+    {% endfor %}
+  </div>
+  <!--end::Section-->
+
+{% endif %}
+
+  <!--begin::Title-->
+  <h5 class="mb-2">
+    Całkowita cena: {{application.total_price_netto}}zł
+    {% if application.invoice.vat_exemption == "VAT_EXEMPTION_0" %}
+    +   {{VAT_VALUE_PERCENT}}% VAT
+    {% endif %}
+  </h5>
+  <!--end::Title-->
+</div>

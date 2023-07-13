@@ -1,7 +1,7 @@
 from django.db.models import DateTimeField, EmailField, Model
 
 
-class CrmContact(Model):  # TODO:
+class CrmContact(Model):
     """Represents CRM Contact"""
 
     created_at = DateTimeField(auto_now_add=True)
