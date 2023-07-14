@@ -1,5 +1,7 @@
 {% load static %}
 
+{% with webinar_ctx.webinar as webinar %}
+
 <div class="card mb-6 shadow-sm">
     <div class="card-body p-5">
         <!--begin::Details-->
@@ -40,22 +42,26 @@
                                 {{webinar.lecturer.fullname}}
                             </span>
                             <span class="d-flex align-items-center text-gray-400 me-5 mb-2">
-                                <i class="ki-duotone ki-cd fs-4 me-1 text-primary">
+                                <i class="ki-duotone ki-cd fs-4 me-1 text-{% include './WebinarStatusColor.html' %}">
                                     <span class="path1"></span>
                                     <span class="path2"></span>
                                 </i>
-                                <span class="fw-bold text-primary">
-                                    Zbieranie zgłoszeń (cena: 350zł)
+                                <span class="fw-bold text-{% include './WebinarStatusColor.html' %}">
+                                    {% include './WebinarStatusText.html' with webinar=webinar count=webinar_ctx.gathered_participants_count %}
                                 </span>
                             </span>
+                            {% if webinar_ctx.webinar_assets_count != 0 %}
                             <span class="d-flex align-items-center text-gray-400 me-5 mb-2">
                                 <i class="ki-duotone ki-file fs-4 me-1">
                                     <span class="path1"></span>
                                     <span class="path2"></span>
                                     <span class="path3"></span>
                                 </i>
-                                <b>Materiały: 8 plików</b>
+                                <a href="{% url 'core:crm_webinar_assets' pk=webinar.pk %}" class="text-gray-400">
+                                    <b>Materiały: {{webinar_ctx.webinar_assets_count}} plików</b>
+                                </a>
                             </span>
+                            {% endif %}
                         </div>
                         <!--end::Info-->
                     </div>
@@ -68,7 +74,7 @@
                                 <i class="ki-solid ki-dots-horizontal fs-2x me-1"></i>
                             </button>
                             <!--begin::Menu 3-->
-                            <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px py-3" data-kt-menu="true">
+                            <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-300px py-3" data-kt-menu="true">
                                 <!--begin::Heading-->
                                 <div class="menu-item px-3">
                                     <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">
@@ -80,15 +86,23 @@
                                 <div class="menu-item px-3">
 
                                     {% if webinar.status == "INIT" %}
-                                    <a href="{% url 'core:crm_webinar_confirm' pk=webinar.pk %}" class="menu-link px-3">
+                                    <a href="{% url 'core:crm_webinar_confirm' pk=webinar.pk %}" class="menu-link px-3 text-warning">
                                         Potwierdź termin
                                     </a>
                                     {% elif webinar.status == "CONFIRMED" %}
-                                    <a href="{% url 'core:crm_webinar_done' pk=webinar.pk %}" class="menu-link px-3">
+                                    <a href="{% url 'core:crm_webinar_done' pk=webinar.pk %}" class="menu-link px-3 text-success">
                                         Zakończ szkolenie
                                     </a>
                                     {% endif %}
-
+                                    <a href="{% url 'core:webinar_program_page' slug=webinar.slug %}" class="menu-link px-3">
+                                        Zobacz na stronie
+                                    </a>
+                                    <a href="{% url 'admin:core_webinar_change' object_id=webinar.id %}" class="menu-link px-3">
+                                        Edytuj termin w CMS
+                                    </a>
+                                    <a href="{% url 'admin:core_lecturer_change' object_id=webinar.lecturer.id %}" class="menu-link px-3">
+                                        Edytuj wykładowce w CMS
+                                    </a>
                                 
                                 </div>
                             </div>
@@ -146,7 +160,15 @@
                                 <i class="path2"></i>
                             </i>
                             <div class="fs-5 fw-bold counted">
-                                4,000zł / 2,500zł
+                                {{webinar_ctx.total_netto_value_of_webinar_display}}zł
+                                /
+                                {% if webinar_ctx.lecturer_netto_price != 0 %}
+                                    {{webinar_ctx.lecturer_netto_price_display}}zł
+                                {% else %}
+                                    <span class="text-danger fw-bold">
+                                        ???
+                                    </span>
+                                {% endif %}
                             </div>
                         </div>
                         <!--end::Number-->
@@ -164,7 +186,9 @@
                                 <i class="path2"></i>
                             </i>
                             <div class="fs-5 fw-bold counted">
-                                7 ucz. / 6 zgl.
+                                {{webinar_ctx.gathered_participants_count}} ucz.
+                                /
+                                {{webinar_ctx.sent_applications_count}} zgł.
                             </div>
                         </div>
                         <!--end::Number-->
@@ -181,3 +205,5 @@
         <!--end::Details-->
     </div>
 </div>
+
+{% endwith %}

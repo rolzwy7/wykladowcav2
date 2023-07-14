@@ -1,3 +1,4 @@
+{% load custom_templatetags %}
 <!--begin::Aside-->
 <div
 id="kt_aside"
@@ -9,7 +10,7 @@ data-kt-drawer-overlay="true"
 data-kt-drawer-width="{default:'200px', '300px': '225px'}"
 data-kt-drawer-direction="start"
 data-kt-drawer-toggle="#kt_aside_toggle"
-data-kt-sticky="true"
+data-kt-sticky="false"
 data-kt-sticky-name="aside-sticky"
 data-kt-sticky-offset="{default: false, lg: '1px'}"
 data-kt-sticky-width="{lg: '225px'}"
@@ -51,7 +52,11 @@ data-kt-sticky-zindex="95"
   <div class="menu-item">
     <a
       href="{% url 'core:crm_upcoming_webinars' %}"
-      class="menu-link {% if request.path == '/crm/' %}active{% endif %}"
+      class="
+        menu-link
+        {% if request.path == '/crm/' %}active{% endif %}
+        {% if request.path|startswith:"/crm/webinar" %}active{% endif %}
+        "
     >
       <span class="menu-title">
         Webinary

@@ -1,8 +1,12 @@
 # pylint: disable=no-name-in-module
 
+import json
+
 import requests
 from django.conf import settings
 from pydantic import BaseModel
+
+from core.exceptions import ClickmeetingError
 
 CLICKMEETING_API_URL = settings.CLICKMEETING_API_URL
 CLICKMEETING_API_KEY = settings.CLICKMEETING_API_KEY
@@ -30,7 +34,30 @@ def list_clickmeeting_room_recordings(
         timeout=(10, 10),
         headers={"X-Api-Key": CLICKMEETING_API_KEY},
     )
+
+    # !!! This API endpoint returns 200 OK event when it should return 4xx
+    # For example if there are no recordings for given room then API returns:
+    # {
+    #     "code": 404,
+    #     "name": "NOT_FOUND",
+    #     "errors": [
+    #         {
+    #             "name": "NOT_FOUND",
+    #             "message": "Meeting room not found."
+    #         }
+    #     ]
+    # }
     response.raise_for_status()
+
+    # If response is `dict` then something went wrong
+    if isinstance(response.json(), dict):
+        # If there is an 404 error code in response return empty list
+        if response.json().get("code") == 404:
+            return []
+
+        raise ClickmeetingError(
+            f"room_id={str(room_id)}, {json.dumps(response.json())}"
+        )
 
     return [
         ListClickmeetingRoomRecordingsResponse(**recording)

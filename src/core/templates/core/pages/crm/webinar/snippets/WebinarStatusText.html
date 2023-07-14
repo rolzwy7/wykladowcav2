@@ -1,0 +1,9 @@
+{% if webinar.status == "INIT" %}
+Zebrano {{count}} uczestników
+{% elif webinar.status == "CONFIRMED" %}
+Potwierdzony ({{count}} uczestników)
+{% elif webinar.status == "CANCELED" %}
+Odwołany
+{% elif webinar.status == "DONE" %}
+Zrealizowany ({{count}} uczestników)
+{% endif %}

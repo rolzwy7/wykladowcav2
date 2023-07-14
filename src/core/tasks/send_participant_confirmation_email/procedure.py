@@ -19,7 +19,7 @@ class SendParticipantConfirmationEmailParams(BaseModel):
     application_id: int
 
 
-def params(email: str, application_id: int, webinar_id: int) -> str:
+def params(email: str, webinar_id: int, application_id: int) -> str:
     """Create params"""
     json_dump = json.dumps(
         SendParticipantConfirmationEmailParams(

@@ -95,12 +95,16 @@ class CrmWebinarService:
         gathered_participants = self.gathered_participants()
         total_netto_value_of_webinar = self.total_netto_value_of_webinar()
         webinar_assets_count = self.get_webinar_assets().count()
+        lecturer_price_netto = self.lecturer_price_netto()
+        sent_applications = self.sent_applications()
         return {
             "webinar": self.webinar,
-            "sent_applications": self.sent_applications(),
+            "sent_applications": sent_applications,
+            "sent_applications_count": sent_applications.count(),
             "gathered_participants": gathered_participants,
             "gathered_participants_count": gathered_participants.count(),
-            "lecturer_netto_price": self.lecturer_price_netto(),
+            "lecturer_netto_price": lecturer_price_netto,
+            "lecturer_netto_price_display": f"{lecturer_price_netto:,}",
             "total_netto_value_of_webinar": total_netto_value_of_webinar,
             "total_netto_value_of_webinar_display": f"{total_netto_value_of_webinar:,}",
             "get_groupby_application_type_count": self.get_groupby_application_type_count(),

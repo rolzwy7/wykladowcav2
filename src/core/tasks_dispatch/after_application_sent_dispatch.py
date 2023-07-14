@@ -31,13 +31,17 @@ def after_application_sent_dispatch(
         group(
             task_send_submitter_confirmation_email.si(
                 params_send_submitter_confirmation_email(
-                    submitter.email, webinar_id, application_id
+                    submitter.email,
+                    webinar_id,
+                    application_id,
                 )
             ),
             *[
                 task_send_participant_confirmation_email.si(
                     params_send_participant_confirmation_email(
-                        participant.email, application_id, webinar_id
+                        participant.email,
+                        webinar_id,
+                        application_id,
                     )
                 )
                 for participant in participants

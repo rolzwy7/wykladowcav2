@@ -1,8 +1,9 @@
 {% extends './CrmWebinarBase.html' %}
 {% load static %}
+{% load custom_templatetags %}
 
 {% block head_stylesheets %}
-
+<link href="{% static 'plugins/custom/datatables/datatables.bundle.css' %}" rel="stylesheet" type="text/css"/>
 {% endblock head_stylesheets %}
 
 {% block crm_webinar_content %}
@@ -87,13 +88,145 @@
 
         <div class="card shadow-sm">
             <div class="card-header">
-                <h3 class="card-title">Przesłane zgłoszenia ({{gathered_participants_count}})</h3>
+                <h3 class="card-title">Uczestnicy ({{gathered_participants_count}})</h3>
             </div>
             <div class="card-body">
-                {% for application in sent_applications %}
-                    {% include './snippets/ApplicationItem.html' with application=application %}
-                    <div class="separator my-10"></div>
-                {% endfor %}
+
+
+                <table id="kt_participants_table" class="table table-row-bordered gy-5">
+                    <thead>
+                        <tr class="fw-semibold fs-6 text-gray-800">
+                            <th>Imię i Nazwisko</th>
+                            <th>E-mail</th>
+                            <th>Telefon</th>
+                            <th>Zadzwoniono przed szkoleniem</th>
+                            <th>Info</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for participant in gathered_participants %}
+                        <tr>
+                            <td>{{participant.fullname}}</td>
+                            <td>{{participant.email}}</td>
+                            <td>{{participant.phone}}</td>
+                            <td>-</td>
+                            <td>
+                                <i
+                                    class="ki-duotone ki-youtube fs-2qx me-2"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-custom-class="tooltip-inverse"
+                                    data-bs-placement="top"
+                                    title="Nie wysłano zaprosznia do Clickmeeting"
+                                    style="cursor: pointer;"
+                                >
+                                    <i class="path1"></i>
+                                    <i class="path2"></i>
+                                </i>
+                                <i
+                                    class="ki-duotone ki-sms fs-2qx me-2"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-custom-class="tooltip-inverse"
+                                    data-bs-placement="top"
+                                    title="Nie sprawdzono serwera pocztowego"
+                                    style="cursor: pointer;"
+                                >
+                                    <i class="path1"></i>
+                                    <i class="path2"></i>
+                                </i>
+                                <i
+                                    class="ki-duotone ki-question fs-2qx me-2"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-custom-class="tooltip-inverse"
+                                    data-bs-placement="top"
+                                    title="Nowy uczestnik"
+                                    style="cursor: pointer;"
+                                >
+                                    <i class="path1"></i>
+                                    <i class="path2"></i>
+                                    <i class="path3"></i>
+                                </i>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        
+        
+        <div class="card shadow-sm mt-4">
+            <div class="card-header">
+                <h3 class="card-title">Szczegóły zgłoszeń ({{sent_applications_count}})</h3>
+            </div>
+            <div class="card-body">
+
+                <table id="kt_applications_table" class="table table-striped border rounded gy-5 gs-7">
+                    <thead>
+                        <tr class="fw-semibold fs-6 text-gray-800">
+                            <th class="min-w-150px" data-priority="1">Nabywca <br> szkolenia</th>
+                            <th class="min-w-50px">NIP</th>
+                            <th class="min-w-50px">Typ <br> zgłoszenia</th>
+                            <th class="min-w-150px">Osoba <br> zgłaszająca</th>
+                            <th class="min-w-50px">Uczestników <br> szkolenia</th>
+                            <th class="min-w-50px">Za <br> osobę</th>
+                            <th class="min-w-50px">Wartość <br> zgłoszenia</th>
+                            <th class="min-w-50px">Zgłoszenie <br> wysłano</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for application in sent_applications %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'admin:core_webinarapplication_change' object_id=application.id %}">
+                                {% if application.application_type == "COMPANY" or application.application_type == "JSFP" %}
+                                    <span class="fw-bold {% if application.application_type == "COMPANY" %}text-primary{% else %}text-danger{% endif %}" title="{{application.buyer.name}}">
+                                        {{application.buyer.name|shorten:7}}
+                                    </span>
+                                {% elif application.application_type == "PRIVATE_PERSON" %}
+                                    <span class="fw-bold text-success" title="{{application.private_person.fullname}}">
+                                        {{application.private_person.fullname|shorten:7}}
+                                    </span>
+                                {% endif %}
+                                </a>
+                            </td>
+                            <td>
+                                {% if application.application_type == "PRIVATE_PERSON" %}
+                                -
+                                {% else %}
+                                <div class="d-flex flex-column">
+                                    {% if application.buyer.nip %}
+                                        <span>N={{application.buyer.nip}}</span>
+                                    {% endif %}
+                                    {% if application.recipient.nip %}
+                                    <span>O={{application.recipient.nip}}</span>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{application.get_application_type_display}}
+                            </td>
+                            <td>
+                                <div class="d-flex flex-column">
+                                    <span><b>{{application.submitter.fullname}}</b></span>
+                                    <span>{{application.submitter.email}}</span>
+                                    <span>{{application.submitter.phone}}</span>
+                                </div>
+                            </td>
+                            <td>{{application.participants.count}}</td>
+                            <td>{{application.total_price_netto}}zł</td>
+                            <td>{{application.total_price_netto}}zł</td>
+                            <td>
+                                {{application.created_at|date:"j E Y"}} godz. {{application.created_at|date:"H:i"}}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+
+
             </div>
         </div>
     
@@ -105,5 +238,14 @@
 {% endblock crm_webinar_content %}
 
 {% block body_scripts %}
-
+<script src="{% static 'plugins/custom/datatables/datatables.bundle.js' %}"></script>
+<script>
+    $("#kt_applications_table").DataTable({
+        responsive: true,
+        pageLength: 25,
+    });
+    $("#kt_participants_table").DataTable({
+        pageLength: 25
+    });
+</script>
 {% endblock body_scripts %}

@@ -56,7 +56,8 @@ def download_and_process_clickmeeting_recording(webinar_id: int) -> str:
 
     recordings = list_clickmeeting_room_recordings(int(clickmeeting_id))
 
-    if len(recordings) == 0:  # There are no recordings for given webinar
+    # There are no recordings for given webinar
+    if len(recordings) == 0:
         return "No recordings"
 
     # Iterate over Clickmeeting recordings

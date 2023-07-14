@@ -7,8 +7,8 @@
 
 {% block crm_content %}
 <h1>Nadchodzące szkolenia</h1>
-  {% for webinar in webinars %}
-    {% include './snippets/CrmWebinarCard.html' with webinar=webinar %}
+  {% for webinar_ctx in webinars_ctxs %}
+    {% include './snippets/CrmWebinarCard.html' with webinar_ctx=webinar_ctx %}
   {% endfor %}
 {% endblock crm_content %}
 
