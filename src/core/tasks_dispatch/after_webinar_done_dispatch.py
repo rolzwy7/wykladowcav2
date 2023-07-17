@@ -62,7 +62,7 @@ def after_webinar_done_dispatch(webinar: Webinar):
                 # certificate_url passed here,
                 params_send_participant_certificate_email(
                     participant.email,
-                    participant.application.webinar,
+                    participant.application.id,
                 )
             ),
         )
@@ -99,7 +99,7 @@ def after_webinar_done_dispatch(webinar: Webinar):
             name=f"Send opinion e-mail to participant #{participant_id}",
             task="send_participant_opinion_email",
             args=params_send_participant_opinion_email(
-                participant.email, webinar
+                participant.email, participant.application.id
             ),
             expires=now()
             + timedelta(hours=30),  # just in case to prevent resend

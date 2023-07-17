@@ -1,17 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-</head>
-<body>
+{% extends './extends/EmailBase.html' %}
 
-  <p>Szanowni Państwo</p>
+{% block content %}
+<!--email-template from database: START-->
+<tr>
+  <td align="center" style="max-width: 640px;" valign="top">
+    <table width="100%" align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" style="border-spacing:0;background-color: #ffffff;">
+      <tbody>
+        
+        <tr><td height="50">&nbsp;</td></tr>
 
-  <p>Prosimy o przesłanie opinii na temat wykładowcy.</p>
+        <tr>
+          <td align="left" valign="top" style="border-collapse:collapse;">
+            <table border="0" cellpadding="0" cellspacing="0" style="border-spacing:0;width: 100%;max-width: 640px;">
+              <tbody>
+                {% include './includes/EmailDearRecipientIntro.html' %}
 
-  <p>{{webinar_title}}</p>
-  <p>{{webinar_date}}</p>
-  <p>{{lecturer_opinion_url}}</p>
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;">
+                    Zachęcamy do przesłania opinii o wykładowcy <b>{{webinar.lecturer.fullname}}</b>
+                    <br> <br>
+                    z którym odbyli Państwo szkolenie dnia
+                    <b>{{webinar.date|date:"j E Y"}}</b> godz. <b>{{webinar.date|date:"H:i"}}</b>
+                    :
+                    <i>{{webinar.title_original}}</i>.
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    Kliknij w link poniżej aby wystawić opinie:
+                    <br>
+                    <b>
+                      <a href="{{webinar.lecturer.opinion_absolute_url}}">
+                        {{webinar.lecturer.opinion_absolute_url}}
+                      </a>
+                    </b>
+                  </td>
+                </tr>
 
-</body>
-</html>
+                {% include './includes/EmailThankYouForChoosingUs.html' %}
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        
+        <tr>
+          <td height="50" style="border-collapse:collapse;font-size:1px; line-height:0px;">&nbsp;
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </td>
+</tr>
+<!--email-template from database: END-->
+{% endblock content %}

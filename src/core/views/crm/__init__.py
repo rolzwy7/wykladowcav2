@@ -2,7 +2,11 @@
 from .crm_archived_webinars import crm_archived_webinars
 from .crm_eventlogs import crm_eventlogs
 from .crm_previews import (
+    crm_invoice_email_preview,
+    crm_participant_certificate_email_preview,
     crm_participant_confirmation_email_preview,
+    crm_participant_opinion_email_preview,
+    crm_participant_preparation_email_preview,
     crm_submitter_confirmation_email_preview,
 )
 from .crm_todos_list import crm_todos_done_list, crm_todos_list

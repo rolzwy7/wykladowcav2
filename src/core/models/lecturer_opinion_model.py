@@ -4,15 +4,33 @@ from django.db.models import (
     CharField,
     DateTimeField,
     ForeignKey,
+    Manager,
     Model,
+    Q,
+    QuerySet,
     TextField,
 )
 
 from .enums import LecturerOpinionRating
+from .lecturer_model import Lecturer
+
+
+class LecturerOpinionManager(Manager):
+    """Lecturer opinion query Manager"""
+
+    def visible_opinions_for_lecturer(
+        self, lecturer: Lecturer
+    ) -> QuerySet["LecturerOpinion"]:
+        """Get opinions for lecturer that are marked as visible on page"""
+        return self.get_queryset().filter(
+            Q(lecturer=lecturer) & Q(visible_on_page=True)
+        )
 
 
 class LecturerOpinion(Model):
     """Represents opinion about lecturer"""
+
+    manager = LecturerOpinionManager()
 
     created_at = DateTimeField(auto_now_add=True)
 
@@ -40,6 +58,8 @@ class LecturerOpinion(Model):
 
     rating = CharField("Ocena", max_length=16, choices=RATING)
 
+    opinion_hash = CharField("HASH", max_length=100, blank=True)
+
     class Meta:
         verbose_name = "Opinia o wykładowcy"
         verbose_name_plural = "Opinie o wykładowcy"
@@ -57,3 +77,8 @@ class LecturerOpinion(Model):
             LecturerOpinionRating.START_4: 4,
             LecturerOpinionRating.START_5: 5,
         }[self.rating]
+
+    @property
+    def rating_sequence(self):
+        """Get rating sequence for opinions"""
+        return [1, 2, 3, 4, 5]

@@ -1,5 +1,6 @@
 import uuid
 
+from django.conf import settings
 from django.db.models import (
     CASCADE,
     CharField,
@@ -10,6 +11,9 @@ from django.db.models import (
     TextField,
     UUIDField,
 )
+from django.urls import reverse
+
+BASE_URL = settings.BASE_URL
 
 
 class WebinarCertificate(Model):
@@ -43,6 +47,18 @@ class WebinarCertificate(Model):
     class Meta:
         verbose_name = "Certyfikat"
         verbose_name_plural = "Certyfikaty"
+
+    @property
+    def absolute_url(self) -> str:
+        """Get absolute URL for this certificate
+
+        Returns:
+            str: absolute url to certificate
+        """
+        certificate_path = reverse(
+            "core:certificate_pdf_page", kwargs={"uuid": self.uuid}
+        )
+        return f"{BASE_URL}{certificate_path}"
 
     def __str__(self) -> str:
         return f"{self.first_name} {self.last_name}"

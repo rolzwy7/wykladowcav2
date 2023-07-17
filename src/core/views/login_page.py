@@ -8,6 +8,7 @@ from core.forms import LoginForm
 
 
 def login_page(request):
+    """Login page control"""
     template_name = "core/pages/LoginPage.html"
     auth_failed = False
 
@@ -24,6 +25,8 @@ def login_page(request):
                 return redirect(next_param or reverse("core:homepage"))
             else:
                 auth_failed = True
+        else:
+            auth_failed = True
     else:
         if request.user.is_authenticated:
             return redirect(reverse("core:homepage"))

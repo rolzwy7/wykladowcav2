@@ -40,7 +40,7 @@ def after_webinar_confirm_dispatch(webinar: Webinar):
     preparation_emails = [
         task_send_participant_preparation_email.si(
             params_send_participant_preparation_email(
-                participant.email, webinar
+                participant.email, participant.application.id
             )
         )
         for participant in participants

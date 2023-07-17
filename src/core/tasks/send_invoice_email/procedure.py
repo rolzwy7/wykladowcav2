@@ -3,7 +3,11 @@ from string import digits
 from django.conf import settings
 
 from core.libs.fakturownia import download_invoice
-from core.libs.notifications.email import EmailMessage, EmailTemplate
+from core.libs.notifications.email import (
+    EmailMessage,
+    EmailTemplate,
+    email_get_application_context,
+)
 from core.models import WebinarApplication, WebinarApplicationMetadata
 
 COMPANY_NAME = settings.COMPANY_NAME
@@ -29,7 +33,11 @@ def send_invoice_email(email: str, application_id: int):
 
     # Prepare email message
     email_template = EmailTemplate(
-        "email/EmailInvoice.html", {"invoice_number": invoice_number}
+        "email/EmailInvoice.html",
+        {
+            "invoice_number": invoice_number,
+            **email_get_application_context(application_id),
+        },
     )
     email_message = EmailMessage(
         email_template,

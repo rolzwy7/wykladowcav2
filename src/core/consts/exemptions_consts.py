@@ -42,12 +42,19 @@ VAT_EXEMPTION_113 = VatExemption(
 # True if we are exempt from income TAX up to 200,000 PLN
 # What does it do?:
 # - Hides select input on application form page
-VAT_VALUE_PERCENT = 23
 WE_ARE_TAX_EXEMPT = True
+
+# VAT percent value
+VAT_VALUE_PERCENT = 23
+
+# Tooltip with text explaining why we are tax exempt
 TAX_EXEMPT_TOOLTIP = VAT_EXEMPTION_113.description
 
 # Visible next to price: "350zł {{PRICE_ADNOTATION}}"
-PRICE_ADNOTATION = "netto/brutto"
+if WE_ARE_TAX_EXEMPT:
+    PRICE_ADNOTATION = "netto/brutto"
+else:
+    PRICE_ADNOTATION = f"+ {VAT_VALUE_PERCENT}% VAT"
 
 # Here place ALL defined VAT exemptions
 VAT_EXEMPTIONS = [

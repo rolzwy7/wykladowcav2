@@ -5,7 +5,11 @@ from django.template.defaultfilters import date as _date
 from django.urls import reverse
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
 
-from core.libs.notifications.email import EmailMessage, EmailTemplate
+from core.libs.notifications.email import (
+    EmailMessage,
+    EmailTemplate,
+    email_get_application_context,
+)
 from core.models import Lecturer, Webinar
 
 
@@ -13,25 +17,15 @@ class SendParticipantOpinionEmailParams(BaseModel):
     """Params"""
 
     email: str
-    webinar_title: str
-    webinar_date: str
-    lecturer_opinion_url: str
+    application_id: int
 
 
-def params(email: str, webinar: Webinar) -> str:
+def params(email: str, application_id: int) -> str:
     """Create params"""
-    lecturer: Lecturer = webinar.lecturer
-    lecturer_opinion_url = settings.BASE_URL + reverse(
-        "core:lecturer_opinion_form_page",
-        kwargs={"slug": lecturer.slug},
-    )
-
     json_dump = json.dumps(
         SendParticipantOpinionEmailParams(
             email=email,
-            webinar_title=webinar.title_original,
-            webinar_date=_date(webinar.date, "j E Y"),
-            lecturer_opinion_url=lecturer_opinion_url,
+            application_id=application_id,
         ).dict()
     )
     return json_dump
@@ -44,11 +38,7 @@ def send_participant_opinion_email(
     template_name = "email/EmailParticipantOpinion.html"
     email_template = EmailTemplate(
         template_name,
-        {
-            "webinar_title": procedure_params.webinar_title,
-            "webinar_date": procedure_params.webinar_date,
-            "lecturer_opinion_url": procedure_params.lecturer_opinion_url,
-        },
+        {**email_get_application_context(procedure_params.application_id)},
     )
     email_message = EmailMessage(
         email_template,

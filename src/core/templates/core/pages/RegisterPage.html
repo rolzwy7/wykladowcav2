@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-
 {% extends 'core/extends/base.html' %} 
 {% load static %}
 
@@ -24,12 +22,12 @@
           >
             <img
               alt="Logo"
-              src="{% static 'media/logos/default.svg' %}"
+              src="{% static 'media/logos/wykladowcapl/logo.svg' %}"
               class="theme-light-show h-25px"
             />
             <img
               alt="Logo"
-              src="{% static 'media/logos/default-dark.svg' %}"
+              src="{% static 'media/logos/wykladowcapl/logo.svg' %}"
               class="theme-dark-show h-25px"
             />
           </a>
@@ -40,14 +38,14 @@
           >
             <!--begin::Wrapper-->
             <div
-              class="d-flex justify-content-between flex-column-fluid flex-column w-100 mw-450px"
+              class="d-flex justify-content-start flex-column-fluid flex-column w-100 mw-450px"
             >
               <!--begin::Header-->
               <div class="d-flex flex-stack py-2">
                 <!--begin::Back link-->
                 <div class="me-2">
                   <a
-                    href="../../demo5/dist/authentication/layouts/fancy/sign-in.html"
+                    href="{% url 'core:homepage' %}"
                     class="btn btn-icon bg-light rounded-circle"
                   >
                     <i class="ki-duotone ki-black-left fs-2 text-gray-800"></i>
@@ -59,20 +57,20 @@
                   <span
                     class="text-gray-400 fw-bold fs-5 me-2"
                     data-kt-translate="sign-up-head-desc"
-                    >Already a member ?</span
+                    >Masz już konto ?</span
                   >
                   <a
-                    href="../../demo5/dist/authentication/layouts/fancy/sign-in.html"
+                    href="{% url 'core:login_page' %}"
                     class="link-primary fw-bold fs-5"
                     data-kt-translate="sign-up-head-link"
-                    >Sign In</a
+                    >Zaloguj się</a
                   >
                 </div>
                 <!--end::Sign Up link=-->
               </div>
               <!--end::Header-->
               <!--begin::Body-->
-              <div class="py-20">
+              <div class="pt-15">
                 <!--begin::Form-->
                 <form
                   class="form w-100"
@@ -88,9 +86,10 @@
                       class="text-dark mb-3 fs-3x"
                       data-kt-translate="sign-up-title"
                     >
-                      Create an Account
+                      Stwórz konto
                     </h1>
                     <!--end::Title-->
+                    {% comment %}
                     <!--begin::Text-->
                     <div
                       class="text-gray-400 fw-semibold fs-6"
@@ -99,6 +98,7 @@
                       Get unlimited access & earn money
                     </div>
                     <!--end::Link-->
+                    {% endcomment %}
                   </div>
                   <!--end::Heading-->
                   <!--begin::Input group-->
@@ -108,7 +108,7 @@
                       <input
                         class="form-control form-control-lg form-control-solid"
                         type="text"
-                        placeholder="First Name"
+                        placeholder="Imię"
                         name="first-name"
                         autocomplete="off"
                         data-kt-translate="sign-up-input-first-name"
@@ -120,7 +120,7 @@
                       <input
                         class="form-control form-control-lg form-control-solid"
                         type="text"
-                        placeholder="Last Name"
+                        placeholder="Nazwisko"
                         name="last-name"
                         autocomplete="off"
                         data-kt-translate="sign-up-input-last-name"
@@ -134,7 +134,7 @@
                     <input
                       class="form-control form-control-lg form-control-solid"
                       type="email"
-                      placeholder="Email"
+                      placeholder="Adres E-mail"
                       name="email"
                       autocomplete="off"
                       data-kt-translate="sign-up-input-email"
@@ -150,7 +150,7 @@
                         <input
                           class="form-control form-control-lg form-control-solid"
                           type="password"
-                          placeholder="Password"
+                          placeholder="Hasło"
                           name="password"
                           autocomplete="off"
                           data-kt-translate="sign-up-input-password"
@@ -187,8 +187,7 @@
                     <!--end::Wrapper-->
                     <!--begin::Hint-->
                     <div class="text-muted" data-kt-translate="sign-up-hint">
-                      Use 8 or more characters with a mix of letters, numbers &
-                      symbols.
+                      Hasło powinno mieć co najmniej 8 znaków, zawierać literę, cyfrę i znak specjalny.
                     </div>
                     <!--end::Hint-->
                   </div>
@@ -198,7 +197,7 @@
                     <input
                       class="form-control form-control-lg form-control-solid"
                       type="password"
-                      placeholder="Confirm Password"
+                      placeholder="Powtórz Hasło"
                       name="confirm-password"
                       autocomplete="off"
                       data-kt-translate="sign-up-input-confirm-password"
@@ -214,11 +213,11 @@
                       data-kt-translate="sign-up-submit"
                     >
                       <!--begin::Indicator label-->
-                      <span class="indicator-label">Submit</span>
+                      <span class="indicator-label">Zarejestruj się</span>
                       <!--end::Indicator label-->
                       <!--begin::Indicator progress-->
                       <span class="indicator-progress"
-                        >Please wait...
+                        >Proszę czekać...
                         <span
                           class="spinner-border spinner-border-sm align-middle ms-2"
                         ></span
@@ -226,6 +225,7 @@
                       <!--end::Indicator progress-->
                     </button>
                     <!--end::Submit-->
+                    {% comment %} 
                     <!--begin::Social-->
                     <div class="d-flex align-items-center">
                       <div class="text-gray-400 fw-semibold fs-6 me-6">Or</div>
@@ -272,12 +272,14 @@
                       <!--end::Symbol-->
                     </div>
                     <!--end::Social-->
+                    {% endcomment %}
                   </div>
                   <!--end::Actions-->
                 </form>
                 <!--end::Form-->
               </div>
               <!--end::Body-->
+              {% comment %}
               <!--begin::Footer-->
               <div class="m-0">
                 <!--begin::Toggle-->
@@ -406,6 +408,7 @@
                 <!--end::Menu-->
               </div>
               <!--end::Footer-->
+              {% endcomment %}
             </div>
             <!--end::Wrapper-->
           </div>

@@ -350,7 +350,8 @@
     <!--end::Vendors Javascript-->
     <!--begin::Custom Javascript(used for this page only)-->
     <script src="{% static 'js/simplyCountdown.min.js' %}"></script>
-    {% comment %} <script src="{% static 'js/custom/pages/user-profile/general.js' %}"></script>
+    {% comment %}
+    <script src="{% static 'js/custom/pages/user-profile/general.js' %}"></script>
     <script src="{% static 'js/widgets.bundle.js' %}"></script>
     <script src="{% static 'js/custom/widgets.js' %}"></script>
     <script src="{% static 'js/custom/apps/chat/chat.js' %}"></script>
@@ -369,8 +370,9 @@
     <script src="{% static 'js/custom/utilities/modals/create-project/files.js' %}"></script>
     <script src="{% static 'js/custom/utilities/modals/create-project/complete.js' %}"></script>
     <script src="{% static 'js/custom/utilities/modals/create-project/main.js' %}"></script>
-    <script src="{% static 'js/custom/utilities/modals/users-search.js' %}"></script> {% endcomment %}
+    <script src="{% static 'js/custom/utilities/modals/users-search.js' %}"></script>
     <!--end::Custom Javascript-->
+    {% endcomment %}
     <script>
         console.log("count")
         simplyCountdown('#discount-countdown', {

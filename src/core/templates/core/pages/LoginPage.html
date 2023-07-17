@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-
 {% extends 'core/extends/base.html' %} 
 {% load static %}
 
@@ -24,12 +22,12 @@
         >
           <img
             alt="Logo"
-            src="{% static 'media/logos/default.svg' %}"
+            src="{% static 'media/logos/wykladowcapl/logo.svg' %}"
             class="theme-light-show h-25px"
           />
           <img
             alt="Logo"
-            src="{% static 'media/logos/default-dark.svg' %}"
+            src="{% static 'media/logos/wykladowcapl/logo.svg' %}"
             class="theme-dark-show h-25px"
           />
         </a>
@@ -40,40 +38,41 @@
         >
           <!--begin::Wrapper-->
           <div
-            class="d-flex justify-content-between flex-column-fluid flex-column w-100 mw-450px"
+            class="d-flex justify-content-start flex-column-fluid flex-column w-100 mw-450px"
           >
             <!--begin::Header-->
             <div class="d-flex flex-stack py-2">
               <!--begin::Back link-->
-              <div class="me-2"></div>
+              <div class="me-2">
+                <a href="{% url 'core:homepage' %}" class="btn btn-icon bg-light rounded-circle">
+                  <i class="ki-duotone ki-black-left fs-2 text-gray-800"></i>
+                </a>
+              </div>
               <!--end::Back link-->
               <!--begin::Sign Up link-->
               <div class="m-0">
                 <span
                   class="text-gray-400 fw-bold fs-5 me-2"
-                  data-kt-translate="sign-in-head-desc"
-                  >Not a Member yet?</span
+                  >Nie masz konta?</span
                 >
                 <a
-                  href="../../demo5/dist/authentication/layouts/fancy/sign-up.html"
+                  href="{% url 'core:register_page' %}"
                   class="link-primary fw-bold fs-5"
-                  data-kt-translate="sign-in-head-link"
-                  >Sign Up</a
+                  >Zarejestruj się</a
                 >
               </div>
               <!--end::Sign Up link=-->
             </div>
             <!--end::Header-->
             <!--begin::Body-->
-            <div class="py-20">
+            <div class="pt-15">
               <!--begin::Form-->
               <form
+                method="post"
                 class="form w-100"
-                novalidate="novalidate"
-                id="kt_sign_in_form"
-                data-kt-redirect-url="../../demo5/dist/index.html"
-                action="#"
+                action="{% url 'core:login_page' %}"
               >
+                {% csrf_token %}
                 <!--begin::Body-->
                 <div class="card-body">
                   <!--begin::Heading-->
@@ -81,19 +80,19 @@
                     <!--begin::Title-->
                     <h1
                       class="text-dark mb-3 fs-3x"
-                      data-kt-translate="sign-in-title"
                     >
-                      Sign In
+                      Zaloguj się
                     </h1>
                     <!--end::Title-->
+                    {% comment %}
                     <!--begin::Text-->
                     <div
                       class="text-gray-400 fw-semibold fs-6"
-                      data-kt-translate="general-desc"
                     >
                       Get unlimited access & earn money
                     </div>
                     <!--end::Link-->
+                    {% endcomment %}
                   </div>
                   <!--begin::Heading-->
                   <!--begin::Input group=-->
@@ -101,10 +100,10 @@
                     <!--begin::Email-->
                     <input
                       type="text"
-                      placeholder="Email"
-                      name="email"
+                      placeholder="Adres E-mail"
+                      required
+                      name="username"
                       autocomplete="off"
-                      data-kt-translate="sign-in-input-email"
                       class="form-control form-control-solid"
                     />
                     <!--end::Email-->
@@ -114,10 +113,10 @@
                     <!--begin::Password-->
                     <input
                       type="text"
-                      placeholder="Password"
+                      required
+                      placeholder="Hasło"
                       name="password"
                       autocomplete="off"
-                      data-kt-translate="sign-in-input-password"
                       class="form-control form-control-solid"
                     />
                     <!--end::Password-->
@@ -132,12 +131,18 @@
                     <a
                       href="../../demo5/dist/authentication/layouts/fancy/reset-password.html"
                       class="link-primary"
-                      data-kt-translate="sign-in-forgot-password"
-                      >Forgot Password ?</a
+                      >Zapomniałeś hasła ?</a
                     >
                     <!--end::Link-->
                   </div>
                   <!--end::Wrapper-->
+                  {% if auth_failed %}
+                  <div class="my-3">
+                    <span class="text-danger">
+                      Nazwa użytkownika lub hasło jest niepoprawne
+                    </span>
+                  </div>
+                  {% endif %}
                   <!--begin::Actions-->
                   <div class="d-flex flex-stack">
                     <!--begin::Submit-->
@@ -148,27 +153,16 @@
                       <!--begin::Indicator label-->
                       <span
                         class="indicator-label"
-                        data-kt-translate="sign-in-submit"
-                        >Sign In</span
+                        >Zaloguj się</span
                       >
                       <!--end::Indicator label-->
-                      <!--begin::Indicator progress-->
-                      <span class="indicator-progress">
-                        <span data-kt-translate="general-progress"
-                          >Please wait...</span
-                        >
-                        <span
-                          class="spinner-border spinner-border-sm align-middle ms-2"
-                        ></span>
-                      </span>
-                      <!--end::Indicator progress-->
                     </button>
                     <!--end::Submit-->
+                    {% comment %} 
                     <!--begin::Social-->
                     <div class="d-flex align-items-center">
                       <div
                         class="text-gray-400 fw-semibold fs-6 me-3 me-md-6"
-                        data-kt-translate="general-or"
                       >
                         Or
                       </div>
@@ -215,6 +209,7 @@
                       <!--end::Symbol-->
                     </div>
                     <!--end::Social-->
+                    {% endcomment %}
                   </div>
                   <!--end::Actions-->
                 </div>
@@ -223,6 +218,7 @@
               <!--end::Form-->
             </div>
             <!--end::Body-->
+            {% comment %}
             <!--begin::Footer-->
             <div class="m-0">
               <!--begin::Toggle-->
@@ -351,6 +347,7 @@
               <!--end::Menu-->
             </div>
             <!--end::Footer-->
+            {% endcomment %}
           </div>
           <!--end::Wrapper-->
         </div>
@@ -358,7 +355,7 @@
         <!--begin::Body-->
         <div
           class="d-none d-lg-flex flex-lg-row-fluid w-50 bgi-size-cover bgi-position-y-center bgi-position-x-start bgi-no-repeat"
-          style="background-image: url({% static 'media/auth/bg11.png' %})"
+          style="background-image: url({% static 'media/auth/bg7.jpg' %})"
         ></div>
         <!--begin::Body-->
       </div>

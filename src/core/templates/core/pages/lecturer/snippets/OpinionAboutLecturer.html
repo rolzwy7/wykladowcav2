@@ -35,8 +35,11 @@
             <!--begin::Toolbar-->
             <div class="d-flex align-items-center mb-5">
                 <div class="rating">
-                    {% for rating in opinions_sequence %}
-                        <div class="rating-label {% if rating <= opinion.rating_number %}checked{% endif %}">
+                    {% for rating in opinion.rating_sequence %}
+                        <div class="
+                            rating-label
+                            {% if rating <= opinion.rating_number %}checked{% endif %}
+                        ">
                             <i class="ki-duotone ki-star fs-1"></i>
                         </div>
                     {% endfor %}

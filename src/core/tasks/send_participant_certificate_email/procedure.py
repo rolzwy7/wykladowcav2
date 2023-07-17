@@ -2,26 +2,26 @@ import json
 
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
 
-from core.libs.notifications.email import EmailMessage, EmailTemplate
-from core.models import Lecturer, Webinar
+from core.libs.notifications.email import (
+    EmailMessage,
+    EmailTemplate,
+    email_get_application_context,
+)
 
 
 class SendParticipantCertificateEmailParams(BaseModel):
     """Params"""
 
     email: str
-    webinar_title: str
-    lecturer: str
+    application_id: int
 
 
-def params(email: str, webinar: Webinar) -> str:
+def params(email: str, application_id: int) -> str:
     """Create params"""
-    lecturer: Lecturer = webinar.lecturer
     json_dump = json.dumps(
         SendParticipantCertificateEmailParams(
             email=email,
-            webinar_title=webinar.title_original,
-            lecturer=lecturer.fullname,
+            application_id=application_id,
         ).dict()
     )
     return json_dump
@@ -37,8 +37,7 @@ def send_participant_certificate_email(
         template_name,
         {
             "certificate_url": certificate_url,
-            "webinar_title": procedure_params.webinar_title,
-            "lecturer": procedure_params.lecturer,
+            **email_get_application_context(procedure_params.application_id),
         },
     )
     email_message = EmailMessage(

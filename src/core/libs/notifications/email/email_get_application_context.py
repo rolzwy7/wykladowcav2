@@ -10,6 +10,7 @@ def email_get_application_context(application_id: int):
     lecturer: Lecturer = webinar.lecturer
     return {
         "application": application,
+        "participants": application.participants,
         "webinar": webinar,
         "lecturer": lecturer,
     }

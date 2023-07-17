@@ -19,6 +19,7 @@
           </i>
         </div>
         <!--end::Aside mobile toggle-->
+        {% comment %}
         <!--begin::Logo-->
         <a href="{% url 'core:homepage' %}">
           <img
@@ -38,6 +39,7 @@
           />
         </a>
         <!--end::Logo-->
+        {% endcomment %}
       </div>
       <!--end::Brand-->
       <!--begin::Wrapper-->
@@ -66,6 +68,7 @@
               id="#kt_header_menu"
               data-kt-menu="true"
             >
+              {% comment %}
               <!--begin:Menu item-->
               <div
                 data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
@@ -560,6 +563,9 @@
                 <!--end:Menu sub-->
               </div>
               <!--end:Menu item-->
+              {% endcomment %}
+
+              {% comment %}
               <!--begin:Menu item-->
               <div
                 data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
@@ -2399,6 +2405,46 @@
                 <!--end:Menu sub-->
               </div>
               <!--end:Menu item-->
+              {% endcomment %}
+
+              <!--begin:Menu item-->
+                <div
+                class="menu-item menu-lg-down-accordion me-0 me-lg-2"
+              >
+                <!--begin:Menu link-->
+                <span class="menu-link py-3">
+                  <span class="menu-title">
+                    <a
+                      class="text-gray-800 text-hover-primary"
+                      href="{% url 'core:homepage' %}"
+                    >
+                      Strona główna
+                    </a>
+                  </span>
+                </span>
+                <!--end:Menu link-->
+              </div>
+              <!--end:Menu item-->
+              
+              <!--begin:Menu item-->
+                <div
+                class="menu-item menu-lg-down-accordion me-0 me-lg-2"
+              >
+                <!--begin:Menu link-->
+                <span class="menu-link py-3">
+                  <span class="menu-title">
+                    <a
+                      class="text-gray-800 text-hover-primary"
+                      href="{% url 'admin:index' %}"
+                    >
+                      CMS
+                    </a>
+                  </span>
+                </span>
+                <!--end:Menu link-->
+              </div>
+              <!--end:Menu item-->
+              
               <!--begin:Menu item-->
               <div
                 data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
@@ -2407,7 +2453,7 @@
               >
                 <!--begin:Menu link-->
                 <span class="menu-link py-3">
-                  <span class="menu-title">Apps</span>
+                  <span class="menu-title">Na skróty</span>
                   <span class="menu-arrow d-lg-none"></span>
                 </span>
                 <!--end:Menu link-->
@@ -2965,7 +3011,7 @@
                           <span class="path2"></span>
                         </i>
                       </span>
-                      <span class="menu-title">Support Center</span>
+                      <span class="menu-title">CMS</span>
                       <span class="menu-arrow"></span>
                     </span>
                     <!--end:Menu link-->
@@ -3752,7 +3798,7 @@
                           <span class="path2"></span>
                         </i>
                       </span>
-                      <span class="menu-title">Inbox</span>
+                      <span class="menu-title">E-maile podgląd</span>
                       <span class="menu-arrow"></span>
                     </span>
                     <!--end:Menu link-->
@@ -3785,12 +3831,87 @@
                         <!--begin:Menu link-->
                         <a
                           class="menu-link py-3"
-                          href="../../demo5/dist/apps/inbox/compose.html"
+                          href="{% url 'core:crm_submitter_confirmation_email_preview' %}"
                         >
                           <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                           </span>
-                          <span class="menu-title">Compose</span>
+                          <span class="menu-title">Osoba zgłaszająca - po wysłaniu zgłoszenia - email</span>
+                        </a>
+                        <!--end:Menu link-->
+                      </div>
+                      <!--end:Menu item-->
+                      <!--begin:Menu item-->
+                      <div class="menu-item">
+                        <!--begin:Menu link-->
+                        <a
+                          class="menu-link py-3"
+                          href="{% url 'core:crm_participant_confirmation_email_preview' %}"
+                        >
+                          <span class="menu-bullet">
+                            <span class="bullet bullet-dot"></span>
+                          </span>
+                          <span class="menu-title">Uczestnik - po wysłaniu zgłoszenia - email</span>
+                        </a>
+                        <!--end:Menu link-->
+                      </div>
+                      <!--end:Menu item-->
+                      <!--begin:Menu item-->
+                      <div class="menu-item">
+                        <!--begin:Menu link-->
+                        <a
+                          class="menu-link py-3"
+                          href="{% url 'core:crm_participant_certificate_email_preview' %}"
+                        >
+                          <span class="menu-bullet">
+                            <span class="bullet bullet-dot"></span>
+                          </span>
+                          <span class="menu-title">Uczestnik - po szkoleniu certyfikat - email</span>
+                        </a>
+                        <!--end:Menu link-->
+                      </div>
+                      <!--end:Menu item-->
+                      <!--begin:Menu item-->
+                      <div class="menu-item">
+                        <!--begin:Menu link-->
+                        <a
+                          class="menu-link py-3"
+                          href="{% url 'core:crm_invoice_email_preview' %}"
+                        >
+                          <span class="menu-bullet">
+                            <span class="bullet bullet-dot"></span>
+                          </span>
+                          <span class="menu-title">Faktura - po szkoleniu - email</span>
+                        </a>
+                        <!--end:Menu link-->
+                      </div>
+                      <!--end:Menu item-->
+                      <!--begin:Menu item-->
+                      <div class="menu-item">
+                        <!--begin:Menu link-->
+                        <a
+                          class="menu-link py-3"
+                          href="{% url 'core:crm_participant_preparation_email_preview' %}"
+                        >
+                          <span class="menu-bullet">
+                            <span class="bullet bullet-dot"></span>
+                          </span>
+                          <span class="menu-title">Uczestnik - email potwierdzenie terminu - przygotowawczy</span>
+                        </a>
+                        <!--end:Menu link-->
+                      </div>
+                      <!--end:Menu item-->
+                      <!--begin:Menu item-->
+                      <div class="menu-item">
+                        <!--begin:Menu link-->
+                        <a
+                          class="menu-link py-3"
+                          href="{% url 'core:crm_participant_opinion_email_preview' %}"
+                        >
+                          <span class="menu-bullet">
+                            <span class="bullet bullet-dot"></span>
+                          </span>
+                          <span class="menu-title">Uczestnik - opinia - email</span>
                         </a>
                         <!--end:Menu link-->
                       </div>
@@ -3996,118 +4117,6 @@
                       <!--end:Menu item-->
                     </div>
                     <!--end:Menu sub-->
-                  </div>
-                  <!--end:Menu item-->
-                </div>
-                <!--end:Menu sub-->
-              </div>
-              <!--end:Menu item-->
-              <!--begin:Menu item-->
-              <div
-                data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
-                data-kt-menu-placement="bottom-start"
-                class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2"
-              >
-                <!--begin:Menu link-->
-                <span class="menu-link py-3">
-                  <span class="menu-title">Help</span>
-                  <span class="menu-arrow d-lg-none"></span>
-                </span>
-                <!--end:Menu link-->
-                <!--begin:Menu sub-->
-                <div
-                  class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px"
-                >
-                  <!--begin:Menu item-->
-                  <div class="menu-item">
-                    <!--begin:Menu link-->
-                    <a
-                      class="menu-link py-3"
-                      href="https://preview.keenthemes.com/html/metronic/docs/base/utilities"
-                      target="_blank"
-                      title="Check out over 200 in-house components, plugins and ready for use solutions"
-                      data-bs-toggle="tooltip"
-                      data-bs-trigger="hover"
-                      data-bs-dismiss="click"
-                      data-bs-placement="right"
-                    >
-                      <span class="menu-icon">
-                        <i class="ki-duotone ki-rocket fs-2">
-                          <span class="path1"></span>
-                          <span class="path2"></span>
-                        </i>
-                      </span>
-                      <span class="menu-title">Components</span>
-                    </a>
-                    <!--end:Menu link-->
-                  </div>
-                  <!--end:Menu item-->
-                  <!--begin:Menu item-->
-                  <div class="menu-item">
-                    <!--begin:Menu link-->
-                    <a
-                      class="menu-link py-3"
-                      href="https://preview.keenthemes.com/html/metronic/docs"
-                      target="_blank"
-                      title="Check out the complete documentation"
-                      data-bs-toggle="tooltip"
-                      data-bs-trigger="hover"
-                      data-bs-dismiss="click"
-                      data-bs-placement="right"
-                    >
-                      <span class="menu-icon">
-                        <i class="ki-duotone ki-abstract-26 fs-2">
-                          <span class="path1"></span>
-                          <span class="path2"></span>
-                        </i>
-                      </span>
-                      <span class="menu-title">Documentation</span>
-                    </a>
-                    <!--end:Menu link-->
-                  </div>
-                  <!--end:Menu item-->
-                  <!--begin:Menu item-->
-                  <div class="menu-item">
-                    <!--begin:Menu link-->
-                    <a
-                      class="menu-link py-3"
-                      href="https://preview.keenthemes.com/metronic8/demo5/layout-builder.html"
-                      title="Build your layout and export HTML for server side integration"
-                      data-bs-toggle="tooltip"
-                      data-bs-trigger="hover"
-                      data-bs-dismiss="click"
-                      data-bs-placement="right"
-                    >
-                      <span class="menu-icon">
-                        <i class="ki-duotone ki-switch fs-2">
-                          <span class="path1"></span>
-                          <span class="path2"></span>
-                        </i>
-                      </span>
-                      <span class="menu-title">Layout Builder</span>
-                    </a>
-                    <!--end:Menu link-->
-                  </div>
-                  <!--end:Menu item-->
-                  <!--begin:Menu item-->
-                  <div class="menu-item">
-                    <!--begin:Menu link-->
-                    <a
-                      class="menu-link py-3"
-                      href="https://preview.keenthemes.com/html/metronic/docs/getting-started/changelog"
-                      target="_blank"
-                    >
-                      <span class="menu-icon">
-                        <i class="ki-duotone ki-code fs-2">
-                          <span class="path1"></span>
-                          <span class="path2"></span>
-                          <span class="path3"></span>
-                          <span class="path4"></span>
-                        </i>
-                      </span>
-                      <span class="menu-title">Changelog v8.1.8</span>
-                    </a>
-                    <!--end:Menu link-->
                   </div>
                   <!--end:Menu item-->
                 </div>

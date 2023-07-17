@@ -1,7 +1,7 @@
 from django.urls import reverse
 from django.utils.timezone import now
 
-from core.models import Webinar
+from core.models import Lecturer, LecturerOpinion, Webinar
 
 
 class WebinarService:
@@ -70,6 +70,10 @@ class WebinarService:
             for idx, (title, url_name, icon) in enumerate(tabs)
         ]
 
+    def get_opinions_about_lecturer(self):
+        lecturer: Lecturer = self.webinar.lecturer
+        return LecturerOpinion.manager.visible_opinions_for_lecturer(lecturer)
+
     def get_context(self):
         """Get common context"""
         (
@@ -79,4 +83,5 @@ class WebinarService:
         return {
             "discount_progress_percent": discount_progress_percent,
             "discount_progress_color": discount_progress_color,
+            "lecturer_opinions": self.get_opinions_about_lecturer(),
         }
