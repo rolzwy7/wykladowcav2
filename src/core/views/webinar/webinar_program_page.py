@@ -15,6 +15,7 @@ def webinar_program_page(request, slug: str):
         request,
         template_name,
         {
+            "META__TITLE": webinar.title,
             "webinar": webinar,
             "program": webinar.program_enchanted,
             "webinar_tabs": service.get_webinar_tabs(0),

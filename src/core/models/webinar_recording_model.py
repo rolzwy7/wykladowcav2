@@ -6,6 +6,7 @@ from django.db.models import (
     CharField,
     DateTimeField,
     ForeignKey,
+    Manager,
     Model,
     PositiveIntegerField,
     URLField,
@@ -15,8 +16,16 @@ from django.db.models import (
 from .enums import WebinarRecordingStatus
 
 
+class WebinarRecordingManager(Manager):
+    """WebinarRecordingManager query Manager"""
+
+    ...
+
+
 class WebinarRecording(Model):
     """Represents webinar's recording"""
+
+    manager = WebinarRecordingManager()
 
     created_at = DateTimeField(auto_now_add=True)
 
@@ -62,8 +71,16 @@ class WebinarRecording(Model):
         return f"{self.recording_id}"
 
 
+class WebinarRecordingTokenManager(Manager):
+    """WebinarRecordingManager query Manager"""
+
+    ...
+
+
 class WebinarRecordingToken(Model):
     """Represents webinar's recording access token"""
+
+    manager = WebinarRecordingTokenManager()
 
     created_at = DateTimeField(auto_now_add=True)
 

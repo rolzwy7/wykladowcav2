@@ -63,13 +63,13 @@ def download_and_process_clickmeeting_recording(webinar_id: int) -> str:
     # Iterate over Clickmeeting recordings
     for recording in recordings:
         # Check if recording exists
-        recording_exists = WebinarRecording.objects.filter(
+        recording_exists = WebinarRecording.manager.filter(
             recording_id=recording.id
         ).exists()
 
         # Get or create recording
         if recording_exists:
-            db_recording = WebinarRecording.objects.get(
+            db_recording = WebinarRecording.manager.get(
                 recording_id=str(recording.id)
             )
             # Update recording download url

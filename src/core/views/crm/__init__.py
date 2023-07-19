@@ -12,8 +12,9 @@ from .crm_previews import (
 from .crm_todos_list import crm_todos_done_list, crm_todos_list
 from .crm_upcoming_webinars import crm_upcoming_webinars
 from .crm_webinar_assets import crm_webinar_assets
+from .crm_webinar_certificates import crm_webinar_certificates
 from .crm_webinar_confirm import crm_webinar_confirm
 from .crm_webinar_detail import crm_webinar_detail_dashboard
 from .crm_webinar_done import crm_webinar_done
 from .crm_webinar_eventlogs import crm_webinar_eventlogs
-from .crm_webinar_participants import crm_webinar_participants
+from .crm_webinar_recordings import crm_webinar_recordings

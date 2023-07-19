@@ -2429,6 +2429,23 @@
               <!--end:Menu link-->
             </div>
             <!--end:Menu item-->
+            {% if request.user.is_authenticated and request.user.is_staff %}
+            <!--begin:Menu item-->
+            <div
+              class="menu-item menu-lg-down-accordion me-0 me-lg-2"
+            >
+              <!--begin:Menu link-->
+              <span class="menu-link py-3">
+                <span class="menu-title">
+                  <a class="text-gray-800 text-hover-primary" href="{% url 'core:crm_upcoming_webinars' %}">
+                    CRM
+                  </a>
+                </span>
+              </span>
+              <!--end:Menu link-->
+            </div>
+            <!--end:Menu item-->
+            {% endif %}
             </div>
             <!--end::Menu-->
           </div>
@@ -2437,6 +2454,7 @@
         <!--end::Navbar-->
         <!--begin::Toolbar wrapper-->
         <div class="d-flex align-items-stretch flex-shrink-0">
+          {% comment %}
           <!--begin::Search-->
           <div class="d-flex align-items-stretch ms-1 ms-lg-2">
             <!--begin::Search-->
@@ -4428,6 +4446,7 @@
             <!--end::Menu-->
           </div>
           <!--end::Theme mode-->
+          {% endcomment %}
           <!--begin::Sidebar Toggler-->
           <div
             class="d-flex align-items-center ms-1 ms-lg-2 d-lg-none"

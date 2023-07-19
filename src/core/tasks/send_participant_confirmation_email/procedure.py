@@ -50,5 +50,7 @@ def send_participant_confirmation_email(
     email_message.send()
 
     eventlog_participant_confirmation_email(
-        procedure_params.webinar_id, procedure_params.email
+        procedure_params.webinar_id,
+        procedure_params.application_id,
+        procedure_params.email,
     )

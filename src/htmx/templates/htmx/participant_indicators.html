@@ -1,0 +1,72 @@
+{% if clickmeeting_invitation_send %}
+    <div class="d-flex">
+        <i
+        class="ki-duotone text-success ki-youtube fs-2qx me-2"
+        title="Wysłano zaprosznia do Clickmeeting"
+        style="cursor: pointer;"
+    >
+        <i class="path1"></i>
+        <i class="path2"></i>
+    </i>
+{% else %}
+    <div class="d-flex">
+        <i
+        class="ki-duotone {% if webinar_status == 'CONFIRMED' %}text-danger{% endif %} ki-youtube fs-2qx me-2"
+        title="Nie wysłano zaproszenia do Clickmeeting"
+        style="cursor: pointer;"
+    >
+        <i class="path1"></i>
+        <i class="path2"></i>
+    </i>
+{% endif %}
+
+
+{% if is_mx_valid == 'NOT_CHECKED' %}
+    <i
+        class="ki-duotone ki-sms fs-2qx me-2"
+        title="Nie sprawdzono serwera pocztowego"
+        style="cursor: pointer;"
+    >
+        <i class="path1"></i>
+        <i class="path2"></i>
+    </i>
+{% elif is_mx_valid == 'INVALID' %}
+    <i
+        class="ki-duotone text-danger ki-sms fs-2qx me-2"
+        title="Serwera pocztowy nie istnieje dla tego adresu e-amil"
+        style="cursor: pointer;"
+    >
+        <i class="path1"></i>
+        <i class="path2"></i>
+    </i>
+{% elif is_mx_valid == 'VALID' %}
+    <i
+        class="ki-duotone text-success ki-sms fs-2qx me-2"
+        title="Serwer pocztowy istnieje"
+        style="cursor: pointer;"
+    >
+        <i class="path1"></i>
+        <i class="path2"></i>
+    </i>
+{% endif %}
+
+{% if new_participant %}
+    <i
+        class="ki-duotone text-warning ki-user-tick fs-2qx me-2"
+        title="Nowy uczestnik"
+        style="cursor: pointer;"
+    >
+        <i class="path1"></i>
+        <i class="path2"></i>
+        <i class="path3"></i>
+    </i>
+{% else %}
+    <i
+        class="ki-duotone text-success ki-user fs-2qx me-2"
+        title="Powracający uczestnik"
+        style="cursor: pointer;"
+    >
+        <i class="path1"></i>
+        <i class="path2"></i>
+    </i>
+{% endif %}

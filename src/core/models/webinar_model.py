@@ -1,11 +1,24 @@
 import uuid
 
 from django.conf import settings
-from django.db.models import (CASCADE, BooleanField, CharField, DateTimeField,
-                              ForeignKey, Manager, ManyToManyField, Model,
-                              OneToOneField, PositiveSmallIntegerField, Q,
-                              QuerySet, SlugField, TextField, URLField,
-                              UUIDField)
+from django.db.models import (
+    CASCADE,
+    BooleanField,
+    CharField,
+    DateTimeField,
+    ForeignKey,
+    Manager,
+    ManyToManyField,
+    Model,
+    OneToOneField,
+    PositiveSmallIntegerField,
+    Q,
+    QuerySet,
+    SlugField,
+    TextField,
+    URLField,
+    UUIDField,
+)
 from django.utils.timezone import now, timedelta
 
 from core.consts import SLUG_HELP_TEXT
@@ -52,13 +65,19 @@ class WebinarManager(Manager):
 
 
 class Webinar(Model):
+    """Represents webinar"""
+
     manager = WebinarManager()
+
+    created_at = DateTimeField(auto_now_add=True)
+    updated_at = DateTimeField(auto_now=True)
 
     is_confirmed = BooleanField(
         "Pewny termin",
         default=False,
         help_text="Pokaż `Pewny termin` przy szkoleniu na stronie",  # noqa
     )
+
     remaining_places = PositiveSmallIntegerField(
         "Pozostało miejsc", default=0, blank=True
     )

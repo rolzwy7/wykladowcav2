@@ -28,7 +28,7 @@
                 Wykonaj zadanie
             </a>
             <button
-                hx-post="{% url 'htmx:htmx_toggle_crm_todo' pk=todo.pk %}"
+                hx-post="{% url 'htmx:htmx_crm_toggle_todo' pk=todo.pk %}"
                 class="btn {% if todo.is_done %}btn-danger{% else %}btn-success{% endif %}"
             >
                 {% if todo.is_done %}

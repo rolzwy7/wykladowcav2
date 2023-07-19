@@ -40,4 +40,8 @@ from .send_submitter_confirmation_email import (
     params_send_submitter_confirmation_email,
     task_send_submitter_confirmation_email,
 )
+from .send_submitter_moving_email import (
+    params_send_submitter_moving_email,
+    task_send_submitter_moving_email,
+)
 from .send_telegram_notification import task_send_telegram_notification

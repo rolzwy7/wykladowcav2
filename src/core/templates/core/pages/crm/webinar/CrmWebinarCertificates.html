@@ -1,0 +1,67 @@
+{% extends './CrmWebinarBase.html' %}
+{% load static %}
+
+{% block head_stylesheets %} {% endblock head_stylesheets %}
+
+{% block crm_webinar_content %}
+<!--begin::Row-->
+<div class="row g-6 g-xl-9 mb-10">
+  <!--begin::Col-->
+  <div class="col-md-12 col-xl-12">
+    <div class="card shadow-sm">
+      <div class="card-header">
+        <h3 class="card-title">Certyfikaty</h3>
+      </div>
+      <div class="card-body">
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr class="fw-bold fs-6 text-gray-800">
+                        <th>Nr</th>
+                        <th>Utworzono</th>
+                        <th>Token</th>
+                        <th>Imię</th>
+                        <th>Nazwisko</th>
+                        <th>Szkolenie</th>
+                        <th>Dzień szkolenia</th>
+                        <th>Godziny</th>
+                        <th>Uczestnik</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for certificate in certificates %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'admin:core_webinarcertificate_change' object_id=certificate.id %}">
+                                <b>Certyfikat {{forloop.counter}}</b>
+                            </a>
+                        </td>
+                        <td>{{certificate.created_at}}</td>
+                        <td>
+                            <a href="{% url 'core:certificate_pdf_page' uuid=certificate.uuid %}">
+                                {{certificate.uuid}}
+                            </a>
+                        </td>
+                        <td>{{certificate.first_name}}</td>
+                        <td>{{certificate.last_name}}</td>
+                        <td>{{certificate.title}}</td>
+                        <td>{{certificate.issue_date}}</td>
+                        <td>{{certificate.hours}}</td>
+                        <td>{{certificate.participant}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+      </div>
+      <div class="card-footer">
+      </div>
+    </div>
+  </div>
+  <!--end::Col-->
+</div>
+<!--end::Row-->
+{% endblock crm_webinar_content %}
+
+{% block body_scripts %} {% endblock body_scripts %}

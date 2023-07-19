@@ -1,3 +1,7 @@
+# pylint: disable=unused-variable
+# pylint: disable=broad-exception-caught
+# flake8: noqa:F841
+
 from dns.resolver import NXDOMAIN, NoAnswer, query
 
 
@@ -21,7 +25,7 @@ class MxService:
             return bool(answers)
         except (NoAnswer, NXDOMAIN):
             return False
-        except Exception as exception:  # TODO: logger
+        except Exception as exception:
             return False
 
     def has_email_mx_record(self, email: str):

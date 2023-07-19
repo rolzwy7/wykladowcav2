@@ -4,12 +4,12 @@
   hx-swap="outerHTML"
 >
   <form
-    hx-post="{% url 'htmx:crm_lecturer_price_card' webinar_pk=webinar.id mode="form" %}"
+    hx-post="{% url 'htmx:htmx_crm_lecturer_price_card' webinar_pk=webinar.id mode="form" %}"
   >
     {{form.lecturer_price_netto}}
     <button class="btn">Zapisz</button>
     <button
-      hx-get="{% url 'htmx:crm_lecturer_price_card' webinar_pk=webinar.id mode="result" %}"
+      hx-get="{% url 'htmx:htmx_crm_lecturer_price_card' webinar_pk=webinar.id mode="result" %}"
       class="btn"
     >
       Anuluj

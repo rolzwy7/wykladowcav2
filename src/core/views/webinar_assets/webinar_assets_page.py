@@ -15,7 +15,9 @@ def webinar_assets_page(request: HttpRequest, uuid: str):
     )
 
     return TemplateResponse(
-        request, template_name, {"webinar_assets": webinar_assets}
+        request,
+        template_name,
+        {"webinar": webinar, "webinar_assets": webinar_assets},
     )
 
 

@@ -15,6 +15,16 @@
             <h3 class="card-title">Potwierdź termin szkolenia</h3>
         </div>
         <div class="card-body">
+
+
+            {% if not webinar.lecturer.email %}
+            <p class="text-danger fw-bold">
+                Wykładowca nie ma podanego adresu E-mail ! Zaproszenie do ClickMeeting nie zostanie do niego wysłane.
+            </p>
+            {% endif %}
+
+
+            <hr>
             <form method="post" action="{% url 'core:crm_webinar_confirm' pk=webinar.pk %}">
                 {% csrf_token %}
                 {{form.i_am_sure}}

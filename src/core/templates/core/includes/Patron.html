@@ -36,14 +36,4 @@
     <!--end::Stats-->
   </div>
   <!--end::Info-->
-  <div class="mb-3">
-    {% if webinar %}
-    <a
-    href="{% url 'core:application_type_page' pk=webinar.pk %}"
-    class="btn btn btn-danger me-3">
-    <i class="ki-duotone ki-send fs-1 me-2"><i class="path1"></i><i class="path2"></i></i>
-    Wyślij zgłoszenie teraz
-  </a>
-  {% endif %}
-  </div>
 </div>

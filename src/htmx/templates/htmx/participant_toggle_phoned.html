@@ -1,0 +1,13 @@
+<div hx-target="this" hx-swap="outerHTML">
+  <a
+    style="cursor: pointer;"
+    class="text-hover-primary fw-bold"
+    hx-post="{% url 'htmx:htmx_crm_participant_toggle_phoned' pk=participant.pk %}"
+  >
+    {% if phoned %}
+        <span class="badge badge-success">TAK</span>
+    {% else %}
+        <span class="badge badge-dark">NIE</span>
+    {% endif %}
+  </a>
+</div>

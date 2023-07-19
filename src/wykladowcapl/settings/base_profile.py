@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sitemaps",
 ]
 
 MIDDLEWARE = [
@@ -88,6 +89,7 @@ TEMPLATES = [
                 "core.context_processors.dates",
                 "core.context_processors.company",
                 "core.context_processors.links",
+                "core.context_processors.metadata",
             ],
         },
     },

@@ -95,14 +95,14 @@
                                             {{webinar.lecturer.profession}}
                                         </span>
                                         {% endif %}
-                                        <span class="d-flex align-items-center text-gray-400 me-5 mb-2">
+                                        <span class="d-flex align-items-center text-gray-700 me-5 mb-2">
                                             <i class="ki-duotone ki-geolocation fs-4 me-1">
                                                 <span class="path1"></span>
                                                 <span class="path2"></span>
                                             </i>
                                             Szkolenie Online
                                         </span>
-                                        <span class="d-flex align-items-center text-gray-400 mb-2">
+                                        <span class="d-flex align-items-center text-gray-700 mb-2">
                                             <i class="ki-duotone ki-cd fs-4 me-1">
                                                 <span class="path1"></span>
                                                 <span class="path2"></span>
@@ -143,21 +143,21 @@
                                             <!--end::Heading-->
                                             <!--begin::Menu item-->
                                             <div class="menu-item px-3">
-                                                <a target="_blank" href="{% url 'admin:core_webinar_change' object_id=webinar.id %}" class="menu-link px-3">
+                                                <a href="{% url 'admin:core_webinar_change' object_id=webinar.id %}" class="menu-link px-3">
                                                     Edytuj termin w CMS
                                                 </a>
                                             </div>
                                             <!--end::Menu item-->
                                             <!--begin::Menu item-->
                                             <div class="menu-item px-3">
-                                                <a target="_blank" href="{% url 'admin:core_lecturer_change' object_id=webinar.lecturer.id %}" class="menu-link px-3">
+                                                <a href="{% url 'admin:core_lecturer_change' object_id=webinar.lecturer.id %}" class="menu-link px-3">
                                                     Edytuj wykładowce w CMS
                                                 </a>
                                             </div>
                                             <!--end::Menu item-->
                                             <!--begin::Menu item-->
                                             <div class="menu-item px-3">
-                                                <a target="_blank" href="{% url 'core:crm_webinar_detail_dashboard' pk=webinar.pk %}" class="menu-link px-3">
+                                                <a href="{% url 'core:crm_webinar_detail_dashboard' pk=webinar.pk %}" class="menu-link px-3">
                                                     Zobacz w CRM
                                                 </a>
                                             </div>
@@ -288,11 +288,11 @@
                         <!--begin::Nav item-->
                         <li class="nav-item mt-2">
                             <a
-                                class="nav-link text-active-primary ms-0 me-10 py-5 {% if tab_is_active %}active{% endif %}"
+                                class="nav-link text-active-primary ms-0 me-10 py-5 text-gray-700 {% if tab_is_active %}active{% endif %}"
                                 href="{{tab_url}}"
                             >   
                                 {% if tab_icon %}
-                                    <i class="ki-duotone {{tab_icon}} fs-1 me-2"><i class="path1"></i><i class="path2"></i></i>
+                                    <i class="ki-duotone {{tab_icon}} text-gray-700 fs-1 me-2"><i class="path1"></i><i class="path2"></i></i>
                                 {% endif %}
                                 {{tab_name}}
                             </a>

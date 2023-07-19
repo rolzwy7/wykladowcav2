@@ -62,11 +62,14 @@ class WebinarParticipantMetadata(Model):
     )
 
     phoned = BooleanField("Czy zadzwoniono przed szkoleniem?", default=False)
+    clickmeeting_invitation_send = BooleanField(
+        "Czy wysłano zaproszenie do clickmeeting?", default=False
+    )
 
     IS_MX_VALID = [
         (WebinarParticipantIsMxValidType.NOT_CHECKED, "Nie sprawdzono"),
-        (WebinarParticipantIsMxValidType.INVALID, "MX ustawiony"),
-        (WebinarParticipantIsMxValidType.VALID, "brak MX"),
+        (WebinarParticipantIsMxValidType.INVALID, "MX nie istnieje"),
+        (WebinarParticipantIsMxValidType.VALID, "MX poprawny"),
     ]
 
     is_mx_valid = CharField(

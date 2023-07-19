@@ -49,7 +49,7 @@ class StreamingService:
         # Check if token expires
         # If expired then deny access
         expires_at = self.recording_token.expires_at
-        if expires_at and expires_at > now():
+        if expires_at and now() > expires_at:
             return False
 
         return True
@@ -106,7 +106,7 @@ class StreamingService:
         filesize_bytes = os.stat(recording_filepath).st_size
 
         # Save global chunk size setting to local variable
-        max_chunk_bytes = settings.STREAMING_CHUNK_SIZE_KB * 1024
+        max_chunk_bytes = settings.STREAMING_CHUNK_SIZE_KB * 1024  # MB
 
         # Get `Range` header. It is a value that video player is asking for.
         # URL: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Range

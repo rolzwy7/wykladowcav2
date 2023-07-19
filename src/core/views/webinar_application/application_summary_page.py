@@ -38,8 +38,17 @@ def application_summary_page(request, uuid):
     if request.method == POST and application.status == ApplicationStatus.INIT:
         form = ApplicationSummarySubmitForm(request.POST)
         if form.is_valid():
+            # Set application status as changed
             application.status = ApplicationStatus.SENT
+
+            # If user authenticated then connect
+            if request.user.is_authenticated:
+                application.user = request.user
+
+            # Dispatch tasks after application send
             after_application_sent_dispatch(application, submitter)
+
+            # Save changes in application
             application.save()
 
             return redirect(reverse("core:application_success_page"))

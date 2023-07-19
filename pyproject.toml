@@ -29,6 +29,7 @@ beautifulsoup4 = "^4.12.2"
 django-tinymce = "^3.6.1"
 markdownify = "^0.11.6"
 markdown = "^3.4.3"
+pypdf2 = "^3.0.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"

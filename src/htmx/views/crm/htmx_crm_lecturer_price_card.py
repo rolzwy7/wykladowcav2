@@ -9,10 +9,12 @@ from core.models import Webinar, WebinarMetadata
 from core.services import CrmWebinarService
 
 
-def crm_lecturer_price_card(request: HttpRequest, webinar_pk: int, mode: str):
+def htmx_crm_lecturer_price_card(
+    request: HttpRequest, webinar_pk: int, mode: str
+):
     """CRM lecturer price card"""
-    result_template_path = "htmx/lecturer_price_card.result.html"
-    form_template_path = "htmx/lecturer_price_card.form.html"
+    result_template_path = "htmx/lecturer_price_card_result.html"
+    form_template_path = "htmx/lecturer_price_card_form.html"
     webinar = get_object_or_404(Webinar, id=webinar_pk)
     service = CrmWebinarService(webinar)
 

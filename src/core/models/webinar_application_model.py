@@ -37,11 +37,25 @@ class WebinarApplicationManager(Manager):
     def sent_applications(
         self, webinar: Webinar
     ) -> QuerySet["WebinarApplication"]:
-        """Get applications marked as `sent`"""
+        """Get sent applications"""
         return self.get_queryset().filter(
-            # Only application that have been sent
-            Q(status=ApplicationStatus.SENT)
-            & Q(webinar=webinar)
+            Q(status=ApplicationStatus.SENT) & Q(webinar=webinar)
+        )
+
+    def unfinished_applications(
+        self, webinar: Webinar
+    ) -> QuerySet["WebinarApplication"]:
+        """Get unfinished applications"""
+        return self.get_queryset().filter(
+            Q(status=ApplicationStatus.INIT) & Q(webinar=webinar)
+        )
+
+    def resigned_applications(
+        self, webinar: Webinar
+    ) -> QuerySet["WebinarApplication"]:
+        """Get resigned applications"""
+        return self.get_queryset().filter(
+            Q(status=ApplicationStatus.RESIGNATION) & Q(webinar=webinar)
         )
 
 

@@ -5,8 +5,11 @@ from core.models import (
     Webinar,
     WebinarApplication,
     WebinarAsset,
+    WebinarCertificate,
     WebinarMetadata,
     WebinarParticipant,
+    WebinarRecording,
+    WebinarRecordingToken,
 )
 
 
@@ -16,16 +19,40 @@ class CrmWebinarService:
     def __init__(self, webinar: Webinar) -> None:
         self.webinar = webinar
 
-    def sent_applications(self):
-        """Returns all `sent` applications for this webinar"""
+    def get_sent_applications(self):
+        """Returns all sent applications for this webinar"""
         return WebinarApplication.manager.sent_applications(self.webinar)
 
-    def gathered_participants(self):
+    def get_unfinished_applications(self):
+        """Returns all unfinished applications for this webinar"""
+        return WebinarApplication.manager.unfinished_applications(self.webinar)
+
+    def get_resigned_applications(self):
+        """Returns all resigned applications for this webinar"""
+        return WebinarApplication.manager.resigned_applications(self.webinar)
+
+    def get_gathered_participants(self):
         """Participants from `sent` applications"""
         return (
             WebinarParticipant.manager.get_participants_from_sent_applications(
                 self.webinar
             )
+        )
+
+    def get_certificates(self):
+        """Get certificates for gathered participants"""
+        return WebinarCertificate.objects.filter(
+            participant__in=self.get_gathered_participants()
+        )
+
+    def get_recordings(self):
+        """Get all recordings for this webinar"""
+        return WebinarRecording.manager.filter(webinar=self.webinar)
+
+    def get_all_recording_tokens(self):
+        """Get all tokens for all recordings for this webinar"""
+        return WebinarRecordingToken.manager.filter(
+            recording__webinar=self.webinar
         )
 
     def lecturer_price_netto(self) -> int:
@@ -51,7 +78,7 @@ class CrmWebinarService:
 
     def total_netto_value_of_webinar(self):
         """Return total NETTO value of this webinar"""
-        sent_applications = self.sent_applications()
+        sent_applications = self.get_sent_applications()
         return sum(
             [
                 application.participants.count() * application.price_netto
@@ -68,7 +95,7 @@ class CrmWebinarService:
     def get_groupby_application_type_count(self):
         """Get count for each application type"""
         qs = (
-            self.sent_applications()
+            self.get_sent_applications()
             .values("application_type")
             .annotate(count=Count("application_type"))
         )
@@ -92,17 +119,36 @@ class CrmWebinarService:
 
     def get_context(self):
         """Number of gathered participants"""
-        gathered_participants = self.gathered_participants()
+        gathered_participants = self.get_gathered_participants()
         total_netto_value_of_webinar = self.total_netto_value_of_webinar()
         webinar_assets_count = self.get_webinar_assets().count()
         lecturer_price_netto = self.lecturer_price_netto()
-        sent_applications = self.sent_applications()
+        sent_applications = self.get_sent_applications()
+        unfinished_applications = self.get_unfinished_applications()
+        resigned_applications = self.get_resigned_applications()
+        recordings = self.get_recordings()
+        certificates = self.get_certificates()
         return {
             "webinar": self.webinar,
+            # Sent applications
             "sent_applications": sent_applications,
             "sent_applications_count": sent_applications.count(),
+            # Unfinished applications
+            "unfinished_applications": unfinished_applications,
+            "unfinished_applications_count": unfinished_applications.count(),
+            # Resigned applications
+            "resigned_applications": resigned_applications,
+            "resigned_applications_count": resigned_applications.count(),
+            # Gathered participants
             "gathered_participants": gathered_participants,
             "gathered_participants_count": gathered_participants.count(),
+            # Recordings
+            "recordings": recordings,
+            "recordings_count": recordings.count(),
+            # Recordings
+            "certificates": certificates,
+            "certificates_count": certificates.count(),
+            #
             "lecturer_netto_price": lecturer_price_netto,
             "lecturer_netto_price_display": f"{lecturer_price_netto:,}",
             "total_netto_value_of_webinar": total_netto_value_of_webinar,

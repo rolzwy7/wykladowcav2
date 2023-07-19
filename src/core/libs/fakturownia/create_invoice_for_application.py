@@ -69,10 +69,16 @@ def create_invoice_for_application(
             "recipient_city": recipient.city,
         }
 
+    # We can use `exempt_tax_kind` to add additional information too
+    # because it's a text field
     if WE_ARE_TAX_EXEMPT:
-        extra_data = {"exempt_tax_kind": TAX_EXEMPT_TOOLTIP}
+        extra_data = {
+            "exempt_tax_kind": ". ".join(
+                [TAX_EXEMPT_TOOLTIP, application.additional_information]
+            )
+        }
     else:
-        extra_data = {}
+        extra_data = {"exempt_tax_kind": application.additional_information}
 
     # Sell date is a date of the webinar
     sell_date = _date(webinar.date, "Y-m-d")
@@ -110,12 +116,14 @@ def create_invoice_for_application(
     if WE_ARE_TAX_EXEMPT:
         price = {
             "tax": "zw",
-            "total_price_gross": application.price_netto,
+            "total_price_gross": application.price_netto
+            * application.participants.count(),
         }
     else:
         price = {
             "tax": VAT_VALUE_PERCENT,
-            "total_price_gross": application.price_brutto,
+            "total_price_gross": application.price_brutto
+            * application.participants.count(),
         }
 
     invoice_position = {**invoice_position, **price}

@@ -2,7 +2,8 @@
 {% load static %}
 {% block head_stylesheets %} {% endblock head_stylesheets %}
 
-{% block rightbar %}{%endblock rightbar %}
+{% comment %} {% block rightbar %}{%endblock rightbar %} {% endcomment %}
+{% block leftbar %}{%endblock leftbar %}
 
 {% block content %}
 <!--begin::Wrapper-->
@@ -19,6 +20,11 @@
         <h1 class="d-flex align-items-center my-1">
           <span class="text-dark fw-bold fs-1 me-1">Materiały szkoleniowe</span>
         </h1>
+        <!--end::Title-->
+        <!--begin::Title-->
+        <h2 class="d-flex align-items-center my-1">
+          <span class="text-dark fw-bold fs-1 me-1">{{webinar.title}}</span>
+        </h2>
         <!--end::Title-->
       </div>
       <!--end::Page title-->

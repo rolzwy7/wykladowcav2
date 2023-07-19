@@ -1,0 +1,38 @@
+{% load static %}
+{% load custom_templatetags %}
+<table id="kt_participants_table" class="table table-row-bordered gy-5">
+    <thead>
+        <tr class="fw-semibold fs-6 text-gray-800">
+            <th>Imię i Nazwisko</th>
+            <th>E-mail</th>
+            <th>Telefon</th>
+            <th>Zadzwoniono</th>
+            <th>Info</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for participant in gathered_participants %}
+        <tr>
+            <td>
+                <a href="{% url 'admin:core_webinarparticipant_change' object_id=participant.id %}">
+                    {{participant.fullname}}
+                </a>
+            </td>
+            <td>{{participant.email}}</td>
+            <td>{{participant.phone}}</td>
+            <td>
+                <div
+                    hx-get="{% url 'htmx:htmx_crm_participant_toggle_phoned' pk=participant.pk %}"
+                    hx-trigger="load delay:1s">
+                </div>
+            </td>
+            <td>
+                <div
+                    hx-get="{% url 'htmx:htmx_crm_participant_indicators' pk=participant.pk %}"
+                    hx-trigger="load delay:{{forloop.counter}}s">
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

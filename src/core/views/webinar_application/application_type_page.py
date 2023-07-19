@@ -32,10 +32,6 @@ def application_type_page(request, pk: int):
                     webinar=webinar,
                 )
 
-                # If user authenticated then connect
-                if request.user.is_authenticated:
-                    application.user = request.user
-
                 # Set reflink
                 if reflink_service.is_refcode_valid():
                     refcode = reflink_service.get_ref_code()

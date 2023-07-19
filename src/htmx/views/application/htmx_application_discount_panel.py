@@ -8,7 +8,7 @@ from core.models import WebinarApplication
 from core.services import DiscountService
 
 
-def application_discount_panel(request: HttpRequest, pk: int):
+def htmx_application_discount_panel(request: HttpRequest, pk: int):
     """Application discount panel"""
     template_path = "htmx/application_discount_panel.html"
     application = get_object_or_404(WebinarApplication, pk=pk)

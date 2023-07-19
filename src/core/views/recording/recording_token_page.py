@@ -9,7 +9,9 @@ from core.services import StreamingService
 def recording_token_page(request: HttpRequest, uuid: str):
     """Recording token page"""
     template_name = "core/pages/streaming/RecordingTokenPage.html"
+
     recording_token = get_object_or_404(WebinarRecordingToken, token=uuid)
+
     streaming_service = StreamingService(recording_token)
 
     if not streaming_service.is_token_valid():
