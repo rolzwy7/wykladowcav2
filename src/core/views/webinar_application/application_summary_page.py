@@ -6,12 +6,13 @@ from django.urls import reverse
 from core.consts import POST
 from core.forms import ApplicationSummarySubmitForm
 from core.models import (
+    Webinar,
     WebinarApplication,
     WebinarApplicationSubmitter,
     WebinarParticipant,
 )
 from core.models.enums import ApplicationStatus, WebinarApplicationStep
-from core.services import ApplicationFormService, DiscountService
+from core.services import ApplicationFormService
 from core.tasks_dispatch import after_application_sent_dispatch
 
 APPLICATION_STEP = WebinarApplicationStep.SUMMARY
@@ -21,7 +22,7 @@ def application_summary_page(request, uuid):
     """Application summary page"""
     template_name = "core/pages/application/ApplicationSummaryPage.html"
     application = get_object_or_404(WebinarApplication, uuid=uuid)
-    webinar = application.webinar
+    webinar: Webinar = application.webinar
     form_service = ApplicationFormService(
         webinar, application, WebinarApplicationStep.SUMMARY
     )
@@ -45,11 +46,15 @@ def application_summary_page(request, uuid):
             if request.user.is_authenticated:
                 application.user = request.user
 
+            # Decrement webinar's remaining places
+            webinar.remaining_places = max(0, webinar.remaining_places - 1)
+
             # Dispatch tasks after application send
             after_application_sent_dispatch(application, submitter)
 
-            # Save changes in application
+            # Save changes
             application.save()
+            webinar.save()
 
             return redirect(reverse("core:application_success_page"))
     else:

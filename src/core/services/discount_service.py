@@ -1,5 +1,8 @@
 # flake8: noqa:E501
 # pylint: disable=line-too-long
+from random import choice, shuffle
+from string import ascii_uppercase, digits
+
 from core.models import (
     DiscountApplicationApplied,
     DiscountCode,
@@ -15,6 +18,25 @@ class DiscountService:
     def __init__(self, application: WebinarApplication) -> None:
         self.application = application
 
+    @staticmethod
+    def generate_unused_disocunt_code(length: int = 8) -> str:
+        """Generate unused discount code without saving it"""
+        local_digits = digits
+        local_digits = local_digits.replace("0", "")
+        local_ascii_uppercase = ascii_uppercase
+        local_ascii_uppercase = local_ascii_uppercase.replace("O", "")
+        random_base = list(f"{local_ascii_uppercase}{local_digits}")
+        shuffle(random_base)
+
+        for _ in range(1_000):
+            code_candid = "".join([choice(random_base) for _ in range(length)])
+            code_already_exists = DiscountCode.manager.filter(
+                discount_code=code_candid
+            ).exists()
+            if not code_already_exists:
+                return code_candid
+        return ""
+
     def get_application_discounts(self):
         """Get discounts for application"""
         return DiscountApplicationApplied.objects.filter(
@@ -29,7 +51,7 @@ class DiscountService:
             .exists()
         )
 
-    def maybe_apply_application_discount(self):
+    def maybe_apply_initial_application_discount(self):
         """Apply initial discount to application if webinar is discounted"""
 
         webinar: Webinar = self.application.webinar

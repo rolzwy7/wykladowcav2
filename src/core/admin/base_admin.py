@@ -9,6 +9,7 @@ from core.models import (
     LecturerOpinion,
     User,
     WebinarApplication,
+    WebinarApplicationCancellation,
     WebinarApplicationCompany,
     WebinarApplicationInvoice,
     WebinarApplicationMetadata,
@@ -23,6 +24,7 @@ from core.models import (
 
 admin.site.register(User)
 admin.site.register(DiscountCode)
+admin.site.register(WebinarApplicationCancellation)
 admin.site.register(WebinarApplicationCompany)
 admin.site.register(WebinarApplicationPrivatePerson)
 admin.site.register(WebinarApplicationInvoice)

@@ -83,3 +83,17 @@ def crm_participant_opinion_email_preview(request):
         {**email_get_application_context(application_id)},
     )
     return HttpResponse(email_template.get_html())
+
+
+def crm_submitter_cancellation_email_preview(request):
+    """Preview of opinion e-mail"""
+    application = WebinarApplication.manager.all().order_by("?")
+    application_id: int = application.first().id  # type: ignore
+    email_template = EmailTemplate(
+        "email/EmailSubmitterCancellation.html",
+        {
+            **email_get_application_context(application_id),
+            "cancellation_token": "dda34d5e-c50b-4cca-8864-19c1463acba3",
+        },
+    )
+    return HttpResponse(email_template.get_html())

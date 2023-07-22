@@ -1,0 +1,38 @@
+<!--begin::Discount-->
+{% if webinar %}
+    <!--begin::Alert-->
+    <div class="alert alert-dismissible bg-light-warning border border-warning d-flex flex-column flex-sm-row p-2 mb-2">
+    <!--begin::Wrapper-->
+    <div class="d-flex flex-column pe-0 pe-sm-10">
+        <!--begin::Content-->
+        <span>
+            {% if webinar.remaining_places == 1 %}
+            Pozostało
+            {% elif webinar.remaining_places >= 5 %}
+            Pozostało
+            {% else %}
+            Pozostały
+            {% endif %}
+            
+            <b>
+                {{webinar.remaining_places}}
+
+                {% if webinar.remaining_places == 1 %}
+                wolne miejsce
+                {% elif webinar.remaining_places >= 5 %}
+                wolnych miejsc
+                {% else %}
+                wolne miejsca
+                {% endif %}
+            </b>
+
+            na to szkolenie
+        
+        </span>
+        <!--end::Content-->
+    </div>
+    <!--end::Wrapper-->
+    </div>
+    <!--end::Alert-->
+{% endif %}
+<!--end::Discount-->

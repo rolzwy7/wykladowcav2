@@ -1,0 +1,105 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %}
+{% load static %}
+
+{% block head_stylesheets %}
+
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+
+<!--start::Col-->
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title fw-bold text-{{color}} fs-1">{{page_title}}</h3>
+        </div>
+        <div class="card-body fs-3">
+
+            <p><b>Szkolenie</b>: {{webinar.title_original}}</p>
+            <p><b>Data</b>: {{webinar.date|date:"j E Y"}}, godz. {{webinar.date|date:"H:i"}}</p>
+            <p><b>Wykładowca</b>: {{webinar.lecturer.fullname}}</p>
+
+            <h2>Co się stanie?</h2>
+
+            <div class="separator my-5"></div>
+
+            {% if action_name == "CONFIRM" %}
+            <ol>
+                <li>Zostanie stworzony pokój w ClickMeeting</li>
+                <li>Zostaną wysłane zaporszenia do uczestników</li>
+                {% if webinar.lecturer.email %}
+                    <li>
+                        <span class="text-success fw-bold">
+                            Zostanie wysłane zaporszenia do wykładowcy,
+                            ponieważ podano jego e-mail ({{webinar.lecturer.email}})
+                        </span> 
+                    </li>
+                {% else %}
+                    <li>
+                        <span class="text-danger fw-bold">
+                            Nie zostanie wysłane zaproszenie do wykładowcy,
+                            ponieważ nie podano jego e-maila
+                            <a href="{% url 'admin:core_lecturer_change' object_id=webinar.lecturer.id %}">
+                                (zmień to w CMS)
+                            </a>
+                        </span> 
+                    </li>
+                {% endif %}
+            </ol>
+
+            {% elif action_name == "DONE" %}
+            <ol>
+                <li><b>Faktury</b> zostaną wysłane na adresy e-mail podane w zgłoszeniach</li>
+                <li><b>Certyfikaty</b> zostaną wysłane na adresy e-mail uczestników</li>
+                <li>Zostanie uruchomione zadanie próbujące pobrać <b>nagranie</b> (jeśli istnieje w ClickMeeting) w okresie 24 godzin (próba co ~30 minut)</li>
+                <li>Po 24 godzinach po zakończeniu szkolenia do uczestników wysyłane są prośby o <b>opinie</b></li>
+            </ol>
+
+            {% elif action_name == "CANCEL" %}
+            <ol>
+                <li>Zostaną wysłane wiadomości e-mail do osób zgłaszających z:</li>
+                <ul>
+                    <li>informacją o odwołaniu szkolenia</li>
+                    <li>linkiem do potwierdzenia otrzymania wiadomości</li>
+                </ul>
+            </ol>
+
+            {% else %}
+                [DEFAULT_DESCRIPTION]
+            {% endif %}
+
+            <div class="separator my-5"></div>
+
+            <form
+                onsubmit="actionSubmit.disabled = true; return true;"
+                method="post"
+                action="{{action_url}}"
+            >
+                {% csrf_token %}
+                {{form.i_am_sure}}
+                <div class="separator my-5"></div>
+                <input
+                    id="confirm-submit-btn"
+                    name="actionSubmit"
+                    class="btn btn-{{color}} mt-4"
+                    type="submit"
+                    value="{{submit_text}}"
+                    disabled
+                >
+            </form>
+        </div>
+    </div>
+</div>
+<!--end::Col-->
+
+{% endblock crm_content %}
+
+{% block body_scripts %}
+<script>
+    var checkInput = document.querySelector("#id_i_am_sure");
+    checkInput.addEventListener("click", function(e) {
+        let btn = document.querySelector("#confirm-submit-btn");
+        btn.disabled = !btn.disabled;
+    })
+</script>
+{% endblock body_scripts %}

@@ -1,13 +1,6 @@
 {% extends 'core/extends/base.html' %}
 {% load static %}
 {% block head_stylesheets %}
-<!--begin::Vendor Stylesheets(used for this page only)-->
-<link
-  href="{% static 'plugins/custom/datatables/datatables.bundle.css' %}"
-  rel="stylesheet"
-  type="text/css"
-/>
-<!--end::Vendor Stylesheets-->
 <link
   href="{% static 'css/simplyCountdown.theme.default.css' %}"
   rel="stylesheet"
@@ -94,6 +87,19 @@
                                             </i>
                                             {{webinar.lecturer.profession}}
                                         </span>
+                                        {% endif %}
+                                        {% if webinar.is_confirmed %}
+                                        <span class="badge badge-warning me-5 mb-2">
+                                            <i class="ki-duotone ki-star text-light-warning me-1"><i class="path1"></i><i class="path2"></i></i>
+                                            Pewny termin
+                                          </span>
+                                        {% comment %} <span class="d-flex align-items-center fw-bold text-warning me-5 mb-2">
+                                            <i class="ki-duotone ki-geolocation fs-4 me-1">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                            </i>
+                                            Pewny termin
+                                        </span> {% endcomment %}
                                         {% endif %}
                                         <span class="d-flex align-items-center text-gray-700 me-5 mb-2">
                                             <i class="ki-duotone ki-geolocation fs-4 me-1">
@@ -234,7 +240,7 @@
                                             <!--end::Number-->
                                             <!--begin::Label-->
                                             <div class="fw-semibold fs-6 text-gray-400">
-                                                Cena {% if webinar.is_discounted %}<span class="fw-bolder text-success fs-3">promocyjna</span>{% endif %} (od osoby)
+                                                Cena {% if webinar.is_discounted %}<span class="fw-bolder text-success fs-2">promocyjna</span>{% endif %} (od osoby)
                                                 {% if WE_ARE_TAX_EXEMPT %}
                                                 <i
                                                     class="ki-duotone ki-question-2 fs-1"
@@ -315,7 +321,10 @@
 
                 {% block webinar_rightbar %}
                 <div class="col-xl-4">
+                    {% include './snippets/PlacesLeftAlert.html' %}
                     {% include './snippets/DiscountAlert.html' %}
+                    {% include './snippets/ApplicationButton.html' %}
+                    <div class="separator my-5"></div>
                     {% include './snippets/WhatWeOffer.html' %}
                     <div
                         class="card card-flush mb-0"
@@ -346,7 +355,7 @@
 
 {%block body_scripts %}
     <!--begin::Vendors Javascript(used for this page only)-->
-    <script src="{% static 'plugins/custom/datatables/datatables.bundle.js' %}"></script>
+    {% comment %} <script src="{% static 'plugins/custom/datatables/datatables.bundle.js' %}"></script> {% endcomment %}
     <!--end::Vendors Javascript-->
     <!--begin::Custom Javascript(used for this page only)-->
     <script src="{% static 'js/simplyCountdown.min.js' %}"></script>
@@ -373,8 +382,8 @@
     <script src="{% static 'js/custom/utilities/modals/users-search.js' %}"></script>
     <!--end::Custom Javascript-->
     {% endcomment %}
+    {% if webinar.is_discounted %}
     <script>
-        console.log("count")
         simplyCountdown('#discount-countdown', {
             year: {{webinar.discount_until|date:"Y"}}, // The target year
             month: {{webinar.discount_until|date:"n"}}, // The target month (0-11)
@@ -390,4 +399,5 @@
             },
         });
     </script>
+    {% endif %}
 {% endblock body_scripts %}

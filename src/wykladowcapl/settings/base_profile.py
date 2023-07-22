@@ -59,12 +59,16 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    # Edit your settings.py file and add WhiteNoise to the MIDDLEWARE list
+    # above all other middleware apart from Django’s SecurityMiddleware
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # Custom middleware
     "core.middleware.CoreMiddleware",
     "core.middleware.LoyaltyProgramMiddleware",
 ]
@@ -90,6 +94,7 @@ TEMPLATES = [
                 "core.context_processors.company",
                 "core.context_processors.links",
                 "core.context_processors.metadata",
+                "core.context_processors.loyalty_program",
             ],
         },
     },
@@ -148,7 +153,15 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 class CustomFormRenderer(TemplatesSetting):
+    """Custom form renderer class"""
+
     form_template_name = "core/forms/FormSnippet.html"
 
 
 FORM_RENDERER = "wykladowcapl.settings.CustomFormRenderer"
+
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}

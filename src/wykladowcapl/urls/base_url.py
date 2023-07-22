@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from core.views import robots_page
+from core.views import meta_redirect_page, robots_page
 
 from .sitemap_urls import sitemap_xml_path
 
@@ -13,6 +13,7 @@ urlpatterns = [
     path("htmx/", include("htmx.urls", namespace="htmx")),
     path("tinymce/", include("tinymce.urls")),
     path("robots.txt", robots_page, name="robots_page"),
+    path("r/", meta_redirect_page, name="meta_redirect_page"),
     sitemap_xml_path,
     path("", include("core.urls", namespace="core")),
 ]

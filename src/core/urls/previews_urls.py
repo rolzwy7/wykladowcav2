@@ -6,10 +6,16 @@ from core.views.crm import (
     crm_participant_confirmation_email_preview,
     crm_participant_opinion_email_preview,
     crm_participant_preparation_email_preview,
+    crm_submitter_cancellation_email_preview,
     crm_submitter_confirmation_email_preview,
 )
 
 urlpatterns = [
+    path(
+        "submitter-cancellation-email-preview/",
+        crm_submitter_cancellation_email_preview,
+        name="crm_submitter_cancellation_email_preview",
+    ),
     path(
         "submitter-confirmation-email-preview/",
         crm_submitter_confirmation_email_preview,

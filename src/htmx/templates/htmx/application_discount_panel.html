@@ -65,10 +65,10 @@
 
   <!--begin::Title-->
   <h6 class="my-2">
-    Cena za osobe: {{application.price_netto}}zł
+    Cena za osobe: <br> {{application.price_netto}}zł
   </h6>
   <h4 class="my-2">
-    Całkowita cena: {{application.total_price_netto}}zł
+    Całkowita cena: <br> {{application.total_price_netto}}zł
     {% if application.invoice.vat_exemption == "VAT_EXEMPTION_0" %}
     +   {{VAT_VALUE_PERCENT}}% VAT
     {% endif %}

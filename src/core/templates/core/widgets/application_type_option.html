@@ -1,5 +1,5 @@
 <!--begin:Option-->
-<label class="d-flex flex-stack mb-5 cursor-pointer">
+<label class="d-flex flex-stack mb-5 cursor-pointer" style="user-select: none;">
     <!--begin:Label-->
     <span class="d-flex align-items-center me-2">
         <!--begin:Icon-->
@@ -23,14 +23,14 @@
         <!--begin:Info-->
         <span class="d-flex flex-column">
         {% if option.value == "COMPANY" %}
-            <span class="fw-bold fs-6">Firma</span>
-            <span class="fs-7 text-muted">Nabywca</span>
+            <span class="fw-bold fs-3">Firma</span>
+            <span class="fs-5 text-dark">Nabywca</span>
         {% elif option.value == "JSFP" %}
-            <span class="fw-bold fs-6">JSFP</span>
-            <span class="fs-7 text-muted">Nabywca / Odbiorca</span>
+            <span class="fw-bold fs-3">JSFP</span>
+            <span class="fs-5 text-dark">Nabywca / Odbiorca</span>
         {% elif option.value == "PRIVATE_PERSON" %}
-            <span class="fw-bold fs-6">Osoba prywatna</span>
-            <span class="fs-7 text-muted"></span>
+            <span class="fw-bold fs-3">Osoba prywatna</span>
+            <span class="fs-5 text-dark"></span>
         {% endif %}
         </span>
         <!--end:Info-->

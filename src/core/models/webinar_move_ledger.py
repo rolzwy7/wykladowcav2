@@ -41,3 +41,29 @@ class WebinarMoveLedger(Model):
 
     def __str__(self) -> str:
         return f"WebinarMoveLedger #{self.id}"  # type: ignore
+
+
+class WebinarMoveLedgerItem(Model):
+    """Represents webinar participant"""
+
+    # Ledger
+    ledger = ForeignKey(
+        "WebinarMoveLedger",
+        on_delete=CASCADE,
+        verbose_name="Rejestr przeniesień szkolenia",
+    )
+
+    application = ForeignKey(
+        "WebinarApplication", on_delete=CASCADE, verbose_name="Zgłoszenie"
+    )
+
+    # TODO: token
+
+    # TODO: status
+
+    class Meta:
+        verbose_name = "Przeniesiony termin (zgłoszenie)"
+        verbose_name_plural = "Przeniesione terminy (zgłoszenie)"
+
+    def __str__(self) -> str:
+        return f"WebinarMoveLedger #{self.id}"  # type: ignore

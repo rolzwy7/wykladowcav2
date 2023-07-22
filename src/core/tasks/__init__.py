@@ -36,6 +36,10 @@ from .send_participant_preparation_email import (
     params_send_participant_preparation_email,
     task_send_participant_preparation_email,
 )
+from .send_submitter_cancellation_email import (
+    params_send_submitter_cancellation_email,
+    task_send_submitter_cancellation_email,
+)
 from .send_submitter_confirmation_email import (
     params_send_submitter_confirmation_email,
     task_send_submitter_confirmation_email,

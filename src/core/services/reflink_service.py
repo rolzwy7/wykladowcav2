@@ -16,6 +16,8 @@ class ReflinkService:
         if not self.is_refcode_in_get_params():
             return False
 
+        # TODO: additionaly check if refocode exists for one user
+
         return not (re.match(r"[0-9]{5,15}", self.get_ref_code()) is None)
 
     def is_refcode_in_get_params(self) -> bool:

@@ -1,0 +1,79 @@
+{% extends './extends/EmailBase.html' %}
+
+
+{% block content %}
+<!--email-template from database: START-->
+<tr>
+  <td align="center" style="max-width: 640px;" valign="top">
+    <table width="100%" align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" style="border-spacing:0;background-color: #ffffff;">
+      <tbody>
+        
+        <tr><td height="50">&nbsp;</td></tr>
+
+        <tr>
+          <td align="left" valign="top" style="border-collapse:collapse;">
+            <table border="0" cellpadding="0" cellspacing="0" style="border-spacing:0;width: 100%;max-width: 640px;">
+              <tbody>
+                {% include './includes/EmailDearRecipientIntro.html' %}
+
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;">
+                    W związku z otrzymanym od Państwa zgłoszeniem na szkolenie:
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    <b>{{webinar.title_original}}</b>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    zaplanowanym na dzień <b>{{webinar.date|date:'j E Y'}}</b> informujemy, że
+                    <b style="color: crimson;"><u>szkolenie zostało odwołane</u></b>
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    Przepraszamy za zaistniałą sytuację.
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    <b>Prosimy o potwierdzenie przyjęcia wiadomości</b> poprzez kliknięcie w link poniżej: 
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    <a href="{{BASE_URL}}{% url 'core:webinar_cancellation_page' token=cancellation_token %}">
+                      {{BASE_URL}}{% url 'core:webinar_cancellation_page' token=cancellation_token %}
+                    </a>
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    {% include './includes/EmailPatronInfo.html' %}
+                  </td>
+                </tr>
+                
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        
+        <tr>
+          <td height="50" style="border-collapse:collapse;font-size:1px; line-height:0px;">&nbsp;
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </td>
+</tr>
+<!--email-template from database: END-->
+{% endblock content %}

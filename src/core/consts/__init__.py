@@ -7,10 +7,17 @@ from .exemptions_consts import (
     VAT_EXEMPTION_0,
     VAT_EXEMPTION_13,
     VAT_EXEMPTION_36,
+    VAT_EXEMPTION_113,
     VAT_EXEMPTIONS,
     VAT_VALUE_PERCENT,
     WE_ARE_TAX_EXEMPT,
 )
-from .patron_consts import PATRON_EMAIL, PATRON_PHONE
+from .patron_consts import (
+    PATRON_EMAIL,
+    PATRON_FIRST_NAME,
+    PATRON_JOB_TITLE,
+    PATRON_LAST_NAME,
+    PATRON_PHONE,
+)
 from .requests_consts import GET, POST
 from .slugs_consts import SLUG_HELP_TEXT

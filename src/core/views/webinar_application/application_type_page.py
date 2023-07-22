@@ -42,7 +42,7 @@ def application_type_page(request, pk: int):
 
                 # If webinar is discounted apply discount
                 discount_service = DiscountService(application)
-                discount_service.maybe_apply_application_discount()
+                discount_service.maybe_apply_initial_application_discount()
 
             return ApplicationFormService.get_application_type_redirect(
                 application.application_type, application.uuid

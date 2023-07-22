@@ -1,4 +1,7 @@
 # flake8: noqa
+from .htmx_crm_application_cancellation import (
+    htmx_crm_application_cancellation_toggle,
+)
 from .htmx_crm_lecturer_price_card import htmx_crm_lecturer_price_card
 from .htmx_crm_participant import (
     htmx_crm_participant_indicators,

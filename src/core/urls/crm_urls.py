@@ -8,11 +8,15 @@ from core.views.crm import (
     crm_upcoming_webinars,
     crm_webinar_assets,
     crm_webinar_certificates,
-    crm_webinar_confirm,
     crm_webinar_detail_dashboard,
-    crm_webinar_done,
     crm_webinar_eventlogs,
+    crm_webinar_invoices,
     crm_webinar_recordings,
+)
+from core.views.crm.crm_webinar_actions import (
+    CancelWebinarAction,
+    ConfirmWebinarAction,
+    DoneWebinarAction,
 )
 
 urlpatterns = [
@@ -25,6 +29,11 @@ urlpatterns = [
         "webinar/<int:pk>/logi/",
         crm_webinar_eventlogs,
         name="crm_webinar_eventlogs",
+    ),
+    path(
+        "webinar/<int:pk>/faktury/",
+        crm_webinar_invoices,
+        name="crm_webinar_invoices",
     ),
     path(
         "webinar/<int:pk>/materialy-szkoleniowe/",
@@ -43,12 +52,17 @@ urlpatterns = [
     ),
     path(
         "webinar/<int:pk>/potwierdz-termin/",
-        crm_webinar_confirm,
+        ConfirmWebinarAction.as_view(),
         name="crm_webinar_confirm",
     ),
     path(
-        "webinar/<int:pk>/zakoncz-szkolenie/",
-        crm_webinar_done,
+        "webinar/<int:pk>/odwolaj-termin/",
+        CancelWebinarAction.as_view(),
+        name="crm_webinar_cancel",
+    ),
+    path(
+        "webinar/<int:pk>/zakoncz-termin/",
+        DoneWebinarAction.as_view(),
         name="crm_webinar_done",
     ),
     path(

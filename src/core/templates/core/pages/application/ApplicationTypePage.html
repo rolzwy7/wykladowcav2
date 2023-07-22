@@ -17,6 +17,29 @@
       <h3 class="card-title">Wybierz typ wysyłanego zgłoszenia</h3>
     </div>
     <div class="card-body">
+
+        {% if ACTIVE_REFCODE %}
+        <!--begin::Alert-->
+        <div class="alert alert-danger d-flex align-items-center p-5">
+
+            <!--begin::Wrapper-->
+            <div class="d-flex flex-column">
+                <!--begin::Title-->
+                <h4 class="mb-1 text-dark">Bierzesz udział w programie partnerskim</h4>
+                <!--end::Title-->
+
+                <!--begin::Content-->
+                <span>
+                    Jako odbiorca kodu referencyjnego <span class="fw-bold">{{ACTIVE_REFCODE}}</span>
+                    otrzymasz dodatkowe <span class="fw-bold fs-3">5% zniżki</span> na to zgłoszenie.
+                </span>
+                <!--end::Content-->
+            </div>
+            <!--end::Wrapper-->
+        </div>
+        <!--end::Alert-->
+        {% endif %}
+
         <div class="d-flex flex-row justify-content-center">
             <form action="{% url 'core:application_type_page' pk=webinar.pk %}" method="post">
                 {% csrf_token %}

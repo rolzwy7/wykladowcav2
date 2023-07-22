@@ -4,6 +4,7 @@ from core.views import (
     contact_page,
     home_page,
     login_page,
+    logout_page,
     register_page,
     webinar_category_page,
 )
@@ -37,6 +38,7 @@ urlpatterns = [
     path("crm/", include(crm_urlpatterns)),
     path("logowanie/", login_page, name="login_page"),
     path("rejestracja/", register_page, name="register_page"),
+    path("wyloguj/", logout_page, name="logout_page"),
     path("kontakt/", contact_page, name="contact_page"),
     path("preview/", include(previews_urlpatterns)),
     path("certyfikat/", include(certificate_urlpatterns)),

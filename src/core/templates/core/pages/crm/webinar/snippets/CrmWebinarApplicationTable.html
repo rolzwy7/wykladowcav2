@@ -1,6 +1,6 @@
 {% load static %}
 {% load custom_templatetags %}
-<table id="kt_applications_table" class="table table-striped border rounded gy-5 gs-7">
+<table id="{{table_name}}" class="table table-striped border rounded gy-5 gs-7">
     <thead>
         <tr class="fw-semibold fs-6 text-gray-800">
             <th class="min-w-150px" data-priority="1">Nabywca <br> szkolenia</th>
@@ -10,7 +10,7 @@
             <th class="min-w-50px">Uczestników <br> szkolenia</th>
             <th class="min-w-50px">Za <br> osobę</th>
             <th class="min-w-50px">Wartość <br> zgłoszenia</th>
-            <th class="min-w-50px">Zgłoszenie <br> wysłano</th>
+            <th class="min-w-50px">Zgłoszenie <br> stworzono</th>
         </tr>
     </thead>
     <tbody>

@@ -10,6 +10,7 @@ from .lecturer_opinion_model import LecturerOpinion
 from .user_model import User
 from .webinar_application_model import (
     WebinarApplication,
+    WebinarApplicationCancellation,
     WebinarApplicationCompany,
     WebinarApplicationInvoice,
     WebinarApplicationMetadata,

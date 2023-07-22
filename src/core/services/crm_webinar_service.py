@@ -4,6 +4,8 @@ from django.db.models import Count
 from core.models import (
     Webinar,
     WebinarApplication,
+    WebinarApplicationCancellation,
+    WebinarApplicationMetadata,
     WebinarAsset,
     WebinarCertificate,
     WebinarMetadata,
@@ -19,9 +21,24 @@ class CrmWebinarService:
     def __init__(self, webinar: Webinar) -> None:
         self.webinar = webinar
 
+    def get_applications_cancellations(self):
+        """Get cancellations for applications of this webinar"""
+        return WebinarApplicationCancellation.objects.filter(
+            application__webinar=self.webinar
+        )
+
     def get_sent_applications(self):
         """Returns all sent applications for this webinar"""
         return WebinarApplication.manager.sent_applications(self.webinar)
+
+    def get_sent_applications_metadata(self):
+        """Returns metadatas from sent applications metadata"""
+        application_ids = [
+            _.id for _ in self.get_sent_applications()  # type: ignore
+        ]
+        return WebinarApplicationMetadata.objects.filter(
+            application__in=application_ids
+        )
 
     def get_unfinished_applications(self):
         """Returns all unfinished applications for this webinar"""

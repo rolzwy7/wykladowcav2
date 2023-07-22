@@ -236,40 +236,6 @@
                 </li>
                 <!--end::Nav item-->
                 
-                {% if webinar.status == "CONFIRMED" or webinar.status == "DONE" %}
-                <!--begin::Nav item-->
-                <li class="nav-item mt-2">
-                    <a
-                        class="
-                        {% if request.path == '/crm/webinar/'|add:webinar_pk_str|add:'/clickmeeting/' %}
-                        active
-                        {% endif %}
-                        nav-link text-active-primary ms-0 me-10 py-5"
-                        href="{% url 'core:crm_webinar_eventlogs' pk=webinar.pk %}"
-                        >
-                    <i class="ki-duotone ki-youtube fs-2 me-2"><i class="path1"></i><i class="path2"></i></i>
-                    Clickmeeting
-                </a>
-                </li>
-                <!--end::Nav item-->
-                {% endif %}
-                
-                <!--begin::Nav item-->
-                <li class="nav-item mt-2">
-                    <a
-                        class="
-                        {% if request.path == '/crm/webinar/'|add:webinar_pk_str|add:'/logi/' %}
-                        active
-                        {% endif %}
-                        nav-link text-active-primary ms-0 me-10 py-5"
-                        href="{% url 'core:crm_webinar_eventlogs' pk=webinar.pk %}"
-                    >
-                    <i class="ki-duotone ki-abstract-26 fs-2 me-2"><i class="path1"></i><i class="path2"></i></i>
-                        Logi
-                    </a>
-                </li>
-                <!--end::Nav item-->
-
                 {% if certificates_count != 0 %}
                 <!--begin::Nav item-->
                 <li class="nav-item mt-2">
@@ -305,6 +271,40 @@
                 </li>
                 <!--end::Nav item-->
                 {% endif %}
+                
+                {% if webinar.status == "DONE" %}
+                <!--begin::Nav item-->
+                <li class="nav-item mt-2">
+                    <a
+                    class="
+                        {% if request.path == '/crm/webinar/'|add:webinar_pk_str|add:'/faktury/' %}
+                        active
+                        {% endif %}
+                        nav-link text-active-primary ms-0 me-10 py-5"
+                        href="{% url 'core:crm_webinar_invoices' pk=webinar.pk %}"
+                    >
+                    <i class="ki-duotone ki-document fs-2 me-2"><i class="path1"></i><i class="path2"></i></i>
+                        Faktury
+                    </a>
+                </li>
+                <!--end::Nav item-->
+                {% endif %}
+
+                <!--begin::Nav item-->
+                <li class="nav-item mt-2">
+                    <a
+                        class="
+                        {% if request.path == '/crm/webinar/'|add:webinar_pk_str|add:'/logi/' %}
+                        active
+                        {% endif %}
+                        nav-link text-active-primary ms-0 me-10 py-5"
+                        href="{% url 'core:crm_webinar_eventlogs' pk=webinar.pk %}"
+                    >
+                    <i class="ki-duotone ki-abstract-26 fs-2 me-2"><i class="path1"></i><i class="path2"></i></i>
+                        Logi
+                    </a>
+                </li>
+                <!--end::Nav item-->
 
                 {% endwith %}
             </ul>

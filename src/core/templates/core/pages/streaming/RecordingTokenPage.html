@@ -16,12 +16,12 @@
     <!--begin::Content-->
     <div class="content flex-column-fluid" id="kt_content">
 
-        <div class="row">
-          <div class="col-lg-8">
+        <div class="row bg-dark p-5">
+          <div class="col-lg-8 offset-lg-2">
 
               <div id="video-container">
                 <video
-                    id="vid1"
+                    id="recording_video"
                     class="video-js"
                   >
                   <source src="/nagrania/stream/{{uuid}}/" type="video/mp4" />
@@ -31,12 +31,22 @@
                   </p>
                 </video>
               </div>
-
-
           </div>
-          <div class="col-lg-4">2</div>
-        </div>
+          
 
+
+        </div>
+        
+        <div class="row mt-10">
+          <div class="col-lg-8">
+            <h1>{{webinar.title_original}}</h1>
+            <div class="separator border-5 my-5"></div>
+            <h2>Materiały szkoleniowe</h2>
+            {% for asset in webinar_assets %}
+            {% include 'core/pages/asset/snippets/AssetItem.html' with asset=asset %}
+            {% endfor %}
+          </div>
+        </div>
 
     </div>
     <!--end::Content-->
@@ -49,14 +59,14 @@
 </script>
 <script src="{% static 'js/video-js-8.3.0.min.js' %}"></script>
 <script>
-  const player = videojs('vid1', {
+  const player = videojs('recording_video', {
     fluid: true,
     controls: true,
     autoplay: false,
     disablePictureInPicture: true,
     preload: 'auto',
     playbackRates: [1, 1.5, 2],
-    // poster: "MY_VIDEO_POSTER.jpg",
+    // poster: "MY_VIDEO_POSTER.jpg", <!-- TODO: Poster can be automatically generated -->
   });
 </script>
 {% endblock body_scripts %}

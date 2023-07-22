@@ -1,2 +1,5 @@
+PATRON_FIRST_NAME = "Wioletta"
+PATRON_LAST_NAME = "Konieczka"
+PATRON_JOB_TITLE = "Menedżer ds. Szkoleń"
 PATRON_EMAIL = "wioletta.konieczka@wykladowca.pl"
 PATRON_PHONE = "531 244 871"

@@ -1,0 +1,44 @@
+{% load static %}
+<div class="card h-md-100" style="background-color: #4267B2;">
+  <!--begin::Body-->
+  <div class="card-body d-flex flex-column pt-13 pb-14">
+    <!--begin::Heading-->
+    <div class="m-0">
+      <!--begin::Title-->
+      <h1 class="fw-semibold text-white text-center lh-lg mb-9">
+        Dołącz do naszych
+        <br />
+        <span class="fw-bolder">Grup na Facebook'u</span>
+      </h1>
+      <!--end::Title-->
+      <!--begin::Illustration-->
+      <div
+        class="flex-grow-1 bgi-no-repeat bgi-size-contain bgi-position-x-center card-rounded-bottom h-200px mh-200px my-5 mb-lg-12"
+        style="
+          background-image: url('{% static 'media/svg/illustrations/easy/1.svg' %}');
+        "
+      ></div>
+      <!--end::Illustration-->
+    </div>
+    <!--end::Heading-->
+    <!--begin::Links-->
+    <div class="d-flex flex-column text-center">
+      <!--begin::Link-->
+      <a
+        href="{{LINK_KADRY_PLACE_GRUPA_WSPARCIA}}"
+        target="_blank"
+        class="btn bg-white btn-color-gray-800 hover-scale"
+       >Grupa wsparcia dla <b>Kadrowych</b>&nbsp;❤</a>
+      <!--end::Link-->
+      <!--begin::Link-->
+      <a
+        href="{{LINK_KSIEGOWOSC_KADRY_DAM_PRACE}}"
+        target="_blank"
+        class="btn bg-white btn-color-gray-800 mt-3 hover-scale"
+       ><b>Księgowość i kadry</b> - #Dam pracę, #Szukam pracy</a>
+      <!--end::Link-->
+    </div>
+    <!--end::Links-->
+  </div>
+  <!--end::Body-->
+</div>

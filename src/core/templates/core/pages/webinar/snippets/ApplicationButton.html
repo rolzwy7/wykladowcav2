@@ -1,0 +1,10 @@
+<a
+    href="{% url 'core:application_type_page' pk=webinar.pk %}"
+    class="btn btn-danger w-100 fs-3">
+
+    {% if webinar.is_discounted %}
+    Nie zwlekaj, zapisz się teraz!
+    {% else %}
+    Zapisz się teraz!
+    {% endif %}
+</a>

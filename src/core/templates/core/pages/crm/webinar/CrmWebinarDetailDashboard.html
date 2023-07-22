@@ -83,6 +83,106 @@
     </div>
     <!--end::Col-->
 
+    <!--start::Col-->
+    <div class="col-md-12">
+
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h3 class="card-title">
+                    Potwierdzenia przyjęcia wiadomości o&nbsp;
+                    <span class="fw-bold text-danger">odwołaniu szkolenia</span>
+                </h3>
+            </div>
+            <div class="card-body">
+
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr class="fw-bold fs-6 text-gray-800">
+                                <th>ID Zgłoszenia</th>
+                                <th>Osoba zgłaszająca</th>
+                                <th>Wykryto otwarcie e-mail</th>
+                                <th>Kliknięto w link</th>
+                                <th>Przyjęto do wiadomości</th>
+                                <th>URL</th>
+                                <th>Kod rabatowy</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cancellation in cancellations %}
+                            <tr>
+                                <td>
+                                    <a 
+                                        href="{% url 'admin:core_webinarapplication_change' object_id=cancellation.application.id %}"
+                                        class="fw-bold">
+                                        Zgłoszenie
+                                        {{cancellation.application.id}}
+                                    </a>
+                                </td>
+                                <td>
+                                    {% with cancellation.application.submitter as submitter %}
+                                        {{submitter.fullname}}
+                                        <br>
+                                        {{submitter.email}}
+                                        /
+                                        {{submitter.phone}}
+                                    {% endwith %}
+                                </td>
+                                <td>
+                                    {% if cancellation.email_open_detected %}
+                                    Tak
+                                    {% else %}
+                                    Nie
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if cancellation.clicked_in_link %}
+                                    Tak
+                                    {% else %}
+                                    Nie
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div
+                                        hx-get="{% url 'htmx:htmx_crm_application_cancellation_toggle' pk=cancellation.pk %}"
+                                        hx-trigger="load">
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="{% url 'core:webinar_cancellation_page' token=cancellation.token %}">
+                                        <b>Link</b>
+                                    </a>
+                                </td>
+                                <td>
+                                    {{cancellation.discount_code|default:"-"}}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                    
+            </div>
+        </div>
+    </div>
+    <!--end::Col-->
+    
+    <!--start::Col-->
+    <div class="col-md-12">
+
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h3 class="card-title">
+                    Potwierdzenia przyjęcia wiadomości o&nbsp;
+                    <span class="fw-bold text-primary">przeniesieniu szkolenia</span>
+                </h3>
+            </div>
+            <div class="card-body">
+            </div>
+        </div>
+    </div>
+    <!--end::Col-->
 
     <!--start::Col-->
     <div class="col-md-12">
@@ -108,7 +208,7 @@
             {% if sent_applications_count != 0 %}
             <div class="card-body">
                 {% include './snippets/CrmWebinarApplicationsInfo.html' with sent_applications=sent_applications %}
-                {% include './snippets/CrmWebinarApplicationTable.html' with applications=sent_applications %}
+                {% include './snippets/CrmWebinarApplicationTable.html' with applications=sent_applications table_name='sent_applications' %}
             </div>
             {% endif %}
         </div>
@@ -126,7 +226,7 @@
             </div>
             {% if resigned_applications_count != 0 %}
             <div class="card-body">
-                {% include './snippets/CrmWebinarApplicationTable.html' with applications=resigned_applications %}
+                {% include './snippets/CrmWebinarApplicationTable.html' with applications=resigned_applications table_name='resigned_applications' %}
             </div>
             {% endif %}
         </div>
@@ -143,7 +243,7 @@
             </div>
             {% if unfinished_applications_count != 0 %}
             <div class="card-body">
-                {% include './snippets/CrmWebinarApplicationTable.html' with applications=unfinished_applications %}
+                {% include './snippets/CrmWebinarApplicationTable.html' with applications=unfinished_applications table_name='unfinished_applications' %}
             </div>
             {% endif %}
         </div>
@@ -157,11 +257,16 @@
 {% block body_scripts %}
 <script src="{% static 'plugins/custom/datatables/datatables.bundle.js' %}"></script>
 <script>
-    $("#kt_applications_table").DataTable({
+    $("#sent_applications").DataTable({
         responsive: true,
         pageLength: 50,
     });
-    $("#kt_participants_table").DataTable({
+    $("#resigned_applications").DataTable({
+        responsive: true,
+        pageLength: 50
+    });
+    $("#unfinished_applications").DataTable({
+        responsive: true,
         pageLength: 50
     });
 </script>

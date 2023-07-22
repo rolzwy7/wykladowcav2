@@ -6,6 +6,7 @@ from core.views import (
     webinar_price_and_invoice_page,
     webinar_program_page,
 )
+from core.views.webinar_cancellation import webinar_cancellation_page
 
 urlpatterns = [
     path("<slug:slug>/", webinar_program_page, name="webinar_program_page"),
@@ -23,5 +24,10 @@ urlpatterns = [
         "<slug:slug>/o-wykladowcy/",
         webinar_lecturer_biography_page,
         name="webinar_lecturer_biography_page",
+    ),
+    path(
+        "potwierdzenie-odwolania-szkolenia/<uuid:token>/",
+        webinar_cancellation_page,
+        name="webinar_cancellation_page",
     ),
 ]

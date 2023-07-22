@@ -1,6 +1,7 @@
 from django.urls import path
 
 from htmx.views.crm import (
+    htmx_crm_application_cancellation_toggle,
     htmx_crm_delete_webinar_asset,
     htmx_crm_lecturer_price_card,
     htmx_crm_participant_indicators,
@@ -9,6 +10,11 @@ from htmx.views.crm import (
 )
 
 urlpatterns = [
+    path(
+        "application-cancellation-toggle/<int:pk>",
+        htmx_crm_application_cancellation_toggle,
+        name="htmx_crm_application_cancellation_toggle",
+    ),
     path(
         "participant-indicators/<int:pk>",
         htmx_crm_participant_indicators,

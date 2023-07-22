@@ -74,6 +74,9 @@ class DiscountCode(Model):
         help_text="Jeżeli nie ustawiono znaczy, że nie wygasa.",
     )
 
+    def __str__(self) -> str:
+        return f"{self.discount_code}"
+
     class Meta:
         verbose_name = "Kod promocyjny"
         verbose_name_plural = "Kody promocyjne"

@@ -6,7 +6,7 @@ from django.http import HttpRequest
 from django.shortcuts import redirect
 from django.urls import reverse
 
-from core.consts import VAT_EXEMPTION_0
+from core.consts import VAT_EXEMPTION_0, VAT_EXEMPTION_113, WE_ARE_TAX_EXEMPT
 from core.exceptions import RedirectException
 from core.models import (
     Webinar,
@@ -486,8 +486,14 @@ class ApplicationFormService:
             invoice.invoice_email = private_person.email
             invoice.save()
         else:
+            vat_exemption = (
+                VAT_EXEMPTION_113.db_key
+                if WE_ARE_TAX_EXEMPT
+                else VAT_EXEMPTION_0.db_key
+            )
             invoice = WebinarApplicationInvoice(
-                invoice_email=private_person.email
+                vat_exemption=vat_exemption,
+                invoice_email=private_person.email,
             )
             application.invoice = invoice  # type: ignore
             invoice.save()
