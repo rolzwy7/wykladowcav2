@@ -160,11 +160,11 @@ class CustomFormRenderer(TemplatesSetting):
 
 FORM_RENDERER = "wykladowcapl.settings.CustomFormRenderer"
 
-WHITENOISE_MANIFEST_STRICT = False
+# WHITENOISE_MANIFEST_STRICT = False
 
-STORAGES = {
-    "staticfiles": {
-        # "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
-    },
-}
+# STORAGES = {
+#     "staticfiles": {
+#         # "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+#         "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+#     },
+# }
