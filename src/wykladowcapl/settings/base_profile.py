@@ -160,6 +160,8 @@ class CustomFormRenderer(TemplatesSetting):
 
 FORM_RENDERER = "wykladowcapl.settings.CustomFormRenderer"
 
+WHITENOISE_MANIFEST_STRICT = False
+
 STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
