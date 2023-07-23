@@ -1,0 +1,107 @@
+{% extends './extends/EmailBase.html' %}
+
+
+{% block content %}
+<!--email-template from database: START-->
+<tr>
+  <td align="center" style="max-width: 640px;" valign="top">
+    <table width="100%" align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" style="border-spacing:0;background-color: #ffffff;">
+      <tbody>
+        
+        <tr><td height="50">&nbsp;</td></tr>
+
+        <tr>
+          <td align="left" valign="top" style="border-collapse:collapse;">
+            <table border="0" cellpadding="0" cellspacing="0" style="border-spacing:0;width: 100%;max-width: 640px;">
+              <tbody>
+                {% include './includes/EmailDearRecipientIntro.html' %}
+
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;">
+                    W związku z otrzymanym od Państwa zgłoszeniem na szkolenie:
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    <b>{{webinar.title_original}}</b>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    
+                    zaplanowanym na dzień {{old_date|date:'j E Y'}}, godz. {{old_date|date:'H:i'}} informujemy, że: <br>
+                    <b style="color: dodgerblue;">
+                      szkolenie zostało przeniesione
+                    </b>
+                    na <b>dzień {{new_date|date:'j E Y'}}, godz. {{new_date|date:'H:i'}}</b>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    Przepraszamy za zaistniałą sytuację.
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    <b>Prosimy o informacje zwrotną</b> dotyczącą Państwa decyzji w sprawie terminu (wystarczy kliknąć w jeden z poniższych przycisków, zawartych w tej wiadomości e-mail).
+                  </td>
+                </tr>
+
+
+
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        
+        
+        <tr>
+          <td align="left" valign="top" style="border-collapse:collapse;">
+            <table border="0" cellpadding="0" cellspacing="0" style="border-spacing:0;width: 100%;max-width: 640px;">
+              <tbody>
+                
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;font-size: 16px;padding-top:15px;">
+                    <a href="{{BASE_URL}}{% url 'core:webinar_moving_accept_page' token=token %}" target="_blank" style="text-align:center;text-decoration:none;width:250px;padding:18px;border-radius:3px;font-size:16px;font-weight:bold;line-height:normal;letter-spacing:0.4px;box-shadow:0 2px 4px 0 rgba(0, 0, 0, 0.08);flex-direction:row;flex-wrap:nowrap;white-space:nowrap;align-items:center;cursor:pointer;user-select:none;margin-right:15px;display:block;position:relative;flex-grow:2;background-color:#50cd89!important;color:#ffffff!important;">
+                      Akceptuję
+                    </a>
+                  </td>
+                  <td style="border-collapse:collapse;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    <a href="{{BASE_URL}}{% url 'core:webinar_moving_resignation_page' token=token %}" target="_blank" style="text-align:center;text-decoration:none;width:250px;padding:18px;border-radius:3px;font-size:16px;font-weight:bold;line-height:normal;letter-spacing:0.4px;box-shadow:0 2px 4px 0 rgba(0, 0, 0, 0.08);flex-direction:row;flex-wrap:nowrap;white-space:nowrap;align-items:center;cursor:pointer;user-select:none;margin-right:15px;display:block;position:relative;flex-grow:2;background-color:#f1416c!important;color:#ffffff!important;">
+                      Rezygnuję
+                    </a> 
+                  </td>
+                </tr>
+
+                <tr>
+                  <td colspan="2" style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    lub poprzez odpowiedź na tego maila „akceptuję” lub „rezygnuję”
+                  </td>
+                </tr>
+
+                <tr>
+                  <td colspan="2" style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    [SZCZEGÓŁY SZKOLENIA] <!-- TODO: szczegóły zgłoszenia -->
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        
+        <tr>
+          <td height="50" style="border-collapse:collapse;font-size:1px; line-height:0px;">&nbsp;
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </td>
+</tr>
+<!--email-template from database: END-->
+{% endblock content %}

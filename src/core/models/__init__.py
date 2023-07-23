@@ -10,7 +10,6 @@ from .lecturer_opinion_model import LecturerOpinion
 from .user_model import User
 from .webinar_application_model import (
     WebinarApplication,
-    WebinarApplicationCancellation,
     WebinarApplicationCompany,
     WebinarApplicationInvoice,
     WebinarApplicationMetadata,
@@ -18,9 +17,14 @@ from .webinar_application_model import (
     WebinarApplicationSubmitter,
 )
 from .webinar_asset_model import WebinarAsset
+from .webinar_cancellation_model import WebinarApplicationCancellation
 from .webinar_category_model import WebinarCategory
 from .webinar_certificate_model import WebinarCertificate
 from .webinar_model import Webinar, WebinarMetadata
+from .webinar_move_register_model import (
+    WebinarMoveRegister,
+    WebinarMoveRegisterItem,
+)
 from .webinar_participant_model import (
     WebinarParticipant,
     WebinarParticipantMetadata,

@@ -1,6 +1,7 @@
 # flake8: noqa
 from .application_type_widget import ApplicationTypeWidget
 from .checkbox_widget import CheckboxWidget
+from .datepicker_widget import DatepickerWidget
 from .email_floating_input_widget import EmailFloatingInputWidget
 from .number_floating_input_widget import NumberFloatingInputWidget
 from .rating_widget import RatingWidget

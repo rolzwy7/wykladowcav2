@@ -1,0 +1,4 @@
+# flake8: noqa
+from .webinar_moving_accept_page import webinar_moving_accept_page
+from .webinar_moving_resignation_page import webinar_moving_resignation_page
+from .webinar_moving_thanks_page import webinar_moving_thanks_page

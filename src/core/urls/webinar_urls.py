@@ -7,6 +7,11 @@ from core.views import (
     webinar_program_page,
 )
 from core.views.webinar_cancellation import webinar_cancellation_page
+from core.views.webinar_moving import (
+    webinar_moving_accept_page,
+    webinar_moving_resignation_page,
+    webinar_moving_thanks_page,
+)
 
 urlpatterns = [
     path("<slug:slug>/", webinar_program_page, name="webinar_program_page"),
@@ -25,9 +30,26 @@ urlpatterns = [
         webinar_lecturer_biography_page,
         name="webinar_lecturer_biography_page",
     ),
+    # Cancellation TODO: move this
     path(
         "potwierdzenie-odwolania-szkolenia/<uuid:token>/",
         webinar_cancellation_page,
         name="webinar_cancellation_page",
+    ),
+    # Moving TODO: move this
+    path(
+        "<uuid:token>/akceptacja-nowego-terminu/",
+        webinar_moving_accept_page,
+        name="webinar_moving_accept_page",
+    ),
+    path(
+        "<uuid:token>/rezygnacja-z-nowego-terminu/",
+        webinar_moving_resignation_page,
+        name="webinar_moving_resignation_page",
+    ),
+    path(
+        "<uuid:token>/dziekujemy-za-odp-przenoszenie-szkol/",
+        webinar_moving_thanks_page,
+        name="webinar_moving_thanks_page",
     ),
 ]

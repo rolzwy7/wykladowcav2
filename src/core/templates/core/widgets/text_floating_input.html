@@ -4,7 +4,7 @@
         name="{{widget.name}}"
         {% if widget.required %}required{% endif %}
         {% if widget.value != None %} value="{{ widget.value|stringformat:'s' }}"{% endif %}
-        class="form-control form-control-solid {{widget.attrs.classes}}"
+        class="form-control form-control-solid form-control-lg {{widget.attrs.classes}}"
         id="{{widget.attrs.id}}"
         placeholder="{{widget.name}}"
     />

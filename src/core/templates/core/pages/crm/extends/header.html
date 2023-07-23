@@ -2442,6 +2442,7 @@
                 <div
                   class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-250px"
                 >
+                  {% comment %}
                   <!--begin:Menu item-->
                   <div
                     data-kt-menu-trigger="{default:'click', lg: 'hover'}"
@@ -3765,6 +3766,9 @@
                     <!--end:Menu sub-->
                   </div>
                   <!--end:Menu item-->
+                  {% endcomment %}
+
+                  
                   <!--begin:Menu item-->
                   <div
                     data-kt-menu-trigger="{default:'click', lg: 'hover'}"
@@ -3792,17 +3796,12 @@
                         <!--begin:Menu link-->
                         <a
                           class="menu-link py-3"
-                          href="../../demo5/dist/apps/inbox/listing.html"
+                          href="{% url 'core:crm_submitter_cancellation_email_preview' %}"
                         >
                           <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                           </span>
-                          <span class="menu-title">Messages</span>
-                          <span class="menu-badge">
-                            <span class="badge badge-light-success"
-                              >3</span
-                            >
-                          </span>
+                          <span class="menu-title">Osoba zgłaszająca - po odwołaniu szkolenia - email</span>
                         </a>
                         <!--end:Menu link-->
                       </div>
@@ -3812,12 +3811,12 @@
                         <!--begin:Menu link-->
                         <a
                           class="menu-link py-3"
-                          href="{% url 'core:crm_submitter_cancellation_email_preview' %}"
+                          href="{% url 'core:crm_submitter_moving_email_preview' %}"
                         >
                           <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                           </span>
-                          <span class="menu-title">Osoba zgłaszająca - po odwołaniu szkolenia - email</span>
+                          <span class="menu-title">Osoba zgłaszająca - przenoszenie szkolenia - email</span>
                         </a>
                         <!--end:Menu link-->
                       </div>
@@ -3912,25 +3911,12 @@
                         <!--end:Menu link-->
                       </div>
                       <!--end:Menu item-->
-                      <!--begin:Menu item-->
-                      <div class="menu-item">
-                        <!--begin:Menu link-->
-                        <a
-                          class="menu-link py-3"
-                          href="../../demo5/dist/apps/inbox/reply.html"
-                        >
-                          <span class="menu-bullet">
-                            <span class="bullet bullet-dot"></span>
-                          </span>
-                          <span class="menu-title">View & Reply</span>
-                        </a>
-                        <!--end:Menu link-->
-                      </div>
-                      <!--end:Menu item-->
                     </div>
                     <!--end:Menu sub-->
                   </div>
                   <!--end:Menu item-->
+                  
+                  {% comment %}
                   <!--begin:Menu item-->
                   <div
                     data-kt-menu-trigger="{default:'click', lg: 'hover'}"
@@ -4003,6 +3989,8 @@
                     <!--end:Menu sub-->
                   </div>
                   <!--end:Menu item-->
+
+
                   <!--begin:Menu item-->
                   <div class="menu-item">
                     <!--begin:Menu link-->
@@ -4115,6 +4103,8 @@
                     <!--end:Menu sub-->
                   </div>
                   <!--end:Menu item-->
+                  {% endcomment %}
+
                 </div>
                 <!--end:Menu sub-->
               </div>
@@ -4147,6 +4137,7 @@
         <!--end::Navbar-->
         <!--begin::Toolbar wrapper-->
         <div class="d-flex align-items-stretch flex-shrink-0">
+          {% comment %}
           <!--begin::Search-->
           <div class="d-flex align-items-stretch ms-1 ms-lg-2">
             <!--begin::Search-->
@@ -5672,6 +5663,7 @@
                   <!--end::View more-->
                 </div>
                 <!--end::Tab panel-->
+
                 <!--begin::Tab panel-->
                 <div
                   class="tab-pane fade show active"
@@ -5721,6 +5713,7 @@
                   <!--end::Wrapper-->
                 </div>
                 <!--end::Tab panel-->
+                
                 <!--begin::Tab panel-->
                 <div
                   class="tab-pane fade"
@@ -6036,6 +6029,8 @@
             <!--end::Menu wrapper-->
           </div>
           <!--end::Notifications-->
+          {% endcomment %}
+
           <!--begin::Theme mode-->
           <div class="d-flex align-items-center ms-1 ms-lg-2">
             <!--begin::Menu toggle-->

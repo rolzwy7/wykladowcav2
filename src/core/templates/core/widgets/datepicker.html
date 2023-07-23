@@ -1,0 +1,23 @@
+<div
+    class="input-group"
+    id="kt_{{widget.attrs.id}}"
+    data-td-target-input="nearest"
+    data-td-target-toggle="nearest"
+>
+    <input
+        type="{{widget.type}}"
+        name="{{widget.name}}"
+        {% if widget.value != None %}value="{{ widget.value|stringformat:'s' }}"{% endif %}
+        id="{{widget.attrs.id}}"
+        {% if widget.required %}required{% endif %}
+        class="form-control"
+        data-td-target="#kt_{{widget.attrs.id}}"
+    />
+    <span
+        class="input-group-text"
+        data-td-target="#kt_{{widget.attrs.id}}"
+        data-td-toggle="datetimepicker"
+    >
+        <i class="ki-duotone ki-calendar fs-2"><span class="path1"></span><span class="path2"></span></i>
+    </span>
+</div>

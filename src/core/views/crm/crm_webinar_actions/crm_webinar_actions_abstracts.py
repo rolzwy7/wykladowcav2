@@ -6,7 +6,7 @@ from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.views import View
 
-from core.forms import CrmAreYouSureForm
+from core.forms.crm import CrmAreYouSureForm
 from core.models import Webinar
 
 
@@ -59,6 +59,10 @@ class CrmWebinarAction(ABC, View):
         """Get allowed webinar statuses"""
         return []
 
+    def get_form_class(self):
+        """Get form class"""
+        return CrmAreYouSureForm
+
     def get(self, request: HttpRequest, pk: int):
         """GET webinar action page"""
         webinar = self.get_webinar(pk)
@@ -66,7 +70,7 @@ class CrmWebinarAction(ABC, View):
         if webinar.status not in self.get_allowed_statuses():
             return HttpResponse("Multiple submit protection triggered")
 
-        form = CrmAreYouSureForm()
+        form = self.get_form_class()()
         return TemplateResponse(
             request,
             self.template_name,
@@ -80,7 +84,7 @@ class CrmWebinarAction(ABC, View):
         if webinar.status not in self.get_allowed_statuses():
             return HttpResponse("Multiple submit protection triggered")
 
-        form = CrmAreYouSureForm(request.POST)
+        form = self.get_form_class()(request.POST)
         if form.is_valid():
             self.perform_action(request, pk)
             return redirect(

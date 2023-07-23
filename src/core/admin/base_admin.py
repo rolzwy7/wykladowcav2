@@ -16,6 +16,8 @@ from core.models import (
     WebinarApplicationPrivatePerson,
     WebinarApplicationSubmitter,
     WebinarAsset,
+    WebinarMoveRegister,
+    WebinarMoveRegisterItem,
     WebinarParticipant,
     WebinarParticipantMetadata,
     WebinarRecording,
@@ -23,6 +25,8 @@ from core.models import (
 )
 
 admin.site.register(User)
+admin.site.register(WebinarMoveRegister)
+admin.site.register(WebinarMoveRegisterItem)
 admin.site.register(DiscountCode)
 admin.site.register(WebinarApplicationCancellation)
 admin.site.register(WebinarApplicationCompany)

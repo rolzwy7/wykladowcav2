@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.utils.timezone import now, timedelta
 
 from core.libs.notifications.email import (
     EmailTemplate,
@@ -94,6 +95,22 @@ def crm_submitter_cancellation_email_preview(request):
         {
             **email_get_application_context(application_id),
             "cancellation_token": "dda34d5e-c50b-4cca-8864-19c1463acba3",
+        },
+    )
+    return HttpResponse(email_template.get_html())
+
+
+def crm_submitter_moving_email_preview(request):
+    """Preview of opinion e-mail"""
+    application = WebinarApplication.manager.all().order_by("?")
+    application_id: int = application.first().id  # type: ignore
+    email_template = EmailTemplate(
+        "email/EmailSubmitterMoving.html",
+        {
+            **email_get_application_context(application_id),
+            "old_date": now(),
+            "new_date": now() + timedelta(days=7),
+            "token": "dda34d5e-c50b-4cca-8864-19c1463acba3",
         },
     )
     return HttpResponse(email_template.get_html())

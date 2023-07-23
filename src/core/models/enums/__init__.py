@@ -1,5 +1,5 @@
 # flake8: noqa
-from .application_enums import ApplicationStatus
+from .application_enums import ApplicationMoveStatus, ApplicationStatus
 from .discount_enums import DiscountCodeType, DiscountCodeUseType
 from .invoice_enums import InvoiceType
 from .opinion_enums import LecturerOpinionRating

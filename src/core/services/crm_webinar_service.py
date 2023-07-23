@@ -9,6 +9,7 @@ from core.models import (
     WebinarAsset,
     WebinarCertificate,
     WebinarMetadata,
+    WebinarMoveRegister,
     WebinarParticipant,
     WebinarRecording,
     WebinarRecordingToken,
@@ -20,6 +21,12 @@ class CrmWebinarService:
 
     def __init__(self, webinar: Webinar) -> None:
         self.webinar = webinar
+
+    def get_move_registers(self):
+        """Get move registers for this webinar"""
+        return WebinarMoveRegister.manager.filter(
+            webinar=self.webinar
+        ).order_by("-created_at")
 
     def get_applications_cancellations(self):
         """Get cancellations for applications of this webinar"""

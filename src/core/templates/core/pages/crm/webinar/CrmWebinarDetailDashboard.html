@@ -83,6 +83,7 @@
     </div>
     <!--end::Col-->
 
+    {% if webinar.status == "CANCELED" %}
     <!--start::Col-->
     <div class="col-md-12">
 
@@ -94,80 +95,14 @@
                 </h3>
             </div>
             <div class="card-body">
-
-
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr class="fw-bold fs-6 text-gray-800">
-                                <th>ID Zgłoszenia</th>
-                                <th>Osoba zgłaszająca</th>
-                                <th>Wykryto otwarcie e-mail</th>
-                                <th>Kliknięto w link</th>
-                                <th>Przyjęto do wiadomości</th>
-                                <th>URL</th>
-                                <th>Kod rabatowy</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for cancellation in cancellations %}
-                            <tr>
-                                <td>
-                                    <a 
-                                        href="{% url 'admin:core_webinarapplication_change' object_id=cancellation.application.id %}"
-                                        class="fw-bold">
-                                        Zgłoszenie
-                                        {{cancellation.application.id}}
-                                    </a>
-                                </td>
-                                <td>
-                                    {% with cancellation.application.submitter as submitter %}
-                                        {{submitter.fullname}}
-                                        <br>
-                                        {{submitter.email}}
-                                        /
-                                        {{submitter.phone}}
-                                    {% endwith %}
-                                </td>
-                                <td>
-                                    {% if cancellation.email_open_detected %}
-                                    Tak
-                                    {% else %}
-                                    Nie
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if cancellation.clicked_in_link %}
-                                    Tak
-                                    {% else %}
-                                    Nie
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    <div
-                                        hx-get="{% url 'htmx:htmx_crm_application_cancellation_toggle' pk=cancellation.pk %}"
-                                        hx-trigger="load">
-                                    </div>
-                                </td>
-                                <td>
-                                    <a href="{% url 'core:webinar_cancellation_page' token=cancellation.token %}">
-                                        <b>Link</b>
-                                    </a>
-                                </td>
-                                <td>
-                                    {{cancellation.discount_code|default:"-"}}
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                    
+                {% include './snippets/CrmCancellationTable.html' with cancellations=cancellations %}
             </div>
         </div>
     </div>
     <!--end::Col-->
+    {% endif %}
     
+    {% if move_registers %}
     <!--start::Col-->
     <div class="col-md-12">
 
@@ -179,10 +114,93 @@
                 </h3>
             </div>
             <div class="card-body">
+
+
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr class="fw-bold fs-6 text-gray-800">
+                                <th>Osoba zgłaszająca</th>
+                                <th>Status</th>
+                                <th>Wykryto otwarcie e-mail</th>
+                                <th>Wykryto kliknięcie "Akceptuję"</th>
+                                <th>Wykryto kliknięcie "Rezygnuję"</th>
+                                <th>URL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for move_register in move_registers %}
+                                <tr class="bg-light-grey p-3">
+                                    <td colspan="5">
+                                        Przeniesiono z 
+                                        <b>{{move_register.from_datetime}}</b>
+                                        na
+                                        <b>{{move_register.to_datetime}}</b>
+                                        :
+                                        <b>
+                                            {{move_register.applications_count}}
+                                            uczestników
+                                        </b>
+                                    </td>
+                                </tr>
+                                {% for move_register_item in move_register.register_items %}
+                                    <tr>
+                                        <td>
+                                            {% with move_register_item.application.submitter as submitter %}
+                                                {{submitter.fullname}}
+                                                <br>
+                                                {{submitter.email}}
+                                                /
+                                                {{submitter.phone}}
+                                            {% endwith %}
+                                        </td>
+                                        <td>
+                                            <b>{{move_register_item.get_status_display}}</b>
+                                        </td>
+                                        <td>
+                                            {% if move_register_item.email_open_detected %}
+                                            Tak
+                                            {% else %}
+                                            Nie
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if move_register_item.clicked_accept_link %}
+                                            Tak
+                                            {% else %}
+                                            Nie
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if move_register_item.clicked_resignation_link %}
+                                            Tak
+                                            {% else %}
+                                            Nie
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'core:webinar_moving_accept_page' token=move_register_item.token %}">
+                                                Akceptuję
+                                            </a>
+                                            <br>
+                                            <a href="{% url 'core:webinar_moving_resignation_page' token=move_register_item.token %}">
+                                                Rezygnuję
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+
             </div>
         </div>
     </div>
     <!--end::Col-->
+    {% endif %}
 
     <!--start::Col-->
     <div class="col-md-12">

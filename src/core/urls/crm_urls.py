@@ -17,6 +17,7 @@ from core.views.crm.crm_webinar_actions import (
     CancelWebinarAction,
     ConfirmWebinarAction,
     DoneWebinarAction,
+    move_webinar_action,
 )
 
 urlpatterns = [
@@ -64,6 +65,11 @@ urlpatterns = [
         "webinar/<int:pk>/zakoncz-termin/",
         DoneWebinarAction.as_view(),
         name="crm_webinar_done",
+    ),
+    path(
+        "webinar/<int:pk>/przenies/",
+        move_webinar_action,
+        name="crm_webinar_move",
     ),
     path(
         "archiwum/",

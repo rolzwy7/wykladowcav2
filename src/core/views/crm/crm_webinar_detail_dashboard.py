@@ -14,6 +14,7 @@ def crm_webinar_detail_dashboard(request, pk: int):
         "core/pages/crm/webinar/CrmWebinarDetailDashboard.html",
         {
             "cancellations": service.get_applications_cancellations(),
+            "move_registers": service.get_move_registers(),
             **service.get_context(),
         },
     )
