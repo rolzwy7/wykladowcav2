@@ -114,7 +114,7 @@ class ApplicationInvoiceForm(ModelForm):
         fields = [
             "invoice_type",
             "invoice_email",
-            "invoice_additional_info",
+            # "invoice_additional_info",
             "vat_exemption",
         ]
         widgets = {
@@ -124,9 +124,9 @@ class ApplicationInvoiceForm(ModelForm):
             "invoice_email": EmailFloatingInputWidget(
                 attrs={"label": "E-mail (na który zostanie wysłana faktura)"}
             ),
-            "invoice_additional_info": TextareaFloatingInputWidget(
-                attrs={"label": "Dodatkowe informacje (widoczne na fakturze)"}
-            ),
+            # "invoice_additional_info": TextareaFloatingInputWidget(
+            #     attrs={"label": "Dodatkowe informacje (widoczne na fakturze)"}
+            # ),
             "vat_exemption": SelectFloatingInputWidget(
                 attrs={"label": "Zwolnienie z VAT"}
             ),
@@ -150,11 +150,11 @@ class ApplicationSubmitterForm(ModelForm):
     class Meta:
         model = WebinarApplicationSubmitter
         fields = [
-            "is_participant",
             "first_name",
             "last_name",
             "email",
             "phone",
+            "is_participant",
         ]
         widgets = {
             "is_participant": CheckboxWidget(

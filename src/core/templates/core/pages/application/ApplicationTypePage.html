@@ -18,20 +18,24 @@
     </div>
     <div class="card-body">
 
-        {% if ACTIVE_REFCODE %}
+        {% if show_pdf_card_alert %}
         <!--begin::Alert-->
-        <div class="alert alert-danger d-flex align-items-center p-5">
+        <div class="alert alert-dismissible bg-light-warning border border-warning d-flex flex-column flex-sm-row p-5 mb-10">
+            <!--begin::Icon-->
+            <i class="ki-duotone ki-file-down fs-2hx text-warning me-4 mb-5 mb-sm-0">
+                <span class="path1"></span><span class="path2"></span><span class="path3"></span>
+            </i>
+            <!--end::Icon-->
 
             <!--begin::Wrapper-->
-            <div class="d-flex flex-column">
+            <div class="d-flex flex-column pe-0 pe-sm-10">
                 <!--begin::Title-->
-                <h4 class="mb-1 text-dark">Bierzesz udział w programie partnerskim</h4>
+                <h5 class="mb-1">Karta zgłoszeniowa</h5>
                 <!--end::Title-->
 
                 <!--begin::Content-->
-                <span>
-                    Jako odbiorca kodu referencyjnego <span class="fw-bold">{{ACTIVE_REFCODE}}</span>
-                    otrzymasz dodatkowe <span class="fw-bold fs-3">5% zniżki</span> na to zgłoszenie.
+                <span class="fs-5">
+                    <u>Wypełniona</u> <b>Karta zgłoszeniowa PDF</b> jest możliwa do pobrania po wypełnieniu poniższego formularza zgłoszeniowego.
                 </span>
                 <!--end::Content-->
             </div>

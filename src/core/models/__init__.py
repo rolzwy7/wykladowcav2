@@ -7,6 +7,11 @@ from .discount_model import DiscountApplicationApplied, DiscountCode
 from .eventlog_model import Eventlog
 from .lecturer_model import Lecturer
 from .lecturer_opinion_model import LecturerOpinion
+from .loyalty_program_model import (
+    LoyaltyProgram,
+    LoyaltyProgramIncome,
+    LoyaltyProgramPayout,
+)
 from .user_model import User
 from .webinar_application_model import (
     WebinarApplication,

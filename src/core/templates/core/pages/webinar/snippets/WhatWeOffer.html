@@ -8,6 +8,19 @@
         <!--end::Heading-->
         <!--begin::Body-->
         <div class="pt-1">
+            {% if webinar.recording_allowed %}
+            <!--begin::Item-->
+            <div class="d-flex align-items-center mb-7">
+                <span class="fw-semibold flex-grow-1">
+                    Czasowy dostęp do nagrania ze szkolenia
+                </span>
+                <i class="ki-duotone ki-check-circle fs-1 text-success">
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                </i>
+            </div>
+            <!--end::Item-->
+            {% endif %}
             <!--begin::Item-->
             <div class="d-flex align-items-center mb-7">
                 <span class="fw-semibold flex-grow-1">
@@ -55,15 +68,6 @@
             <!--begin::Item-->
             <div class="d-flex align-items-center mb-7">
                 <span class="fw-semibold flex-grow-1">Imienny certyfikat dla uczestników</span>
-                <i class="ki-duotone ki-check-circle fs-1 text-success">
-                    <span class="path1"></span>
-                    <span class="path2"></span>
-                </i>
-            </div>
-            <!--end::Item-->
-            <!--begin::Item-->
-            <div class="d-flex align-items-center mb-7">
-                <span class="fw-semibold flex-grow-1">Czasowy dostęp do nagrania po szkoleniu</span>
                 <i class="ki-duotone ki-check-circle fs-1 text-success">
                     <span class="path1"></span>
                     <span class="path2"></span>

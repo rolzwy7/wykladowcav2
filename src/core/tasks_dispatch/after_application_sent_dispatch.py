@@ -1,4 +1,5 @@
 from celery import chain, group
+from django.conf import settings
 
 from core.models import (
     Webinar,
@@ -48,6 +49,7 @@ def after_application_sent_dispatch(
             ],
         ),
         task_send_telegram_notification.si(
-            f"Wysłano zgłoszenie na szkolenie #{webinar_id}"
+            f"Wysłano zgłoszenie na szkolenie #{webinar_id}",
+            settings.TELEGRAM_CHAT_ID_APPLICATIONS,
         ),
     ).apply_async()

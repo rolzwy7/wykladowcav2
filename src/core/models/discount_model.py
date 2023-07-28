@@ -8,6 +8,7 @@ from django.db.models import (
     ForeignKey,
     Manager,
     Model,
+    PositiveSmallIntegerField,
     Q,
     QuerySet,
     SmallIntegerField,
@@ -74,12 +75,12 @@ class DiscountCode(Model):
         help_text="Jeżeli nie ustawiono znaczy, że nie wygasa.",
     )
 
-    def __str__(self) -> str:
-        return f"{self.discount_code}"
-
     class Meta:
         verbose_name = "Kod promocyjny"
         verbose_name_plural = "Kody promocyjne"
+
+    def __str__(self) -> str:
+        return f"{self.discount_code}"
 
 
 class DiscountApplicationApplied(Model):
@@ -87,6 +88,12 @@ class DiscountApplicationApplied(Model):
 
     application = ForeignKey(
         "WebinarApplication", verbose_name="Zgłoszenie", on_delete=RESTRICT
+    )
+
+    discount_weight = PositiveSmallIntegerField(
+        "Waga rabatu",
+        default=1,
+        help_text="Pole używane do ograniczenia liczby nałożonych rabatów",
     )
 
     discount_code = ForeignKey(
@@ -106,3 +113,6 @@ class DiscountApplicationApplied(Model):
     class Meta:
         verbose_name = "Zniżka (zgłoszenie)"
         verbose_name_plural = "Zniżka (zgłoszenia)"
+
+    def __str__(self) -> str:
+        return f"{self.id}"  # type: ignore

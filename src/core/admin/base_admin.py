@@ -7,6 +7,9 @@ from core.models import (
     DiscountCode,
     Eventlog,
     LecturerOpinion,
+    LoyaltyProgram,
+    LoyaltyProgramIncome,
+    LoyaltyProgramPayout,
     User,
     WebinarApplication,
     WebinarApplicationCancellation,
@@ -25,6 +28,11 @@ from core.models import (
 )
 
 admin.site.register(User)
+
+admin.site.register(LoyaltyProgram)
+admin.site.register(LoyaltyProgramIncome)
+admin.site.register(LoyaltyProgramPayout)
+
 admin.site.register(WebinarMoveRegister)
 admin.site.register(WebinarMoveRegisterItem)
 admin.site.register(DiscountCode)

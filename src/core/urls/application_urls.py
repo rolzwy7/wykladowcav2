@@ -6,6 +6,7 @@ from core.views.webinar_application import (
     application_additional_information_page,
     application_invoice_page,
     application_participants_page,
+    application_pdf_card,
     application_person_details_page,
     application_submitter_page,
     application_success_page,
@@ -58,6 +59,11 @@ urlpatterns = [
         "<uuid:uuid>/podsumowanie/",
         application_summary_page,
         name="application_summary_page",
+    ),
+    path(
+        "<uuid:uuid>/karta-zgloszeniowa/",
+        application_pdf_card,
+        name="application_pdf_card",
     ),
     path(
         "wyslano/",

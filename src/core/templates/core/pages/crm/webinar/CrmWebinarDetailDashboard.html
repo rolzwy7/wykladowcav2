@@ -261,7 +261,7 @@
             </div>
             {% if unfinished_applications_count != 0 %}
             <div class="card-body">
-                {% include './snippets/CrmWebinarApplicationTable.html' with applications=unfinished_applications table_name='unfinished_applications' %}
+                {% include './snippets/CrmWebinarUnsentApplicationsTable.html' with applications=unfinished_applications table_name='unfinished_applications' %}
             </div>
             {% endif %}
         </div>

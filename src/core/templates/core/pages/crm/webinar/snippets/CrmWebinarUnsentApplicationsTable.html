@@ -1,0 +1,97 @@
+{% load static %}
+{% load custom_templatetags %}
+<table id="{{table_name}}" class="table table-striped border rounded gy-5 gs-7">
+    <thead>
+        <tr class="fw-semibold fs-6 text-gray-800">
+            <th class="min-w-150px" data-priority="1">Nabywca <br> szkolenia</th>
+            <th class="min-w-50px">NIP</th>
+            <th class="min-w-50px">Typ <br> zgłoszenia</th>
+            <th class="min-w-150px">Osoba <br> zgłaszająca</th>
+            <th class="min-w-50px">Uczestników <br> szkolenia</th>
+            <th class="min-w-50px">Za <br> osobę</th>
+            <th class="min-w-50px">Wartość <br> zgłoszenia</th>
+            <th class="min-w-50px">Zgłoszenie <br> stworzono</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for application in applications %}
+        <tr>
+            <td>
+                <a href="{% url 'admin:core_webinarapplication_change' object_id=application.id %}">
+                {% if application.application_type == "COMPANY" or application.application_type == "JSFP" %}
+                    <span class="fw-bold {% if application.application_type == "COMPANY" %}text-primary{% else %}text-danger{% endif %}" title="{{application.buyer.name}}">
+                        {{application.buyer.name|shorten:7}}
+                        <small>
+                            {% if application.buyer.email %}
+                                <br>
+                                {{application.buyer.email}} 
+                            {% endif %}
+                            {% if application.buyer.phone_number %}
+                                <br>
+                                {{application.buyer.phone_number}}
+                            {% endif %}
+                        </small>
+                    </span>
+                {% elif application.application_type == "PRIVATE_PERSON" %}
+                    <span class="fw-bold text-success" title="{{application.private_person.fullname}}">
+                        {{application.private_person.fullname|shorten:7}}
+                        <small>
+                            {% if application.private_person.email %}
+                                <br>
+                                {{application.private_person.email}}
+                            {% endif %}
+                            {% if application.private_person.phone %}
+                                <br>
+                                {{application.private_person.phone}}
+                            {% endif %}
+                        </small>
+                    </span>
+                {% endif %}
+                </a>
+                <br>
+                <a href="{% url 'core:application_summary_page' uuid=application.uuid %}">
+                    ( Podsumowanie )
+                </a>
+            </td>
+            <td>
+                <div class="d-flex flex-column">
+
+                {% if application.application_type == "PRIVATE_PERSON" %}
+                -
+                {% else %}
+
+                    {% if application.buyer.nip %}
+                        <span>N={{application.buyer.nip}}</span>
+                    {% endif %}
+
+                    {% if application.recipient.nip %}
+                        <span>O={{application.recipient.nip}}</span>
+                    {% endif %}
+                    
+                    {% if application.refcode %}
+                        <span class="text-danger">Ref={{application.refcode}}</span>
+                    {% endif %}
+                
+                {% endif %}
+                </div>
+            </td>
+            <td>
+                {{application.get_application_type_display}}
+            </td>
+            <td>
+                <div class="d-flex flex-column">
+                    <span><b>{{application.submitter.fullname}}</b></span>
+                    <span>{{application.submitter.email}}</span>
+                    <span>{{application.submitter.phone}}</span>
+                </div>
+            </td>
+            <td>{{application.participants.count}}</td>
+            <td>{{application.price_netto}}zł</td>
+            <td>{{application.total_price_netto}}zł</td>
+            <td>
+                {{application.created_at|date:"Y/m/j"}}, {{application.created_at|date:"H:i"}}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

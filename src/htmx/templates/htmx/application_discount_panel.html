@@ -1,5 +1,7 @@
 {% load static %}
 <div hx-target="this" hx-swap="outerHTML">
+
+  {% if further_discounts_allowed %}
   <form
     hx-post="{% url 'htmx:htmx_application_discount_panel' pk=application.pk %}"
     method="post"
@@ -27,9 +29,10 @@
       </div>
     </div>
   </form>
+  {% endif %}
   
   {% if error_msg %}
-  <span class="text-danger">{{error_msg}}</span>
+  <span class="text-danger fw-bold">{{error_msg}}</span>
   {% endif %}
 
 
@@ -64,14 +67,15 @@
 {% endif %}
 
   <!--begin::Title-->
-  <h6 class="my-2">
-    Cena za osobe: <br> {{application.price_netto}}zł
-  </h6>
-  <h4 class="my-2">
+  <span class="my-2 fs-7">
+    Cena za osobę po zniżkach: {{application.price_netto}}zł
+  </span>
+  <div class="separator separator-dashed my-2"></div>
+  <span class="my-2 fs-4 fw-bold">
     Całkowita cena: <br> {{application.total_price_netto}}zł
-    {% if application.invoice.vat_exemption == "VAT_EXEMPTION_0" %}
-    +   {{VAT_VALUE_PERCENT}}% VAT
+    {% if WE_ARE_TAX_EXEMPT or application.invoice.vat_exemption == "VAT_EXEMPTION_0" %}
+      {{PRICE_ADNOTATION}}
     {% endif %}
-  </h4>
+  </span>
   <!--end::Title-->
 </div>

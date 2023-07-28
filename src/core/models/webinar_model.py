@@ -78,6 +78,12 @@ class Webinar(Model):
         help_text="Pokaż `Pewny termin` przy szkoleniu na stronie",  # noqa
     )
 
+    recording_allowed = BooleanField(
+        "Nagrania dostępne",
+        default=False,
+        help_text="Wykładowca zgadza się na nagranie z tego szkolenia",  # noqa
+    )
+
     remaining_places = PositiveSmallIntegerField(
         "Pozostało miejsc", default=0, blank=True
     )

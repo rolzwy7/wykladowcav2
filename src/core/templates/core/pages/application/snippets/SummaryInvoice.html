@@ -23,12 +23,12 @@
                         {{invoice.invoice_email}}
                     </td>
                 </tr>
-                <tr>
+                {% comment %} <tr>
                     <td class="text-gray-400 min-w-175px w-175px">Uwagi na fakturze</td>
                     <td class="text-gray-800 min-w-200px">
                         {{invoice.invoice_additional_info|default:"Brak uwag na fakturze"}}
                     </td>
-                </tr>
+                </tr> {% endcomment %}
                 <tr>
                     <td class="text-gray-400 min-w-175px w-175px">Zwolnienie z VAT</td>
                     <td class="text-gray-800 min-w-200px">

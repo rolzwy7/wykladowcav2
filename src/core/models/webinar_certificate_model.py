@@ -48,6 +48,9 @@ class WebinarCertificate(Model):
         verbose_name = "Certyfikat"
         verbose_name_plural = "Certyfikaty"
 
+    def __str__(self) -> str:
+        return f"{self.first_name} {self.last_name}"
+
     @property
     def absolute_url(self) -> str:
         """Get absolute URL for this certificate
@@ -59,6 +62,3 @@ class WebinarCertificate(Model):
             "core:certificate_pdf_page", kwargs={"uuid": self.uuid}
         )
         return f"{BASE_URL}{certificate_path}"
-
-    def __str__(self) -> str:
-        return f"{self.first_name} {self.last_name}"

@@ -12,6 +12,16 @@
 
 {% block application_toolbar_actions %}
 <div class="d-flex align-items-center py-1">
+{% if application.application_type != "PRIVATE_PERSON" %}
+<!--begin::Button-->
+<a
+href="{% url 'core:application_pdf_card' uuid=application.uuid %}"
+target="_blank"
+class="btn btn-sm btn-flex btn-warning fw-bold border-0 me-3">
+Pobierz kartę zgłoszeniową
+</a>
+<!--end::Button-->
+{% endif %}
 <!--begin::Button-->
 <button
     type="button"
@@ -84,7 +94,7 @@
                     
                     <!--begin::Content-->
                     <span>
-                        To zgłoszenie zostanie przypisane do twojego konta w naszym serwise.
+                        To zgłoszenie zostanie przypisane do twojego konta w naszym serwisie.
                     </span>
                     <!--end::Content-->
                 </div>
@@ -116,22 +126,28 @@
                 <!--begin::Card body-->
                 <div class="card-body pt-3">
                     {% include './snippets/SummaryWebinar.html' with webinar=webinar %}
+                    <div class="separator separator-dashed border-dark my-10"></div>
                     
                     {% include './snippets/SummaryParticipants.html' with participants=participants %}
+                    <div class="separator separator-dashed border-dark my-10"></div>
 
                     {% with application.submitter as submitter %}
                         {% include './snippets/SummarySubmitter.html' with submitter=submitter %}
                     {% endwith %}
+                    <div class="separator separator-dashed border-dark my-10"></div>
                     
                     {% if application.buyer %}
                         {% include './snippets/SummaryCompany.html' with title="Nabywca" company=application.buyer %}
+                        <div class="separator separator-dashed border-dark my-10"></div>
                     {% endif %}
                     
                     {% if application.recipient %}
-                    {% include './snippets/SummaryCompany.html' with title="Odbiorca" company=application.recipient %}
+                        {% include './snippets/SummaryCompany.html' with title="Odbiorca" company=application.recipient %}
+                        <div class="separator separator-dashed border-dark my-10"></div>
                     {% endif %}
                     
                     {% include './snippets/SummaryInvoice.html' with invoice=application.invoice %}
+                    <div class="separator separator-dashed border-dark my-10"></div>
                     
                     {% include './snippets/SummaryAdditionalInformation.html' with application=application %}
                 </div>

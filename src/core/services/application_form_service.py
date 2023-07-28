@@ -260,8 +260,8 @@ class ApplicationFormService:
             ),
             SUMMARY: (
                 "Prosimy o sprawdzenie poprawności podanych danych."
-                " W razie zauważenia pomyłek należy użyć przycisku"
-                " „Popraw zgłoszenie”"
+                # " W razie zauważenia pomyłek należy użyć przycisku"
+                # " „Popraw zgłoszenie”"
             ),
         }
         return description_map.get(self.current_step, "{DEFAULT DESCRIPTION}")

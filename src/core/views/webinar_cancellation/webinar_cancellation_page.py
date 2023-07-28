@@ -34,7 +34,7 @@ def webinar_cancellation_page(request: HttpRequest, token: str):
     # On form submit
     if request.method == POST:
         # Create new discount code
-        discount_code = DiscountService.generate_unused_disocunt_code()
+        discount_code = DiscountService.generate_unused_discount_code()
         DiscountCode(
             discount_code=discount_code,
             discount_value=10,

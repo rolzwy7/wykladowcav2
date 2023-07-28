@@ -13,23 +13,34 @@ def htmx_application_discount_panel(request: HttpRequest, pk: int):
     template_path = "htmx/application_discount_panel.html"
     application = get_object_or_404(WebinarApplication, pk=pk)
     discount_service = DiscountService(application)
+    further_discounts_allowed = discount_service.are_further_discounts_allowed()
     error_msg = ""
 
-    if request.method == POST:
+    if request.method == POST and further_discounts_allowed:
         form = DiscountCodeForm(request.POST)
         if form.is_valid():
+            # Get code from form data
             discount_code = form.cleaned_data["discount_code"]
-            discount_valid = discount_service.is_discount_code_valid(
-                discount_code
-            )
-            if discount_valid:
-                discount_service.create_application_discount_from_code(
+
+            # Check if code is a ref code
+            if discount_service.is_refcode(discount_code):
+                discount_service.apply_refcode(discount_code)
+            else:
+                # If code is not a refcode try to apply normal discount
+                discount_valid = discount_service.is_discount_code_valid(
                     discount_code
                 )
-            else:
-                error_msg = "Niepoprawny kod promocyjny"
+                if discount_valid:
+                    discount_service.create_application_discount_from_code(
+                        discount_code
+                    )
+                else:
+                    error_msg = "Niepoprawny kod promocyjny"
     else:
         form = DiscountCodeForm()
+
+    # Recalculate is further discounts are allowed
+    further_discounts_allowed = discount_service.are_further_discounts_allowed()
 
     return TemplateResponse(
         request,
@@ -38,6 +49,7 @@ def htmx_application_discount_panel(request: HttpRequest, pk: int):
             "error_msg": error_msg,
             "form": form,
             "application": application,
+            "further_discounts_allowed": further_discounts_allowed,
             **discount_service.get_context(),
         },
     )

@@ -23,6 +23,8 @@ def application_type_page(request, pk: int):
     if request.method == POST:
         form = ApplicationTypeForm(request.POST)
         if form.is_valid():
+            # TODO: move this to service ?? reflink_service would be a dependancy
+
             with transaction.atomic():
                 # Create apllication
                 application = WebinarApplication(
@@ -60,5 +62,6 @@ def application_type_page(request, pk: int):
             "application_timeline": [("Typ zgłoszenia", "-", True)],
             "webinar": webinar,
             "form": form,
+            "show_pdf_card_alert": request.GET.get("pdf", ""),
         },
     )

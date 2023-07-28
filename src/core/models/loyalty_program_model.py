@@ -1,17 +1,22 @@
-# TODO: finish this
 from django.conf import settings
 from django.db.models import (
     CASCADE,
     CharField,
     DateTimeField,
+    DecimalField,
+    FileField,
+    ForeignKey,
     Manager,
     Model,
     OneToOneField,
+    TextField,
 )
+
+from .enums import LoyaltyProgramIncomeStatus, LoyaltyProgramPayoutStatus
 
 
 class LoyaltyProgramManager(Manager):
-    """Eventlog query Manager"""
+    """LoyaltyProgram query Manager"""
 
     ...
 
@@ -44,17 +49,39 @@ class LoyaltyProgramIncome(Model):
 
     created_at = DateTimeField(auto_now_add=True)
 
-    fk: LoyaltyProgram
+    loyalty_program = ForeignKey(
+        "LoyaltyProgram", verbose_name="Kod referencyjny", on_delete=CASCADE
+    )
 
-    fk: Application
+    application = ForeignKey(
+        "WebinarApplication", verbose_name="Zgłoszenie", on_delete=CASCADE
+    )
 
-    status = ...  # realizacja, odmowiono, zrealizowano
+    INCOME_STATUS = [
+        (LoyaltyProgramIncomeStatus.PROCESSING, "PROCESSING"),
+        (LoyaltyProgramIncomeStatus.PAYABLE, "PAYABLE"),
+        (LoyaltyProgramIncomeStatus.VIOLATING, "VIOLATING"),
+    ]
 
-    amount = ...  # integer, brutto, netto ???
+    status = CharField(
+        "Status należności",
+        max_length=32,
+        choices=INCOME_STATUS,
+        default=LoyaltyProgramIncomeStatus.PROCESSING,
+    )
+
+    note_employee = TextField("Uwagi do należności (pracownik)", blank=True)
+
+    amount_brutto = DecimalField(
+        "Wartość Brutto", max_digits=10, decimal_places=2
+    )
 
     class Meta:
         verbose_name = "Program partnerski (Należność)"
         verbose_name_plural = "Program partnerski (Należności)"
+
+    def __str__(self) -> str:
+        return f"{self.id}"  # type: ignore
 
 
 class LoyaltyProgramPayout(Model):
@@ -62,14 +89,37 @@ class LoyaltyProgramPayout(Model):
 
     created_at = DateTimeField(auto_now_add=True)
 
-    fk: LoyaltyProgram
+    loyalty_program = ForeignKey(
+        "LoyaltyProgram", verbose_name="Kod referencyjny", on_delete=CASCADE
+    )
 
-    status = ...  # realizacja, odmowiono, zrealizowano
+    PAYOUT_STATUS = [
+        (
+            LoyaltyProgramPayoutStatus.WAITING_FOR_CONFIRMATION,
+            "Czeka na potwierdzenie",
+        ),
+        (LoyaltyProgramPayoutStatus.PAYED, "Zapłacono"),
+        (LoyaltyProgramPayoutStatus.REFUSED, "Odmówiono zapłaty"),
+    ]
 
-    amount = ...  # integer, brutto, netto ???
+    status = CharField(
+        "Status należności",
+        max_length=32,
+        choices=PAYOUT_STATUS,
+        default=LoyaltyProgramPayoutStatus.WAITING_FOR_CONFIRMATION,
+    )
 
-    invoice_attachment = ...  # file
+    note_employee = TextField("Uwagi do wypłaty (pracownik)", blank=True)
+
+    payout_brutto = DecimalField(
+        "Wartość Brutto", max_digits=10, decimal_places=2
+    )
+
+    invoice_attachment = FileField()
 
     class Meta:
         verbose_name = "Program partnerski (Wypłata)"
         verbose_name_plural = "Program partnerski (Wypłaty)"
+
+    def __str__(self) -> str:
+        return f"{self.id}"  # type: ignore

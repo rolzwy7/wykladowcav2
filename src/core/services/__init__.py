@@ -1,5 +1,6 @@
 # flake8: noqa
 from .application_form_service import ApplicationFormService
+from .application_pdf_card_service import ApplicationPdfCardService
 from .certificate_service import CertificateService
 from .crm_webinar_service import CrmWebinarService
 from .discount_service import DiscountService

@@ -69,16 +69,12 @@ def create_invoice_for_application(
             "recipient_city": recipient.city,
         }
 
-    # We can use `exempt_tax_kind` to add additional information too
-    # because it's a text field
+    # Add text adnotation about tax exempt reason
+    # TODO: Add normal tax exempt from select here
     if WE_ARE_TAX_EXEMPT:
-        extra_data = {
-            "exempt_tax_kind": ". ".join(
-                [TAX_EXEMPT_TOOLTIP, application.additional_information]
-            )
-        }
+        extra_data = {"exempt_tax_kind": TAX_EXEMPT_TOOLTIP}
     else:
-        extra_data = {"exempt_tax_kind": application.additional_information}
+        extra_data = {}
 
     # Sell date is a date of the webinar
     sell_date = _date(webinar.date, "Y-m-d")

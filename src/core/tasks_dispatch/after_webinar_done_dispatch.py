@@ -4,6 +4,7 @@ import json
 from datetime import timedelta
 
 from celery import chain, group
+from django.conf import settings
 from django.utils.timezone import now
 from django_celery_beat.models import IntervalSchedule, PeriodicTask
 
@@ -76,7 +77,8 @@ def after_webinar_done_dispatch(webinar: Webinar):
         group(*certificate_jobs),
         # Send Telegram notification
         task_send_telegram_notification.si(
-            f"Zrealizowano szkolenie #{webinar_id}"
+            f"Zrealizowano szkolenie #{webinar_id}",
+            settings.TELEGRAM_CHAT_ID_OTHER,
         ),
     ).apply_async()
 
