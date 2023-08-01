@@ -79,15 +79,6 @@ class Lecturer(Model):
         help_text="Widoczna na stronie webinaru pod imieniem i nazwiskiem",
     )
 
-    @property
-    def opinion_absolute_url(self):
-        """Absolute URL to lecturer opinion"""
-        opinion_path = reverse(
-            "core:lecturer_opinion_form_page",
-            kwargs={"slug": self.slug},
-        )
-        return f"{BASE_URL}{opinion_path}"
-
     class Meta:
         verbose_name = "Wykładowca"
         verbose_name_plural = "Wykładowcy"
@@ -98,3 +89,12 @@ class Lecturer(Model):
     def save(self, *args, **kwargs) -> None:
         self.slug = slugify(self.fullname)
         return super().save(*args, **kwargs)
+
+    @property
+    def opinion_absolute_url(self):
+        """Absolute URL to lecturer opinion"""
+        opinion_path = reverse(
+            "core:lecturer_opinion_form_page",
+            kwargs={"slug": self.slug},
+        )
+        return f"{BASE_URL}{opinion_path}"

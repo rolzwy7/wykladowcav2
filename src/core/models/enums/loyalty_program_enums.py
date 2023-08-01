@@ -1,5 +1,5 @@
 class LoyaltyProgramIncomeStatus:
-    """Status loyality program income"""
+    """Status loyalty program income"""
 
     PROCESSING = "PROCESSING"
     PAYABLE = "PAYABLE"

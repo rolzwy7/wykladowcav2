@@ -8,7 +8,7 @@
       <!--begin::Title-->
       <a
         href="{% url 'core:webinar_program_page' slug=webinar.slug %}"
-        class="fs-2 fw-bold text-gray-900 text-hover-primary me-1"
+        class="fs-1 fw-bold text-gray-900 text-hover-primary me-1"
         >{{webinar.title}}</a
       >
       <!--end::Title-->
@@ -40,7 +40,7 @@
     <!--begin::Summary-->
     <div class="fs-base fw-normal text-gray-700 mb-4">
       {% if webinar.description %}
-        <p class="mb-0">
+        <p class="mb-0 fw-medium fs-4">
           {{webinar.description}}
         </p>
       {% endif %}
@@ -67,14 +67,14 @@
         <div
           class="d-flex flex-column align-items-start justify-content-center"
         >
-          <span class="text-gray-900 fs-7 fw-semibold lh-1 mb-2"
+          <span class="text-gray-900 fs-6 fw-bold lh-1 mb-2"
             >
             <a href="{% url 'core:lecturer_experience_page' slug=webinar.lecturer.slug %}">
               {{webinar.lecturer.fullname}}
             </a>
             </span
           >
-          <span class="text-muted fs-8 fw-semibold lh-1">
+          <span class="text-muted fs-6 fw-semibold lh-1">
             {% for category in webinar.lecturer.categories.all %}
               {% if forloop.last %}
                 {{category}}
@@ -126,28 +126,28 @@
         <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6">
           <!--begin::Number-->
           <div class="d-flex align-items-center">
-              <i class="ki-duotone ki-calendar fs-5 text-grey me-2">
+              <i class="ki-duotone ki-calendar fs-2 text-grey me-2">
                   <i class="path1"></i>
                   <i class="path2"></i>
               </i>
-              <div class="fs-7 fw-bold counted">
+              <div class="fs-5 fw-bold counted">
                   {{webinar.date|date:"j E Y"}}, {{webinar.date|date:"H:i"}}-{{webinar.date_end|date:"H:i"}}
               </div>
           </div>
           <!--end::Number-->
           <!--begin::Label-->
-          <div class="fw-semibold fs-8 text-gray-700">Data i godzina szkolenia</div>
+          <div class="fw-semibold fs-6 text-gray-700">Data i godzina szkolenia</div>
           <!--end::Label-->
       </div>
         <!--begin::Stat-->
         <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6">
           <!--begin::Number-->
           <div class="d-flex align-items-center">
-              <i class="ki-duotone ki-calendar fs-5 text-grey me-2">
+              <i class="ki-duotone ki-calendar fs-2 text-grey me-2">
                   <i class="path1"></i>
                   <i class="path2"></i>
               </i>
-              <div class="fs-7 fw-bold counted">
+              <div class="fs-5 fw-bold counted">
                 {% if webinar.is_discounted %}
                 <span class="text-decoration-line-through fw-bolder text-danger">
                   {{webinar.price_netto}}zł
@@ -161,7 +161,7 @@
           </div>
           <!--end::Number-->
           <!--begin::Label-->
-          <div class="fw-semibold fs-8 text-gray-700">
+          <div class="fw-semibold fs-6 text-gray-700">
             Cena
             {% if webinar.is_discounted %}
                 <span class="text-success fw-bold">

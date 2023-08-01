@@ -13,7 +13,9 @@ from core.views.crm import (
     crm_webinar_invoices,
     crm_webinar_recordings,
 )
-from core.views.crm.crm_webinar_actions import (
+from core.views.crm.company import CrmCompanyDetail, CrmCompanyList
+from core.views.crm.contact import CrmContactDetail, CrmContactList
+from core.views.crm.webinar.actions import (
     CancelWebinarAction,
     ConfirmWebinarAction,
     DoneWebinarAction,
@@ -21,6 +23,7 @@ from core.views.crm.crm_webinar_actions import (
 )
 
 urlpatterns = [
+    # Webinar
     path(
         "webinar/<int:pk>/",
         crm_webinar_detail_dashboard,
@@ -71,11 +74,35 @@ urlpatterns = [
         move_webinar_action,
         name="crm_webinar_move",
     ),
+    # CRM company
+    path(
+        "firmy/",
+        CrmCompanyList.as_view(),
+        name="crm_company_list",
+    ),
+    path(
+        "firmy/<int:pk>/",
+        CrmCompanyDetail.as_view(),
+        name="crm_company_detail",
+    ),
+    # CRM contact
+    path(
+        "kontaky/",
+        CrmContactList.as_view(),
+        name="crm_contact_list",
+    ),
+    path(
+        "kontaky/<int:pk>/",
+        CrmContactDetail.as_view(),
+        name="crm_contact_detail",
+    ),
+    # Archive
     path(
         "archiwum/",
         crm_archived_webinars,
         name="crm_archived_webinars",
     ),
+    # Tasks
     path(
         "zadania/wykonane/",
         crm_todos_done_list,

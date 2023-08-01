@@ -13,6 +13,18 @@ def terms_and_conditions_webinars(request):
     )
 
 
+def terms_and_conditions_loyalty_program(request):
+    """Term and conditions for webinars"""
+    template_name = (
+        "core/pages/terms_and_conditions/TermsAndConditionsLoyaltyProgram.html"
+    )
+    return TemplateResponse(
+        request,
+        template_name,
+        {},
+    )
+
+
 def cookies_policy(request):
     """Term and conditions for webinars"""
     template_name = "core/pages/terms_and_conditions/CookiesPolicy.html"

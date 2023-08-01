@@ -76,9 +76,10 @@
                   class="form w-100"
                   novalidate="novalidate"
                   id="kt_sign_up_form"
-                  data-kt-redirect-url="../../demo5/dist/authentication/layouts/fancy/sign-in.html"
-                  action="#"
+                  method="post"
+                  action="{% url 'core:register_page' %}"
                 >
+                  {% csrf_token %}
                   <!--begin::Heading-->
                   <div class="text-start mb-10">
                     <!--begin::Title-->
@@ -88,6 +89,11 @@
                     >
                       Stwórz konto
                     </h1>
+                    {% for error in form.errors %}
+                    <span class="text-danger fw-medium">
+                      {{error}}
+                    </span>
+                    {% endfor %}
                     <!--end::Title-->
                     {% comment %}
                     <!--begin::Text-->
@@ -109,10 +115,13 @@
                         class="form-control form-control-lg form-control-solid"
                         type="text"
                         placeholder="Imię"
-                        name="first-name"
+                        name="first_name"
                         autocomplete="off"
                         data-kt-translate="sign-up-input-first-name"
                       />
+                      <span class="text-danger fw-medium">
+                        {{form.first_name.errors}}
+                      </span>
                     </div>
                     <!--end::Col-->
                     <!--begin::Col-->
@@ -121,10 +130,13 @@
                         class="form-control form-control-lg form-control-solid"
                         type="text"
                         placeholder="Nazwisko"
-                        name="last-name"
+                        name="last_name"
                         autocomplete="off"
                         data-kt-translate="sign-up-input-last-name"
                       />
+                      <span class="text-danger fw-medium">
+                        {{form.last_name.errors}}
+                      </span>
                     </div>
                     <!--end::Col-->
                   </div>
@@ -139,6 +151,9 @@
                       autocomplete="off"
                       data-kt-translate="sign-up-input-email"
                     />
+                    <span class="text-danger fw-medium">
+                      {{form.email.errors}}
+                    </span>
                   </div>
                   <!--end::Input group-->
                   <!--begin::Input group-->
@@ -151,10 +166,13 @@
                           class="form-control form-control-lg form-control-solid"
                           type="password"
                           placeholder="Hasło"
-                          name="password"
+                          name="password1"
                           autocomplete="off"
                           data-kt-translate="sign-up-input-password"
                         />
+                        <span class="text-danger fw-medium">
+                          {{form.password1.errors}}
+                        </span>
                         <span
                           class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2"
                           data-kt-password-meter-control="visibility"
@@ -198,10 +216,13 @@
                       class="form-control form-control-lg form-control-solid"
                       type="password"
                       placeholder="Powtórz Hasło"
-                      name="confirm-password"
+                      name="password2"
                       autocomplete="off"
                       data-kt-translate="sign-up-input-confirm-password"
                     />
+                    <span class="text-danger fw-medium">
+                      {{form.password2.errors}}
+                    </span>
                   </div>
                   <!--end::Input group-->
                   <!--begin::Actions-->
@@ -426,9 +447,4 @@
       <!--end::Main-->
 {% endblock root %}
 
-{% block body_scripts %}
-  <!--begin::Custom Javascript(used for this page only)-->
-  <script src="{% static 'js/custom/authentication/sign-up/general.js' %}"></script>
-  <script src="{% static 'js/custom/authentication/sign-in/i18n.js' %}"></script>
-  <!--end::Custom Javascript-->
-{% endblock body_scripts %}
+{% block body_scripts %}{% endblock body_scripts %}

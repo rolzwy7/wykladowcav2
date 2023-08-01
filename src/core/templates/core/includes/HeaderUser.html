@@ -79,6 +79,8 @@
     <!--begin::Menu separator-->
     <div class="separator my-2"></div>
     <!--end::Menu separator-->
+
+    {% if request.user.is_staff %}
     <!--begin::Menu item-->
     <div class="menu-item px-5">
       <a href="/cms/" class="menu-link px-5">CMS</a>
@@ -89,6 +91,15 @@
       <a href="/crm/" class="menu-link px-5">CRM</a>
     </div>
     <!--end::Menu item-->
+    <!--begin::Menu item-->
+    <div class="menu-item px-5">
+      <a href="{% url 'core:loyalty_program_page' %}" class="menu-link px-5">
+        Program partnerski
+      </a>
+    </div>
+    <!--end::Menu item-->
+    {% endif %}
+    {% comment %}
     <!--begin::Menu item-->
     <div class="menu-item px-5">
       <a href="../../demo5/dist/apps/projects/list.html" class="menu-link px-5">
@@ -192,6 +203,7 @@
       >
     </div>
     <!--end::Menu item-->
+    {% endcomment %}
     <!--begin::Menu separator-->
     <div class="separator my-2"></div>
     <!--end::Menu separator-->

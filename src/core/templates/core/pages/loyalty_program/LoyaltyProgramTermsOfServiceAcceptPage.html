@@ -1,0 +1,28 @@
+{% extends 'core/extends/base.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+
+{% block rightbar %}{% endblock rightbar %}
+{% block leftbar %}{% endblock leftbar %}
+
+{% block content %}
+<!--begin::Wrapper-->
+<div
+  class="wrapper d-flex flex-column flex-row-fluid mt-5 mt-lg-10"
+  id="kt_wrapper"
+>
+  <!--begin::Content-->
+  <div class="content flex-column-fluid" id="kt_content">
+    <h1>Program partnerski - akceptacja regulaminu</h1>
+    <form method="post" action="{% url 'core:loyalty_program_terms_of_service_accept_page' %}">
+      {% csrf_token %}
+      <input type="submit" value="Akceptuję">
+    </form>
+  </div>
+  <!--end::Content-->
+</div>
+<!--end::Wrapper-->
+{% endblock content %}
+
+{% block body_scripts %}{% endblock body_scripts %}

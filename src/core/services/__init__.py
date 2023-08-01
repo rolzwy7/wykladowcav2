@@ -4,6 +4,8 @@ from .application_pdf_card_service import ApplicationPdfCardService
 from .certificate_service import CertificateService
 from .crm_webinar_service import CrmWebinarService
 from .discount_service import DiscountService
+from .ip_address_service import IpAddressService
+from .loyalty_program_service import LoyaltyProgramService
 from .mx_service import MxService
 from .program_service import ProgramService
 from .reflink_service import ReflinkService

@@ -1,0 +1,25 @@
+{% extends 'core/extends/base.html' %} 
+{% load static %}
+{% block head_stylesheets %} {% endblock head_stylesheets %}
+
+{% block rightbar %}{%endblock rightbar %}
+
+{% block content %}
+<!--begin::Wrapper-->
+<div
+  class="wrapper d-flex flex-column flex-row-fluid mt-5 mt-lg-10"
+  id="kt_wrapper"
+>
+    <!--begin::Content-->
+    <div class="content flex-column-fluid" id="kt_content">
+        
+        {% comment %} BEGIN  {% endcomment %}
+        {% include 'core/pages/terms_and_conditions/snippets/TermsAndConditionsLoyaltyProgramCard.html' %}
+        {% comment %} END {% endcomment %}
+
+    </div>
+    <!--end::Content-->
+</div>
+<!--end::Wrapper-->
+{% endblock content %} 
+{% block body_scripts %} {% endblock body_scripts %}

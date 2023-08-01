@@ -34,6 +34,7 @@ def webinar_moving_resignation_page(request: HttpRequest, token: str):
 
     # On form submit mark as `RESIGNATION`
     if request.method == POST:
+        # TODO: atomic
         application.status = ApplicationStatus.RESIGNATION
         application.save()
         move_register_item.status = ApplicationMoveStatus.RESIGNATION

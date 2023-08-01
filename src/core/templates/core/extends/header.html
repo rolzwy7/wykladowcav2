@@ -27,11 +27,13 @@
             src="{% static 'media/logos/wykladowcapl/logo.svg' %}"
             class="d-none d-lg-inline h-30px theme-light-show"
           />
+          {% comment %}
           <img
             alt="Logo"
             src="{% static 'media/logos/wykladowcapl/logo.svg' %}"
             class="d-none d-lg-inline h-30px theme-dark-show"
           />
+          {% endcomment %}
           <img
             alt="Logo"
             src="{% static 'media/logos/wykladowcapl/logo.svg' %}"
@@ -82,6 +84,7 @@
                 <!--begin:Menu sub-->
                 <div
                   class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown p-0"
+                  style="border-radius: 0;"
                 >
                   <!--begin:Dashboards menu-->
                   <div
@@ -410,17 +413,16 @@
                         >
                           <div class="d-flex flex-column me-5">
                             <div class="fs-6 fw-bold text-gray-800">
-                              Landing Page Template
+                              Weź udział w programie partnerskim!
                             </div>
                             <div class="fs-7 fw-semibold text-muted">
-                              Onpe page landing template with pricing &
-                              others
+                              Oferujemy 10% prowizij za każde polecone szkolenie.
                             </div>
                           </div>
                           <a
                             href="../../demo5/dist/landing.html"
                             class="btn btn-sm btn-primary fw-bold"
-                            >Explore</a
+                            >Program partnerski</a
                           >
                         </div>
                         <!--end:Landing-->
@@ -4447,22 +4449,6 @@
           </div>
           <!--end::Theme mode-->
           {% endcomment %}
-          <!--begin::Sidebar Toggler-->
-          <div
-            class="d-flex align-items-center ms-1 ms-lg-2 d-lg-none"
-            title="Show header menu"
-          >
-            <button
-              class="btn btn-icon btn-active-light btn-active-color-primary w-30px h-30px w-md-40px h-md-40px"
-              id="kt_sidebar_toggle"
-            >
-              <i class="ki-duotone ki-document fs-1">
-                <span class="path1"></span>
-                <span class="path2"></span>
-              </i>
-            </button>
-          </div>
-          <!--end::Sidebar Toggler-->
           {% include 'core/includes/HeaderUser.html' %}
           <!--begin::Header menu toggle-->
           <div

@@ -6,10 +6,11 @@ from django.template.response import TemplateResponse
 
 from core.consts import POST
 from core.forms import ApplicationTypeForm
-from core.models import DiscountApplicationApplied, Webinar, WebinarApplication
+from core.models import Webinar, WebinarApplication, WebinarApplicationMetadata
 from core.services import (
     ApplicationFormService,
     DiscountService,
+    IpAddressService,
     ReflinkService,
 )
 
@@ -45,6 +46,12 @@ def application_type_page(request, pk: int):
                 # If webinar is discounted apply discount
                 discount_service = DiscountService(application)
                 discount_service.maybe_apply_initial_application_discount()
+
+            metadata = WebinarApplicationMetadata.objects.get(
+                application=application
+            )
+            metadata.ip_address = IpAddressService.get_client_ip(request)
+            metadata.save()
 
             return ApplicationFormService.get_application_type_redirect(
                 application.application_type, application.uuid

@@ -2,7 +2,7 @@
 from .application_enums import ApplicationMoveStatus, ApplicationStatus
 from .discount_enums import DiscountCodeType, DiscountCodeUseType
 from .invoice_enums import InvoiceType
-from .loyality_program_enums import (
+from .loyalty_program_enums import (
     LoyaltyProgramIncomeStatus,
     LoyaltyProgramPayoutStatus,
 )

@@ -69,7 +69,7 @@ class DiscountService:
         # Save old netto price
         old_netto_price = self.application.price_netto
 
-        # Apply loyality program discount (5%)
+        # Apply loyalty program discount (5%)
         multiplier = (100 - 5) / 100
         new_price = int(multiplier * self.application.price_netto)
         self.application.price_netto = new_price

@@ -22,7 +22,7 @@ class LoyaltyProgramManager(Manager):
 
 
 class LoyaltyProgram(Model):
-    """Represents loyality program user details"""
+    """Represents loyalty program user details"""
 
     manager = LoyaltyProgramManager()
 
@@ -45,7 +45,7 @@ class LoyaltyProgram(Model):
 
 
 class LoyaltyProgramIncome(Model):
-    """Represents loyality program income"""
+    """Represents loyalty program income"""
 
     created_at = DateTimeField(auto_now_add=True)
 
@@ -85,7 +85,7 @@ class LoyaltyProgramIncome(Model):
 
 
 class LoyaltyProgramPayout(Model):
-    """Represents loyality program payout"""
+    """Represents loyalty program payout"""
 
     created_at = DateTimeField(auto_now_add=True)
 

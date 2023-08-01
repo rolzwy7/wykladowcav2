@@ -13,14 +13,14 @@
 {% block application_toolbar_actions %}
 <div class="d-flex align-items-center py-1">
 {% if application.application_type != "PRIVATE_PERSON" %}
-<!--begin::Button-->
-<a
-href="{% url 'core:application_pdf_card' uuid=application.uuid %}"
-target="_blank"
-class="btn btn-sm btn-flex btn-warning fw-bold border-0 me-3">
-Pobierz kartę zgłoszeniową
-</a>
-<!--end::Button-->
+    <!--begin::Button-->
+    <button
+    data-bs-toggle="modal"
+    data-bs-target="#kt_modal_pdf_application_card"
+    class="btn btn-sm btn-flex btn-warning fw-bold border-0 me-3">
+        Pobierz kartę zgłoszeniową
+    </button>
+    <!--end::Button-->
 {% endif %}
 <!--begin::Button-->
 <button
@@ -113,14 +113,16 @@ Pobierz kartę zgłoszeniową
                         <h2 class="fw-bold">Szczegóły zgłoszenia</h2>
                     </div>
                     <!--begin::Card title-->
+                    {% comment %}
                     <!--begin::Card toolbar-->
-                    {% comment %} <div class="card-toolbar">
+                    <div class="card-toolbar">
                         <a href="../../demo5/dist/apps/subscriptions/add.html" class="btn btn-light-warning">
                             <i class="ki-duotone ki-cloud-download fs-1"><i class="path1"></i><i class="path2"></i></i>
                             Pobierz kartę zgłoszeniową
                         </a>
-                    </div> {% endcomment %}
+                    </div>
                     <!--end::Card toolbar-->
+                    {% endcomment %}
                 </div>
                 <!--end::Card header-->
                 <!--begin::Card body-->
@@ -336,6 +338,51 @@ Pobierz kartę zgłoszeniową
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Zamknij regulamin szkoleń</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" tabindex="-1" id="kt_modal_pdf_application_card">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Pobierz kartę zgłoszeniową</h3>
+
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body fw-medium text-gray-900 fs-5">
+                <p>
+                    Kliknij poniższy przycisk, aby pobrać kartę zgłoszeniową.
+                </p>
+                <p>
+                    <span class="text-danger">Uwaga</span>
+                    po kliknięciu prosimy cierpiliwe poczekać na wygenerowanie karty.
+                </p>
+                <p>
+                    <u>Może to potrwać nawet do 30 sekund.</u>
+                </p>
+                <div class="separator border-2 my-5"></div>
+                <div class="text-center">
+                    <!--begin::Button-->
+                    <a
+                    href="{% url 'core:application_pdf_card' uuid=application.uuid %}"
+                    target="_blank"
+                    class="btn btn-sm btn-flex btn-warning fw-bold border-0 me-3">
+                    Pobierz kartę zgłoszeniową
+                    </a>
+                    <!--end::Button-->
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Zamknij</button>
             </div>
         </div>
     </div>

@@ -34,8 +34,6 @@ def webinar_moving_accept_page(request: HttpRequest, token: str):
 
     # On form submit mark as `ACCEPTED`
     if request.method == POST:
-        application.status = ApplicationStatus.RESIGNATION
-        application.save()
         move_register_item.status = ApplicationMoveStatus.ACCEPTED
         move_register_item.save()
         return redirect(

@@ -290,7 +290,7 @@
                     </div>
                     <!--end::Details-->
                     <!--begin::Navs-->
-                    <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold">
+                    <ul id="kt_webinar_tabs" class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold">
                         {% for tab_name, tab_url, tab_is_active, tab_icon in webinar_tabs %}
                         <!--begin::Nav item-->
                         <li class="nav-item mt-2">
@@ -325,21 +325,23 @@
                     {% include './snippets/PlacesLeftAlert.html' %}
                     {% include './snippets/DiscountAlert.html' %}
                     {% include './snippets/ApplicationButton.html' %}
+                    <div class="separator separator-content border-secondary my-8">
+                        <span class="fs-4 text-muted">Lub</span>
+                    </div>
+                    <a
+                        href="{% url 'core:application_type_page' pk=webinar.pk %}?pdf=show"
+                        class="btn btn-sm btn-warning w-100 fs-3">
+
+                        Pobierz kartę zgłoszeniową
+                    </a>
                     <div class="separator my-5"></div>
                     {% include './snippets/WhatWeOffer.html' %}
-                    <div
-                        class="card card-flush mb-0"
-                        data-kt-sticky="false"
-                        data-kt-sticky-name="patron-sticky"
-                        data-kt-sticky-offset="{default: false, xl: '200px'}"
-                        data-kt-sticky-width="{lg: '250px', xl: '300px'}"
-                        data-kt-sticky-left="auto"
-                        data-kt-sticky-top="150px"
-                        data-kt-sticky-animation="false"
-                        data-kt-sticky-zindex="95"
-                    >
-                    {% include 'core/includes/Patron.html' %}
-                    </div>
+                        <div
+                            class="card card-flush mb-0 js-sticky-widget"
+                        >
+                        {% include 'core/includes/Patron.html' %}
+                        {% include './snippets/ApplicationButton.html' %}
+                        </div>
                 </div>
                 {% endblock webinar_rightbar %}
                 <!--end::Col-->
@@ -355,35 +357,20 @@
 
 
 {%block body_scripts %}
-    <!--begin::Vendors Javascript(used for this page only)-->
-    {% comment %} <script src="{% static 'plugins/custom/datatables/datatables.bundle.js' %}"></script> {% endcomment %}
-    <!--end::Vendors Javascript-->
-    <!--begin::Custom Javascript(used for this page only)-->
-    <script src="{% static 'js/simplyCountdown.min.js' %}"></script>
-    {% comment %}
-    <script src="{% static 'js/custom/pages/user-profile/general.js' %}"></script>
-    <script src="{% static 'js/widgets.bundle.js' %}"></script>
-    <script src="{% static 'js/custom/widgets.js' %}"></script>
-    <script src="{% static 'js/custom/apps/chat/chat.js' %}"></script>
-    <script src="{% static 'js/custom/utilities/modals/upgrade-plan.js' %}"></script>
-    <script src="{% static 'js/custom/utilities/modals/create-campaign.js' %}"></script>
-    <script src="{% static 'js/custom/utilities/modals/offer-a-deal/type.js' %}"></script>
-    <script src="{% static 'js/custom/utilities/modals/offer-a-deal/details.js' %}"></script>
-    <script src="{% static 'js/custom/utilities/modals/offer-a-deal/finance.js' %}"></script>
-    <script src="{% static 'js/custom/utilities/modals/offer-a-deal/complete.js' %}"></script>
-    <script src="{% static 'js/custom/utilities/modals/offer-a-deal/main.js' %}"></script>
-    <script src="{% static 'js/custom/utilities/modals/create-project/type.js' %}"></script>
-    <script src="{% static 'js/custom/utilities/modals/create-project/budget.js' %}"></script>
-    <script src="{% static 'js/custom/utilities/modals/create-project/settings.js' %}"></script>
-    <script src="{% static 'js/custom/utilities/modals/create-project/team.js' %}"></script>
-    <script src="{% static 'js/custom/utilities/modals/create-project/targets.js' %}"></script>
-    <script src="{% static 'js/custom/utilities/modals/create-project/files.js' %}"></script>
-    <script src="{% static 'js/custom/utilities/modals/create-project/complete.js' %}"></script>
-    <script src="{% static 'js/custom/utilities/modals/create-project/main.js' %}"></script>
-    <script src="{% static 'js/custom/utilities/modals/users-search.js' %}"></script>
-    <!--end::Custom Javascript-->
-    {% endcomment %}
+    <script src="{% static 'js/sticksy.min.js' %}"></script>
+    <script>
+        var stickyElement = new Sticksy('.js-sticky-widget', {topSpacing: 120});
+        // you can handle state changing
+        stickyEl.onStateChanged = function (state) {
+            if(state === 'fixed') {
+                stickyEl.nodeRef.classList.add('widget--sticky')
+            } else {
+                stickyEl.nodeRef.classList.remove('widget--sticky')
+            }
+        }
+    </script>
     {% if webinar.is_discounted %}
+    <script src="{% static 'js/simplyCountdown.min.js' %}"></script>
     <script>
         simplyCountdown('#discount-countdown', {
             year: {{webinar.discount_until|date:"Y"}}, // The target year

@@ -35,7 +35,9 @@ def htmx_application_discount_panel(request: HttpRequest, pk: int):
                         discount_code
                     )
                 else:
-                    error_msg = "Niepoprawny kod promocyjny"
+                    error_msg = (
+                        "Kod jest niepoprawny, wygasł lub już został użyty"
+                    )
     else:
         form = DiscountCodeForm()
 

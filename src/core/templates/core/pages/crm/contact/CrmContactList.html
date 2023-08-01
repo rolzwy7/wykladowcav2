@@ -1,0 +1,17 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+<h1>Reprezentanci</h1>
+{% for contact in object_list %}
+    {{contact}} - <a href="{% url 'core:crm_contact_detail' pk=contact.pk %}">detail</a>
+{% endfor %}
+{% endblock crm_content %}
+
+{% block body_scripts %}
+
+{% endblock body_scripts %}

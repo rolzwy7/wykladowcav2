@@ -12,7 +12,7 @@ from core.services.discount_service import DiscountService
 def webinar_cancellation_page(request: HttpRequest, token: str):
     """Webinar cancellation page controller"""
     template_name = (
-        "core/pages/webinar_cancellation/WebinarCancellationPage.html"
+        "core/pages/crm/webinar_cancellation/WebinarCancellationPage.html"
     )
     webinar_cancellation = get_object_or_404(
         WebinarApplicationCancellation, token=token

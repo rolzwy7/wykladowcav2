@@ -51,13 +51,10 @@
                   </td>
                 </tr>
 
-
-
               </tbody>
             </table>
           </td>
         </tr>
-        
         
         <tr>
           <td align="left" valign="top" style="border-collapse:collapse;">
@@ -85,7 +82,9 @@
 
                 <tr>
                   <td colspan="2" style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
-                    [SZCZEGÓŁY SZKOLENIA] <!-- TODO: szczegóły zgłoszenia -->
+                    Szczegóły szkolenia: <a href="{{BASE_URL}}{% url 'core:webinar_program_page' slug=webinar.slug %}">
+                      {{BASE_URL}}{% url 'core:webinar_program_page' slug=webinar.slug %}
+                    </a>
                   </td>
                 </tr>
 

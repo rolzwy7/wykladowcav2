@@ -15,6 +15,7 @@ from .assets_urls import urlpatterns as assets_urlpatterns
 from .certificate_urls import urlpatterns as certificate_urlpatterns
 from .crm_urls import urlpatterns as crm_urlpatterns
 from .lecturer_urls import urlpatterns as lecturer_urlpatterns
+from .loyalty_urls import urlpatterns as loyalty_urlpatterns
 from .previews_urls import urlpatterns as previews_urlpatterns
 from .recording_urls import urlpatterns as recording_urlpatterns
 from .terms_and_conditions_urls import (
@@ -26,11 +27,12 @@ app_name = "core"
 
 urlpatterns = [
     path(
-        "szkolenia-<slug:slug>/",
+        "szkolenia/<slug:slug>/",
         webinar_category_page,
         name="webinar_category_page",
     ),
     # path("api/", include("api.urls"), namespace="api"),
+    path("program-partnerski/", include(loyalty_urlpatterns)),
     path("zgloszenie-online/", include(application_urlpatterns)),
     path("szkolenia-online/", include(webinar_urlpatterns)),
     path("wykladowcy/", lecturer_list_page, name="lecturer_list_page"),

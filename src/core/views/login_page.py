@@ -20,11 +20,11 @@ def login_page(request):
             username = form.cleaned_data["username"]
             password = form.cleaned_data["password"]
             user = authenticate(request, username=username, password=password)
-            if user is not None:
+            if user is None:
+                auth_failed = True
+            else:
                 login(request, user)
                 return redirect(next_param or reverse("core:homepage"))
-            else:
-                auth_failed = True
         else:
             auth_failed = True
     else:

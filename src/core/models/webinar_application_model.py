@@ -298,5 +298,7 @@ class WebinarApplicationMetadata(Model):
 
     terms_accepted = BooleanField("Zaakceptowano regulamin", default=False)
 
+    ip_address = CharField(max_length=64, blank=True)
+
     def __str__(self) -> str:
         return f"Zgłoszenie {self.application.id} metadata"

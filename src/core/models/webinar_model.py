@@ -1,6 +1,7 @@
 import uuid
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db.models import (
     CASCADE,
     BooleanField,
@@ -62,6 +63,14 @@ class WebinarManager(Manager):
             date__gte=now()
             - timedelta(minutes=settings.WEBINAR_ARCHIVE_DELAY_MINUTES)
         )
+
+    def webinars_for_category(self, slug: str) -> QuerySet["Webinar"]:
+        """Returns webinars for given category
+
+        Returns:
+            QuerySet['Webinar']: queryset of webinars
+        """
+        return self.homepage_webinars().filter(categories__slug__in=[slug])
 
 
 class Webinar(Model):
@@ -218,6 +227,13 @@ class Webinar(Model):
     def discount_value(self):
         """Discount NETTO value"""
         return self.price_netto - self.discount_netto
+
+    def clean(self):
+        # Make sure that discount price is lte than normal price
+        if self.discount_netto >= self.price_netto:
+            raise ValidationError(
+                "Cena promocyjna nie może być większa niż normalna cena"
+            )
 
 
 class WebinarMetadata(Model):
