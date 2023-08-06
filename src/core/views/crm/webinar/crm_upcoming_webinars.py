@@ -13,8 +13,9 @@ def crm_upcoming_webinars(request):
         request,
         template_name,
         {
+            "upcoming_webinars_count": webinars.count(),
             "webinars_ctxs": [
                 CrmWebinarService(webinar).get_context() for webinar in webinars
-            ]
+            ],
         },
     )

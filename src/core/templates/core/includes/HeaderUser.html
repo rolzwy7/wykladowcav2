@@ -39,8 +39,8 @@
     <div
       class="d-none d-md-flex flex-column align-items-end justify-content-center me-2"
     >
-      <span class="text-dark fs-base fw-semibold lh-1 mb-2">Anna</span>
-      <span class="text-dark fs-base fw-bold lh-1">Kowalska</span>
+      <span class="text-dark fs-base fw-semibold lh-1 mb-2">{{request.user.first_name}}</span>
+      <span class="text-dark fs-base fw-bold lh-1">{{request.user.last_name}}</span>
     </div>
     <!--end::Name-->
     <!--begin::Symbol-->
@@ -66,11 +66,11 @@
         <!--begin::Username-->
         <div class="d-flex flex-column">
           <div class="fw-bold d-flex align-items-center fs-5">
-            Anna Kowalska
+            {{request.user.first_name}} {{request.user.last_name}}
           </div>
-          <a href="#" class="fw-semibold text-muted text-hover-primary fs-7"
-            >anna.kowalska@indslrnsdfds.pl</a
-          >
+          <a href="#" class="fw-semibold text-muted text-hover-primary fs-7">
+            {{request.user.email}}
+          </a>
         </div>
         <!--end::Username-->
       </div>

@@ -58,10 +58,14 @@ class WebinarManager(Manager):
         Returns:
             QuerySet['Webinar']: queryset of webinars
         """
-        return self.init_or_confirmed().filter(
-            # Show webinar on homepage N-15 minutes after the start
-            date__gte=now()
-            - timedelta(minutes=settings.WEBINAR_ARCHIVE_DELAY_MINUTES)
+        return (
+            self.init_or_confirmed()
+            .filter(
+                # Show webinar on homepage N-15 minutes after the start
+                date__gte=now()
+                - timedelta(minutes=settings.WEBINAR_ARCHIVE_DELAY_MINUTES)
+            )
+            .order_by("date")
         )
 
     def webinars_for_category(self, slug: str) -> QuerySet["Webinar"]:
@@ -98,7 +102,7 @@ class Webinar(Model):
     )
 
     STATUS = [
-        (WebinarStatus.INIT, "Termin wystawiony"),
+        (WebinarStatus.INIT, "Planowany termin"),
         (WebinarStatus.CONFIRMED, "Termin potwierdzony"),
         (WebinarStatus.CANCELED, "Termin odwołany"),
         (WebinarStatus.DONE, "Termin zrealizowany"),

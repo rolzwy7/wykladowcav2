@@ -4,7 +4,11 @@ from .home_page import home_page
 from .login_page import login_page
 from .logout_page import logout_page
 from .meta_redirect_page import meta_redirect_page
-from .register_page import register_page
+from .register_page import (
+    register_activation_page,
+    register_info_page,
+    register_page,
+)
 from .robots_page import robots_page
 from .webinar import (
     webinar_lecturer_biography_page,

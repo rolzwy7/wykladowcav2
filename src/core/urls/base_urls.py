@@ -5,7 +5,6 @@ from core.views import (
     home_page,
     login_page,
     logout_page,
-    register_page,
     webinar_category_page,
 )
 from core.views.lecturer import lecturer_list_page
@@ -18,6 +17,7 @@ from .lecturer_urls import urlpatterns as lecturer_urlpatterns
 from .loyalty_urls import urlpatterns as loyalty_urlpatterns
 from .previews_urls import urlpatterns as previews_urlpatterns
 from .recording_urls import urlpatterns as recording_urlpatterns
+from .registration_urls import urlpatterns as registration_urlpatterns
 from .terms_and_conditions_urls import (
     urlpatterns as terms_and_conditions_urlpatterns,
 )
@@ -35,11 +35,11 @@ urlpatterns = [
     path("program-partnerski/", include(loyalty_urlpatterns)),
     path("zgloszenie-online/", include(application_urlpatterns)),
     path("szkolenia-online/", include(webinar_urlpatterns)),
+    path("rejestracja/", include(registration_urlpatterns)),
     path("wykladowcy/", lecturer_list_page, name="lecturer_list_page"),
     path("wykladowca/", include(lecturer_urlpatterns)),
     path("crm/", include(crm_urlpatterns)),
     path("logowanie/", login_page, name="login_page"),
-    path("rejestracja/", register_page, name="register_page"),
     path("wyloguj/", logout_page, name="logout_page"),
     path("kontakt/", contact_page, name="contact_page"),
     path("preview/", include(previews_urlpatterns)),

@@ -20,6 +20,7 @@ from .images import *
 from .invoice import *
 from .logging import *
 from .loyalty_program import *
+from .mongo import *
 from .redis import *
 from .regon import *
 from .rest_framework import *

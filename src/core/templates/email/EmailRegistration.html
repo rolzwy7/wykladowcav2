@@ -1,0 +1,76 @@
+{% extends './extends/EmailBase.html' %}
+
+{% block cotent %}
+<!--email-template from database: START-->
+<tr>
+  <td align="center" style="max-width: 640px;" valign="top">
+    <table width="100%" align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" style="border-spacing:0;background-color: #ffffff;">
+      <tbody>
+        
+        <tr><td height="50">&nbsp;</td></tr>
+
+        <tr>
+          <td align="left" valign="top" style="border-collapse:collapse;">
+            <table border="0" cellpadding="0" cellspacing="0" style="border-spacing:0;width: 100%;max-width: 640px;">
+              <tbody>
+                {% include './includes/EmailDearRecipientIntro.html' %}
+
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;">
+                    Dziękujemy za utworzenie konta w serwisie {{COMPANY_NAME}}.
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    <b>Kliknij przycisk poniżej, aby aktywować swoje konto:</b>
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    <a href="#{{activation_token}}" target="_blank" style="text-align:center;text-decoration:none;width:250px;padding:18px;border-radius:3px;font-size:16px;font-weight:bold;line-height:normal;letter-spacing:0.4px;box-shadow:0 2px 4px 0 rgba(0, 0, 0, 0.08);flex-direction:row;flex-wrap:nowrap;white-space:nowrap;align-items:center;cursor:pointer;user-select:none;margin-right:15px;display:block;position:relative;flex-grow:2;background-color:#0082FA!important;color:#ffffff!important;">
+                      Aktywuj konto w {{COMPANY_NAME}}
+                    </a>
+                  </td>
+                </tr>
+
+                {% comment %}
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    Po aktywacji będzie można korzystać z pełnych funkcji naszego serwisu, w tym wziąć udział w
+                    <a href="{{BASE_URL}}">programie partnerskim</a>.
+                    <!-- TODO: registr email loyalty program url -->
+                  </td>
+                </tr>
+                {% endcomment %}
+
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    Jeśli nie zakładałeś konta na Wykładowca.pl, zignoruj tę wiadomość.
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    Dziękujemy <br>
+                    Zespół Wykładowca.pl
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        
+        <tr>
+          <td height="50" style="border-collapse:collapse;font-size:1px; line-height:0px;">&nbsp;
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </td>
+</tr>
+<!--email-template from database: END-->
+{% endblock content %}

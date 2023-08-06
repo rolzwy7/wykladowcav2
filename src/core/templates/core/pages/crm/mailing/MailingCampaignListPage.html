@@ -1,0 +1,51 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+    <h1>Kampanie mailingowe</h1>
+
+    <table id="kt_datatable_zero_configuration" class="table table-row-bordered gy-5">
+        <thead>
+            <tr class="fw-semibold fs-6 text-muted">
+                <th>Nazwa kampanii</th>
+                <th>Status kampanii</th>
+                <th>Konto wysyłkowe</th>
+                <th>Godziny wysyłania</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for campaign in mailing_campaigns %}
+            <tr>
+                <td>
+                    <a href="{% url 'core:crm_mailing_campaign_detail' pk=campaign.pk %}">
+                        <span class="fw-bold">
+                            {{campaign}}
+                        </span>
+                    </a>
+                    <br>
+                    <a href="{% url 'admin:core_mailingcampaign_change' object_id=campaign.id %}">
+                        (Edytuj w CMS)
+                    </a>
+                </td>
+                <td>{{campaign.get_status_display}}</td>
+                <td>{{campaign.smtp_sender}}</td>
+                <td>
+                    {{campaign.allowed_to_send_after}} - {{campaign.allowed_to_send_before}}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+
+{% endblock crm_content %}
+
+
+{% block body_scripts %}
+
+{% endblock body_scripts %}

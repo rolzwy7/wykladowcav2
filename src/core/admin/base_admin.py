@@ -1,6 +1,11 @@
 from django.contrib import admin
 
 from core.models import (
+    BlacklistedDomain,
+    BlacklistedEmail,
+    BlacklistedEmailTemporary,
+    BlacklistedPhrase,
+    BlacklistedPrefix,
     CrmCompany,
     CrmContact,
     DiscountApplicationApplied,
@@ -10,6 +15,9 @@ from core.models import (
     LoyaltyProgram,
     LoyaltyProgramIncome,
     LoyaltyProgramPayout,
+    MailingCampaign,
+    MailingTemplate,
+    SmtpSender,
     User,
     WebinarApplication,
     WebinarApplicationCancellation,
@@ -28,6 +36,16 @@ from core.models import (
 )
 
 admin.site.register(User)
+
+
+admin.site.register(BlacklistedDomain)
+admin.site.register(BlacklistedEmail)
+admin.site.register(BlacklistedEmailTemporary)
+admin.site.register(BlacklistedPhrase)
+admin.site.register(BlacklistedPrefix)
+admin.site.register(MailingTemplate)
+admin.site.register(SmtpSender)
+admin.site.register(MailingCampaign)
 
 admin.site.register(LoyaltyProgram)
 admin.site.register(LoyaltyProgramIncome)

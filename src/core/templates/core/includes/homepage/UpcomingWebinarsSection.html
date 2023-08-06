@@ -26,11 +26,11 @@
       <!--begin::Wrapper-->
       <div
         data-tns="true"
-        data-tns-loop="true"
+        data-tns-loop="false"
         data-tns-swipe-angle="false"
         data-tns-speed="2000"
-        data-tns-autoplay="true"
-        data-tns-autoplay-timeout="18000"
+        data-tns-autoplay="false"
+        data-tns-autoplay-timeout="10000"
         data-tns-controls="true"
         data-tns-nav="false"
         data-tns-items="1"
@@ -38,28 +38,13 @@
         data-tns-dots="false"
         data-tns-prev-button="#kt_upcoming_webinars_section_prev"
         data-tns-next-button="#kt_upcoming_webinars_section_next"
-        data-tns-responsive="{1200: {items: 3}, 992: {items: 2}}"
+        data-tns-responsive="{1200: {items: 2}, 992: {items: 2}}"
       >
-        <!--begin::Item-->
-        <div class="text-center px-5 py-5">
-            <img src="{% static 'media/stock/600x400/img-1.jpg' %}" class="card-rounded mw-100" alt=""/>
-        </div>
-        <!--end::Item-->
-        <!--begin::Item-->
-        <div class="text-center px-5 py-5">
-            <img src="{% static 'media/stock/600x400/img-1.jpg' %}" class="card-rounded mw-100" alt=""/>
-        </div>
-        <!--end::Item-->
-        <!--begin::Item-->
-        <div class="text-center px-5 py-5">
-            <img src="{% static 'media/stock/600x400/img-1.jpg' %}" class="card-rounded mw-100" alt=""/>
-        </div>
-        <!--end::Item-->
-        <!--begin::Item-->
-        <div class="text-center px-5 py-5">
-            <img src="{% static 'media/stock/600x400/img-1.jpg' %}" class="card-rounded mw-100" alt=""/>
-        </div>
-        <!--end::Item-->
+
+
+        {% for webinar in webinars %}
+          {% include "./UpcomingWebinarsHomepageCard.html" with forloop_counter=forloop.counter0 webinar=webinar %}
+        {% endfor %}
       </div>
       <!--end::Wrapper-->
       <!--begin::Button-->

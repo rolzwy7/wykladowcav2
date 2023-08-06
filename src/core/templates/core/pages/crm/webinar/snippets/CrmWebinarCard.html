@@ -33,7 +33,7 @@
                         <!--end::Name-->
                         <!--begin::Info-->
                         <div class="d-flex flex-wrap fw-semibold fs-6 mb-4 pe-2">
-                            <span class="d-flex align-items-center text-gray-400 me-5 mb-2">
+                            <span class="d-flex align-items-center text-gray-700 me-5 mb-2">
                                 <i class="ki-duotone ki-profile-circle fs-4 me-1">
                                     <span class="path1"></span>
                                     <span class="path2"></span>
@@ -41,7 +41,7 @@
                                 </i>
                                 {{webinar.lecturer.fullname}}
                             </span>
-                            <span class="d-flex align-items-center text-gray-400 me-5 mb-2">
+                            <span class="d-flex align-items-center text-gray-700 me-5 mb-2">
                                 <i class="ki-duotone ki-cd fs-4 me-1 text-{% include './WebinarStatusColor.html' %}">
                                     <span class="path1"></span>
                                     <span class="path2"></span>
@@ -51,13 +51,13 @@
                                 </span>
                             </span>
                             {% if webinar_ctx.webinar_assets_count != 0 %}
-                            <span class="d-flex align-items-center text-gray-400 me-5 mb-2">
+                            <span class="d-flex align-items-center text-gray-700 me-5 mb-2">
                                 <i class="ki-duotone ki-file fs-4 me-1">
                                     <span class="path1"></span>
                                     <span class="path2"></span>
                                     <span class="path3"></span>
                                 </i>
-                                <a href="{% url 'core:crm_webinar_assets' pk=webinar.pk %}" class="text-gray-400">
+                                <a href="{% url 'core:crm_webinar_assets' pk=webinar.pk %}" class="text-gray-700">
                                     <b>Materiały: {{webinar_ctx.webinar_assets_count}} plików</b>
                                 </a>
                             </span>
@@ -129,7 +129,7 @@
                         </div>
                         <!--end::Number-->
                         <!--begin::Label-->
-                        <div class="fw-semibold fs-8 text-gray-400">Data</div>
+                        <div class="fw-semibold fs-8 text-gray-700">Data</div>
                         <!--end::Label-->
                     </div>
                     <!--end::Stat-->
@@ -147,7 +147,7 @@
                         </div>
                         <!--end::Number-->
                         <!--begin::Label-->
-                        <div class="fw-semibold fs-8 text-gray-400">Godzina</div>
+                        <div class="fw-semibold fs-8 text-gray-700">Godzina</div>
                         <!--end::Label-->
                     </div>
                     <!--end::Stat-->
@@ -173,7 +173,7 @@
                         </div>
                         <!--end::Number-->
                         <!--begin::Label-->
-                        <div class="fw-semibold fs-8 text-gray-400">Wartość / Wykładowca</div>
+                        <div class="fw-semibold fs-8 text-gray-700">Wartość / Wykładowca</div>
                         <!--end::Label-->
                     </div>
                     <!--end::Stat-->    
@@ -193,7 +193,7 @@
                         </div>
                         <!--end::Number-->
                         <!--begin::Label-->
-                        <div class="fw-semibold fs-8 text-gray-400">Uczestników / Zgłoszeń</div>
+                        <div class="fw-semibold fs-8 text-gray-700">Uczestników / Zgłoszeń</div>
                         <!--end::Label-->
                     </div>
                     <!--end::Stat-->    

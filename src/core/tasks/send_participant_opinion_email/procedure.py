@@ -1,8 +1,5 @@
 import json
 
-from django.conf import settings
-from django.template.defaultfilters import date as _date
-from django.urls import reverse
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
 
 from core.libs.notifications.email import (
@@ -10,7 +7,6 @@ from core.libs.notifications.email import (
     EmailTemplate,
     email_get_application_context,
 )
-from core.models import Lecturer, Webinar
 
 
 class SendParticipantOpinionEmailParams(BaseModel):

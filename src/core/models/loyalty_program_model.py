@@ -9,6 +9,7 @@ from django.db.models import (
     Manager,
     Model,
     OneToOneField,
+    PositiveSmallIntegerField,
     TextField,
 )
 
@@ -36,6 +37,8 @@ class LoyaltyProgram(Model):
         verbose_name="Użytkownik",
     )
 
+    provision_percent = PositiveSmallIntegerField("Prowizja (%)", default=10)
+
     class Meta:
         verbose_name = "Program partnerski (Użytkownik)"
         verbose_name_plural = "Program partnerski (Użytkownicy)"
@@ -58,9 +61,9 @@ class LoyaltyProgramIncome(Model):
     )
 
     INCOME_STATUS = [
-        (LoyaltyProgramIncomeStatus.PROCESSING, "PROCESSING"),
-        (LoyaltyProgramIncomeStatus.PAYABLE, "PAYABLE"),
-        (LoyaltyProgramIncomeStatus.VIOLATING, "VIOLATING"),
+        (LoyaltyProgramIncomeStatus.PROCESSING, "W trakcie przetwarzania"),
+        (LoyaltyProgramIncomeStatus.PAYABLE, "Do wypłaty"),
+        (LoyaltyProgramIncomeStatus.VIOLATING, "Niezgodne z regulaminem"),
     ]
 
     status = CharField(

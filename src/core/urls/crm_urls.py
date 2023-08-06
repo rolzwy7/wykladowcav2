@@ -15,6 +15,12 @@ from core.views.crm import (
 )
 from core.views.crm.company import CrmCompanyDetail, CrmCompanyList
 from core.views.crm.contact import CrmContactDetail, CrmContactList
+from core.views.crm.mailing import (
+    crm_mailing_campaign_add_emails,
+    crm_mailing_campaign_delete_emails,
+    crm_mailing_campaign_detail,
+    crm_mailing_campaign_list,
+)
 from core.views.crm.webinar.actions import (
     CancelWebinarAction,
     ConfirmWebinarAction,
@@ -101,6 +107,27 @@ urlpatterns = [
         "archiwum/",
         crm_archived_webinars,
         name="crm_archived_webinars",
+    ),
+    # Mailing TODO: move this to seperate urlpatterns
+    path(
+        "kampanie-mailingowe/",
+        crm_mailing_campaign_list,
+        name="crm_mailing_campaigns_list",
+    ),
+    path(
+        "kampanie-mailingowe/<int:pk>/",
+        crm_mailing_campaign_detail,
+        name="crm_mailing_campaign_detail",
+    ),
+    path(
+        "kampanie-mailingowe/<int:pk>/dodaj-emaile/",
+        crm_mailing_campaign_add_emails,
+        name="crm_mailing_campaign_add_emails",
+    ),
+    path(
+        "kampanie-mailingowe/<int:pk>/usun-emaile/",
+        crm_mailing_campaign_delete_emails,
+        name="crm_mailing_campaign_delete_emails",
     ),
     # Tasks
     path(

@@ -1,5 +1,12 @@
 # flake8: noqa
 
+from .blacklist import (
+    BlacklistedDomain,
+    BlacklistedEmail,
+    BlacklistedEmailTemporary,
+    BlacklistedPhrase,
+    BlacklistedPrefix,
+)
 from .crm_company_model import CrmCompany
 from .crm_contact_model import CrmContact
 from .crm_todo_model import CrmTodo
@@ -11,6 +18,15 @@ from .loyalty_program_model import (
     LoyaltyProgram,
     LoyaltyProgramIncome,
     LoyaltyProgramPayout,
+)
+from .mailing import (
+    MailingBounce,
+    MailingBounceManager,
+    MailingCampaign,
+    MailingPool,
+    MailingPoolManager,
+    MailingTemplate,
+    SmtpSender,
 )
 from .user_model import User
 from .webinar_application_model import (

@@ -106,6 +106,7 @@
               <!--end::Action-->
             </div>
             <!--end::Heading-->
+            {% comment %}
             <!--begin::Clients-->
             <div class="d-flex flex-center flex-wrap position-relative px-5">
               <!--begin::Client-->
@@ -214,6 +215,7 @@
               <!--end::Client-->
             </div>
             <!--end::Clients-->
+            {% endcomment %}
           </div>
           <!--end::Landing hero-->
         </div>
@@ -235,10 +237,11 @@
       </div>
       <!--end::Header Section-->
       
-      {% include 'core/includes/homepage/upcoming_webinars_section.html' %}
+      {% include 'core/includes/homepage/UpcomingWebinarsSection.html' with webinars=webinars %}
 
-      {% include 'core/includes/homepage/loyalty_program_section.html' %}
+      {% include 'core/includes/homepage/LoyaltyProgramSection.html' %}
       
+      {% comment %}
       <!--begin::Statistics Section-->
       <div class="mt-sm-n10">
         <!--begin::Curve top-->
@@ -445,7 +448,10 @@
         <!--end::Curve bottom-->
       </div>
       <!--end::Statistics Section-->
-      {% include 'core/includes/homepage/our_lecturers_section.html' %}
+      {% endcomment %}
+
+      {% include 'core/includes/homepage/OurLecturersSection.html' %}
+      {% comment %}
       <!--begin::Projects Section-->
       <div class="mb-lg-n15 position-relative z-index-2">
         <!--begin::Container-->
@@ -1073,6 +1079,9 @@
         <!--end::Container-->
       </div>
       <!--end::Projects Section-->
+      {% endcomment %}
+      
+      {% comment %}
       <!--begin::Pricing Section-->
       <div class="mt-sm-n20">
         <!--begin::Curve top-->
@@ -1509,6 +1518,8 @@
         <!--end::Curve bottom-->
       </div>
       <!--end::Pricing Section-->
+      {% endcomment %}
+      
       <!--begin::Testimonials Section-->
       <div class="mt-20 mb-n20 position-relative z-index-2">
         <!--begin::Container-->
@@ -1526,8 +1537,7 @@
             <!--end::Title-->
             <!--begin::Description-->
             <div class="fs-5 text-muted fw-bold">
-              Save thousands to millions of bucks by using single tool <br />for
-              different amazing and great useful admin
+              Zobacz jak inni oceniają nasze szkolenia
             </div>
             <!--end::Description-->
           </div>
@@ -1563,16 +1573,13 @@
                   <!--end::Rating-->
                   <!--begin::Title-->
                   <div class="fs-2 fw-bold text-dark mb-3">
-                    This is by far the cleanest template <br />and the most well
-                    structured
+                    Wykładowca godny polecenia
+                    
                   </div>
                   <!--end::Title-->
                   <!--begin::Feedback-->
                   <div class="text-gray-500 fw-semibold fs-4">
-                    The most well thought out design theme I have ever used. The
-                    codes are up to tandard. The css styles are very clean. In
-                    fact the cleanest and the most up to standard I have ever
-                    seen.
+                    Pan Piotr to wykładowca godny polecenia. Ma ogromną wiedzę na temat podatków akcyzowych i VAT, która została przekazana w bardzo przystępny sposób. Dodatkowo jego przykłady i case study wzbogaciły szkolenie i pozwoliły nam zrozumieć zagadnienia na przykładzie rzeczywistych sytuacji.
                   </div>
                   <!--end::Feedback-->
                 </div>
@@ -1584,10 +1591,10 @@
                     <a
                       href="#"
                       class="text-dark fw-bold text-hover-primary fs-6"
-                      >Paul Miles</a
+                      >Lidia Nowak</a
                     >
                     <span class="text-muted d-block fw-bold"
-                      >Development Lead</span
+                      >Główna księgowa</span
                     >
                   </div>
                   <!--end::Name-->
@@ -1643,10 +1650,10 @@
                     <a
                       href="#"
                       class="text-dark fw-bold text-hover-primary fs-6"
-                      >Janya Clebert</a
+                      >Joanna Chodkiewicz</a
                     >
                     <span class="text-muted d-block fw-bold"
-                      >Development Lead</span
+                      >Kierownik działu kadr</span
                     >
                   </div>
                   <!--end::Name-->
@@ -1707,7 +1714,7 @@
                       >Diana Stępień</a
                     >
                     <span class="text-muted d-block fw-bold"
-                      >CONNECT LOGISTICS Spółka z o.o.</span
+                      >Kadrowa</span
                     >
                   </div>
                   <!--end::Name-->
@@ -1719,6 +1726,8 @@
             <!--end::Col-->
           </div>
           <!--end::Row-->
+          <div class="p-8 p-lg-12 mb-n5 mb-lg-n13"></div>
+          {% comment %}
           <!--begin::Highlight-->
           <div
             class="d-flex flex-stack flex-wrap flex-md-nowrap card-rounded shadow p-8 p-lg-12 mb-n5 mb-lg-n13"
@@ -1748,6 +1757,7 @@
             <!--end::Link-->
           </div>
           <!--end::Highlight-->
+          {% endcomment %}
         </div>
         <!--end::Container-->
       </div>

@@ -5,15 +5,13 @@ from django.urls import reverse
 
 from core.consts import POST
 from core.forms import ApplicationSummarySubmitForm
-from core.models import (
-    Webinar,
-    WebinarApplication,
-    WebinarApplicationSubmitter,
-    WebinarParticipant,
-)
+from core.models import Webinar, WebinarApplication, WebinarParticipant
 from core.models.enums import ApplicationStatus, WebinarApplicationStep
-from core.services import ApplicationFormService
-from core.tasks_dispatch import after_application_sent_dispatch
+from core.services import (
+    ApplicationFormService,
+    ApplicationSummaryService,
+    LoyaltyProgramService,
+)
 
 APPLICATION_STEP = WebinarApplicationStep.SUMMARY
 
@@ -29,32 +27,26 @@ def application_summary_page(request, uuid):
     form_service.redirect_on_application_error()
     participants = WebinarParticipant.manager.filter(application=application)
 
-    # TODO: This is working but it's kinda sad. Why `submitter` is `Never` ???
-    # Double check that submitter is set, typing is confused and thinks that
-    # `submitter` is `Never`
     if not application.submitter:
         return redirect(form_service.get_first_step_url())
-    submitter: WebinarApplicationSubmitter = application.submitter  # type: ignore
 
     if request.method == POST and application.status == ApplicationStatus.INIT:
         form = ApplicationSummarySubmitForm(request.POST)
         if form.is_valid():
-            # Set application status as changed
-            application.status = ApplicationStatus.SENT
+            # Create loyalty program income TODO: move this to service ???
+            if application.refcode:
+                provision_user = LoyaltyProgramService.get_user_by_refcode(
+                    application.refcode
+                )
+                if provision_user:
+                    loyalty_service = LoyaltyProgramService(provision_user)
+                    loyalty_service.create_income_for_application(application)
 
-            # If user authenticated then connect
-            if request.user.is_authenticated:
-                application.user = request.user
-
-            # Decrement webinar's remaining places
-            webinar.remaining_places = max(0, webinar.remaining_places - 1)
-
-            # Dispatch tasks after application send
-            after_application_sent_dispatch(application, submitter)
-
-            # Save changes
-            application.save()
-            webinar.save()
+            # Send application
+            summary_service = ApplicationSummaryService(
+                application, request.user, webinar
+            )
+            summary_service.send_application()
 
             return redirect(reverse("core:application_success_page"))
     else:

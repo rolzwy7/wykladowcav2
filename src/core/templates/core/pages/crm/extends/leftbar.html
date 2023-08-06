@@ -133,18 +133,30 @@ data-kt-sticky-zindex="95"
       </a>
     </div>
     <!--end::Menu item-->
-  <!--begin::Menu item-->
-  <div class="menu-item">
+    <!--begin::Menu item-->
+    <div class="menu-item">
       <a
-        href="{% url 'core:crm_eventlogs' %}"
-        class="menu-link {% if request.path == '/crm/logi/' %}active{% endif %}"
+        href="{% url 'core:crm_mailing_campaigns_list' %}"
+        class="menu-link {% if request.path|startswith:'/crm/kampanie-mailingowe/' %}active{% endif %}"
       >
         <span class="menu-title">
-          Logi
+          Kampanie mailingowe
       </span>
       </a>
     </div>
     <!--end::Menu item-->
+    <!--begin::Menu item-->
+    <div class="menu-item">
+        <a
+          href="{% url 'core:crm_eventlogs' %}"
+          class="menu-link {% if request.path == '/crm/logi/' %}active{% endif %}"
+        >
+          <span class="menu-title">
+            Logi
+        </span>
+        </a>
+      </div>
+      <!--end::Menu item-->
 
 
   </div>

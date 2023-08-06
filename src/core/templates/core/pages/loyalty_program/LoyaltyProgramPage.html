@@ -1,7 +1,16 @@
-{% extends 'core/extends/base.html' %} 
-{% load static %}
-
+{% extends 'core/extends/base.html' %}
+{% load static %} 
 {% block head_stylesheets %}{% endblock head_stylesheets %}
+
+{% block rightbar %}{%endblock rightbar %}
+{% block leftbar %}{%endblock leftbar %}
+
+{% block body_tag %}
+<body
+  id="kt_body"
+  class="header-fixed header-tablet-and-mobile-fixed"
+>
+{% endblock body_tag %}
 
 {% block content %}
 <!--begin::Wrapper-->
@@ -11,11 +20,165 @@
 >
   <!--begin::Content-->
   <div class="content flex-column-fluid" id="kt_content">
-    LoyaltyProgramPage.html
+    <div class="post" id="kt_post">
+      <h1 class="mt-5 mb-10">
+        Konto partnera
+      </h1>
+      <div class="row">
+        
+        <div class="col-md-4">
+          <div class="card shadow-sm fs-5">
+            <div class="card-header">
+                <h3 class="card-title fw-bolder">Kod referencyjny</h3>
+            </div>
+            <div class="card-body">
+              Twój Kod referencyjny partnera to:
+              <span class="fw-bold fs-3">{{ref_code}}</span>
+              <div class="separator my-5"></div>
+              <p class="m-0">
+                Aby twoja prowizja została zliczona przez nasz system, powyższy kod musi zostać wpisany
+                <span class="fw-bold">
+                  jako kod promocyjny podczas wysyłania zgłoszenia na szkolenie
+                </span>.
+              </p>
+              <div class="separator my-5"></div>
+              <p class="m-0">
+                Osoba wpisująca kod otrzyma <b>-5% zniżki na szkolenie, a ty otrzymasz 10% z wartości netto zgłoszenia</b>.
+              </p>
+              <div class="separator my-5"></div>
+              <p class="m-0">
+                Więcej informacji znajdziesz
+                    <a
+                      href="{% url 'core:terms_and_conditions_loyalty_program' %}"
+                      target="_blank"
+                      class="fw-bold">tutaj</a>
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        
+        
+        <div class="col-md-4">
+          <div class="card shadow-sm fs-5">
+            <div class="card-header">
+                <h3 class="card-title fw-bolder">Jak wypłacić prowizję?</h3>
+            </div>
+            <div class="card-body">
+              <p class="m-0">
+                Wypłać prowizję w 4 krokach
+              </p>
+              <div class="separator my-5"></div>
+              <ul>
+                <li>
+                  Wystaw fakturę lub rachunek (wzór) i dodaj go poniżej w formacie.pdf
+                </li>
+                <li>
+                  Rachunek należy wypełnić za pomocą dowolnego narzędzia do edycji tekstu. Nie akceptujemy ręcznie uzupełnionego dokumentu.
+                </li>
+                <li>
+                  Wpisz kwotę wypłaty w polu poniżej i zatwierdź zgłoszenie
+                </li>
+                <li>
+                  Czekaj na realizację zgłoszenia
+                </li>
+              </ul>
+              <div class="separator my-5"></div>
+              <p class="m-0">
+                Więcej informacji znajdziesz <a
+                href="{% url 'core:terms_and_conditions_loyalty_program' %}"
+                target="_blank"
+                class="fw-bold">tutaj</a> lub na stronie FAQ
+              </p>
+            </div>
+          </div>          
+        </div>
+        
+        
+        
+        <div class="col-md-4">
+
+          <div class="card shadow-sm fs-5">
+            <div class="card-header">
+                <h3 class="card-title fw-bolder">Wypłać prowizję</h3>
+            </div>
+            <div class="card-body">
+              <form method="post" action="{% url 'core:loyalty_program_page' %}">
+                {% csrf_token %}
+                {{form.invoice_attachment}}
+                {{form.payout_brutto}}
+                <input type="submit" value="Submit">
+              </form>
+            </div>
+          </div> 
+
+          <div class="card shadow-sm fs-5 mt-5">
+            <div class="card-header">
+                <h3 class="card-title fw-bolder">Statystyki</h3>
+            </div>
+            <div class="card-body">
+            </div>
+          </div>
+
+        </div>
+
+
+
+      </div>
+
+
+
+      <div class="row mt-10">
+        
+        <div class="col-md-12">
+          
+          <div class="card shadow-sm fs-5">
+            <div class="card-header">
+                <h3 class="card-title fw-bolder">Zgłoszenia</h3>
+            </div>
+            <div class="card-body">
+
+              <table id="kt_loyalty_program_incomes" class="table table-row-bordered gy-5">
+                <thead>
+                    <tr class="fw-semibold fs-6 text-muted">
+                        <th>Name</th>
+                        <th>Status prowizij</th>
+                        <th>Szkolenie</th>
+                        <th>Status zgłoszenia</th>
+                        <th>Wartość BRUTTO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  {% for income in incomes %}
+                  <tr>
+                      <td>{{income.application}}</td>
+                      <td>
+                        {{income.get_status_display}}
+                      </td>
+                      <td>
+                        {{income.application.webinar.get_status_display}} <br>
+                        {{income.application.webinar.date|date:"j E Y H:i"}}
+                      </td>
+                      <td>{{income.application.get_status_display}}</td>
+                      <td><b>{{income.amount_brutto}} zł</b></td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+            </table>
+
+            </div>
+          </div>
+
+      </div>
+
+    </div>
   </div>
   <!--end::Content-->
 </div>
 <!--end::Wrapper-->
 {% endblock content %}
-
-{% block body_scripts %}{% endblock body_scripts %}
+{% block body_scripts %}
+<script>
+  $("#kt_loyalty_program_incomes").DataTable();
+</script>
+{% endblock body_scripts %}

@@ -114,3 +114,14 @@ def crm_submitter_moving_email_preview(request):
         },
     )
     return HttpResponse(email_template.get_html())
+
+
+def crm_registration_email_preview(request):
+    """Preview of registration e-mail"""
+    email_template = EmailTemplate(
+        "email/EmailRegistration.html",
+        {
+            "activation_token": "[ACTIVATION_TOKEN]",
+        },
+    )
+    return HttpResponse(email_template.get_html())

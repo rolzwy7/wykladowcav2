@@ -1,5 +1,5 @@
 <!--begin::Discount-->
-{% if webinar %}
+{% if webinar and webinar.remaining_places != 0 %}
     <!--begin::Alert-->
     <div class="alert alert-dismissible bg-light-warning border border-warning d-flex flex-column flex-sm-row p-2 mb-2">
     <!--begin::Wrapper-->
