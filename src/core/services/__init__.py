@@ -9,6 +9,7 @@ from .discount_service import DiscountService
 from .ip_address_service import IpAddressService
 from .loyalty_program_service import LoyaltyProgramService
 from .mailing_campaign_service import MailingCampaignService
+from .mailing_webinar_template_service import MailingWebinarTemplateService
 from .mx_service import MxService
 from .program_service import ProgramService
 from .reflink_service import ReflinkService

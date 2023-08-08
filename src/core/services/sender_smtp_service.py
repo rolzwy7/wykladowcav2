@@ -1,6 +1,8 @@
 from poplib import POP3_SSL
 from typing import Iterable
 
+from django.core.mail.backends.smtp import EmailBackend
+
 from core.models.mailing import SmtpSender
 
 
@@ -30,3 +32,15 @@ class SenderSmtpService:
             message_lines = pop3.retr(message_idx)[1]
             message_bytes = b"\n".join(message_lines)
             yield (message_idx, message_lines, message_bytes)
+
+    def get_smtp_connection(self, timeout: int = 5):
+        """Get SMTP connection or this sender"""
+        sender = self.smtp_sender
+        return EmailBackend(
+            host=sender.outgoing_server_hostname,
+            port=sender.outgoing_server_port,
+            username=sender.username,
+            password=sender.password,
+            use_ssl=sender.ssl,
+            timeout=timeout,
+        )

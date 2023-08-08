@@ -230,7 +230,8 @@ class Command(BaseCommand):
         """Start infinite loop"""
         loop_counter = 0
         while True:
-            process_scan_inboxes()
+            if loop_counter % 10 == 0:
+                process_scan_inboxes()
             process_check_mx(200)
             process_bounces(100)
             process_blacklist(100)

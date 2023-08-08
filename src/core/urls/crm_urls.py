@@ -20,6 +20,7 @@ from core.views.crm.mailing import (
     crm_mailing_campaign_delete_emails,
     crm_mailing_campaign_detail,
     crm_mailing_campaign_list,
+    crm_mailing_campaign_send_test_email,
 )
 from core.views.crm.webinar.actions import (
     CancelWebinarAction,
@@ -128,6 +129,11 @@ urlpatterns = [
         "kampanie-mailingowe/<int:pk>/usun-emaile/",
         crm_mailing_campaign_delete_emails,
         name="crm_mailing_campaign_delete_emails",
+    ),
+    path(
+        "kampanie-mailingowe/<int:pk>/testowy-email/",
+        crm_mailing_campaign_send_test_email,
+        name="crm_mailing_campaign_send_test_email",
     ),
     # Tasks
     path(

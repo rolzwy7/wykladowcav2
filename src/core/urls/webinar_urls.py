@@ -2,9 +2,12 @@ from django.urls import path
 
 from core.views import (
     webinar_lecturer_biography_page,
+    webinar_mailing_template_page,
     webinar_opinions_page,
     webinar_price_and_invoice_page,
     webinar_program_page,
+    webinar_redirect_to_application,
+    webinar_redirect_to_program,
 )
 from core.views.webinar_cancellation import webinar_cancellation_page
 from core.views.webinar_moving import (
@@ -30,6 +33,11 @@ urlpatterns = [
         webinar_lecturer_biography_page,
         name="webinar_lecturer_biography_page",
     ),
+    path(
+        "<int:pk>/szablon-mailingowy/",
+        webinar_mailing_template_page,
+        name="webinar_mailing_template_page",
+    ),
     # Cancellation TODO: move this
     path(
         "potwierdzenie-odwolania-szkolenia/<uuid:token>/",
@@ -51,5 +59,16 @@ urlpatterns = [
         "<uuid:token>/dziekujemy-za-odp-przenoszenie-szkol/",
         webinar_moving_thanks_page,
         name="webinar_moving_thanks_page",
+    ),
+    # Webinar redirects
+    path(
+        "<int:pk>/program/",
+        webinar_redirect_to_program,
+        name="webinar_redirect_to_program",
+    ),
+    path(
+        "<int:pk>/zgloszenie/",
+        webinar_redirect_to_application,
+        name="webinar_redirect_to_application",
     ),
 ]

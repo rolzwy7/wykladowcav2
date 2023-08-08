@@ -1,9 +1,14 @@
+from django.core.mail.utils import DNS_NAME
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
 
 from core.consts import POST
-from core.forms import MailingAddEmailsForm, MailingDeleteEmailsAreYouSureForm
+from core.forms import (
+    MailingAddEmailsForm,
+    MailingDeleteEmailsAreYouSureForm,
+    MailingSendTestEmailForm,
+)
 from core.models import MailingCampaign
 from core.services import MailingCampaignService
 
@@ -14,7 +19,10 @@ def crm_mailing_campaign_list(request):
     return TemplateResponse(
         request,
         template_name,
-        {"mailing_campaigns": MailingCampaign.objects.all()},
+        {
+            "mailing_campaigns": MailingCampaign.manager.all(),
+            "fqdn": DNS_NAME.get_fqdn(),
+        },
     )
 
 
@@ -57,6 +65,33 @@ def crm_mailing_campaign_add_emails(request, pk: int):
             )
     else:
         form = MailingAddEmailsForm()
+
+    return TemplateResponse(
+        request,
+        template_name,
+        {"form": form, "mailing_campaign": mailing_campaign},
+    )
+
+
+def crm_mailing_campaign_send_test_email(request, pk: int):  # TODO
+    """CRM mailing add emails"""
+    template_name = (
+        "core/pages/crm/mailing/MailingCampaignSendTestEmailPage.html"
+    )
+    mailing_campaign = get_object_or_404(MailingCampaign, pk=pk)
+
+    if request.method == POST:
+        form = MailingSendTestEmailForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data["email"]
+            return redirect(
+                reverse(
+                    "core:crm_mailing_campaign_detail",
+                    kwargs={"pk": mailing_campaign.pk},
+                )
+            )
+    else:
+        form = MailingSendTestEmailForm()
 
     return TemplateResponse(
         request,

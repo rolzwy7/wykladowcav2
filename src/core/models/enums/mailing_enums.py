@@ -53,6 +53,9 @@ class MailingPoolStatus:
     # Unexpected error
     UNEXPECTED_ERROR = "UNEXPECTED_ERROR"
 
+    # Connection error
+    SMTP_SERVER_DISCONNECTED = "SMTP_SERVER_DISCONNECTED"
+
     # Success status
     SENT = "SENT"
 

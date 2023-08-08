@@ -1,4 +1,5 @@
 from datetime import time
+from random import choices
 
 from django.db.models import (
     CASCADE,
@@ -6,10 +7,14 @@ from django.db.models import (
     CharField,
     DateTimeField,
     ForeignKey,
+    Manager,
     Model,
+    Q,
+    QuerySet,
     TextField,
     TimeField,
 )
+from django.utils.timezone import now
 
 from core.models.enums import MailingCampaignStatus
 
@@ -24,8 +29,22 @@ def default_allowed_to_send_before():
     return time(16, 0, 0, 0)
 
 
+class MailingCampaignManager(Manager):
+    """Mailing campaign manager"""
+
+    def active_campaigns(self) -> QuerySet["MailingCampaign"]:
+        """Returns active mailing campaigns"""
+        return self.get_queryset().filter(
+            Q(status=MailingCampaignStatus.SENDING)
+            & Q(allowed_to_send_after__lt=now())
+            & Q(allowed_to_send_before__gt=now())
+        )
+
+
 class MailingCampaign(Model):
     """Represents mailing campaign"""
+
+    manager = MailingCampaignManager()
 
     created_at = DateTimeField(auto_now_add=True)
     title = CharField("Tytuł kampanii", max_length=100)
@@ -82,3 +101,12 @@ class MailingCampaign(Model):
 
     def __str__(self) -> str:
         return f"{self.title}"
+
+    def get_subjects(self):
+        """Get random subject"""
+        # pylint: disable=no-member
+        return [_.strip("\n\r") for _ in self.subjects.split("\n") if _]
+
+    def get_random_subject(self):
+        """Get random subject"""
+        return choices(self.get_subjects())[0]

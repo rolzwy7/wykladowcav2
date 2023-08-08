@@ -12,8 +12,11 @@ from .register_page import (
 from .robots_page import robots_page
 from .webinar import (
     webinar_lecturer_biography_page,
+    webinar_mailing_template_page,
     webinar_opinions_page,
     webinar_price_and_invoice_page,
     webinar_program_page,
+    webinar_redirect_to_application,
+    webinar_redirect_to_program,
 )
 from .webinar_category_page import webinar_category_page

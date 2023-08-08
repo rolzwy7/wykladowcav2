@@ -16,6 +16,7 @@ from .loyalty_forms import LoyaltyPayoutRequestForm
 from .mailing_forms import (
     MailingAddEmailsForm,
     MailingDeleteEmailsAreYouSureForm,
+    MailingSendTestEmailForm,
 )
 from .registration_form import RegistrationForm
 from .webinar_asset_forms import WebinarAssetForm

@@ -32,6 +32,14 @@
         </a>
         <!--end::Button-->
         <!--begin::Button-->
+        <a 
+            href="{% url 'core:crm_mailing_campaign_send_test_email' pk=mailing_campaign.pk %}"
+            class="btn btn-flex btn-sm btn-primary fw-bold border-0 fs-6 h-40px me-2"
+        >
+            Wyślij testowy
+        </a>
+        <!--end::Button-->
+        <!--begin::Button-->
         <a
             href="{% url 'core:crm_mailing_campaign_delete_emails' pk=mailing_campaign.pk %}"
             class="btn btn-flex btn-sm btn-danger fw-bold border-0 fs-6 h-40px"
@@ -112,6 +120,7 @@
     
         series.labelsContainer.set("paddingTop", 30)
     
+        {% comment %}
         // Set up adapters for variable slice radius
         // https://www.amcharts.com/docs/v5/concepts/settings/adapters/
         series.slices.template.adapters.add("radius", function (radius, target) {
@@ -124,6 +133,7 @@
             }
             return radius;
         });
+        {% endcomment %}
     
         // Set data
         // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Setting_data
