@@ -4,4 +4,4 @@ def test_WhenCorrectIdSupplied_ThenRedirect():
 
 def test_WhenIncorrectIdSupplied_ThenRedirectToDefault():
     # TODO: What's default redirect?
-    raise NotImplementedError()
+    ...

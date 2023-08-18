@@ -4004,6 +4004,7 @@
                     <!--end:Menu sub-->
                   </div>
                   <!--end:Menu item-->
+                  {% endcomment %}
 
 
                   <!--begin:Menu item-->
@@ -4011,10 +4012,10 @@
                     <!--begin:Menu link-->
                     <a
                       class="menu-link py-3"
-                      href="../../demo5/dist/apps/calendar.html"
+                      href="{% url 'core:crm_take_over_account' %}"
                     >
                       <span class="menu-icon">
-                        <i class="ki-duotone ki-calendar-8 fs-2">
+                        <i class="ki-duotone ki-abstract-27 fs-2">
                           <span class="path1"></span>
                           <span class="path2"></span>
                           <span class="path3"></span>
@@ -4023,11 +4024,13 @@
                           <span class="path6"></span>
                         </i>
                       </span>
-                      <span class="menu-title">Calendar</span>
+                      <span class="menu-title">Przejmij konto</span>
                     </a>
                     <!--end:Menu link-->
                   </div>
                   <!--end:Menu item-->
+
+                  {% comment %}
                   <!--begin:Menu item-->
                   <div
                     data-kt-menu-trigger="{default:'click', lg: 'hover'}"

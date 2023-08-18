@@ -1,0 +1,35 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+    <h1>Testowa wysyłka</h1>
+    <hr>
+    MailingCampaignEmailSearchPage {{campaign}}
+    <hr>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr class="fw-bold fs-6 text-gray-800">
+                    <th>E-mail</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for email, status in pool %}
+                <tr>
+                    <td>{{email}}</td>
+                    <td>{{status}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock crm_content %}
+
+{% block body_scripts %}
+
+{% endblock body_scripts %}

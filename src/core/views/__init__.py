@@ -1,5 +1,6 @@
 # flake8: noqa
 from .contact_page import contact_page
+from .custom_error_pages import custom404_page, custom500_page
 from .home_page import home_page
 from .login_page import login_page
 from .logout_page import logout_page

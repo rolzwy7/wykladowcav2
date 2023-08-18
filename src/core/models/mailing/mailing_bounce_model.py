@@ -1,3 +1,4 @@
+from django.conf import settings
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
 from pymongo import UpdateOne
 
@@ -20,6 +21,10 @@ class MailingBounceManager:
         client, database = get_mongo_connection()
         self.client = client
         self.database = database
+        if settings.APP_ENV == "production":
+            self.collection = self.database.wykladowcav2_mailing_bounces
+        else:
+            self.collection = self.database.wykladowcav2_mailing_bounces_dev
 
     def close(self):
         """Close connection"""
@@ -39,12 +44,10 @@ class MailingBounceManager:
     def upsert_documents(self, bounces: list[MailingBounce]) -> None:
         """Upsert document into bounces collection"""
         if bounces:
-            self.database.wykladowcav2_mailing_bounces.bulk_write(
+            self.collection.bulk_write(
                 [self.create_upsert_object(bounce) for bounce in bounces]
             )
 
     def is_email_bounced(self, email: str):
         """Check if email was bounced"""
-        return self.database.wykladowcav2_mailing_bounces.find_one(
-            {"email": email}
-        )
+        return self.collection.find_one({"email": email})

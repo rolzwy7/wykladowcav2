@@ -47,6 +47,9 @@ class MailingPoolStatus:
     BOUNCE_PERMANENT = "BOUNCE_PERMANENT"
     BOUNCE_TEMPORARY = "BOUNCE_TEMPORARY"
 
+    # Resignation
+    RESIGNATION = "RESIGNATION"
+
     # Not email
     INVALID_EMAIL_FORMAT = "INVALID_EMAIL_FORMAT"
 
@@ -67,6 +70,7 @@ mailing_pool_status_display_map = {
     MailingPoolStatus.MX_VALID: "MX poprawny",
     MailingPoolStatus.DANGEROUS_TO_SEND: "Niebezpieczny",
     MailingPoolStatus.VACATION: "Wakacje",
+    MailingPoolStatus.RESIGNATION: "Rezygnacja",
     MailingPoolStatus.BLACKLISTED_PREFIX: "Zablokowany prefix",
     MailingPoolStatus.BLACKLISTED_DOMAIN: "Zablokowana domena",
     MailingPoolStatus.BLACKLISTED_EMAIL: "Zablokowany e-mail",

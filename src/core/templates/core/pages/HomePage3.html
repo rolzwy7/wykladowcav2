@@ -1,31 +1,34 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+  <!-- Bartosz Nowakowski -->
+  <!-- https://github.com/rolzwy7 -->
   <!--begin::Head-->
   <head>
     <base href="" />
+    {% comment %} <!-- TODO: SEO --> {% endcomment %}
     <title>
-      Metronic - The World's #1 Selling Bootstrap Admin Template by Keenthemes
+      {{COMPANY_NAME}} - Rozwijaj się gdziekolwiek jesteś!
     </title>
     <meta charset="utf-8" />
     <meta
       name="description"
-      content="The most advanced Bootstrap 5 Admin Theme with 40 unique prebuilt layouts on Themeforest trusted by 100,000 beginners and professionals. Multi-demo, Dark Mode, RTL support and complete React, Angular, Vue, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js, Node.js, Flask, Symfony & Laravel versions. Grab your copy now and get life-time updates for free."
+      content="Dostarczamy usługi z zakresu doradztwa podatkowego, księgowości, konsultingu, organizacji konferencji oraz prowadzenia szkoleń."
     />
     <meta
       name="keywords"
-      content="metronic, bootstrap, bootstrap 5, angular, VueJs, React, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js, Node.js, Flask, Symfony & Laravel starter kits, admin themes, web design, figma, web development, free templates, free admin themes, bootstrap theme, bootstrap template, bootstrap dashboard, bootstrap dak mode, bootstrap button, bootstrap datepicker, bootstrap timepicker, fullcalendar, datatables, flaticon"
+      content="TODO"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale" content="pl_PL" />
     <meta property="og:type" content="article" />
     <meta
       property="og:title"
-      content="Metronic - Bootstrap Admin Template, HTML, VueJS, React, Angular. Laravel, Asp.Net Core, Ruby on Rails, Spring Boot, Blazor, Django, Express.js, Node.js, Flask Admin Dashboard Theme & Template"
+      content="{{COMPANY_NAME}} - Rozwijaj się gdziekolwiek jesteś!"
     />
-    <meta property="og:url" content="https://keenthemes.com/metronic" />
-    <meta property="og:site_name" content="Keenthemes | Metronic" />
-    <link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
+    <meta property="og:url" content="{{BASE_URL}}" />
+    <meta property="og:site_name" content="{{COMPANY_NAME}}" />
+    <link rel="canonical" href="{{BASE_URL}}" />
     <link rel="shortcut icon" href="{% static 'media/logos/favicon.ico' %}" />
     <!--begin::Fonts(mandatory for all pages)-->
     <link
@@ -106,116 +109,27 @@
               <!--end::Action-->
             </div>
             <!--end::Heading-->
-            {% comment %}
+            
             <!--begin::Clients-->
             <div class="d-flex flex-center flex-wrap position-relative px-5">
+              {% for logo_url, name in our_clients %}
               <!--begin::Client-->
               <div
-                class="d-flex flex-center m-3 m-md-6"
+              class="d-flex flex-center m-3 m-md-6"
                 data-bs-toggle="tooltip"
-                title="Fujifilm"
+                title="{{name}}"
               >
                 <img
-                  src="{% static 'media/svg/brand-logos/fujifilm.svg' %}"
+                  src="{% static logo_url %}"
                   class="mh-30px mh-lg-40px"
-                  alt=""
+                  alt="{{name}}"
+                  {% comment %} style="filter: grayscale(100%);" {% endcomment %}
                 />
               </div>
               <!--end::Client-->
-              <!--begin::Client-->
-              <div
-                class="d-flex flex-center m-3 m-md-6"
-                data-bs-toggle="tooltip"
-                title="Vodafone"
-              >
-                <img
-                  src="{% static 'media/svg/brand-logos/vodafone.svg' %}"
-                  class="mh-30px mh-lg-40px"
-                  alt=""
-                />
-              </div>
-              <!--end::Client-->
-              <!--begin::Client-->
-              <div
-                class="d-flex flex-center m-3 m-md-6"
-                data-bs-toggle="tooltip"
-                title="KPMG International"
-              >
-                <img
-                  src="{% static 'media/svg/brand-logos/kpmg.svg' %}"
-                  class="mh-30px mh-lg-40px"
-                  alt=""
-                />
-              </div>
-              <!--end::Client-->
-              <!--begin::Client-->
-              <div
-                class="d-flex flex-center m-3 m-md-6"
-                data-bs-toggle="tooltip"
-                title="Nasa"
-              >
-                <img
-                  src="{% static 'media/svg/brand-logos/nasa.svg' %}"
-                  class="mh-30px mh-lg-40px"
-                  alt=""
-                />
-              </div>
-              <!--end::Client-->
-              <!--begin::Client-->
-              <div
-                class="d-flex flex-center m-3 m-md-6"
-                data-bs-toggle="tooltip"
-                title="Aspnetzero"
-              >
-                <img
-                  src="{% static 'media/svg/brand-logos/aspnetzero.svg' %}"
-                  class="mh-30px mh-lg-40px"
-                  alt=""
-                />
-              </div>
-              <!--end::Client-->
-              <!--begin::Client-->
-              <div
-                class="d-flex flex-center m-3 m-md-6"
-                data-bs-toggle="tooltip"
-                title="AON - Empower Results"
-              >
-                <img
-                  src="{% static 'media/svg/brand-logos/aon.svg' %}"
-                  class="mh-30px mh-lg-40px"
-                  alt=""
-                />
-              </div>
-              <!--end::Client-->
-              <!--begin::Client-->
-              <div
-                class="d-flex flex-center m-3 m-md-6"
-                data-bs-toggle="tooltip"
-                title="Hewlett-Packard"
-              >
-                <img
-                  src="{% static 'media/svg/brand-logos/hp-3.svg' %}"
-                  class="mh-30px mh-lg-40px"
-                  alt=""
-                />
-              </div>
-              <!--end::Client-->
-              <!--begin::Client-->
-              <div
-                class="d-flex flex-center m-3 m-md-6"
-                data-bs-toggle="tooltip"
-                title="Truman"
-              >
-                <img
-                  src="{% static 'media/svg/brand-logos/truman.svg' %}"
-                  class="mh-30px mh-lg-40px"
-                  alt=""
-                />
-              </div>
-              <!--end::Client-->
+              {% endfor %}
             </div>
             <!--end::Clients-->
-            {% endcomment %}
           </div>
           <!--end::Landing hero-->
         </div>

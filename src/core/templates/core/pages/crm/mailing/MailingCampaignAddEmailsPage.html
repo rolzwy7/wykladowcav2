@@ -13,7 +13,10 @@
             <!--begin::Title-->
             <h1 class="d-flex align-items-center my-1">
                 <span class="text-dark fw-bold fs-1">
-                    Dodaj e-maile: {{mailing_campaign}}
+                    Dodaj e-maile:
+                    <a href="{% url 'core:crm_mailing_campaign_detail' pk=mailing_campaign.pk %}">
+                        {{mailing_campaign}}
+                    </a>
                 </span>
                 <!--begin::Description-->
                 <small class="text-muted fs-6 fw-semibold ms-1">( XX e-maili )</small>

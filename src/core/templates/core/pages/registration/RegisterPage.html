@@ -1,193 +1,159 @@
-{% extends 'core/extends/base.html' %} 
+{% extends './RegisterExtend.html' %} 
 {% load static %}
 
-{% block head_stylesheets %}
-  
-{% endblock head_stylesheets %}
-
-{% block body_tag %}
-<body id="kt_body" class="auth-bg">
-{% endblock body_tag %}
-
-{% block root %}
-<!--begin::Main-->
-    <!--begin::Root-->
-    <div class="d-flex flex-column flex-root">
-        <!--begin::Authentication - Sign-up -->
-        <div class="d-flex flex-column flex-lg-row flex-column-fluid">
-          <!--begin::Logo-->
-          <a
-            href="../../demo5/dist/index.html"
-            class="d-block d-lg-none mx-auto py-20"
-          >
-            <img
-              alt="Logo"
-              src="{% static 'media/logos/wykladowcapl/logo.svg' %}"
-              class="theme-light-show h-25px"
-            />
-            <img
-              alt="Logo"
-              src="{% static 'media/logos/wykladowcapl/logo.svg' %}"
-              class="theme-dark-show h-25px"
-            />
-          </a>
-          <!--end::Logo-->
-          <!--begin::Aside-->
-          <div
-            class="d-flex flex-column flex-column-fluid flex-center w-lg-50 p-10"
-          >
-            <!--begin::Wrapper-->
-            <div
-              class="d-flex justify-content-start flex-column-fluid flex-column w-100 mw-450px"
-            >
-              <!--begin::Header-->
-              <div class="d-flex flex-stack py-2">
-                <!--begin::Back link-->
-                <div class="me-2">
-                  <a
-                    href="{% url 'core:homepage' %}"
-                    class="btn btn-icon bg-light rounded-circle"
-                  >
-                    <i class="ki-duotone ki-black-left fs-2 text-gray-800"></i>
-                  </a>
-                </div>
-                <!--end::Back link-->
-                <!--begin::Sign Up link-->
-                <div class="m-0">
-                  <span
-                    class="text-gray-400 fw-bold fs-5 me-2"
-                    data-kt-translate="sign-up-head-desc"
-                    >Masz już konto ?</span
-                  >
-                  <a
-                    href="{% url 'core:login_page' %}"
-                    class="link-primary fw-bold fs-5"
-                    data-kt-translate="sign-up-head-link"
-                    >Zaloguj się</a
-                  >
-                </div>
-                <!--end::Sign Up link=-->
-              </div>
-              <!--end::Header-->
-              <!--begin::Body-->
-              <div class="pt-15">
-                <!--begin::Form-->
-                <form
-                  class="form w-100"
-                  method="post"
-                  action="{% url 'core:register_page' %}"
-                >
-                  {% csrf_token %}                  
-                  <!--begin::Heading-->
-                  <div class="text-start mb-10">
-                    <!--begin::Title-->
-                    <h1
-                      class="text-dark mb-3 fs-3x"
-                      data-kt-translate="sign-up-title"
-                    >
-                      Stwórz konto
-                    </h1>
-                    <!--end::Title-->
-                    {% for error in form.non_field_errors  %}
-                        <div class="text-danger fw-medium">{{error}}</div>
-                      {% endfor %}
-                  </div>
-                  <!--end::Heading-->
-
-  
-                  <!--begin::Input group-->
-                  <div class="row fv-row mb-2">
-                    <!--begin::Col-->
-                    <div class="col-xl-6">
-                      {{form.first_name}}
-                      {% for error in form.first_name.errors %}
-                        <div class="text-danger">{{error}}</div>
-                      {% endfor %}
-                    </div>
-                    <!--end::Col-->
-                    <!--begin::Col-->
-                    <div class="col-xl-6">
-                      {{form.last_name}}
-                      {% for error in form.last_name.errors %}
-                        <div class="text-danger">{{error}}</div>
-                      {% endfor %}
-                    </div>
-                    <!--end::Col-->
-                  </div>
-                  <!--end::Input group-->
-                  <!--begin::Input group-->
-                  <div class="fv-row mb-5">
-                    {{form.email}}
-                    {% for error in form.email.errors %}
-                      <div class="text-danger">{{error}}</div>
-                    {% endfor %}
-                  </div>
-                  <!--end::Input group-->
-                  <!--begin::Input group-->
-                  <div class="fv-row mb-5">
-                    <!--begin::Wrapper-->
-                    <div class="mb-1">
-                      <!--begin::Input wrapper-->
-                      <div class="position-relative mb-3">
-                        {{form.password1}}
-                        {% for error in form.password1.errors %}
-                          <div class="text-danger">{{error}}</div>
-                        {% endfor %}
-                      </div>
-                      <!--end::Input wrapper-->
-                    </div>
-                    <!--end::Wrapper-->
-                    <!--begin::Hint-->
-                    <div class="text-gray-700">
-                      Hasło powinno mieć co najmniej 8 znaków i zawierać (małe i duże) litery i cyfrę
-                    </div>
-                    <!--end::Hint-->
-                  </div>
-                  <!--end::Input group=-->
-                  <!--begin::Input group-->
-                  <div class="fv-row mb-10">
-                    {{form.password2}}
-                    {% for error in form.password2.errors %}
-                      <div class="text-danger">{{error}}</div>
-                    {% endfor %}
-                  </div>
-                  <!--end::Input group-->
-         
-
-                  <!--begin::Actions-->
-                  <div class="d-flex flex-stack">
-                    <!--begin::Submit-->
-                    <button
-                      id="kt_sign_up_submit"
-                      class="btn btn-primary"
-                      data-kt-translate="sign-up-submit"
-                    >
-                      <!--begin::Indicator label-->
-                      <span class="indicator-label">Zarejestruj się</span>
-                      <!--end::Indicator label-->
-                    </button>
-                    <!--end::Submit-->
-                  </div>
-                  <!--end::Actions-->
-                </form>
-                <!--end::Form-->
-              </div>
-              <!--end::Body-->
-            </div>
-            <!--end::Wrapper-->
-          </div>
-          <!--end::Aside-->
-          <!--begin::Body-->
-          <div
-            class="d-none d-lg-flex flex-lg-row-fluid w-50 bgi-size-cover bgi-position-y-center bgi-position-x-start bgi-no-repeat"
-            style="background-image: url({% static 'media/auth/bg11.png' %})"
-          ></div>
-          <!--begin::Body-->
-        </div>
-        <!--end::Authentication - Sign-up-->
+{% block content %}
+<!--begin::Aside-->
+<div
+class="d-flex flex-column flex-column-fluid flex-center w-lg-50 p-10"
+>
+<!--begin::Wrapper-->
+<div
+  class="d-flex justify-content-start flex-column-fluid flex-column w-100 mw-450px"
+>
+  <!--begin::Header-->
+  <div class="d-flex flex-stack py-2">
+    <!--begin::Back link-->
+    <div class="me-2">
+      <a
+        href="{% url 'core:homepage' %}"
+        class="btn btn-icon bg-light rounded-circle"
+      >
+        <i class="ki-duotone ki-black-left fs-2 text-gray-800"></i>
+      </a>
+    </div>
+    <!--end::Back link-->
+    <!--begin::Sign Up link-->
+    <div class="m-0">
+      <span
+        class="text-gray-400 fw-bold fs-5 me-2"
+        data-kt-translate="sign-up-head-desc"
+        >Masz już konto ?</span
+      >
+      <a
+        href="{% url 'core:login_page' %}"
+        class="link-primary fw-bold fs-5"
+        data-kt-translate="sign-up-head-link"
+        >Zaloguj się</a
+      >
+    </div>
+    <!--end::Sign Up link=-->
+  </div>
+  <!--end::Header-->
+  <!--begin::Body-->
+  <div class="pt-15">
+    <!--begin::Form-->
+    <form
+      onsubmit="actionSubmit.disabled = true; return true;"
+      class="form w-100"
+      method="post"
+      action="{% url 'core:register_page' %}"
+    >
+      {% csrf_token %}                  
+      <!--begin::Heading-->
+      <div class="text-start mb-10">
+        <!--begin::Title-->
+        <h1
+          class="text-dark mb-3 fs-3x"
+          data-kt-translate="sign-up-title"
+        >
+          Stwórz konto
+        </h1>
+        <!--end::Title-->
+        {% for error in form.non_field_errors  %}
+            <div class="text-danger fw-medium">{{error}}</div>
+          {% endfor %}
       </div>
-      <!--end::Root-->
-      <!--end::Main-->
-{% endblock root %}
+      <!--end::Heading-->
 
-{% block body_scripts %}{% endblock body_scripts %}
+
+      <!--begin::Input group-->
+      <div class="row fv-row mb-2">
+        <!--begin::Col-->
+        <div class="col-xl-6">
+          {{form.first_name}}
+          {% for error in form.first_name.errors %}
+            <div class="text-danger">{{error}}</div>
+          {% endfor %}
+        </div>
+        <!--end::Col-->
+        <!--begin::Col-->
+        <div class="col-xl-6">
+          {{form.last_name}}
+          {% for error in form.last_name.errors %}
+            <div class="text-danger">{{error}}</div>
+          {% endfor %}
+        </div>
+        <!--end::Col-->
+      </div>
+      <!--end::Input group-->
+      <!--begin::Input group-->
+      <div class="fv-row mb-5">
+        {{form.email}}
+        {% for error in form.email.errors %}
+          <div class="text-danger">{{error}}</div>
+        {% endfor %}
+      </div>
+      <!--end::Input group-->
+      <!--begin::Input group-->
+      <div class="fv-row mb-5">
+        <!--begin::Wrapper-->
+        <div class="mb-1">
+          <!--begin::Input wrapper-->
+          <div class="position-relative mb-3">
+            {{form.password1}}
+            {% for error in form.password1.errors %}
+              <div class="text-danger">{{error}}</div>
+            {% endfor %}
+          </div>
+          <!--end::Input wrapper-->
+        </div>
+        <!--end::Wrapper-->
+        <!--begin::Hint-->
+        <div class="text-gray-700">
+          Hasło powinno mieć co najmniej 8 znaków i zawierać (małe i duże) litery i cyfrę
+        </div>
+        <!--end::Hint-->
+      </div>
+      <!--end::Input group=-->
+      <!--begin::Input group-->
+      <div class="fv-row mb-10">
+        {{form.password2}}
+        {% for error in form.password2.errors %}
+          <div class="text-danger">{{error}}</div>
+        {% endfor %}
+      </div>
+      <!--end::Input group-->
+
+
+      <!--begin::Actions-->
+      <div class="d-flex flex-stack">
+        <!--begin::Submit-->
+        <button
+          id="kt_sign_up_submit"
+          class="btn btn-primary hover-scale"
+          name="actionSubmit"
+        >
+          <!--begin::Indicator label-->
+          <span class="indicator-label">Zarejestruj się</span>
+          <!--end::Indicator label-->
+        </button>
+        <!--end::Submit-->
+      </div>
+      <!--end::Actions-->
+    </form>
+    <!--end::Form-->
+  </div>
+  <!--end::Body-->
+</div>
+<!--end::Wrapper-->
+</div>
+<!--end::Aside-->
+<!--begin::Body-->
+<div
+class="d-none d-lg-flex flex-lg-row-fluid w-50 bgi-size-cover bgi-position-y-center bgi-position-x-start bgi-no-repeat"
+style="background-image: url({% static 'media/auth/bg11b.png' %})"
+></div>
+<!--begin::Body-->
+{% endblock content %}
+
+

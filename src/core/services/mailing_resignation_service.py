@@ -8,7 +8,7 @@ class MailingResignationService:
         pass
 
     @staticmethod
-    def is_resignation(email: str) -> bool:
+    def is_email_confirmed_resignation(email: str) -> bool:
         """Check if email is in confirmed resignations"""
         manager = MailingResignationManager()
         ret = manager.is_resignation(email)

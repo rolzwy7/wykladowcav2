@@ -18,6 +18,7 @@ class MailingCampaignService:
         """Perform group-by-count operation on statuses"""
         ret = [
             (
+                document["_id"],
                 mailing_pool_status_display_map.get(document["_id"], "???"),
                 document["count"],
             )
@@ -26,15 +27,16 @@ class MailingCampaignService:
             )
         ]
 
-        return sorted(ret, key=lambda x: x[1])
+        return sorted(ret, key=lambda x: x[2], reverse=True)
 
     def delete_all_emails(self) -> None:
         """Delete all emails from campaign"""
         mailing_campaign_id: int = self.mailing_campaign.id  # type: ignore
         pool_manager = MailingPoolManager()
-        pool_manager.database.wykladowcav2_mailing_pool.delete_many(
+        pool_manager.collection.delete_many(
             {"campaign_id": mailing_campaign_id}
         )
+        pool_manager.close()
 
     def load_emails_from_file_into_campaign(
         self, file: InMemoryUploadedFile
@@ -64,12 +66,10 @@ class MailingCampaignService:
             )
 
             if len(batch) >= 100:
-                pool_manager.database.wykladowcav2_mailing_pool.bulk_write(
-                    batch
-                )
+                pool_manager.collection.bulk_write(batch)
                 batch = []
 
         if batch:
-            pool_manager.database.wykladowcav2_mailing_pool.bulk_write(batch)
+            pool_manager.collection.bulk_write(batch)
 
         pool_manager.close()

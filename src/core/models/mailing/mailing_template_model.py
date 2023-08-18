@@ -18,11 +18,11 @@ class MailingTemplate(Model):
 
     def save(self, *args, **kwargs) -> None:
         # Create text version of email template
-        if self.text == "":
-            self.create_text_verstion_from_html()
+        if not self.text:
+            self.create_text_version_from_html()
         return super().save(*args, **kwargs)
 
-    def create_text_verstion_from_html(self):
+    def create_text_version_from_html(self):
         """Create text version from HTML"""
         html2text = HTML2Text()
         self.text = html2text.handle(self.html)

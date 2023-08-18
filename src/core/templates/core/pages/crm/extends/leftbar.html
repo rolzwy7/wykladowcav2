@@ -83,6 +83,7 @@ data-kt-sticky-zindex="95"
         </span>
       </span>
       {% endif %}
+
     </a>
   </div>
   <!--end::Menu item-->
@@ -141,6 +142,25 @@ data-kt-sticky-zindex="95"
       >
         <span class="menu-title">
           Kampanie mailingowe
+      </span>
+      {% if CRM_LEFBAR_ACTIVE_MAILING_CAMPAIGNS %}
+      <span class="menu-badge">
+        <span class="badge badge-sm badge-circle badge-success">
+          {{CRM_LEFBAR_ACTIVE_MAILING_CAMPAIGNS}}
+        </span>
+      </span>
+      {% endif %}
+      </a>
+    </div>
+    <!--end::Menu item-->
+    <!--begin::Menu item-->
+    <div class="menu-item">
+      <a
+        href="{% url 'core:crm_tagging_dashboard_page' %}"
+        class="menu-link"
+      >
+        <span class="menu-title">
+          Tagowanie
       </span>
       </a>
     </div>

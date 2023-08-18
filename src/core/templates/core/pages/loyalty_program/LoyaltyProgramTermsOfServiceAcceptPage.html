@@ -14,11 +14,30 @@
 >
   <!--begin::Content-->
   <div class="content flex-column-fluid" id="kt_content">
-    <h1>Program partnerski - akceptacja regulaminu</h1>
-    <form method="post" action="{% url 'core:loyalty_program_terms_of_service_accept_page' %}">
-      {% csrf_token %}
-      <input type="submit" value="Akceptuję">
-    </form>
+
+    <div class="card">
+      <div class="card-header">
+          <h3 class="card-title">Zaakceptuj regulamin programu parterskiego</h3>
+          <div class="card-toolbar">
+            <form method="post" action="{% url 'core:loyalty_program_terms_of_service_accept_page' %}">
+              {% csrf_token %}
+              <input type="submit" class="btn btn-success hover-scale" value="Akceptuję regulamin programu parterskiego">
+            </form>
+          </div>
+      </div>
+      <div class="card-body">
+        {% include 'core/pages/terms_and_conditions/snippets/TermsAndConditionsLoyaltyProgramCard.html' %}
+      </div>
+      <div class="card-header">
+        <h3 class="card-title">Zaakceptuj regulamin programu parterskiego</h3>
+        <div class="card-toolbar">
+          <form method="post" action="{% url 'core:loyalty_program_terms_of_service_accept_page' %}">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-success hover-scale" value="Akceptuję regulamin programu parterskiego">
+          </form>
+        </div>
+    </div>
+    </div>
   </div>
   <!--end::Content-->
 </div>

@@ -1,3 +1,5 @@
+# pylint: disable=global-variable-not-assigned
+
 import logging
 import time
 
@@ -13,32 +15,52 @@ from core.models import (
     SmtpSender,
 )
 from core.models.enums import MailingBounceStatus, MailingPoolStatus
-from core.services import BlacklistService, MxService, SenderSmtpService
+from core.models.mailing import MailingResignationManager
+from core.services import (
+    BlacklistService,
+    MailingResignationService,
+    MxService,
+    SenderSmtpService,
+)
 
 logging.getLogger("flufl.bounce").setLevel(logging.WARNING)
 
 
 # TODO: Backoff time/sleep when there is no emails. max 5 minutes
-# TODO: Cache for inbox scan
+
+INBOX_SCAN_CACHE = {}
 
 
 def process_scan_inboxes():
     """Scan inboxes process"""
+    global INBOX_SCAN_CACHE
 
     # Get all senders
     smtp_senders = SmtpSender.objects.all()
 
     # Inbox scan process
+    # For each sender
     for smtp_sender in smtp_senders:
         smtp_service = SenderSmtpService(smtp_sender)
         pop3 = smtp_service.get_pop3_instance()
         bounce_manager = MailingBounceManager()
+        # TODO: Create to_delete list of messages ids and mark
+        # them as to be deleted
 
+        # Iterate over inbox messages
         for message in smtp_service.get_inbox_messages(pop3):
             _, _, message_bytes = message
             inbox_message = InboxMessage(message_bytes)
-            print("\n# MESSAGE:", inbox_message.subject_header)
             bounces_list = []
+
+            # Cache messages
+            if INBOX_SCAN_CACHE.get(inbox_message.unique_hash):
+                print("# CACHED:", inbox_message.subject_header)
+                continue
+            else:
+                INBOX_SCAN_CACHE[inbox_message.unique_hash] = True
+
+            print("\n# MESSAGE:", inbox_message.subject_header)
 
             # Detect permanent failures
             for email in inbox_message.get_emails_permanent_failure():
@@ -50,6 +72,7 @@ def process_scan_inboxes():
                         inbox_message.get_content(),
                     )
                 )
+                # TODO: Delete bounce message
 
             # Detect temporary failures
             for email in inbox_message.get_emails_temporary_failure():
@@ -61,8 +84,9 @@ def process_scan_inboxes():
                         inbox_message.get_content(),
                     )
                 )
+                # TODO: Delete bounce message
 
-            # Save bounces
+            # Save detected failures
             bounce_manager.upsert_documents(
                 [
                     MailingBounce(
@@ -75,15 +99,40 @@ def process_scan_inboxes():
                 ]
             )
 
-            # Detect vacation messages
+            # Detect vacation messages and temporarily blacklist emails:
+            # - from email
+            # - emails in subject
             if inbox_message.is_vacation():
                 email = inbox_message.from_email
-                print("Is vacation:", email, "/", inbox_message.subject_header)
+                print(
+                    "Is vacation (temporarily blacklisted):",
+                    inbox_message.subject_header,
+                )
+                # Temporarily blacklist from email
                 BlacklistService.blacklist_email_temporarily(email)
+                print(f"- temporarily blacklisted (from email): {email}")
+                subject_emails = inbox_message.get_subject_emails()
 
-            if inbox_message.is_resignation():  # TODO
-                email = inbox_message.from_email
-                print("Resignation:", email)
+                # Temporarily blacklist emails contained within subject
+                for email in subject_emails:
+                    BlacklistService.blacklist_email_temporarily(email)
+                    print(f"- temporarily blacklisted (from subject): {email}")
+
+                # TODO: Delete vacation message
+
+            # Check if subject is resignation
+            if inbox_message.is_subject_resignation():
+                resignation_manager = MailingResignationManager()
+                from_email = inbox_message.from_email
+                print("Resigntion (from e-mail):", from_email)
+                resignation_manager.get_or_create_resignation(from_email)
+                resignation_manager.mark_confirmed(from_email)
+                subject_emails = inbox_message.get_subject_emails()
+                for subject_email in subject_emails:
+                    print("Resigntion (subject e-mail):", subject_email)
+                    resignation_manager.get_or_create_resignation(subject_email)
+                    resignation_manager.mark_confirmed(subject_email)
+                resignation_manager.close()
 
         pop3.quit()
         bounce_manager.close()
@@ -164,6 +213,10 @@ def process_blacklist(process_count: int):
 
         elif BlacklistService.is_email_phrase_blacklisted(email):
             new_status = MailingPoolStatus.BLACKLISTED_PHRASE
+
+        elif MailingResignationService.is_email_confirmed_resignation(email):
+            new_status = MailingPoolStatus.RESIGNATION
+
         else:
             new_status = MailingPoolStatus.READY_TO_SEND
 
@@ -230,15 +283,16 @@ class Command(BaseCommand):
         """Start infinite loop"""
         loop_counter = 0
         while True:
-            if loop_counter % 10 == 0:
+            loop_counter += 1
+            if loop_counter % 20 == 1:
                 process_scan_inboxes()
+
             process_check_mx(200)
             process_bounces(100)
             process_blacklist(100)
 
-            loop_counter += 1
-            print("waiting 5 seconds ...")
-            time.sleep(5)
+            print("waiting 15 seconds ...")
+            time.sleep(15)
 
     def handle(self, *args, **options):
         self.start_loop()

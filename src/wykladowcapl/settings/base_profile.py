@@ -1,3 +1,4 @@
+# flake8: noqa:E501
 # pylint: disable=line-too-long
 
 import os
@@ -35,6 +36,15 @@ HTTP_SCHEMA = "https" if SECURE_SSL_REDIRECT else "http"
 SITE_DOMAIN = os.environ.get("SITE_DOMAIN", "localhost:8080")
 BASE_URL = f"{HTTP_SCHEMA}://{SITE_DOMAIN}"
 
+if DEBUG:  # Debug toolbar
+    import socket  # only if you haven't already imported this
+
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + [
+        "127.0.0.1",
+        "10.0.2.2",
+    ]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -47,6 +57,7 @@ INSTALLED_APPS = [
     "django_celery_results",
     "django_celery_beat",
     "tinymce",
+    "debug_toolbar",
     # Django
     "django.contrib.admin",
     "django.contrib.auth",
@@ -58,6 +69,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     # Edit your settings.py file and add WhiteNoise to the MIDDLEWARE list
     # above all other middleware apart from Django’s SecurityMiddleware
@@ -88,13 +100,14 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 # Custom context processors
                 "core.context_processors.categories",
+                "core.context_processors.header",
                 "core.context_processors.consts",
                 "core.context_processors.crm",
                 "core.context_processors.dates",
                 "core.context_processors.company",
                 "core.context_processors.links",
                 "core.context_processors.metadata",
-                "core.context_processors.loyalty_program",
+                # "core.context_processors.loyalty_program",
             ],
         },
     },

@@ -8,6 +8,7 @@ from django.db.models import (
     PositiveSmallIntegerField,
     QuerySet,
     SlugField,
+    TextField,
 )
 
 from core.consts import SLUG_HELP_TEXT
@@ -15,15 +16,23 @@ from core.utils.text import slugify
 
 
 class WebinarCategoryManager(Manager):
+    """Webinar category manager"""
+
     def sidebar_categories(self) -> QuerySet["WebinarCategory"]:
-        return self.get_queryset().filter()
+        """Get sidebar categories"""
+        return self.get_queryset().filter(visible=True).order_by("order")
 
 
 class WebinarCategory(Model):
+    """Represents webinar's category"""
+
     manager = WebinarCategoryManager()
 
     visible = BooleanField("Widoczna na stronie", default=True)
     name = CharField("Nazwa kategorii", max_length=100)
+    short_description = CharField("Krótki opis", max_length=100, blank=True)
+    icon_html = TextField("Ikona HTML", blank=True)
+
     slug = SlugField(
         "Skrót URL",
         max_length=120,
@@ -53,7 +62,10 @@ class WebinarCategory(Model):
         verbose_name_plural = "Kategorie"
 
     def __str__(self):
-        return str(self.name)
+        if self.parent:
+            return f"{str(self.parent.name)}/{str(self.name)}"
+        else:
+            return str(self.name)
 
     def save(self, *args, **kwargs) -> None:
         self.slug = slugify(self.name)

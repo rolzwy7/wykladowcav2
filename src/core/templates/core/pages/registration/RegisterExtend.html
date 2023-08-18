@@ -1,0 +1,43 @@
+{% extends 'core/extends/base.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+  
+{% endblock head_stylesheets %}
+
+{% block body_tag %}
+<body id="kt_body" class="auth-bg">
+{% endblock body_tag %}
+
+{% block root %}
+<!--begin::Main-->
+    <!--begin::Root-->
+    <div class="d-flex flex-column flex-root">
+        <!--begin::Authentication - Sign-up -->
+        <div class="d-flex flex-column flex-lg-row flex-column-fluid">
+          <!--begin::Logo-->
+          <a
+            href="../../demo5/dist/index.html"
+            class="d-block d-lg-none mx-auto py-20"
+          >
+            <img
+              alt="Logo"
+              src="{% static 'media/logos/wykladowcapl/logo.svg' %}"
+              class="theme-light-show h-25px"
+            />
+            <img
+              alt="Logo"
+              src="{% static 'media/logos/wykladowcapl/logo.svg' %}"
+              class="theme-dark-show h-25px"
+            />
+          </a>
+          <!--end::Logo-->
+          {% block content %}{% endblock content %}
+        </div>
+        <!--end::Authentication - Sign-up-->
+      </div>
+      <!--end::Root-->
+      <!--end::Main-->
+{% endblock root %}
+
+{% block body_scripts %}{% endblock body_scripts %}

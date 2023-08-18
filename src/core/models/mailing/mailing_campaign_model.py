@@ -38,7 +38,12 @@ class MailingCampaignManager(Manager):
             Q(status=MailingCampaignStatus.SENDING)
             & Q(allowed_to_send_after__lt=now())
             & Q(allowed_to_send_before__gt=now())
+            & Q(send_after__lt=now())
         )
+
+    def not_done(self) -> QuerySet["MailingCampaign"]:
+        """Returns mailing campaigns that are not done"""
+        return self.get_queryset().filter(~Q(status=MailingCampaignStatus.DONE))
 
 
 class MailingCampaign(Model):
@@ -71,6 +76,7 @@ class MailingCampaign(Model):
     allowed_to_send_before = TimeField(
         "Wysyłaj do", default=default_allowed_to_send_before
     )
+    send_after = DateTimeField("Wysyłaj po", default=now)
 
     # Subject
     subjects = TextField("Tytuły wiadomości e-mail")
@@ -103,10 +109,37 @@ class MailingCampaign(Model):
         return f"{self.title}"
 
     def get_subjects(self):
-        """Get random subject"""
+        """Get subjects list"""
         # pylint: disable=no-member
         return [_.strip("\n\r") for _ in self.subjects.split("\n") if _]
 
     def get_random_subject(self):
         """Get random subject"""
         return choices(self.get_subjects())[0]
+
+    @property
+    def is_allowed_to_send(self):
+        """Is campaign allowed to send e-mails"""
+        return all(
+            [
+                self.status == MailingCampaignStatus.SENDING,
+                self.allowed_to_send_after < now().time(),
+                self.allowed_to_send_before > now().time(),
+                self.send_after < now(),
+            ]
+        )
+
+    @property
+    def is_send_after_correct(self):
+        """Is `send_after` field lesser then current time"""
+        return self.send_after < now()
+
+    @property
+    def is_allowed_to_send_correct(self):
+        """Is `allowed_to_send` field within current time"""
+        return all(
+            [
+                self.allowed_to_send_after < now().time(),
+                self.allowed_to_send_before > now().time(),
+            ]
+        )

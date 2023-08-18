@@ -13,6 +13,10 @@
 </style>
 {% endblock head_stylesheets %}
 
+{% block body_tag %}
+<body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed aside-enabled sidebar-enabled" style="background-color: #f1f5f9;">
+{% endblock body_tag %}
+
 {% block rightbar %}{% endblock rightbar %}
 {% block leftbar %}{% endblock leftbar %}
 
@@ -41,7 +45,7 @@
         <!--begin::Post-->
         <div class="post" id="kt_post">
             <!--begin::Navbar-->
-            <div class="card mb-6">
+            <div class="card shadow-sm mb-6">
                 <div class="card-body pt-9 pb-0">
                     <!--begin::Details-->
                     <div class="d-flex flex-wrap flex-sm-nowrap">
@@ -329,26 +333,30 @@
 
                 {% block webinar_rightbar %}
                 <div class="col-xl-4">
-                    {% include './snippets/PlacesLeftAlert.html' %}
-                    {% include './snippets/DiscountAlert.html' %}
-                    {% include './snippets/ApplicationButton.html' %}
-                    <div class="separator separator-content border-secondary my-8">
-                        <span class="fs-4 text-muted">Lub</span>
-                    </div>
-                    <a
-                        href="{% url 'core:application_type_page' pk=webinar.pk %}?pdf=show"
-                        class="btn btn-sm btn-warning w-100 fs-3">
+                    <div class="card shadow-sm mb-4 p-4">
+                        {% include './snippets/PlacesLeftAlert.html' %}
+                        {% include './snippets/DiscountAlert.html' %}
+                        {% include './snippets/ApplicationButton.html' %}
+                    
+                        <div class="separator separator-content border-secondary my-8">
+                            <span class="fs-4 text-muted">Lub</span>
+                        </div>
+                        <a
+                            href="{% url 'core:application_type_page' pk=webinar.pk %}?pdf=show"
+                            class="btn btn-sm btn-warning w-100 fs-3">
 
-                        Pobierz kartę zgłoszeniową
-                    </a>
-                    <div class="separator my-5"></div>
-                    {% include './snippets/WhatWeOffer.html' %}
-                        <div
-                            class="card card-flush mb-0 js-sticky-widget"
-                        >
+                            Pobierz kartę zgłoszeniową
+                        </a>
+                    </div>
+
+                    <div class="card shadow-sm mb-4">
+                        {% include './snippets/WhatWeOffer.html' %}
+                    </div>
+
+                    <div class="card shadow-sm mb-0 p-4 js-sticky-widget">
                         {% include 'core/includes/Patron.html' %}
                         {% include './snippets/ApplicationButton.html' %}
-                        </div>
+                    </div>
                 </div>
                 {% endblock webinar_rightbar %}
                 <!--end::Col-->

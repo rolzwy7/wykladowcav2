@@ -6,42 +6,51 @@
 {% endblock head_stylesheets %}
 
 {% block crm_content %}
-    <h1>Kampanie mailingowe ({{fqdn}})</h1>
+        <!--begin::Toolbar-->
+        <div class="toolbar d-flex flex-stack flex-wrap mb-5 mb-lg-7" id="kt_toolbar">
+            <!--begin::Page title-->
+            <div class="page-title d-flex flex-column py-1">
+                <!--begin::Title-->
+                <h1 class="d-flex align-items-center my-1">
+                    <span class="text-dark fw-bold fs-1">Kampanie mailingowe</span>
+                    <!--begin::Description-->
+                    <small class="text-muted fs-6 fw-semibold ms-1">
+                        ({{fqdn}})
+                    </small>
+                    <!--end::Description-->
+                </h1>
+                <!--end::Title-->
+            </div>
+            <!--end::Page title-->
+            <!--begin::Actions-->
+            <div class="d-flex align-items-center py-1">
+                <!--begin::Button-->
+                {% if show_all %}
+                <a 
 
-    <table id="kt_datatable_zero_configuration" class="table table-row-bordered gy-5">
-        <thead>
-            <tr class="fw-semibold fs-6 text-muted">
-                <th>Nazwa kampanii</th>
-                <th>Status kampanii</th>
-                <th>Konto wysyłkowe</th>
-                <th>Godziny wysyłania</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for campaign in mailing_campaigns %}
-            <tr>
-                <td>
-                    <a href="{% url 'core:crm_mailing_campaign_detail' pk=campaign.pk %}">
-                        <span class="fw-bold">
-                            {{campaign}}
-                        </span>
-                    </a>
-                    <br>
-                    <a href="{% url 'admin:core_mailingcampaign_change' object_id=campaign.id %}">
-                        (Edytuj w CMS)
-                    </a>
-                </td>
-                <td>{{campaign.get_status_display}}</td>
-                <td>{{campaign.smtp_sender}}</td>
-                <td>
-                    {{campaign.allowed_to_send_after}} - {{campaign.allowed_to_send_before}}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                    href="{% url 'core:crm_mailing_campaigns_list' %}"
+                    class="btn btn-flex btn-sm btn-danger fw-bold border-0 fs-6 h-40px me-2"
+                >
+                    Ukryj zakończone
+                </a>
+                {% else %}
+                <a 
 
+                    href="{% url 'core:crm_mailing_campaigns_list' %}?show_all=1"
+                    class="btn btn-flex btn-sm btn-primary fw-bold border-0 fs-6 h-40px me-2"
+                >
+                    Pokaż wszystkie
+                </a>
+                {% endif %}
+                <!--end::Button-->
+            </div>
+            <!--end::Actions-->
+            </div>
+            <!--end::Toolbar-->
 
+    {% for campaign in mailing_campaigns %}
+        {% include './MailingCampaignCard.html' %}
+    {% endfor %}
 
 {% endblock crm_content %}
 

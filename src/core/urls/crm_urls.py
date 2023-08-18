@@ -1,8 +1,9 @@
-from django.urls import path
+from django.urls import include, path
 
 from core.views.crm import (
     crm_archived_webinars,
     crm_eventlogs,
+    crm_take_over_account,
     crm_todos_done_list,
     crm_todos_list,
     crm_upcoming_webinars,
@@ -19,7 +20,10 @@ from core.views.crm.mailing import (
     crm_mailing_campaign_add_emails,
     crm_mailing_campaign_delete_emails,
     crm_mailing_campaign_detail,
+    crm_mailing_campaign_email_search_page,
     crm_mailing_campaign_list,
+    crm_mailing_campaign_preview_html,
+    crm_mailing_campaign_preview_text,
     crm_mailing_campaign_send_test_email,
 )
 from core.views.crm.webinar.actions import (
@@ -28,6 +32,8 @@ from core.views.crm.webinar.actions import (
     DoneWebinarAction,
     move_webinar_action,
 )
+
+from .tagging_url import urlpatterns as tagging_urlpatterns
 
 urlpatterns = [
     # Webinar
@@ -121,6 +127,11 @@ urlpatterns = [
         name="crm_mailing_campaign_detail",
     ),
     path(
+        "kampanie-mailingowe/<int:pk>/szukaj/",
+        crm_mailing_campaign_email_search_page,
+        name="crm_mailing_campaign_email_search_page",
+    ),
+    path(
         "kampanie-mailingowe/<int:pk>/dodaj-emaile/",
         crm_mailing_campaign_add_emails,
         name="crm_mailing_campaign_add_emails",
@@ -134,6 +145,24 @@ urlpatterns = [
         "kampanie-mailingowe/<int:pk>/testowy-email/",
         crm_mailing_campaign_send_test_email,
         name="crm_mailing_campaign_send_test_email",
+    ),
+    path(
+        "kampanie-mailingowe/<int:pk>/podglad/html/",
+        crm_mailing_campaign_preview_html,
+        name="crm_mailing_campaign_preview_html",
+    ),
+    path(
+        "kampanie-mailingowe/<int:pk>/podglad/text/",
+        crm_mailing_campaign_preview_text,
+        name="crm_mailing_campaign_preview_text",
+    ),
+    # Tagging TODO: move this
+    path("tagowanie/", include(tagging_urlpatterns)),
+    # Take over account
+    path(
+        "przejmij-konto/",
+        crm_take_over_account,
+        name="crm_take_over_account",
     ),
     # Tasks
     path(

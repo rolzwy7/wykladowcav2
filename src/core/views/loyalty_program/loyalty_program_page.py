@@ -35,6 +35,7 @@ def loyalty_program_page(request: HttpRequest):
     """Loyalty program page"""
     template_name = "core/pages/loyalty_program/LoyaltyProgramPage.html"
     service = LoyaltyProgramService(request.user)  # type: ignore
+    error = ""
 
     # Check if loyalty program exists
     if not service.loyalty_program_exists_for_user():
@@ -43,19 +44,31 @@ def loyalty_program_page(request: HttpRequest):
         )
     else:
         loyalty_program = service.get_or_create_loyalty_program()
+        service.mark_payed_as_payable()
 
     # Payout form handling
     if request.method == POST:
-        form = LoyaltyPayoutRequestForm(request.POST)
+        form = LoyaltyPayoutRequestForm(request.POST, request.FILES)
         if form.is_valid():
-            a = 1
+            payout_brutto = form.cleaned_data["payout_brutto"]
+            success, msg = service.can_create_payout_value(payout_brutto)
+            if not success:
+                error = msg
+            else:
+                payout = form.save(commit=False)
+                payout.loyalty_program = loyalty_program
+                payout.save()
+                return redirect(
+                    f'{reverse("core:loyalty_program_page")}?payout_saved=1'
+                )
     else:
         form = LoyaltyPayoutRequestForm()
 
     context = {
-        "ref_code": loyalty_program.ref_number,
-        "incomes": service.get_user_incomes(),
+        **service.get_context(),
         "form": form,
+        "error": error,
+        "payout_saved": request.GET.get("payout_saved", ""),
     }
 
     return TemplateResponse(request, template_name, context)

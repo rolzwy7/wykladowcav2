@@ -1,11 +1,11 @@
 <!--begin::Button-->
 {% if webinar.status == "INIT" %}
-<a href="{% url 'core:crm_webinar_move' pk=webinar.pk %}"
+{% comment %} <a href="{% url 'core:crm_webinar_move' pk=webinar.pk %}"
 class="btn btn-flex btn-sm btn-light-primary fw-bold border-0 fs-6 h-40px me-3"
 >
 <i class="ki-duotone ki-time fs-2 me-2"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i></i>
 Przenieś termin
-</a>
+</a> {% endcomment %}
 
 <a href="{% url 'core:crm_webinar_confirm' pk=webinar.pk %}"
 class="btn btn-flex btn-sm btn-light-warning fw-bold border-0 fs-6 h-40px me-3"

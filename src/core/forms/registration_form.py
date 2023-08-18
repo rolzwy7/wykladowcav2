@@ -22,16 +22,31 @@ class RegistrationForm(Form):
     )
 
     email = EmailField(
-        widget=EmailFloatingInputWidget(attrs={"label": "E-mail"})
+        widget=EmailFloatingInputWidget(
+            attrs={
+                "label": "E-mail",
+                "properties": [("autocomplete", '"username"')],
+            }
+        )
     )
 
     password1 = CharField(
         max_length=64,
-        widget=PasswordFloatingInputWidget(attrs={"label": "Hasło"}),
+        widget=PasswordFloatingInputWidget(
+            attrs={
+                "label": "Hasło",
+                "properties": [("autocomplete", '"new-password"')],
+            }
+        ),
     )
     password2 = CharField(
         max_length=64,
-        widget=PasswordFloatingInputWidget(attrs={"label": "Powtórz hasło"}),
+        widget=PasswordFloatingInputWidget(
+            attrs={
+                "label": "Powtórz hasło",
+                "properties": [("autocomplete", '"new-password"')],
+            }
+        ),
     )
 
     # def clean_password1(self): TODO

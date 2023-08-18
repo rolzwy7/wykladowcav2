@@ -1,3 +1,4 @@
+from django.conf import settings
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
 from pymongo import UpdateOne
 
@@ -21,7 +22,10 @@ class MailingPoolManager:
         client, database = get_mongo_connection()
         self.client = client
         self.database = database
-        self.collection = self.database.wykladowcav2_mailing_pool
+        if settings.APP_ENV == "production":
+            self.collection = self.database.wykladowcav2_mailing_pool
+        else:
+            self.collection = self.database.wykladowcav2_mailing_pool_dev
 
     def close(self):
         """Close connection"""
@@ -69,3 +73,22 @@ class MailingPoolManager:
                 "campaign_id": campaign_id,
             }
         ).limit(limit)
+
+    def is_campaign_finished(self, campaign_id: int) -> bool:
+        """Check if campaign is finished
+
+        Campaign is considered `finished` if there are no emails of
+        `init-like` status left: BEING_PROCESSED, MX_VALID, READY_TO_SEND
+        """
+        documents_count = self.collection.count_documents(
+            {
+                "$or": [
+                    {"status": MailingPoolStatus.BEING_PROCESSED},
+                    {"status": MailingPoolStatus.MX_VALID},
+                    {"status": MailingPoolStatus.READY_TO_SEND},
+                ],
+                "campaign_id": campaign_id,
+            }
+        )
+
+        return documents_count == 0

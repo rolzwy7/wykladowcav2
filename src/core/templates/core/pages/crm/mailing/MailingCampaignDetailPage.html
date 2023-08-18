@@ -19,6 +19,25 @@
             <!--end::Description-->
         </h1>
         <!--end::Title-->
+        <p>
+
+            <a target="_blank" href="{% url 'admin:core_mailingcampaign_change' object_id=mailing_campaign.id %}">
+                <b>Edytuj kampanie w CMS</b>
+            </a>
+            /
+            <a target="_blank" href="{% url 'admin:core_mailingtemplate_change' object_id=mailing_campaign.id %}">
+                <b>Edytuj szablon w CMS</b>
+            </a>
+            /
+            <a target="_blank" href="{% url 'core:crm_mailing_campaign_preview_html' pk=mailing_campaign.pk %}">
+                <b>HTML preview</b>
+            </a>
+            /
+            <a target="_blank" href="{% url 'core:crm_mailing_campaign_preview_text' pk=mailing_campaign.pk %}">
+                <b>TEXT preview</b>
+            </a>
+
+        </p>
     </div>
     <!--end::Page title-->
     <!--begin::Actions-->
@@ -52,6 +71,15 @@
     </div>
     <!--end::Toolbar-->
 
+    <p class="fs-4 mb-1">
+        Tytuły:
+    </p>
+    <ol>
+        {% for subject in mailing_campaign.get_subjects %}
+        <li class="fs-4">{{subject}}</li>
+        {% endfor %}
+    </ol>
+
     <div class="table-responsive">
         <table class="table">
             <thead>
@@ -61,9 +89,15 @@
                 </tr>
             </thead>
             <tbody>
-                {% for status_name, count in statuses %}
-                <tr>
-                    <td>{{status_name}}</td>
+                {% for status, status_name, count in statuses %}
+                <tr class="{% cycle 'bg-secondary' '' %} fs-4">
+                    <td class="ps-3">
+                        <a
+                            class="fw-bold"
+                            href="{% url 'core:crm_mailing_campaign_email_search_page' pk=mailing_campaign.pk %}?status={{status}}">
+                            {{status_name}}
+                        </a>
+                    </td>
                     <td>{{count}}</td>
                 </tr>
                 {% endfor %}
@@ -138,7 +172,7 @@
         // Set data
         // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Setting_data
         series.data.setAll([
-            {% for status_name, count in statuses %}
+            {% for status, status_name, count in statuses %}
             {
                 value: {{count}},
                 category: "{{status_name}}"

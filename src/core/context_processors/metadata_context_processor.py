@@ -16,7 +16,6 @@ def page_title(request: HttpRequest) -> str:
         str: _description_
     """
 
-    path_kwargs = request.resolver_match.kwargs
     path = request.path
 
     if path == "/":  # Homepage

@@ -1,16 +1,12 @@
 from django.db.models import Index, Model, URLField
 
-# TODO:
-
 
 class UrlRedirect(Model):
     """Represents URL redirect"""
 
-    indexes = [
-        Index(fields=["url"]),
-    ]
+    url = URLField(primary_key=True)
 
-    url = URLField()
+    target_url = URLField()
 
     class Meta:
         verbose_name = "Przekierowanie URL"

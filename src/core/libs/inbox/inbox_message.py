@@ -12,6 +12,8 @@ from core.libs.normalizers import normalize_polish
 
 from .decode_header import decode_header
 
+EMAIL_REGEXP = r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+"
+
 
 class InboxMessage:
     """Represents email mailbox message"""
@@ -24,9 +26,14 @@ class InboxMessage:
         return decode_header(self.message.get(header_name, default_value))
 
     @property
-    def unique_hash(self):
-        """Returns SHA256 hash of email string representation"""
-        return hashlib.sha256(self.message.as_string().encode()).hexdigest()
+    def unique_hash(self) -> str:
+        """Returns SHA256 hash of email string representation or Message-Id"""
+        try:
+            # Try to make sha256 hash of email content
+            return hashlib.sha256(self.message.as_string().encode()).hexdigest()
+        except UnicodeEncodeError:
+            # If encoding error occurs fallbac to `Message-Id`
+            return self.message_id_header
 
     @property
     def subject_header(self) -> str:
@@ -86,8 +93,8 @@ class InboxMessage:
 
         return False
 
-    def is_resignation(self):
-        """Is email message a resignation"""
+    def is_subject_resignation(self):
+        """Does email message subject contains resignation"""
         subject = normalize_polish(self.subject_header)
         return any(
             [
@@ -96,21 +103,28 @@ class InboxMessage:
             ]
         )
 
+    def get_subject_emails(self) -> list[str]:
+        """Get emails from e-mail message subject"""
+        subject = self.subject_header.lower()
+        return list(set(re.findall(EMAIL_REGEXP, subject)))
+
     def get_content(self):
         """Get readable content of an email"""
-        content_type_preferences = [
+        content_type_preferences = [  # order is important
             "text/html",
             "text/plain",
         ]
 
         parts_preferences: list[tuple[str, Message, Optional[str]]] = []
 
-        # Get parts
+        # Get e-mail content parts
+        # If email is multipart get all parts
         if self.message.is_multipart():
             for part in self.message.walk():
                 content_type = part.get_content_type()
                 content_charset = part.get_content_charset()
                 parts_preferences.append((content_type, part, content_charset))
+        # If email is not multipart just get only existing part
         else:
             content_type = self.message.get_content_type()
             content_charset = self.message.get_content_charset()
@@ -118,23 +132,28 @@ class InboxMessage:
                 (content_type, self.message, content_charset)
             )
 
-        fallback_content = ""
+        fallback_content = "NO_CONTENT"
 
-        # Try to return content
+        # Try to return content only for preffered part types
         for content_type, part, content_charset in parts_preferences:
             for content_type_preference in content_type_preferences:
+                # If part is of preffered type try to return decoded content
                 if content_type_preference in content_type.lower():
+                    decoded = part.get_payload(decode=True)
+
+                    # If content charset is set then try to decode it with it
                     if content_charset:
-                        return part.get_payload(decode=True).decode(
-                            content_charset
-                        )
-                    else:
-                        decoded = part.get_payload(decode=True)
                         try:
-                            decoded = decoded.decode("utf8")
-                        except Exception as exception:
-                            fallback_content = str(exception)
-                        else:
-                            return decoded
+                            return decoded.decode(content_charset)
+                        except UnicodeDecodeError:
+                            pass
+
+                    # If given content charset is not correct fallback to utf8
+                    try:
+                        decoded = decoded.decode("utf8")
+                    except UnicodeDecodeError as exception:
+                        fallback_content = f"Exception: {str(exception)}"
+                    else:
+                        return decoded
 
         return fallback_content

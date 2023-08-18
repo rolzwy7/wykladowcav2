@@ -99,104 +99,41 @@
                       >
                         <!--begin:Row-->
                         <div class="row">
+                          {% for name, url, short_description, icon_html in HEADER_CATEGORIES %}
                           <!--begin:Col-->
                           <div class="col-lg-6 mb-3">
                             <!--begin:Menu item-->
                             <div class="menu-item p-0 m-0">
                               <!--begin:Menu link-->
                               <a
-                                href="../../demo5/dist/index.html"
-                                class="menu-link active"
-                              >
-                                <span
-                                  class="menu-custom-icon d-flex flex-center flex-shrink-0 rounded w-40px h-40px me-3"
-                                >
-                                  <i
-                                    class="ki-duotone ki-element-11 text-primary fs-1"
-                                  >
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                    <span class="path3"></span>
-                                    <span class="path4"></span>
-                                  </i>
-                                </span>
-                                <span class="d-flex flex-column">
-                                  <span class="fs-6 fw-bold text-gray-800"
-                                    >Default</span
-                                  >
-                                  <span
-                                    class="fs-7 fw-semibold text-muted"
-                                    >Reports & statistics</span
-                                  >
-                                </span>
-                              </a>
-                              <!--end:Menu link-->
-                            </div>
-                            <!--end:Menu item-->
-                          </div>
-                          <!--end:Col-->
-                          <!--begin:Col-->
-                          <div class="col-lg-6 mb-3">
-                            <!--begin:Menu item-->
-                            <div class="menu-item p-0 m-0">
-                              <!--begin:Menu link-->
-                              <a
-                                href="../../demo5/dist/dashboards/ecommerce.html"
+                                href="{{url}}"
                                 class="menu-link"
                               >
                                 <span
                                   class="menu-custom-icon d-flex flex-center flex-shrink-0 rounded w-40px h-40px me-3"
                                 >
-                                  <i
-                                    class="ki-duotone ki-basket text-danger fs-1"
-                                  >
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                    <span class="path3"></span>
-                                    <span class="path4"></span>
-                                  </i>
-                                </span>
-                                <span class="d-flex flex-column">
-                                  <span class="fs-6 fw-bold text-gray-800"
-                                    >eCommerce</span
-                                  >
-                                  <span
-                                    class="fs-7 fw-semibold text-muted"
-                                    >Sales reports</span
-                                  >
-                                </span>
-                              </a>
-                              <!--end:Menu link-->
-                            </div>
-                            <!--end:Menu item-->
-                          </div>
-                          <!--end:Col-->
-                          <!--begin:Col-->
-                          <div class="col-lg-6 mb-3">
-                            <!--begin:Menu item-->
-                            <div class="menu-item p-0 m-0">
-                              <!--begin:Menu link-->
-                              <a
-                                href="../../demo5/dist/dashboards/projects.html"
-                                class="menu-link"
-                              >
-                                <span
-                                  class="menu-custom-icon d-flex flex-center flex-shrink-0 rounded w-40px h-40px me-3"
+                                {% if icon_html %}
+                                {{icon_html|safe}}
+                                {% else %}
+                                <i
+                                  class="ki-duotone ki-abstract-8 text-primary fs-1"
                                 >
-                                  <i
-                                    class="ki-duotone ki-abstract-44 text-info fs-1"
-                                  >
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                  </i>
+                                  <span class="path1"></span>
+                                  <span class="path2"></span>
+                                  <span class="path3"></span>
+                                  <span class="path4"></span>
+                                </i>
+                                {% endif %}
                                 </span>
                                 <span class="d-flex flex-column">
-                                  <span class="fs-6 fw-bold text-gray-800"
-                                    >Projects</span
+                                  <span class="fs-4 fw-bold text-gray-800">
+                                    {{name}}
+                                  </span
                                   >
                                   <span
-                                    class="fs-7 fw-semibold text-muted"
-                                    >Tasts, graphs & charts</span
+                                    class="fs-7 fw-semibold text-gray-700">
+                                    {{short_description}}
+                                    </span
                                   >
                                 </span>
                               </a>
@@ -205,203 +142,7 @@
                             <!--end:Menu item-->
                           </div>
                           <!--end:Col-->
-                          <!--begin:Col-->
-                          <div class="col-lg-6 mb-3">
-                            <!--begin:Menu item-->
-                            <div class="menu-item p-0 m-0">
-                              <!--begin:Menu link-->
-                              <a
-                                href="../../demo5/dist/dashboards/online-courses.html"
-                                class="menu-link"
-                              >
-                                <span
-                                  class="menu-custom-icon d-flex flex-center flex-shrink-0 rounded w-40px h-40px me-3"
-                                >
-                                  <i
-                                    class="ki-duotone ki-color-swatch text-success fs-1"
-                                  >
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                    <span class="path3"></span>
-                                    <span class="path4"></span>
-                                    <span class="path5"></span>
-                                    <span class="path6"></span>
-                                    <span class="path7"></span>
-                                    <span class="path8"></span>
-                                    <span class="path9"></span>
-                                    <span class="path10"></span>
-                                    <span class="path11"></span>
-                                    <span class="path12"></span>
-                                    <span class="path13"></span>
-                                    <span class="path14"></span>
-                                    <span class="path15"></span>
-                                    <span class="path16"></span>
-                                    <span class="path17"></span>
-                                    <span class="path18"></span>
-                                    <span class="path19"></span>
-                                    <span class="path20"></span>
-                                    <span class="path21"></span>
-                                  </i>
-                                </span>
-                                <span class="d-flex flex-column">
-                                  <span class="fs-6 fw-bold text-gray-800"
-                                    >Online Courses</span
-                                  >
-                                  <span
-                                    class="fs-7 fw-semibold text-muted"
-                                    >Student progress</span
-                                  >
-                                </span>
-                              </a>
-                              <!--end:Menu link-->
-                            </div>
-                            <!--end:Menu item-->
-                          </div>
-                          <!--end:Col-->
-                          <!--begin:Col-->
-                          <div class="col-lg-6 mb-3">
-                            <!--begin:Menu item-->
-                            <div class="menu-item p-0 m-0">
-                              <!--begin:Menu link-->
-                              <a
-                                href="../../demo5/dist/dashboards/marketing.html"
-                                class="menu-link"
-                              >
-                                <span
-                                  class="menu-custom-icon d-flex flex-center flex-shrink-0 rounded w-40px h-40px me-3"
-                                >
-                                  <i
-                                    class="ki-duotone ki-chart-simple text-dark fs-1"
-                                  >
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                    <span class="path3"></span>
-                                    <span class="path4"></span>
-                                  </i>
-                                </span>
-                                <span class="d-flex flex-column">
-                                  <span class="fs-6 fw-bold text-gray-800"
-                                    >Marketing</span
-                                  >
-                                  <span
-                                    class="fs-7 fw-semibold text-muted"
-                                    >Campaings & conversions</span
-                                  >
-                                </span>
-                              </a>
-                              <!--end:Menu link-->
-                            </div>
-                            <!--end:Menu item-->
-                          </div>
-                          <!--end:Col-->
-                          <!--begin:Col-->
-                          <div class="col-lg-6 mb-3">
-                            <!--begin:Menu item-->
-                            <div class="menu-item p-0 m-0">
-                              <!--begin:Menu link-->
-                              <a
-                                href="../../demo5/dist/dashboards/bidding.html"
-                                class="menu-link"
-                              >
-                                <span
-                                  class="menu-custom-icon d-flex flex-center flex-shrink-0 rounded w-40px h-40px me-3"
-                                >
-                                  <i
-                                    class="ki-duotone ki-switch text-warning fs-1"
-                                  >
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                  </i>
-                                </span>
-                                <span class="d-flex flex-column">
-                                  <span class="fs-6 fw-bold text-gray-800"
-                                    >Bidding</span
-                                  >
-                                  <span
-                                    class="fs-7 fw-semibold text-muted"
-                                    >Campaings & conversions</span
-                                  >
-                                </span>
-                              </a>
-                              <!--end:Menu link-->
-                            </div>
-                            <!--end:Menu item-->
-                          </div>
-                          <!--end:Col-->
-                          <!--begin:Col-->
-                          <div class="col-lg-6 mb-3">
-                            <!--begin:Menu item-->
-                            <div class="menu-item p-0 m-0">
-                              <!--begin:Menu link-->
-                              <a
-                                href="../../demo5/dist/dashboards/pos.html"
-                                class="menu-link"
-                              >
-                                <span
-                                  class="menu-custom-icon d-flex flex-center flex-shrink-0 rounded w-40px h-40px me-3"
-                                >
-                                  <i
-                                    class="ki-duotone ki-abstract-42 text-danger fs-1"
-                                  >
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                  </i>
-                                </span>
-                                <span class="d-flex flex-column">
-                                  <span class="fs-6 fw-bold text-gray-800"
-                                    >POS System</span
-                                  >
-                                  <span
-                                    class="fs-7 fw-semibold text-muted"
-                                    >Campaings & conversions</span
-                                  >
-                                </span>
-                              </a>
-                              <!--end:Menu link-->
-                            </div>
-                            <!--end:Menu item-->
-                          </div>
-                          <!--end:Col-->
-                          <!--begin:Col-->
-                          <div class="col-lg-6 mb-3">
-                            <!--begin:Menu item-->
-                            <div class="menu-item p-0 m-0">
-                              <!--begin:Menu link-->
-                              <a
-                                href="../../demo5/dist/dashboards/call-center.html"
-                                class="menu-link"
-                              >
-                                <span
-                                  class="menu-custom-icon d-flex flex-center flex-shrink-0 rounded w-40px h-40px me-3"
-                                >
-                                  <i
-                                    class="ki-duotone ki-call text-primary fs-1"
-                                  >
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                    <span class="path3"></span>
-                                    <span class="path4"></span>
-                                    <span class="path5"></span>
-                                    <span class="path6"></span>
-                                    <span class="path7"></span>
-                                    <span class="path8"></span>
-                                  </i>
-                                </span>
-                                <span class="d-flex flex-column">
-                                  <span class="fs-6 fw-bold text-gray-800"
-                                    >Call Center</span
-                                  >
-                                  <span
-                                    class="fs-7 fw-semibold text-muted"
-                                    >Campaings & conversions</span
-                                  >
-                                </span>
-                              </a>
-                              <!--end:Menu link-->
-                            </div>
-                            <!--end:Menu item-->
-                          </div>
-                          <!--end:Col-->
+                          {% endfor %}
                         </div>
                         <!--end:Row-->
                         <div
@@ -415,12 +156,12 @@
                             <div class="fs-6 fw-bold text-gray-800">
                               Weź udział w programie partnerskim!
                             </div>
-                            <div class="fs-7 fw-semibold text-muted">
+                            <div class="fs-7 fw-semibold text-gray-700">
                               Oferujemy 10% prowizij za każde polecone szkolenie.
                             </div>
                           </div>
                           <a
-                            href="../../demo5/dist/landing.html"
+                            href="{% url 'core:loyalty_program_terms_of_service_accept_page' %}"
                             class="btn btn-sm btn-primary fw-bold"
                             >Program partnerski</a
                           >
@@ -436,119 +177,17 @@
                         <h4
                           class="fs-6 fs-lg-4 text-gray-800 fw-bold mt-3 mb-3 ms-4"
                         >
-                          More Dashboards
+                          Nasi wykładowcy
                         </h4>
                         <!--end:Heading-->
                         <!--begin:Menu item-->
                         <div class="menu-item p-0 m-0">
                           <!--begin:Menu link-->
                           <a
-                            href="../../demo5/dist/dashboards/logistics.html"
+                            href="#"
                             class="menu-link py-2"
                           >
                             <span class="menu-title">Logistics</span>
-                          </a>
-                          <!--end:Menu link-->
-                        </div>
-                        <!--end:Menu item-->
-                        <!--begin:Menu item-->
-                        <div class="menu-item p-0 m-0">
-                          <!--begin:Menu link-->
-                          <a
-                            href="../../demo5/dist/dashboards/website-analytics.html"
-                            class="menu-link py-2"
-                          >
-                            <span class="menu-title"
-                              >Website Analytics</span
-                            >
-                          </a>
-                          <!--end:Menu link-->
-                        </div>
-                        <!--end:Menu item-->
-                        <!--begin:Menu item-->
-                        <div class="menu-item p-0 m-0">
-                          <!--begin:Menu link-->
-                          <a
-                            href="../../demo5/dist/dashboards/finance-performance.html"
-                            class="menu-link py-2"
-                          >
-                            <span class="menu-title"
-                              >Finance Performance</span
-                            >
-                          </a>
-                          <!--end:Menu link-->
-                        </div>
-                        <!--end:Menu item-->
-                        <!--begin:Menu item-->
-                        <div class="menu-item p-0 m-0">
-                          <!--begin:Menu link-->
-                          <a
-                            href="../../demo5/dist/dashboards/store-analytics.html"
-                            class="menu-link py-2"
-                          >
-                            <span class="menu-title"
-                              >Store Analytics</span
-                            >
-                          </a>
-                          <!--end:Menu link-->
-                        </div>
-                        <!--end:Menu item-->
-                        <!--begin:Menu item-->
-                        <div class="menu-item p-0 m-0">
-                          <!--begin:Menu link-->
-                          <a
-                            href="../../demo5/dist/dashboards/social.html"
-                            class="menu-link py-2"
-                          >
-                            <span class="menu-title">Social</span>
-                          </a>
-                          <!--end:Menu link-->
-                        </div>
-                        <!--end:Menu item-->
-                        <!--begin:Menu item-->
-                        <div class="menu-item p-0 m-0">
-                          <!--begin:Menu link-->
-                          <a
-                            href="../../demo5/dist/dashboards/delivery.html"
-                            class="menu-link py-2"
-                          >
-                            <span class="menu-title">Delivery</span>
-                          </a>
-                          <!--end:Menu link-->
-                        </div>
-                        <!--end:Menu item-->
-                        <!--begin:Menu item-->
-                        <div class="menu-item p-0 m-0">
-                          <!--begin:Menu link-->
-                          <a
-                            href="../../demo5/dist/dashboards/crypto.html"
-                            class="menu-link py-2"
-                          >
-                            <span class="menu-title">Crypto</span>
-                          </a>
-                          <!--end:Menu link-->
-                        </div>
-                        <!--end:Menu item-->
-                        <!--begin:Menu item-->
-                        <div class="menu-item p-0 m-0">
-                          <!--begin:Menu link-->
-                          <a
-                            href="../../demo5/dist/dashboards/school.html"
-                            class="menu-link py-2"
-                          >
-                            <span class="menu-title">School</span>
-                          </a>
-                          <!--end:Menu link-->
-                        </div>
-                        <!--end:Menu item-->
-                        <!--begin:Menu item-->
-                        <div class="menu-item p-0 m-0">
-                          <!--begin:Menu link-->
-                          <a
-                            href="../../demo5/dist/dashboards/podcast.html"
-                            class="menu-link py-2"
-                          >
-                            <span class="menu-title">Podcast</span>
                           </a>
                           <!--end:Menu link-->
                         </div>

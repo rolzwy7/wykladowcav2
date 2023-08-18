@@ -1,14 +1,14 @@
 {% extends './WebinarBase.html' %}
 
-{% block webinar_main_col %}
+{% comment %} {% block webinar_main_col %}
 <div class="col-xl-12">
 {% endblock webinar_main_col %}
 
-{% block webinar_rightbar %}{% endblock webinar_rightbar %}
+{% block webinar_rightbar %}{% endblock webinar_rightbar %} {% endcomment %}
 
 {% block webinar_content %}
 
-<div class="card">
+<div class="card shadow-sm">
     <div class="card-body">  
         <div class="row">
             {% for lecturer_opinion in lecturer_opinions %}

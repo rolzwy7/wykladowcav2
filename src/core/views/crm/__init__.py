@@ -12,6 +12,7 @@ from .crm_previews import (
     crm_submitter_confirmation_email_preview,
     crm_submitter_moving_email_preview,
 )
+from .crm_take_over_account import crm_take_over_account
 from .crm_todos_list import crm_todos_done_list, crm_todos_list
 from .webinar import (
     crm_upcoming_webinars,

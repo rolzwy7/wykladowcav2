@@ -10,6 +10,7 @@ from django.db.models import (
     Model,
     OneToOneField,
     PositiveSmallIntegerField,
+    QuerySet,
     TextField,
 )
 
@@ -47,8 +48,18 @@ class LoyaltyProgram(Model):
         return f"{self.ref_number}"
 
 
+class LoyaltyProgramIncomeManager(Manager):
+    """LoyaltyProgramIncome query Manager"""
+
+    def for_user(self, user) -> QuerySet["LoyaltyProgramIncome"]:
+        """Get all incomes for given user"""
+        return self.get_queryset().filter(loyalty_program__user=user)
+
+
 class LoyaltyProgramIncome(Model):
     """Represents loyalty program income"""
+
+    manager = LoyaltyProgramIncomeManager()
 
     created_at = DateTimeField(auto_now_add=True)
 
@@ -87,8 +98,18 @@ class LoyaltyProgramIncome(Model):
         return f"{self.id}"  # type: ignore
 
 
+class LoyaltyProgramPayoutManager(Manager):
+    """LoyaltyProgramPayout query Manager"""
+
+    def for_user(self, user) -> QuerySet["LoyaltyProgramPayout"]:
+        """Get all payouts for given user"""
+        return self.get_queryset().filter(loyalty_program__user=user)
+
+
 class LoyaltyProgramPayout(Model):
     """Represents loyalty program payout"""
+
+    manager = LoyaltyProgramPayoutManager()
 
     created_at = DateTimeField(auto_now_add=True)
 
@@ -118,7 +139,7 @@ class LoyaltyProgramPayout(Model):
         "Wartość Brutto", max_digits=10, decimal_places=2
     )
 
-    invoice_attachment = FileField()
+    invoice_attachment = FileField(upload_to="uploads/loyalty_payouts")
 
     class Meta:
         verbose_name = "Program partnerski (Wypłata)"

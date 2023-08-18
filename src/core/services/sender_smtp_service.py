@@ -1,6 +1,7 @@
 from poplib import POP3_SSL
 from typing import Iterable
 
+from django.core.mail import EmailMultiAlternatives
 from django.core.mail.backends.smtp import EmailBackend
 
 from core.models.mailing import SmtpSender
@@ -44,3 +45,41 @@ class SenderSmtpService:
             use_ssl=sender.ssl,
             timeout=timeout,
         )
+
+    def send_email(
+        self,
+        /,
+        connection: EmailBackend,
+        email: str,
+        alias: str,
+        subject: str,
+        html: str,
+        text: str,
+    ):
+        """Send email message"""
+
+        from_email = f'"{alias}" <{self.smtp_sender.username}>'
+        to_email = email
+        text_content = text
+        html_content = html
+        list_unsubscribe = f"<mailto:{from_email}?subject=Rezygnacja {email}>"
+        reply_to = self.smtp_sender.reply_to
+
+        # TODO: temporary solution
+        html_content = html_content.replace("{TO_EMAIL}", to_email)
+        text_content = text_content.replace("{TO_EMAIL}", to_email)
+
+        msg = EmailMultiAlternatives(
+            subject=subject,
+            body=text_content,
+            from_email=from_email,
+            headers={
+                "Precedence": "bulk",
+                "List-Unsubscribe": list_unsubscribe,
+                "Reply-To": reply_to,
+            },
+            to=[to_email],
+            connection=connection,
+        )
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()

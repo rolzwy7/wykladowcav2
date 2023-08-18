@@ -24,6 +24,12 @@ class RegistrationService:
         user.save()
         return user
 
+    @staticmethod
+    def get_user_by_activation_token(activation_token: str):
+        """Activate user by activation token"""
+        user: User = User.objects.get(activation_token=activation_token)
+        return user
+
     def create_user(self, first_name: str, last_name: str) -> User:
         """Create user"""
         user: User = User.objects.create_user(

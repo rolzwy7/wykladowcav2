@@ -1,0 +1,50 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+
+
+<!--begin::Row-->
+<div class="row g-6 g-xl-9 mb-10">
+
+    <!--begin::Col-->
+    <div class="col-md-12 col-xl-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">
+            Przejmij konto
+          </h3>
+        </div>
+        <div class="card-body">
+          <p class="fw-bold">
+            <a href="{% url 'admin:core_user_changelist' %}" target="_blank">
+              Link: CMS Użytkownicy
+            </a>
+          </p>
+          <p class="fs-4">
+          Wpisz numer ID użytkownika, którego konto chcesz przejąć.
+          </p>
+          <div class="separator my-5 border-4"></div>
+            <form method="get" action="{% url 'core:crm_take_over_account' %}">
+              <div class="input-group mb-3">
+                <input type="number" class="form-control" placeholder="Numer ID użytkownika" name="user_id">
+                <span class="input-group-text" id="basic-addon2">
+                  <input type="submit" value="Przejmij" class="btn btn-success">
+                </span>
+              </div>
+            </form>
+        </div>
+      </div>
+    </div>
+    <!--end::Col-->
+
+  </div>
+  <!--end::Row-->
+
+  {% endblock crm_content %}
+
+{% block body_scripts %}
+{% endblock body_scripts %}
