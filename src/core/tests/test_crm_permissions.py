@@ -19,8 +19,14 @@ class CrmPermissionsTestCase(TestCase):
 
     def test_WhenNotAuthenticatedStaffMember_Then401Unauthorized(self):
         """
-        If unauthentizated user or authentizated non-staff user tries to
-        access CRM pages then raise `401 Unauthorized`
+        If:
+            - unauthenticated user
+            OR
+            - authenticated non-staff user
+        tries to:
+            access CRM pages
+        then:
+            raise `401 Unauthorized`
         """
 
         self.user.is_staff = False
@@ -33,6 +39,13 @@ class CrmPermissionsTestCase(TestCase):
         self.assertNotEqual(len(crm_urlpatterns), 0)
 
         for urlpattern in crm_urlpatterns:
+            # Try to get urlpattern's name
+            try:
+                urlpattern.name
+            except AttributeError:
+                # It's not a `path` object, skip
+                continue
+
             if "<int:pk>" in urlpattern.pattern._route:
                 url = reverse(f"core:{urlpattern.name}", kwargs={"pk": 1})
             else:
@@ -60,6 +73,13 @@ class CrmPermissionsTestCase(TestCase):
         self.assertNotEqual(len(crm_urlpatterns), 0)
 
         for urlpattern in crm_urlpatterns:
+            # Try to get urlpattern's name
+            try:
+                urlpattern.name
+            except AttributeError:
+                # It's not a `path` object, skip
+                continue
+
             if "<int:pk>" in urlpattern.pattern._route:
                 url = reverse(f"core:{urlpattern.name}", kwargs={"pk": 1})
             else:

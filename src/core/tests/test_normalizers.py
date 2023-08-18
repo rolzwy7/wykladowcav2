@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from core_app.libs.normalizer import normalize_polish
+from core.libs.normalizers import normalize_polish
 
 
 class NormalizersTestCase(TestCase):

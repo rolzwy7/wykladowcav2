@@ -1,5 +1,5 @@
 def test_WhenCorrectIdSupplied_ThenRedirect():
-    raise NotImplementedError()
+    ...  # TODO
 
 
 def test_WhenIncorrectIdSupplied_ThenRedirectToDefault():

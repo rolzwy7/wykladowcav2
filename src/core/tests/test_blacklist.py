@@ -47,30 +47,19 @@ class BlacklistUnitTestCase(TestCase):
 
     def test_WhenDomainBlacklisted_ThenTrue(self):
         assert (
-            BlacklistService.is_domain_blacklisted(
-                f"prefix@{BLACKLISTED_DOMAIN}"
-            )
-            is True
+            BlacklistService.is_domain_blacklisted(BLACKLISTED_DOMAIN) is True
         )
 
     def test_WhenDomainNotBlacklisted_ThenFalse(self):
-        assert (
-            BlacklistService.is_domain_blacklisted(f"prefix@{DOMAIN}") is False
-        )
+        assert BlacklistService.is_domain_blacklisted(DOMAIN) is False
 
     def test_WhenPrefixBlacklisted_ThenTrue(self):
         assert (
-            BlacklistService.is_prefix_blacklisted(
-                f"{BLACKLISTED_PREFIX}@domain.com"
-            )
-            is True
+            BlacklistService.is_prefix_blacklisted(BLACKLISTED_PREFIX) is True
         )
 
     def test_WhenPrefixNotBlacklisted_ThenFalse(self):
-        assert (
-            BlacklistService.is_prefix_blacklisted(f"{PREFIX}@domain.com")
-            is False
-        )
+        assert BlacklistService.is_prefix_blacklisted(PREFIX) is False
 
     # def test_WhenPhraseBlacklisted_ThenTrue(self):
     #     phrases = [obj.phrase for obj in BlacklistedPhrase.objects.all()]
