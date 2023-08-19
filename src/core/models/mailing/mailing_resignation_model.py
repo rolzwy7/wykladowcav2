@@ -51,16 +51,23 @@ class MailingResignationManager:
         resignation_code = self.generate_unused_resignation_code()
         document = MailingResignation(email=email, confirmed=False).dict()
         self.collection.insert_one({"_id": resignation_code, **document})
-
         return document
+
+    def get_by_resignation_code(self, code: str):
+        """Get resignation by resignation code"""
+        return self.collection.find_one({"_id": code})
 
     def is_resignation(self, email: str) -> bool:
         """Is email in confirmed resignations"""
         document = self.collection.find_one({"email": email, "confirmed": True})
         return document is not None
 
-    def mark_confirmed(self, email: str) -> None:
-        """Mark resignation as cofirmed"""
+    def mark_confirmed_by_email(self, email: str) -> None:
+        """Mark resignation as cofirmed by email"""
         self.collection.update_one(
             {"email": email}, {"$set": {"confirmed": True}}
         )
+
+    def mark_confirmed_by_code(self, code: str) -> None:
+        """Mark resignation as cofirmed by code"""
+        self.collection.update_one({"_id": code}, {"$set": {"confirmed": True}})

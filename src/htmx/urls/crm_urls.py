@@ -3,6 +3,8 @@ from django.urls import path
 from htmx.views.crm import (
     htmx_crm_application_cancellation_toggle,
     htmx_crm_delete_webinar_asset,
+    htmx_crm_email_tagging_init,
+    htmx_crm_email_tagging_toggle,
     htmx_crm_lecturer_price_card,
     htmx_crm_participant_indicators,
     htmx_crm_participant_toggle_phoned,
@@ -39,5 +41,15 @@ urlpatterns = [
         "lecturer-price-card/<int:webinar_pk>/<str:mode>",
         htmx_crm_lecturer_price_card,
         name="htmx_crm_lecturer_price_card",
+    ),
+    path(
+        "tag-email/<str:email>",
+        htmx_crm_email_tagging_init,
+        name="htmx_crm_email_tagging_init",
+    ),
+    path(
+        "toggle-tag/<str:email>/<str:tag>",
+        htmx_crm_email_tagging_toggle,
+        name="htmx_crm_email_tagging_toggle",
     ),
 ]

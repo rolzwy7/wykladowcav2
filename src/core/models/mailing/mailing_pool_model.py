@@ -22,8 +22,11 @@ class MailingPoolManager:
         client, database = get_mongo_connection()
         self.client = client
         self.database = database
+
         if settings.APP_ENV == "production":
             self.collection = self.database.wykladowcav2_mailing_pool
+        elif settings.APP_ENV == "staging":
+            self.collection = self.database.wykladowcav2_mailing_pool_staging
         else:
             self.collection = self.database.wykladowcav2_mailing_pool_dev
 

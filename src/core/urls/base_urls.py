@@ -8,6 +8,7 @@ from core.views import (
     webinar_category_page,
 )
 from core.views.lecturer import lecturer_list_page
+from core.views.mailing_resignation import mailing_resignation_page
 
 from .application_urls import urlpatterns as application_urlpatterns
 from .assets_urls import urlpatterns as assets_urlpatterns
@@ -46,6 +47,11 @@ urlpatterns = [
     path("certyfikat/", include(certificate_urlpatterns)),
     path("nagrania/", include(recording_urlpatterns)),
     path("materialy-szkoleniowe/", include(assets_urlpatterns)),
+    path(
+        "rezygnacja/<str:resignation_code>/",
+        mailing_resignation_page,
+        name="mailing_resignation_page",
+    ),
     *terms_and_conditions_urlpatterns,
     path("", home_page, name="homepage"),
 ]

@@ -16,16 +16,6 @@ from core.views.crm import (
 )
 from core.views.crm.company import CrmCompanyDetail, CrmCompanyList
 from core.views.crm.contact import CrmContactDetail, CrmContactList
-from core.views.crm.mailing import (
-    crm_mailing_campaign_add_emails,
-    crm_mailing_campaign_delete_emails,
-    crm_mailing_campaign_detail,
-    crm_mailing_campaign_email_search_page,
-    crm_mailing_campaign_list,
-    crm_mailing_campaign_preview_html,
-    crm_mailing_campaign_preview_text,
-    crm_mailing_campaign_send_test_email,
-)
 from core.views.crm.webinar.actions import (
     CancelWebinarAction,
     ConfirmWebinarAction,
@@ -33,6 +23,7 @@ from core.views.crm.webinar.actions import (
     move_webinar_action,
 )
 
+from .mailing_campaign_urls import urlpatterns as mailing_campaign_urlpatterns
 from .tagging_url import urlpatterns as tagging_urlpatterns
 
 urlpatterns = [
@@ -115,48 +106,7 @@ urlpatterns = [
         crm_archived_webinars,
         name="crm_archived_webinars",
     ),
-    # Mailing TODO: move this to seperate urlpatterns
-    path(
-        "kampanie-mailingowe/",
-        crm_mailing_campaign_list,
-        name="crm_mailing_campaigns_list",
-    ),
-    path(
-        "kampanie-mailingowe/<int:pk>/",
-        crm_mailing_campaign_detail,
-        name="crm_mailing_campaign_detail",
-    ),
-    path(
-        "kampanie-mailingowe/<int:pk>/szukaj/",
-        crm_mailing_campaign_email_search_page,
-        name="crm_mailing_campaign_email_search_page",
-    ),
-    path(
-        "kampanie-mailingowe/<int:pk>/dodaj-emaile/",
-        crm_mailing_campaign_add_emails,
-        name="crm_mailing_campaign_add_emails",
-    ),
-    path(
-        "kampanie-mailingowe/<int:pk>/usun-emaile/",
-        crm_mailing_campaign_delete_emails,
-        name="crm_mailing_campaign_delete_emails",
-    ),
-    path(
-        "kampanie-mailingowe/<int:pk>/testowy-email/",
-        crm_mailing_campaign_send_test_email,
-        name="crm_mailing_campaign_send_test_email",
-    ),
-    path(
-        "kampanie-mailingowe/<int:pk>/podglad/html/",
-        crm_mailing_campaign_preview_html,
-        name="crm_mailing_campaign_preview_html",
-    ),
-    path(
-        "kampanie-mailingowe/<int:pk>/podglad/text/",
-        crm_mailing_campaign_preview_text,
-        name="crm_mailing_campaign_preview_text",
-    ),
-    # Tagging TODO: move this
+    path("kampanie-mailingowe/", include(mailing_campaign_urlpatterns)),
     path("tagowanie/", include(tagging_urlpatterns)),
     # Take over account
     path(

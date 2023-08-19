@@ -157,7 +157,7 @@ data-kt-sticky-zindex="95"
     <div class="menu-item">
       <a
         href="{% url 'core:crm_tagging_dashboard_page' %}"
-        class="menu-link"
+        class="menu-link {% if request.path|startswith:'/crm/tagowanie/' %}active{% endif %}"
       >
         <span class="menu-title">
           Tagowanie

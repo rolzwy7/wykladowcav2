@@ -1,0 +1,5 @@
+<div
+    hx-get="{% url 'htmx:htmx_crm_email_tagging_init' email=email %}"
+    hx-trigger="load delay:{{delay_ms|default:"100"}}ms">
+    Ładuję...
+</div>

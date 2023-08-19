@@ -1,0 +1,29 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+<!--begin::Row-->
+<div class="row g-6 g-xl-9 mb-10">
+
+    <!--begin::Col-->
+    <div class="col-md-12 col-xl-12">
+      <div class="card">
+        <div class="card-header">
+            Taguj pojedynczy e-mail           
+        </div>
+        <div class="card-body">
+          {% include './snippets/EmailTaggingCard.html' with email=email %}
+        </div>
+      </div>
+    </div>
+    <!--end::Col-->
+
+  </div>
+  <!--end::Row-->
+
+  {% endblock crm_content %}
+
+{% block body_scripts %}{% endblock body_scripts %}

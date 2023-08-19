@@ -56,7 +56,7 @@ class MailingWebinarTemplateService:
 
     def get_read_more_text(self) -> str:
         """Get read more href URL"""
-        return f"Czytaj cały program szkolenia na stronie {COMPANY_NAME}"
+        return f"Czytaj cały program webinaru na stronie {COMPANY_NAME}"
 
     def get_program(self) -> str:
         """Get program"""

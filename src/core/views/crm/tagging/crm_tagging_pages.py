@@ -1,6 +1,8 @@
 from django.http import HttpRequest, HttpResponse
 from django.template.response import TemplateResponse
 
+from core.consts import INIT_TAGS, POST
+from core.forms import TaggingAddEmailsForm
 from core.models.tagging import TaggedEmailManager
 from core.services import TaggingService
 
@@ -28,7 +30,7 @@ def crm_tagging_iframe_mirror(request: HttpRequest):
     return HttpResponse(content, headers=headers)
 
 
-# TODO: cache this?
+# TODO: cache this? delete this?
 def crm_tagging_tool(request: HttpRequest):
     """Tagging tool"""
     template_path = "core/pages/crm/tagging/CrmTaggingTool.html"
@@ -58,7 +60,6 @@ def crm_tagging_tool(request: HttpRequest):
     )
 
 
-# TODO: crm_tagging_dashboard_page
 def crm_tagging_dashboard_page(request: HttpRequest):
     """Tagging dashboard page"""
     template_path = "core/pages/crm/tagging/CrmTaggingDashboardPage.html"
@@ -74,8 +75,63 @@ def crm_tagging_dashboard_page(request: HttpRequest):
         {
             "all_emails_count": all_emails_count,
             "untagged_emails_count": untagged_emails_count,
+            "INIT_TAGS": INIT_TAGS,
         },
     )
+
+
+def crm_tagging_paste_text_page(request: HttpRequest):
+    """Tagging dashboard page"""
+    template_path = "core/pages/crm/tagging/CrmTaggingPasteTextPage.html"
+    service = TaggingService()
+
+    if request.method == POST:
+        text = request.POST["text"].lower()
+        emails = service.find_all_emails(text)
+    else:
+        emails = []
+
+    emails = sorted(list(set(emails)))
+    emails = [((idx + 1) * 2000, email) for idx, email in enumerate(emails)]
+
+    return TemplateResponse(
+        request,
+        template_path,
+        {"emails": emails},
+    )
+
+
+def crm_tagging_import_emails_page(request: HttpRequest, tag: str):
+    """Tagging dashboard page"""
+    template_path = "core/pages/crm/tagging/CrmTaggingImportEmailsPage.html"
+
+    if tag not in INIT_TAGS:
+        return HttpResponse("Invalid tag")
+
+    service = TaggingService()
+
+    if request.method == POST:
+        form = TaggingAddEmailsForm(request.POST, request.FILES)
+        if form.is_valid():
+            file = form.cleaned_data["file"]
+            service.load_emails_from_file_into_tagging(file, tag)
+
+    return TemplateResponse(
+        request,
+        template_path,
+        {"tag": tag},
+    )
+
+
+def crm_tag_single_email_page(
+    request: HttpRequest,
+):
+    """Page for tagging single e-mail provided by user"""
+    template_path = "core/pages/crm/tagging/CrmTagSingleEmailPage.html"
+
+    email = request.GET.get("email", "")  # TODO email validation
+
+    return TemplateResponse(request, template_path, {"email": email})
 
 
 # TODO: crm_export_tagged_emails_page

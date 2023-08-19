@@ -69,6 +69,14 @@ class SenderSmtpService:
         html_content = html_content.replace("{TO_EMAIL}", to_email)
         text_content = text_content.replace("{TO_EMAIL}", to_email)
 
+        # TODO: temporary solution
+        html_content = html_content.replace("{SUB_URL}", to_email)
+        text_content = text_content.replace("{SUB_URL}", to_email)
+
+        # TODO: temporary solution
+        html_content = html_content.replace("{RESIGNATION_URL}", to_email)
+        text_content = text_content.replace("{RESIGNATION_URL}", to_email)
+
         msg = EmailMultiAlternatives(
             subject=subject,
             body=text_content,

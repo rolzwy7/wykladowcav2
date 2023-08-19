@@ -1,6 +1,9 @@
 import re
 
 import requests
+from django.core.files.uploadedfile import InMemoryUploadedFile
+
+from core.models.tagging import TaggedEmailManager
 
 
 class TaggingService:
@@ -25,3 +28,36 @@ class TaggingService:
     def find_all_emails(self, content: str) -> list[str]:
         """Find all emails"""
         return list(set(re.findall(self.EMAIL_REGEXP, content)))
+
+    def load_emails_from_file_into_tagging(
+        self, file: InMemoryUploadedFile, tag: str
+    ) -> None:
+        """Load emails from file into campaign"""
+
+        manager = TaggedEmailManager()
+        # batch = []
+
+        for line in file:
+            if isinstance(line, str):
+                email = line.strip().lower()
+            else:
+                email = str(line, "utf8").strip().lower()
+
+            if re.match(self.EMAIL_REGEXP, email) is None:
+                continue
+
+            manager.get_or_create_tagged_email(email)
+            # TODO: if tag already in then skip
+            manager.add_tags_to_email(email, [tag])
+
+            # batch.append(manager.create_upsert_object(email, [tag]))
+
+            # if len(batch) >= 100:
+            #     manager.collection.bulk_write(batch)
+            #     batch = []
+
+        # if batch:
+        #     manager.collection.bulk_write(batch)
+        #     batch = []
+
+        manager.close()

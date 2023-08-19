@@ -126,12 +126,12 @@ def process_scan_inboxes():
                 from_email = inbox_message.from_email
                 print("Resigntion (from e-mail):", from_email)
                 resignation_manager.get_or_create_resignation(from_email)
-                resignation_manager.mark_confirmed(from_email)
+                resignation_manager.mark_confirmed_by_email(from_email)
                 subject_emails = inbox_message.get_subject_emails()
                 for subject_email in subject_emails:
                     print("Resigntion (subject e-mail):", subject_email)
                     resignation_manager.get_or_create_resignation(subject_email)
-                    resignation_manager.mark_confirmed(subject_email)
+                    resignation_manager.mark_confirmed_by_email(subject_email)
                 resignation_manager.close()
 
         pop3.quit()

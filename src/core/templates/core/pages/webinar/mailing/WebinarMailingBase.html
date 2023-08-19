@@ -78,9 +78,9 @@
                     <h3 style="margin: 1em 0; font-size:1.17em">Program webinaru</h3>
                     <hr style="border-width: 0; background: #000; color: #000; height:0.2em">
                     <p style="margin: 1em 0;">{{program|safe}}</p>
-                    <p style="margin: 1em 0;">
+                    <p style="margin: 1em 0;text-align:center;">
                       <strong style="font-weight: bold; color: #dc143c;">
-                        Użyj poniższego przycisku, aby przeczytać cały program szkolenia.
+                        Użyj poniższego przycisku, aby przeczytać cały program webinaru.
                       </strong>
                     </p>
                     {% include './snippets/WebinarMailingCTA.html' with text=read_more_text href=read_more_href %}
@@ -95,19 +95,6 @@
                     {% include './snippets/WebinarMailingCTA.html' with text=cta_text href=cta_href %}
                   </td>
                 </tr>
-
-                              
-                <tr>
-                  <td style="{{td_classes|safe}}padding-top:15px;">
-                    <p style="margin: 1em 0;">
-                      Wiadomość ta nie stanowi ofer;ty handlowej w rozumieniu prawa.
-                    </p>
-                    <p style="margin: 1em 0;">
-                      Informacje w zakresie polityki prywatności znajdują się <a href="{{privacy_policy_href}}">{{COMPANY_NAME}}</a>
-                    </p>
-                  </td>
-                </tr>
-
                 
               </tbody>
             </table>

@@ -21,10 +21,7 @@ class MailingBounceManager:
         client, database = get_mongo_connection()
         self.client = client
         self.database = database
-        if settings.APP_ENV == "production":
-            self.collection = self.database.wykladowcav2_mailing_bounces
-        else:
-            self.collection = self.database.wykladowcav2_mailing_bounces_dev
+        self.collection = self.database.wykladowcav2_mailing_bounces
 
     def close(self):
         """Close connection"""

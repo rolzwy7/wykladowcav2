@@ -10,7 +10,7 @@ from core.models import (
     SmtpSender,
 )
 from core.models.enums import MailingCampaignStatus, MailingPoolStatus
-from core.services import SenderSmtpService
+from core.services import MailingResignationService, SenderSmtpService
 
 
 class ProcessSendingStatus:
@@ -56,6 +56,11 @@ def process_sending(campaign: MailingCampaign, limit: int = 100) -> str:
         html_content = html
 
         print("[*] Processing email:", email)
+
+        resignation_service = MailingResignationService()
+        resignation_code = resignation_service.get_or_create_resignation_code(
+            email
+        )
 
         try:
             send_attempt_counter += 1

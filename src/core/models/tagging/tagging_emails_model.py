@@ -1,6 +1,7 @@
 from time import time
 
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
+from pymongo import UpdateOne
 
 from core.libs.mongo.db import get_mongo_connection
 
@@ -26,6 +27,23 @@ class TaggedEmailManager:
         """Close connection"""
         self.client.close()
 
+    def create_upsert_object(self, email: str, tags: list[str]) -> UpdateOne:
+        """Create upsert object"""
+        prefix, domain = email.split("@")
+        return UpdateOne(
+            {"_id": email},
+            {
+                "$set": {
+                    "_id": email,
+                    "tags": {"$addToSet": {"tags": {"$each": tags}}},
+                    "created_at": int(time()),
+                    "prefix": prefix,
+                    "domain": domain,
+                }
+            },
+            upsert=True,
+        )
+
     def get_tagged_email(self, email: str):
         """Get tagged email"""
         return self.collection.find_one({"_id": email})
@@ -42,7 +60,7 @@ class TaggedEmailManager:
 
         document = self.get_tagged_email(email)
 
-        if not document:
+        if document is None:
             prefix, domain = email.split("@")
             self.collection.insert_one(
                 {
