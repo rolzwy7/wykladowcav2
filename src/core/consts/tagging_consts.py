@@ -6,4 +6,5 @@ INIT_TAGS = [
     "GŁ_KSIEGOWA",
     "VERIFY_VALID",
     "JST",
+    "NASZ_KLIENT",
 ]
