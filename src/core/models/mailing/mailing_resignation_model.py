@@ -51,7 +51,7 @@ class MailingResignationManager:
         resignation_code = self.generate_unused_resignation_code()
         document = MailingResignation(email=email, confirmed=False).dict()
         self.collection.insert_one({"_id": resignation_code, **document})
-        return document
+        return {"_id": resignation_code, **document}
 
     def get_by_resignation_code(self, code: str):
         """Get resignation by resignation code"""

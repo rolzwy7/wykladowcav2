@@ -11,6 +11,7 @@ from core.forms import (
     MailingSendTestEmailForm,
 )
 from core.models import MailingCampaign, MailingTemplate
+from core.models.enums import mailing_pool_status_display_map
 from core.models.mailing import MailingPoolManager
 from core.services import MailingCampaignService, SenderSmtpService
 
@@ -176,7 +177,7 @@ def crm_mailing_campaign_email_search_page(request, pk: int):
     campaign = get_object_or_404(MailingCampaign, pk=pk)
     campaign_id: int = campaign.id  # type: ignore
 
-    email_regex = request.GET.get("regex", "")
+    email_regex = request.GET.get("email_regex", "")
     status = request.GET.get("status", "")
 
     mongo_filter = {"campaign_id": campaign_id}
@@ -196,5 +197,17 @@ def crm_mailing_campaign_email_search_page(request, pk: int):
     return TemplateResponse(
         request,
         template_path,
-        {"campaign": campaign, "pool": pool},
+        {
+            "campaign": campaign,
+            "pool": pool,
+            "email_regex": email_regex,
+            "status": status,
+            "status_select_options": [
+                *[("", "Wszystkie")],
+                *[
+                    (key, value)
+                    for key, value in mailing_pool_status_display_map.items()
+                ],
+            ],
+        },
     )

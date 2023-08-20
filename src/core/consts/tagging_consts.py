@@ -1,4 +1,5 @@
 INIT_TAGS = [
+    "KSIEGOWOSC-KADRY",
     "KADRY",
     "KSIEGOWOSC",
     "SP_MIESZKANIOWE",

@@ -1,10 +1,15 @@
 from poplib import POP3_SSL
 from typing import Iterable
 
+from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.core.mail.backends.smtp import EmailBackend
+from django.urls import reverse
 
 from core.models.mailing import SmtpSender
+from core.services import MailingResignationService
+
+BASE_URL = settings.BASE_URL
 
 
 class SenderSmtpService:
@@ -66,6 +71,16 @@ class SenderSmtpService:
         reply_to = self.smtp_sender.reply_to
 
         # TODO: temporary solution
+        resignation_service = MailingResignationService()
+        resignation_code = resignation_service.get_or_create_resignation_code(
+            email
+        )
+        resignation_url = BASE_URL + reverse(
+            "core:mailing_resignation_page",
+            kwargs={"resignation_code": resignation_code},
+        )
+
+        # TODO: temporary solution
         html_content = html_content.replace("{TO_EMAIL}", to_email)
         text_content = text_content.replace("{TO_EMAIL}", to_email)
 
@@ -74,8 +89,12 @@ class SenderSmtpService:
         text_content = text_content.replace("{SUB_URL}", to_email)
 
         # TODO: temporary solution
-        html_content = html_content.replace("{RESIGNATION_URL}", to_email)
-        text_content = text_content.replace("{RESIGNATION_URL}", to_email)
+        html_content = html_content.replace(
+            "{RESIGNATION_URL}", resignation_url
+        )
+        text_content = text_content.replace(
+            "{RESIGNATION_URL}", resignation_url
+        )
 
         msg = EmailMultiAlternatives(
             subject=subject,

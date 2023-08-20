@@ -22,3 +22,4 @@ from .patron_consts import (
 from .requests_consts import GET, POST
 from .slugs_consts import SLUG_HELP_TEXT
 from .tagging_consts import INIT_TAGS
+from .webmail_consts import WEBMAILS

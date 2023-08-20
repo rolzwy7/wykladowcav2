@@ -6,9 +6,29 @@
 {% endblock head_stylesheets %}
 
 {% block crm_content %}
-    <h1>Testowa wysyłka</h1>
+    <h1>{{campaign}}</h1>
     <hr>
-    MailingCampaignEmailSearchPage {{campaign}}
+    <form
+        method="get"
+        action="{% url 'core:crm_mailing_campaign_email_search_page' pk=campaign.pk %}"
+        >
+        <select name="status" class="form-select mb-2">
+            {% for key, value in status_select_options %}
+            <option value="{{key}}" {% if status == key %}selected{% endif %}>
+                {{value}}
+            </option>
+            {% endfor %}
+        </select>
+        <!--begin::Input group-->
+        <div class="input-group mb-5">
+            <span class="input-group-text">Szukaj</span>
+            <input type="text" name="email_regex" value="{{email_regex}}" class="form-control" placeholder="E-mail"/>
+            <span class="input-group-text">
+                <input type="submit" class="btn btn-sm btn-primary" value="Szukaj">
+            </span>
+        </div>
+        <!--end::Input group-->
+    </form>
     <hr>
     <div class="table-responsive">
         <table class="table">

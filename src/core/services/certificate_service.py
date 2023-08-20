@@ -68,7 +68,7 @@ def text_center(
         y (int): offset for Y axis
         fill (tuple): RGBA color fill
     """
-    ts_w, ts_h = draw.textsize(text, font=font)
+    ts_w, ts_h = draw.textsize(text, font=font)  # type: ignore
 
     draw.text(
         (
@@ -137,7 +137,7 @@ def text_center_multiline(
             line_seq.append(word)
 
         line_str = " ".join(line_seq)
-        ts_w, _ = draw.textsize(line_str, font=font)
+        ts_w, _ = draw.textsize(line_str, font=font)  # type: ignore
 
         if ts_w > max_width_px:
             # Calculate max line ratio for this line candidate
@@ -148,9 +148,8 @@ def text_center_multiline(
             if max_line_ratio >= 1.2:
                 corrected_word = line_seq.pop()
                 line_str = " ".join(line_seq)  # update line str
-                ts_w, _ = draw.textsize(
-                    line_str, font=font
-                )  # update text width
+                # update text width
+                ts_w, _ = draw.textsize(line_str, font=font)  # type: ignore
             else:
                 corrected_word = None
 

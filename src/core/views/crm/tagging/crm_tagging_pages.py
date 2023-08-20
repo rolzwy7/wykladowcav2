@@ -92,7 +92,7 @@ def crm_tagging_paste_text_page(request: HttpRequest):
         emails = []
 
     emails = sorted(list(set(emails)))
-    emails = [((idx + 1) * 2000, email) for idx, email in enumerate(emails)]
+    emails = [(idx * 2000, email) for idx, email in enumerate(emails)]
 
     return TemplateResponse(
         request,
