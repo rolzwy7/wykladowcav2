@@ -20,7 +20,7 @@ from .regon_service import RegonService
 from .sender_smtp_service import SenderSmtpService
 from .streaming_service import StreamingService
 from .tagging_service import TaggingService
-from .telegram_service import TelegramChats, TelegramService
+from .telegram_service import TelegramService
 from .webinar_assets_service import WebinarAssetsService
 from .webinar_moving_service import Webinar, WebinarMovingService
 from .webinar_service import WebinarService

@@ -3,6 +3,7 @@ from smtplib import SMTPServerDisconnected
 
 from django.core.management.base import BaseCommand
 
+from core.consts import TelegramChats
 from core.models import (
     MailingCampaign,
     MailingPoolManager,
@@ -10,7 +11,7 @@ from core.models import (
     SmtpSender,
 )
 from core.models.enums import MailingCampaignStatus, MailingPoolStatus
-from core.services import SenderSmtpService
+from core.services import SenderSmtpService, TelegramService
 
 
 class ProcessSendingStatus:
@@ -94,6 +95,13 @@ def try_to_finish_campaign(campaign: MailingCampaign):
         print("[*] No init emails left, closing campaign:", campaign)
         campaign.status = MailingCampaignStatus.DONE
         campaign.save()
+
+        telegram_service = TelegramService()
+        telegram_service.send_chat_message(
+            f"Kampania mailignowa zakończona: {campaign.title}",
+            TelegramChats.OTHER,
+        )
+
     pool_manager.close()
 
 

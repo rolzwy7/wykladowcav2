@@ -1,6 +1,6 @@
 from celery import chain, group
-from django.conf import settings
 
+from core.consts import TelegramChats
 from core.models import Lecturer, Webinar, WebinarParticipant
 from core.tasks import (
     params_create_clickmeeting_room,
@@ -58,6 +58,6 @@ def after_webinar_confirm_dispatch(webinar: Webinar):
         group(*preparation_emails),
         task_send_telegram_notification.si(
             f"Termin szkolenia #{webinar_id} został potwierdzony",
-            settings.TELEGRAM_CHAT_ID_OTHER,
+            TelegramChats.OTHER,
         ),
     ).apply_async()

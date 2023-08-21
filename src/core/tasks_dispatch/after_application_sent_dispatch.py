@@ -1,6 +1,6 @@
 from celery import chain, group
-from django.conf import settings
 
+from core.consts import TelegramChats
 from core.models import (
     Webinar,
     WebinarApplication,
@@ -50,6 +50,6 @@ def after_application_sent_dispatch(
         ),
         task_send_telegram_notification.si(
             f"Wysłano zgłoszenie na szkolenie #{webinar_id}",
-            settings.TELEGRAM_CHAT_ID_APPLICATIONS,
+            TelegramChats.APPLICATIONS,
         ),
     ).apply_async()

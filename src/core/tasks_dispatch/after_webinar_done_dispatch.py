@@ -8,6 +8,7 @@ from django.conf import settings
 from django.utils.timezone import now
 from django_celery_beat.models import IntervalSchedule, PeriodicTask
 
+from core.consts import TelegramChats
 from core.models import Webinar, WebinarApplication, WebinarParticipant
 from core.tasks import (
     params_send_participant_certificate_email,
@@ -78,7 +79,7 @@ def after_webinar_done_dispatch(webinar: Webinar):
         # Send Telegram notification
         task_send_telegram_notification.si(
             f"Zrealizowano szkolenie #{webinar_id}",
-            settings.TELEGRAM_CHAT_ID_OTHER,
+            TelegramChats.OTHER,
         ),
     ).apply_async()
 

@@ -1,15 +1,9 @@
 import requests
 from django.conf import settings
+from requests import Response
 
 TELEGRAM_API_BASE = settings.TELEGRAM_API_BASE
 TELEGRAM_API_KEY = settings.TELEGRAM_API_KEY
-
-
-class TelegramChats:
-    """Chat IDs"""
-
-    TELEGRAM_CHAT_ID_APPLICATIONS = settings.TELEGRAM_CHAT_ID_APPLICATIONS
-    TELEGRAM_CHAT_ID_OTHER = settings.TELEGRAM_CHAT_ID_OTHER
 
 
 class TelegramService:
@@ -18,7 +12,7 @@ class TelegramService:
     def __init__(self) -> None:
         pass
 
-    def send_chat_message(self, message: str, chat_id: str):
+    def send_chat_message(self, message: str, chat_id: str) -> Response:
         """Send telegram chat message
 
         Args:
@@ -35,3 +29,4 @@ class TelegramService:
             },
         )
         response.raise_for_status()
+        return response

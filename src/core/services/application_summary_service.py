@@ -1,4 +1,6 @@
 # flake8: noqa:E501
+# pylint: disable=line-too-long
+# pylint: disable=import-outside-toplevel
 
 from core.models import (
     User,
@@ -7,7 +9,6 @@ from core.models import (
     WebinarApplicationSubmitter,
 )
 from core.models.enums import ApplicationStatus
-from core.tasks_dispatch import after_application_sent_dispatch
 
 
 class ApplicationSummaryService:
@@ -43,4 +44,6 @@ class ApplicationSummaryService:
         self.webinar.save()
 
         # Dispatch tasks after application send
+        from core.tasks_dispatch import after_application_sent_dispatch
+
         after_application_sent_dispatch(self.application, submitter)
