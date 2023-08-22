@@ -68,6 +68,14 @@ def process_sending(campaign: MailingCampaign, limit: int = 100) -> str:
                 html=html_content,
                 text=text_content,
             )
+        except TimeoutError as exception:
+            print(f"[-] Timeout for `{email}`: {exception}")
+            print("[*] Sleeping 10s ...")
+            time.sleep(10)
+            print(f"[*] Marking `{email}` as `BEING_PROCESSED`")
+            pool_manager.change_status(
+                document_id, MailingPoolStatus.BEING_PROCESSED
+            )
         except SMTPServerDisconnected as exception:
             pool_manager.change_status(
                 document_id, MailingPoolStatus.SMTP_SERVER_DISCONNECTED
