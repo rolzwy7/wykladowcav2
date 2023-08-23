@@ -6,10 +6,11 @@
     <!--begin::Wrapper-->
     <div class="d-flex flex-column pe-0 pe-sm-10">
         <!--begin::Content-->
-        <span>
+        <span class="fs-6">
             To szkolenie po
-            <b>{{webinar.discount_until|date:"j E Y"}} godz. {{webinar.discount_until|date:"H:i"}}</b>
-            będzie <b>{{webinar.discount_value}}zł</b> droższe od osoby
+            <b>{{webinar.discount_until|date:"j E Y"}} {{webinar.discount_until|date:"H:i"}}</b>
+            <br>
+            będzie o <b>{{webinar.discount_value}}zł</b> droższe od osoby
         </span>
         <!--end::Content-->
     </div>

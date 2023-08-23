@@ -31,7 +31,7 @@
           {% if webinar.is_confirmed %}
           <span class="badge badge-warning fs-7">
             <i class="ki-duotone ki-star fs-4 text-light-warning me-1"><i class="path1"></i><i class="path2"></i></i>
-            Pewny termin
+            PEWNY TERMIN
           </span>
           {% endif %}
         </div>
@@ -122,7 +122,6 @@
           </span> {% endcomment %}
           <!--end::Answers-->
           
-          
           <!--begin::Stat-->
           <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6">
             <!--begin::Number-->
@@ -132,14 +131,33 @@
                     <i class="path2"></i>
                 </i>
                 <div class="fs-5 fw-bold counted">
-                    {{webinar.date|date:"j E Y"}}, {{webinar.date|date:"H:i"}}-{{webinar.date_end|date:"H:i"}}
+                    {{webinar.date|date:"j E Y"}}
                 </div>
             </div>
             <!--end::Number-->
             <!--begin::Label-->
-            <div class="fw-semibold fs-6 text-gray-700">Data i godzina szkolenia</div>
+            <div class="fw-semibold fs-6 text-gray-700">Data szkolenia</div>
             <!--end::Label-->
-        </div>
+          </div>
+
+          <!--begin::Stat-->
+          <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6">
+            <!--begin::Number-->
+            <div class="d-flex align-items-center">
+                <i class="ki-duotone ki-calendar fs-2 text-grey me-2">
+                    <i class="path1"></i>
+                    <i class="path2"></i>
+                </i>
+                <div class="fs-5 fw-bold counted">
+                    {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}
+                </div>
+            </div>
+            <!--end::Number-->
+            <!--begin::Label-->
+            <div class="fw-semibold fs-6 text-gray-700">Godzina szkolenia</div>
+            <!--end::Label-->
+          </div>
+
           <!--begin::Stat-->
           <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6">
             <!--begin::Number-->

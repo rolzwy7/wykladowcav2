@@ -30,6 +30,7 @@ def metadata(request: HttpRequest):
         "META__TITLE": page_title(request),
         "META__DESCRIPTION": "META__DESCRIPTION",  # TODO
         "META__KEYWORDS": "META__KEYWORDS",  # TODO
+        "META__HTML_LANG": "pl",
         "META__OG_LOCALE": "pl_PL",
         "META__OG_URL": f"{BASE_URL}{request.path}",
         "META__OG_SITE_NAME": COMPANY_NAME,

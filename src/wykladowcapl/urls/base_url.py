@@ -17,7 +17,7 @@ urlpatterns = [
     sitemap_xml_path,
     path("robots.txt", robots_page, name="robots_page"),
     # Django Debug Toolbar
-    path("__debug__/", include("debug_toolbar.urls")),
+    path("__debug__/", include("debug_toolbar.urls"), name="debug_toolbar"),
     path("", include("core.urls", namespace="core")),
 ]
 

@@ -23,6 +23,7 @@ from core.views.crm.webinar.actions import (
     move_webinar_action,
 )
 
+from .lecturer_urls import urlpatterns as lecturer_urlpatterns
 from .mailing_campaign_urls import urlpatterns as mailing_campaign_urlpatterns
 from .tagging_url import urlpatterns as tagging_urlpatterns
 
@@ -108,6 +109,7 @@ urlpatterns = [
     ),
     path("kampanie-mailingowe/", include(mailing_campaign_urlpatterns)),
     path("tagowanie/", include(tagging_urlpatterns)),
+    path("wykladowcy/", include(lecturer_urlpatterns)),
     # Take over account
     path(
         "przejmij-konto/",

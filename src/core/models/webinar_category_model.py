@@ -6,6 +6,7 @@ from django.db.models import (
     Manager,
     Model,
     PositiveSmallIntegerField,
+    Q,
     QuerySet,
     SlugField,
     TextField,
@@ -20,7 +21,11 @@ class WebinarCategoryManager(Manager):
 
     def sidebar_categories(self) -> QuerySet["WebinarCategory"]:
         """Get sidebar categories"""
-        return self.get_queryset().filter(visible=True).order_by("order")
+        return (
+            self.get_queryset()
+            .filter(Q(visible=True) & Q(parent=None))
+            .order_by("order")
+        )
 
 
 class WebinarCategory(Model):

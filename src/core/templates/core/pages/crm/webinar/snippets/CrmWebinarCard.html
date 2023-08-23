@@ -39,7 +39,9 @@
                                     <span class="path2"></span>
                                     <span class="path3"></span>
                                 </i>
-                                {{webinar.lecturer.fullname}}
+                                <a href="{% url 'core:lecturer_stats_page' pk=webinar.lecturer.pk %}">
+                                    {{webinar.lecturer.fullname}}
+                                </a>
                             </span>
                             <span class="d-flex align-items-center text-gray-700 me-5 mb-2">
                                 <i class="ki-duotone ki-cd fs-4 me-1 text-{% include './WebinarStatusColor.html' %}">

@@ -1,6 +1,7 @@
 from django.db.models import Q
 from django.utils.timezone import now, timedelta
 
+from core.consts import DANGEROUSE_PHRASES
 from core.models import (
     BlacklistedDomain,
     BlacklistedEmail,
@@ -8,34 +9,6 @@ from core.models import (
     BlacklistedPhrase,
     BlacklistedPrefix,
 )
-
-DANGEROUSE_PHRASES = [
-    "@gazeta.pl",
-    "@totalexpert",
-    "abuse@",
-    "admin@",
-    "administrator@",
-    "biuroprasowe",
-    "burmistrz",
-    "inspektor",
-    "inspektor@",
-    "iod",
-    "iod@",
-    "komenda",
-    "noreply@",
-    "parafia",
-    "policja",
-    "prezes@",
-    "prezydent",
-    "rodo",
-    "rodo@",
-    "spam",
-    "trap",
-    "uodo",
-    "uodo@",
-    "webmaster@",
-    "wojt",
-]
 
 
 class BlacklistService:
@@ -46,7 +19,7 @@ class BlacklistService:
 
     @staticmethod
     def is_email_dangerous_to_send(email: str):
-        """Check if email is dangerous to send"""
+        """Check if email is dangerous to send by checking phrases"""
         for dangerouse_phrase in DANGEROUSE_PHRASES:
             if dangerouse_phrase in email.lower():
                 return True

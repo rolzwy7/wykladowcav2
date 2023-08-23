@@ -58,6 +58,7 @@ class MailingPoolStatus:
 
     # Connection error
     SMTP_SERVER_DISCONNECTED = "SMTP_SERVER_DISCONNECTED"
+    CONNECTION_REFUSED = "CONNECTION_REFUSED"
 
     # Success status
     SENT = "SENT"

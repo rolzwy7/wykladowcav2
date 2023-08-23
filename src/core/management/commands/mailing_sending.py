@@ -1,5 +1,5 @@
 import time
-from smtplib import SMTPServerDisconnected
+from smtplib import SMTPRecipientsRefused, SMTPServerDisconnected
 
 from django.core.management.base import BaseCommand
 
@@ -81,6 +81,16 @@ def process_sending(campaign: MailingCampaign, limit: int = 100) -> str:
                 document_id, MailingPoolStatus.SMTP_SERVER_DISCONNECTED
             )
             print(f"[-] SMTPServerDisconnected: {exception}")
+        except ConnectionRefusedError as exception:
+            pool_manager.change_status(
+                document_id, MailingPoolStatus.CONNECTION_REFUSED
+            )
+            print(f"[-] ConnectionRefusedError: {exception}")
+        except SMTPRecipientsRefused as exception:
+            pool_manager.change_status(
+                document_id, MailingPoolStatus.CONNECTION_REFUSED
+            )
+            print(f"[-] SMTPRecipientsRefused: {exception}")
         else:
             pool_manager.change_status(document_id, MailingPoolStatus.SENT)
             print(f"[+] Sent to `{email}`")

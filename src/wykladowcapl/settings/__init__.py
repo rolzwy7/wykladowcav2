@@ -1,5 +1,6 @@
 # flake8: noqa
 from .base_profile import *
+from .cache import CACHES
 from .celery import *
 from .clickmeeting import *
 from .company import *

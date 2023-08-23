@@ -36,109 +36,35 @@ data-kt-sticky-zindex="95"
     data-kt-menu="true"
   >
 
-  {% for widget_type, category_order, category_url, category_name, category_count in SIDEBAR_CATEGORIES %}
-    {% if widget_type == "HEADER" %}
-      <!--begin::Heading-->
-      <div class="menu-item">
-        <div class="menu-content pb-2">
-          <span
-            class="menu-section text-muted text-uppercase fs-7 fw-bold"
-            >{{category_name}}</span
-          >
-        </div>
-      </div>
-      <!--end::Heading-->
-    {% endif %}
-    {% if widget_type == "ITEM" %}
+  <!--begin::Menu item-->
+  <div class="menu-item">
+    <a
+      href="{% url 'core:webinar_category_page' slug="wszystkie" %}"
+      class="menu-link {% if request.path == "/szkolenia/wszystkie/" %}active{% endif %}"
+    >
+      <span class="menu-title">Wszystkie szkolenia</span>
+    </a>
+  </div>
+  <!--end::Menu item-->
+
+  {% for category_order, category_count, category_name, category_url in SIDEBAR_CATEGORIES %}
       <!--begin::Menu item-->
       <div class="menu-item">
         <a
           href="{{category_url}}"
           class="menu-link {% if request.path == category_url %}active{% endif %}"
         >
-          <span class="menu-title">{{category_name}}</span>
+          <span class="menu-title text-gray-700">{{category_name}}</span>
           {% if category_count %}
-            <span class="menu-badge">{{category_count}}</span>
+
+          <span class="menu-badge">
+            <span class="badge badge-sm badge-circle badge-primary">{{category_count}}</span>
+        </span>
           {% endif %}
         </a>
       </div>
       <!--end::Menu item-->
-    {% endif %}
   {% endfor %}
-  {% comment %}
-  <!--begin::Heading-->
-  <div class="menu-item">
-    <div class="menu-content pb-2">
-      <span
-        class="menu-section text-muted text-uppercase fs-7 fw-bold"
-        >
-          Odnośniki
-        </span
-      >
-    </div>
-  </div>
-  <!--end::Heading-->
-  <!--begin::Menu item-->
-  <div class="menu-item">
-    <a
-      href="{% url 'core:lecturer_list_page' %}"
-      class="menu-link"
-    >
-      <span class="menu-title">Wykładowcy</span>
-    </a>
-  </div>
-  <!--end::Menu item-->
-  <!--begin::Menu item-->
-  <div class="menu-item">
-    <a
-      href="#"
-      class="menu-link"
-    >
-      <span class="menu-title">Kontakt</span>
-    </a>
-  </div>
-  <!--end::Menu item-->
-  <!--begin::Menu item-->
-  <div class="menu-item">
-    <a
-      href="#"
-      class="menu-link"
-    >
-      <span class="menu-title">O nas</span>
-    </a>
-  </div>
-  <!--end::Menu item-->
-  <!--begin::Menu item-->
-  <div class="menu-item">
-    <a
-      href="{% url 'core:terms_and_conditions_webinars' %}"
-      class="menu-link"
-    >
-      <span class="menu-title">Regulamin szkoleń</span>
-    </a>
-  </div>
-  <!--end::Menu item-->
-  <!--begin::Menu item-->
-  <div class="menu-item">
-    <a
-      href="{% url 'core:privacy_policy' %}"
-      class="menu-link"
-    >
-      <span class="menu-title">Polityka prywatności</span>
-    </a>
-  </div>
-  <!--end::Menu item-->
-  <!--begin::Menu item-->
-  <div class="menu-item">
-    <a
-      href="{% url 'core:cookies_policy' %}"
-      class="menu-link"
-    >
-      <span class="menu-title">Polityka cookies</span>
-    </a>
-  </div>
-  <!--end::Menu item-->
-  {% endcomment %}
   </div>
   <!--end::Menu-->
 </div>

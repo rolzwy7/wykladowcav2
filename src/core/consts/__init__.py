@@ -1,4 +1,5 @@
 # flake8: noqa
+from .email_dangerous_phrases import DANGEROUSE_PHRASES
 from .exemptions_consts import (
     ALLOWED_EXEMPTIONS_BY_APPLICATION_TYPE,
     CHOICES_VAT_EXEMPTIONS,
