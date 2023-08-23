@@ -76,21 +76,25 @@ def process_sending(campaign: MailingCampaign, limit: int = 100) -> str:
             pool_manager.change_status(
                 document_id, MailingPoolStatus.BEING_PROCESSED
             )
+            connection = smtp_service.get_smtp_connection()
         except SMTPServerDisconnected as exception:
             pool_manager.change_status(
                 document_id, MailingPoolStatus.SMTP_SERVER_DISCONNECTED
             )
             print(f"[-] SMTPServerDisconnected: {exception}")
+            connection = smtp_service.get_smtp_connection()
         except ConnectionRefusedError as exception:
             pool_manager.change_status(
                 document_id, MailingPoolStatus.CONNECTION_REFUSED
             )
             print(f"[-] ConnectionRefusedError: {exception}")
+            connection = smtp_service.get_smtp_connection()
         except SMTPRecipientsRefused as exception:
             pool_manager.change_status(
                 document_id, MailingPoolStatus.CONNECTION_REFUSED
             )
             print(f"[-] SMTPRecipientsRefused: {exception}")
+            connection = smtp_service.get_smtp_connection()
         else:
             pool_manager.change_status(document_id, MailingPoolStatus.SENT)
             print(f"[+] Sent to `{email}`")
