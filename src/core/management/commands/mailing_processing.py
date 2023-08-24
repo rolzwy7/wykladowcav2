@@ -15,7 +15,10 @@ from core.models import (
     SmtpSender,
 )
 from core.models.enums import MailingBounceStatus, MailingPoolStatus
-from core.models.mailing import MailingResignationManager
+from core.models.mailing import (
+    MailingProcessingCacheManager,
+    MailingResignationManager,
+)
 from core.services import (
     BlacklistService,
     MailingResignationService,
@@ -26,9 +29,9 @@ from core.services import (
 logging.getLogger("flufl.bounce").setLevel(logging.WARNING)
 
 
-# TODO: Backoff time/sleep when there is no emails. max 5 minutes
-
 INBOX_SCAN_CACHE = {}
+
+SLEEP_BETWEEN_LOOPS_SECONDS = 15
 
 
 def process_scan_inboxes():
@@ -44,8 +47,6 @@ def process_scan_inboxes():
         smtp_service = SenderSmtpService(smtp_sender)
         pop3 = smtp_service.get_pop3_instance()
         bounce_manager = MailingBounceManager()
-        # TODO: Create to_delete list of messages ids and mark
-        # them as to be deleted
 
         # Iterate over inbox messages
         for message in smtp_service.get_inbox_messages(pop3):
@@ -53,12 +54,10 @@ def process_scan_inboxes():
             inbox_message = InboxMessage(message_bytes)
             bounces_list = []
 
-            # Cache messages
+            # Skip cached messages
             if INBOX_SCAN_CACHE.get(inbox_message.unique_hash):
                 print("# CACHED:", inbox_message.subject_header)
                 continue
-            else:
-                INBOX_SCAN_CACHE[inbox_message.unique_hash] = True
 
             print("\n# MESSAGE:", inbox_message.subject_header)
 
@@ -72,7 +71,6 @@ def process_scan_inboxes():
                         inbox_message.get_content(),
                     )
                 )
-                # TODO: Delete bounce message
 
             # Detect temporary failures
             for email in inbox_message.get_emails_temporary_failure():
@@ -84,7 +82,6 @@ def process_scan_inboxes():
                         inbox_message.get_content(),
                     )
                 )
-                # TODO: Delete bounce message
 
             # Save detected failures
             bounce_manager.upsert_documents(
@@ -118,9 +115,9 @@ def process_scan_inboxes():
                     BlacklistService.blacklist_email_temporarily(email)
                     print(f"- temporarily blacklisted (from subject): {email}")
 
-                # TODO: Delete vacation message
-
             # Check if subject is resignation
+            # if message is subject resignation then mark from email
+            # and all email in the subject as resignations
             if inbox_message.is_subject_resignation():
                 resignation_manager = MailingResignationManager()
                 from_email = inbox_message.from_email
@@ -133,6 +130,18 @@ def process_scan_inboxes():
                     resignation_manager.get_or_create_resignation(subject_email)
                     resignation_manager.mark_confirmed_by_email(subject_email)
                 resignation_manager.close()
+
+            # Cache message ID if not already in cache
+            if not INBOX_SCAN_CACHE.get(inbox_message.unique_hash):
+                print("[*] Adding to cache:", inbox_message.unique_hash)
+                # Add to local cache
+                INBOX_SCAN_CACHE[inbox_message.unique_hash] = True
+                # Add to remote cache
+                cache_manager = MailingProcessingCacheManager()
+                cache_manager.insert_message_id_into_cache(
+                    inbox_message.unique_hash
+                )
+                cache_manager.close()
 
         pop3.quit()
         bounce_manager.close()
@@ -265,6 +274,25 @@ def process_bounces(process_count: int):
     bounce_manager.close()
 
 
+def load_cache():
+    """Load cache from mongo"""
+    global INBOX_SCAN_CACHE
+
+    print("[*] Loading cache ...")
+
+    cache_manager = MailingProcessingCacheManager()
+
+    counter = 0
+
+    for message_id in cache_manager.get_all_cached_message_ids():
+        counter += 1
+        INBOX_SCAN_CACHE[message_id] = True
+
+    cache_manager.close()
+
+    print(f"[*] Loaded {counter:,} elements from cache")
+
+
 class Command(BaseCommand):
     """Mailing processing command
 
@@ -281,18 +309,24 @@ class Command(BaseCommand):
 
     def start_loop(self):
         """Start infinite loop"""
-        loop_counter = 0
+        loop_counter = 1
         while True:
-            loop_counter += 1
+            # Run every 20th loop
             if loop_counter % 20 == 1:
                 process_scan_inboxes()
 
+            # Run once on first loop
+            if loop_counter == 1:
+                load_cache()
+
+            # Run every loop
             process_check_mx(200)
             process_bounces(100)
             process_blacklist(100)
 
-            print("waiting 15 seconds ...")
-            time.sleep(15)
+            print(f"\n[*] Cache has {len(INBOX_SCAN_CACHE):,} elements")
+            print(f"[*] Waiting {SLEEP_BETWEEN_LOOPS_SECONDS} seconds ...")
+            time.sleep(SLEEP_BETWEEN_LOOPS_SECONDS)
 
     def handle(self, *args, **options):
         self.start_loop()
