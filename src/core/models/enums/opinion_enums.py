@@ -1,4 +1,6 @@
 class LecturerOpinionRating:
+    """Lecturer opinion rating"""
+
     START_5 = "5stars"
     START_4 = "4stars"
     START_3 = "3stars"

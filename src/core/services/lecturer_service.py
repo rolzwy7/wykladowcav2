@@ -17,7 +17,7 @@ class LecturerService:
 
     def get_lecturer_opinions(self):
         """Get opinions about lecturer"""
-        return LecturerOpinion.objects.filter(visible_on_page=True).order_by(
+        return LecturerOpinion.manager.filter(visible_on_page=True).order_by(
             "-created_at"
         )
 

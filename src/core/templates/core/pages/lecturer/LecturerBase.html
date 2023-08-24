@@ -31,9 +31,11 @@
                                 <div class="d-flex flex-column">
                                     <!--begin::Name-->
                                     <div class="d-flex align-items-center mb-2">
-                                        <a href="#" class="text-gray-900 text-hover-primary fs-2 fw-bold me-1">
-                                            {{lecturer.fullname}}
-                                        </a>
+                                        <h1 id="h1_lecturer_name">
+                                            <a class="text-gray-900 fs-2 fw-bold me-1">
+                                                {{lecturer.fullname}}
+                                            </a>
+                                        </h1>
                                         <i
                                             class="ki-duotone ki-verify fs-1 text-primary"
                                             data-bs-toggle="tooltip"
@@ -79,7 +81,7 @@
                                 <!--begin::Actions-->
                                 <div class="d-flex my-4">
                                     <a
-                                        href="{% url 'core:lecturer_opinion_form_page' slug=lecturer.slug %}"
+                                        href="{% url 'core:lecturer_opinion_form_page' slug=lecturer.slug %}#h1_lecturer_name"
                                         class="btn btn-sm btn-primary me-3">
                                         Prześlij opinie
                                     </a>

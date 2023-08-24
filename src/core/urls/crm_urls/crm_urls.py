@@ -2,6 +2,7 @@ from django.urls import include, path
 
 from core.views.crm import (
     crm_archived_webinars,
+    crm_blacklist_paste,
     crm_eventlogs,
     crm_take_over_account,
     crm_todos_done_list,
@@ -115,6 +116,12 @@ urlpatterns = [
         "przejmij-konto/",
         crm_take_over_account,
         name="crm_take_over_account",
+    ),
+    # Blacklist paste
+    path(
+        "czarna-lista/",
+        crm_blacklist_paste,
+        name="crm_blacklist_paste",
     ),
     # Tasks
     path(

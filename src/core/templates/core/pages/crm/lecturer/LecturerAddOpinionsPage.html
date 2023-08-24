@@ -20,14 +20,60 @@
 </div>
 <!--end::Toolbar-->  
 
+<p class="fs-3">
+    <b>Format opinii:</b>
+</p>
+
+<pre class="fs-3">
+[ILOŚĆ_GWIAZDEK]#[IMIE_I_NAZWISKO]#[TREŚĆ_OPINII]#[NAZWA_FIRMY]#[STANOWISKO]
+</pre>
+
+<p class="fs-3">
+    <b>GPT (Zaprogramowanie bota):</b>
+</p>
+
+<pre class="fs-3">
+Twoim zadaniem jest generowanie opinii na podstawie poniższego formatu:
+`[ILOŚĆ_GWIAZDEK]#[IMIE_I_NAZWISKO]#[TREŚĆ_OPINII]#[NAZWA_FIRMY]#[STANOWISKO]`
+
+Opinie dotyczą szkoleń kadrowo-księgowych.
+
+Jak możesz zauważyć znak rozdzielający pola to `#`, więc nie możesz używać go do zapełniania pól.
+
+Opis pól do zapełnienia:
+`[ILOŚĆ_GWIAZDEK]` - jedyna możliwa wartość to: `DEFAULT`
+`[IMIE_I_NAZWISKO] - imię i nazwisko (kobiece) żeńskie osoby wystawiającej opinie. NIE ZAPEŁNIAJ TEGO POLA IMIENIEM I NAZWISKIEM WYKŁADOWCY.
+`[TREŚĆ_OPINII] - treść opinii o wykładowcy. Powinna zajmować do 3 zdań. Nie więcej niż 150 znaków.
+`[NAZWA_FIRMY]` - Pozostaw to pole puste.
+`[STANOWISKO]` - Pole opcjonalne (Może być puste). Stanowisko pracy związane z księgowością lub kadrami. Maksymalnie 3 słowa.
+
+Każda  wygenerowana przez ciebie opinia musi znajdować się w nowej linii.
+
+Jeżeli zrozumiałeś swoje zadanie odpowiedz na tę wiadomość twierdząco.
+Na każdą kolejną moją wiadomość, która będzie zawierała imię i nazwisko wykładowcy, odpowiadaj, generując 7 opinii o tym wykładowcy.
+Czasami możesz nie zawierać w opinii imienia i nazwiska wykładowcy, lecz skupić się na ocenie samego szkolenia.
+
+Pamiętaj format generowanej opinii to:
+`[ILOŚĆ_GWIAZDEK]#[IMIE_I_NAZWISKO]#[TREŚĆ_OPINII]#[NAZWA_FIRMY]#[STANOWISKO]`
+</pre>
+
+<p class="fs-3">
+    <b>GPT (inne przykłady):</b>
+</p>
+
+<pre class="fs-3">
+    Teraz wygeneruj kolejne 7 opinii, ale nie podawaj imienia "Kalina Kaczmarek" w treści opinii tylko skup się na samym szkoleniu.
+</pre>
+
+
 <form
-    onsubmit="actionSubmit.disabled = true; return true;"
-    action="{% url 'core:lecturer_add_opinions_page' pk=lecturer.pk %}"
-    method="post"
+onsubmit="actionSubmit.disabled = true; return true;"
+action="{% url 'core:lecturer_add_opinions_page' pk=lecturer.pk %}"
+method="post"
 >
-    {% csrf_token %}
-    <!--begin::basic autosize textarea-->
-    <div class="rounded border d-flex flex-column p-10">
+{% csrf_token %}
+<!--begin::basic autosize textarea-->
+<div class="rounded border d-flex flex-column p-10">
         <label for="opinions" class="form-label">
             Wklej tutaj opinie <span class="text-danger">(każda opinia w nowej linii)</span>
         </label>

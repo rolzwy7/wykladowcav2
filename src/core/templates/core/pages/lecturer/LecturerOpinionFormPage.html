@@ -10,7 +10,9 @@
 {% endblock lecturer_main_col %}
 
 {% block lecturer_content %}
-    <h1 class="mb-10 text-center">Prześlij opinie o wykładowcy</h1>
+    <h2 class="mb-10 text-center" id="h2_send_opinion">
+        Prześlij opinie o wykładowcy - {{lecturer.fullname}}
+    </h2>
     <div class="d-flex flex-row justify-content-center">
     <form method="post" action="{% url 'core:lecturer_opinion_form_page' slug=lecturer.slug %}">
         {% csrf_token %}
