@@ -28,6 +28,8 @@ div.htmx-swapping {
 <div hx-confirm="Na pewno?" hx-target="closest div.alert" hx-swap="outerHTML swap:1s">
     {% for todo in todos %}
     {% include './snippets/CrmTodoCard.html' with todo=todo %}
+    {% empty %}
+    Brak zadań
     {% endfor %}
 </div>
 

@@ -131,6 +131,9 @@ def process_scan_inboxes():
                     resignation_manager.mark_confirmed_by_email(subject_email)
                 resignation_manager.close()
 
+            # TODO: Detect aggressor
+            # TODO: Detect "Please don't spam me"
+
             # Cache message ID if not already in cache
             if not INBOX_SCAN_CACHE.get(inbox_message.unique_hash):
                 print("[*] Adding to cache:", inbox_message.unique_hash)

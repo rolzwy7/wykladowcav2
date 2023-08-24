@@ -58,23 +58,46 @@ data-kt-sticky-zindex="95"
         {% if request.path|startswith:"/crm/webinar" %}active{% endif %}
         "
     >
-      <span class="menu-title">
-        Webinary
+      <span class="menu-icon">
+        <i class="ki-duotone ki-rocket fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
       </span>
+      <span class="menu-title">
+        Szkolenia
+      </span>
+
       <span class="menu-badge">
-        <span class="badge badge-sm badge-circle badge-light">
+        <span class="badge badge-sm badge-square badge-secondary px-1">
           {{CRM_LEFBAR_WEBINAR_COUNT}}
         </span>
       </span>
+
     </a>
   </div>
   <!--end::Menu item-->
+      <!--begin::Menu item-->
+      <div class="menu-item">
+        <a
+          href="#"
+          class="menu-link {% if request.path|startswith:'/crm/kampanie-mailingowe/' %}active{% endif %}"
+        >
+        <span class="menu-icon">
+          <i class="ki-duotone ki-cross-square fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+        </span>
+        <span class="menu-title" style="text-decoration: line-through">
+          Czarna lista
+        </span>
+        </a>
+      </div>
+      <!--end::Menu item-->
   <!--begin::Menu item-->
   <div class="menu-item">
     <a
       href="{% url 'core:crm_todos_list' %}"
       class="menu-link {% if request.path == '/crm/zadania/' or request.path == '/crm/zadania/wykonane/' %}active{% endif %}"
     >
+    <span class="menu-icon">
+      <i class="ki-duotone ki-abstract-30 fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+    </span>
       <span class="menu-title">Zadania</span>
       {% if CRM_LEFBAR_TODO_LEFT_COUNT %}
       <span class="menu-badge">
@@ -93,7 +116,12 @@ data-kt-sticky-zindex="95"
       href="#"
       class="menu-link"
     >
-      <span class="menu-title">Windykacja</span>
+    <span class="menu-icon">
+      <i class="ki-duotone ki-dollar fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+    </span>
+      <span class="menu-title" style="text-decoration: line-through">
+        Windykacja
+      </span>
     </a>
   </div>
   <!--end::Menu item-->
@@ -103,6 +131,9 @@ data-kt-sticky-zindex="95"
       href="{% url 'core:crm_company_list' %}"
       class="menu-link"
     >
+    <span class="menu-icon">
+      <i class="ki-duotone ki-bank fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+    </span>
       <span class="menu-title">Firmy</span>
     </a>
   </div>
@@ -113,6 +144,9 @@ data-kt-sticky-zindex="95"
       href="{% url 'core:crm_contact_list' %}"
       class="menu-link"
     >
+    <span class="menu-icon">
+      <i class="ki-duotone ki-profile-user fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+    </span>
       <span class="menu-title">Reprezentanci</span>
     </a>
   </div>
@@ -123,14 +157,25 @@ data-kt-sticky-zindex="95"
         href="{% url 'core:crm_archived_webinars' %}"
         class="menu-link {% if request.path == '/crm/archiwum/' %}active{% endif %}"
       >
+      <span class="menu-icon">
+        <i class="ki-duotone ki-dropbox fs-3">
+          <span class="path1"></span>
+          <span class="path2"></span>
+          <span class="path3"></span>
+          <span class="path4"></span>
+          <span class="path5"></span>
+        </i>
+      </span>
         <span class="menu-title">
           Archiwum
       </span>
+
       <span class="menu-badge">
-        <span class="badge badge-sm badge-circle badge-light">
+        <span class="badge badge-sm badge-square badge-secondary px-1">
           {{CRM_LEFBAR_ARCHIVE_COUNT}}
         </span>
       </span>
+
       </a>
     </div>
     <!--end::Menu item-->
@@ -140,6 +185,9 @@ data-kt-sticky-zindex="95"
         href="{% url 'core:crm_mailing_campaigns_list' %}"
         class="menu-link {% if request.path|startswith:'/crm/kampanie-mailingowe/' %}active{% endif %}"
       >
+      <span class="menu-icon">
+        <i class="ki-duotone ki-sms fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+      </span>
         <span class="menu-title">
           Kampanie mailingowe
       </span>
@@ -159,6 +207,9 @@ data-kt-sticky-zindex="95"
         href="{% url 'core:crm_tagging_dashboard_page' %}"
         class="menu-link {% if request.path|startswith:'/crm/tagowanie/' %}active{% endif %}"
       >
+      <span class="menu-icon">
+        <i class="ki-duotone ki-price-tag fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+      </span>
         <span class="menu-title">
           Tagowanie
       </span>
@@ -171,6 +222,9 @@ data-kt-sticky-zindex="95"
           href="{% url 'core:crm_eventlogs' %}"
           class="menu-link {% if request.path == '/crm/logi/' %}active{% endif %}"
         >
+        <span class="menu-icon">
+          <i class="ki-duotone ki-abstract-26 fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+        </span>
           <span class="menu-title">
             Logi
         </span>

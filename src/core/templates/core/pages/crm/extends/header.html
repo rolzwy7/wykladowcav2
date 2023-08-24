@@ -1,3 +1,4 @@
+{% load static %}
 <!--begin::Header-->
 <div id="kt_header" class="header align-items-stretch">
     <!--begin::Container-->
@@ -19,27 +20,25 @@
           </i>
         </div>
         <!--end::Aside mobile toggle-->
-        {% comment %}
         <!--begin::Logo-->
         <a href="{% url 'core:homepage' %}">
           <img
             alt="Logo"
-            src="#"
+            src="{% static 'media/logos/wykladowcapl/logo_crm.svg' %}"
             class="d-none d-lg-inline h-30px theme-light-show"
           />
           <img
             alt="Logo"
-            src="assets/media/logos/demo5-dark.svg"
+            src="{% static 'media/logos/wykladowcapl/logo_crm.svg' %}"
             class="d-none d-lg-inline h-30px theme-dark-show"
           />
           <img
             alt="Logo"
-            src="assets/media/logos/demo5-mobile.svg"
+            src="{% static 'media/logos/wykladowcapl/logo_crm.svg' %}"
             class="d-lg-none h-25px"
           />
         </a>
         <!--end::Logo-->
-        {% endcomment %}
       </div>
       <!--end::Brand-->
       <!--begin::Wrapper-->
