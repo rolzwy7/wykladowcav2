@@ -7,4 +7,5 @@ INIT_TAGS = [
     "VERIFY_VALID",
     "JST",
     "NASZ_KLIENT",
+    "WODOCIĄGI-KANALIZACJA",
 ]

@@ -57,7 +57,9 @@ def htmx_crm_email_tagging_init(request: HttpRequest, email: str):
     is_dangerous = blacklist_service.is_email_dangerous_to_send(email)
 
     tags = sorted(list(set([*document["tags"], *INIT_TAGS])))
-    tags = [(idx * 150, tag) for idx, tag in enumerate(tags)]
+    tags = [
+        (idx * 150, tag) for idx, tag in enumerate(tags) if tag in INIT_TAGS
+    ]
 
     return TemplateResponse(
         request,
