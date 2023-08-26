@@ -87,6 +87,18 @@ class TaggedEmailManager:
             {"_id": email}, {"$pull": {"tags": {"$in": tags}}}
         )
 
+    def add_tags_to_emails_with_domain(self, domain: str, tags: list[str]):
+        """Add given tags to e-mails with given domain"""
+        self.collection.update_many(
+            {"domain": domain}, {"$addToSet": {"tags": {"$each": tags}}}
+        )
+
+    def delete_tags_from_emails_with_domain(self, domain: str, tags: list[str]):
+        """Delete given tags from e-mails with given domain"""
+        self.collection.update_many(
+            {"domain": domain}, {"$pull": {"tags": {"$in": tags}}}
+        )
+
     def get_untagged_emails(self):
         """Get e-mails with no tags"""
         return self.collection.find({"tags": []})

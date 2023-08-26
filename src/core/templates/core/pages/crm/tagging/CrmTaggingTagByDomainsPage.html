@@ -12,9 +12,10 @@
     <div class="col-md-12 col-xl-12">
       <div class="card">
         <div class="card-header pt-2">
-            <h1>Importuj emaile ({{tag}})</h1>
+            <h1>Taguj maile po <b>DOMENIE</b> ({{tag}})</h1>
         </div>
         <div class="card-body">
+
             {% if not_in_init_tags %}
             <p class="text-danger fw-bold">
                 Tag nie jest w domyślnych tagach
@@ -23,19 +24,19 @@
 
             {% if remove_tags %}
             <p class="fw-bold fs-4 text-danger">
-                Tag `{{tag}}` zostanie USUNIĘTY ze wszystkich e-maili przesłanych w plikach.
+                Tag `{{tag}}` zostanie USUNIĘTY ze wszystkich e-maili, które mają domeny przesłane w plikach.
                 <br>
                 Aby zmienić na dodawanie kliknij tutaj:
-                <a href="{% url 'core:crm_tagging_import_emails_page' tag=tag %}">
+                <a href="{% url 'core:crm_tagging_tag_by_domains_page' tag=tag %}">
                     Dodawanie
                 </a>
             </p>
             {% else %}
             <p class="fw-bold fs-4 text-success">
-                Tag `{{tag}}` zostanie DODANY do wszystkich e-maili przesłanych w plikach.
+                Tag `{{tag}}` zostanie DODANY do wszystkich e-maili, które mają domeny przesłane w plikach.
                 <br>
                 Aby zmienić na usuwanie kliknij tutaj:
-                <a href="{% url 'core:crm_tagging_import_emails_page' tag=tag %}?remove_tags=1">
+                <a href="{% url 'core:crm_tagging_tag_by_domains_page' tag=tag %}?remove_tags=1">
                     Usuwanie
                 </a>
             </p>
@@ -135,9 +136,9 @@
 
     var myDropzone = new Dropzone(id, { // Make the whole body a dropzone
         {% if remove_tags %}
-        url: "{% url 'core:crm_tagging_import_emails_page' tag=tag %}?remove_tags=1",
+        url: "{% url 'core:crm_tagging_tag_by_domains_page' tag=tag %}?remove_tags=1",
         {% else %}
-        url: "{% url 'core:crm_tagging_import_emails_page' tag=tag %}",
+        url: "{% url 'core:crm_tagging_tag_by_domains_page' tag=tag %}",
         {% endif %}
         parallelUploads: 1,
         previewTemplate: previewTemplate,

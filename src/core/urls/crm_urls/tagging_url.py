@@ -6,6 +6,7 @@ from core.views.crm.tagging import (
     crm_tagging_iframe_mirror,
     crm_tagging_import_emails_page,
     crm_tagging_paste_text_page,
+    crm_tagging_tag_by_domains_page,
     crm_tagging_tool,
 )
 
@@ -34,6 +35,11 @@ urlpatterns = [
         "importuj-emaile/<str:tag>/",
         crm_tagging_import_emails_page,
         name="crm_tagging_import_emails_page",
+    ),
+    path(
+        "taguj-po-domenie/<str:tag>/",
+        crm_tagging_tag_by_domains_page,
+        name="crm_tagging_tag_by_domains_page",
     ),
     path(
         "",

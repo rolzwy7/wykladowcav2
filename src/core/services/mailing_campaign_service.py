@@ -16,16 +16,16 @@ class MailingCampaignService:
 
     def group_by_count_statuses(self, campaign_id: int):
         """Perform group-by-count operation on statuses"""
+        pool_manager = MailingPoolManager()
         ret = [
             (
                 document["_id"],
                 mailing_pool_status_display_map.get(document["_id"], "???"),
                 document["count"],
             )
-            for document in MailingPoolManager().group_by_count_statuses(
-                campaign_id
-            )
+            for document in pool_manager.group_by_count_statuses(campaign_id)
         ]
+        pool_manager.close()
 
         return sorted(ret, key=lambda x: x[2], reverse=True)
 

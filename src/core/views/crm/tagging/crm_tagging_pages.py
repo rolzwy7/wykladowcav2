@@ -105,8 +105,8 @@ def crm_tagging_import_emails_page(request: HttpRequest, tag: str):
     """Tagging dashboard page"""
     template_path = "core/pages/crm/tagging/CrmTaggingImportEmailsPage.html"
 
-    if tag not in INIT_TAGS:
-        return HttpResponse("Invalid tag")
+    not_in_init_tags = tag not in INIT_TAGS
+    remove_tags: bool = True if request.GET.get("remove_tags") else False
 
     service = TaggingService()
 
@@ -114,12 +114,46 @@ def crm_tagging_import_emails_page(request: HttpRequest, tag: str):
         form = TaggingAddEmailsForm(request.POST, request.FILES)
         if form.is_valid():
             file = form.cleaned_data["file"]
-            service.load_emails_from_file_into_tagging(file, tag)
+            service.load_emails_from_file_into_tagging(
+                file, tag, remove_tags=remove_tags
+            )
 
     return TemplateResponse(
         request,
         template_path,
-        {"tag": tag},
+        {
+            "tag": tag,
+            "remove_tags": remove_tags,
+            "not_in_init_tags": not_in_init_tags,
+        },
+    )
+
+
+def crm_tagging_tag_by_domains_page(request: HttpRequest, tag: str):
+    """Tagging dashboard page"""
+    template_path = "core/pages/crm/tagging/CrmTaggingTagByDomainsPage.html"
+
+    not_in_init_tags = tag not in INIT_TAGS
+    remove_tags: bool = True if request.GET.get("remove_tags") else False
+
+    service = TaggingService()
+
+    if request.method == POST:
+        form = TaggingAddEmailsForm(request.POST, request.FILES)
+        if form.is_valid():
+            file = form.cleaned_data["file"]
+            service.load_file_tag_emails_by_domain(
+                file, tag, remove_tags=remove_tags
+            )
+
+    return TemplateResponse(
+        request,
+        template_path,
+        {
+            "tag": tag,
+            "remove_tags": remove_tags,
+            "not_in_init_tags": not_in_init_tags,
+        },
     )
 
 
@@ -129,7 +163,7 @@ def crm_tag_single_email_page(
     """Page for tagging single e-mail provided by user"""
     template_path = "core/pages/crm/tagging/CrmTagSingleEmailPage.html"
 
-    email = request.GET.get("email", "")  # TODO email validation
+    email = request.GET.get("email", "")
 
     return TemplateResponse(request, template_path, {"email": email})
 
