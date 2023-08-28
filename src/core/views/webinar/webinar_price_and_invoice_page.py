@@ -6,7 +6,8 @@ from core.services import WebinarService
 
 
 def webinar_price_and_invoice_page(request, slug: str):
-    template_name = "core/pages/webinar/WebinarPriceAndInvoicePage.html"
+    """Webinar price and invoice page"""
+    template_name = "geeks/pages/webinar/WebinarPriceAndInvoicePage.html"
     webinar = get_object_or_404(Webinar, slug=slug)
     service = WebinarService(webinar)
     return TemplateResponse(
@@ -14,7 +15,7 @@ def webinar_price_and_invoice_page(request, slug: str):
         template_name,
         {
             "webinar": webinar,
-            "webinar_tabs": service.get_webinar_tabs(2),
+            "webinar_tabs": service.get_webinar_tabs(1),
             **service.get_context(),
         },
     )

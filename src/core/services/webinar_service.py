@@ -42,20 +42,20 @@ class WebinarService:
                 "ki-book-open",
             ),
             (
-                "Opinie",
-                "core:webinar_opinions_page",
-                "ki-like-shapes",
-            ),
-            (
                 "Cena i Faktura",
                 "core:webinar_price_and_invoice_page",
                 "ki-price-tag",
             ),
             (
-                "O wykładowcy",
-                "core:webinar_lecturer_biography_page",
-                "ki-teacher",
+                "Opinie",
+                "core:webinar_opinions_page",
+                "ki-like-shapes",
             ),
+            # (
+            #     "O wykładowcy",
+            #     "core:webinar_lecturer_biography_page",
+            #     "ki-teacher",
+            # ),
         ]
         _tab_index = (
             tab_index if all([tab_index >= 0, tab_index < len(tabs)]) else 0
@@ -71,6 +71,7 @@ class WebinarService:
         ]
 
     def get_opinions_about_lecturer(self):
+        """Get opinions about lecturer"""
         lecturer: Lecturer = self.webinar.lecturer
         return LecturerOpinion.manager.visible_opinions_for_lecturer(lecturer)
 

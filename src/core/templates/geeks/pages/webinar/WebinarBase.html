@@ -1,0 +1,275 @@
+{% extends 'geeks/extends/foundation.html' %}
+{% load static %}
+{% block root %}
+<main>
+  <!-- Page header -->
+  <section class="pt-lg-8 pb-lg-16 pt-7 pb-12 bg-primary">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-xl-7 col-lg-7 col-md-12">
+          <div>
+            <h1 class="text-white display-4 fw-semibold">
+              {{webinar.title}}
+            </h1>
+            {% if webinar.description %}  
+              <p class="text-white mb-6 lead">
+                {{webinar.description}}
+              </p>
+            {% endif %}
+            <div class="d-flex align-items-center">
+              <a
+                href="course-single.html#"
+                class="text-white text-decoration-none"
+              >
+                <i class="fe fe-bookmark me-2"></i>
+                {{webinar.lecturer.fullname}}
+              </a>
+              <span class="ms-4">
+                <i class="mdi mdi-star me-n1 text-warning"></i>
+                <i class="mdi mdi-star me-n1 text-warning"></i>
+                <i class="mdi mdi-star me-n1 text-warning"></i>
+                <i class="mdi mdi-star me-n1 text-warning"></i>
+                <i class="mdi mdi-star me-n1-half text-warning"></i>
+                <span class="text-white">(140)</span>
+              </span>
+              {% if webinar.is_confirmed %}
+                <span class="ms-4 text-white">
+                  PEWNY TERMIN
+                </span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Page content -->
+  <section class="pb-10">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-12 col-12 mt-n8 mb-4 mb-lg-0">
+          <!-- Card -->
+          <div class="card rounded-3">
+            <!-- Card header -->
+            <div class="card-header border-bottom-0 p-0">
+              <div>
+                <!-- Nav -->
+                <ul class="nav nav-lb-tab" id="tab" role="tablist">
+                  {% for tab_name, tab_url, tab_is_active, tab_icon in webinar_tabs %}
+                  <li class="nav-item">
+                    <a
+                      class="nav-link {% if tab_is_active %}active{% endif %}"
+                      {% comment %} data-bs-toggle="pill" {% endcomment %}
+                      href="{{tab_url}}"
+                      role="tab"
+                      aria-controls="table"
+                      aria-selected="true"
+                    >
+                      {{tab_name}}
+                    </a>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                {% block content %}{% endblock content %}
+            </div>
+          </div>
+        </div>
+        <div
+          class="col-lg-4 col-md-12 col-12 mt-lg-n22"
+          style="margin-top: -27rem !important"
+        >
+
+                  <!-- Card -->
+                  <div class="card mb-4">
+                    <!-- Card body -->
+                    <div class="card-body">
+                      <div class="d-flex align-items-center">
+                        <div class="position-relative">
+                          <img
+                            src="{% get_media_prefix %}uploads/lecturers/{{webinar.lecturer.slug}}_80x80.webp"
+                            alt="avatar"
+                            class="rounded-circle avatar-xl"
+                          />
+                          <a
+                            href="course-single.html#"
+                            class="position-absolute mt-2 ms-n3"
+                            data-bs-toggle="tooltip"
+                            data-placement="top"
+                            title="Wykładowca zweryfikowany"
+                          >
+                            <img
+                              src="{% static 'geeks/assets/images/svg/checked-mark.svg' %}"
+                              alt="checked-mark"
+                              height="30"
+                              width="30"
+                            />
+                          </a>
+                        </div>
+                        <div class="ms-4">
+                          <h4 class="mb-0">{{webinar.lecturer.fullname}}</h4>
+                          <p class="mb-1 fs-6">{{webinar.lecturer.profession}}</p>
+                          <span class="fs-6"
+                            ><span class="text-warning">4.5</span
+                            ><span class="mdi mdi-star text-warning me-2"></span> 1846
+                            opinii klientów</span
+                          >
+                        </div>
+                      </div>
+                      <div class="border-top row mt-3 border-bottom mb-3 g-0">
+                        <div class="col">
+                          <div class="pe-1 ps-2 py-3">
+                            <h5 class="mb-0">1,604</h5>
+                            <span>Przeszkolonych</span>
+                          </div>
+                        </div>
+                        <div class="col border-start">
+                          <div class="pe-1 ps-3 py-3">
+                            <h5 class="mb-0">32</h5>
+                            <span>Opinii</span>
+                          </div>
+                        </div>
+                        <div class="col border-start">
+                          <div class="pe-1 ps-3 py-3">
+                            <h5 class="mb-0">12,230</h5>
+                            <span>Szkoleń</span>
+                          </div>
+                        </div>
+                      </div>
+                      <p>
+                        {{webinar.lecturer.biography_email|truncatechars:165}}
+                        <a href="#">
+                          Zobacz pełny opis
+                        </a>
+                      </p>
+                      {% comment %} <div class="text-center">
+                        <a
+                          href="instructor-profile.html"
+                          class="btn btn-outline-primary btn-sm"
+                        >
+                          Zobacz pełny opis
+                        </a>
+                      </div> {% endcomment %}
+                    </div>
+                  </div>
+         
+          <!-- Card -->
+          <div class="card mb-3 mb-4">
+            
+            <div>
+              <!-- Card header -->
+              <div class="card-header">
+                <h4 class="mb-0">Data i godzina szkolenia</h4>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-transparent">
+                  <i class="fe fe-calendar align-middle me-2 text-info"></i>
+                  {{webinar.date|date:"j E Y"}} r.
+                </li>
+                <li class="list-group-item bg-transparent">
+                  <i class="fe fe-clock align-middle me-2 text-warning"></i>
+                    {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}
+                </li>
+                <li
+                  class="list-group-item bg-transparent border-bottom-0"
+                  data-bs-toggle="tooltip"
+                  data-placement="top"
+                  title="{{TAX_EXEMPT_TOOLTIP}}"
+                  style="cursor: pointer;"
+                >
+                  <i class="fe fe-dollar-sign align-middle me-2 text-success"></i>
+                  
+                  {% if webinar.is_discounted %}
+                    <span class="text-decoration-line-through text-danger">
+                      {{webinar.price_netto}}zł
+                    </span>
+                    <b>{{webinar.price}}zł</b>
+                  {% else %}
+                    <b>{{webinar.price}}zł</b>
+                  {% endif %}
+                  
+                  <span>{{PRICE_ADNOTATION}}</span> za uczestnika
+
+                  {% if webinar.is_discounted %}
+                    <br>
+                    Promocja do {{webinar.discount_until|date:"j E Y"}} godz. {{webinar.discount_until|date:"H:i"}}
+                  {% endif %}
+
+                </li>
+              </ul>
+            </div>
+
+            <!-- Card body -->
+            <div class="card-body pt-0">
+              {% comment %} <!-- Price single page -->
+              <div class="mb-3">
+                <span class="text-dark fw-bold h2">350zł netto/brutto</span>
+                <del class="fs-4 text-muted">400zł</del>
+              </div> {% endcomment %}
+              <div class="d-grid">
+                <a
+                  href="{% url 'core:application_type_page' pk=webinar.pk %}"
+                  class="btn btn-primary mb-2 border-0"
+                  style="background-color: #f1416c"
+                >
+                  Zapisz się na szkolenie <br>
+                  {% include './snippets/PlacesLeft.html' with webinar=webinar %}
+                </a>
+                <a href="{% url 'core:application_type_page' pk=webinar.pk %}?pdf=show" class="btn btn-outline-primary">
+                  Pobierz kartę zgłoszeniową
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card -->
+          <div class="card">
+            <div>
+              <!-- Card header -->
+              <div class="card-header">
+                <h4 class="mb-0">Co oferujemy?</h4>
+              </div>
+
+              <ul class="list-group list-group-flush">
+                {% if webinar.recording_allowed %}
+                <li class="list-group-item bg-transparent">
+                  <i
+                    class="fe fe-play-circle align-middle me-2 text-primary"
+                  ></i>
+                  Czasowy dostęp do nagrania ze szkolenia
+                </li>
+                {% endif %}
+                <li class="list-group-item bg-transparent">
+                  <i
+                    class="fe fe-play-circle align-middle me-2 text-primary"
+                  ></i>
+                  Profesjonalnie przygotowane szkolenie
+                </li>
+                <li class="list-group-item bg-transparent">
+                  <i class="fe fe-award me-2 align-middle text-success"></i>
+                  Możliwość zadawania pytań wykładowcy na chatcie
+                </li>
+                <li class="list-group-item bg-transparent">
+                  <i class="fe fe-calendar align-middle me-2 text-info"></i>
+                  Autorskie materiały szkoleniowe
+                </li>
+                <li class="list-group-item bg-transparent">
+                  <i class="fe fe-video align-middle me-2 text-secondary"></i>
+                  Płatność do 14 dni po szkoleniu
+                </li>
+                <li class="list-group-item bg-transparent border-bottom-0">
+                  <i class="fe fe-clock align-middle me-2 text-warning"></i>
+                  Imienny certyfikat dla uczestników
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock root %}

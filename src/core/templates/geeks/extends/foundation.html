@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="{{META__HTML_LANG}}">
+  <head>
+    <link
+      rel="stylesheet"
+      href="{% static 'geeks/assets/libs/magnific-popup/dist/magnific-popup.css' %}"
+    />
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+
+    <script>
+      // Render blocking JS:
+      if (localStorage.theme)
+        document.documentElement.setAttribute("data-theme", localStorage.theme);
+    </script>
+
+    <!-- Favicon icon-->
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="{% static 'geeks/assets/images/favicon/favicon.ico' %}"
+    />
+
+    <!-- Libs CSS -->
+    <link 
+        href="{% static 'geeks/assets/fonts/feather/feather.css' %}"
+        rel="stylesheet"
+    />
+    <link
+      href="{% static 'geeks/assets/libs/bootstrap-icons/font/bootstrap-icons.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'geeks/assets/libs/@mdi/font/css/materialdesignicons.min.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'geeks/assets/libs/simplebar/dist/simplebar.min.css' %}"
+      rel="stylesheet"
+    />
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="{% static 'geeks/assets/css/theme.min.css' %}" />
+    <link rel="canonical" href="course-single.html" />
+    <title>Course Single | Geeks - Bootstrap 5 Template</title>
+    {% block head_stylesheets %}{% endblock head_stylesheets %}
+  </head>
+
+  <body>
+    <!-- Page Content -->
+    {% include 'geeks/components/navbar.html' %}
+    
+    {% block root %}{% endblock root %}
+    
+    <!-- Footer -->
+    {% include 'geeks/components/footer.html' %}
+   
+    <!-- Scripts -->
+
+    <!-- Libs JS -->
+    <script src="{% static 'geeks/assets/libs/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'geeks/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'geeks/assets/libs/simplebar/dist/simplebar.min.js' %}"></script>
+
+    <!-- Theme JS -->
+    <script src="{% static 'geeks/assets/js/theme.min.js' %}"></script>
+
+    <script src="{% static 'geeks/assets/libs/@popperjs/core/dist/umd/popper.min.js' %}"></script>
+    <script src="{% static 'geeks/assets/libs/tippy.js/dist/tippy-bundle.umd.min.js' %}"></script>
+
+    <script src="{% static 'geeks/assets/js/vendors/tooltip.js' %}"></script>
+    <script src="{% static 'geeks/assets/libs/magnific-popup/dist/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'geeks/assets/js/vendors/popup.js' %}"></script>
+  </body>
+</html>
