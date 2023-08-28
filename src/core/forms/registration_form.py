@@ -14,11 +14,14 @@ class RegistrationForm(Form):
     """Registration form"""
 
     first_name = CharField(
-        max_length=150, widget=TextFloatingInputWidget(attrs={"label": "Imię"})
+        widget=TextFloatingInputWidget(attrs={"label": "Imię"}),
+        max_length=15,
+        min_length=3,
     )
     last_name = CharField(
-        max_length=150,
         widget=TextFloatingInputWidget(attrs={"label": "Nazwisko"}),
+        max_length=25,
+        min_length=3,
     )
 
     email = EmailField(
@@ -48,15 +51,6 @@ class RegistrationForm(Form):
             }
         ),
     )
-
-    # def clean_password1(self): TODO
-    #     """Clean password1 field"""
-    #     password1 = self.cleaned_data["password1"]
-    #     password2 = self.cleaned_data["password2"]
-    #     if password1 != password2:
-    #         raise ValidationError("Hasła nie są takie same")
-    #     validate_password(password1)
-    #     return password1
 
     def clean(self):
         cleaned_data = super().clean()

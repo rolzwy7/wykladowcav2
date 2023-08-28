@@ -1,0 +1,196 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+
+{% block root %}
+<main>
+  <div
+    class="py-20"
+    style="
+      background: url({% static 'geeks/assets/images/background/company-bg.jpg' %}) no-repeat;
+      background-position: center;
+      background-size: cover;
+    "
+  ></div>
+  <section>
+    <!-- container -->
+    <div class="container">
+      <!-- row -->
+      <div class="row align-items-center">
+        <!-- col -->
+        <div class="col-12">
+          <div class="d-md-flex align-items-center">
+            {% comment %} <!-- img -->
+            <div class="position-relative mt-n5">
+              <img
+                src="{% static 'geeks/assets/images/job/png/job-logo.png' %}"
+                alt="logo"
+                class="rounded-3 border"
+              />
+            </div> {% endcomment %}
+
+            {% comment %} <div class="w-100 ms-md-4 mt-4"> {% endcomment %}
+            <div class="w-100 mt-4">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <!-- heading -->
+                  <h1 class="mb-0">{{COMPANY_NAME}}</h1>
+
+                  <div>
+                    <!-- reviews -->
+                    <span class="text-dark fw-medium"
+                      >4.5
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="10"
+                        height="10"
+                        fill="currentColor"
+                        class="bi bi-star-fill text-warning align-baseline"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
+                        ></path>
+                      </svg> </span
+                    ><span class="ms-0">(131 Reviews)</span>
+                  </div>
+                </div>
+                {% comment %} <div>
+                  <!-- button -->
+                  <a href="#" class="btn btn-outline-primary">Follow</a>
+                </div> {% endcomment %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="py-6">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <!-- nav -->
+          <div>
+            <ul class="nav nav-line-bottom">
+              <li class="nav-item">
+                <a href="company-about.html" class="nav-link active"
+                  >About Us</a
+                >
+              </li>
+              <li class="nav-item">
+                <a href="company-reviews.html" class="nav-link"
+                  >Review <span class="text-inherit">(11.7k)</span></a
+                >
+              </li>
+              <li class="nav-item">
+                <a href="company-jobs.html" class="nav-link"
+                  >Jobs <span class="text-inherit">(109)</span></a
+                >
+              </li>
+              <li class="nav-item">
+                <a href="company-benefits.html" class="nav-link">Benefits</a>
+              </li>
+              <li class="nav-item">
+                <a href="company-photos.html" class="nav-link">Photos</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-6">
+        <div class="col-12">
+          <div class="mb-6">
+            <!-- text -->
+            <h2 class="mb-3">About the company</h2>
+            <p>
+              We ensure the highest levels of certainty and satisfaction through
+              a deep-set commitment to our clients, comprehensive industry
+              expertise and a global network of innovation and delivery
+              centers...
+            </p>
+            <p>
+              Aliquam pellentesque mollis interdum. Proin ligula lacus, maximus
+              quis ante a, luctus sodales sapien. Donec ut tristique nisi. Nulla
+              a quam sit amet turpis convallis porttitor vel sed quam. Ut in
+              odio enim. Maecenas eu tellus erat. Maecenas nec maximus elit, ac
+              suscipit justo. Maecenas nisl tellus, sodales non gravida eget,
+              placerat sit amet erat.
+            </p>
+          </div>
+          <!-- text -->
+          <div class="mb-6">
+            <h2 class="mb-3">Mission</h2>
+            <p>
+              Aliquam pellentesque mollis interdum. Proin ligula lacus, maximus
+              quis ante a, luctus sodales sapien. Donec ut tristique nisi. Nulla
+              a quam sit amet turpis convallis porttitor vel sed quam. Ut in
+              odio enim. Maecenas eu tellus erat. Maecenas nec maximus elit, ac
+              suscipit justo. Maecenas nisl tellus, sodales non gravida eget,
+              placerat sit amet erat.
+            </p>
+          </div>
+          <!-- text -->
+          <div class="mb-6">
+            <h2 class="mb-3">Vision</h2>
+            <p>
+              Proin ligula lacus, maximus quis ante a, luctus sodales sapien.
+              Aliquam pellentesque mollis interdum. Nulla a quam sit amet turpis
+              convallis port titor vel sed quam. Donec ut tristique nisi.
+            </p>
+          </div>
+          <div>
+            <!-- table -->
+
+            <table class="table table-borderless w-lg-40 w-md-50">
+              <tbody>
+                <tr>
+                  <td class="ps-0 pb-0">
+                    <span class="text-dark fw-semibold">Founded:</span>
+                  </td>
+                  <td class="ps-0 pb-0"><span>2011</span></td>
+                </tr>
+                <tr>
+                  <td class="ps-0 pb-0">
+                    <span class="text-dark fw-semibold">Company size:</span>
+                  </td>
+                  <td class="ps-0 pb-0"><span>350 - 500</span></td>
+                </tr>
+                <tr>
+                  <td class="ps-0 pb-0">
+                    <span class="text-dark fw-semibold">Website:</span>
+                  </td>
+                  <td class="ps-0 pb-0">
+                    <a href="https://codescandy.com/"
+                      >https://codescandy.com/</a
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td class="ps-0 pb-0">
+                    <span class="text-dark fw-semibold">Industry:</span>
+                  </td>
+                  <td class="ps-0 pb-0">Information Technology</td>
+                </tr>
+                <tr>
+                  <td class="ps-0 pb-0">
+                    <span class="text-dark fw-semibold">Social Presence:</span>
+                  </td>
+                  <td class="ps-0 pb-0">
+                    <a
+                      href="#"
+                      class="mdi mdi-facebook fs-4 text-muted me-2"
+                    ></a>
+                    <a href="#" class="mdi mdi-twitter text-muted me-2"></a>
+                    <a href="#" class="mdi mdi-linkedin text-muted"></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock root %}

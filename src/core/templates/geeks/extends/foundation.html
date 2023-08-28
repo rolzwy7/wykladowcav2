@@ -6,6 +6,7 @@
       rel="stylesheet"
       href="{% static 'geeks/assets/libs/magnific-popup/dist/magnific-popup.css' %}"
     />
+    <link rel="stylesheet" href="{% static 'geeks/assets/libs/bootstrap-select/dist/css/bootstrap-select.min.css' %}">
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -17,6 +18,8 @@
       if (localStorage.theme)
         document.documentElement.setAttribute("data-theme", localStorage.theme);
     </script>
+
+    <link href="{% static 'geeks/assets/libs/tiny-slider/dist/tiny-slider.css' %}" rel="stylesheet">
 
     <!-- Favicon icon-->
     <link
@@ -46,18 +49,26 @@
     <!-- Theme CSS -->
     <link rel="stylesheet" href="{% static 'geeks/assets/css/theme.min.css' %}" />
     <link rel="canonical" href="course-single.html" />
-    <title>Course Single | Geeks - Bootstrap 5 Template</title>
+    
+    {% block title %}
+      <title>{{COMPANY_NAME}}</title>
+    {% endblock title %}
+
     {% block head_stylesheets %}{% endblock head_stylesheets %}
   </head>
 
   <body>
     <!-- Page Content -->
-    {% include 'geeks/components/navbar.html' %}
+    {% block navbar %}
+      {% include 'geeks/components/navbar.html' %}
+    {% endblock navbar %}
     
     {% block root %}{% endblock root %}
     
-    <!-- Footer -->
-    {% include 'geeks/components/footer.html' %}
+    {% block footer %}
+      <!-- Footer -->
+      {% include 'geeks/components/footer.html' %}
+    {% endblock footer %}
    
     <!-- Scripts -->
 
@@ -69,11 +80,17 @@
     <!-- Theme JS -->
     <script src="{% static 'geeks/assets/js/theme.min.js' %}"></script>
 
+    <script src="{% static 'geeks/assets/libs/tiny-slider/dist/min/tiny-slider.js' %}"></script>
+    <script src="{% static 'geeks/assets/js/vendors/tnsSlider.js' %}"></script>
+
     <script src="{% static 'geeks/assets/libs/@popperjs/core/dist/umd/popper.min.js' %}"></script>
     <script src="{% static 'geeks/assets/libs/tippy.js/dist/tippy-bundle.umd.min.js' %}"></script>
 
     <script src="{% static 'geeks/assets/js/vendors/tooltip.js' %}"></script>
     <script src="{% static 'geeks/assets/libs/magnific-popup/dist/jquery.magnific-popup.min.js' %}"></script>
     <script src="{% static 'geeks/assets/js/vendors/popup.js' %}"></script>
+    <script src="{% static 'geeks/assets/libs/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
+
+    {% block body_scripts %}{% endblock body_scripts %}
   </body>
 </html>

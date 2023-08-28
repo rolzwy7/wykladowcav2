@@ -14,7 +14,7 @@ def try_to_add_opinion(lecturer: Lecturer, opinion_raw: str):
     """Try to add opinion for lecturer"""
 
     # Normalize raw opinion
-    opinion_normalized = opinion_raw.strip()
+    opinion_normalized = opinion_raw.strip().strip("#")
     if not opinion_normalized:
         return
 

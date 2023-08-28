@@ -20,10 +20,20 @@ class WebinarCategoryManager(Manager):
     """Webinar category manager"""
 
     def sidebar_categories(self) -> QuerySet["WebinarCategory"]:
-        """Get sidebar categories"""
+        """Get sidebar categories (categories without parents)"""
         return (
             self.get_queryset()
             .filter(Q(visible=True) & Q(parent=None))
+            .order_by("order")
+        )
+
+    def get_subcategories(
+        self, category: "WebinarCategory"
+    ) -> QuerySet["WebinarCategory"]:
+        """Get subcategories for given category"""
+        return (
+            self.get_queryset()
+            .filter(Q(visible=True) & Q(parent=category))
             .order_by("order")
         )
 

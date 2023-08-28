@@ -1,6 +1,7 @@
 from django.urls import include, path
 
 from core.views import (
+    about_us_page,
     contact_page,
     home_page,
     login_page,
@@ -43,6 +44,7 @@ urlpatterns = [
     path("logowanie/", login_page, name="login_page"),
     path("wyloguj/", logout_page, name="logout_page"),
     path("kontakt/", contact_page, name="contact_page"),
+    path("o-nas/", about_us_page, name="about_us_page"),
     path("preview/", include(previews_urlpatterns)),
     path("certyfikat/", include(certificate_urlpatterns)),
     path("nagrania/", include(recording_urlpatterns)),

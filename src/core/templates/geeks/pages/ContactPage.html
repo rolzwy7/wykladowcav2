@@ -1,0 +1,224 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+
+{% block title %}
+  <title>Kontakt</title>
+{% endblock title %}
+
+{% block root %}
+<main>
+  <!-- Page Content -->
+  <section class="container-fluid">
+    <div class="row align-items-center min-vh-100">
+      <!-- col -->
+      <div class="col-lg-6 col-md-12 col-12">
+        <div class="px-xl-20 py-7 py-lg-0">
+          <!-- content -->
+          <div class="d-flex justify-content-between mb-7 align-items-center">
+            {% comment %} <a href="../index.html">
+                <img
+                    src="{% static 'media/logos/wykladowcapl/logo.svg' %}"
+                    style="height:30px;"
+                    alt="{{COMPANY_NAME}}"
+                />
+            </a> {% endcomment %}
+            <!-- theme switch -->
+            <div class="form-check form-switch theme-switch d-none">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                role="switch"
+                id="flexSwitchCheckDefault"
+              />
+              <label
+                class="form-check-label"
+                for="flexSwitchCheckDefault"
+              ></label>
+            </div>
+          </div>
+          <div class="">
+            <h1 class="display-4 fw-bold">Kontakt</h1>
+
+            {% comment %}
+            Wykładowca.pl Tomasz Howaniec
+          ul. Wojska Polskiego 8 (Sosnowiecki Park Naukowo-Technologiczny)
+          41-208 Sosnowiec
+          NIP: 644-356-26-97
+          REGON: 520095021
+          Wpisany do Centralna Ewidencja i Informacja o Działalności Gospodarczej przez Minister Rozwoju, Pracy i Technologii
+          Numer wpisu do Rejestru Instytucji Szkoleniowych: 2.24/00108/2023 {% endcomment %}
+
+            {% comment %} <p class="lead text-dark">
+              LEAD
+            </p> {% endcomment %}
+            <div class="mt-4 fs-4">
+              <!-- address -->
+              <p>
+                <i class="bi bi-telephone text-primary me-2"></i>
+                {{COMPANY_OFFICE_PHONE}}
+              </p>
+              <p>
+                <i class="bi bi-envelope-open text-primary me-2"></i>
+                {{COMPANY_OFFICE_EMAIL}}
+              </p>
+              <p class="d-flex">
+                <i class="bi bi-geo-alt text-primary me-2"></i>
+                {{COMPANY_ADDRESS}}
+              </p>
+              <p class="mb-4">
+                <b>{{COMPANY_NAME_FULL}}</b> <br>
+                Adres: <b>{{COMPANY_ADDRESS}}</b> <br>
+                NIP: <b>{{COMPANY_NIP}}</b> <br>
+                REGON: <b>{{COMPANY_REGON}}</b> <br>
+                Wpisany do {{COMPANY_REGISTER_TYPE}} przez {{COMPANY_REGISTER_UNIT}} <br>
+                Numer wpisu do Rejestru Instytucji Szkoleniowych: <b>2.24/00108/2023</b>
+              </p>
+            </div>
+            <div class="mt-8 fs-4">
+              <p class="mb-4">
+                Zgłoszenia i zapytania dot. SPAMU - Tomasz Kowalkiewicz
+              </p>
+              <!-- address -->
+              <p>
+                <i class="bi bi-envelope-open text-primary me-2"></i>
+                Tomasz.Kowalkiewicz@wykladowca.pl
+              </p>
+            </div>
+            {% comment %} <div class="mt-10">
+              <!--Facebook-->
+              <a href="#" class="text-muted me-3">
+                <i class="mdi mdi-facebook fs-3"></i>
+              </a>
+              <!--Twitter-->
+              <a href="#" class="text-muted me-3">
+                <i class="mdi mdi-twitter fs-3"></i>
+              </a>
+
+              <!--GitHub-->
+              <a href="#" class="text-muted">
+                <i class="mdi mdi-github fs-3"></i>
+              </a>
+            </div> {% endcomment %}
+          </div>
+        </div>
+      </div>
+      <!-- background color -->
+      <div
+        class="col-lg-6 d-lg-flex align-items-center w-lg-50 min-vh-lg-100 position-fixed-lg bg-cover bg-light top-0 right-0"
+      >
+        <div class="px-4 px-xxl-20 px-xl-14 py-8 py-lg-0">
+          <!-- form section -->
+          <div id="form">
+            <!-- form row -->
+            <form class="row">
+              <!-- form group -->
+              <div class="mb-3 col-12 col-md-6">
+                <label class="form-label" for="fname"
+                  >First Name:<span class="text-danger">*</span></label
+                >
+                <input
+                  class="form-control"
+                  type="text"
+                  name="last name"
+                  id="fname"
+                  placeholder="First Name"
+                  required=""
+                />
+              </div>
+              <!-- form group -->
+              <div class="mb-3 col-12 col-md-6">
+                <label class="form-label" for="lname"
+                  >Last Name:<span class="text-danger">*</span></label
+                >
+                <input
+                  class="form-control"
+                  type="text"
+                  name="last name"
+                  id="lname"
+                  placeholder="Last Name"
+                  required=""
+                />
+              </div>
+              <!-- form group -->
+              <div class="mb-3 col-12 col-md-6">
+                <label class="form-label" for="email"
+                  >Email:<span class="text-danger">*</span></label
+                >
+                <input
+                  class="form-control"
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="Email"
+                  required=""
+                />
+              </div>
+              <!-- form group -->
+              <div class="mb-3 col-12 col-md-6">
+                <label class="form-label" for="phone"
+                  >Phone Number:<span class="text-danger">*</span></label
+                >
+                <input
+                  class="form-control"
+                  type="text"
+                  name="phone"
+                  id="phone"
+                  placeholder="Phone"
+                  required=""
+                />
+              </div>
+              <!-- form group -->
+              <div class="mb-3 col-12">
+                <label class="text-dark form-label" for="frustration"
+                  >Contact Reason:<span class="text-danger">*</span></label
+                >
+                <div class="dropdown bootstrap-select" style="width: 100%">
+                  <select class="selectpicker" data-width="100%">
+                    <option selected="">Select</option>
+                    <option value="1">Design</option>
+                    <option value="2">Development</option>
+                    <option value="3">Other</option>
+                </select>
+                  
+                  <div class="dropdown-menu">
+                    <div
+                      class="inner show"
+                      role="listbox"
+                      id="bs-select-1"
+                      tabindex="-1"
+                    >
+                      <ul
+                        class="dropdown-menu inner show"
+                        role="presentation"
+                      ></ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- form group -->
+              <div class="mb-3 col-12">
+                <label class="text-dark form-label" for="messages"
+                  >Message:</label
+                >
+                <textarea
+                  class="form-control"
+                  id="messages"
+                  rows="3"
+                  placeholder="Messages"
+                ></textarea>
+              </div>
+              <!-- button -->
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary btn-block">
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock root %}

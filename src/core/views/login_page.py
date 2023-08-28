@@ -9,7 +9,7 @@ from core.forms import LoginForm
 
 def login_page(request):
     """Login page control"""
-    template_name = "core/pages/LoginPage.html"
+    template_name = "geeks/pages/LoginPage.html"
     auth_failed = False
 
     next_param = request.GET.get("next")

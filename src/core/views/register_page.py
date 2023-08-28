@@ -11,7 +11,7 @@ from core.services import RegistrationService
 
 def register_page(request: HttpRequest):
     """Register page"""
-    template_name = "core/pages/registration/RegisterPage.html"
+    template_name = "geeks/pages/registration/RegisterPage.html"
 
     if request.user.is_authenticated:
         return redirect(
@@ -45,7 +45,7 @@ def register_page(request: HttpRequest):
 
 def register_info_page(request: HttpRequest):
     """Register info page"""
-    template_name = "core/pages/registration/RegisterInfoPage.html"
+    template_name = "geeks/pages/registration/RegisterInfoPage.html"
     email = request.GET.get("email", "")
     return TemplateResponse(
         request,
@@ -56,7 +56,7 @@ def register_info_page(request: HttpRequest):
 
 def register_activation_page(request: HttpRequest, activation_token: str):
     """Register activation page"""
-    template_name = "core/pages/registration/RegisterActivationPage.html"
+    template_name = "geeks/pages/registration/RegisterActivationPage.html"
     RegistrationService.activate_user_by_activation_token(activation_token)
     user = RegistrationService.get_user_by_activation_token(activation_token)
     login(request, user)

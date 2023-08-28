@@ -33,9 +33,7 @@
                 <span class="text-white">(140)</span>
               </span>
               {% if webinar.is_confirmed %}
-                <span class="ms-4 text-white">
-                  PEWNY TERMIN
-                </span>
+              <span class="badge bg-warning text-dark ms-4">PEWNY TERMIN</span>
               {% endif %}
             </div>
           </div>
@@ -218,8 +216,11 @@
                   Zapisz się na szkolenie <br>
                   {% include './snippets/PlacesLeft.html' with webinar=webinar %}
                 </a>
-                <a href="{% url 'core:application_type_page' pk=webinar.pk %}?pdf=show" class="btn btn-outline-primary">
+                <a href="{% url 'core:application_type_page' pk=webinar.pk %}?pdf=show" class="btn btn-outline-primary mb-2">
                   Pobierz kartę zgłoszeniową
+                </a>
+                <a href="#" class="btn btn-outline-primary">
+                  Pobierz ulotkę
                 </a>
               </div>
             </div>
@@ -267,9 +268,102 @@
               </ul>
             </div>
           </div>
+
+          <div class="card mt-4 js-sticky-widget">
+            <!-- Card body -->
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="position-relative">
+                  <img
+                    src="{% static 'media//avatars/300-12.webp' %}"
+                    alt="avatar"
+                    class="rounded-circle avatar-xl"
+                  />
+                  <a
+                    href="course-single.html#"
+                    class="position-absolute mt-2 ms-n3"
+                  >
+                    <img
+                      src="{% static 'geeks/assets/images/svg/checked-mark.svg' %}"
+                      alt="checked-mark"
+                      height="30"
+                      width="30"
+                    />
+                  </a>
+                </div>
+                <div class="ms-4">
+                  <h4 class="mb-0">{{PATRON_FIRST_NAME}} {{PATRON_LAST_NAME}}</h4>
+                  <p class="mb-1 fs-6">{{PATRON_JOB_TITLE}}</p>
+                </div>
+              </div>
+              <div class="row mt-3 mb-3 g-0">
+                <div class="col-12">
+                  <div class="pe-1 ps-2 py-3">
+                    <h5 class="mb-0">E-mail</h5>
+                    <span>
+                        <a href="mailto:{{PATRON_EMAIL}}">
+                            {{PATRON_EMAIL}}
+                        </a>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="pe-1 ps-2 py-1">
+                    <h5 class="mb-0">Numer telefonu</h5>
+                    <span>
+                        {{PATRON_PHONE}}
+                    </span>
+                  </div>
+                </div>
+             
+
+              </div>
+
+
+              <div class="d-grid">
+                <a
+                  href="{% url 'core:application_type_page' pk=webinar.pk %}"
+                  class="btn btn-primary mb-2 border-0"
+                >
+                  Zadaj pytanie
+                </a>
+                <a
+                  href="{% url 'core:application_type_page' pk=webinar.pk %}"
+                  class="btn btn-primary mb-2 border-0"
+                  style="background-color: #f1416c"
+                >
+                  Zapisz się na szkolenie
+                </a>
+                <a href="{% url 'core:application_type_page' pk=webinar.pk %}?pdf=show" class="btn btn-outline-primary mb-2">
+                  Pobierz kartę zgłoszeniową
+                </a>
+                <a href="#" class="btn btn-outline-primary">
+                  Pobierz ulotkę
+                </a>
+              </div>
+
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
   </section>
 </main>
 {% endblock root %}
+
+
+{%block body_scripts %}
+    <script src="{% static 'js/sticksy.min.js' %}"></script>
+    <script>
+        var stickyElement = new Sticksy('.js-sticky-widget', {topSpacing: 20});
+        // you can handle state changing
+        stickyEl.onStateChanged = function (state) {
+            if(state === 'fixed') {
+                stickyEl.nodeRef.classList.add('widget--sticky')
+            } else {
+                stickyEl.nodeRef.classList.remove('widget--sticky')
+            }
+        }
+    </script>
+{% endblock body_scripts %}

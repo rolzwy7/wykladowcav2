@@ -10,7 +10,7 @@ class HomepageService:
         return [
             (f"{logos_base}/allegro.svg", "Allegro"),
             (f"{logos_base}/cinema_city.svg", "Cinema City"),
-            (f"{logos_base}/comarch.svg", "Comarch"),
+            # (f"{logos_base}/comarch.svg", "Comarch"),
             (f"{logos_base}/kghm.svg", "KGHM"),
             (f"{logos_base}/pge.svg", "PGE"),
             (f"{logos_base}/pocztapolska.svg", "Poczta Polska"),
