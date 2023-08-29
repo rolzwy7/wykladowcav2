@@ -13,6 +13,12 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Correct MIME types
+mimetypes.add_type("text/css", ".css", True)
+mimetypes.add_type("text/css", ".min.css", True)
+mimetypes.add_type("application/javascript", ".js", True)
+mimetypes.add_type("application/javascript", ".min.js", True)
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -183,7 +189,3 @@ FORM_RENDERER = "wykladowcapl.settings.CustomFormRenderer"
 #         "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
 #     },
 # }
-
-# Correct MIME types
-mimetypes.add_type("text/css", ".css", True)
-mimetypes.add_type("application/javascript", ".js", True)
