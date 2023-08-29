@@ -3,6 +3,7 @@ from django.urls import include, path
 from core.views.crm import (
     crm_archived_webinars,
     crm_blacklist_paste,
+    crm_contact_messages,
     crm_eventlogs,
     crm_take_over_account,
     crm_todos_done_list,
@@ -133,6 +134,11 @@ urlpatterns = [
         "zadania/",
         crm_todos_list,
         name="crm_todos_list",
+    ),
+    path(
+        "pytania/",
+        crm_contact_messages,
+        name="crm_contact_messages",
     ),
     path(
         "logi/",

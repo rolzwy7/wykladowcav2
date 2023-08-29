@@ -1,6 +1,7 @@
 # flake8: noqa
 from .crm_archived_webinars import crm_archived_webinars
 from .crm_blacklist_paste import crm_blacklist_paste
+from .crm_contact_messages import crm_contact_messages
 from .crm_eventlogs import crm_eventlogs
 from .crm_previews import (
     crm_invoice_email_preview,

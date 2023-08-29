@@ -83,7 +83,7 @@ data-kt-sticky-zindex="95"
         <span class="menu-icon">
           <i class="ki-duotone ki-cross-square fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
         </span>
-        <span class="menu-title" style="text-decoration: line-through">
+        <span class="menu-title">
           Czarna lista
         </span>
         </a>
@@ -107,6 +107,26 @@ data-kt-sticky-zindex="95"
       </span>
       {% endif %}
 
+    </a>
+  </div>
+  <!--end::Menu item-->
+  <!--begin::Menu item-->
+  <div class="menu-item">
+    <a
+      href="{% url 'core:crm_contact_messages' %}"
+      class="menu-link {% if request.path == '/crm/pytania/' %}active{% endif %}"
+    >
+    <span class="menu-icon">
+      <i class="ki-duotone ki-message-question fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+    </span>
+      <span class="menu-title">Pytania</span>
+      {% if CRM_CONTACT_MESSAGE_NEWSET_COUNT %}
+      <span class="menu-badge">
+        <span class="badge badge-sm badge-circle badge-danger">
+          {{CRM_CONTACT_MESSAGE_NEWSET_COUNT}}
+        </span>
+      </span>
+      {% endif %}
     </a>
   </div>
   <!--end::Menu item-->
@@ -189,7 +209,7 @@ data-kt-sticky-zindex="95"
         <i class="ki-duotone ki-sms fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
       </span>
         <span class="menu-title">
-          Kampanie mailingowe
+          Mailing
       </span>
       {% if CRM_LEFBAR_ACTIVE_MAILING_CAMPAIGNS %}
       <span class="menu-badge">
@@ -210,7 +230,7 @@ data-kt-sticky-zindex="95"
       <span class="menu-icon">
         <i class="ki-duotone ki-price-tag fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
       </span>
-        <span class="menu-title">
+      <span class="menu-title">
           Tagowanie
       </span>
       </a>

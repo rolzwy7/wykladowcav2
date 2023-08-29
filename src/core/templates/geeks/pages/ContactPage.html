@@ -110,6 +110,12 @@
         <div class="px-4 px-xxl-20 px-xl-14 py-8 py-lg-0">
           <!-- form section -->
           <div id="form">
+
+            <div hx-get="{% url 'htmx:htmx_contact_message' %}?related_to=strona_kontakt" hx-trigger="load">
+              Ładowanie ...
+            </div>
+            
+            {% comment %}
             <!-- form row -->
             <form class="row">
               <!-- form group -->
@@ -183,10 +189,12 @@
               <!-- button -->
               <div class="col-12">
                 <button type="submit" class="btn btn-primary btn-block">
-                  Submit
+                  Prześlij
                 </button>
               </div>
             </form>
+            {% endcomment %}
+
           </div>
         </div>
       </div>
@@ -194,3 +202,13 @@
   </section>
 </main>
 {% endblock root %}
+
+
+{% block body_scripts %}
+<script src="{% static 'js/htmx.min.js' %}"></script>
+<script>
+    document.body.addEventListener('htmx:configRequest', (event) => {
+        event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+    })
+</script>
+{% endblock body_scripts %}

@@ -6,17 +6,13 @@ from core.views import (
     home_page,
     login_page,
     logout_page,
-    webinar_all_categories_page,
-    webinar_category_lecturer_page,
-    webinar_category_opinions_page,
-    webinar_category_page,
-    webinar_category_who_are_we_page,
 )
 from core.views.lecturer import lecturer_list_page
 from core.views.mailing_resignation import mailing_resignation_page
 
 from .application_urls import urlpatterns as application_urlpatterns
 from .assets_urls import urlpatterns as assets_urlpatterns
+from .category_urls import urlpatterns as category_urlpatterns
 from .certificate_urls import urlpatterns as certificate_urlpatterns
 from .crm_urls import urlpatterns as crm_urlpatterns
 from .lecturer_urls import urlpatterns as lecturer_urlpatterns
@@ -32,36 +28,11 @@ from .webinar_urls import urlpatterns as webinar_urlpatterns
 app_name = "core"
 
 urlpatterns = [
-    # TODO: Move this to separate `urlpatterns`
-    path(
-        "szkolenia/wszystkie/",
-        webinar_all_categories_page,
-        name="webinar_all_categries_page",
-    ),
-    path(
-        "szkolenia/<slug:slug>/",
-        webinar_category_page,
-        name="webinar_category_page",
-    ),
-    path(
-        "szkolenia/<slug:slug>/kim-jestesmy/",
-        webinar_category_who_are_we_page,
-        name="webinar_category_who_are_we_page",
-    ),
-    path(
-        "szkolenia/<slug:slug>/wykladowcy/",
-        webinar_category_lecturer_page,
-        name="webinar_category_lecturer_page",
-    ),
-    path(
-        "szkolenia/<slug:slug>/opinie/",
-        webinar_category_opinions_page,
-        name="webinar_category_opinions_page",
-    ),
     # path("api/", include("api.urls"), namespace="api"),
+    path("szkolenia-online/", include(webinar_urlpatterns)),
+    path("szkolenia/", include(category_urlpatterns)),
     path("program-partnerski/", include(loyalty_urlpatterns)),
     path("zgloszenie-online/", include(application_urlpatterns)),
-    path("szkolenia-online/", include(webinar_urlpatterns)),
     path("rejestracja/", include(registration_urlpatterns)),
     path("wykladowcy/", lecturer_list_page, name="lecturer_list_page"),
     path("wykladowca/", include(lecturer_urlpatterns)),

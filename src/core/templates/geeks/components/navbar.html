@@ -576,13 +576,13 @@
 
               {% if request.user.is_staff %}
               <li>
-                <a class="dropdown-item" href="{% url 'core:crm_upcoming_webinars' %}">
-                  <i class="fe fe-user me-2"></i>CRM
+                <a class="dropdown-item" href="{% url 'admin:index' %}">
+                  <i class="fe fe-user me-2"></i>CMS
                 </a>
               </li>
               <li>
-                <a class="dropdown-item" href="{% url 'admin:index' %}">
-                  <i class="fe fe-user me-2"></i>CMS
+                <a class="dropdown-item" href="{% url 'core:crm_upcoming_webinars' %}">
+                  <i class="fe fe-user me-2"></i>CRM
                 </a>
               </li>
               {% endif %}

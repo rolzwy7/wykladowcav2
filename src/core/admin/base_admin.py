@@ -6,6 +6,7 @@ from core.models import (
     BlacklistedEmailTemporary,
     BlacklistedPhrase,
     BlacklistedPrefix,
+    ContactMessage,
     CrmCompany,
     CrmContact,
     DiscountApplicationApplied,
@@ -37,6 +38,7 @@ from core.models import (
 
 admin.site.register(User)
 
+admin.site.register(ContactMessage)
 
 admin.site.register(BlacklistedDomain)
 admin.site.register(BlacklistedEmail)

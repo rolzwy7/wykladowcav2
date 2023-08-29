@@ -67,6 +67,24 @@
                     </a>
                   </li>
                   {% endfor %}
+                  <li class="nav-item">
+                    <a
+                      class="nav-link"
+                      href="#"
+                      role="tab"
+                    >
+                      Pojecaj i Zarabiaj
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a
+                      class="nav-link"
+                      href="#"
+                      role="tab"
+                    >
+                      FAQ
+                    </a>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -138,7 +156,7 @@
                         </div>
                       </div>
                       <p>
-                        {{webinar.lecturer.biography_email|truncatechars:165}}
+                        {{webinar.lecturer.biography_email|truncatechars:150}}
                         <a href="#">
                           Zobacz pełny opis
                         </a>
@@ -324,15 +342,17 @@
                 <a
                   href="{% url 'core:application_type_page' pk=webinar.pk %}"
                   class="btn btn-primary mb-2 border-0"
-                >
-                  Zadaj pytanie
-                </a>
-                <a
-                  href="{% url 'core:application_type_page' pk=webinar.pk %}"
-                  class="btn btn-primary mb-2 border-0"
                   style="background-color: #f1416c"
                 >
                   Zapisz się na szkolenie
+                </a>
+                <hr>
+                <a
+                  href="#"
+                  data-bs-toggle="modal" data-bs-target="#askQuestionModal"
+                  class="btn btn-primary mb-2 border-0"
+                >
+                  Zadaj pytanie
                 </a>
                 <a href="{% url 'core:application_type_page' pk=webinar.pk %}?pdf=show" class="btn btn-outline-primary mb-2">
                   Pobierz kartę zgłoszeniową
@@ -350,15 +370,37 @@
     </div>
   </section>
 </main>
+
+<div class="modal fade" id="askQuestionModal" tabindex="-1" role="dialog" aria-labelledby="askQuestionModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="askQuestionModalTitle">Zadaj pytanie</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+        </button>
+      </div>
+      <div class="modal-body">
+        <div hx-get="{% url 'htmx:htmx_contact_message' %}?related_to={{request.path}}" hx-trigger="load">
+          Ładowanie ...
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock root %}
 
 
 {%block body_scripts %}
+    <script src="{% static 'js/htmx.min.js' %}"></script>
+    <script>
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+        })
+    </script>
     <script src="{% static 'js/sticksy.min.js' %}"></script>
     <script>
         var stickyElement = new Sticksy('.js-sticky-widget', {topSpacing: 20});
-        // you can handle state changing
-        stickyEl.onStateChanged = function (state) {
+        stickyElement.onStateChanged = function (state) {
             if(state === 'fixed') {
                 stickyEl.nodeRef.classList.add('widget--sticky')
             } else {
