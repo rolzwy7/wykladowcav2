@@ -2,86 +2,233 @@
 
 {% load static %}
 
+
 {% block content %}
-<!-- Table -->
-<div class="table-responsive overflow-y-hidden">
-<table
-    class="table mb-0 text-nowrap table-hover table-centered text-nowrap"
->
-    <thead class="table-light">
-    <tr>
-        <th scope="col">Szkolenia</th>
-        <th scope="col">Data / Cena</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for webinar in webinars %}
-    <tr>
-        <td>
-        <div class="d-flex align-items-center">
-            <div>
-            <a href="{% url 'core:webinar_program_page' slug=webinar.slug %}">
-                <img
-                src="{% get_media_prefix %}uploads/lecturers/{{webinar.lecturer.slug}}_80x80.webp"
-                alt="{{webinar.lecturer.fullname}}"
-                class="rounded img-4by3-lg"
-                />
-            </a>
-            </div>
-            <div class="ms-3">
-            <h4 class="mb-1 h4">
-                <a
-                href="{% url 'core:webinar_program_page' slug=webinar.slug %}"
-                class="text-inherit"
-                style="text-wrap: wrap"
-                >
-                {{webinar.title_original}}
-                </a>
-            </h4>
-            <ul class="list-inline fs-5 mb-0">
-                <li class="list-inline-item">
-                {{webinar.lecturer.fullname}}
-                </li>
-                <!-- <li class="list-inline-item">
-                    <i class="mdi mdi-clock-time-four-outline text-muted me-1"></i>28 sierpnia 2023 r.
-                </li> -->
-                <li class="list-inline-item">
-                <i
-                    class="mdi mdi-clock-time-four-outline text-muted me-1"
-                ></i>{{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}
-                </li>
-            </ul>
-            </div>
-        </div>
-        </td>
-        <td style="color: var(--geeks-gray-800)">
-        <b>DATA SZKOLENIA</b> <br />
-        {{webinar.date|date:"j E Y"}}
-        <br />
-        <br />
-        <b>CENA</b> <br />
-
-        {% if webinar.is_discounted %}
-        <span class="text-decoration-line-through fw-bolder text-danger">
-        {{webinar.price_netto}}zł
-        </span>
-        <span>{{webinar.price}}zł</span>
-        {% else %}
-        {{webinar.price}}zł
-        {% endif %}
-        {{PRICE_ADNOTATION}}
-
-        <br>
-
-        {% if webinar.is_discounted %}
-                  <span class="text-success fw-bold">
-                    (promocja do {{webinar.discount_until|date:"j E Y"}} {{webinar.discount_until|date:"H:i"}})
-                  </span>
-            {% endif %}
-        </td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
-</div>
+<section class="py-1">
+    <div class="container">
+       <div class="row">
+          <div class="col-md-12">
+             <!-- Tab content -->
+             <div class="tab-content" id="pills-tabContent">
+                <div
+                   class="tab-pane fade show active"
+                   id="pills-course"
+                   role="tabpanel"
+                   aria-labelledby="pills-course-tab"
+                   >
+                   <!-- Tab pane -->
+                   <!-- <div class="row">
+                      <div class="col-lg-12">
+                        <div class="mb-5">
+                          <h2 class="mb-1">Beginner</h2>
+                          <p>Learn Bootstrap tutorial for beginners with there easy components and
+                            utility.</p>
+                        </div>
+                      </div>
+                      </div> -->
+                   <div class="row">
+                      <div class="col-12">
+                         <div class="row mt-0 mt-md-4">
+                            <div class="col-lg-3 col-md-4 col-12">
+                               {% if subcategory %}
+                               <!-- Side navabar -->
+                               <nav
+                                  class="navbar navbar-expand-md navbar-light shadow-sm mb-4 mb-lg-0 sidenav"
+                                  >
+                                  <!-- Navbar Collapse -->
+                                  <div id="sidenav">
+                                     <div class="navbar-nav flex-column">
+                                        <!-- Navbar header -->
+                                        <span class="navbar-header">Kategorie szkoleń</span>
+                                        <ul class="list-unstyled ms-n2 mb-4">
+                                           {% comment %} <li class="nav-item {% if slug == "wszystkie" %}active{% endif %}">
+                                           <a
+                                           class="nav-link"
+                                           href="{% url 'core:webinar_category_page' slug="wszystkie" %}"
+                                           >
+                                           <i class="fe fe-book nav-icon"></i>
+                                           Wszystkie szkolenia
+                                           </a>
+                                           </li> {% endcomment %}
+                                           {% for subcategory in subcategories %}
+                                           <!-- Nav item -->
+                                           <li class="nav-item {% if slug == subcategory.slug %}active{% endif %}">
+                                              <a
+                                                 class="nav-link"
+                                                 href="{% url 'core:webinar_category_page' slug=subcategory.slug %}"
+                                                 >
+                                              <i class="fe fe-book nav-icon"></i>
+                                              {{subcategory.name}}
+                                              </a>
+                                           </li>
+                                           {% endfor %}
+                                        </ul>
+                                     </div>
+                                  </div>
+                               </nav>
+                               {% endif %}
+                               <!--Patron-->
+                               <div class="card {% if subcategory %}mt-4{% endif %}">
+                                  <!-- Card body -->
+                                  <div class="card-body">
+                                     <div class="d-flex align-items-center">
+                                        <div class="position-relative">
+                                           <img
+                                              src="{% static 'media//avatars/300-12.webp' %}"
+                                              alt="avatar"
+                                              class="rounded-circle avatar-xl"
+                                              />
+                                           <a
+                                              href="course-single.html#"
+                                              class="position-absolute mt-2 ms-n3"
+                                              >
+                                           <img
+                                              src="{% static 'geeks/assets/images/svg/checked-mark.svg' %}"
+                                              alt="checked-mark"
+                                              height="30"
+                                              width="30"
+                                              />
+                                           </a>
+                                        </div>
+                                        <div class="ms-4">
+                                           <h4 class="mb-0">{{PATRON_FIRST_NAME}} {{PATRON_LAST_NAME}}</h4>
+                                           <p class="mb-1 fs-6">{{PATRON_JOB_TITLE}}</p>
+                                        </div>
+                                     </div>
+                                     <div class="row mt-3 mb-3 g-0">
+                                        <div class="col-12">
+                                           <div class="pe-1 ps-2 py-3">
+                                              <h5 class="mb-0">E-mail</h5>
+                                              <span>
+                                              <a href="mailto:{{PATRON_EMAIL}}">
+                                              {{PATRON_EMAIL}}
+                                              </a>
+                                              </span>
+                                           </div>
+                                        </div>
+                                        <div class="col-12">
+                                           <div class="pe-1 ps-2 py-1">
+                                              <h5 class="mb-0">Numer telefonu</h5>
+                                              <span>
+                                              {{PATRON_PHONE}}
+                                              </span>
+                                           </div>
+                                        </div>
+                                     </div>
+                                     <div class="text-center">
+                                        <a
+                                           href="instructor-profile.html"
+                                           class="btn btn-outline-primary btn-sm"
+                                           >
+                                        Zadaj pytanie
+                                        </a>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                            <div class="col-lg-9 col-md-8 col-12">
+                               <!-- Card -->
+                               <div class="card mb-4">
+                                  <!-- Card header -->
+                                  <div class="card-header">
+                                     <h3 class="mb-0">
+                                        {% if slug == "wszystkie" %}
+                                        {{category_name}}
+                                        {% else %}
+                                        Szkolenia {{category_name}}
+                                        {% endif %}
+                                     </h3>
+                                     <p>
+                                        {{short_description}}
+                                     </p>
+                                  </div>
+                                  <!-- Table -->
+                                  <div class="table-responsive overflow-y-hidden">
+                                     <table
+                                        class="table mb-0 text-nowrap table-hover table-centered text-nowrap"
+                                        >
+                                        <thead class="table-light">
+                                           <tr>
+                                              <th scope="col">Szkolenia</th>
+                                              <th scope="col">Data / Cena</th>
+                                           </tr>
+                                        </thead>
+                                        <tbody>
+                                           {% for webinar in webinars %}
+                                           <tr>
+                                              <td>
+                                                 <div class="d-flex align-items-center">
+                                                    <div>
+                                                       <a href="{% url 'core:webinar_program_page' slug=webinar.slug %}">
+                                                       <img
+                                                          src="{% get_media_prefix %}uploads/lecturers/{{webinar.lecturer.slug}}_80x80.webp"
+                                                          alt="{{webinar.lecturer.fullname}}"
+                                                          class="rounded img-4by3-lg"
+                                                          />
+                                                       </a>
+                                                    </div>
+                                                    <div class="ms-3">
+                                                       <h4 class="mb-1 h4">
+                                                          <a
+                                                             href="{% url 'core:webinar_program_page' slug=webinar.slug %}"
+                                                             class="text-inherit"
+                                                             style="text-wrap: wrap"
+                                                             >
+                                                          {{webinar.title_original}}
+                                                          </a>
+                                                       </h4>
+                                                       <ul class="list-inline fs-5 mb-0">
+                                                          <li class="list-inline-item">
+                                                             {{webinar.lecturer.fullname}}
+                                                          </li>
+                                                          <!-- <li class="list-inline-item">
+                                                             <i class="mdi mdi-clock-time-four-outline text-muted me-1"></i>28 sierpnia 2023 r.
+                                                             </li> -->
+                                                          <li class="list-inline-item">
+                                                             <i
+                                                                class="mdi mdi-clock-time-four-outline text-muted me-1"
+                                                                ></i>{{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}
+                                                          </li>
+                                                       </ul>
+                                                    </div>
+                                                 </div>
+                                              </td>
+                                              <td style="color: var(--geeks-gray-800)">
+                                                 <b>DATA SZKOLENIA</b> <br />
+                                                 {{webinar.date|date:"j E Y"}}
+                                                 <br />
+                                                 <br />
+                                                 <b>CENA</b> <br />
+                                                 {% if webinar.is_discounted %}
+                                                 <span class="text-decoration-line-through fw-bolder text-danger">
+                                                 {{webinar.price_netto}}zł
+                                                 </span>
+                                                 <span>{{webinar.price}}zł</span>
+                                                 {% else %}
+                                                 {{webinar.price}}zł
+                                                 {% endif %}
+                                                 {{PRICE_ADNOTATION}}
+                                                 <br>
+                                                 {% if webinar.is_discounted %}
+                                                 <span class="text-success fw-bold">
+                                                 (promocja do {{webinar.discount_until|date:"j E Y"}} {{webinar.discount_until|date:"H:i"}})
+                                                 </span>
+                                                 {% endif %}
+                                              </td>
+                                           </tr>
+                                           {% endfor %}
+                                        </tbody>
+                                     </table>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </section>
 {% endblock content %}

@@ -6,7 +6,11 @@ from core.views import (
     home_page,
     login_page,
     logout_page,
+    webinar_all_categories_page,
+    webinar_category_lecturer_page,
+    webinar_category_opinions_page,
     webinar_category_page,
+    webinar_category_who_are_we_page,
 )
 from core.views.lecturer import lecturer_list_page
 from core.views.mailing_resignation import mailing_resignation_page
@@ -28,10 +32,31 @@ from .webinar_urls import urlpatterns as webinar_urlpatterns
 app_name = "core"
 
 urlpatterns = [
+    # TODO: Move this to separate `urlpatterns`
+    path(
+        "szkolenia/wszystkie/",
+        webinar_all_categories_page,
+        name="webinar_all_categries_page",
+    ),
     path(
         "szkolenia/<slug:slug>/",
         webinar_category_page,
         name="webinar_category_page",
+    ),
+    path(
+        "szkolenia/<slug:slug>/kim-jestesmy/",
+        webinar_category_who_are_we_page,
+        name="webinar_category_who_are_we_page",
+    ),
+    path(
+        "szkolenia/<slug:slug>/wykladowcy/",
+        webinar_category_lecturer_page,
+        name="webinar_category_lecturer_page",
+    ),
+    path(
+        "szkolenia/<slug:slug>/opinie/",
+        webinar_category_opinions_page,
+        name="webinar_category_opinions_page",
     ),
     # path("api/", include("api.urls"), namespace="api"),
     path("program-partnerski/", include(loyalty_urlpatterns)),

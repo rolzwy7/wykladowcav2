@@ -21,4 +21,10 @@ from .webinar import (
     webinar_redirect_to_application,
     webinar_redirect_to_program,
 )
-from .webinar_category_page import webinar_category_page
+from .webinar_category_page import (
+    webinar_all_categories_page,
+    webinar_category_lecturer_page,
+    webinar_category_opinions_page,
+    webinar_category_page,
+    webinar_category_who_are_we_page,
+)
