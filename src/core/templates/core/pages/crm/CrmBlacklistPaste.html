@@ -1,31 +1,136 @@
-{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% extends 'core/pages/crm/extends/CrmBase.html' %}
+
 {% load static %}
 
-{% block head_stylesheets %}
-{% endblock head_stylesheets %}
+{% block head_stylesheets %} {% endblock head_stylesheets %}
 
 {% block crm_content %}
 
 <!--begin::Row-->
 <div class="row g-6 g-xl-9 mb-10">
+  <!--begin::Col-->
+  <div class="col-md-12 col-xl-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Czarna Lista</h3>
+      </div>
+      <div class="card-body">
 
-    <!--begin::Col-->
-    <div class="col-md-12 col-xl-12">
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">CrmBlacklistPaste.html</h3>
-        </div>
-        <div class="card-body">
-          content
-        </div>
+        {% if result_blacklisted %}
+        <p>
+          Zablokowane:
+        </p>
+        <ol>
+          {% for result in result_blacklisted %}
+          <li class="text-danger fs-3 fw-bold">
+            {{result}}
+          </li>
+          {% endfor %}
+        </ol>
+        <div class="separator my-5"></div>
+        {% endif %}
+
+
+        {% if result_skipped %}
+        <p>
+          Pominięte:
+        </p>
+        <ol>
+          {% for result in result_skipped %}
+          <li class="text-dark fs-3 fw-bold">
+            {{result}}
+          </li>
+          {% endfor %}
+        </ol>
+        <div class="separator my-5"></div>
+        {% endif %}
+
+
+        <ol class="fs-3">
+          <li>
+            <a
+              target="_blank"
+              href="{% url 'admin:core_blacklisteddomain_add' %}"
+              >Zablokuj <b>domene</b> w CMS</a
+            > - na przykład: `facebook.com`
+          </li>
+          <li>
+            <a
+              target="_blank"
+              href="{% url 'admin:core_blacklistedemail_add' %}"
+              >Zablokuj <b>email</b> w CMS</a
+            > - na przykład: `biuro@domena.pl`
+          </li>
+          <li>
+            <a
+              target="_blank"
+              href="{% url 'admin:core_blacklistedphrase_add' %}"
+              >Zablokuj <b>fraze</b> w CMS</a
+            > - na przykład: `policja`
+          </li>
+          <li>
+            <a
+              target="_blank"
+              href="{% url 'admin:core_blacklistedprefix_add' %}"
+              >Zablokuj <b>prefix</b> w CMS</a
+            > - na przykład: `iod`, `uodo`, `rodo`, `inspektor`
+          </li>
+          <li>
+            <a
+              target="_blank"
+              href="{% url 'admin:core_blacklistedemailtemporary_add' %}"
+              >Zablokuj <b>email (tymczasowo)</b> w CMS</a
+            > - na przykład: `biuro@domena.pl`
+          </li>
+        </ol>
+
+        <div class="separator my-5"></div>
+
+<pre class="fs-3">
+Format wklejania:
+- email `[PREFIKS]@[DOMENA].[TLD]` - normalny format e-mail.
+na przykład: `biuro@wp.pl`
+
+- prefiks `[PREFIKS]@` - `@` na końcu musi być, aby został wykryty prefiks.
+na przykład: `biuro@`
+
+- domena `@[DOMENA].[TLD]` - `@` na początku musi być, aby została wykryta domena.
+na przykład: `@wp.pl`
+
+- fraza `[FRAZA]` - jeśli nie w formacie e-mail oraz NIE MA znaku `@` na początku lub na końcu.
+na przykład: `policja`
+</pre>
+
+        <div class="separator my-5"></div>
+
+        <p class="fs-3 fw-bold text-danger">
+          Przy wklejaniu nie przyjmuję ciągów krótszych niż 5 znaków
+        </p>
+
+        <div class="separator my-5"></div>
+
+        <form method="post" action="{% url 'core:crm_blacklist_paste' %}">
+          {% csrf_token %}
+          <div class="input-group">
+            <span class="input-group-text">
+              Wklej blokowania
+              <span class="text-danger">
+                (każde w nowej linii)
+              </span>
+            </span>
+            <textarea required name="blacklist_lines" rows="10" class="form-control" placeholder="Wklej tutaj"></textarea>
+          </div>
+          <input class="btn btn-primary mt-3" type="submit" value="Prześlij">
+        </form>
+
       </div>
     </div>
-    <!--end::Col-->
-
   </div>
-  <!--end::Row-->
+  <!--end::Col-->
+</div>
+<!--end::Row-->
 
-  {% endblock crm_content %}
+{% endblock crm_content %}
 
-{% block body_scripts %}
-{% endblock body_scripts %}
+
+{% block body_scripts %} {% endblock body_scripts %}

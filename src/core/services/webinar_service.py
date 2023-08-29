@@ -81,8 +81,10 @@ class WebinarService:
             discount_progress_percent,
             discount_progress_color,
         ) = self.get_discount_progress_bar_data()
+        lecturer_opinions = self.get_opinions_about_lecturer()
         return {
             "discount_progress_percent": discount_progress_percent,
             "discount_progress_color": discount_progress_color,
-            "lecturer_opinions": self.get_opinions_about_lecturer(),
+            "lecturer_opinions": lecturer_opinions,
+            "lecturer_opinions_count": lecturer_opinions.count(),
         }

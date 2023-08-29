@@ -30,7 +30,7 @@
                 <i class="mdi mdi-star me-n1 text-warning"></i>
                 <i class="mdi mdi-star me-n1 text-warning"></i>
                 <i class="mdi mdi-star me-n1-half text-warning"></i>
-                <span class="text-white">(140)</span>
+                <span class="text-white">({{lecturer_opinions_count}})</span>
               </span>
               {% if webinar.is_confirmed %}
               <span class="badge bg-warning text-dark ms-4">PEWNY TERMIN</span>
@@ -120,19 +120,19 @@
                       <div class="border-top row mt-3 border-bottom mb-3 g-0">
                         <div class="col">
                           <div class="pe-1 ps-2 py-3">
-                            <h5 class="mb-0">1,604</h5>
+                            <h5 class="mb-0">{{webinar.lecturer.fake_stat_participants}}</h5>
                             <span>Przeszkolonych</span>
                           </div>
                         </div>
                         <div class="col border-start">
                           <div class="pe-1 ps-3 py-3">
-                            <h5 class="mb-0">32</h5>
+                            <h5 class="mb-0">{{lecturer_opinions_count}}</h5>
                             <span>Opinii</span>
                           </div>
                         </div>
                         <div class="col border-start">
                           <div class="pe-1 ps-3 py-3">
-                            <h5 class="mb-0">12,230</h5>
+                            <h5 class="mb-0">{{webinar.lecturer.fake_stat_webinars}}</h5>
                             <span>Szkoleń</span>
                           </div>
                         </div>
@@ -238,31 +238,31 @@
                 {% if webinar.recording_allowed %}
                 <li class="list-group-item bg-transparent">
                   <i
-                    class="fe fe-play-circle align-middle me-2 text-primary"
+                    class="fe fe-youtube align-middle me-2 text-primary"
                   ></i>
                   Czasowy dostęp do nagrania ze szkolenia
                 </li>
                 {% endif %}
                 <li class="list-group-item bg-transparent">
                   <i
-                    class="fe fe-play-circle align-middle me-2 text-primary"
+                    class="fe fe-award align-middle me-2 text-primary"
                   ></i>
                   Profesjonalnie przygotowane szkolenie
                 </li>
                 <li class="list-group-item bg-transparent">
-                  <i class="fe fe-award me-2 align-middle text-success"></i>
+                  <i class="fe fe-message-square me-2 align-middle text-primary"></i>
                   Możliwość zadawania pytań wykładowcy na chatcie
                 </li>
                 <li class="list-group-item bg-transparent">
-                  <i class="fe fe-calendar align-middle me-2 text-info"></i>
+                  <i class="fe fe-file-text align-middle me-2 text-primary"></i>
                   Autorskie materiały szkoleniowe
                 </li>
                 <li class="list-group-item bg-transparent">
-                  <i class="fe fe-video align-middle me-2 text-secondary"></i>
+                  <i class="fe fe-credit-card align-middle me-2 text-primary"></i>
                   Płatność do 14 dni po szkoleniu
                 </li>
                 <li class="list-group-item bg-transparent border-bottom-0">
-                  <i class="fe fe-clock align-middle me-2 text-warning"></i>
+                  <i class="fe fe-award align-middle me-2 text-primary"></i>
                   Imienny certyfikat dla uczestników
                 </li>
               </ul>
@@ -280,7 +280,7 @@
                     class="rounded-circle avatar-xl"
                   />
                   <a
-                    href="course-single.html#"
+                    href="#"
                     class="position-absolute mt-2 ms-n3"
                   >
                     <img

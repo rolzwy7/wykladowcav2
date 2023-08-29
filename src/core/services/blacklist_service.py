@@ -1,3 +1,5 @@
+import re
+
 from django.db.models import Q
 from django.utils.timezone import now, timedelta
 
@@ -9,6 +11,8 @@ from core.models import (
     BlacklistedPhrase,
     BlacklistedPrefix,
 )
+
+EMAIL_REGEXP = r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+"
 
 
 class BlacklistService:
@@ -72,6 +76,49 @@ class BlacklistService:
         return False
 
     @staticmethod
+    def blacklist_phrase(phrase: str) -> None:
+        """Blacklist phrase"""
+        BlacklistedPhrase.objects.get_or_create(phrase=phrase)
+
+    @staticmethod
     def is_prefix_blacklisted(prefix: str):
         """Check if email prefix is blacklisted"""
         return BlacklistedPrefix.objects.filter(prefix=prefix.lower()).exists()
+
+    @staticmethod
+    def blacklist_prefix(prefix: str) -> None:
+        """Blacklist prefix"""
+        BlacklistedPrefix.objects.get_or_create(prefix=prefix)
+
+    @staticmethod
+    def try_to_blacklist_line(line: str) -> tuple[bool, str]:
+        """Detect what kind of blacklist the `line` is then blacklist
+
+        Args:
+            line (str): line to be blacklisted
+
+        Returns:
+            bool: True when blacklisted, False if skipped
+        """
+
+        if len(line) <= 5:
+            return False, line
+
+        if re.match(EMAIL_REGEXP, line):  # email
+            email = line
+            BlacklistService.blacklist_email(email)
+            blacklist_type = "EMAIL:"
+        elif line.startswith("@"):  # domain
+            domain = line.strip("@")
+            BlacklistService.blacklist_domain(domain)
+            blacklist_type = "DOMENA:"
+        elif line.endswith("@"):  # prefix
+            prefix = line.strip("@")
+            BlacklistService.blacklist_prefix(prefix)
+            blacklist_type = "PREFIKS:"
+        else:  # phrase
+            phrase = line
+            BlacklistService.blacklist_phrase(phrase)
+            blacklist_type = "FRAZA:"
+
+        return True, f"{blacklist_type} `{line}`"

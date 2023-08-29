@@ -9,6 +9,7 @@ from django.db.models import (
     ManyToManyField,
     Model,
     OneToOneField,
+    PositiveIntegerField,
     QuerySet,
     SlugField,
     TextField,
@@ -79,6 +80,13 @@ class Lecturer(Model):
         max_length=40,
         blank=True,
         help_text="Widoczna na stronie webinaru pod imieniem i nazwiskiem",
+    )
+
+    fake_stat_participants = PositiveIntegerField(
+        "Przeszkolonych (baza)", default=0
+    )
+    fake_stat_webinars = PositiveIntegerField(
+        "Przeprowadzonych szkoleń (baza)", default=0
     )
 
     class Meta:

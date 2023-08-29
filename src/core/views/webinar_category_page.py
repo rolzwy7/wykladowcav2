@@ -6,14 +6,15 @@ from core.models import Webinar, WebinarCategory
 
 def webinar_category_page(request, slug: str):
     """Webinar category page"""
-    template_name = "geeks/pages/category/WebinarCategoryPage.html"
 
     if slug == "wszystkie":
+        template_name = "geeks/pages/category/WebinarAllCategoriesPage.html"
         category_name = "Wszystkie szkolenia"
         short_description = ""
         webinars = Webinar.manager.homepage_webinars()
         subcategories = WebinarCategory.manager.sidebar_categories()
     else:
+        template_name = "geeks/pages/category/WebinarCategoryPage.html"
         category = get_object_or_404(WebinarCategory, slug=slug)
         category_name = category.name
         short_description = category.short_description

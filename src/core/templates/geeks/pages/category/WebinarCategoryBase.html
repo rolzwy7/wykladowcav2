@@ -141,18 +141,19 @@
                 <div class="col-12">
                   <div class="row mt-0 mt-md-4">
                     <div class="col-lg-3 col-md-4 col-12">
+
+                      {% if subcategory %}
                       <!-- Side navabar -->
                       <nav
                         class="navbar navbar-expand-md navbar-light shadow-sm mb-4 mb-lg-0 sidenav"
                       >
-
                         <!-- Navbar Collapse -->
                         <div id="sidenav">
                           <div class="navbar-nav flex-column">
                             <!-- Navbar header -->
                             <span class="navbar-header">Kategorie szkoleń</span>
                             <ul class="list-unstyled ms-n2 mb-4">
-                              <li class="nav-item {% if slug == "wszystkie" %}active{% endif %}">
+                              {% comment %} <li class="nav-item {% if slug == "wszystkie" %}active{% endif %}">
                                 <a
                                   class="nav-link"
                                   href="{% url 'core:webinar_category_page' slug="wszystkie" %}"
@@ -160,7 +161,7 @@
                                   <i class="fe fe-book nav-icon"></i>
                                   Wszystkie szkolenia
                                 </a>
-                              </li>
+                              </li> {% endcomment %}
                               {% for subcategory in subcategories %}
                               <!-- Nav item -->
                               <li class="nav-item {% if slug == subcategory.slug %}active{% endif %}">
@@ -176,9 +177,11 @@
                             </ul>
                           </div>
                         </div>
-
                       </nav>
-                      <div class="card mt-4">
+                      {% endif %}
+
+                      <!--Patron-->
+                      <div class="card {% if subcategory %}mt-4{% endif %}">
                         <!-- Card body -->
                         <div class="card-body">
                           <div class="d-flex align-items-center">

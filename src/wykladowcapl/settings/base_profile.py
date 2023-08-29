@@ -1,6 +1,7 @@
 # flake8: noqa:E501
 # pylint: disable=line-too-long
 
+import mimetypes
 import os
 from pathlib import Path
 
@@ -66,6 +67,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sitemaps",
+    "django.contrib.humanize",
 ]
 
 MIDDLEWARE = [
@@ -181,3 +183,7 @@ FORM_RENDERER = "wykladowcapl.settings.CustomFormRenderer"
 #         "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
 #     },
 # }
+
+# Correct MIME types
+mimetypes.add_type("text/css", ".css", True)
+mimetypes.add_type("application/javascript", ".js", True)
