@@ -8,9 +8,6 @@ from .base_profile import APP_ENV
 
 load_dotenv()
 
-EMAIL_OFFICE = "biuro@wykladowca.pl"
-
-
 if APP_ENV == "testing":
     EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
     EMAIL_FILE_PATH = ".inbox-test"
@@ -19,6 +16,7 @@ if APP_ENV == "testing":
     EMAIL_HOST_USER = ""
     EMAIL_HOST_PASSWORD = ""
     EMAIL_TIMEOUT = 10
+    DEFAULT_FROM_EMAIL = "webmaster@localhost"
 else:
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
     EMAIL_FILE_PATH = ""
@@ -27,3 +25,4 @@ else:
     EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
     EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
     EMAIL_TIMEOUT = 10
+    DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_HOST_USER")

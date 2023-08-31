@@ -1,8 +1,10 @@
 import hashlib
+from random import randint
 
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
+from django.utils.timezone import now, timedelta
 
 from core.consts import POST
 from core.forms.crm import CrmLecturerAddOpinionsForm
@@ -68,6 +70,7 @@ def try_to_add_opinion(lecturer: Lecturer, opinion_raw: str):
         rating=rating,
         opinion_hash=opinion_hash,
     )
+    opinion.created_at = now() - timedelta(hours=30 * randint(0, 24))
     opinion.save()
 
 

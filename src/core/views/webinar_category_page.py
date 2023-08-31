@@ -11,7 +11,11 @@ def webinar_all_categories_page(request):
     category_name = "Wszystkie szkolenia"
     # short_description = ""
     # webinars = Webinar.manager.homepage_webinars()
-    subcategories = WebinarCategory.manager.sidebar_categories()
+
+    subcategories = [
+        (category, Webinar.manager.webinars_for_category(category.slug).count())
+        for category in WebinarCategory.manager.sidebar_categories()
+    ]
 
     return TemplateResponse(
         request,

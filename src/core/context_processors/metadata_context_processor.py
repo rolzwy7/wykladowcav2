@@ -27,10 +27,12 @@ def page_title(request: HttpRequest) -> str:
 def metadata(request: HttpRequest):
     """Metadata"""
     return {
+        "META__BASE_URL": BASE_URL,
         "META__TITLE": page_title(request),
         "META__DESCRIPTION": "META__DESCRIPTION",  # TODO
         "META__KEYWORDS": "META__KEYWORDS",  # TODO
         "META__HTML_LANG": "pl",
+        "META__HTML_DIR": "ltr",  # direction
         "META__OG_LOCALE": "pl_PL",
         "META__OG_URL": f"{BASE_URL}{request.path}",
         "META__OG_SITE_NAME": COMPANY_NAME,

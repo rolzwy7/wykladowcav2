@@ -24,6 +24,7 @@
                 <i class="fe fe-bookmark me-2"></i>
                 {{webinar.lecturer.fullname}}
               </a>
+              {% if lecturer_opinions_count != 0 %}
               <span class="ms-4">
                 <i class="mdi mdi-star me-n1 text-warning"></i>
                 <i class="mdi mdi-star me-n1 text-warning"></i>
@@ -32,8 +33,30 @@
                 <i class="mdi mdi-star me-n1-half text-warning"></i>
                 <span class="text-white">({{lecturer_opinions_count}})</span>
               </span>
+              {% endif %}
               {% if webinar.is_confirmed %}
-              <span class="badge bg-warning text-dark ms-4">PEWNY TERMIN</span>
+              <span class="ms-4 badge bg-warning text-dark ms-4">PEWNY TERMIN</span>
+              {% endif %}
+              {% if request.user.is_staff %}
+                <div class="ms-4 dropdown">
+                  <button class="btn btn-sm btn-info dropdown-toggle" type="button" id="webinarOptionsDropdown" data-bs-toggle="dropdown">
+                    Administracja
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="webinarOptionsDropdown">
+                    <a class="dropdown-item" href="{% url 'admin:core_webinar_change' object_id=webinar.id %}">
+                      Edytuj termin w CMS
+                    </a>
+                    <a class="dropdown-item" href="{% url 'admin:core_lecturer_change' object_id=webinar.lecturer.id %}">
+                      Edytuj wykładowce w CMS
+                    </a>
+                    <a class="dropdown-item" href="{% url 'core:crm_webinar_detail_dashboard' pk=webinar.pk %}">
+                      Zobacz w CRM
+                    </a>
+                    <a class="dropdown-item" href="{% url 'core:webinar_mailing_template_page' pk=webinar.pk %}">
+                      Szablon mailingowy
+                    </a>
+                  </div>
+                </div>
               {% endif %}
             </div>
           </div>
@@ -96,7 +119,7 @@
         </div>
         <div
           class="col-lg-4 col-md-12 col-12 mt-lg-n22"
-          style="margin-top: -27rem !important"
+          style="margin-top: -20rem !important"
         >
 
                   <!-- Card -->
@@ -228,13 +251,18 @@
               <div class="d-grid">
                 <a
                   href="{% url 'core:application_type_page' pk=webinar.pk %}"
+                  rel="nofollow"
                   class="btn btn-primary mb-2 border-0"
                   style="background-color: #f1416c"
                 >
                   Zapisz się na szkolenie <br>
                   {% include './snippets/PlacesLeft.html' with webinar=webinar %}
                 </a>
-                <a href="{% url 'core:application_type_page' pk=webinar.pk %}?pdf=show" class="btn btn-outline-primary mb-2">
+                <a
+                  href="{% url 'core:application_type_page' pk=webinar.pk %}?pdf=show"
+                  rel="nofollow"
+                  class="btn btn-outline-primary mb-2"
+                >
                   Pobierz kartę zgłoszeniową
                 </a>
                 <a href="#" class="btn btn-outline-primary">

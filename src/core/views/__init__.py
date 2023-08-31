@@ -28,3 +28,4 @@ from .webinar_category_page import (
     webinar_category_page,
     webinar_category_who_are_we_page,
 )
+from .webmap_page import webmap_page

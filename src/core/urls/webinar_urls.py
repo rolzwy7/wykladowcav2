@@ -17,6 +17,23 @@ from core.views.webinar_moving import (
 )
 
 urlpatterns = [
+    # Webinar redirects
+    path(
+        "<int:pk>/",
+        webinar_redirect_to_program,
+        name="webinar_redirect_to_program",
+    ),
+    path(
+        "<int:pk>/program/",
+        webinar_redirect_to_program,
+        name="webinar_redirect_to_program",
+    ),
+    path(
+        "<int:pk>/zgloszenie/",
+        webinar_redirect_to_application,
+        name="webinar_redirect_to_application",
+    ),
+    # Webinar by slug
     path("<slug:slug>/", webinar_program_page, name="webinar_program_page"),
     path(
         "<slug:slug>/opinie/",
@@ -59,16 +76,5 @@ urlpatterns = [
         "<uuid:token>/dziekujemy-za-odp-przenoszenie-szkol/",
         webinar_moving_thanks_page,
         name="webinar_moving_thanks_page",
-    ),
-    # Webinar redirects
-    path(
-        "<int:pk>/program/",
-        webinar_redirect_to_program,
-        name="webinar_redirect_to_program",
-    ),
-    path(
-        "<int:pk>/zgloszenie/",
-        webinar_redirect_to_application,
-        name="webinar_redirect_to_application",
     ),
 ]

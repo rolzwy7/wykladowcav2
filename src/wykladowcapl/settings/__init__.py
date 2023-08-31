@@ -6,12 +6,12 @@ from .clickmeeting import *
 from .company import *
 from .database import *
 from .email import (
+    DEFAULT_FROM_EMAIL,
     EMAIL_BACKEND,
     EMAIL_FILE_PATH,
     EMAIL_HOST,
     EMAIL_HOST_PASSWORD,
     EMAIL_HOST_USER,
-    EMAIL_OFFICE,
     EMAIL_PORT,
     EMAIL_TIMEOUT,
 )

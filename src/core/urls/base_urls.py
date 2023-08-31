@@ -6,6 +6,7 @@ from core.views import (
     home_page,
     login_page,
     logout_page,
+    webmap_page,
 )
 from core.views.lecturer import lecturer_list_page
 from core.views.mailing_resignation import mailing_resignation_page
@@ -15,6 +16,7 @@ from .assets_urls import urlpatterns as assets_urlpatterns
 from .category_urls import urlpatterns as category_urlpatterns
 from .certificate_urls import urlpatterns as certificate_urlpatterns
 from .crm_urls import urlpatterns as crm_urlpatterns
+from .forgot_password_urls import urlpatterns as forgot_password_urlpatterns
 from .lecturer_urls import urlpatterns as lecturer_urlpatterns
 from .loyalty_urls import urlpatterns as loyalty_urlpatterns
 from .previews_urls import urlpatterns as previews_urlpatterns
@@ -33,6 +35,7 @@ urlpatterns = [
     path("szkolenia/", include(category_urlpatterns)),
     path("program-partnerski/", include(loyalty_urlpatterns)),
     path("zgloszenie-online/", include(application_urlpatterns)),
+    path("przypomnij-haslo/", include(forgot_password_urlpatterns)),
     path("rejestracja/", include(registration_urlpatterns)),
     path("wykladowcy/", lecturer_list_page, name="lecturer_list_page"),
     path("wykladowca/", include(lecturer_urlpatterns)),
@@ -41,6 +44,7 @@ urlpatterns = [
     path("wyloguj/", logout_page, name="logout_page"),
     path("kontakt/", contact_page, name="contact_page"),
     path("o-nas/", about_us_page, name="about_us_page"),
+    path("mapa-strony/", webmap_page, name="webmap_page"),
     path("preview/", include(previews_urlpatterns)),
     path("certyfikat/", include(certificate_urlpatterns)),
     path("nagrania/", include(recording_urlpatterns)),

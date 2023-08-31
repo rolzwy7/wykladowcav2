@@ -34,28 +34,37 @@ from .webinar_participant_model import WebinarParticipant
 class WebinarApplicationManager(Manager):
     """WebinarApplication query Manager"""
 
-    def sent_applications(
+    def sent_applications_for_webinar(
         self, webinar: Webinar
     ) -> QuerySet["WebinarApplication"]:
         """Get sent applications"""
         return self.get_queryset().filter(
-            Q(status=ApplicationStatus.SENT) & Q(webinar=webinar)
+            # for given webinar
+            Q(webinar=webinar)
+            # with sent status
+            & Q(status=ApplicationStatus.SENT)
         )
 
-    def unfinished_applications(
+    def unfinished_applications_for_webinar(
         self, webinar: Webinar
     ) -> QuerySet["WebinarApplication"]:
         """Get unfinished applications"""
         return self.get_queryset().filter(
-            Q(status=ApplicationStatus.INIT) & Q(webinar=webinar)
+            # for given webinar
+            Q(webinar=webinar)
+            # with init status
+            & Q(status=ApplicationStatus.INIT)
         )
 
-    def resigned_applications(
+    def resigned_applications_for_webinar(
         self, webinar: Webinar
     ) -> QuerySet["WebinarApplication"]:
         """Get resigned applications"""
         return self.get_queryset().filter(
-            Q(status=ApplicationStatus.RESIGNATION) & Q(webinar=webinar)
+            # for given webinar
+            Q(webinar=webinar)
+            # with resignation status
+            & Q(status=ApplicationStatus.RESIGNATION)
         )
 
 
@@ -262,7 +271,11 @@ class WebinarApplication(Model):
     @property
     def participants(self) -> QuerySet["WebinarParticipant"]:
         """Return paticipants for this application"""
-        return WebinarParticipant.manager.filter(application=self)
+        return (
+            WebinarParticipant.manager.get_valid_participants_for_application(
+                application=self
+            )
+        )
 
     @property
     def total_price_netto(self):

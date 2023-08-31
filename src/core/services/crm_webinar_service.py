@@ -36,7 +36,9 @@ class CrmWebinarService:
 
     def get_sent_applications(self):
         """Returns all sent applications for this webinar"""
-        return WebinarApplication.manager.sent_applications(self.webinar)
+        return WebinarApplication.manager.sent_applications_for_webinar(
+            self.webinar
+        )
 
     def get_sent_applications_metadata(self):
         """Returns metadatas from sent applications metadata"""
@@ -49,18 +51,20 @@ class CrmWebinarService:
 
     def get_unfinished_applications(self):
         """Returns all unfinished applications for this webinar"""
-        return WebinarApplication.manager.unfinished_applications(self.webinar)
+        return WebinarApplication.manager.unfinished_applications_for_webinar(
+            self.webinar
+        )
 
     def get_resigned_applications(self):
         """Returns all resigned applications for this webinar"""
-        return WebinarApplication.manager.resigned_applications(self.webinar)
+        return WebinarApplication.manager.resigned_applications_for_webinar(
+            self.webinar
+        )
 
     def get_gathered_participants(self):
         """Participants from `sent` applications"""
-        return (
-            WebinarParticipant.manager.get_participants_from_sent_applications(
-                self.webinar
-            )
+        return WebinarParticipant.manager.get_valid_participants_for_webinar(
+            self.webinar
         )
 
     def get_certificates(self):

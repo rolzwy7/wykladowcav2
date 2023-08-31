@@ -19,9 +19,7 @@ def after_webinar_confirm_dispatch(webinar: Webinar):
     # Prepare data
     webinar_id: int = webinar.id  # type: ignore
     participants = (
-        WebinarParticipant.manager.get_participants_from_sent_applications(
-            webinar
-        )
+        WebinarParticipant.manager.get_valid_participants_for_webinar(webinar)
     )
     lecturer: Lecturer = webinar.lecturer
 
@@ -37,7 +35,7 @@ def after_webinar_confirm_dispatch(webinar: Webinar):
             task_send_clickmeeting_invitation_lecturer.s(lecturer.email)
         )
 
-    # Send preparation email to all participants along with invitation
+    # Send preparation email to all participants
     preparation_emails = [
         task_send_participant_preparation_email.si(
             params_send_participant_preparation_email(

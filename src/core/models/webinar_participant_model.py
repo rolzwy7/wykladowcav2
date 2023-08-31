@@ -10,21 +10,42 @@ from django.db.models import (
     QuerySet,
 )
 
-from .enums import ApplicationStatus, WebinarParticipantIsMxValidType
+from .enums import (
+    ApplicationStatus,
+    WebinarParticipantIsMxValidType,
+    WebinarParticipantStatus,
+)
 from .webinar_model import Webinar
 
 
 class WebinarParticipantManager(Manager):
     """WebinarParticipant query Manager"""
 
-    def get_participants_from_sent_applications(
+    def get_valid_participants_for_webinar(
         self, webinar: Webinar
     ) -> QuerySet["WebinarParticipant"]:
-        """Get participants from applications marked as `sent`"""
+        """Get valid participants for given webinar"""
         return self.get_queryset().filter(
-            # Only participants from applications that have been sent
+            # For given webinar
             Q(application__webinar=webinar)
+            # Only from sent applications
             & Q(application__status=ApplicationStatus.SENT)
+            # Only participating
+            & Q(status=WebinarParticipantStatus.PARTICIPATING)
+        )
+
+    # TODO: kinda cringe
+    def get_valid_participants_for_application(
+        self, application  # don't use typing, circular import
+    ) -> QuerySet["WebinarParticipant"]:
+        """Get valid participants for given application"""
+        return self.get_queryset().filter(
+            # For given application
+            Q(application=application)
+            # Only from sent applications
+            & Q(application__status=ApplicationStatus.SENT)
+            # Only participating
+            & Q(status=WebinarParticipantStatus.PARTICIPATING)
         )
 
 
@@ -32,6 +53,17 @@ class WebinarParticipant(Model):
     """Represents webinar participant"""
 
     manager = WebinarParticipantManager()
+
+    STATUS = [
+        (WebinarParticipantStatus.PARTICIPATING, "Uczestniczy w szkoleniu"),
+        (WebinarParticipantStatus.RESIGNATION, "Rezygnacja ze szkolenia"),
+    ]
+
+    status = CharField(
+        max_length=32,
+        default=WebinarParticipantStatus.PARTICIPATING,
+        choices=STATUS,
+    )
 
     application = ForeignKey(
         "WebinarApplication", on_delete=CASCADE, verbose_name="Zgłoszenie"

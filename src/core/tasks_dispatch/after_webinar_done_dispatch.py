@@ -41,11 +41,11 @@ def after_webinar_done_dispatch(webinar: Webinar):
 
     # Prepare data
     participants = (
-        WebinarParticipant.manager.get_participants_from_sent_applications(
-            webinar
-        )
+        WebinarParticipant.manager.get_valid_participants_for_webinar(webinar)
     )
-    applications = WebinarApplication.manager.sent_applications(webinar)
+    applications = WebinarApplication.manager.sent_applications_for_webinar(
+        webinar
+    )
 
     invoice_jobs = [
         chain(
@@ -54,6 +54,7 @@ def after_webinar_done_dispatch(webinar: Webinar):
             task_send_invoice_email.si(application.invoice.invoice_email, application.id),  # type: ignore
         )
         for application in applications
+        if application.participants.count() != 0  # prevent blank invoices
     ]
 
     certificate_jobs = [

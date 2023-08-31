@@ -1,43 +1,16 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="{{META__HTML_LANG}}">
+<html lang="{{META__HTML_LANG}}" dir="{{META__HTML_DIR}}">
+  <base href="{{META__BASE_URL}}" />
   <head>
-    <link
-      rel="stylesheet"
-      href="{% static 'geeks/assets/libs/magnific-popup/magnific-popup.css' %}"
-      type="text/css"
-    />
-    {% comment %} <link
-      rel="stylesheet"
-      href="{% static 'geeks/assets/libs/bootstrap-select/css/bootstrap-select.min.css' %}"
-      type="text/css"
-    > {% endcomment %}
-    <!-- Required meta tags -->
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="keywords" content="" />
+    {% block meta %}{% endblock meta %}
+    <meta property="og:site_name" content="{{COMPANY_NAME}}">
+    <meta name="Googlebot" content="follow,index" />
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'geeks/assets/images/favicon/favicon.ico' %}" />
 
-    <script>
-      // Render blocking JS:
-      if (localStorage.theme)
-        document.documentElement.setAttribute("data-theme", localStorage.theme);
-    </script>
-
-    <link
-      href="{% static 'geeks/assets/libs/tiny-slider/tiny-slider.css' %}"
-      rel="stylesheet"
-      type="text/css"
-    >
-
-    <!-- Favicon icon-->
-    <link
-      rel="shortcut icon"
-      type="image/x-icon"
-      href="{% static 'geeks/assets/images/favicon/favicon.ico' %}"
-    />
-
-    <!-- Libs CSS -->
     <link 
         href="{% static 'geeks/assets/fonts/feather/feather.css' %}"
         rel="stylesheet"
@@ -53,18 +26,15 @@
       rel="stylesheet"
       type="text/css"
     />
-    <link
-      href="{% static 'geeks/assets/libs/simplebar/simplebar.min.css' %}"
-      rel="stylesheet"
-      type="text/css"
-    />
+    {% comment %} <link href="{% static 'geeks/assets/libs/simplebar/simplebar.min.css' %}" rel="stylesheet" type="text/css" /> {% endcomment %}
+    
+    {% comment %} <link rel="stylesheet" href="{% static 'geeks/assets/libs/magnific-popup/magnific-popup.css' %}" type="text/css" /> {% endcomment %}
 
     <!-- Theme CSS -->
     <link rel="stylesheet" href="{% static 'geeks/assets/css/theme.min.css' %}" type="text/css" />
-    <link rel="canonical" href="course-single.html" />
     
     {% block title %}
-      <title>{{COMPANY_NAME}}</title>
+      <title>{{META__TITLE}}</title>
     {% endblock title %}
 
     {% block head_stylesheets %}{% endblock head_stylesheets %}
@@ -88,22 +58,26 @@
     <!-- Libs JS -->
     <script src="{% static 'geeks/assets/libs/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'geeks/assets/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'geeks/assets/libs/simplebar/simplebar.min.js' %}"></script>
+    {% comment %} <script src="{% static 'geeks/assets/libs/simplebar/simplebar.min.js' %}"></script> {% endcomment %}
 
     <!-- Theme JS -->
     <script src="{% static 'geeks/assets/js/theme.min.js' %}"></script>
 
-    <script src="{% static 'geeks/assets/libs/tiny-slider/min/tiny-slider.js' %}"></script>
-    <script src="{% static 'geeks/assets/js/vendors/tnsSlider.js' %}"></script>
-
     <script src="{% static 'geeks/assets/libs/@popperjs/core/umd/popper.min.js' %}"></script>
     <script src="{% static 'geeks/assets/libs/tippy.js/tippy-bundle.umd.min.js' %}"></script>
 
-    <script src="{% static 'geeks/assets/js/vendors/tooltip.js' %}"></script>
-    <script src="{% static 'geeks/assets/libs/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
-    <script src="{% static 'geeks/assets/js/vendors/popup.js' %}"></script>
+    <script defer src="{% static 'geeks/assets/js/vendors/tooltip.js' %}"></script>
+    {% comment %} <script src="{% static 'geeks/assets/libs/magnific-popup/jquery.magnific-popup.min.js' %}"></script> {% endcomment %}
+    <script defer src="{% static 'geeks/assets/js/vendors/popup.js' %}"></script>
     {% comment %} <script src="{% static 'geeks/assets/libs/bootstrap-select/js/bootstrap-select.min.js' %}"></script> {% endcomment %}
 
     {% block body_scripts %}{% endblock body_scripts %}
+
+    {% comment %} Initialize lozad {% endcomment %}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+    <script>
+      const observer = lozad();
+      observer.observe();
+    </script>
   </body>
 </html>

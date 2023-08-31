@@ -18,7 +18,9 @@ def after_webinar_cancel_dispatch(webinar: Webinar):
 
     # Prepare data
     webinar_id: int = webinar.id  # type: ignore
-    sent_applications = WebinarApplication.manager.sent_applications(webinar)
+    sent_applications = (
+        WebinarApplication.manager.sent_applications_for_webinar(webinar)
+    )
 
     # For each sent application
     for sent_application in sent_applications:

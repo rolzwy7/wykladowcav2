@@ -2,6 +2,30 @@
 
 {% load static %}
 
+{% block head_stylesheets %}
+  <link
+  href="{% static 'geeks/assets/libs/tiny-slider/tiny-slider.css' %}"
+  rel="stylesheet"
+  type="text/css"
+  >
+{% endblock head_stylesheets %}
+
+{% block title %}
+      <title>{{COMPANY_NAME}} - Szkolenia wielobranżowe, księgowości, kadry płace, podatkowe</title>
+    {% endblock title %}
+
+{% block meta %}
+    <meta name="description" content="Szkolenia zakresu księgowości, kadr i płac, podatków, finansów." />
+    <link rel="canonical" href="{{META__BASE_URL}}" />
+    <meta property="og:title" content="{{COMPANY_NAME}} - Szkolenia wielobranżowe, księgowości, kadry płace, podatkowe" />
+{% endblock meta %}
+
+{% block body_scripts %}
+  <script src="{% static 'geeks/assets/libs/tiny-slider/min/tiny-slider.js' %}"></script>
+  <script src="{% static 'geeks/assets/js/vendors/tnsSlider.js' %}"></script>
+{% endblock body_scripts %}
+
+
 {% block root %}
 <!-- section -->
 <main>
@@ -719,9 +743,9 @@
           <div class="mb-6 mb-lg-0">
             <div class="mb-2">
               <img
-                src="{% static 'geeks/assets/images/education/certificate.jpg' %}"
-                alt="certificate"
-                class="img-fluid w-100"
+                data-src="{% static 'geeks/assets/images/education/certificate.jpg' %}"
+                alt="Przykładowy certyfikat uczestnictwa w szkoleniu"
+                class="lozad img-fluid w-100"
               />
             </div>
             <div class="d-flex">
@@ -888,9 +912,7 @@
             <div class="col-lg-6 offset-lg-1 col-md-12 col-12">
               <div
                 class="d-flex justify-content-center position-relative rounded py-17 border-gray-100 border border-4 rounded-3 bg-cover"
-                style="
-                  background-image: url({% static 'geeks/assets/images/education/edu-video-img.jpg' %});
-                "
+                style="background-image: url({% static 'geeks/assets/images/education/edu-video-img.jpg' %});"
               >
                 <a
                   class="popup-youtube icon-shape rounded-circle btn-play icon-xl text-decoration-none"

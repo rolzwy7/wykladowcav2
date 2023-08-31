@@ -3,6 +3,8 @@ from django.core.mail import EmailMultiAlternatives
 
 from .email_template import EmailTemplate
 
+EMAIL_OFFICE = settings.COMPANY_OFFICE_EMAIL
+
 
 class EmailMessage:
     def __init__(
@@ -13,12 +15,12 @@ class EmailMessage:
         self.email_message = EmailMultiAlternatives(
             subject=self.subject,
             body=self.email_template.get_text(),
-            from_email=f"{settings.COMPANY_NAME} <{settings.EMAIL_OFFICE}>",
+            from_email=f"{settings.COMPANY_NAME} <{EMAIL_OFFICE}>",
             to=[email],
-            cc=[settings.EMAIL_OFFICE],
+            cc=[EMAIL_OFFICE],
             alternatives=[(self.email_template.get_html(), "text/html")],
             headers={"Organization": settings.COMPANY_NAME_FULL},
-            reply_to=[settings.EMAIL_OFFICE],
+            reply_to=[EMAIL_OFFICE],
         )
 
     def attach(

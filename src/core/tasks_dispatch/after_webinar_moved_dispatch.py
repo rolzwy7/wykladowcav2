@@ -20,7 +20,9 @@ def after_webinar_moved_dispatch(webinar: Webinar, new_date: datetime):
     """Performs actions after webinar is moved"""
 
     # Get sent applications for this webinar
-    sent_applications = WebinarApplication.manager.sent_applications(webinar)
+    sent_applications = (
+        WebinarApplication.manager.sent_applications_for_webinar(webinar)
+    )
 
     # Create move register object
     move_register = WebinarMoveRegister(
