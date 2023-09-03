@@ -20,3 +20,4 @@ from .sender_smtp_service import SenderSmtpService
 from .streaming_service import StreamingService
 from .tagging_service import TaggingService
 from .telegram_service import TelegramService
+from .webinar.crm.webinar_moving_service import WebinarMovingService
