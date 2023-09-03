@@ -1,5 +1,5 @@
+{% if webinar and webinar.remaining_places != 0 %}
 <span>
-    {% if webinar and webinar.remaining_places != 0 %}
     {% if webinar.remaining_places == 1 %}
     Pozostało
     {% elif webinar.remaining_places >= 5 %}
@@ -15,6 +15,6 @@
     {% else %}
     wolne miejsca
     {% endif %}
-    {% endif %}
     !
 </span>
+{% endif %}

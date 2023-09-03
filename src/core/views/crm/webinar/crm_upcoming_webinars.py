@@ -7,7 +7,7 @@ from core.services import CrmWebinarService
 def crm_upcoming_webinars(request):
     """CRM upcoming webinars"""
     template_name = "core/pages/crm/webinar/CrmUpcomingWebinars.html"
-    webinars = Webinar.manager.init_or_confirmed()
+    webinars = Webinar.manager.get_init_or_confirmed_webinars()
 
     return TemplateResponse(
         request,

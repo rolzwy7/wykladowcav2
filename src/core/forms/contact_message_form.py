@@ -3,7 +3,7 @@ from django.forms import EmailInput, HiddenInput, ModelForm, Textarea, TextInput
 from core.models import ContactMessage
 
 
-class ContactMessageForm(ModelForm):  # TODO: ContactMessageForm
+class ContactMessageForm(ModelForm):
     """Form for contact message"""
 
     class Meta:

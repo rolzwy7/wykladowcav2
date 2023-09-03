@@ -380,8 +380,10 @@ class ApplicationFormService:
         webinar: Webinar = self.application.webinar
 
         # If webinar is not in `homepage_webinars` queryset
-        homepage_webinar_ids = Webinar.manager.init_or_confirmed().values_list(
-            "id", flat=True
+        homepage_webinar_ids = (
+            Webinar.manager.get_init_or_confirmed_webinars().values_list(
+                "id", flat=True
+            )
         )
         webinar_id: int = webinar.id  # type: ignore
         if webinar_id not in homepage_webinar_ids:

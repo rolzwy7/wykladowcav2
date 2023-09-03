@@ -1,4 +1,10 @@
-<form class="row" hx-post="{% url 'htmx:htmx_contact_message' %}" hx-target="this" hx-swap="outerHTML">
+<form
+  onsubmit="actionSubmit.disabled = true; return true;"
+  class="row"
+  hx-post="{% url 'htmx:htmx_contact_message' %}"
+  hx-target="this"
+  hx-swap="outerHTML"
+>
   {{form.related_to}}
   <!-- form group -->
   <div class="mb-3 col-12 col-md-6">
@@ -38,6 +44,8 @@
   </div>
   <!-- button -->
   <div class="col-12">
-    <button type="submit" class="btn btn-primary btn-block">Prześlij</button>
+    <button name="actionSubmit" type="submit" class="btn btn-primary btn-block">
+      Prześlij
+    </button>
   </div>
 </form>

@@ -75,7 +75,7 @@
                 Numer wpisu do Rejestru Instytucji Szkoleniowych: <b>2.24/00108/2023</b>
               </p>
             </div>
-            <div class="mt-8 fs-4">
+            {% comment %} <div class="mt-8 fs-4">
               <p class="mb-4">
                 Zgłoszenia i zapytania dot. SPAMU - Tomasz Kowalkiewicz
               </p>
@@ -84,7 +84,7 @@
                 <i class="bi bi-envelope-open text-primary me-2"></i>
                 Tomasz.Kowalkiewicz@wykladowca.pl
               </p>
-            </div>
+            </div> {% endcomment %}
             {% comment %} <div class="mt-10">
               <!--Facebook-->
               <a href="#" class="text-muted me-3">
@@ -100,6 +100,40 @@
                 <i class="mdi mdi-github fs-3"></i>
               </a>
             </div> {% endcomment %}
+            <div class="accordion accordion-flush" id="accordionExample">
+              <div class="border-bottom py-3" id="headingOne">
+                <h3 class="mb-0 fw-bold">
+                  <a href="#" class="d-flex align-items-center text-inherit text-decoration-none collapsed" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+
+                    <span class="me-auto">
+                      Obsługa szkoleń
+                    </span>
+                    <span class="collapse-toggle ms-4">
+                      <i class="fe fe-plus text-primary"></i>
+                    </span>
+                  </a>
+                </h3>
+              </div>
+              <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+                <div class="py-3 fs-4">
+                  <div class="fs-4">
+                    <p class="mb-4">
+                      {{PATRON_FIRST_NAME}} {{PATRON_LAST_NAME}}
+                      
+                    </p>
+                    <p>
+                      <i class="bi bi-envelope-open text-primary me-2"></i>
+                      {{PATRON_EMAIL}}
+                    </p>
+                    <p>
+                      <i class="bi bi-telephone text-primary me-2"></i>
+                      {{PATRON_PHONE}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <!-- Card  -->
+            </div>
           </div>
         </div>
       </div>
@@ -111,7 +145,7 @@
           <!-- form section -->
           <div id="form">
 
-            <div hx-get="{% url 'htmx:htmx_contact_message' %}?related_to=strona_kontakt" hx-trigger="load">
+            <div hx-get="{% url 'htmx:htmx_contact_message' %}?related_to={{request.path}}" hx-trigger="load">
               Ładowanie ...
             </div>
             

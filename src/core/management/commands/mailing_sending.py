@@ -2,6 +2,8 @@ import time
 from smtplib import SMTPRecipientsRefused, SMTPServerDisconnected
 
 from django.core.management.base import BaseCommand
+from django.db.models import Q
+from django.utils.timezone import now, timedelta
 
 from core.consts import TelegramChats
 from core.models import (
@@ -99,8 +101,19 @@ def process_sending(campaign: MailingCampaign, limit: int = 100) -> str:
             pool_manager.change_status(document_id, MailingPoolStatus.SENT)
             print(f"[+] Sent to `{email}`")
 
+            # Increment sent counter
+            campaign.stat_sent = campaign.stat_sent + 1
+
+            # Increment sent so far counter if limit per day set
+            if campaign.limit_per_day != 0:
+                campaign.limit_sent_so_far = campaign.limit_sent_so_far + 1
+        finally:
+            # Increment procesed counter
+            campaign.stat_procesed = campaign.stat_procesed + 1
+
     pool_manager.close()  # close mongo manager
     connection.close()  # close SMTP connection
+    campaign.save()
 
     if send_attempt_counter == 0:
         return_value = ProcessSendingStatus.NO_EMAILS_SENT
@@ -127,6 +140,20 @@ def try_to_finish_campaign(campaign: MailingCampaign):
     pool_manager.close()
 
 
+def try_to_reset_daily_limit_for_campaigns():
+    """Try to reset daily limit for campaigns
+
+    Reset `sent so far` counter for active campaigns that have limit
+    set and 24h have passed
+
+    Reset `limit_sent_so_far` to 0
+    Set `limit_timestamp` to `now()`
+    """
+    MailingCampaign.manager.active_campaigns().filter(
+        ~Q(limit_per_day=0) & Q(limit_timestamp__lt=now() - timedelta(hours=24))
+    ).update(limit_sent_so_far=0, limit_timestamp=now())
+
+
 class Command(BaseCommand):
     """Mailing sending command
 
@@ -141,8 +168,18 @@ class Command(BaseCommand):
 
     def start_loop(self):
         """Start infinite loop"""
+        loop_counter = 0
 
         while True:
+            # Increment loop counter and apply modulo
+            loop_counter += 1
+            loop_counter = loop_counter % 10_000
+
+            # Try to reset daily limit for campaigns
+            # Run on first and every 20th loop
+            if loop_counter == 1 or loop_counter % 20 == 0:
+                try_to_reset_daily_limit_for_campaigns()
+
             # Get all active mailing campaigns
             active_campaigns = MailingCampaign.manager.active_campaigns()
 

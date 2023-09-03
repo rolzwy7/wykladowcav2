@@ -9,5 +9,5 @@ def lecturer_list_page(request):
     return TemplateResponse(
         request,
         template_name,
-        {"lecturers": Lecturer.manager.visible_on_page()},
+        {"lecturers": Lecturer.manager.get_lecturers_visible_on_page()},
     )

@@ -7,7 +7,7 @@ from django.core.mail.backends.smtp import EmailBackend
 from django.urls import reverse
 
 from core.models.mailing import SmtpSender
-from core.services import MailingResignationService
+from core.services.mailing import MailingResignationService
 
 BASE_URL = settings.BASE_URL
 

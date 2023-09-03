@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="card-body">
-        <div class="d-flex flex-row">
+        <div class="d-flex flex-row flex-wrap">
             {% for delay_ms, tag in tags %}
                 <div hx-get="{% url 'htmx:htmx_crm_email_tagging_toggle' email=email tag=tag %}" hx-trigger="load delay:{{delay_ms}}ms">
                     <span class="badge badge-light">

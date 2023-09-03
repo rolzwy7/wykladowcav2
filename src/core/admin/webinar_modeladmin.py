@@ -1,3 +1,5 @@
+# flake8: noqa:DJ07
+
 from django.contrib.admin import ModelAdmin, StackedInline, register
 from django.forms import ModelForm
 from tinymce.widgets import TinyMCE
@@ -15,6 +17,8 @@ class WebinarModelAdminInline(StackedInline):
 
 
 class WebinarModelAdminForm(ModelForm):
+    """Webinar Model Admin Form"""
+
     class Meta:
         model = Webinar
         fields = "__all__"

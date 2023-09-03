@@ -1,6 +1,7 @@
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
+from django.views.decorators.cache import cache_page
 
 from core.consts import POST
 from core.models import WebinarParticipant, WebinarParticipantMetadata
@@ -26,6 +27,7 @@ def htmx_crm_participant_toggle_phoned(request: HttpRequest, pk: int):
     )
 
 
+@cache_page(15 * 60)
 def htmx_crm_participant_indicators(request: HttpRequest, pk: int):
     """Toggle CRM participant phoned"""
     template_path = "htmx/participant_indicators.html"

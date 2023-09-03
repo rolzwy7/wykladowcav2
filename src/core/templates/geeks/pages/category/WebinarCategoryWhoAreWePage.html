@@ -3,7 +3,5 @@
 {% load static %}
 
 {% block content %}
-<section class="py-1">
-    Who We Are
- </section>
+  {{category.about_html|safe}}
 {% endblock content %}

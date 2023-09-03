@@ -72,6 +72,8 @@ class WebinarCategory(Model):
     )
     is_homepage_category = BooleanField("Jest kategorią domową", default=False)
 
+    about_html = TextField("Opis kategorii", default="[Opis kategorii]")
+
     class Meta:
         verbose_name = "Kategoria"
         verbose_name_plural = "Kategorie"

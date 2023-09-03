@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 
 from core.models import Lecturer
-from core.services.lecturer_service import LecturerService
+from core.services.lecturer import LecturerService
 
 
 def lecturer_opinions_page(request, slug: str):

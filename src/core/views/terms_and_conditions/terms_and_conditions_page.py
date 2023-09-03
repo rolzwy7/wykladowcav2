@@ -4,7 +4,7 @@ from django.template.response import TemplateResponse
 def terms_and_conditions_webinars(request):
     """Term and conditions for webinars"""
     template_name = (
-        "core/pages/terms_and_conditions/TermsAndConditionsWebinars.html"
+        "geeks/pages/terms_and_conditions/TermsAndConditionsWebinars.html"
     )
     return TemplateResponse(
         request,
@@ -16,7 +16,7 @@ def terms_and_conditions_webinars(request):
 def terms_and_conditions_loyalty_program(request):
     """Term and conditions for webinars"""
     template_name = (
-        "core/pages/terms_and_conditions/TermsAndConditionsLoyaltyProgram.html"
+        "geeks/pages/terms_and_conditions/TermsAndConditionsLoyaltyProgram.html"
     )
     return TemplateResponse(
         request,
@@ -27,7 +27,7 @@ def terms_and_conditions_loyalty_program(request):
 
 def cookies_policy(request):
     """Term and conditions for webinars"""
-    template_name = "core/pages/terms_and_conditions/CookiesPolicy.html"
+    template_name = "geeks/pages/terms_and_conditions/CookiesPolicy.html"
     return TemplateResponse(
         request,
         template_name,
@@ -37,7 +37,7 @@ def cookies_policy(request):
 
 def privacy_policy(request):
     """Term and conditions for webinars"""
-    template_name = "core/pages/terms_and_conditions/PrivacyPolicy.html"
+    template_name = "geeks/pages/terms_and_conditions/PrivacyPolicy.html"
     return TemplateResponse(
         request,
         template_name,

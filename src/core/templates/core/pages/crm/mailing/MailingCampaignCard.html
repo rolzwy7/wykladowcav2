@@ -44,13 +44,13 @@
                                 </div>
                                 <!--end::Heading-->
                                 <!--begin::Menu item-->
-                                <div class="menu-item px-3">
+                                {% comment %} <div class="menu-item px-3">
 
                                     <a href="#" class="menu-link px-3 text-warning">
                                         Potwierdź termin
                                     </a>
                                 
-                                </div>
+                                </div> {% endcomment %}
                             </div>
                             <!--end::Menu 3-->
                         </div>
@@ -130,6 +130,38 @@
                         <!--end::Number-->
                         <!--begin::Label-->
                         <div class="fw-semibold fs-8 text-gray-700">Wysyłaj po</div>
+                        <!--end::Label-->
+                    </div>
+                    <!--end::Stat-->    
+                    <!--begin::Stat-->
+                    <div class="border border-gray-300 border-dashed rounded py-3 px-4 me-6 mb-3">
+                        <!--begin::Number-->
+                        <div class="d-flex align-items-center">
+                            <div class="fs-5 fw-bold counted">
+                                {{campaign.stat_sent}} / {{campaign.stat_procesed}} ( {{campaign.send_processed_percent}} )
+                            </div>
+                        </div>
+                        <!--end::Number-->
+                        <!--begin::Label-->
+                        <div class="fw-semibold fs-8 text-gray-700">Wysłano / Przetworzono</div>
+                        <!--end::Label-->
+                    </div>
+                    <!--end::Stat-->    
+                    <!--begin::Stat-->
+                    <div class="border border-gray-300 border-dashed rounded py-3 px-4 me-6 mb-3">
+                        <!--begin::Number-->
+                        <div class="d-flex align-items-center">
+                            <div class="fs-5 fw-bold counted {% if campaign.limit_sent_so_far <= campaign.limit_per_day %}text-success{% else %}text-danger{% endif %}">
+                                {% if campaign.limit_per_day == 0 %}
+                                Brak limitu
+                                {% else %}
+                                {{campaign.limit_sent_so_far}} / {{campaign.limit_per_day}}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!--end::Number-->
+                        <!--begin::Label-->
+                        <div class="fw-semibold fs-8 text-gray-700">Limit dzienny (reset {{campaign.limit_timestamp}} + 24h)</div>
                         <!--end::Label-->
                     </div>
                     <!--end::Stat-->    

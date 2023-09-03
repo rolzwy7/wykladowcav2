@@ -23,7 +23,7 @@ def categories(request):
     sidebar_categories = [
         (
             category.order,
-            Webinar.manager.homepage_webinars()
+            Webinar.manager.get_active_webinars()
             .filter(categories__in=[category])
             .count(),
             category.name,

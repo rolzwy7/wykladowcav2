@@ -25,8 +25,8 @@ BASE_URL = settings.BASE_URL
 class LecturerManager(Manager):
     """Lecturer query Manager"""
 
-    def visible_on_page(self) -> QuerySet["Lecturer"]:
-        """Returns lecturers that are visible on website page"""
+    def get_lecturers_visible_on_page(self) -> QuerySet["Lecturer"]:
+        """Returns lecturers that are visible on website"""
         return self.get_queryset().filter(visible_on_page=True)
 
 

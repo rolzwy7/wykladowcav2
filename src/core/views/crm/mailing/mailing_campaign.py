@@ -13,7 +13,8 @@ from core.forms import (
 from core.models import MailingCampaign, MailingTemplate
 from core.models.enums import mailing_pool_status_display_map
 from core.models.mailing import MailingPoolManager
-from core.services import MailingCampaignService, SenderSmtpService
+from core.services import SenderSmtpService
+from core.services.mailing import MailingCampaignService
 
 
 def crm_mailing_campaign_list(request):

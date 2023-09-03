@@ -6,9 +6,11 @@ from django.db.models import (
     BooleanField,
     CharField,
     DateTimeField,
+    F,
     ForeignKey,
     Manager,
     Model,
+    PositiveIntegerField,
     Q,
     QuerySet,
     TextField,
@@ -39,6 +41,7 @@ class MailingCampaignManager(Manager):
             & Q(allowed_to_send_after__lt=now())
             & Q(allowed_to_send_before__gt=now())
             & Q(send_after__lt=now())
+            & Q(limit_sent_so_far__lte=F("limit_per_day"))
         )
 
     def not_done(self) -> QuerySet["MailingCampaign"]:
@@ -96,10 +99,16 @@ class MailingCampaign(Model):
     saturday = BooleanField(default=False)
     sunday = BooleanField(default=False)
 
-    # Metadata
-    # emails_count_display = CharField(  # TODO
-    #     "Ilość e-maili (cache)", max_length=32, default="0"
-    # )
+    # Limit per day
+    limit_timestamp = DateTimeField("Limit reset datetime", default=now)
+    limit_per_day = PositiveIntegerField(
+        "Limit wysłanych na dzień (0 = brak limitu)", default=0
+    )
+    limit_sent_so_far = PositiveIntegerField("Wysłano do tej pory", default=0)
+
+    # Sending stats
+    stat_sent = PositiveIntegerField("Wysłano (stat)", default=0)
+    stat_procesed = PositiveIntegerField("Przetworzono (stat)", default=0)
 
     class Meta:
         verbose_name = "Mailing Kampania"
@@ -143,3 +152,10 @@ class MailingCampaign(Model):
                 self.allowed_to_send_before > now().time(),
             ]
         )
+
+    @property
+    def send_processed_percent(self):
+        """What is a percentage of sent / processed emails"""
+        if self.stat_procesed == 0:
+            return "?%"
+        return f"{self.stat_sent/self.stat_procesed:.2%}"

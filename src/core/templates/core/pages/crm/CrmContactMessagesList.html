@@ -31,13 +31,6 @@
       <!--begin::Questions-->
       <div class="mb-10">
         {% for contact_message in contact_messages %}
-
-
-        {% comment %} 
-{{contact_message.related_to}}
-         {% endcomment %}
-
-
         <!--begin::Question-->
         <div class="mb-0">
           <!--begin::Head-->
@@ -68,6 +61,11 @@
                 </span>
                 <span class="text-muted fs-5   fw-semibold lh-1">
                   {{contact_message.created_at}}
+                </span>
+                <span class="text-muted fs-5   fw-semibold lh-1">
+                  <a href="{{contact_message.related_to}}">
+                    Strona: {{contact_message.related_to}}
+                  </a>
                 </span>
               </div>
               <!--end::Name-->

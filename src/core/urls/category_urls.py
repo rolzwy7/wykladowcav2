@@ -2,7 +2,7 @@ from django.urls import path
 
 from core.views import (
     webinar_all_categories_page,
-    webinar_category_lecturer_page,
+    webinar_category_lecturers_page,
     webinar_category_opinions_page,
     webinar_category_page,
     webinar_category_who_are_we_page,
@@ -26,7 +26,7 @@ urlpatterns = [
     ),
     path(
         "<slug:slug>/wykladowcy/",
-        webinar_category_lecturer_page,
+        webinar_category_lecturers_page,
         name="webinar_category_lecturer_page",
     ),
     path(

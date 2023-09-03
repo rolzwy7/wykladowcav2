@@ -30,7 +30,7 @@ from .enums import WebinarDuration, WebinarStatus
 class WebinarManager(Manager):
     """Webinar query Manager"""
 
-    def init_or_confirmed(self) -> QuerySet["Webinar"]:
+    def get_init_or_confirmed_webinars(self) -> QuerySet["Webinar"]:
         """Returns `initialized` of `confirmed` webinars
 
         Returns:
@@ -41,7 +41,7 @@ class WebinarManager(Manager):
             Q(status__in=[WebinarStatus.INIT, WebinarStatus.CONFIRMED])
         )
 
-    def done_or_canceled(self) -> QuerySet["Webinar"]:
+    def get_done_or_canceled_webinars(self) -> QuerySet["Webinar"]:
         """Returns `done` of `canceled` webinars
 
         Returns:
@@ -52,14 +52,14 @@ class WebinarManager(Manager):
             Q(status__in=[WebinarStatus.DONE, WebinarStatus.CANCELED])
         )
 
-    def homepage_webinars(self) -> QuerySet["Webinar"]:
-        """Returns webinars visible on homepage
+    def get_active_webinars(self) -> QuerySet["Webinar"]:
+        """Returns active webinars
 
         Returns:
             QuerySet['Webinar']: queryset of webinars
         """
         return (
-            self.init_or_confirmed()
+            self.get_init_or_confirmed_webinars()
             .filter(
                 # Show webinar on homepage N-15 minutes after the start
                 date__gte=now()
@@ -68,13 +68,25 @@ class WebinarManager(Manager):
             .order_by("date")
         )
 
-    def webinars_for_category(self, slug: str) -> QuerySet["Webinar"]:
-        """Returns webinars for given category
+    def get_active_webinars_for_category(
+        self, slug: str
+    ) -> QuerySet["Webinar"]:
+        """Returns webinars for given category slug
 
         Returns:
             QuerySet['Webinar']: queryset of webinars
         """
-        return self.homepage_webinars().filter(categories__slug__in=[slug])
+        return self.get_active_webinars().filter(categories__slug__in=[slug])
+
+    def get_active_webinars_for_lecturer(
+        self, lecturer_id: int
+    ) -> QuerySet["Webinar"]:
+        """Returns webinars for given lecturer id
+
+        Returns:
+            QuerySet['Webinar']: queryset of webinars
+        """
+        return self.get_active_webinars().filter(lecturer__id=lecturer_id)
 
 
 class Webinar(Model):

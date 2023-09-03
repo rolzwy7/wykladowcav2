@@ -19,12 +19,8 @@ from core.models.mailing import (
     MailingProcessingCacheManager,
     MailingResignationManager,
 )
-from core.services import (
-    BlacklistService,
-    MailingResignationService,
-    MxService,
-    SenderSmtpService,
-)
+from core.services import BlacklistService, MxService, SenderSmtpService
+from core.services.mailing import MailingResignationService
 
 logging.getLogger("flufl.bounce").setLevel(logging.WARNING)
 
@@ -312,15 +308,17 @@ class Command(BaseCommand):
 
     def start_loop(self):
         """Start infinite loop"""
-        loop_counter = 1
+        loop_counter = 0
+
         while True:
+            # Increment loop counter and apply modulo
+            loop_counter += 1
+            loop_counter = loop_counter % 10_000
+
             # Run every 20th loop
             if loop_counter % 20 == 1:
-                process_scan_inboxes()
-
-            # Run once on first loop
-            if loop_counter == 1:
                 load_cache()
+                process_scan_inboxes()
 
             # Run every loop
             process_check_mx(200)

@@ -8,18 +8,27 @@ class LecturerService:
 
     def __init__(self, lecturer: Lecturer) -> None:
         self.lecturer = lecturer
+        self.lecturer_id: int = lecturer.id  # type: ignore
 
     def get_lecturer_webinars(self):
         """Get lecturer webinars"""
-        return Webinar.manager.homepage_webinars().filter(
-            lecturer=self.lecturer
+        return Webinar.manager.get_active_webinars_for_lecturer(
+            self.lecturer_id
         )
+
+    def get_lecturer_webinars_count(self):
+        """Get count for lecturer webinars"""
+        return self.get_lecturer_webinars().count()
 
     def get_lecturer_opinions(self):
         """Get opinions about lecturer"""
-        return LecturerOpinion.manager.filter(visible_on_page=True).order_by(
-            "-created_at"
+        return LecturerOpinion.manager.get_visible_opinions_for_lecturer(
+            self.lecturer
         )
+
+    def get_lecturer_opinions_count(self):
+        """Get count for opinions about lecturer"""
+        return self.get_lecturer_opinions().count()
 
     def get_lecturer_tabs(self, tab_index: int):
         """Returns structure of lecturer tabs

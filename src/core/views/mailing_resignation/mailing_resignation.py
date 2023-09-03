@@ -4,7 +4,7 @@ from django.template.response import TemplateResponse
 from django.urls import reverse
 
 from core.consts import POST
-from core.services import MailingResignationService
+from core.services.mailing import MailingResignationService
 
 
 def mailing_resignation_page(request: HttpRequest, resignation_code: str):

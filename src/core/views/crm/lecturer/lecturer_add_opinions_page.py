@@ -50,14 +50,14 @@ def try_to_add_opinion(lecturer: Lecturer, opinion_raw: str):
 
     # Set default rating if incorrect
     possible_stars = [
-        LecturerOpinionRating.START_5,
-        LecturerOpinionRating.START_4,
-        LecturerOpinionRating.START_3,
-        LecturerOpinionRating.START_2,
-        LecturerOpinionRating.START_1,
+        LecturerOpinionRating.STARS_5,
+        LecturerOpinionRating.STARS_4,
+        LecturerOpinionRating.STARS_3,
+        LecturerOpinionRating.STARS_2,
+        LecturerOpinionRating.STARS_1,
     ]
     if rating not in possible_stars:
-        rating = LecturerOpinionRating.START_5
+        rating = LecturerOpinionRating.STARS_5
 
     # Create and save new opinion about lecturer
     opinion = LecturerOpinion(

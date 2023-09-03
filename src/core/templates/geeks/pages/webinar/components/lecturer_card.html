@@ -1,0 +1,76 @@
+{% load static %}
+<!-- Card -->
+<div class="card mb-4">
+  <!-- Card body -->
+  <div class="card-body">
+    <div class="d-flex align-items-center">
+      <div class="position-relative">
+        <img
+          src="{% get_media_prefix %}uploads/lecturers/{{lecturer.slug}}_80x80.webp"
+          alt="avatar"
+          class="rounded-circle avatar-xl"
+        />
+        <a
+          href="course-single.html#"
+          class="position-absolute mt-2 ms-n3"
+          data-bs-toggle="tooltip"
+          data-placement="top"
+          title="Wykładowca zweryfikowany"
+        >
+          <img
+            src="{% static 'geeks/assets/images/svg/checked-mark.svg' %}"
+            alt="checked-mark"
+            height="30"
+            width="30"
+          />
+        </a>
+      </div>
+      <div class="ms-4">
+        <h4 class="mb-0">
+          <a style="color: var(--geeks-heading-color);" href="{% url 'core:lecturer_experience_page' slug=webinar.lecturer.slug %}">
+            {{lecturer.fullname}}
+          </a>
+        </h4>
+        <p class="mb-1 fs-6">{{lecturer.profession}}</p>
+        <span class="fs-6">
+          <span class="text-warning">4.5</span>
+          <span class="mdi mdi-star text-warning me-2">
+          </span>
+          {{lecturer_service.get_lecturer_opinions_count}} opinii
+          </span>
+      </div>
+    </div>
+    <div class="border-top row mt-3 border-bottom mb-3 g-0">
+      <div class="col">
+        <div class="pe-1 ps-2 py-3">
+          <h5 class="mb-0">{{lecturer.fake_stat_participants}}</h5>
+          <span>Przeszkolonych</span>
+        </div>
+      </div>
+      <div class="col border-start">
+        <div class="pe-1 ps-3 py-3">
+          <h5 class="mb-0">{{lecturer_service.get_lecturer_opinions_count}}</h5>
+          <span>Opinii</span>
+        </div>
+      </div>
+      <div class="col border-start">
+        <div class="pe-1 ps-3 py-3">
+          <h5 class="mb-0">{{lecturer.fake_stat_webinars}}</h5>
+          <span>Szkoleń</span>
+        </div>
+      </div>
+    </div>
+    <p>
+      {{lecturer.biography_email|truncatechars:150}}
+      <a href="#"> Zobacz pełny opis </a>
+    </p>
+    {% comment %}
+    <div class="text-center">
+      <a href="instructor-profile.html" class="btn btn-outline-primary btn-sm">
+        Zobacz pełny opis
+      </a>
+    </div>
+    {% endcomment %}
+  </div>
+</div>
+<!-- Card -->

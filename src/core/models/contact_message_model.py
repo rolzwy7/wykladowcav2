@@ -43,7 +43,7 @@ class ContactMessage(Model):
 
     phone_number = CharField("Numer telefonu", max_length=64, blank=True)
 
-    message = TextField("Wiadomość")
+    message = TextField("Wiadomość", max_length=1000)
 
     related_to = CharField("Nawiązuje do", max_length=264, blank=True)
 

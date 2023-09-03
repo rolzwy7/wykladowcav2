@@ -2,10 +2,13 @@ from core.models import Lecturer, Webinar
 
 
 class HomepageService:
+    """Homepage service"""
+
     def __init__(self):
         pass
 
     def get_our_clients(self):
+        """Get `our clients` data (logo urls and company names)"""
         logos_base = "media/our-clients-logos"
         return [
             (f"{logos_base}/allegro.svg", "Allegro"),
@@ -17,8 +20,9 @@ class HomepageService:
         ]
 
     def get_context(self):
+        """Get context for homepage"""
         return {
-            "webinars": Webinar.manager.homepage_webinars(),
-            "visible_lecturers": Lecturer.manager.visible_on_page(),
+            "webinars": Webinar.manager.get_active_webinars(),
+            "visible_lecturers": Lecturer.manager.get_lecturers_visible_on_page(),
             "our_clients": self.get_our_clients(),
         }

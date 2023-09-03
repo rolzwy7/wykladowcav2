@@ -1,0 +1,73 @@
+<!-- Reviews -->
+<div class="mb-3">
+  <div class="row align-items-center">
+    <div class="col-auto text-center">
+      <h3 class="display-2 fw-bold">{{opinions_average}}</h3>
+      <i class="mdi mdi-star me-n1 text-warning"></i>
+      <i class="mdi mdi-star me-n1 text-warning"></i>
+      <i class="mdi mdi-star me-n1 text-warning"></i>
+      <i class="mdi mdi-star me-n1 text-warning"></i>
+      <i class="mdi mdi-star me-n1-half text-warning"></i>
+      {% comment %}
+      <p class="mb-0 fs-6">(Based on 27 reviews)</p>
+      {% endcomment %}
+    </div>
+    <!-- Progress bar -->
+    <div class="col pt-3 order-3 order-md-2">
+      {% for rating_str, rating_count, rating_percent in opinions_breakdown %}
+      <div
+        class="progress {% if forloop.last %}mb-0{% else %}mb-3{% endif %}"
+        style="height: 6px"
+      >
+        <div
+          class="progress-bar bg-warning"
+          role="progressbar"
+          style="width: {{rating_percent}}%"
+          aria-valuenow="{{rating_percent}}"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        ></div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="col-md-auto col-6 order-2 order-md-3">
+      <!-- Rating -->
+      {% for rating_str, rating_count, rating_percent in opinions_breakdown %}
+      <div>
+        {% if rating_str == "5stars" %}
+        <i class="mdi mdi-star me-n1 text-warning"></i>
+        <i class="mdi mdi-star me-n1 text-warning"></i>
+        <i class="mdi mdi-star me-n1 text-warning"></i>
+        <i class="mdi mdi-star me-n1 text-warning"></i>
+        <i class="mdi mdi-star me-n1 text-warning"></i>
+        {% elif rating_str == "4stars" %}
+        <i class="mdi mdi-star me-n1 text-warning"></i>
+        <i class="mdi mdi-star me-n1 text-warning"></i>
+        <i class="mdi mdi-star me-n1 text-warning"></i>
+        <i class="mdi mdi-star me-n1 text-warning"></i>
+        <i class="mdi mdi-star me-n1 text-light"></i>
+        {% elif rating_str == "3stars" %}
+        <i class="mdi mdi-star me-n1 text-warning"></i>
+        <i class="mdi mdi-star me-n1 text-warning"></i>
+        <i class="mdi mdi-star me-n1 text-warning"></i>
+        <i class="mdi mdi-star me-n1 text-light"></i>
+        <i class="mdi mdi-star me-n1 text-light"></i>
+        {% elif rating_str == "2stars" %}
+        <i class="mdi mdi-star me-n1 text-warning"></i>
+        <i class="mdi mdi-star me-n1 text-warning"></i>
+        <i class="mdi mdi-star me-n1 text-light"></i>
+        <i class="mdi mdi-star me-n1 text-light"></i>
+        <i class="mdi mdi-star me-n1 text-light"></i>
+        {% else %}
+        <i class="mdi mdi-star me-n1 text-warning"></i>
+        <i class="mdi mdi-star me-n1 text-light"></i>
+        <i class="mdi mdi-star me-n1 text-light"></i>
+        <i class="mdi mdi-star me-n1 text-light"></i>
+        <i class="mdi mdi-star me-n1 text-light"></i>
+        {% endif %}
+        <span class="ms-1">{{rating_percent}}%</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

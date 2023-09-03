@@ -18,7 +18,7 @@ from .lecturer_model import Lecturer
 class LecturerOpinionManager(Manager):
     """Lecturer opinion query Manager"""
 
-    def visible_opinions_for_lecturer(
+    def get_visible_opinions_for_lecturer(
         self, lecturer: Lecturer
     ) -> QuerySet["LecturerOpinion"]:
         """Get opinions for lecturer that are marked as visible on page"""
@@ -49,11 +49,11 @@ class LecturerOpinion(Model):
     opinion_text = TextField("Treść opinii")
 
     RATING = [
-        (LecturerOpinionRating.START_1, "1 gwiazdka"),
-        (LecturerOpinionRating.START_2, "2 gwiazdki"),
-        (LecturerOpinionRating.START_3, "3 gwiazdki"),
-        (LecturerOpinionRating.START_4, "4 gwiazdki"),
-        (LecturerOpinionRating.START_5, "5 gwiazdek"),
+        (LecturerOpinionRating.STARS_1, "1 gwiazdka"),
+        (LecturerOpinionRating.STARS_2, "2 gwiazdki"),
+        (LecturerOpinionRating.STARS_3, "3 gwiazdki"),
+        (LecturerOpinionRating.STARS_4, "4 gwiazdki"),
+        (LecturerOpinionRating.STARS_5, "5 gwiazdek"),
     ]
 
     rating = CharField("Ocena", max_length=16, choices=RATING)
@@ -64,6 +64,8 @@ class LecturerOpinion(Model):
         verbose_name = "Opinia o wykładowcy"
         verbose_name_plural = "Opinie o wykładowcy"
 
+        ordering = ["-created_at"]
+
     def __str__(self) -> str:
         return str(self.fullname)
 
@@ -71,11 +73,11 @@ class LecturerOpinion(Model):
     def rating_number(self):
         """Get rating number"""
         return {
-            LecturerOpinionRating.START_1: 1,
-            LecturerOpinionRating.START_2: 2,
-            LecturerOpinionRating.START_3: 3,
-            LecturerOpinionRating.START_4: 4,
-            LecturerOpinionRating.START_5: 5,
+            LecturerOpinionRating.STARS_1: 1,
+            LecturerOpinionRating.STARS_2: 2,
+            LecturerOpinionRating.STARS_3: 3,
+            LecturerOpinionRating.STARS_4: 4,
+            LecturerOpinionRating.STARS_5: 5,
         }[self.rating]
 
     @property

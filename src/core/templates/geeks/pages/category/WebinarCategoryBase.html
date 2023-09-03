@@ -7,7 +7,8 @@
   <!-- Bg cover -->
   <section
     class="py-6"
-    style="background: linear-gradient(270deg, #9d4eff 0%, #782af4 100%)"
+    {% comment %} style="background: linear-gradient(270deg, #9d4eff 0%, #782af4 100%)" {% endcomment %}
+    style="background-color: #9d4eff;"
   ></section>
   <!-- Page header -->
   <section class="bg-white shadow-sm">
@@ -58,6 +59,7 @@
                 >Szkolenia
               </a>
             </li>
+            {% if not category.parent %}
             <li class="nav-item" role="presentation">
               <a
                 class="nav-link {% if request.path == '/szkolenia/'|add:slug|add:'/kim-jestesmy/' %}active{% endif %}"
@@ -70,6 +72,7 @@
                 >Kim jesteśmy
               </a>
             </li>
+            {% endif %}
             <li class="nav-item" role="presentation">
               <a
                 class="nav-link {% if request.path == '/szkolenia/'|add:slug|add:'/wykladowcy/' %}active{% endif %}"
@@ -94,7 +97,7 @@
                 >Opinie</a
               >
             </li>
-            <li class="nav-item" role="presentation">
+            {% comment %} <li class="nav-item" role="presentation">
               <a
                 class="nav-link"
                 id="pills-author-tab"
@@ -106,7 +109,7 @@
                 tabindex="-1"
                 >Grupa wsparcia</a
               >
-            </li>
+            </li> {% endcomment %}
           </ul>
         </div>
       </div>

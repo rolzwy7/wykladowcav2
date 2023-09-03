@@ -5,11 +5,12 @@ from django.urls import reverse
 from core.consts import POST
 from core.forms import LecturerOpinionForm
 from core.models import Lecturer, LecturerOpinion
-from core.services.lecturer_service import LecturerService
+from core.services.lecturer import LecturerService
 from core.tasks.create_crm_todo.procedure import create_crm_todo
 
 
 def lecturer_opinion_form_page(request, slug: str):
+    """Lecturer opinion form page"""
     template_name = "core/pages/lecturer/LecturerOpinionFormPage.html"
     lecturer = get_object_or_404(Lecturer, slug=slug)
     service = LecturerService(lecturer)

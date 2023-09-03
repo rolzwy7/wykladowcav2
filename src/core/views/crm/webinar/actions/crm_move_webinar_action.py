@@ -5,9 +5,9 @@ from django.utils.timezone import datetime
 
 from core.consts import POST
 from core.forms.crm import CrmMoveActionForm
-from core.models import Webinar, WebinarMoveRegister, WebinarMoveRegisterItem
+from core.models import Webinar
 from core.models.enums import WebinarStatus
-from core.services import WebinarMovingService
+from core.services.webinar.crm import WebinarMovingService
 from core.tasks_dispatch import after_webinar_moved_dispatch
 
 

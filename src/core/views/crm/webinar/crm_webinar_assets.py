@@ -5,7 +5,8 @@ from django.template.response import TemplateResponse
 from core.consts import POST
 from core.forms import WebinarAssetForm
 from core.models import Webinar, WebinarAsset, WebinarMetadata
-from core.services import CrmWebinarService, WebinarAssetsService
+from core.services import CrmWebinarService
+from core.services.webinar.crm import WebinarAssetsService
 
 
 def crm_webinar_assets(request, pk: int):

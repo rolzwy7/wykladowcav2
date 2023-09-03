@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 
 from core.models import Webinar, WebinarCategory
+from core.services import CategoryService
 
 
 def webinar_all_categories_page(request):
@@ -13,7 +14,12 @@ def webinar_all_categories_page(request):
     # webinars = Webinar.manager.homepage_webinars()
 
     subcategories = [
-        (category, Webinar.manager.webinars_for_category(category.slug).count())
+        (
+            category,
+            Webinar.manager.get_active_webinars_for_category(
+                category.slug
+            ).count(),
+        )
         for category in WebinarCategory.manager.sidebar_categories()
     ]
 
@@ -37,7 +43,7 @@ def webinar_category_page(request, slug: str):
     category = get_object_or_404(WebinarCategory, slug=slug)
     category_name = category.name
     short_description = category.short_description
-    webinars = Webinar.manager.webinars_for_category(slug)
+    webinars = Webinar.manager.get_active_webinars_for_category(slug)
     subcategories = WebinarCategory.manager.get_subcategories(category)
 
     return TemplateResponse(
@@ -45,6 +51,7 @@ def webinar_category_page(request, slug: str):
         template_name,
         {
             "slug": slug,
+            "category": category,
             "category_name": category_name,
             "webinars": webinars,
             "short_description": short_description,
@@ -66,16 +73,22 @@ def webinar_category_who_are_we_page(request, slug: str):
     )
 
 
-def webinar_category_lecturer_page(request, slug: str):
-    """Webinar category page"""
+def webinar_category_lecturers_page(request, slug: str):
+    """Page with lecturers for given category"""
 
     template_name = "geeks/pages/category/WebinarCategoryLecturerPage.html"
     category = get_object_or_404(WebinarCategory, slug=slug)
+    category_service = CategoryService(category)
 
     return TemplateResponse(
         request,
         template_name,
-        {"slug": slug, "category": category, "category_name": category.name},
+        {
+            "slug": slug,
+            "category": category,
+            "category_name": category.name,
+            "category_lecturers": category_service.get_lecturers_for_category(),
+        },
     )
 
 
@@ -84,9 +97,15 @@ def webinar_category_opinions_page(request, slug: str):
 
     template_name = "geeks/pages/category/WebinarCategoryOpinionsPage.html"
     category = get_object_or_404(WebinarCategory, slug=slug)
+    category_service = CategoryService(category)
 
     return TemplateResponse(
         request,
         template_name,
-        {"slug": slug, "category": category, "category_name": category.name},
+        {
+            "slug": slug,
+            "category": category,
+            "category_name": category.name,
+            "category_opinions": category_service.get_opinions_for_category(),
+        },
     )

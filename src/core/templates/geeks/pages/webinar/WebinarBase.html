@@ -22,7 +22,9 @@
                 class="text-white text-decoration-none"
               >
                 <i class="fe fe-bookmark me-2"></i>
-                {{webinar.lecturer.fullname}}
+                  <a class="text-white" href="{% url 'core:lecturer_experience_page' slug=webinar.lecturer.slug %}">
+                    {{webinar.lecturer.fullname}}
+                  </a>
               </a>
               {% if lecturer_opinions_count != 0 %}
               <span class="ms-4">
@@ -31,7 +33,9 @@
                 <i class="mdi mdi-star me-n1 text-warning"></i>
                 <i class="mdi mdi-star me-n1 text-warning"></i>
                 <i class="mdi mdi-star me-n1-half text-warning"></i>
-                <span class="text-white">({{lecturer_opinions_count}})</span>
+                <span class="text-white">
+                  ({{lecturer_service.get_lecturer_opinions_count}})
+                </span>
               </span>
               {% endif %}
               {% if webinar.is_confirmed %}
@@ -90,24 +94,6 @@
                     </a>
                   </li>
                   {% endfor %}
-                  <li class="nav-item">
-                    <a
-                      class="nav-link"
-                      href="#"
-                      role="tab"
-                    >
-                      Pojecaj i Zarabiaj
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a
-                      class="nav-link"
-                      href="#"
-                      role="tab"
-                    >
-                      FAQ
-                    </a>
-                  </li>
                 </ul>
               </div>
             </div>
@@ -122,198 +108,14 @@
           style="margin-top: -20rem !important"
         >
 
-                  <!-- Card -->
-                  <div class="card mb-4">
-                    <!-- Card body -->
-                    <div class="card-body">
-                      <div class="d-flex align-items-center">
-                        <div class="position-relative">
-                          <img
-                            src="{% get_media_prefix %}uploads/lecturers/{{webinar.lecturer.slug}}_80x80.webp"
-                            alt="avatar"
-                            class="rounded-circle avatar-xl"
-                          />
-                          <a
-                            href="course-single.html#"
-                            class="position-absolute mt-2 ms-n3"
-                            data-bs-toggle="tooltip"
-                            data-placement="top"
-                            title="Wykładowca zweryfikowany"
-                          >
-                            <img
-                              src="{% static 'geeks/assets/images/svg/checked-mark.svg' %}"
-                              alt="checked-mark"
-                              height="30"
-                              width="30"
-                            />
-                          </a>
-                        </div>
-                        <div class="ms-4">
-                          <h4 class="mb-0">{{webinar.lecturer.fullname}}</h4>
-                          <p class="mb-1 fs-6">{{webinar.lecturer.profession}}</p>
-                          <span class="fs-6"
-                            ><span class="text-warning">4.5</span
-                            ><span class="mdi mdi-star text-warning me-2"></span> 1846
-                            opinii klientów</span
-                          >
-                        </div>
-                      </div>
-                      <div class="border-top row mt-3 border-bottom mb-3 g-0">
-                        <div class="col">
-                          <div class="pe-1 ps-2 py-3">
-                            <h5 class="mb-0">{{webinar.lecturer.fake_stat_participants}}</h5>
-                            <span>Przeszkolonych</span>
-                          </div>
-                        </div>
-                        <div class="col border-start">
-                          <div class="pe-1 ps-3 py-3">
-                            <h5 class="mb-0">{{lecturer_opinions_count}}</h5>
-                            <span>Opinii</span>
-                          </div>
-                        </div>
-                        <div class="col border-start">
-                          <div class="pe-1 ps-3 py-3">
-                            <h5 class="mb-0">{{webinar.lecturer.fake_stat_webinars}}</h5>
-                            <span>Szkoleń</span>
-                          </div>
-                        </div>
-                      </div>
-                      <p>
-                        {{webinar.lecturer.biography_email|truncatechars:150}}
-                        <a href="#">
-                          Zobacz pełny opis
-                        </a>
-                      </p>
-                      {% comment %} <div class="text-center">
-                        <a
-                          href="instructor-profile.html"
-                          class="btn btn-outline-primary btn-sm"
-                        >
-                          Zobacz pełny opis
-                        </a>
-                      </div> {% endcomment %}
-                    </div>
-                  </div>
-         
-          <!-- Card -->
-          <div class="card mb-3 mb-4">
-            
-            <div>
-              <!-- Card header -->
-              <div class="card-header">
-                <h4 class="mb-0">Data i godzina szkolenia</h4>
-              </div>
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item bg-transparent">
-                  <i class="fe fe-calendar align-middle me-2 text-info"></i>
-                  {{webinar.date|date:"j E Y"}} r.
-                </li>
-                <li class="list-group-item bg-transparent">
-                  <i class="fe fe-clock align-middle me-2 text-warning"></i>
-                    {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}
-                </li>
-                <li
-                  class="list-group-item bg-transparent border-bottom-0"
-                  data-bs-toggle="tooltip"
-                  data-placement="top"
-                  title="{{TAX_EXEMPT_TOOLTIP}}"
-                  style="cursor: pointer;"
-                >
-                  <i class="fe fe-dollar-sign align-middle me-2 text-success"></i>
-                  
-                  {% if webinar.is_discounted %}
-                    <span class="text-decoration-line-through text-danger">
-                      {{webinar.price_netto}}zł
-                    </span>
-                    <b>{{webinar.price}}zł</b>
-                  {% else %}
-                    <b>{{webinar.price}}zł</b>
-                  {% endif %}
-                  
-                  <span>{{PRICE_ADNOTATION}}</span> za uczestnika
+          {% comment %} Lecturer's card {% endcomment %}
+          {% include './components/lecturer_card.html' with lecturer=webinar.lecturer %}
+          
+          {% comment %} Date and hour card {% endcomment %}
+          {% include './components/date_and_hour_card.html' with webinar=webinar %}
 
-                  {% if webinar.is_discounted %}
-                    <br>
-                    Promocja do {{webinar.discount_until|date:"j E Y"}} godz. {{webinar.discount_until|date:"H:i"}}
-                  {% endif %}
-
-                </li>
-              </ul>
-            </div>
-
-            <!-- Card body -->
-            <div class="card-body pt-0">
-              {% comment %} <!-- Price single page -->
-              <div class="mb-3">
-                <span class="text-dark fw-bold h2">350zł netto/brutto</span>
-                <del class="fs-4 text-muted">400zł</del>
-              </div> {% endcomment %}
-              <div class="d-grid">
-                <a
-                  href="{% url 'core:application_type_page' pk=webinar.pk %}"
-                  rel="nofollow"
-                  class="btn btn-primary mb-2 border-0"
-                  style="background-color: #f1416c"
-                >
-                  Zapisz się na szkolenie <br>
-                  {% include './snippets/PlacesLeft.html' with webinar=webinar %}
-                </a>
-                <a
-                  href="{% url 'core:application_type_page' pk=webinar.pk %}?pdf=show"
-                  rel="nofollow"
-                  class="btn btn-outline-primary mb-2"
-                >
-                  Pobierz kartę zgłoszeniową
-                </a>
-                <a href="#" class="btn btn-outline-primary">
-                  Pobierz ulotkę
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card -->
-          <div class="card">
-            <div>
-              <!-- Card header -->
-              <div class="card-header">
-                <h4 class="mb-0">Co oferujemy?</h4>
-              </div>
-
-              <ul class="list-group list-group-flush">
-                {% if webinar.recording_allowed %}
-                <li class="list-group-item bg-transparent">
-                  <i
-                    class="fe fe-youtube align-middle me-2 text-primary"
-                  ></i>
-                  Czasowy dostęp do nagrania ze szkolenia
-                </li>
-                {% endif %}
-                <li class="list-group-item bg-transparent">
-                  <i
-                    class="fe fe-award align-middle me-2 text-primary"
-                  ></i>
-                  Profesjonalnie przygotowane szkolenie
-                </li>
-                <li class="list-group-item bg-transparent">
-                  <i class="fe fe-message-square me-2 align-middle text-primary"></i>
-                  Możliwość zadawania pytań wykładowcy na chatcie
-                </li>
-                <li class="list-group-item bg-transparent">
-                  <i class="fe fe-file-text align-middle me-2 text-primary"></i>
-                  Autorskie materiały szkoleniowe
-                </li>
-                <li class="list-group-item bg-transparent">
-                  <i class="fe fe-credit-card align-middle me-2 text-primary"></i>
-                  Płatność do 14 dni po szkoleniu
-                </li>
-                <li class="list-group-item bg-transparent border-bottom-0">
-                  <i class="fe fe-award align-middle me-2 text-primary"></i>
-                  Imienny certyfikat dla uczestników
-                </li>
-              </ul>
-            </div>
-          </div>
+          {% comment %} Date and hour card {% endcomment %}
+          {% include './components/what_we_offer.html' with webinar=webinar %}
 
           <div class="card mt-4 js-sticky-widget">
             <!-- Card body -->
@@ -415,6 +217,7 @@
     </div>
   </div>
 </div>
+
 {% endblock root %}
 
 
