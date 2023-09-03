@@ -65,7 +65,7 @@
               <div class="d-flex">
                 <a href="{% url 'core:webinar_category_page' slug=subcategory.slug %}">
                    <!-- Img -->
-                  <img src="{% static 'geeks/assets/images/path/path-bootstrap.svg' %}" alt="bootstrap" class="avatar-md"></a>
+                  {% comment %} <img src="{% static 'geeks/assets/images/path/path-bootstrap.svg' %}" alt="bootstrap" class="avatar-md"></a> {% endcomment %}
                 <div class="ms-3">
                   <h4 class="mb-1">
                     <a href="{% url 'core:webinar_category_page' slug=subcategory.slug %}" class="text-inherit">

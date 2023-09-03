@@ -1,0 +1,50 @@
+{% load humanize %}
+
+<!-- Rating -->
+<div class="d-flex border-bottom pb-4 mb-4">
+  {% comment %}
+  <img
+    src="../assets/images/avatar/avatar-3.jpg"
+    alt="avatar"
+    class="rounded-circle avatar-lg"
+  />
+  {% endcomment %}
+  <div class="ms-3">
+    <h4 class="mb-1">
+      {% if request.user.is_staff %}
+      <a
+        href="{% url 'admin:core_lectureropinion_change' object_id=opinion.id %}"
+        class="text-gray-900 text-hover-primary fs-6 fw-bold"
+        target="_blank"
+      >
+        {{opinion.fullname|default:"Anonimowy"}}
+      </a>
+      {% else %} {{opinion.fullname|default:"Anonimowy"}} {% endif %}
+      <span class="ms-1 fs-6 text-muted">
+        {{opinion.created_at|naturaltime}}
+      </span>
+    </h4>
+    <div class="fs-6 mb-2">
+      <span class="fs-6 text-muted"> {{opinion.job_title}} </span>
+      , {% for rating in opinion.rating_sequence %}
+      <i
+        class="mdi mdi-star me-n1 {% if rating <= opinion.rating_number %}text-warning{% else %}text-light{% endif %}"
+      ></i>
+      {% endfor %}
+    </div>
+    <p>{{opinion.opinion_text}}</p>
+    {% comment %}
+    <div class="d-md-flex align-items-center">
+      <p class="mb-2 mb-md-0">Was this review helpful?</p>
+      <a href="course-single.html#" class="btn btn-xs btn-primary ms-md-3"
+        >Yes</a
+      >
+      <a
+        href="course-single.html#"
+        class="btn btn-xs btn-outline-secondary ms-1"
+        >No</a
+      >
+    </div>
+    {% endcomment %}
+  </div>
+</div>

@@ -315,7 +315,7 @@ class Command(BaseCommand):
             loop_counter += 1
             loop_counter = loop_counter % 10_000
 
-            # Run every 20th loop
+            # Run on first and every 20th loop
             if loop_counter % 20 == 1:
                 load_cache()
                 process_scan_inboxes()

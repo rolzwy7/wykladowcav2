@@ -51,21 +51,21 @@
 								<span class="navbar-header">PODSTRONY</span>
 								<ul class="list-unstyled ms-n2 mb-4">
 									<!-- Nav item -->
-									<li class="nav-item active">
+									<li class="nav-item {% if request.path == '/wykladowca/'|add:lecturer.slug|add:'/' %}active{% endif %}">
 										<a class="nav-link" href="{% url 'core:lecturer_experience_page' slug=lecturer.slug %}">
                                             <i class="fe fe-home nav-icon"></i>
                                             Doświadczenie
                                         </a>
 									</li>
 									<!-- Nav item -->
-									<li class="nav-item">
+									<li class="nav-item {% if request.path == '/wykladowca/'|add:lecturer.slug|add:'/szkolenia/' %}active{% endif %}">
 										<a class="nav-link" href="{% url 'core:lecturer_webinars_page' slug=lecturer.slug %}">
                                             <i class="fe fe-book nav-icon"></i>
                                             Szkolenia
                                         </a>
 									</li>
 									<!-- Nav item -->
-									<li class="nav-item">
+									<li class="nav-item {% if request.path == '/wykladowca/'|add:lecturer.slug|add:'/opinie/' %}active{% endif %}">
 										<a class="nav-link" href="{% url 'core:lecturer_opinions_page' slug=lecturer.slug %}">
                                             <i class="fe fe-star nav-icon"></i>
                                             Opinie

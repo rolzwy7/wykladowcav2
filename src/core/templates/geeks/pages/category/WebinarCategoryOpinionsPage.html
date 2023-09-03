@@ -4,4 +4,24 @@
 
 {% block content %}
 {{category_opinions}}
+
+<section class="py-6">
+<div class="container">
+    <div class="row">
+    <div class="col-md-12">
+        {% if opinions_breakdown %}
+            {% include 'geeks/components/rating_breakdown.html' with opinions_breakdown=opinions_breakdown %}
+        {% endif %}
+        
+        <hr class="my-5">
+        
+        {% for opinion in opinions_page %}
+            {% include 'geeks/components/opinion.html' with opinion=opinion %}
+        {% endfor %}
+
+        {% include 'geeks/components/pagination.html' with page_obj=opinions_page %}
+    </div>
+    </div>
+</div>
+</section>
 {% endblock content %}

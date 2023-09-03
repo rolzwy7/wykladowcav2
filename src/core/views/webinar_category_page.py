@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 
 from core.models import Webinar, WebinarCategory
-from core.services import CategoryService
+from core.services import CategoryService, OpinionsService
 
 
 def webinar_all_categories_page(request):
@@ -98,6 +98,9 @@ def webinar_category_opinions_page(request, slug: str):
     template_name = "geeks/pages/category/WebinarCategoryOpinionsPage.html"
     category = get_object_or_404(WebinarCategory, slug=slug)
     category_service = CategoryService(category)
+    category_opinions = category_service.get_opinions_for_category()
+    opinions_service = OpinionsService(category_opinions)
+    page_number = request.GET.get("strona")
 
     return TemplateResponse(
         request,
@@ -106,6 +109,10 @@ def webinar_category_opinions_page(request, slug: str):
             "slug": slug,
             "category": category,
             "category_name": category.name,
-            "category_opinions": category_service.get_opinions_for_category(),
+            "opinions_page": opinions_service.get_opinions_page(
+                page_number, per_page=15
+            ),
+            "opinions_average": opinions_service.get_opinions_average(),
+            "opinions_breakdown": opinions_service.get_opinions_breakdown(),
         },
     )

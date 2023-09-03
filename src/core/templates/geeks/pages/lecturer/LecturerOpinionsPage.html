@@ -1,31 +1,29 @@
 {% extends './LecturerBase.html' %}
+
 {% load static %}
-{% block head_stylesheets %}{% endblock head_stylesheets %}
-{% block rightbar %}{% endblock rightbar %}
 
-{% block lecturer_main_col %}
-<div class="col-xl-12">
-{% endblock lecturer_main_col %}
-
-{% block lecturer_rightbar %}{% endblock lecturer_rightbar %}
-
-{% block lecturer_content %}
-
-<div class="row g-6 g-xl-9">
-    {% for opinion in opinions %}
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-body">
-                {% include './snippets/OpinionAboutLecturer.html' with opinion=opinion %}
-            </div>
-        </div>
+{% block content %}
+<div class="card mb-4">
+    <!-- Card header -->
+    <div class="card-header">
+        <h3 class="mb-0">Opinie</h3>
+        <span>
+            {{lecturer.fullname}}
+        </span>
     </div>
-    {% endfor %}
+    <!-- Card body -->
+    <div class="card-body">
+        {% if opinions_breakdown %}
+            {% include 'geeks/components/rating_breakdown.html' with opinions_breakdown=opinions_breakdown %}
+        {% endif %}
+        
+        <hr class="my-5">
+        
+        {% for opinion in opinions_page %}
+            {% include 'geeks/components/opinion.html' with opinion=opinion %}
+        {% endfor %}
+
+        {% include 'geeks/components/pagination.html' with page_obj=opinions_page %}
+    </div>
 </div>
-
-
-{% endblock lecturer_content %}
-
-{%block body_scripts %}
-
-{% endblock body_scripts %}
+{% endblock content %}
