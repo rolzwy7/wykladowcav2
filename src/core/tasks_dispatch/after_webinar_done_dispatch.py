@@ -1,5 +1,6 @@
 # flake8: noqa:E501
 # pylint: disable=line-too-long
+# pylint: disable=import-outside-toplevel
 import json
 from datetime import timedelta
 
@@ -9,7 +10,6 @@ from django_celery_beat.models import IntervalSchedule, PeriodicTask
 
 from core.consts import TelegramChats
 from core.models import Webinar, WebinarApplication, WebinarParticipant
-from core.services import ApplicationService
 from core.tasks import (
     params_send_participant_certificate_email,
     params_send_participant_opinion_email,
@@ -24,6 +24,8 @@ from core.tasks import (
 
 def after_webinar_done_dispatch(webinar: Webinar):
     """Performs actions after webinar is done"""
+
+    from core.services import ApplicationService
 
     # Prepare intervals
     # Create "every 35 minutes" interval

@@ -1,3 +1,5 @@
+# pylint: disable=import-outside-toplevel
+
 from decimal import Decimal
 from random import randint
 from typing import Optional
@@ -16,7 +18,6 @@ from core.models.enums import (
     LoyaltyProgramIncomeStatus,
     LoyaltyProgramPayoutStatus,
 )
-from core.services import ApplicationService
 
 
 class LoyaltyProgramService:
@@ -87,7 +88,11 @@ class LoyaltyProgramService:
     def create_income_for_application(self, application: WebinarApplication):
         """Create income for given application"""
         loyalty_program = self.get_or_create_loyalty_program()
+
+        from core.services import ApplicationService
+
         application_service = ApplicationService(application)
+
         provision_multiplier = round(loyalty_program.provision_percent / 100, 2)
         loyalty_program_income = LoyaltyProgramIncome(
             loyalty_program=loyalty_program,

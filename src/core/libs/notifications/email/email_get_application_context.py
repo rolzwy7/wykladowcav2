@@ -1,5 +1,6 @@
-from core.models import Lecturer, Webinar, WebinarApplication
-from core.services import ApplicationService
+# pylint: disable=import-outside-toplevel
+
+from core.models import WebinarApplication
 
 
 def email_get_application_context(application_id: int):
@@ -7,8 +8,11 @@ def email_get_application_context(application_id: int):
     application: WebinarApplication = WebinarApplication.manager.get(
         id=application_id
     )
-    webinar: Webinar = application.webinar
-    lecturer: Lecturer = webinar.lecturer
+    webinar = application.webinar
+    lecturer = webinar.lecturer
+
+    from core.services import ApplicationService
+
     application_service = ApplicationService(application)
 
     return {

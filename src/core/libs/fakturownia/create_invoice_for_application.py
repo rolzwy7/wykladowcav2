@@ -1,3 +1,4 @@
+# pylint: disable=import-outside-toplevel
 import requests
 from django.conf import settings
 from django.template.defaultfilters import date as _date
@@ -9,13 +10,7 @@ from core.consts.exemptions_consts import (
     VAT_VALUE_PERCENT,
     WE_ARE_TAX_EXEMPT,
 )
-from core.models import (
-    Webinar,
-    WebinarApplication,
-    WebinarApplicationCompany,
-    WebinarApplicationPrivatePerson,
-)
-from core.services import ApplicationService
+from core.models import Webinar, WebinarApplication
 
 
 class InvoiceCreateResult(BaseModel):
@@ -32,11 +27,11 @@ def create_invoice_for_application(
     """Create new invoice in Fakturownia"""
 
     webinar: Webinar = application.webinar
-    recipient: WebinarApplicationCompany = application.recipient  # type: ignore
-    buyer: WebinarApplicationCompany = application.buyer  # type: ignore
-    private_person: WebinarApplicationPrivatePerson = (
-        application.private_person
-    )  # type: ignore
+    recipient = application.recipient
+    buyer = application.buyer
+    private_person = application.private_person
+
+    from core.services import ApplicationService
 
     application_service = ApplicationService(application)
     valid_participants_count = (
