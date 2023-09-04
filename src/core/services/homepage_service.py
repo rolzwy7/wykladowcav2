@@ -1,4 +1,4 @@
-from core.models import Lecturer, Webinar
+from core.models import Lecturer, Webinar, WebinarCategory
 
 
 class HomepageService:
@@ -19,10 +19,17 @@ class HomepageService:
             (f"{logos_base}/pocztapolska.svg", "Poczta Polska"),
         ]
 
+    def get_homepage_lecturers(self):
+        """Get lecturers for homepage"""
+        return Lecturer.manager.get_lecturers_visible_on_page().order_by("?")[
+            :4
+        ]
+
     def get_context(self):
         """Get context for homepage"""
         return {
+            "categories": WebinarCategory.manager.get_main_categories(),
             "webinars": Webinar.manager.get_active_webinars(),
-            "visible_lecturers": Lecturer.manager.get_lecturers_visible_on_page(),
+            "homepage_lecturers": self.get_homepage_lecturers(),
             "our_clients": self.get_our_clients(),
         }

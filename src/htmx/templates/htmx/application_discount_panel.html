@@ -73,7 +73,7 @@
   <!--begin::Title-->
   <div class="separator separator-dashed my-2"></div>
   <span class="my-2 fs-4 fw-bold">
-    Całkowita cena: <br> {{application.total_price_netto}}zł
+    Całkowita cena: <br> application.total_price_netto zł
     {% if WE_ARE_TAX_EXEMPT or application.invoice.vat_exemption == "VAT_EXEMPTION_0" %}
       {{PRICE_ADNOTATION}}
     {% endif %}

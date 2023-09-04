@@ -17,7 +17,7 @@ def categories(request):
         return {"SIDEBAR_CATEGORIES": cached_data}
 
     # Get sidebar categories
-    sidebar_categories_qs = WebinarCategory.manager.sidebar_categories()
+    sidebar_categories_qs = WebinarCategory.manager.get_main_categories()
 
     # Build sidebar categories
     sidebar_categories = [

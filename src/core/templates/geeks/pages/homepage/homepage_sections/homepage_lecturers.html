@@ -1,0 +1,74 @@
+{% load static %}
+<section class="py-7 py-lg-16">
+  <div class="container">
+    <div class="row justify-content-center">
+      <!-- caption -->
+      <div class="col-lg-8 col-md-12 col-12">
+        <div class="mb-8 text-center">
+          <span
+            class="text-primary mb-3 d-block text-uppercase fw-semibold ls-xl"
+            >World-class Instructors</span
+          >
+          <h2 class="mb-2 display-4 fw-bold">
+            Classes Taught by Industry Expert
+          </h2>
+          <p class="lead mb-0">
+            Geeks teachers are icons, experts, and industry rock stars excited
+            to share their experience, wisdom, and trusted tools with you.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      {% for lecturer in lecturers %}
+      <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+        <!-- card -->
+        <div class="card mb-4 card-hover">
+          <!-- img -->
+          <div class="card-img-top">
+            <img
+              src="{% get_media_prefix %}uploads/lecturers/{{lecturer.slug}}_300x300.webp"
+              alt="{{lecturer.fullname}}"
+              class="rounded-top-md img-fluid"
+            />
+          </div>
+          <!-- card body -->
+          <div class="card-body">
+            <h3 class="mb-0 fw-semibold">
+              <a href="{% url 'core:lecturer_experience_page' slug=lecturer.slug %}" class="text-inherit">
+                {{lecturer.fullname}}
+              </a>
+            </h3>
+            <p class="mb-3">{{lecturer.profession}}</p>
+            <div class="lh-1 d-flex justify-content-between">
+              <div>
+                <span class="fs-6">
+                  <i class="mdi mdi-star text-warning"></i>
+                  <span class="text-warning">4.5</span>
+                </span>
+              </div>
+              <div>
+                <span class="fs-6 text-muted"
+                  ><span class="text-dark">9,692</span> Students</span
+                >
+              </div>
+              <div>
+                <span class="fs-6 text-muted"
+                  ><span class="text-dark">3</span> Course</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+      <div class="col-md-12 mt-3 text-center">
+        <a href="#" class="btn btn-primary">
+          Zobacz wszystkich wykładowców
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

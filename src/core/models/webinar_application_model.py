@@ -28,7 +28,6 @@ from core.libs.validators import validate_nip_modelfield
 
 from .enums import ApplicationStatus, InvoiceType, WebinarApplicationType
 from .webinar_model import Webinar
-from .webinar_participant_model import WebinarParticipant
 
 
 class WebinarApplicationManager(Manager):
@@ -268,19 +267,19 @@ class WebinarApplication(Model):
     def __str__(self) -> str:
         return f"Zgłoszenie {self.id}"  # type: ignore
 
-    @property
-    def participants(self) -> QuerySet["WebinarParticipant"]:
-        """Return paticipants for this application"""
-        return (
-            WebinarParticipant.manager.get_valid_participants_for_application(
-                application=self
-            )
-        )
+    # @property  # TODO: move to service
+    # def participants(self) -> QuerySet["WebinarParticipant"]:
+    #     """Return paticipants for this application"""
+    #     return (
+    #         WebinarParticipant.manager.get_valid_participants_for_application(
+    #             application=self
+    #         )
+    #     )
 
-    @property
-    def total_price_netto(self):
-        """Calculate total NETTO price for this application"""
-        return self.participants.count() * self.price_netto
+    # @property  # TODO: move to service
+    # def total_price_netto(self):
+    #     """Calculate total NETTO price for this application"""
+    #     return self.participants.count() * self.price_netto
 
     @property
     def price_brutto(self):

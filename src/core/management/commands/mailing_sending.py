@@ -109,6 +109,8 @@ def process_sending(campaign: MailingCampaign, limit: int = 100) -> str:
                 campaign.limit_sent_so_far = campaign.limit_sent_so_far + 1
         finally:
             # Increment procesed counter
+            # TODO: This is a wrong place for incrementing `stat_procesed`.
+            # It should be moved to `mailing_procesing.py` management command.
             campaign.stat_procesed = campaign.stat_procesed + 1
 
     pool_manager.close()  # close mongo manager

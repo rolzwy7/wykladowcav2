@@ -16,6 +16,7 @@ from core.models.enums import (
     LoyaltyProgramIncomeStatus,
     LoyaltyProgramPayoutStatus,
 )
+from core.services import ApplicationService
 
 
 class LoyaltyProgramService:
@@ -86,12 +87,14 @@ class LoyaltyProgramService:
     def create_income_for_application(self, application: WebinarApplication):
         """Create income for given application"""
         loyalty_program = self.get_or_create_loyalty_program()
+        application_service = ApplicationService(application)
         provision_multiplier = round(loyalty_program.provision_percent / 100, 2)
         loyalty_program_income = LoyaltyProgramIncome(
             loyalty_program=loyalty_program,
             application=application,
             amount_brutto=round(
-                application.total_price_netto * provision_multiplier,
+                application_service.get_total_price_netto()
+                * provision_multiplier,
                 2,
             ),
         )

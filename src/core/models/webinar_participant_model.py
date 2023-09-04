@@ -15,6 +15,7 @@ from .enums import (
     WebinarParticipantIsMxValidType,
     WebinarParticipantStatus,
 )
+from .webinar_application_model import WebinarApplication
 from .webinar_model import Webinar
 
 
@@ -34,9 +35,9 @@ class WebinarParticipantManager(Manager):
             & Q(status=WebinarParticipantStatus.PARTICIPATING)
         )
 
-    # TODO: kinda cringe
     def get_valid_participants_for_application(
-        self, application  # don't use typing, circular import
+        self,
+        application: WebinarApplication,
     ) -> QuerySet["WebinarParticipant"]:
         """Get valid participants for given application"""
         return self.get_queryset().filter(

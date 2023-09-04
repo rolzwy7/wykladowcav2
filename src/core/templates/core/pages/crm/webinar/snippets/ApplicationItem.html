@@ -173,7 +173,7 @@
                 <i class="path2"></i>
               </i>
               <div class="fs-5 fw-bold counted">
-                {{application.price_netto}}zł / {{application.total_price_netto}}zł
+                {{application.price_netto}}zł / application.total_price_netto zł
               </div>
             </div>
             <!--end::Number-->
@@ -188,7 +188,8 @@
         <!--end::Stats-->
         <div class="separator my-4"></div>
         <div class="d-flex flex-wrap">
-          {% include './ParticipantsTable.html' with participants=application.participants %}
+          include ParticipantsTable.html
+          {% comment %} {% include './ParticipantsTable.html' with participants=application.participants %} {% endcomment %}
         </div>
       </div>
       <!--end::Info-->

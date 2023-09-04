@@ -6,7 +6,7 @@ from core.models import WebinarCategory
 def header(request):
     """Header context processor"""
 
-    sidebar_categories_qs = WebinarCategory.manager.sidebar_categories()
+    sidebar_categories_qs = WebinarCategory.manager.get_main_categories()
 
     header_categories = []
     for category in sidebar_categories_qs:

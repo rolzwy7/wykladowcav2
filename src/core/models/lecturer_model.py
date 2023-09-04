@@ -14,7 +14,6 @@ from django.db.models import (
     SlugField,
     TextField,
 )
-from django.urls import reverse
 
 from core.consts import SLUG_HELP_TEXT
 from core.utils.text import slugify
@@ -100,11 +99,11 @@ class Lecturer(Model):
         self.slug = slugify(self.fullname)
         return super().save(*args, **kwargs)
 
-    @property
-    def opinion_absolute_url(self):
-        """Absolute URL to lecturer opinion"""
-        opinion_path = reverse(
-            "core:lecturer_opinion_form_page",
-            kwargs={"slug": self.slug},
-        )
-        return f"{BASE_URL}{opinion_path}"
+    # @property # TODO: can i delete this?
+    # def opinion_absolute_url(self):
+    #     """Absolute URL to lecturer opinion"""
+    #     opinion_path = reverse(
+    #         "core:lecturer_opinion_form_page",
+    #         kwargs={"slug": self.slug},
+    #     )
+    #     return f"{BASE_URL}{opinion_path}"

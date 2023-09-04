@@ -1,0 +1,97 @@
+<section class="py-lg-14 pt-8 py-10">
+  <!-- container -->
+  <div class="container">
+    <div class="row">
+      <div class="offset-xl-1 col-xl-10 col-md-12 col-12">
+        <div class="row text-center">
+          <!-- col -->
+          <div class="col-md-12 px-lg-10 mb-8 mt-6">
+            <h2 class="h1 fw-bold mt-3">Polecaj nasze szkolenia i zarabiaj!</h2>
+            <span class="text-uppercase text-primary fw-semibold ls-md">
+              Oferujemy 10% prowizij od wartości netto, a polecanym -5% zniżki na szkolenia.
+            </span>
+          </div>
+        </div>
+        <div class="row gy-6">
+          <!-- col -->
+
+          <div class="col-md-4 col-12">
+            <div class="text-center">
+              <!-- icon -->
+
+              <div
+                class="icon-shape icon-lg border border-primary border-2 fs-3 rounded-circle mb-4 process-line text-primary smooth-shadow-md"
+              >
+                1
+              </div>
+              <!-- heading -->
+
+              <h3>Załóż konto</h3>
+              <!-- text -->
+
+              <p class="mb-0 px-4">
+                Załóż u nas konto <a target="_blank" href="{% url 'core:register_page' %}">poprzez stronę rejestracji</a>.
+              </p>
+            </div>
+          </div>
+          <!-- col -->
+
+          <div class="col-md-4 col-12">
+            <div class="text-center">
+              <!-- icon -->
+
+              <div
+                class="icon-shape icon-lg border border-primary border-2 fs-3 rounded-circle mb-4 process-line text-primary smooth-shadow-md"
+              >
+                2
+              </div>
+              <!-- heading -->
+
+              <h3>Zapisz się do programu</h3>
+              <!-- text -->
+
+              <p class="mb-0 px-2">
+                Jeśli jesteś już <b>zalogowany</b>
+                <a loyalty_program_page href="{% url 'core:loyalty_program_terms_of_service_accept_page' %}">
+                  zaakceptuj regulamin uczestnictwa w programie partnerskim
+                </a>.
+              </p>
+            </div>
+          </div>
+          <!-- col -->
+
+          <div class="col-md-4 col-12">
+            <div class="text-center">
+              <!-- icon -->
+
+              <div
+                class="icon-shape icon-lg border border-primary border-2 fs-3 rounded-circle mb-4 text-primary smooth-shadow-md"
+              >
+                3
+              </div>
+              <!-- heading -->
+
+              <h3>Wyślij kod do znajomych lub współpracowników</h3>
+              <!-- text -->
+
+              <p class="mb-0 px-3">
+                Jeśli twój kod zostanie wpisany jako kod promocyjny przy wysyłaniu
+                zgłoszenia
+                <a target="_blank" href="{% url 'core:loyalty_program_page' %}">
+                  otrzymasz prowizję po zrealizowanym szkoleniu!
+                </a>
+              </p>
+            </div>
+          </div>
+          <!-- button -->
+
+          <div class="col-12 mt-8 text-center">
+            <a href="{% url 'core:loyalty_program_terms_of_service_accept_page' %}" class="btn btn-primary">
+              Dołącz teraz!
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

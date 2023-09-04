@@ -1,6 +1,7 @@
 # flake8: noqa
 from .application_form_service import ApplicationFormService
 from .application_pdf_card_service import ApplicationPdfCardService
+from .application_service import ApplicationService
 from .application_summary_service import ApplicationSummaryService
 from .blacklist_service import BlacklistService
 from .category_service import CategoryService

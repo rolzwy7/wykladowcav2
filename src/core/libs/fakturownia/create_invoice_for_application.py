@@ -15,6 +15,7 @@ from core.models import (
     WebinarApplicationCompany,
     WebinarApplicationPrivatePerson,
 )
+from core.services import ApplicationService
 
 
 class InvoiceCreateResult(BaseModel):
@@ -36,6 +37,11 @@ def create_invoice_for_application(
     private_person: WebinarApplicationPrivatePerson = (
         application.private_person
     )  # type: ignore
+
+    application_service = ApplicationService(application)
+    valid_participants_count = (
+        application_service.get_valid_participants().count()
+    )
 
     buyer_data = {}
     recipient_data = {}
@@ -104,7 +110,7 @@ def create_invoice_for_application(
 
     invoice_position = {
         "name": webinar.title_original,
-        "quantity": application.participants.count(),
+        "quantity": valid_participants_count,
         "quantity_unit": "os.",
         "code": f"webinar{webinar.id}",  # type: ignore
     }
@@ -113,13 +119,13 @@ def create_invoice_for_application(
         price = {
             "tax": "zw",
             "total_price_gross": application.price_netto
-            * application.participants.count(),
+            * valid_participants_count,
         }
     else:
         price = {
             "tax": VAT_VALUE_PERCENT,
             "total_price_gross": application.price_brutto
-            * application.participants.count(),
+            * valid_participants_count,
         }
 
     invoice_position = {**invoice_position, **price}

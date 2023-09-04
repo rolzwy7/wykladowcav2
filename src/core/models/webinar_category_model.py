@@ -19,8 +19,8 @@ from core.utils.text import slugify
 class WebinarCategoryManager(Manager):
     """Webinar category manager"""
 
-    def sidebar_categories(self) -> QuerySet["WebinarCategory"]:
-        """Get sidebar categories (categories without parents)"""
+    def get_main_categories(self) -> QuerySet["WebinarCategory"]:
+        """Get main categories (visible categories without parents)"""
         return (
             self.get_queryset()
             .filter(Q(visible=True) & Q(parent=None))

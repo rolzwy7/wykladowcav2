@@ -1,4 +1,6 @@
 # flake8: noqa:E501
+# pylint: disable=line-too-long
+
 from django.db.models import Count
 
 from core.models import (
@@ -107,9 +109,13 @@ class CrmWebinarService:
     def total_netto_value_of_webinar(self):
         """Return total NETTO value of this webinar"""
         sent_applications = self.get_sent_applications()
+
         return sum(
             [
-                application.participants.count() * application.price_netto
+                WebinarParticipant.manager.get_valid_participants_for_application(
+                    application=application
+                ).count()
+                * application.price_netto
                 for application in sent_applications
             ]
         )

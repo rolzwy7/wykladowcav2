@@ -67,10 +67,16 @@ class ApplicationPdfCardService:
             horizontal_margin=Decimal(10),
         )
 
+        from core.services import ApplicationService
+
+        self.application_service = ApplicationService(application)
+
         self.number_of_columns = 12
         self.number_of_rows = 14
 
-        self.number_of_rows += self.application.participants.count()
+        self.number_of_rows += (
+            self.application_service.get_valid_participants().count()
+        )
 
         if self.application.recipient:
             self.number_of_rows += 3
@@ -300,7 +306,7 @@ class ApplicationPdfCardService:
             )
         )
 
-        for participant in self.application.participants:
+        for participant in self.application_service.get_valid_participants():
             self.table.add(
                 TableCell(
                     Paragraph(
@@ -418,10 +424,11 @@ class ApplicationPdfCardService:
                 background_color=HexColor("D3D3D3"),
             )
         )
+        total_price_netto = self.application_service.get_total_price_netto()
         self.table.add(
             TableCell(
                 Paragraph(
-                    f"{self.application.total_price_netto} zł {PRICE_ADNOTATION}",
+                    f"{total_price_netto} zł {PRICE_ADNOTATION}",
                     font=self.font_regular,
                 ),
                 column_span=3,

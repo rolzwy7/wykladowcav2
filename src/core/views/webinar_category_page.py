@@ -20,7 +20,7 @@ def webinar_all_categories_page(request):
                 category.slug
             ).count(),
         )
-        for category in WebinarCategory.manager.sidebar_categories()
+        for category in WebinarCategory.manager.get_main_categories()
     ]
 
     return TemplateResponse(

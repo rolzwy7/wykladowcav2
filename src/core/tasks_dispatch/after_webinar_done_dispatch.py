@@ -4,12 +4,12 @@ import json
 from datetime import timedelta
 
 from celery import chain, group
-from django.conf import settings
 from django.utils.timezone import now
 from django_celery_beat.models import IntervalSchedule, PeriodicTask
 
 from core.consts import TelegramChats
 from core.models import Webinar, WebinarApplication, WebinarParticipant
+from core.services import ApplicationService
 from core.tasks import (
     params_send_participant_certificate_email,
     params_send_participant_opinion_email,
@@ -25,14 +25,12 @@ from core.tasks import (
 def after_webinar_done_dispatch(webinar: Webinar):
     """Performs actions after webinar is done"""
 
-    webinar_id: int = webinar.id  # type: ignore
-
+    # Prepare intervals
     # Create "every 35 minutes" interval
     schedule_35m, _ = IntervalSchedule.objects.get_or_create(
         every=35,
         period=IntervalSchedule.MINUTES,
     )
-
     # Create "every 24 hours" interval
     schedule_24h, _ = IntervalSchedule.objects.get_or_create(
         every=24,
@@ -46,17 +44,26 @@ def after_webinar_done_dispatch(webinar: Webinar):
     applications = WebinarApplication.manager.sent_applications_for_webinar(
         webinar
     )
+    webinar_id: int = webinar.id  # type: ignore
 
-    invoice_jobs = [
-        chain(
-            task_create_application_invoice.si(application.id),  # type: ignore
-            task_save_application_invoice_metadata.s(application.id),  # type: ignore
-            task_send_invoice_email.si(application.invoice.invoice_email, application.id),  # type: ignore
+    # Create invoice jobs
+    invoice_jobs = []
+    for application in applications:
+        application_service = ApplicationService(application)
+
+        # Prevent blank invoices from being created
+        if application_service.get_valid_participants().count() == 0:
+            continue
+
+        invoice_jobs.append(
+            chain(
+                task_create_application_invoice.si(application.id),  # type: ignore
+                task_save_application_invoice_metadata.s(application.id),  # type: ignore
+                task_send_invoice_email.si(application.invoice.invoice_email, application.id),  # type: ignore
+            )
         )
-        for application in applications
-        if application.participants.count() != 0  # prevent blank invoices
-    ]
 
+    # Create certificate jobs
     certificate_jobs = [
         chain(
             task_create_participant_certificate.si(participant.id),  # type: ignore
