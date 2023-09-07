@@ -1,4 +1,5 @@
 # flake8: noqa
+from .download_emails_from_sender_page import download_emails_from_sender_page
 from .mailing_campaign import (
     crm_mailing_campaign_add_emails,
     crm_mailing_campaign_delete_emails,

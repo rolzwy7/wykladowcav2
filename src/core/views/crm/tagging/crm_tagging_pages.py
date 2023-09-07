@@ -3,6 +3,7 @@ from django.template.response import TemplateResponse
 
 from core.consts import INIT_TAGS, POST
 from core.forms import TaggingAddEmailsForm
+from core.models.mailing import SmtpSender
 from core.models.tagging import TaggedEmailManager
 from core.services import TaggingService
 
@@ -74,6 +75,7 @@ def crm_tagging_dashboard_page(request: HttpRequest):
         template_path,
         {
             "all_emails_count": all_emails_count,
+            "senders": SmtpSender.objects.all(),
             "untagged_emails_count": untagged_emails_count,
             "INIT_TAGS": INIT_TAGS,
         },

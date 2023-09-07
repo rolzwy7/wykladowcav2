@@ -19,6 +19,7 @@ from core.views.crm import (
 )
 from core.views.crm.company import CrmCompanyDetail, CrmCompanyList
 from core.views.crm.contact import CrmContactDetail, CrmContactList
+from core.views.crm.mailing import download_emails_from_sender_page
 from core.views.crm.webinar.actions import (
     CancelWebinarAction,
     ConfirmWebinarAction,
@@ -114,6 +115,11 @@ urlpatterns = [
         "archiwum/",
         crm_archived_webinars,
         name="crm_archived_webinars",
+    ),
+    path(
+        "pobierz-emaile-konto-wysylkowe/<int:pk>/<str:export_type>/",
+        download_emails_from_sender_page,
+        name="download_emails_from_sender_page",
     ),
     path("kampanie-mailingowe/", include(mailing_campaign_urlpatterns)),
     path("tagowanie/", include(tagging_urlpatterns)),

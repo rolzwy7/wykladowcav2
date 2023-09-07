@@ -117,6 +117,14 @@
             untagged_emails_count: {{untagged_emails_count}}
             <br>
             new - last 24h / week / month
+            <br>
+            <ol>
+                {% for sender in senders %}
+                    <li><a href="{% url 'core:download_emails_from_sender_page' pk=sender.pk export_type="permanent" %}">{{sender}} - permanent</a></li>
+                    <li><a href="{% url 'core:download_emails_from_sender_page' pk=sender.pk export_type="temporary" %}">{{sender}} - temporary</a></li>
+                    <li><a href="{% url 'core:download_emails_from_sender_page' pk=sender.pk export_type="emails_in_message" %}">{{sender}} - emails_in_message</a></li>
+                {% endfor %}
+            </ol>
         </div>
         <div class="card-body">
           <h2>Taguj pojedynczy adres E-mail</h2>
