@@ -18,12 +18,10 @@
         <span class="input-group-text p-0">
           <button
             type="submit"
-            class="btn btn-icon btn-primary"
-            style="border-top-left-radius: 0; border-bottom-left-radius: 0"
+            class="btn btn-icon btn-primary py-2"
+            style="border-top-left-radius: 0; border-bottom-left-radius: 0; width:auto; padding:5px;"
           >
-            <i class="ki-duotone ki-price-tag fs-2"
-              ><i class="path1"></i><i class="path2"></i><i class="path3"></i
-            ></i>
+          Wprowadź kod
           </button>
         </span>
       </div>
@@ -42,13 +40,13 @@
   <div class="separator separator-dashed my-2"></div>
   <!--end::Seperator-->
   <!--begin::Title-->
-  <h5 class="mb-4">Zniżki</h5>
+  <h5 class="mb-2">Zniżki</h5>
   <!--end::Title-->
   <!--begin::Section-->
   <div class="mw-300px">
     {% for application_discount in application_discounts %}
     <!--begin::Item-->
-    <div class="d-flex flex-stack mb-3">
+    <div class="d-flex flex-stack mb-1">
       <!--begin::Accountname-->
       <div class="fw-semibold pe-10 text-gray-600 fs-7">
         {{application_discount.name}}
@@ -73,7 +71,7 @@
   <!--begin::Title-->
   <div class="separator separator-dashed my-2"></div>
   <span class="my-2 fs-4 fw-bold">
-    Całkowita cena: <br> application.total_price_netto zł
+    Całkowita cena: <br> {{preview_total_price_netto}} zł
     {% if WE_ARE_TAX_EXEMPT or application.invoice.vat_exemption == "VAT_EXEMPTION_0" %}
       {{PRICE_ADNOTATION}}
     {% endif %}

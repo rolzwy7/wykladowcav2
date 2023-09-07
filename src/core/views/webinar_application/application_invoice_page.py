@@ -11,7 +11,7 @@ from core.services import ApplicationFormService
 
 def application_invoice_page(request, uuid: str):
     """Application invoice page"""
-    template_name = "core/pages/application/ApplicationInvoicePage.html"
+    template_name = "geeks/pages/application/ApplicationInvoicePage.html"
     application = get_object_or_404(WebinarApplication, uuid=uuid)
     webinar = application.webinar
     invoice = application.invoice  # WebinarApplicationInvoice or None

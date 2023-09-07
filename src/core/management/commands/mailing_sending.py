@@ -107,11 +107,6 @@ def process_sending(campaign: MailingCampaign, limit: int = 100) -> str:
             # Increment sent so far counter if limit per day set
             if campaign.limit_per_day != 0:
                 campaign.limit_sent_so_far = campaign.limit_sent_so_far + 1
-        finally:
-            # Increment procesed counter
-            # TODO: This is a wrong place for incrementing `stat_procesed`.
-            # It should be moved to `mailing_procesing.py` management command.
-            campaign.stat_procesed = campaign.stat_procesed + 1
 
     pool_manager.close()  # close mongo manager
     connection.close()  # close SMTP connection
@@ -151,6 +146,7 @@ def try_to_reset_daily_limit_for_campaigns():
     Reset `limit_sent_so_far` to 0
     Set `limit_timestamp` to `now()`
     """
+    # TODO: Check manually if this works
     MailingCampaign.manager.active_campaigns().filter(
         ~Q(limit_per_day=0) & Q(limit_timestamp__lt=now() - timedelta(hours=24))
     ).update(limit_sent_so_far=0, limit_timestamp=now())

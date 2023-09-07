@@ -11,7 +11,7 @@ from core.services import ApplicationFormService
 
 def application_submitter_page(request, uuid: str):
     """Application submitter page"""
-    template_name = "core/pages/application/ApplicationSubmitterPage.html"
+    template_name = "geeks/pages/application/ApplicationSubmitterPage.html"
     application = get_object_or_404(WebinarApplication, uuid=uuid)
     webinar = application.webinar
     submitter = application.submitter  # None or WebinarApplicationSubmitter

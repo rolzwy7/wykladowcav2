@@ -1,0 +1,18 @@
+{% extends 'geeks/extends/foundation.html' %}
+{% load static %}
+
+{% block root %}
+<section class="pt-5 pb-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+                <h1>Zapis na szkolenie</h1>
+                <p class="lead mb-0">
+                    {{webinar.title_original}}
+                </p>
+                {% block content %}{% endblock content %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock root %}

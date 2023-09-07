@@ -7,10 +7,14 @@
     </div>
 
     <ul class="list-group list-group-flush">
-      {% if webinar.recording_allowed %}
       <li class="list-group-item bg-transparent fw-bold">
         <i class="fe fe-youtube align-middle me-2 text-primary"></i>
-        Czasowy dostęp do nagrania ze szkolenia
+        Dostęp do szkolenia online
+      </li>
+      {% if webinar.recording_allowed %}
+      <li class="list-group-item bg-transparent">
+        <i class="fe fe-youtube align-middle me-2 text-primary"></i>
+        <span class="fw-bold">48h</span> dostęp do nagrania ze szkolenia 
       </li>
       {% endif %}
       <li class="list-group-item bg-transparent">

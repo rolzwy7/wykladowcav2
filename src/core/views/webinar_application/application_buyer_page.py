@@ -18,7 +18,7 @@ class ApplicationBuyerPage(View):
     Use this abstract class to construct views for `buyer` and `receiver`
     """
 
-    template_name = "core/pages/application/ApplicationCompanyPage.html"
+    template_name = "geeks/pages/application/ApplicationCompanyPage.html"
 
     def get_action_url(self, uuid: str):
         """Get action URL for form"""

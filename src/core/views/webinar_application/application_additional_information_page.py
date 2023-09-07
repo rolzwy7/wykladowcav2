@@ -9,7 +9,8 @@ from core.services import ApplicationFormService
 
 
 def application_additional_information_page(request, uuid):
-    template_name = "core/pages/application/AdditionalInformationPage.html"
+    """Additional info form page"""
+    template_name = "geeks/pages/application/AdditionalInformationPage.html"
     application = get_object_or_404(WebinarApplication, uuid=uuid)
     webinar = application.webinar
     state = ApplicationFormService(

@@ -253,7 +253,7 @@ class ApplicationFormService:
                 " i Zwolenienia z VAT (jeśli dotyczy)"
             ),
             SUBMITTER: "Wprowadź dane osoby wysyłającej zgłoszenie",
-            PARTICIPANTS: "Wprowadź dane uczestników webinaru",
+            PARTICIPANTS: "Wprowadź dane uczestników szkolenia",
             ADDITIONAL_INFO: (
                 "Jeśli mają Państwo dodatkowe uwagi związane ze zgłoszeniem"
                 " prosimy wpisać je tutaj"

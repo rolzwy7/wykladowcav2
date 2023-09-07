@@ -5,7 +5,7 @@ from django.template.response import TemplateResponse
 from core.consts import POST
 from core.forms import DiscountCodeForm
 from core.models import WebinarApplication
-from core.services import DiscountService
+from core.services import ApplicationService, DiscountService
 
 
 def htmx_application_discount_panel(request: HttpRequest, pk: int):
@@ -41,8 +41,14 @@ def htmx_application_discount_panel(request: HttpRequest, pk: int):
     else:
         form = DiscountCodeForm()
 
-    # Recalculate is further discounts are allowed
+    # Recalculate if further discounts are allowed
     further_discounts_allowed = discount_service.are_further_discounts_allowed()
+
+    # Get display of total netto price
+    application_service = ApplicationService(application)
+    preview_total_price_netto = (
+        application_service.get_preview_total_price_netto()
+    )
 
     return TemplateResponse(
         request,
@@ -51,6 +57,7 @@ def htmx_application_discount_panel(request: HttpRequest, pk: int):
             "error_msg": error_msg,
             "form": form,
             "application": application,
+            "preview_total_price_netto": preview_total_price_netto,
             "further_discounts_allowed": further_discounts_allowed,
             **discount_service.get_context(),
         },

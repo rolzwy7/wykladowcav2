@@ -1,0 +1,278 @@
+{% extends './ApplicationBase.html' %} 
+{% load static %}
+
+{% block content %}
+<div class="row mt-0 mt-md-4">
+    <div class="col-lg-8 col-md-12 col-12">
+        <div class="card mb-4">
+            <!-- Card header -->
+            <div class="card-header">
+                <h3 class="mb-0">Krok {{step_number}}: {{step_title}}</h3>
+                <span>{{step_description}}</span>
+            </div>
+            <!-- Card body -->
+            <div class="card-body">
+                
+                {% comment %} Szkolenie {% endcomment %}
+                <h3>Szkolenie:</h3>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th scope="row" style="width:175px;">Tytuł</th>
+                        <td>{{webinar.title_original}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:175px;">Data</th>
+                        <td>{{webinar.date|date:"j E Y"}} r.</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:175px;">Godzina</th>
+                        <td>{{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:175px;">Wykładowca</th>
+                        <td>{{webinar.lecturer.fullname}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <hr>
+
+                {% comment %} Uczestnicy {% endcomment %}
+                <div class="d-flex justify-content-between">
+                    <div><h3>Uczestnicy:</h3></div>
+                    <div class="fw-bold">
+                        <a href="#">
+                            <i class="bi bi-pencil-square"></i>
+                            Edytuj
+                        </a>
+                    </div>
+                </div>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Imię</th>
+                        <th scope="col">Nazwisko</th>
+                        <th scope="col">Adres E-mail</th>
+                        <th scope="col">Numer telefonu</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for participant in participants %}
+                    <tr>
+                        <td>{{participant.first_name}}</td>
+                        <td>{{participant.last_name}}</td>
+                        <td>{{participant.email}}</td>
+                        <td>{{participant.phone}}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <hr>
+
+                {% with application.buyer as company %}
+                {% comment %} Nabywca {% endcomment %}
+                <div class="d-flex justify-content-between">
+                    <div><h3>Nabywca:</h3></div>
+                    <div class="fw-bold">
+                        <a href="#">
+                            <i class="bi bi-pencil-square"></i>
+                            Edytuj
+                        </a>
+                    </div>
+                </div>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th scope="row" style="width:175px;">NIP</th>
+                        <td>{{company.nip}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:175px;">Nazwa podmiotu</th>
+                        <td>{{company.name}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:175px;">Adres</th>
+                        <td>{{company.address}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:175px;">Kod pocztowy</th>
+                        <td>{{company.postal_code}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:175px;">Miejscowość</th>
+                        <td>{{company.city}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <hr>
+                {% endwith %}
+                
+                {% comment %} Odbiorca {% endcomment %}
+                {% if application.recipient %}
+                {% with application.recipient as company %}
+                <div class="d-flex justify-content-between">
+                    <div><h3>Odbiorca:</h3></div>
+                    <div class="fw-bold">
+                        <a href="#">
+                            <i class="bi bi-pencil-square"></i>
+                            Edytuj
+                        </a>
+                    </div>
+                </div>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th scope="row" style="width:175px;">Nazwa podmiotu</th>
+                        <td>{{company.name}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:175px;">Adres</th>
+                        <td>{{company.address}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:175px;">Kod pocztowy</th>
+                        <td>{{company.postal_code}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:175px;">Miejscowość</th>
+                        <td>{{company.city}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <hr>
+                {% endwith %}
+                {% endif %}
+
+                {% with application.invoice as invoice %}
+                <div class="d-flex justify-content-between">
+                    <div><h3>Faktura:</h3></div>
+                    <div class="fw-bold">
+                        <a href="#">
+                            <i class="bi bi-pencil-square"></i>
+                            Edytuj
+                        </a>
+                    </div>
+                </div>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th scope="row" style="width:175px;">Typ faktury</th>
+                        <td>{{invoice.get_invoice_type_display}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:175px;">E-mail do faktury</th>
+                        <td>{{invoice.invoice_email}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:175px;">Zwolnienie z VAT</th>
+                        <td>{{invoice.get_vat_exemption_display}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <hr>
+                {% endwith %}
+
+                {% comment %} Dodatkowe uwagi {% endcomment %}
+                <div class="d-flex justify-content-between">
+                    <div><h3>Dodatkowe uwagi:</h3></div>
+                    <div class="fw-bold">
+                        <a href="#">
+                            <i class="bi bi-pencil-square"></i>
+                            Edytuj
+                        </a>
+                    </div>
+                </div>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <i>
+                                „{{application.additional_information|default:"Brak uwag"}}”
+                            </i>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>                        
+    </div>
+    <div class="col-lg-4 col-md-12 col-12">
+        <div class="card mb-4 js-sticky-widget">
+            {% comment %} <!-- Card header -->
+            <div class="card-header">
+                <h3 class="mb-0">OOO</h3>
+                <span>OOO</span>
+            </div> {% endcomment %}
+            <!-- Card body -->
+            <div class="card-body">
+                <div hx-get="{% url 'htmx:htmx_application_discount_panel' pk=application.pk %}" hx-trigger="load">
+                    <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
+                </div>
+
+                {% if application.status == 'INIT' %}
+                <!--begin::Actions-->
+                <div class="mb-0 mt-3">
+                    <form
+                        action="{% url 'core:application_summary_page' uuid=application.uuid %}"
+                        method="post">
+                        {% csrf_token %}
+                        <div class="separator separator-dashed my-1"></div>
+                        <div class="d-flex justify-content-center">
+                            <button
+                                type="button"
+                                class="btn btn-light mt-3 w-100"
+                                data-bs-toggle="modal"
+                                data-bs-target=".modal-terms-of-service"
+                            >
+                            Przeczytaj regulamin szkoleń
+                            </button>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button
+                                type="submit"
+                                class="btn btn-danger mt-3 w-100"
+                                id="send-application-btn"
+                            >
+                            Wyślij zgłoszenie
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <!--end::Actions-->
+                {% endif %}
+
+            </div>
+        </div> 
+    </div>
+</div>
+{% endblock content %}
+
+{% block body_scripts %}
+<div class="modal fade modal-terms-of-service" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+        {% include 'core/pages/terms_and_conditions/snippets/TermsAndConditionsWebinarsCard.html' %}
+    </div>
+  </div>
+</div>
+<script src="{% static 'js/htmx.min.js' %}"></script>
+<script>
+    document.body.addEventListener('htmx:configRequest', (event) => {
+        event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+    })
+</script>
+<script src="{% static 'js/sticksy.min.js' %}"></script>
+<script>
+    setTimeout(function() {
+        var stickyElement = new Sticksy('.js-sticky-widget', {topSpacing: 10});
+        stickyElement.onStateChanged = function (state) {
+            if(state === 'fixed') {
+                stickyElement.nodeRef.classList.add('widget--sticky')
+            } else {
+                stickyElement.nodeRef.classList.remove('widget--sticky')
+            }
+        }
+    }, 3000);
+</script>
+{% endblock body_scripts %}

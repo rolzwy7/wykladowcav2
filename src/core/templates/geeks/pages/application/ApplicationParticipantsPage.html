@@ -1,0 +1,129 @@
+{% extends './ApplicationBase.html' %} 
+{% load static %}
+
+{% block content %}
+<div class="row mt-0 mt-md-4">
+    <div class="col-lg-8 col-md-8 col-12">
+        <div class="card mb-4">
+            <!-- Card header -->
+            <div class="card-header">
+                <h3 class="mb-0">Krok {{step_number}}: {{step_title}}</h3>
+                <span>{{step_description}}</span>
+            </div>
+            <!-- Card body -->
+            <div class="card-body">
+                
+                <div class="text-danger">
+                    {{formset.non_form_errors}}
+                </div>
+
+                <div class="d-flex flex-row justify-content-center" id="kt_participants_repeater">
+                    
+                    <form
+                        action="{% url 'core:application_participants_page' uuid=application.uuid %}"
+                        method="post"
+                    >
+                        {% csrf_token %}
+                        {{formset.management_form }}
+                        <div data-repeater-list="kt_participants_repeater">
+                            {% for form in formset %}
+                                <div class="card shadow-lg mb-4" data-repeater-item>
+                                    <div class="card-body p-4">
+
+                                        <div class="row">
+                                        
+                                            <div class="mb-3 col-6 col-md-6">
+                                                <label class="form-label" for="id_first_name">
+                                                    Imię <span class="text-danger">*</span>
+                                                </label>
+                                                {{form.first_name}}
+                                            </div>
+                                            <div class="mb-3 col-6 col-md-6">
+                                                <label class="form-label" for="id_last_name">
+                                                    Nazwisko <span class="text-danger">*</span>
+                                                </label>
+                                                {{form.last_name}}
+                                            </div>
+                                            <div class="mb-3 col-6 col-md-6">
+                                                <label class="form-label" for="id_email">
+                                                    E-mail <span class="text-danger">*</span>
+                                                </label>
+                                                {{form.email}}
+                                            </div>
+                                            <div class="mb-3 col-6 col-md-6">
+                                                <label class="form-label" for="id_phone">
+                                                    Numer telefonu (opcjonalnie)
+                                                </label>
+                                                {{form.phone}}
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-end">
+                                            <button
+                                                id="remove-form-{{forloop.counter0}}"
+                                                type="button"
+                                                class="btn btn-danger mb-2"
+                                                href="javascript:;"
+                                                data-repeater-delete
+                                                >
+                                                Usuń tego uczestnika
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    
+                        <div class="d-flex justify-content-center">
+                            <button type="button" class="btn btn-primary" data-repeater-create>
+                                <i class="fe fe-plus me-1"></i> Dodaj kolejnego uczestnika
+                            </button>
+                        </div>
+                        {% include './components/next_previous_buttons.html' %}
+                    </form>
+                </div>
+                
+            </div>
+        </div>                        
+    </div>
+    <div class="col-lg-4 col-md-4 col-12">
+        <div class="card mb-4">
+            <!-- Card header -->
+            <div class="card-header">
+                <h3 class="mb-0">OOO</h3>
+                <span>OOO</span>
+            </div>
+            <!-- Card body -->
+            <div class="card-body">
+                  
+                
+            </div>
+        </div> 
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block body_scripts %}
+<script src="{% static 'plugins/custom/formrepeater/formrepeater.bundle.js' %}"></script>
+<script>
+    $('#kt_participants_repeater').repeater({
+        isFirstItemUndeletable: true,
+        initEmpty: false,
+        show: function () {
+            document.querySelector("#id_form-TOTAL_FORMS").setAttribute("value", 
+                1 + Number(document.querySelector("#id_form-TOTAL_FORMS").getAttribute("value"))
+            )
+            $(this).slideDown();
+        },
+        hide: function (deleteElement) {
+            document.querySelector("#id_form-TOTAL_FORMS").setAttribute("value", 
+                -1 + Number(document.querySelector("#id_form-TOTAL_FORMS").getAttribute("value"))
+            )
+            $(this).slideUp(deleteElement);
+            
+        }
+    });
+</script>
+{% endblock body_scripts %}

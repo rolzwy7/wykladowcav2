@@ -17,7 +17,7 @@ from core.services import (
 
 def application_type_page(request, pk: int):
     """Controller for webinar application form page - application type form"""
-    template_name = "core/pages/application/ApplicationTypePage.html"
+    template_name = "geeks/pages/application/ApplicationTypePage.html"
     webinar = get_object_or_404(Webinar, pk=pk)
     reflink_service = ReflinkService(request)
 

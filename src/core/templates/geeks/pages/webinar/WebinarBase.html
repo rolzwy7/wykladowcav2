@@ -114,7 +114,7 @@
           {% comment %} Date and hour card {% endcomment %}
           {% include './components/date_and_hour_card.html' with webinar=webinar %}
 
-          {% comment %} Date and hour card {% endcomment %}
+          {% comment %} What we offer {% endcomment %}
           {% include './components/what_we_offer.html' with webinar=webinar %}
 
           <div class="card mt-4 js-sticky-widget">
@@ -230,7 +230,7 @@
     </script>
     <script src="{% static 'js/sticksy.min.js' %}"></script>
     <script>
-        var stickyElement = new Sticksy('.js-sticky-widget', {topSpacing: 20});
+        var stickyElement = new Sticksy('.js-sticky-widget', {topSpacing: 10});
         stickyElement.onStateChanged = function (state) {
             if(state === 'fixed') {
                 stickyEl.nodeRef.classList.add('widget--sticky')

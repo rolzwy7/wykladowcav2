@@ -18,7 +18,7 @@ APPLICATION_STEP = WebinarApplicationStep.SUMMARY
 
 def application_summary_page(request, uuid):
     """Application summary page"""
-    template_name = "core/pages/application/ApplicationSummaryPage.html"
+    template_name = "geeks/pages/application/ApplicationSummaryPage.html"
     application = get_object_or_404(WebinarApplication, uuid=uuid)
     webinar: Webinar = application.webinar
     form_service = ApplicationFormService(

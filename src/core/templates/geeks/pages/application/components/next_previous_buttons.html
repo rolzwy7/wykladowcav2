@@ -1,0 +1,10 @@
+{% if previous_step_url %}
+<div class="d-flex justify-content-between my-5">
+    {% include './previous_step_button.html' with previous_step_url=previous_step_url previous_step_title=previous_step_title %}
+    {% include './next_step_button.html' %}
+</div>
+{% else %}
+<div class="d-flex justify-content-end my-5">
+    {% include './next_step_button.html' %}
+</div>
+{% endif %}

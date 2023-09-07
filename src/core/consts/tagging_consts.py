@@ -8,4 +8,5 @@ INIT_TAGS = [
     "JST",
     "NASZ_KLIENT",
     "WODOCIĄGI-KANALIZACJA",
+    "OŚWIATA",
 ]

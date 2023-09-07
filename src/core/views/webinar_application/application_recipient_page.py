@@ -2,7 +2,6 @@ from typing import Any
 
 from django.db import transaction
 from django.urls import reverse
-from django.views import View
 
 from core.models import WebinarApplication
 from core.models.enums import WebinarApplicationStep

@@ -12,7 +12,7 @@ from core.services import ApplicationFormService
 
 def application_participants_page(request, uuid: str):
     """Application participants page"""
-    template_name = "core/pages/application/ApplicationParticipantsPage.html"
+    template_name = "geeks/pages/application/ApplicationParticipantsPage.html"
     application = get_object_or_404(WebinarApplication, uuid=uuid)
     webinar = application.webinar
     participants = WebinarParticipant.manager.filter(application=application)

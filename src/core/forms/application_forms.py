@@ -1,12 +1,19 @@
-from django.forms import CharField, Form, ModelForm
+from django.forms import (
+    CharField,
+    EmailInput,
+    Form,
+    HiddenInput,
+    ModelForm,
+    Select,
+    Textarea,
+    TextInput,
+)
 
 from core.consts import ALLOWED_EXEMPTIONS_BY_APPLICATION_TYPE
 from core.forms.widgets import (
     ApplicationTypeWidget,
     CheckboxWidget,
     EmailFloatingInputWidget,
-    SelectFloatingInputWidget,
-    TextareaFloatingInputWidget,
     TextFloatingInputWidget,
 )
 from core.models import (
@@ -34,7 +41,7 @@ class ApplicationCompanyForm(ModelForm):
     def clean_nip(self):
         """Clean NIP number"""
         nip = self.cleaned_data["nip"]
-        return nip.replace("-", "").replace(" ", "")
+        return nip.replace("-", "").replace(" ", "").replace("_", "")
 
     def clean_email(self):
         """Clean email"""
@@ -53,19 +60,15 @@ class ApplicationCompanyForm(ModelForm):
             "phone_number",
         ]
         widgets = {
-            "nip": TextFloatingInputWidget(attrs={"label": "NIP"}),
-            "name": TextFloatingInputWidget(attrs={"label": "Nazwa płatnika"}),
-            "address": TextFloatingInputWidget(attrs={"label": "Adres"}),
-            "postal_code": TextFloatingInputWidget(
-                attrs={"label": "Kod pocztowy"}
+            "nip": TextInput(attrs={"class": "form-control"}),
+            "name": TextInput(attrs={"class": "form-control"}),
+            "address": TextInput(attrs={"class": "form-control"}),
+            "postal_code": TextInput(
+                attrs={"class": "form-control", "placeholder": "__-___"}
             ),
-            "city": TextFloatingInputWidget(attrs={"label": "Miejscowość"}),
-            "email": TextFloatingInputWidget(
-                attrs={"label": "Adres E-mail (opjonalnie)"}
-            ),
-            "phone_number": TextFloatingInputWidget(
-                attrs={"label": "Numer telefonu (opjonalnie)"}
-            ),
+            "city": TextInput(attrs={"class": "form-control"}),
+            "email": EmailInput(attrs={"class": "form-control"}),
+            "phone_number": TextInput(attrs={"class": "form-control"}),
         }
 
 
@@ -118,18 +121,12 @@ class ApplicationInvoiceForm(ModelForm):
             "vat_exemption",
         ]
         widgets = {
-            "invoice_type": SelectFloatingInputWidget(
-                attrs={"label": "Typ faktury"}
-            ),
-            "invoice_email": EmailFloatingInputWidget(
-                attrs={"label": "E-mail (na który zostanie wysłana faktura)"}
-            ),
-            # "invoice_additional_info": TextareaFloatingInputWidget(
-            #     attrs={"label": "Dodatkowe informacje (widoczne na fakturze)"}
+            "invoice_type": HiddenInput(attrs={"class": "form-control"}),
+            "invoice_email": EmailInput(attrs={"class": "form-control"}),
+            # "invoice_additional_info": TextInput(
+            #     attrs={"class": "form-control"}
             # ),
-            "vat_exemption": SelectFloatingInputWidget(
-                attrs={"label": "Zwolnienie z VAT"}
-            ),
+            "vat_exemption": Select(attrs={"class": "form-control"}),
         }
 
     def set_choices(self, application_type: str):
@@ -161,19 +158,32 @@ class ApplicationSubmitterForm(ModelForm):
                 attrs={
                     "label": (
                         "Kliknij tutaj jeśli osoba zgłaszająca"
-                        " jest też uczestnikiem webinaru"
+                        " jest też uczestnikiem szkolenia"
                     )
                 }
             ),
-            "first_name": TextFloatingInputWidget(attrs={"label": "Imię"}),
-            "last_name": TextFloatingInputWidget(attrs={"label": "Nazwisko"}),
-            "email": EmailFloatingInputWidget(attrs={"label": "Adres E-mail"}),
-            "phone": TextFloatingInputWidget(attrs={"label": "Numer telefonu"}),
+            "first_name": TextInput(attrs={"class": "form-control"}),
+            "last_name": TextInput(attrs={"class": "form-control"}),
+            "email": EmailInput(attrs={"class": "form-control"}),
+            "phone": TextInput(attrs={"class": "form-control"}),
         }
 
 
 class ApplicationParticipantForm(ModelForm):
     """Participant form for webinar application"""
+
+    first_name = CharField(
+        required=True, widget=TextInput(attrs={"class": "form-control"})
+    )
+    last_name = CharField(
+        required=True, widget=TextInput(attrs={"class": "form-control"})
+    )
+    email = CharField(
+        required=True, widget=EmailInput(attrs={"class": "form-control"})
+    )
+    phone = CharField(
+        required=True, widget=TextInput(attrs={"class": "form-control"})
+    )
 
     def clean_email(self):
         """Clean email"""
@@ -188,14 +198,12 @@ class ApplicationParticipantForm(ModelForm):
             "email",
             "phone",
         ]
-        widgets = {
-            "first_name": TextFloatingInputWidget(attrs={"label": "Imię"}),
-            "last_name": TextFloatingInputWidget(attrs={"label": "Nazwisko"}),
-            "email": EmailFloatingInputWidget(attrs={"label": "Adres E-mail"}),
-            "phone": TextFloatingInputWidget(
-                attrs={"label": "Numer telefonu (opcjonalnie)"}
-            ),
-        }
+        # widgets = {
+        #     "first_name": TextInput(attrs={"class": "form-control"}),
+        #     "last_name": TextInput(attrs={"class": "form-control"}),
+        #     "email": EmailInput(attrs={"class": "form-control"}),
+        #     "phone": TextInput(attrs={"class": "form-control"}),
+        # }
 
 
 class ApplicationAdditionalInformationForm(ModelForm):
@@ -207,9 +215,7 @@ class ApplicationAdditionalInformationForm(ModelForm):
             "additional_information",
         ]
         widgets = {
-            "additional_information": TextareaFloatingInputWidget(
-                attrs={"label": "Dodatkowe uwagi"}
-            )
+            "additional_information": Textarea(attrs={"class": "form-control"})
         }
 
 

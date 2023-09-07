@@ -1,3 +1,30 @@
+<div class="form-check fs-3 mt-4">
+    <input
+        class="form-check-input"
+        {% if widget.required %}
+        required
+        {% endif %}
+        type="{{option.type}}"
+        id="{{widget.attrs.id}}-{{option.value}}"
+        name="{{option.name}}"
+        value="{{option.value}}"
+        {% if option.value == "COMPANY" %}
+        checked
+        {% endif %}
+    />
+    <label class="form-check-label" for="{{widget.attrs.id}}-{{option.value}}">
+    {% if option.value == "COMPANY" %}
+        <b>Firma</b> (Nabywca)
+    {% elif option.value == "JSFP" %}
+        <b>JSFP</b> (Nabywca / Odbiorca)
+    {% elif option.value == "PRIVATE_PERSON" %}
+        <b>Osoba prywatna</b>
+    {% endif %}
+    </label>
+</div>
+
+
+{% comment %}
 <!--begin:Option-->
 <label class="d-flex flex-stack mb-5 cursor-pointer" style="user-select: none;">
     <!--begin:Label-->
@@ -8,7 +35,7 @@
                 <span class="symbol-label bg-light-primary">
                     <i class="ki-duotone ki-briefcase fs-1 text-primary"><i class="path1"></i><i class="path2"></i></i>
                 </span>
-            {% elif option.value == "JSFP" %}
+                {% elif option.value == "JSFP" %}
                 <span class="symbol-label bg-light-danger">
                     <i class="ki-duotone ki-bank fs-1 text-danger"><i class="path1"></i><i class="path2"></i></i>
                 </span>
@@ -16,16 +43,16 @@
                 <span class="symbol-label bg-light-success">
                     <i class="ki-duotone ki-user-square fs-1 text-success"><i class="path1"></i><i class="path2"></i><i class="path3"></i></i>
                 </span>
-            {% endif %}
-        </span>
+                {% endif %}
+            </span>
         <!--end:Icon-->
 
         <!--begin:Info-->
         <span class="d-flex flex-column">
-        {% if option.value == "COMPANY" %}
+            {% if option.value == "COMPANY" %}
             <span class="fw-bold fs-3">Firma</span>
             <span class="fs-5 text-dark">Nabywca</span>
-        {% elif option.value == "JSFP" %}
+            {% elif option.value == "JSFP" %}
             <span class="fw-bold fs-3">JSFP</span>
             <span class="fs-5 text-dark">Nabywca / Odbiorca</span>
         {% elif option.value == "PRIVATE_PERSON" %}
@@ -36,7 +63,7 @@
         <!--end:Info-->
     </span>
     <!--end:Label-->
-
+    
     <!--begin:Input-->
     <span class="ms-10 form-check form-check-custom form-check-solid">
         <input
@@ -50,8 +77,9 @@
             {% if option.value == "COMPANY" %}
             checked
             {% endif %}
-        />
-    </span>
-    <!--end:Input-->
-</label>
+            />
+        </span>
+        <!--end:Input-->
+    </label>
 <!--end::Option-->
+{% endcomment %}

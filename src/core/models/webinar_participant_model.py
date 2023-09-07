@@ -49,6 +49,16 @@ class WebinarParticipantManager(Manager):
             & Q(status=WebinarParticipantStatus.PARTICIPATING)
         )
 
+    def get_all_participants_for_application(
+        self,
+        application: WebinarApplication,
+    ) -> QuerySet["WebinarParticipant"]:
+        """Get all participants for given application (even no valid)"""
+        return self.get_queryset().filter(
+            # For given application
+            Q(application=application)
+        )
+
 
 class WebinarParticipant(Model):
     """Represents webinar participant"""
