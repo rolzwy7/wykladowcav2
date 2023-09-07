@@ -21,24 +21,51 @@ def download_emails_from_sender_page(request, pk: int, export_type: str):
     smtp_service = SenderSmtpService(smtp_sender)
     pop3 = smtp_service.get_pop3_instance()
 
-    emails = []
+    permanent_failures = []
+    temporary_failures = []
+    emails_in_content = []
 
     for message in smtp_service.get_inbox_messages(pop3):
         _, _, message_bytes = message
         inbox_message = InboxMessage(message_bytes)
 
-        if export_type == "permanent":
-            for email in inbox_message.get_emails_permanent_failure():
-                emails.append(email)
+        for email in inbox_message.get_emails_permanent_failure():
+            permanent_failures.append(email)
 
-        if export_type == "temporary":
-            for email in inbox_message.get_emails_temporary_failure():
-                emails.append(email)
+        for email in inbox_message.get_emails_temporary_failure():
+            temporary_failures.append(email)
 
-        if export_type == "emails_in_message":
-            content = inbox_message.get_content()
-            emails.extend(re.findall(EMAIL_PATTERN, content))
+        content = inbox_message.get_content()
+        emails_in_content.extend(re.findall(EMAIL_PATTERN, content))
 
-    emails = list(set(emails))
+    pop3.close()
 
-    return HttpResponse("\n".join(emails), content_type="text/plain")
+    if export_type == "permanent":
+        permanent_failures = list(set(permanent_failures))
+        return HttpResponse(
+            "\n".join(permanent_failures), content_type="text/plain"
+        )
+
+    if export_type == "temporary":
+        temporary_failures = list(set(temporary_failures))
+        return HttpResponse(
+            "\n".join(temporary_failures), content_type="text/plain"
+        )
+
+    if export_type == "question_emails":
+        question_emails = []
+        for email in emails_in_content:
+            if all(
+                [
+                    email not in permanent_failures,
+                    email not in temporary_failures,
+                ]
+            ):
+                question_emails.append(email)
+
+        question_emails = list(set(question_emails))
+        return HttpResponse(
+            "\n".join(question_emails), content_type="text/plain"
+        )
+
+    return HttpResponse("Invalid request", content_type="text/plain")

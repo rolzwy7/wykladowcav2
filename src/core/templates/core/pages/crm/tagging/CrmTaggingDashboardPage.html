@@ -122,7 +122,7 @@
                 {% for sender in senders %}
                     <li><a href="{% url 'core:download_emails_from_sender_page' pk=sender.pk export_type="permanent" %}">{{sender}} - permanent</a></li>
                     <li><a href="{% url 'core:download_emails_from_sender_page' pk=sender.pk export_type="temporary" %}">{{sender}} - temporary</a></li>
-                    <li><a href="{% url 'core:download_emails_from_sender_page' pk=sender.pk export_type="emails_in_message" %}">{{sender}} - emails_in_message</a></li>
+                    <li><a href="{% url 'core:download_emails_from_sender_page' pk=sender.pk export_type="question_emails" %}">{{sender}} - emails_in_message</a></li>
                 {% endfor %}
             </ol>
         </div>
