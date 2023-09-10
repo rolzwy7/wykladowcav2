@@ -11,7 +11,7 @@ from core.services import ApplicationFormService
 
 def application_person_details_page(request, uuid: str):
     """Application private person page"""
-    template_name = "core/pages/application/ApplicationPersonDetailsPage.html"
+    template_name = "geeks/pages/application/ApplicationPersonDetailsPage.html"
     application = get_object_or_404(WebinarApplication, uuid=uuid)
     webinar = application.webinar
     private_person = (

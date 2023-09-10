@@ -86,8 +86,8 @@ class WebinarApplicationSubmitter(Model):
     """Represents application submitter"""
 
     is_participant = BooleanField("Jest też uczestnikiem", default=False)
-    first_name = CharField("Imię", max_length=100)
-    last_name = CharField("Nazwisko", max_length=100)
+    first_name = CharField("Imię", max_length=100, blank=True)
+    last_name = CharField("Nazwisko", max_length=100, blank=True)
     email = EmailField("Email")
     phone = CharField("Numer telefonu", max_length=100)
 

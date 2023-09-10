@@ -1,9 +1,9 @@
 from django.urls import path
 
 from core.views.webinar_application import (
-    ApplicationBuyerPage,
-    ApplicationRecipientPage,
     application_additional_information_page,
+    application_buyer_page,
+    application_buyer_recipient_page,
     application_invoice_page,
     application_participants_page,
     application_pdf_card,
@@ -22,13 +22,13 @@ urlpatterns = [
     ),
     path(
         "<uuid:uuid>/nabywca/",
-        ApplicationBuyerPage.as_view(),
+        application_buyer_page,
         name="application_buyer_page",
     ),
     path(
-        "<uuid:uuid>/odbiorca/",
-        ApplicationRecipientPage.as_view(),
-        name="application_recipient_page",
+        "<uuid:uuid>/nabywca-odbiorca/",
+        application_buyer_recipient_page,
+        name="application_buyer_recipient_page",
     ),
     path(
         "<uuid:uuid>/faktura/",

@@ -65,7 +65,7 @@ def application_type_page(request, pk: int):
         {
             "step_number": "1",
             "step_title": "Typ zgłoszenia",
-            "step_description": "Wybierz typ wysyłanego zgłoszenia",
+            "step_description": "Wybierz czy wysyłasz zgłoszenie jako Firma, JSFP lub Osoba Prywatna",
             "application_timeline": [("Typ zgłoszenia", "-", True)],
             "webinar": webinar,
             "form": form,

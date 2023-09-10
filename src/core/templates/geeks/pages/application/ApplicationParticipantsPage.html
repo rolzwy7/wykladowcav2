@@ -7,7 +7,7 @@
         <div class="card mb-4">
             <!-- Card header -->
             <div class="card-header">
-                <h3 class="mb-0">Krok {{step_number}}: {{step_title}}</h3>
+                <h3 class="mb-0"><span class="text-primary">Krok {{step_number}}:</span> {{step_title}}</h3>
                 <span>{{step_description}}</span>
             </div>
             <!-- Card body -->
@@ -37,24 +37,36 @@
                                                     Imię <span class="text-danger">*</span>
                                                 </label>
                                                 {{form.first_name}}
+                                                <div class="text-danger">
+                                                    {{form.first_name.errors}}
+                                                </div>
                                             </div>
                                             <div class="mb-3 col-6 col-md-6">
                                                 <label class="form-label" for="id_last_name">
                                                     Nazwisko <span class="text-danger">*</span>
                                                 </label>
                                                 {{form.last_name}}
+                                                <div class="text-danger">
+                                                    {{form.last_name.errors}}
+                                                </div>
                                             </div>
                                             <div class="mb-3 col-6 col-md-6">
                                                 <label class="form-label" for="id_email">
                                                     E-mail <span class="text-danger">*</span>
                                                 </label>
                                                 {{form.email}}
+                                                <div class="text-danger">
+                                                    {{form.email.errors}}
+                                                </div>
                                             </div>
                                             <div class="mb-3 col-6 col-md-6">
-                                                <label class="form-label" for="id_phone">
+                                                <label class="form-label fw-normal" for="id_phone">
                                                     Numer telefonu (opcjonalnie)
                                                 </label>
                                                 {{form.phone}}
+                                                <div class="text-danger">
+                                                    {{form.phone.errors}}
+                                                </div>
                                             </div>
                                         </div>
 

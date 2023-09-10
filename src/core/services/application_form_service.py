@@ -1,4 +1,5 @@
-from typing import Optional
+# flake8: noqa=E501
+# pylint: disable=line-too-long
 from uuid import UUID
 
 from django.db.models import Q
@@ -52,171 +53,34 @@ class ApplicationFormService:
         """First redirect after application type selection step"""
         url_names = {
             COMPANY: "application_buyer_page",
-            JSFP: "application_buyer_page",
+            JSFP: "application_buyer_recipient_page",
             PRIVATE_PERSON: "application_person_details_page",
         }
-        url_name = url_names[application_type]
-        return redirect(reverse(f"core:{url_name}", kwargs={"uuid": uuid}))
-
-    def get_timeline(self):
-        """Returns step's timeline"""
-        buyer_nip = self.application.buyer.nip if self.application.buyer else ""
-        recipient_nip = (
-            self.application.recipient.nip if self.application.recipient else ""
+        return redirect(
+            reverse(
+                f"core:{url_names[application_type]}", kwargs={"uuid": uuid}
+            )
         )
-
-        invoice: Optional[WebinarApplicationInvoice] = self.application.invoice
-        if invoice:
-            invoice_type = invoice.get_invoice_type_display()  # type: ignore
-            invoice_email = invoice.invoice_email
-            if invoice.vat_exemption != VAT_EXEMPTION_0.db_key:
-                is_vat_exempt = "Zwolnienie z VAT"
-            else:
-                is_vat_exempt = ""
-        else:
-            invoice_type = ""
-            invoice_email = ""
-            is_vat_exempt = ""
-
-        submitter_fullname = (
-            self.application.submitter.fullname
-            if self.application.submitter
-            else ""
-        )
-        participants_count = WebinarParticipant.manager.filter(
-            application=self.application
-        ).count()
-        participants_conj = (
-            f"{participants_count} uczestnik"
-            if participants_count == 1
-            else f"{participants_count} uczestników"
-        )
-
-        is_additional_info = (
-            "Uwagi zapisane"
-            if self.application.additional_information
-            else "Brak uwag"
-        )
-
-        company_map = {
-            APPLICATION_TYPE: [],
-            BUYER: [("Nabywca", "-", True, "")],
-            INVOICE: [
-                ("Nabywca", f"NIP {buyer_nip}", False, ""),
-                ("Faktura", "-", True, ""),
-            ],
-            SUBMITTER: [
-                ("Nabywca", f"NIP {buyer_nip}", False, ""),
-                (invoice_type, invoice_email, False, is_vat_exempt),
-                ("Osoba zgłaszająca", "-", True, ""),
-            ],
-            PARTICIPANTS: [
-                ("Nabywca", f"NIP {buyer_nip}", False, ""),
-                (invoice_type, invoice_email, False, is_vat_exempt),
-                ("Osoba zgłaszająca", submitter_fullname, False, ""),
-                ("Uczestnicy", "-", True, ""),
-            ],
-            ADDITIONAL_INFO: [
-                ("Nabywca", f"NIP {buyer_nip}", False, ""),
-                (invoice_type, invoice_email, False, is_vat_exempt),
-                ("Osoba zgłaszająca", submitter_fullname, False, ""),
-                ("Uczestnicy", participants_conj, False, ""),
-                ("Dodatkowe uwagi", "-", True, ""),
-            ],
-            SUMMARY: [
-                ("Nabywca", f"NIP {buyer_nip}", False, ""),
-                (invoice_type, invoice_email, False, is_vat_exempt),
-                ("Osoba zgłaszająca", submitter_fullname, False, ""),
-                ("Uczestnicy", participants_conj, False, ""),
-                ("Dodatkowe uwagi", is_additional_info, False, ""),
-                ("Podsumowanie", "", True, ""),
-            ],
-        }
-
-        jsfp_map = {
-            APPLICATION_TYPE: [],
-            BUYER: [("Nabywca", "-", True, "")],
-            RECIPIENT: [
-                ("Nabywca", f"NIP {buyer_nip}", False, ""),
-                ("Odbiorca", "-", True, ""),
-            ],
-            INVOICE: [
-                ("Nabywca", f"NIP {buyer_nip}", False, ""),
-                ("Odbiorca", f"NIP {recipient_nip}", False, ""),
-                ("Faktura", "-", True, ""),
-            ],
-            SUBMITTER: [
-                ("Nabywca", f"NIP {buyer_nip}", False, ""),
-                ("Odbiorca", f"NIP {recipient_nip}", False, ""),
-                (invoice_type, invoice_email, False, is_vat_exempt),
-                ("Osoba zgłaszająca", "-", True, ""),
-            ],
-            PARTICIPANTS: [
-                ("Nabywca", f"NIP {buyer_nip}", False, ""),
-                ("Odbiorca", f"NIP {recipient_nip}", False, ""),
-                (invoice_type, invoice_email, False, is_vat_exempt),
-                ("Osoba zgłaszająca", submitter_fullname, False, ""),
-                ("Uczestnicy", "-", True, ""),
-            ],
-            ADDITIONAL_INFO: [
-                ("Nabywca", f"NIP {buyer_nip}", False, ""),
-                ("Odbiorca", f"NIP {recipient_nip}", False, ""),
-                (invoice_type, invoice_email, False, is_vat_exempt),
-                ("Osoba zgłaszająca", submitter_fullname, False, ""),
-                ("Uczestnicy", participants_conj, False, ""),
-                ("Dodatkowe uwagi", "-", True, ""),
-            ],
-            SUMMARY: [
-                ("Nabywca", f"NIP {buyer_nip}", False, ""),
-                ("Odbiorca", f"NIP {recipient_nip}", False, ""),
-                (invoice_type, invoice_email, False, is_vat_exempt),
-                ("Osoba zgłaszająca", submitter_fullname, False, ""),
-                ("Uczestnicy", participants_conj, False, ""),
-                ("Dodatkowe uwagi", is_additional_info, False, ""),
-                ("Podsumowanie", "", True, ""),
-            ],
-        }
-
-        private_person_map = {
-            PERSON_DETAILS: [("Twoje dane", "", True, "")],
-            ADDITIONAL_INFO: [
-                ("Twoje dane", "", False, ""),
-                ("Dodatkowe uwagi", "-", True, ""),
-            ],
-            SUMMARY: [
-                ("Twoje dane", "", False, ""),
-                ("Dodatkowe uwagi", is_additional_info, False, ""),
-                ("Podsumowanie", "", True, ""),
-            ],
-        }
-
-        steps_map = {
-            COMPANY: company_map,
-            JSFP: jsfp_map,
-            PRIVATE_PERSON: private_person_map,
-        }
-
-        return steps_map[self.application_type][self.current_step]
 
     def get_step_number(self):
         """Returns step number"""
         next_step_map = {
             COMPANY: {
                 BUYER: "1",
-                INVOICE: "2",
+                INVOICE: "3",
                 SUBMITTER: "3",
-                PARTICIPANTS: "4",
+                PARTICIPANTS: "2",
                 ADDITIONAL_INFO: "5",
-                SUMMARY: "6",
+                SUMMARY: "4",
             },
             JSFP: {
                 BUYER: "1",
-                RECIPIENT: "2",
+                RECIPIENT: "1",
                 INVOICE: "3",
                 SUBMITTER: "4",
-                PARTICIPANTS: "5",
+                PARTICIPANTS: "2",
                 ADDITIONAL_INFO: "6",
-                SUMMARY: "7",
+                SUMMARY: "4",
             },
             PRIVATE_PERSON: {
                 PERSON_DETAILS: "1",
@@ -231,7 +95,7 @@ class ApplicationFormService:
         title_map = {
             APPLICATION_TYPE: "Wybierz typ zgłoszenia",
             BUYER: "Nabywca",
-            RECIPIENT: "Odbiorca",
+            RECIPIENT: "Nabywca i Odbiorca",
             PERSON_DETAILS: "Osoba prywatna",
             INVOICE: "Faktura",
             SUBMITTER: "Osoba Zgłaszająca",
@@ -244,14 +108,11 @@ class ApplicationFormService:
     def get_step_description(self):
         """Returns step description"""
         description_map = {
-            APPLICATION_TYPE: "",
-            BUYER: "Wprowadź dane nabywcy",
-            RECIPIENT: "Wprowadź dane odbiorcy",
+            APPLICATION_TYPE: "Wybierz czy wysyłasz zgłoszenie jako Firma, JSFP lub Osoba Prywatna",
+            BUYER: "Wprowadź dane nabywcy do faktury",
+            RECIPIENT: "Wprowadź dane nabywcy i odbiorcy do faktury",
             PERSON_DETAILS: "Wprowadź swoje dane",
-            INVOICE: (
-                "Wypełnij dane dotyczące Faktury"
-                " i Zwolenienia z VAT (jeśli dotyczy)"
-            ),
+            INVOICE: ("Wypełnij dane dotyczące Faktury" " i Zwolenienia z VAT"),
             SUBMITTER: "Wprowadź dane osoby wysyłającej zgłoszenie",
             PARTICIPANTS: "Wprowadź dane uczestników szkolenia",
             ADDITIONAL_INFO: (
@@ -271,11 +132,17 @@ class ApplicationFormService:
         previous_step_map = {
             COMPANY: {
                 BUYER: (None, ""),
-                INVOICE: ("application_buyer_page", "Wróć do Nabywcy"),
+                # INVOICE: ("application_buyer_page", "Wróć do Nabywcy"),
+                INVOICE: (
+                    "application_participants_page",
+                    "Wróć do Uczestników",
+                ),
                 SUBMITTER: ("application_invoice_page", "Wróć do Faktury"),
                 PARTICIPANTS: (
-                    "application_submitter_page",
-                    "Wróć do Osoby Zgłaszającej",
+                    # "application_submitter_page",
+                    # "Wróć do Osoby Zgłaszającej",
+                    "application_buyer_page",
+                    "Wróć do Nabywcy",
                 ),
                 ADDITIONAL_INFO: (
                     "application_participants_page",
@@ -285,12 +152,21 @@ class ApplicationFormService:
             },
             JSFP: {
                 BUYER: (None, ""),
-                RECIPIENT: ("application_buyer_page", "Wróć do Nabywcy"),
-                INVOICE: ("application_recipient_page", "Wróć do Odbiorcy"),
+                RECIPIENT: (None, ""),
+                # INVOICE: (
+                #     "application_buyer_recipient_page",
+                #     "Wróć do Odbiorcy",
+                # ),
+                INVOICE: (
+                    "application_participants_page",
+                    "Wróć do Uczestników",
+                ),
                 SUBMITTER: ("application_invoice_page", "Wróć do Faktury"),
                 PARTICIPANTS: (
-                    "application_submitter_page",
-                    "Wróć do Osoby Zgłaszającej",
+                    # "application_submitter_page",
+                    # "Wróć do Osoby Zgłaszającej",
+                    "application_buyer_recipient_page",
+                    "Wróć do Nabywcy i Odbiorcy",
                 ),
                 ADDITIONAL_INFO: (
                     "application_participants_page",
@@ -321,18 +197,23 @@ class ApplicationFormService:
         """Returns application's next step url"""
         url_names = {
             COMPANY: {
-                BUYER: "application_invoice_page",
-                INVOICE: "application_submitter_page",
+                # application_invoice_page
+                BUYER: "application_participants_page",
+                # application_submitter_page
+                INVOICE: "application_summary_page",
                 SUBMITTER: "application_participants_page",
-                PARTICIPANTS: "application_additional_information_page",
+                # application_additional_information_page
+                PARTICIPANTS: "application_invoice_page",
                 ADDITIONAL_INFO: "application_summary_page",
             },
             JSFP: {
-                BUYER: "application_recipient_page",
-                RECIPIENT: "application_invoice_page",
-                INVOICE: "application_submitter_page",
+                BUYER: "application_buyer_recipient_page",
+                # application_invoice_page
+                RECIPIENT: "application_participants_page",
+                INVOICE: "application_summary_page",
                 SUBMITTER: "application_participants_page",
-                PARTICIPANTS: "application_additional_information_page",
+                # application_additional_information_page
+                PARTICIPANTS: "application_invoice_page",
                 ADDITIONAL_INFO: "application_summary_page",
             },
             PRIVATE_PERSON: {
@@ -360,7 +241,7 @@ class ApplicationFormService:
             "step_number": self.get_step_number(),
             "step_title": self.get_step_title(),
             "step_description": self.get_step_description(),
-            "application_timeline": self.get_timeline(),
+            # "application_timeline": self.get_timeline(), # TODO: delete this
             "first_step_url": self.get_first_step_url(),
         }
 
@@ -394,9 +275,9 @@ class ApplicationFormService:
                 )
             )
 
-        # If submitter is not set, redirect to form step
-        if self.current_step == SUMMARY and self.application.submitter is None:
-            raise RedirectException(self.get_first_step_url())
+        # # If submitter is not set, redirect to form step # TODO: delete this
+        # if self.current_step == SUMMARY and self.application.submitter is None:
+        #     raise RedirectException(self.get_first_step_url())
 
     @staticmethod
     def transform_post_data(request: HttpRequest):
@@ -550,3 +431,27 @@ class ApplicationFormService:
                 email=submitter.email,
                 phone=submitter.phone,
             ).save()
+
+    @staticmethod  # TODO: finish this
+    def create_submitter(
+        application: WebinarApplication, phone_number: str, email_address: str
+    ):
+        """Create application submitter based on private person or buyer"""
+
+        # Save submitter
+        if application.submitter:
+            submitter: WebinarApplicationSubmitter = application.submitter
+            submitter.first_name = "first_name"
+            submitter.last_name = "last_name"
+            submitter.email = email_address
+            submitter.phone = phone_number
+            submitter.save()
+        else:
+            submitter = WebinarApplicationSubmitter(
+                first_name="first_name",
+                last_name="last_name",
+                email=email_address,
+                phone=phone_number,
+            )
+            application.submitter = submitter  # type: ignore
+            submitter.save()

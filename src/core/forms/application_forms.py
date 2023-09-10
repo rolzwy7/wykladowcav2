@@ -10,12 +10,7 @@ from django.forms import (
 )
 
 from core.consts import ALLOWED_EXEMPTIONS_BY_APPLICATION_TYPE
-from core.forms.widgets import (
-    ApplicationTypeWidget,
-    CheckboxWidget,
-    EmailFloatingInputWidget,
-    TextFloatingInputWidget,
-)
+from core.forms.widgets import ApplicationTypeWidget, CheckboxWidget
 from core.models import (
     WebinarApplication,
     WebinarApplicationCompany,
@@ -60,16 +55,53 @@ class ApplicationCompanyForm(ModelForm):
             "phone_number",
         ]
         widgets = {
-            "nip": TextInput(attrs={"class": "form-control"}),
-            "name": TextInput(attrs={"class": "form-control"}),
-            "address": TextInput(attrs={"class": "form-control"}),
-            "postal_code": TextInput(
-                attrs={"class": "form-control", "placeholder": "__-___"}
+            "nip": TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Numer NIP, np. 774-00-01-454",
+                }
             ),
-            "city": TextInput(attrs={"class": "form-control"}),
+            "name": TextInput(
+                attrs={"class": "form-control", "placeholder": "Nazwa firmy"}
+            ),
+            "address": TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Ulica i numer lokalu, np. Przemysłowa 10A",
+                }
+            ),
+            "postal_code": TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Kod pocztowy, np. 45-573",
+                }
+            ),
+            "city": TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Miasto, np. Warszawa",
+                }
+            ),
             "email": EmailInput(attrs={"class": "form-control"}),
             "phone_number": TextInput(attrs={"class": "form-control"}),
         }
+
+
+class ApplicationBuyerForm(ApplicationCompanyForm):
+    """Application buyer form"""
+
+    email = CharField(
+        required=True, widget=EmailInput(attrs={"class": "form-control"})
+    )
+    phone_number = CharField(
+        required=True, widget=TextInput(attrs={"class": "form-control"})
+    )
+
+
+class ApplicationRecipientForm(ApplicationCompanyForm):
+    """Application recipient form"""
+
+    pass  # pylint: disable=unnecessary-pass
 
 
 class ApplicationPersonDetailForm(ModelForm):
@@ -92,15 +124,13 @@ class ApplicationPersonDetailForm(ModelForm):
             "phone",
         ]
         widgets = {
-            "first_name": TextFloatingInputWidget(attrs={"label": "Imię"}),
-            "last_name": TextFloatingInputWidget(attrs={"label": "Nazwisko"}),
-            "address": TextFloatingInputWidget(attrs={"label": "Adres"}),
-            "postal_code": TextFloatingInputWidget(
-                attrs={"label": "Kod pocztowy"}
-            ),
-            "city": TextFloatingInputWidget(attrs={"label": "Miejscowość"}),
-            "email": EmailFloatingInputWidget(attrs={"label": "Adres E-mail"}),
-            "phone": TextFloatingInputWidget(attrs={"label": "Numer telefonu"}),
+            "first_name": TextInput(attrs={"class": "form-control"}),
+            "last_name": TextInput(attrs={"class": "form-control"}),
+            "address": TextInput(attrs={"class": "form-control"}),
+            "postal_code": TextInput(attrs={"class": "form-control"}),
+            "city": TextInput(attrs={"class": "form-control"}),
+            "email": EmailInput(attrs={"class": "form-control"}),
+            "phone": TextInput(attrs={"class": "form-control"}),
         }
 
 
@@ -182,7 +212,7 @@ class ApplicationParticipantForm(ModelForm):
         required=True, widget=EmailInput(attrs={"class": "form-control"})
     )
     phone = CharField(
-        required=True, widget=TextInput(attrs={"class": "form-control"})
+        required=False, widget=TextInput(attrs={"class": "form-control"})
     )
 
     def clean_email(self):
@@ -215,7 +245,9 @@ class ApplicationAdditionalInformationForm(ModelForm):
             "additional_information",
         ]
         widgets = {
-            "additional_information": Textarea(attrs={"class": "form-control"})
+            "additional_information": Textarea(
+                attrs={"class": "form-control", "cols": "40", "rows": "5"}
+            )
         }
 
 

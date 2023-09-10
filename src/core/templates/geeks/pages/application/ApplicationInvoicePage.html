@@ -7,7 +7,7 @@
         <div class="card mb-4">
             <!-- Card header -->
             <div class="card-header">
-                <h3 class="mb-0">Krok {{step_number}}: {{step_title}}</h3>
+                <h3 class="mb-0"><span class="text-primary">Krok {{step_number}}:</span> {{step_title}}</h3>
                 <span>{{step_description}}</span>
             </div>
             <!-- Card body -->
@@ -36,13 +36,13 @@
                     method="post"
                 >
                     {% csrf_token %}
-                    {{form.invoice_type}}
+                    {{form_invoice.invoice_type}}
 
                     <div class="mb-3 col-12 col-md-12">
                         <label class="form-label" for="id_invoice_email">
                             E-mail do faktury <span class="text-danger">*</span>
                         </label>
-                        {{form.invoice_email}}
+                        {{form_invoice.invoice_email}}
                         <small>
                             Adres e-mail na który zostanie wysłana faktura elektroniczna po szkoleniu
                         </small>
@@ -51,7 +51,16 @@
                         <label class="form-label" for="id_vat_exemption">
                             Zwolnienie z VAT <span class="text-danger">*</span>
                         </label>
-                        {{form.vat_exemption}}
+                        {{form_invoice.vat_exemption}}
+                    </div>
+
+                    <hr>
+
+                    <div class="mb-3 col-12 col-md-12">
+                        <label class="form-label fw-normal" for="id_additional_information">
+                            Dodatkowe uwagi (opcjonalnie)
+                        </label>
+                        {{form_additional_info.additional_information}}
                     </div>
             
                     {% include './components/next_previous_buttons.html' %}

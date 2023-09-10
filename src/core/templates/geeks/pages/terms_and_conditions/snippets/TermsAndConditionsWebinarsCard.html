@@ -1,3 +1,100 @@
+  <!-- pageheader -->
+  <section class="py-10">
+   <div class="container">
+       <div class="row justify-content-center">
+           <div class="col-lg-8 col-md-12 col-12">
+               <!-- text center -->
+               <div class="text-center">
+                   <h1 class="display-3 fw-bold">§ Regulamin świadczenia usług szkoleniowych</h1>
+               </div>
+           </div>
+       </div>
+   </div>
+</section>
+<!-- content -->
+<section class="pb-10">
+   <div class="container">
+       <div class="row justify-content-center">
+           <div class="col-lg-8 col-md-12 col-12">
+               <!-- date -->
+               <div class="py-3 mb-5 border-bottom" style="text-align: right;">
+                   Data modyfikacji: <span class="text-primary">5 lipca 2023</span>
+               </div>
+               
+               {% comment %} 1. {% endcomment %}
+               <h2 class="fw-bold mb-3">1. Organizator</h2>
+               <p>Szkolenia organizuje Wykładowca.pl Tomasz Howaniec, w skrócie zwany Wykładowca.pl, z siedzibą w 41-208 Sosnowiec ul. Wojska Polskiego, nr 8<br>NIP: 644-356-26-97<br>REGON: 520095021.</p>
+               
+               {% comment %} 2. {% endcomment %}
+               <h2 class="fw-bold mb-3">2. Szkolenia</h2>
+               <ol>
+                  <li>Wykładowca.pl Tomasz Howaniec zobowiązuje się przeprowadzić na rzecz Zamawiającego szkolenie określone w karcie zgłoszeniowej.</li>
+                  <li>Szkolenia realizowane są według programu i na warunkach umieszczonych w ofercie szkolenia.</li>
+                  <li>Zmiana tematu, terminu szkolenia wymaga formy pisemnej pod rygorem nieważności.</li>
+                  <li>Zasady organizacji szkoleń zawarte są w niniejszym Regulaminie umieszczonym na stronie wykladowca.pl</li>
+                  <li>W celu zagwarantowania najwyższej jakości usług szkoleniowych uczestnicy szkolenia zostaną poproszeni o wypełnienie ankiet ewaluacyjnych, oceniających organizację, metodykę szkolenia oraz trenerów prowadzących.</li>
+               </ol>
+
+               {% comment %} 3. {% endcomment %}
+               <h2 class="fw-bold mb-3">3. Warunki uczestnictwa</h2>
+               <ol>
+                  <li>Informacja o organizowanych szkoleniach przekazywana jest potencjalnym uczestnikom w formie informacji publikowanych na stronie internetowej firmy wykladowca.pl, działań marketingowo - promocyjnych oraz poprzez telemarketing.</li>
+                  <li>Podstawą uczestnictwa w szkoleniu jest przesłanie zgłoszenia elektronicznego poprzez formularz na stronie internetowej wykladowca.pl, ewentualnie przesłanie wypełnionej i podpisanej karty zgłoszeniowej pocztą lub na adres e-mail: biuro@wykladowca.pl</li>
+                  <li>W przypadku zapisu przez formularz na stronie internetowej wykladowca.pl potwierdzenie o przyjęciu zgłoszenia zostaje przesłane automatycznie na adres e-mail osoby zgłaszającej oraz każdego z podanych przez osobę zgłaszającą uczesntików.</li>
+                  <li>W przypadku zapisu poprzez kartę zgłoszeniową potwierdzenie o przyjęciu zgłoszenia następuje mailowo do 48 godzin po otrzymaniu karty zgłoszeniowej, na podstawie informacji zawartych w przesłanej karcie zgłoszeniowej.</li>
+                  <li>Rezygnacji z uczestnictwa w szkoleniu, bez ponoszenia kosztów, Zamawiający może dokonać pisemnie (e-mail'em) w terminie nie później niż 2 dni robocze przed planowanym szkoleniem. Brak informacji o rezygnacji ze szkolenia lub brak uczestnictwa w szkoleniu nie zwalnia Zamawiającego od dokonania wpłaty za szkolnie.</li>
+                  <li>Terminem rezygnacji jest data wpływu stosownej pisemnej informacji.</li>
+                  <li>W każdym czasie Zamawiający może wyznaczyć innego uczestnika szkolenia.</li>
+               </ol>
+               
+               {% comment %} 4. {% endcomment %}
+               <h2 class="fw-bold mb-3">4. Odwołanie oraz zmiany terminu szkolenia</h2>
+             <ol>
+                <li>Organizator zastrzega sobie prawo do odwołania terminu szkolenia na 2 dni przed planowanym dniem szkolenia, w sytuacjach losowych na 1 dzień przed planowanym dniem szkolenia.</li>
+                <li>W przypadku odwołania szkolenia Organizator zastrzega sobie prawo do kontaktu telefonicznego bądź mailowego z uczestnikami odwołanego szkolenia lub osobą zgłaszającą wpisaną w zgłoszniu odwołanego szkolenia w celu ewentualnego przeniesienia zgłoszenia na inny termin szkolenia.</li>
+                <li>Szkolenie może być odwołane poprzez kontakt telefoniczny lub za pomocą poczty elektronicznej.</li>
+                <li>W przypadku odwołania szkolenia przysługuje zwrot wpłaconych kwot bez jakichkolwiek potrąceń, nie przysługują natomiast z tego powodu żadne odsetki.</li>
+                <li>Uczestnik może dokonać zmiany terminu szkolenia po uprzednim uzgodnieniu z Organizatorem poprzez kontakt emaliowy lub telefoniczny.</li>
+             </ol>
+
+               {% comment %} 5. {% endcomment %}
+               <h2 class="fw-bold mb-3">5. Opłaty za szkolenia i warunki płatności</h2>
+             <ol>
+                <li>Aktualne ceny szkoleń otwartych (Online &amp; Stacjonarne) oraz co obejmuje cena prezentowane są na stronie internetowej oraz w ofercie szkolenia.</li>
+                <li>Ceny szkoleń wewnętrznych (zamkniętych) ustalane są indywidualnie z Zamawiającym.</li>
+                <li>Płatność za szkolenie można dokonać przelewem na konto organizatora nr 31 1050 1360 1000 0097 4446 4901 w terminie do {{INVOICE_DEADLINE_DAYS}} dni od dnia otrzymania faktury za szkolenie lub w przypadku szkoleń stajonarnych gotówką w dniu szkolenia.</li>
+                <li>Dla stałych klientów istnieje możliwość uzyskania zniżek. Udzielane rabaty nie sumują się oraz nie można ich łączyć z innymi promocjami. W przypadku szkoleń wewnętrznych (zamkniętych) dla firm obowiązują indywidualne ustalenia.</li>
+             </ol>
+
+               {% comment %} 6. {% endcomment %}
+               <h2 class="fw-bold mb-3">6. Reklamacje</h2>
+             <ol>
+                <li>Zamawiający może składać reklamacje dotyczące szkoleń w formie pisemnej doWykładowca.pl Tomasz Howaniec najpóźniej w terminie {{INVOICE_DEADLINE_DAYS}} dni od daty zakończenia szkolenia.</li>
+                <li>Organizator winien rozpatrzyć reklamację w ciągu 7 dni od daty otrzymania i w tym terminie udzielić pisemnych wyjaśnień.</li>
+             </ol>
+
+               {% comment %} 7. {% endcomment %}
+               <h2 class="fw-bold mb-3">7. Odpowiedzialność</h2>
+             <ol>
+                <li>Organizator oświadcza, że treści przekazane przez niego w trakcie szkolenia mają charakter wyłącznie edukacyjny.</li>
+                <li>Organizator nie ponosi żadnej odpowiedzialności za szkody powstałe u Uczestników lub osób trzecich, w związku lub na skutek wykorzystania przez Uczestników informacji, wiedzy lub umiejętności zdobytych w trakcie szkolenia, w sposób niezgodny z ich przeznaczeniem.</li>
+                <li>Organizator nie ponosi odpowiedzialności za błędy, usterki, nieprawidłowości w dostarczonych przez wykładowców materiałach szkoleniowych.</li>
+             </ol>
+
+               {% comment %} 8. {% endcomment %}
+               <h2 class="fw-bold mb-3">8. Postanowienia końcowe</h2>
+             <ol>
+                <li>Wszelkie zmiany w niniejszym regulaminie, stałe lub tymczasowe, wymagają formy pisemnej. Zmiany w regulaminie wchodzą w życie z dniem ich ogłoszenia.</li>
+                <li>W sprawach nie uregulowanych niniejszym regulaminem, zastosowanie mają przepisy Kodeksu Cywilnego. </li>
+             </ol>
+
+           </div>
+       </div>
+   </div>
+</section>
+
+
+{% comment %} 
 <div class="card">
     <div class="card-header">
         <h1 class="card-title fs-1">§ Regulamin świadczenia usług szkoleniowych</h1>
@@ -109,3 +206,4 @@
        </div>
     </div>
  </div>
+  {% endcomment %}

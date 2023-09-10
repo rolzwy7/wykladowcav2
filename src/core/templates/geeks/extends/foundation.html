@@ -39,7 +39,9 @@
     {% block head_stylesheets %}{% endblock head_stylesheets %}
   </head>
 
+  {% block body_tag %}
   <body>
+  {% endblock body_tag %}
     <!-- Page Content -->
     {% block navbar %}
       {% include 'geeks/components/navbar.html' %}

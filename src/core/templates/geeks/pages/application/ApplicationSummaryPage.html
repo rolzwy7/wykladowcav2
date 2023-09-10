@@ -7,7 +7,7 @@
         <div class="card mb-4">
             <!-- Card header -->
             <div class="card-header">
-                <h3 class="mb-0">Krok {{step_number}}: {{step_title}}</h3>
+                <h3 class="mb-0"><span class="text-primary">Krok {{step_number}}:</span> {{step_title}}</h3>
                 <span>{{step_description}}</span>
             </div>
             <!-- Card body -->
@@ -30,18 +30,52 @@
                         <td>{{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}</td>
                     </tr>
                     <tr>
-                        <th scope="row" style="width:175px;">Wykładowca</th>
+                        <th scope="row" class="border-bottom-0" style="width:175px;">Wykładowca</th>
                         <td>{{webinar.lecturer.fullname}}</td>
                     </tr>
                     </tbody>
                 </table>
                 <hr>
 
+                {% with application.submitter as submitter %}
+                {% if submitter %}
+                {% comment %} Nabywca {% endcomment %}
+                <div class="d-flex justify-content-between">
+                    <div><h3>Dane kontaktowe:</h3></div>
+                    <div class="fw-bold">
+                        {% if application.application_type == "COMPANY" %}
+                        <a href="{% url 'core:application_buyer_page' uuid=application.uuid %}">
+                        {% elif application.application_type == "JSFP" %}
+                        <a href="{% url 'core:application_buyer_recipient_page' uuid=application.uuid %}">
+                        {% elif application.application_type == "PRIVATE_PERSON" %}
+                        <a href="{% url 'core:application_person_details_page' uuid=application.uuid %}">
+                        {% endif %}
+                            <i class="bi bi-pencil-square"></i>
+                            Edytuj
+                        </a>
+                    </div>
+                </div>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th scope="row" style="width:175px;">Telefon kontaktowy</th>
+                        <td>{{submitter.email}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="border-bottom-0" style="width:175px;">E-mail kontaktowy</th>
+                        <td>{{submitter.phone}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <hr>
+                {% endif %}
+                {% endwith %}
+
                 {% comment %} Uczestnicy {% endcomment %}
                 <div class="d-flex justify-content-between">
                     <div><h3>Uczestnicy:</h3></div>
                     <div class="fw-bold">
-                        <a href="#">
+                        <a href="{% url 'core:application_participants_page' uuid=application.uuid %}">
                             <i class="bi bi-pencil-square"></i>
                             Edytuj
                         </a>
@@ -68,13 +102,20 @@
                     </tbody>
                 </table>
                 <hr>
-
+                
                 {% with application.buyer as company %}
+                {% if company %}
                 {% comment %} Nabywca {% endcomment %}
                 <div class="d-flex justify-content-between">
                     <div><h3>Nabywca:</h3></div>
                     <div class="fw-bold">
-                        <a href="#">
+                        {% if application.application_type == "COMPANY" %}
+                        <a href="{% url 'core:application_buyer_page' uuid=application.uuid %}">
+                        {% elif application.application_type == "JSFP" %}
+                        <a href="{% url 'core:application_buyer_recipient_page' uuid=application.uuid %}">
+                        {% elif application.application_type == "PRIVATE_PERSON" %}
+                        <a href="{% url 'core:application_person_details_page' uuid=application.uuid %}">
+                        {% endif %}
                             <i class="bi bi-pencil-square"></i>
                             Edytuj
                         </a>
@@ -99,21 +140,28 @@
                         <td>{{company.postal_code}}</td>
                     </tr>
                     <tr>
-                        <th scope="row" style="width:175px;">Miejscowość</th>
+                        <th scope="row" class="border-bottom-0" style="width:175px;">Miejscowość</th>
                         <td>{{company.city}}</td>
                     </tr>
                     </tbody>
                 </table>
                 <hr>
+                {% endif %}
                 {% endwith %}
                 
                 {% comment %} Odbiorca {% endcomment %}
-                {% if application.recipient %}
                 {% with application.recipient as company %}
+                {% if company %}
                 <div class="d-flex justify-content-between">
                     <div><h3>Odbiorca:</h3></div>
                     <div class="fw-bold">
-                        <a href="#">
+                        {% if application.application_type == "COMPANY" %}
+                        <a href="{% url 'core:application_buyer_page' uuid=application.uuid %}">
+                        {% elif application.application_type == "JSFP" %}
+                        <a href="{% url 'core:application_buyer_recipient_page' uuid=application.uuid %}">
+                        {% elif application.application_type == "PRIVATE_PERSON" %}
+                        <a href="{% url 'core:application_person_details_page' uuid=application.uuid %}">
+                        {% endif %}
                             <i class="bi bi-pencil-square"></i>
                             Edytuj
                         </a>
@@ -134,20 +182,20 @@
                         <td>{{company.postal_code}}</td>
                     </tr>
                     <tr>
-                        <th scope="row" style="width:175px;">Miejscowość</th>
+                        <th scope="row" class="border-bottom-0" style="width:175px;">Miejscowość</th>
                         <td>{{company.city}}</td>
                     </tr>
                     </tbody>
                 </table>
                 <hr>
-                {% endwith %}
                 {% endif %}
+                {% endwith %}
 
                 {% with application.invoice as invoice %}
                 <div class="d-flex justify-content-between">
                     <div><h3>Faktura:</h3></div>
                     <div class="fw-bold">
-                        <a href="#">
+                        <a href="{% url 'core:application_invoice_page' uuid=application.uuid %}">
                             <i class="bi bi-pencil-square"></i>
                             Edytuj
                         </a>
@@ -164,7 +212,7 @@
                         <td>{{invoice.invoice_email}}</td>
                     </tr>
                     <tr>
-                        <th scope="row" style="width:175px;">Zwolnienie z VAT</th>
+                        <th scope="row" class="border-bottom-0" style="width:175px;">Zwolnienie z VAT</th>
                         <td>{{invoice.get_vat_exemption_display}}</td>
                     </tr>
                     </tbody>
@@ -176,7 +224,7 @@
                 <div class="d-flex justify-content-between">
                     <div><h3>Dodatkowe uwagi:</h3></div>
                     <div class="fw-bold">
-                        <a href="#">
+                        <a href="{% url 'core:application_invoice_page' uuid=application.uuid %}">
                             <i class="bi bi-pencil-square"></i>
                             Edytuj
                         </a>
@@ -221,6 +269,16 @@
                         <div class="d-flex justify-content-center">
                             <button
                                 type="button"
+                                class="btn btn-warning mt-3 w-100"
+                                data-bs-toggle="modal"
+                                data-bs-target=".modal-card-pdf"
+                            >
+                            Pobierz kartę zgłoszeniową PDF
+                            </button>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button
+                                type="button"
                                 class="btn btn-light mt-3 w-100"
                                 data-bs-toggle="modal"
                                 data-bs-target=".modal-terms-of-service"
@@ -246,16 +304,59 @@
         </div> 
     </div>
 </div>
-{% endblock content %}
+<div class="modal fade modal-card-pdf" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title">Pobierz kartę zgłoszeniową</h5>
+             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+             </button>
+          </div>
+          <div class="modal-body">
+             <p>
+                Kliknij poniższy przycisk, aby pobrać kartę zgłoszeniową.
+             </p>
+             <p class="text-danger fw-bold">
+                Uwaga po kliknięciu przycisku należy cierpiliwe poczekać na wygenerowanie karty. <br>
+                Może to potrwać nawet do 30 sekund.
+             </p>
+             <div class="text-center">
+                <a
+                   href="{% url 'core:application_pdf_card' uuid=application.uuid %}"
+                   target="_blank"
+                   class="btn btn-flex btn-warning fw-bold border-0 me-3">
+                Pobierz kartę zgłoszeniową
+                </a>
+             </div>
+             <p class="mt-3">
+                Podpisaną kartę zgłoszeniową należy odesłać na adres <b>{{COMPANY_OFFICE_EMAIL}}</b>
+             </p>
+          </div>
+          <div class="modal-footer">
+             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij okno</button>
+          </div>
+       </div>
+    </div>
+ </div>
 
-{% block body_scripts %}
-<div class="modal fade modal-terms-of-service" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-        {% include 'core/pages/terms_and_conditions/snippets/TermsAndConditionsWebinarsCard.html' %}
+ <div class="modal fade modal-terms-of-service" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            {% include 'core/pages/terms_and_conditions/snippets/TermsAndConditionsWebinarsCard.html' %}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij okno</button>
+         </div>
+      </div>
     </div>
   </div>
-</div>
+ {% endblock content %}
+
+{% block body_scripts %}
 <script src="{% static 'js/htmx.min.js' %}"></script>
 <script>
     document.body.addEventListener('htmx:configRequest', (event) => {

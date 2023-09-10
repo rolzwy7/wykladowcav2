@@ -24,11 +24,11 @@ def application_summary_page(request, uuid):
     form_service = ApplicationFormService(
         webinar, application, WebinarApplicationStep.SUMMARY
     )
-    form_service.redirect_on_application_error()
+    # form_service.redirect_on_application_error()
     participants = WebinarParticipant.manager.filter(application=application)
 
-    if not application.submitter:
-        return redirect(form_service.get_first_step_url())
+    # if not application.submitter:
+    #     return redirect(form_service.get_first_step_url())
 
     if request.method == POST and application.status == ApplicationStatus.INIT:
         form = ApplicationSummarySubmitForm(request.POST)

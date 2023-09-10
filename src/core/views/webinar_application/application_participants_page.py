@@ -52,14 +52,17 @@ def application_participants_page(request, uuid: str):
 
                 # Save new participants
                 for form in formset.forms:
-                    participant = WebinarParticipant(
-                        application=application,
-                        first_name=form.cleaned_data["first_name"],
-                        last_name=form.cleaned_data["last_name"],
-                        email=form.cleaned_data["email"],
-                        phone=form.cleaned_data["phone"],
-                    )
+                    participant = form.save(commit=False)
+                    participant.application = application
                     participant.save()
+                    # participant = WebinarParticipant(
+                    #     application=application,
+                    #     first_name=form.cleaned_data["first_name"],
+                    #     last_name=form.cleaned_data["last_name"],
+                    #     email=form.cleaned_data["email"],
+                    #     phone=form.cleaned_data["phone"],
+                    # )
+                    # participant.save()
 
             return service.get_next_step_redirect()
     else:

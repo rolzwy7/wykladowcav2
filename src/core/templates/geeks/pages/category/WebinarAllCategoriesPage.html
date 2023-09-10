@@ -60,7 +60,11 @@
         {% for subcategory, subcategory_count in subcategories %}
         <div class="col-xl-4 col-lg-6 col-md-6 col-12">
           <!-- Card -->
-          <div class="card mb-4 card-hover">
+          <div
+            class="card mb-4 card-hover"
+            onclick="window.location.href='{% url 'core:webinar_category_page' slug=subcategory.slug %}'"
+            style="cursor:pointer;"
+          >
             <div class="d-flex justify-content-between align-items-center p-4">
               <div class="d-flex">
                 <a href="{% url 'core:webinar_category_page' slug=subcategory.slug %}">

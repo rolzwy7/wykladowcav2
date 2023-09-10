@@ -1,10 +1,12 @@
 # flake8: noqa
 from .application_forms import (
     ApplicationAdditionalInformationForm,
+    ApplicationBuyerForm,
     ApplicationCompanyForm,
     ApplicationInvoiceForm,
     ApplicationParticipantForm,
     ApplicationPersonDetailForm,
+    ApplicationRecipientForm,
     ApplicationSubmitterForm,
     ApplicationSummarySubmitForm,
     ApplicationTypeForm,

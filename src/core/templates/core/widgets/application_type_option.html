@@ -1,6 +1,7 @@
 <div class="form-check fs-3 mt-4">
     <input
         class="form-check-input"
+        style="cursor: pointer;"
         {% if widget.required %}
         required
         {% endif %}
@@ -12,11 +13,11 @@
         checked
         {% endif %}
     />
-    <label class="form-check-label" for="{{widget.attrs.id}}-{{option.value}}">
+    <label class="form-check-label" style="cursor: pointer;" for="{{widget.attrs.id}}-{{option.value}}">
     {% if option.value == "COMPANY" %}
-        <b>Firma</b> (Nabywca)
+        <b>Firma</b> <br> (Nabywca)
     {% elif option.value == "JSFP" %}
-        <b>JSFP</b> (Nabywca / Odbiorca)
+        <b>Jednostka Sektora Finansów Publicznych</b> <br> (Nabywca / Odbiorca)
     {% elif option.value == "PRIVATE_PERSON" %}
         <b>Osoba prywatna</b>
     {% endif %}

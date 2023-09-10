@@ -72,7 +72,7 @@ class ApplicationPdfCardService:
         self.application_service = ApplicationService(application)
 
         self.number_of_columns = 12
-        self.number_of_rows = 14
+        self.number_of_rows = 13
 
         self.number_of_rows += (
             self.application_service.get_valid_participants().count()
@@ -90,43 +90,43 @@ class ApplicationPdfCardService:
         self.font_bold = load_font(PdfCardFonts.LatoBold)
 
     def _add_submitter_row(self, submitter):
-        self._add_header_row("Osoba zgłaszająca")
-        self.table.add(
-            TableCell(
-                Paragraph(
-                    "Imię:",
-                    font=self.font_bold,
-                ),
-                column_span=3,
-            )
-        )
-        self.table.add(
-            TableCell(
-                Paragraph(
-                    submitter.first_name,
-                    font=self.font_regular,
-                ),
-                column_span=3,
-            )
-        )
-        self.table.add(
-            TableCell(
-                Paragraph(
-                    "Nazwisko:",
-                    font=self.font_bold,
-                ),
-                column_span=3,
-            )
-        )
-        self.table.add(
-            TableCell(
-                Paragraph(
-                    submitter.last_name,
-                    font=self.font_regular,
-                ),
-                column_span=3,
-            )
-        )
+        self._add_header_row("Dane kontaktowe")
+        # self.table.add(
+        #     TableCell(
+        #         Paragraph(
+        #             "Imię:",
+        #             font=self.font_bold,
+        #         ),
+        #         column_span=3,
+        #     )
+        # )
+        # self.table.add(
+        #     TableCell(
+        #         Paragraph(
+        #             submitter.first_name,
+        #             font=self.font_regular,
+        #         ),
+        #         column_span=3,
+        #     )
+        # )
+        # self.table.add(
+        #     TableCell(
+        #         Paragraph(
+        #             "Nazwisko:",
+        #             font=self.font_bold,
+        #         ),
+        #         column_span=3,
+        #     )
+        # )
+        # self.table.add(
+        #     TableCell(
+        #         Paragraph(
+        #             submitter.last_name,
+        #             font=self.font_regular,
+        #         ),
+        #         column_span=3,
+        #     )
+        # )
         self.table.add(
             TableCell(
                 Paragraph(
@@ -417,18 +417,20 @@ class ApplicationPdfCardService:
         self.table.add(
             TableCell(
                 Paragraph(
-                    "Cena NETTO (za uczestnika):",
+                    "Cena NETTO:",
                     font=self.font_bold,
                 ),
                 column_span=3,
                 background_color=HexColor("D3D3D3"),
             )
         )
-        total_price_netto = self.application_service.get_total_price_netto()
+        total_price_netto = (
+            self.application_service.get_preview_total_price_netto()
+        )
         self.table.add(
             TableCell(
                 Paragraph(
-                    f"{total_price_netto} zł {PRICE_ADNOTATION}",
+                    f"{total_price_netto} zł {PRICE_ADNOTATION} za uczestnika",
                     font=self.font_regular,
                 ),
                 column_span=3,
@@ -520,7 +522,7 @@ class ApplicationPdfCardService:
             Paragraph(
                 " ".join(
                     [
-                        "Przesłanie karty zgłoszenia stanowi potwierdzenie",
+                        "Przesłanie karty zgłoszeniowej stanowi potwierdzenie",
                         "przyjęcia oferty oraz potwierdzenie zapoznania się z",
                         "regulaminem świadczenia usług szkoleniowych",
                         "dostępnym na stronie",
