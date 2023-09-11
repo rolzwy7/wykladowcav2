@@ -315,17 +315,20 @@ class Command(BaseCommand):
             loop_counter += 1
             loop_counter = loop_counter % 10_000
 
+            print("[*] Loop counter:", loop_counter)
+
             # Run on first and every 20th loop
-            if loop_counter % 20 == 1:
+            if loop_counter % 1200 == 1:
                 load_cache()
                 process_scan_inboxes()
+
+            print(f"\n[*] Cache has {len(INBOX_SCAN_CACHE):,} elements")
 
             # Run every loop
             process_check_mx(200)
             process_bounces(100)
             process_blacklist(100)
 
-            print(f"\n[*] Cache has {len(INBOX_SCAN_CACHE):,} elements")
             print(f"[*] Waiting {SLEEP_BETWEEN_LOOPS_SECONDS} seconds ...")
             time.sleep(SLEEP_BETWEEN_LOOPS_SECONDS)
 
