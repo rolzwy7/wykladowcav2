@@ -2,6 +2,20 @@ version: '3'
 
 services:
 
+  postgres_db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8085:8080
+
   redis:
     container_name: redis_db
     image: redis:7
@@ -37,6 +51,7 @@ services:
     ports:
       - 8080:8080
     depends_on:
+      - postgres_db
       - worker
 
   flower:
