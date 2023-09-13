@@ -35,6 +35,7 @@ flufl-bounce = "^4.0"
 chardet = "^5.2.0"
 pymongo = "^4.4.1"
 django-debug-toolbar = "^4.2.0"
+psycopg2 = "^2.9.7"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"
