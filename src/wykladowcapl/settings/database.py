@@ -1,4 +1,10 @@
+import os
+
+from dotenv import load_dotenv
+
 from .base_profile import APP_ENV, BASE_DIR
+
+load_dotenv()
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -9,10 +15,11 @@ elif APP_ENV == "staging":
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
-            "OPTIONS": {
-                "service": "postgres_db_service",
-                "passfile": ".pgpass",
-            },
+            "HOST": os.environ.get("DB_HOST"),
+            "PORT": os.environ.get("DB_PORT"),
+            "NAME": os.environ.get("DB_NAME"),
+            "USER": os.environ.get("DB_USER"),
+            "PASSWORD": os.environ.get("DB_PASSWORD"),
         }
     }
 elif APP_ENV == "develop":
