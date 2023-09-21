@@ -21,9 +21,9 @@ class HomepageService:
 
     def get_homepage_lecturers(self):
         """Get lecturers for homepage"""
-        return Lecturer.manager.get_lecturers_visible_on_page().order_by("?")[
-            :4
-        ]
+        return Lecturer.manager.get_lecturers_visible_on_homepage().order_by(
+            "order_value"
+        )[:4]
 
     def get_context(self):
         """Get context for homepage"""

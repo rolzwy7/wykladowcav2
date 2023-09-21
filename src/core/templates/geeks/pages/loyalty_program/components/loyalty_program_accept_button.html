@@ -1,0 +1,14 @@
+<section class="py-5">
+    <div class="container">
+       <div class="row justify-content-center">
+          <div class="col-lg-12 col-md-12 col-12">
+             <div class="d-flex justify-content-center">
+                 <form method="post" action="{% url 'core:loyalty_program_terms_of_service_accept_page' %}">
+                     {% csrf_token %}
+                     <input type="submit" class="btn btn-success" value="Akceptuję regulamin programu parterskiego">
+                  </form>
+             </div>
+          </div>
+       </div>
+    </div>
+ </section>

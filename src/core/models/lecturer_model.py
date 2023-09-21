@@ -10,6 +10,7 @@ from django.db.models import (
     Model,
     OneToOneField,
     PositiveIntegerField,
+    Q,
     QuerySet,
     SlugField,
     TextField,
@@ -28,6 +29,12 @@ class LecturerManager(Manager):
         """Returns lecturers that are visible on website"""
         return self.get_queryset().filter(visible_on_page=True)
 
+    def get_lecturers_visible_on_homepage(self) -> QuerySet["Lecturer"]:
+        """Returns lecturers that are visible on homepage"""
+        return self.get_queryset().filter(
+            Q(visible_on_page=True) & Q(visible_on_homepage=True)
+        )
+
 
 class Lecturer(Model):
     """This model represents Lecturer"""
@@ -39,6 +46,14 @@ class Lecturer(Model):
         default=True,
         help_text="Czy wykładowca ma być widoczny na stronie",
     )
+
+    visible_on_homepage = BooleanField(
+        "Widoczny na stronie głównej",
+        default=False,
+        help_text="Czy wykładowca ma być widoczny na stronie głównej",
+    )
+
+    order_value = PositiveIntegerField("Wartość sortująca", default=100)
 
     fullname = CharField("Imie i Nazwisko", max_length=100)
 

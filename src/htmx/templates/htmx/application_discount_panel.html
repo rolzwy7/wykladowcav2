@@ -18,8 +18,8 @@
         <span class="input-group-text p-0">
           <button
             type="submit"
-            class="btn btn-icon btn-primary py-2"
-            style="border-top-left-radius: 0; border-bottom-left-radius: 0; width:auto; padding:5px;"
+            class="btn btn-icon btn-primary py-2 px-4"
+            style="border-top-left-radius: 0; border-bottom-left-radius: 0; width:auto;"
           >
           Wprowadź kod
           </button>
@@ -62,19 +62,23 @@
     {% endfor %}
   </div>
   <!--end::Section-->
-
-  <span class="my-2 fs-7">
-    Cena za osobę po zniżkach: {{application.price_netto}}zł
-  </span>
 {% endif %}
 
-  <!--begin::Title-->
   <div class="separator separator-dashed my-2"></div>
-  <span class="my-2 fs-4 fw-bold">
-    Całkowita cena: <br> {{preview_total_price_netto}} zł
+  <span class="my-2 fs-5 fw-bold">
+
+    Cena za osobę:
+    {{application.price_netto}} zł
     {% if WE_ARE_TAX_EXEMPT or application.invoice.vat_exemption == "VAT_EXEMPTION_0" %}
       {{PRICE_ADNOTATION}}
     {% endif %}
+
+    <hr class="my-1">
+    
+    Całkowita cena: {{preview_total_price_netto}} zł
+    {% if WE_ARE_TAX_EXEMPT or application.invoice.vat_exemption == "VAT_EXEMPTION_0" %}
+      {{PRICE_ADNOTATION}}
+    {% endif %}
+  
   </span>
-  <!--end::Title-->
 </div>

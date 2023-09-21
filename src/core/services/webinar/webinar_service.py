@@ -34,16 +34,16 @@ class WebinarService:
                 "core:webinar_opinions_page",
                 "ki-like-shapes",
             ),
-            (
-                "Polecja i Zarabiaj",
-                "core:webinar_loyalty_program_page",
-                "ki-like-shapes",
-            ),
-            (
-                "FAQ",
-                "core:webinar_faq_page",
-                "ki-like-shapes",
-            ),
+            # (
+            #     "Polecja i Zarabiaj",
+            #     "core:webinar_loyalty_program_page",
+            #     "ki-like-shapes",
+            # ),
+            # ( # TODO: Finish FAQ
+            #     "FAQ",
+            #     "core:webinar_faq_page",
+            #     "ki-like-shapes",
+            # ),
         ]
         _tab_index = (
             tab_index if all([tab_index >= 0, tab_index < len(tabs)]) else 0

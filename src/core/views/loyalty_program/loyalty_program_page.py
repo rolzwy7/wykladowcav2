@@ -14,9 +14,7 @@ from core.services import LoyaltyProgramService
 @login_required(login_url="/logowanie/")
 def loyalty_program_terms_of_service_accept_page(request: HttpRequest):
     """Loyalty program terms of service accept page"""
-    template_name = (
-        "core/pages/loyalty_program/LoyaltyProgramTermsOfServiceAcceptPage.html"
-    )
+    template_name = "geeks/pages/loyalty_program/LoyaltyProgramTermsOfServiceAcceptPage.html"
     context = {}
     service = LoyaltyProgramService(request.user)  # type: ignore
 
@@ -33,7 +31,7 @@ def loyalty_program_terms_of_service_accept_page(request: HttpRequest):
 @login_required(login_url="/logowanie/")
 def loyalty_program_page(request: HttpRequest):
     """Loyalty program page"""
-    template_name = "core/pages/loyalty_program/LoyaltyProgramPage.html"
+    template_name = "geeks/pages/loyalty_program/LoyaltyProgramPage.html"
     service = LoyaltyProgramService(request.user)  # type: ignore
     error = ""
 

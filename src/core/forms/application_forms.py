@@ -212,7 +212,7 @@ class ApplicationParticipantForm(ModelForm):
         required=True, widget=EmailInput(attrs={"class": "form-control"})
     )
     phone = CharField(
-        required=False, widget=TextInput(attrs={"class": "form-control"})
+        required=True, widget=TextInput(attrs={"class": "form-control"})
     )
 
     def clean_email(self):

@@ -24,7 +24,11 @@
       {% for lecturer in lecturers %}
       <div class="col-xl-3 col-lg-4 col-md-6 col-12">
         <!-- card -->
-        <div class="card mb-4 card-hover">
+        <div
+          class="card mb-4 card-hover"
+          style="cursor: pointer;"
+          onclick="window.location.href='{% url 'core:lecturer_experience_page' slug=lecturer.slug %}'"
+        >
           <!-- img -->
           <div class="card-img-top">
             <img
@@ -45,18 +49,20 @@
               <div>
                 <span class="fs-6">
                   <i class="mdi mdi-star text-warning"></i>
-                  <span class="text-warning">4.5</span>
+                  <span class="text-warning">{% cycle '4.8' '4.9' '4.8' '4.9' %}</span>
                 </span>
               </div>
               <div>
-                <span class="fs-6 text-muted"
-                  ><span class="text-dark">9,692</span> Students</span
-                >
+                <span class="fs-6 text-muted">
+                  <span class="text-dark">{{lecturer.fake_stat_participants}}</span>
+                  Students
+                </span>
               </div>
               <div>
-                <span class="fs-6 text-muted"
-                  ><span class="text-dark">3</span> Course</span
-                >
+                <span class="fs-6 text-muted">
+                  <span class="text-dark">{{lecturer.fake_stat_webinars}}</span>
+                  Course
+                </span>
               </div>
             </div>
           </div>

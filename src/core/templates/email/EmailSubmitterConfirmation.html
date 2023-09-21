@@ -40,11 +40,12 @@
                     Płatności należy dokonać przelewem do {{INVOICE_DEADLINE_DAYS}} dni po szkoleniu.
                   </td>
                 </tr>
-                <tr>
+                
+                {% comment %} <tr>
                   <td style="border-collapse:collapse;padding-left:20px;padding-top:20px">
                     {% include './includes/EmailButton.html' with text="Szczegóły zgłoszenia" url="#" %}
                   </td>
-                </tr>
+                </tr> {% endcomment %}
                 
                   {% include './includes/EmailThankYouForChoosingUs.html' %}
               </tbody>

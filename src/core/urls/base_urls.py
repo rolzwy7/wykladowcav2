@@ -33,7 +33,7 @@ urlpatterns = [
     # path("api/", include("api.urls"), namespace="api"),
     path("szkolenia-online/", include(webinar_urlpatterns)),
     path("szkolenia/", include(category_urlpatterns)),
-    path("program-partnerski/", include(loyalty_urlpatterns)),
+    path("polecaj-i-zarabiaj/", include(loyalty_urlpatterns)),
     path("zgloszenie-online/", include(application_urlpatterns)),
     path("przypomnij-haslo/", include(forgot_password_urlpatterns)),
     path("rejestracja/", include(registration_urlpatterns)),

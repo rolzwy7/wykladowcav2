@@ -391,11 +391,12 @@
       <!--end::Content-->
     </div>
     <!--end::Wrapper-->
-    {% endblock content %} {% block body_scripts %}
+    {% endblock content %}
+    
+    {% block body_scripts %}
     <script>
       $("#kt_loyalty_program_payouts").DataTable();
       $("#kt_loyalty_program_incomes").DataTable();
     </script>
     {% endblock body_scripts %}
-  </div>
-</body>
+    

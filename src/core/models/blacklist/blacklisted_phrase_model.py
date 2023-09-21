@@ -1,8 +1,11 @@
-from django.db.models import CharField, Model
+from django.db.models import CharField, DateTimeField, Model
 
 
 class BlacklistedPhrase(Model):
     """Represents blacklisted phrase"""
+
+    created_at = DateTimeField(auto_now_add=True)
+    updated_at = DateTimeField(auto_now=True)
 
     phrase = CharField("Fraza", max_length=64, primary_key=True)
 

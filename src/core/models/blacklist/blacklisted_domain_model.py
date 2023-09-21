@@ -1,8 +1,11 @@
-from django.db.models import CharField, Model
+from django.db.models import CharField, DateTimeField, Model
 
 
 class BlacklistedDomain(Model):
     """Represents blacklisted domain"""
+
+    created_at = DateTimeField(auto_now_add=True)
+    updated_at = DateTimeField(auto_now=True)
 
     domain = CharField("Domena", max_length=100, primary_key=True)
     # TODO: validation, valid domain

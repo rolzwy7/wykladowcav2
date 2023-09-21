@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="row mt-0 mt-md-4">
-    <div class="col-lg-8 col-md-8 col-12">
+    <div class="col-lg-8 col-md-12 col-12">
         <div class="card mb-4">
             <!-- Card header -->
             <div class="card-header">
@@ -94,19 +94,12 @@
             </div>
         </div>                        
     </div>
-    <div class="col-lg-4 col-md-4 col-12">
-        <div class="card mb-4">
-            <!-- Card header -->
-            <div class="card-header">
-                <h3 class="mb-0">OOO</h3>
-                <span>OOO</span>
-            </div>
-            <!-- Card body -->
-            <div class="card-body">
-                123
-                
-            </div>
-        </div> 
+    <div class="col-lg-4 col-md-12 col-12">
+        {% comment %} Date and hour card {% endcomment %}
+        {% include 'geeks/pages/webinar/components/date_and_hour_card.html' with webinar=webinar hide_ctas="1" %}
+
+        {% comment %} What we offer {% endcomment %}
+        {% include 'geeks/pages/webinar/components/what_we_offer.html' with webinar=webinar %}
     </div>
 </div>
 {% endblock content %}

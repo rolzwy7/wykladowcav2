@@ -577,19 +577,19 @@
               {% if request.user.is_staff %}
               <li>
                 <a class="dropdown-item" href="{% url 'admin:index' %}">
-                  <i class="fe fe-user me-2"></i>CMS
+                  <i class="fe fe-layers me-2"></i>CMS
                 </a>
               </li>
               <li>
                 <a class="dropdown-item" href="{% url 'core:crm_upcoming_webinars' %}">
-                  <i class="fe fe-user me-2"></i>CRM
+                  <i class="fe fe-zap me-2"></i>CRM
                 </a>
               </li>
               {% endif %}
               
               <li>
                 <a class="dropdown-item" href="{% url 'core:loyalty_program_page' %}">
-                  <i class="fe fe-user me-2"></i>Polecaj i Zarabiaj
+                  <i class="fe fe-award me-2"></i>Polecaj i Zarabiaj
                 </a>
               </li>
 
@@ -1224,11 +1224,13 @@
           </ul>
         </li>
         {% endcomment %}
-        <li class="nav-item dropdown dropdown-fullwidth">
+        
+        {% comment %} <li class="nav-item dropdown dropdown-fullwidth">
           <a class="nav-link dropdown-toggle" href="{% url 'core:webinar_all_categries_page' %}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Szkolenia Online
           </a>
-          {% comment %} <a
+          
+          <a
             class="btn btn-light-primary text-primary"
             href="home-academy.html#"
             data-bs-toggle="dropdown"
@@ -1236,7 +1238,7 @@
             aria-expanded="false"
           >
           <i class="fe fe-list me-2 align-middle"></i>Szkolenia Online
-          </a> {% endcomment %}
+          </a>
 
           <div class="dropdown-menu dropdown-menu-md">
             <div class="px-4 pt-2 pb-2">
@@ -1443,6 +1445,11 @@
               </div>
             </div>
           </div>
+        </li> {% endcomment %}
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'core:webinar_category_page' slug="wszystkie" %}">
+            Szkolenia Online
+          </a>
         </li>
         <li class="nav-item active">
           <a class="nav-link" href="{% url 'core:about_us_page' %}">
@@ -1454,7 +1461,18 @@
             Kontakt
           </a>
         </li>
-        <li class="nav-item dropdown">
+        <li class="nav-item active">
+          {% if request.user.is_authenticated %}
+          <a class="nav-link" href="{% url 'core:loyalty_program_page' %}">
+            Polecaj i Zarabiaj
+          </a>
+          {% else %}
+          <a class="nav-link" href="{% url 'core:loyalty_program_info_page' %}">
+            Polecaj i Zarabiaj
+          </a>
+          {% endif %}
+        </li>
+        {% comment %} <li class="nav-item dropdown">
           <a
             class="nav-link"
             href="home-academy.html#"
@@ -1527,14 +1545,14 @@
               </a>
             </div>
           </div>
-        </li>
+        </li> {% endcomment %}
       </ul>
-      <form class="mt-3 mt-lg-0 ms-lg-3 d-flex align-items-center">
+      {% comment %} <form class="mt-3 mt-lg-0 ms-lg-3 d-flex align-items-center">
 				<span class="position-absolute ps-3 search-icon">
 					<i class="fe fe-search"></i>
 				</span>
 				<input type="search" class="form-control ps-6" placeholder="Szukaj szkoleń">
-			</form>
+			</form> {% endcomment %}
     </div>
 
 

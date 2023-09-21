@@ -1,4 +1,4 @@
-<section class="py-lg-14 pt-8 py-10">
+<section class="py-lg-14 pt-8 py-10" id="polecaj-i-zarabiaj">
   <!-- container -->
   <div class="container">
     <div class="row">
@@ -84,11 +84,17 @@
             </div>
           </div>
           <!-- button -->
-
+          
           <div class="col-12 mt-8 text-center">
+            {% if request.user.is_authenticated %}
             <a href="{% url 'core:loyalty_program_terms_of_service_accept_page' %}" class="btn btn-primary">
               Dołącz teraz!
             </a>
+            {% else %}
+            <a href="{% url 'core:register_page' %}" class="btn btn-primary" target="_blank">
+              Stwórz konto!
+            </a>
+            {% endif %}
           </div>
         </div>
       </div>

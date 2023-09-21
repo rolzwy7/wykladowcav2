@@ -1,12 +1,8 @@
-from .base_profile import APP_ENV
+import os
 
-if APP_ENV == "develop":
-    FAKTUROWNIA_API_URL = "https://rolzwy7.fakturownia.pl"
-    FAKTUROWNIA_API_KEY = "FI6fTUUD8Pfjg7nFwG1M"
-elif APP_ENV == "production":
-    ...
-elif APP_ENV == "staging":
-    FAKTUROWNIA_API_URL = "https://rolzwy7.fakturownia.pl"
-    FAKTUROWNIA_API_KEY = "FI6fTUUD8Pfjg7nFwG1M"
-elif APP_ENV == "testing":
-    ...
+from dotenv import load_dotenv
+
+load_dotenv()
+
+FAKTUROWNIA_API_URL = os.environ.get("FAKTUROWNIA_API_URL")
+FAKTUROWNIA_API_KEY = os.environ.get("FAKTUROWNIA_API_KEY")

@@ -10,6 +10,9 @@ def default_expires_at():
 class BlacklistedEmailTemporary(Model):
     """Represents temporarily blacklisted email"""
 
+    created_at = DateTimeField(auto_now_add=True)
+    updated_at = DateTimeField(auto_now=True)
+
     email = EmailField("Adres E-mail", primary_key=True)
 
     expires_at = DateTimeField(

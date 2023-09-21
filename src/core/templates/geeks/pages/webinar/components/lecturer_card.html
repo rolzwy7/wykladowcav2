@@ -61,8 +61,11 @@
       </div>
     </div>
     <p>
-      {{lecturer.biography_email|truncatechars:150}}
-      <a href="#"> Zobacz pełny opis </a>
+      <div id="id_lecturer_short_desc">{{lecturer.biography_email|truncatechars:150}}</div>
+      <div id="id_lecturer_long_desc" class="d-none">{{lecturer.biography_email}}</div>
+      <a id="id_lecturer_toggle_desc" href="javascript:$('#id_lecturer_long_desc').toggleClass('d-none');$('#id_lecturer_short_desc').toggleClass('d-none');$('#id_lecturer_toggle_desc').addClass('d-none');">
+        Zobacz pełny opis
+      </a>
     </p>
     {% comment %}
     <div class="text-center">
