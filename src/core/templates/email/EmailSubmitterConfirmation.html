@@ -32,6 +32,14 @@
                 </tr>
                 <tr>
                   <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    Uczestnicy: <br>
+                    {% for participant in participants %}
+                      {{participant}}
+                    {% endfor %}
+                  </td>
+                </tr>
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
                     Faktura za udział w szkoleniu będzie wysłana do Państwa po zajęciach e-mailem.
                   </td>
                 </tr>
@@ -41,11 +49,13 @@
                   </td>
                 </tr>
                 
-                {% comment %} <tr>
+                <tr>
                   <td style="border-collapse:collapse;padding-left:20px;padding-top:20px">
-                    {% include './includes/EmailButton.html' with text="Szczegóły zgłoszenia" url="#" %}
+                    {% with BASE_URL|add:webinar_url as absolute_webinar_url %}
+                      {% include './includes/EmailButton.html' with text="Szczegóły szkolenia" url=absolute_webinar_url %}
+                    {% endwith %}
                   </td>
-                </tr> {% endcomment %}
+                </tr>
                 
                   {% include './includes/EmailThankYouForChoosingUs.html' %}
               </tbody>

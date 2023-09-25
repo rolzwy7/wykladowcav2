@@ -1,11 +1,12 @@
 from django.http import HttpResponse
+from django.urls import reverse
 from django.utils.timezone import now, timedelta
 
 from core.libs.notifications.email import (
     EmailTemplate,
     email_get_application_context,
 )
-from core.models import WebinarApplication, WebinarCertificate
+from core.models import WebinarApplication, WebinarCertificate, WebinarMetadata
 
 
 def crm_submitter_confirmation_email_preview(request):
@@ -20,10 +21,13 @@ def crm_submitter_confirmation_email_preview(request):
 
 def crm_participant_confirmation_email_preview(request):
     """Preview of email send to submitter after application send"""
-    application = WebinarApplication.manager.all().order_by("?")
+    application = WebinarApplication.manager.all().order_by("?").first()
+    if not application:
+        return HttpResponse("No application present in database")
+
     email_template = EmailTemplate(
         "email/EmailParticipantConfirmation.html",
-        email_get_application_context(application.first().id),  # type: ignore
+        email_get_application_context(application.id),  # type: ignore,
     )
     return HttpResponse(email_template.get_html())
 
@@ -66,11 +70,23 @@ def crm_invoice_email_preview(request):
 
 def crm_participant_preparation_email_preview(request):
     """Preview of preparation email"""
-    application = WebinarApplication.manager.all().order_by("?")
-    application_id: int = application.first().id  # type: ignore
+    application = WebinarApplication.manager.all().order_by("?").first()
+    if not application:
+        return HttpResponse("No application present in database")
+
+    webinar_metadata = WebinarMetadata.objects.get(webinar=application.webinar)
+
+    assets_url = reverse(
+        "core:webinar_assets_page",
+        kwargs={"uuid": webinar_metadata.assets_token},
+    )
+
     email_template = EmailTemplate(
         "email/EmailParticipantPreparation.html",
-        {**email_get_application_context(application_id)},
+        {
+            **email_get_application_context(application.id),  # type: ignore
+            "assets_url": assets_url,
+        },
     )
     return HttpResponse(email_template.get_html())
 

@@ -1,7 +1,8 @@
 from celery import chain, group
+from django.urls import reverse
 
 from core.consts import TelegramChats
-from core.models import Lecturer, Webinar, WebinarParticipant
+from core.models import Lecturer, Webinar, WebinarMetadata, WebinarParticipant
 from core.tasks import (
     params_create_clickmeeting_room,
     params_send_participant_preparation_email,
@@ -22,6 +23,7 @@ def after_webinar_confirm_dispatch(webinar: Webinar):
         WebinarParticipant.manager.get_valid_participants_for_webinar(webinar)
     )
     lecturer: Lecturer = webinar.lecturer
+    webinar_metadata = WebinarMetadata.objects.get(webinar=webinar)
 
     # Send ClickMeeting invitation to all application's participants
     clickmeeting_invitations = [
@@ -35,11 +37,16 @@ def after_webinar_confirm_dispatch(webinar: Webinar):
             task_send_clickmeeting_invitation_lecturer.s(lecturer.email)
         )
 
+    assets_url = reverse(
+        "core:webinar_assets_page",
+        kwargs={"uuid": webinar_metadata.assets_token},
+    )
+
     # Send preparation email to all participants
     preparation_emails = [
         task_send_participant_preparation_email.si(
             params_send_participant_preparation_email(
-                participant.email, participant.application.id
+                participant.email, participant.application.id, assets_url
             )
         )
         for participant in participants

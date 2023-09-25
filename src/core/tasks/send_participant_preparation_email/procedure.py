@@ -15,13 +15,14 @@ class SendParticipantPreparationEmailParams(BaseModel):
 
     application_id: int
     email: str
+    assets_url: str
 
 
-def params(email: str, application_id: int) -> str:
+def params(email: str, application_id: int, assets_url: str) -> str:
     """Create params"""
     json_dump = json.dumps(
         SendParticipantPreparationEmailParams(
-            email=email, application_id=application_id
+            email=email, application_id=application_id, assets_url=assets_url
         ).dict()
     )
     return json_dump
@@ -33,7 +34,10 @@ def send_participant_preparation_email(
     """Send participant confirmation email after application has been sent"""
     email_template = EmailTemplate(
         "email/EmailParticipantPreparation.html",
-        {**email_get_application_context(procedure_params.application_id)},
+        {
+            **email_get_application_context(procedure_params.application_id),
+            "assets_url": procedure_params.assets_url,
+        },
     )
     email_message = EmailMessage(
         email_template,
@@ -46,7 +50,3 @@ def send_participant_preparation_email(
         procedure_params.email,
     )
     email_message.send()
-
-    # TODO: eventlog_participant_confirmation_email(
-    #     procedure_params.webinar_id, procedure_params.email
-    # )

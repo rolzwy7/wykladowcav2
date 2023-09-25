@@ -26,6 +26,14 @@
                 </tr>
                 
                 <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-top:20px">
+                    {% with BASE_URL|add:assets_url as absolute_assets_url %}
+                      {% include './includes/EmailButton.html' with text="Pobierz materiały szkoleniowe" url=absolute_assets_url %}
+                    {% endwith %}
+                  </td>
+                </tr>
+                
+                <tr>
                   <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
                     <u>W osobnej wiadomości e-mail</u> otrzymają Państwo zaproszenie na szkolenie wraz z linkiem do platformy ClickMeeting.
                   </td>

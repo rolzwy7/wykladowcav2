@@ -5,6 +5,7 @@ from time import time
 import requests
 from django.conf import settings
 from django.template.defaultfilters import date as _date
+from django.utils.timezone import get_default_timezone
 
 CLICKMEETING_API_URL = settings.CLICKMEETING_API_URL
 CLICKMEETING_API_KEY = settings.CLICKMEETING_API_KEY
@@ -24,6 +25,7 @@ def create_clickmeeting_room(
     Returns:
         int: created room id
     """
+    tz = get_default_timezone()
     url = f"{CLICKMEETING_API_URL}/conferences"
     data = {
         "name": room_name,
@@ -32,7 +34,9 @@ def create_clickmeeting_room(
         "permanent_room": False,
         "access_type": "3",  # 3 = Token authentication
         "lobby_description": lobby_description.encode("utf8"),
-        "starts_at": _date(date, "Y-m-d H:i:s"),
+        "starts_at": _date(
+            date.astimezone(tz), "Y-m-d H:i:s"
+        ),  # apply timezone
         "duration": duration,
         "timezone": "Europe/Warsaw",
     }

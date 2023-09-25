@@ -81,16 +81,16 @@ def after_webinar_done_dispatch(webinar: Webinar):
         for participant in participants
     ]
 
-    chain(
-        # Create invoices
-        group(*invoice_jobs),
-        # Create and send certificates
-        group(*certificate_jobs),
-        # Send Telegram notification
-        task_send_telegram_notification.si(
-            f"Zrealizowano szkolenie #{webinar_id}",
-            TelegramChats.OTHER,
-        ),
+    # Dispatch invoice tasks
+    group(*invoice_jobs).apply_async()
+
+    # Dispatch certificate tasks
+    group(*certificate_jobs).apply_async()
+
+    # Send notification
+    task_send_telegram_notification.si(
+        f"Zrealizowano szkolenie #{webinar_id}",
+        TelegramChats.OTHER,
     ).apply_async()
 
     # Schedule periodic task: download recording

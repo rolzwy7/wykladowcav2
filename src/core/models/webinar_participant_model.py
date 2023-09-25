@@ -53,7 +53,7 @@ class WebinarParticipantManager(Manager):
         self,
         application: WebinarApplication,
     ) -> QuerySet["WebinarParticipant"]:
-        """Get all participants for given application (even no valid)"""
+        """Get all participants for given application (even not valid)"""
         return self.get_queryset().filter(
             # For given application
             Q(application=application)
