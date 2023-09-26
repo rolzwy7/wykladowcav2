@@ -245,8 +245,14 @@ class Webinar(Model):
         return self.price_netto - self.discount_netto
 
     def clean(self):
-        # Make sure that discount price is lte than normal price
-        if self.discount_netto >= self.price_netto:
+        # Make sure that discount price is >= than normal price
+        if all(
+            [
+                self.discount_netto is not None,
+                self.price_netto is not None,
+                self.discount_netto >= self.price_netto,
+            ]
+        ):
             raise ValidationError(
                 "Cena promocyjna nie może być większa niż normalna cena"
             )

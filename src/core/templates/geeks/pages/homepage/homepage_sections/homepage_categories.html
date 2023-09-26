@@ -11,15 +11,17 @@
             <!-- text -->
 
             <span class="text-uppercase text-primary fw-semibold ls-md"
-              >Browse Category
+              >Przeglądaj kategorie
             </span>
             <!-- heading -->
 
-            <h2 class="h1 fw-bold mt-3">Discover jobs across popular roles</h2>
+            <h2 class="h1 fw-bold mt-3">
+              Odkryj naszą ofertę szkoleniową
+            </h2>
             <!-- text -->
 
             <p class="mb-0 fs-4">
-              Select a role and we'll show you relevant jobs for it!
+              Wybierz kategorię, a pokażemy Ci interesujące Cię szkolenia!
             </p>
           </div>
         </div>
@@ -40,20 +42,12 @@
                 <div
                   class="icon-shape icon-lg rounded-circle bg-light text-muted mb-3 card-icon"
                 >
-                  {% comment %} <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    fill="currentColor"
-                    class="bi bi-activity"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M6 2a.5.5 0 0 1 .47.33L10 12.036l1.53-4.208A.5.5 0 0 1 12 7.5h3.5a.5.5 0 0 1 0 1h-3.15l-1.88 5.17a.5.5 0 0 1-.94 0L6 3.964 4.47 8.171A.5.5 0 0 1 4 8.5H.5a.5.5 0 0 1 0-1h3.15l1.88-5.17A.5.5 0 0 1 6 2Z"
-                    ></path>
-                  </svg> {% endcomment %}
-                  <i class="bi bi-chat-dots-fill" style="font-size:1.2rem;"></i>
+
+                  {% if category.icon_html %}
+                    {{category.icon_html|safe}}
+                  {% else %}
+                    <i class="bi bi-chat-dots-fill" style="font-size:1.2rem;"></i>
+                  {% endif %}
                   
                 </div>
                 <div class="d-flex align-items-center justify-content-between">
@@ -63,7 +57,8 @@
                     <h4 class="mb-0">{{category.name}}</h4>
                     <!-- text -->
 
-                    <p class="mb-0 text-muted">2k Jobs</p>
+                    {% comment %} <!-- TODO --> {% endcomment %}
+                    {% comment %} <p class="mb-0 text-muted">2k Jobs</p> {% endcomment %}
                   </div>
                   <!-- arrow -->
 
