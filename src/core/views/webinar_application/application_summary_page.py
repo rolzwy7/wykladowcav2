@@ -33,7 +33,7 @@ def application_summary_page(request, uuid):
     if request.method == POST and application.status == ApplicationStatus.INIT:
         form = ApplicationSummarySubmitForm(request.POST)
         if form.is_valid():
-            # Create loyalty program income TODO: move this to service ???
+            # Create loyalty program income
             if application.refcode:
                 provision_user = LoyaltyProgramService.get_user_by_refcode(
                     application.refcode

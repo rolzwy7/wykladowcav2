@@ -1,4 +1,4 @@
-from poplib import POP3_SSL
+from poplib import POP3_SSL, error_proto
 from typing import Iterable
 
 from django.conf import settings
@@ -35,7 +35,12 @@ class SenderSmtpService:
         num_octet_pairs = pop3.list()[1]
         for _idx, _ in enumerate(num_octet_pairs):
             message_idx = _idx + 1
-            message_lines = pop3.retr(message_idx)[1]
+
+            try:
+                message_lines = pop3.retr(message_idx)[1]
+            except error_proto:
+                message_lines = [f"MESSAGE_IDX_{message_idx}".encode()]
+
             message_bytes = b"\n".join(message_lines)
             yield (message_idx, message_lines, message_bytes)
 

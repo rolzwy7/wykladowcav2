@@ -27,6 +27,7 @@
             <ol>
                 <li>Zostanie stworzony pokój w ClickMeeting</li>
                 <li>Zostaną wysłane zaproszenie do uczestników</li>
+                <li>Zostaną wysłane zaproszenie do uczestników</li>
                 {% if webinar.lecturer.email %}
                     <li>
                         <span class="text-success fw-bold">
@@ -35,15 +36,27 @@
                         </span> 
                     </li>
                 {% else %}
-                    <li>
+                    <li class="pt-4">
                         <span class="text-danger fw-bold">
-                            Nie zostanie wysłane zaproszenie do wykładowcy,
-                            ponieważ nie podano jego e-maila
+                            <u>NIE ZOSTANIE</u> WYSŁANE ZAPROSZENIE DO WYKŁADOWCY,
+                            PONIEWAŻ NIE PODANO JEGO E-MAILA
+                            <br>
                             <a href="{% url 'admin:core_lecturer_change' object_id=webinar.lecturer.id %}">
-                                (zmień to w CMS)
+                                (Kliknij tutaj, aby dodać e-mail dla wykładowcy)
                             </a>
                         </span> 
                     </li>
+                    {% endif %}
+                    {% if not webinar_assets %}
+                    <li class="pt-4">
+                        <span class="text-danger fw-bold">
+                        <u>NIE DODAŁEŚ</u> MATERIAŁÓW SZKOLENIOWYCH
+                        <br>
+                        <a href="{% url 'core:crm_webinar_assets' pk=webinar.pk %}">
+                            (Kliknij tutaj, aby dodać materiały)
+                        </a>
+                    </span> 
+                </li>
                 {% endif %}
             </ol>
 

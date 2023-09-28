@@ -66,168 +66,91 @@
       </div>
     </div>
   </section>
+
+
+  {% comment %} START {% endcomment %}
   <section class="py-6">
     <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <!-- nav -->
-          <div>
-            <ul class="nav nav-line-bottom">
-              <li class="nav-item">
-                <a href="company-about.html" class="nav-link active"
-                  >O nas</a
-                >
-              </li>
-              {% comment %}
-                <li class="nav-item">
-                  <a href="company-reviews.html" class="nav-link"
-                    >Review <span class="text-inherit">(11.7k)</span></a
-                  >
-                </li>
-                <li class="nav-item">
-                  <a href="company-jobs.html" class="nav-link"
-                    >Jobs <span class="text-inherit">(109)</span></a
-                  >
-                </li>
-                <li class="nav-item">
-                  <a href="company-benefits.html" class="nav-link">Benefits</a>
-                </li>
-                <li class="nav-item">
-                  <a href="company-photos.html" class="nav-link">Photos</a>
-                </li>
-              {% endcomment %}
-            </ul>
+       <div class="row">
+          <div class="col-md-12">
+             <!-- nav -->
+             <div>
+                <ul class="nav nav-line-bottom">
+                   <li class="nav-item">
+                      <a href="company-about.html" class="nav-link active">O nas</a>
+                   </li>
+                   <li class="nav-item">
+                      <a href="company-reviews.html" class="nav-link ">Opinie
+                        <span class="text-inherit">(1 263)</span>
+                     </a>
+                   </li>
+                   {% comment %} <li class="nav-item">
+                      <a href="company-jobs.html" class="nav-link">Jobs <span class="text-inherit">(109)</span></a>
+                   </li>
+                   <li class="nav-item">
+                      <a href="company-benefits.html" class="nav-link">Benefits</a>
+                   </li> {% endcomment %}
+                </ul>
+             </div>
           </div>
-        </div>
+       </div>
+
+       <div class="row mt-6">
+         <div class="col-12">
+            <div class="mb-6">
+               <!-- text -->
+               <h2 class="mb-3">O firmie</h2>
+               <p>Wykładowca.pl jest dynamiczną firmą, której początki sięgają roku 2021. Od tego momentu nieustannie rozwijamy naszą działalność, stawiając na innowacyjne podejście do szkoleń i doradztwa biznesowego. Nasza firma to miejsce, w którym tworzymy synergiczne połączenia między różnymi branżami, umożliwiając naszym klientom osiągnięcie pełnego potencjału w zakresie rozwoju zawodowego i biznesowego. W pełni świadomi dynamicznych zmian na rynku, oferujemy szeroką gamę usług, w tym doradztwo podatkowe, obsługę księgową, profesjonalne konsultacje oraz organizację inspirujących konferencji.
+               </p>
+               <p>Jednak to nasze innowacyjne podejście do prowadzenia szkoleń, zwłaszcza tych dostępnych online, przyciąga uwagę i cieszy się uznaniem naszych klientów. Jesteśmy przekonani, że odpowiednie narzędzia i wiedza to klucz do sukcesu w dzisiejszym świecie biznesu, dlatego stale dostosowujemy naszą ofertę do zmieniających się technologii i potrzeb rynku.</p>
+            </div>
+            <!-- text -->
+            <div class="mb-6">
+               <h2 class="mb-3">Cel firmy</h2>
+               <p>Nasza misja to o wiele więcej niż tylko dostarczanie informacji. Dążymy do tworzenia warunków sprzyjających rozwojowi naszych klientów. Wierzymy, że każdy ma ogromny potencjał, który można odkryć i rozwijać. Naszym głównym celem jest poszerzanie kompetencji naszych uczestników poprzez dostarczanie spersonalizowanych programów szkoleniowych, które uwzględniają ich unikalne potrzeby i cele. Dlatego też nieustannie pracujemy nad tym, aby nasze szkolenia były interaktywne, inspirujące i dostosowane do zmieniających się realiów rynku pracy. Nasza firma zobowiązuje się do ciągłego doskonalenia naszych usług, aby pomóc naszym klientom osiągać wyższe cele zawodowe i biznesowe. To nasza pasja i zaangażowanie sprawiają, że jesteśmy liderem w dziedzinie szkoleń i rozwoju zawodowego.
+               </p>
+            </div>
+            <!-- text -->
+            <div>
+               <!-- table -->
+               <table class="table table-borderless w-lg-40 w-md-50">
+                  <tbody>
+                     <tr>
+                        <td class="ps-0 pb-0"><span class="text-dark fw-semibold">Nazwa firmy:</span></td>
+                        <td class="ps-0 pb-0"><span> {{COMPANY_NAME_FULL}}
+                           </span>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="ps-0 pb-0"><span class="text-dark fw-semibold">Adres:</span></td>
+                        <td class="ps-0 pb-0"><span>{{COMPANY_STREET}} </span></td>
+                     </tr>
+                     <tr>
+                        <td class="ps-0 pb-0"><span class="text-dark fw-semibold">Kod pocztowy i miasto:</span></td>
+                        <td class="ps-0 pb-0">{{COMPANY_POSTAL_CODE}} {{COMPANY_CITY}}</td>
+                     </tr>
+                     <tr>
+                        <td class="ps-0 pb-0"><span class="text-dark fw-semibold">NIP:</span></td>
+                        <td class="ps-0 pb-0">{{COMPANY_NIP}}</td>
+                     </tr>
+                     <tr>
+                        <td class="ps-0 pb-0"><span class="text-dark fw-semibold">Rachunek bankowy:</span></td>
+                        <td class="ps-0 pb-0">{{COMPANY_BANK_ACCOUNT_NUMBER}}
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="ps-0 pb-0"></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
       </div>
-      <div class="row mt-6">
-        <div class="col-12">
-          <div class="mb-6">
-            <p>
-              Od 2021 roku firma Wykładowca.pl specjalizuje się w integrowaniu środowiska biznesowego oraz w rozwijaniu kompetencji zawodowych. Dostarczamy usługi z zakresu doradztwa podatkowego, księgowości, konsultingu, organizacji konferencji oraz prowadzenia szkoleń. Naszym priorytetem jest realizacja profesjonalnych szkoleń online związanych z zagadnieniami rachunkowości i finansów, które są aktualizowane wraz z postępem technologicznym.
-            </p>
 
-            <p>
-              Współpracujemy z zespołem ekspertów, którzy posiadają szerokie doświadczenie w przeprowadzaniu szkoleń dla pracowników różnych branż. Nasze szkolenia dotyczą m.in. prawa pracy, podatków, płac, czasu pracy, ubezpieczeń społecznych i dochodów międzynarodowych. Tworzymy spersonalizowane programy szkoleniowe, które dostosowujemy do oczekiwań i potrzeb naszych Klientów.
-            </p>
-
-            <p>
-              Nasze usługi szkoleniowe skierowane są do kadry zarządzającej, specjalistów finansowo-księgowych oraz osób prywatnych. Wyzwania biznesowe, jakie stają przed przedsiębiorcami, wymagają stałego poszerzania wiedzy i umiejętności. Dlatego nasze szkolenia są dostępne dla osób o różnym poziomie wiedzy - od podstawowej, po zaawansowaną.
-            </p>
-
-            <p>
-              Jako partnerzy biznesowi, dbamy o profesjonalną realizację usług oraz o budowanie trwałych relacji opartych na zaufaniu i zrozumieniu potrzeb Klientów. Chcemy, aby nasi Klienci czuli się komfortowo i zapewniamy im pełne wsparcie w trakcie szkoleń. Nasza kadra trenerska to doświadczeni eksperci, którzy przekazują wiedzę i umiejętności na najwyższym poziomie.
-            </p>
-
-            <p>
-              Wykorzystując bogaty kapitał intelektualny naszych wykładowców, trenerów, ekspertów i praktyków, realizujemy nasz główny cel - dostarczanie szkoleń z zakresu rachunkowości, finansów, podatków, kadr i płac, umiejętności interpersonalnych oraz zarządczych. Nasz zespół składa się z doświadczonych profesjonalistów, którzy w sposób przystępny i zrozumiały przekazują swoją wiedzę i umiejętności. Jesteśmy dumni z faktu, że w ciągu ponad dwóch lat działalności, udało nam się zrealizować nasz cel z powodzeniem, pomagając ponad tysiącu uczestników w rozwoju ich kwalifikacji zawodowych. Chcemy kontynuować naszą misję i dostarczać skuteczne i wartościowe szkolenia, dostosowane do potrzeb naszych klientów.
-            </p>
-
-            <p>
-              Wykładowca.pl oferuje szkolenia, które umożliwiają rozwijanie wiedzy merytorycznej i umiejętności biznesowych dla różnych grup odbiorców, takich jak kadra zarządzająca, specjaliści finansowo-księgowi, przedstawiciele jednostek samorządu terytorialnego, sektora budżetowego oraz osoby prywatne. Nasze szkolenia są dostosowane do potrzeb i oczekiwań uczestników i pozwalają zarówno na poszerzenie wiedzy podstawowej, jak i zdobycie nowych, wartościowych kwalifikacji na rynku pracy.
-            </p>
-
-            <p>
-              Oprócz tradycyjnych szkoleń stacjonarnych, oferujemy także szkolenia online, które pozwalają na elastyczne dostosowanie się do potrzeb naszych klientów. Wszystkie nasze szkolenia prowadzone są przez wykwalifikowaną kadrę, posiadającą bogate doświadczenie praktyczne oraz pedagogiczne, co gwarantuje najwyższą jakość przekazywanej wiedzy.
-            </p>
-
-            <p>
-              Jako firma szkoleniowa, dbamy o rozwój naszych uczestników, dlatego też po każdym szkoleniu udostępniamy materiały szkoleniowe oraz zapewniamy dostęp do naszych ekspertów, którzy służą pomocą i radą. Naszym celem jest stałe dostosowywanie się do potrzeb rynku i zapewnienie naszym klientom konkurencyjnej przewagi na rynku pracy.
-            </p>
-
-            <p>
-              W naszej firmie każdy Klient jest traktowany jak Partner, a nasze relacje biznesowe opierają się na profesjonalizmie i indywidualnym podejściu do potrzeb uczestników szkoleń. Zależy nam na budowaniu długotrwałych i owocnych relacji, dlatego też oferujemy wsparcie naszych Klientów na każdym etapie współpracy. Nasza kadra wykładowców i trenerów to eksperci w swoich dziedzinach, którzy dzielą się z uczestnikami szkoleń wiedzą najwyższej jakości. Chcemy, aby nasi Klienci czuli się u nas komfortowo i bezpiecznie, a szkolenia były dla nich inspiracją do rozwoju zawodowego i osobistego.
-            </p>
-
-            <p>
-              Nasze szkolenia są prowadzone przez czołowych specjalistów w swoich dziedzinach, którzy posiadają praktyczne doświadczenie w swojej pracy. Wśród wykładowców znajdują się przedstawiciele Izb i Urzędów Skarbowych, wykładowcy wyższych uczelni, praktycy - prawnicy, doradcy podatkowi, biegli rewidenci, główni księgowi, dyrektorzy, kontrolerzy i analitycy finansowi. Każdy z wykładowców posiada duże doświadczenie zawodowe oraz doskonałe przygotowanie warsztatowe, co pozwala im przekazać uczestnikom wiedzę na wysokim poziomie. Cieszą się oni również uznaniem w swoich dziedzinach, publikując liczne fachowe opracowania i artykuły.
-            </p>
-
-            <p>
-              Jako firma dbamy o to, aby standardy naszych szkoleń były jak najwyższe. Dlatego też, zawsze wybieramy trenerów, którzy nie ograniczają swojego przekazu tylko do omówienia przepisów prawnych, ale przekazują praktyczną wiedzę, którą można zastosować w codziennej pracy. Poza tym, każde szkolenie jest oceniane przez uczestników poprzez wypełnienie ankiet oceniających trenerów oraz skuteczność szkolenia. Dzięki temu, jesteśmy w stanie ewaluować naszą pracę i wciąż podnosić jakość naszych usług. Ponadto, każdy trener jest rozliczany z efektów przeprowadzonych zajęć, co zobowiązuje ich do jak najlepszej pracy i przekazania praktycznych umiejętności.
-            </p>
-
-            <p>
-              Nasi wykładowcy to prawdziwi eksperci w swoich dziedzinach, którzy stworzyli najnowsze i najbardziej innowacyjne programy szkoleniowe z zakresu kadr i płac. Dzięki ich doświadczeniu i wiedzy, tysiące osób z powodzeniem wykorzystało zdobytą przez nas wiedzę w swojej pracy. Każdy z nich posiada praktyczne podejście do prowadzonych zajęć, a ich umiejętności w przekazywaniu informacji są na bardzo wysokim poziomie. Dysponują wieloletnim doświadczeniem trenerskim, dzięki czemu potrafią skutecznie angażować grupę oraz przekazywać trudne tematy w prosty i zrozumiały sposób.
-            </p>
-          
-        </div>
-          
-          {% comment %} 
-          <!-- text -->
-          <div class="mb-6">
-            <h2 class="mb-3">Mission</h2>
-            <p>
-              Aliquam pellentesque mollis interdum. Proin ligula lacus, maximus
-              quis ante a, luctus sodales sapien. Donec ut tristique nisi. Nulla
-              a quam sit amet turpis convallis porttitor vel sed quam. Ut in
-              odio enim. Maecenas eu tellus erat. Maecenas nec maximus elit, ac
-              suscipit justo. Maecenas nisl tellus, sodales non gravida eget,
-              placerat sit amet erat.
-            </p>
-          </div>
-          <!-- text -->
-          <div class="mb-6">
-            <h2 class="mb-3">Vision</h2>
-            <p>
-              Proin ligula lacus, maximus quis ante a, luctus sodales sapien.
-              Aliquam pellentesque mollis interdum. Nulla a quam sit amet turpis
-              convallis port titor vel sed quam. Donec ut tristique nisi.
-            </p>
-          </div>
-           {% endcomment %}
-          <div>
-            <!-- table -->
-
-            {% comment %} <table class="table table-borderless w-lg-40 w-md-50">
-              <tbody>
-                <tr>
-                  <td class="ps-0 pb-0">
-                    <span class="text-dark fw-semibold">Founded:</span>
-                  </td>
-                  <td class="ps-0 pb-0"><span>2011</span></td>
-                </tr>
-                <tr>
-                  <td class="ps-0 pb-0">
-                    <span class="text-dark fw-semibold">Company size:</span>
-                  </td>
-                  <td class="ps-0 pb-0"><span>350 - 500</span></td>
-                </tr>
-                <tr>
-                  <td class="ps-0 pb-0">
-                    <span class="text-dark fw-semibold">Website:</span>
-                  </td>
-                  <td class="ps-0 pb-0">
-                    <a href="https://codescandy.com/"
-                      >https://codescandy.com/</a
-                    >
-                  </td>
-                </tr>
-                <tr>
-                  <td class="ps-0 pb-0">
-                    <span class="text-dark fw-semibold">Industry:</span>
-                  </td>
-                  <td class="ps-0 pb-0">Information Technology</td>
-                </tr>
-                <tr>
-                  <td class="ps-0 pb-0">
-                    <span class="text-dark fw-semibold">Social Presence:</span>
-                  </td>
-                  <td class="ps-0 pb-0">
-                    <a
-                      href="#"
-                      class="mdi mdi-facebook fs-4 text-muted me-2"
-                    ></a>
-                    <a href="#" class="mdi mdi-twitter text-muted me-2"></a>
-                    <a href="#" class="mdi mdi-linkedin text-muted"></a>
-                  </td>
-                </tr>
-              </tbody>
-            </table> {% endcomment %}
-          </div>
-        </div>
-      </div>
     </div>
-  </section>
+ </section>
+  {% comment %} END {% endcomment %}
+
+  
 </main>
 {% endblock root %}

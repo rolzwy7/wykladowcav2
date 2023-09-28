@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.views import View
 
 from core.forms.crm import CrmAreYouSureForm
-from core.models import Webinar
+from core.models import Webinar, WebinarAsset
 
 
 def get_meta_redirect_url(path: str):  # TODO: move this
@@ -74,7 +74,14 @@ class CrmWebinarAction(ABC, View):
         return TemplateResponse(
             request,
             self.template_name,
-            {**self.get_context_data(), "webinar": webinar, "form": form},
+            {
+                **self.get_context_data(),
+                "form": form,
+                "webinar": webinar,
+                "webinar_assets": WebinarAsset.manager.get_for_webinar(
+                    self.get_webinar(pk)
+                ),
+            },
         )
 
     def post(self, request: HttpRequest, pk: int):

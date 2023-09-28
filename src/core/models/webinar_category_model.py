@@ -71,6 +71,11 @@ class WebinarCategory(Model):
         ),
     )
     is_homepage_category = BooleanField("Jest kategorią domową", default=False)
+    # is_new_category = BooleanField(
+    #     "Jest kategorią domową",
+    #     default=False,
+    #     help_text="Kategoria jest nowa",
+    # )
 
     about_html = TextField("Opis kategorii", default="[Opis kategorii]")
 

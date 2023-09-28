@@ -46,4 +46,6 @@ class ApplicationSummaryService:
         # Dispatch tasks after application send
         from core.tasks_dispatch import after_application_sent_dispatch
 
-        after_application_sent_dispatch(self.application, submitter)
+        # TODO: uncomment that
+        # This is commented temporarly due to moving application to production env
+        # after_application_sent_dispatch(self.application, submitter)

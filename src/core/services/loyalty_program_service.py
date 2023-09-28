@@ -86,7 +86,7 @@ class LoyaltyProgramService:
         ).order_by("-created_at")
 
     def create_income_for_application(self, application: WebinarApplication):
-        """Create income for given application"""
+        """Create income for user for given application"""
         loyalty_program = self.get_or_create_loyalty_program()
 
         from core.services import ApplicationService
@@ -98,7 +98,7 @@ class LoyaltyProgramService:
             loyalty_program=loyalty_program,
             application=application,
             amount_brutto=round(
-                application_service.get_total_price_netto()
+                application_service.get_preview_total_price_netto()
                 * provision_multiplier,
                 2,
             ),
