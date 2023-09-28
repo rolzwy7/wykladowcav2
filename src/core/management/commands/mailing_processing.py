@@ -1,4 +1,6 @@
 # pylint: disable=global-variable-not-assigned
+# pylint: disable=broad-exception-caught
+# pylint: disable=invalid-name
 
 import logging
 import time
@@ -142,7 +144,11 @@ def process_scan_inboxes():
                 )
                 cache_manager.close()
 
-        pop3.quit()
+        try:
+            pop3.quit()
+        except Exception as e:
+            print("[-] pop3.quit():", str(e))
+
         bounce_manager.close()
 
 

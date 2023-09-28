@@ -86,6 +86,9 @@ class SenderSmtpService:
         )
 
         # TODO: temporary solution
+        html_content = html_content.replace("{ODBIORCA#ADRES}", "{TO_EMAIL}")
+        text_content = text_content.replace("{ODBIORCA#ADRES}", "{TO_EMAIL}")
+
         html_content = html_content.replace("{TO_EMAIL}", to_email)
         text_content = text_content.replace("{TO_EMAIL}", to_email)
 
