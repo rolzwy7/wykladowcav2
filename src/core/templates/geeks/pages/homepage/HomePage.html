@@ -8,6 +8,7 @@
   rel="stylesheet"
   type="text/css"
   >
+  <link rel="stylesheet" href="{% static 'geeks/assets/libs/magnific-popup/magnific-popup.css' %}" type="text/css" />
 {% endblock head_stylesheets %}
 
 {% block title %}
@@ -37,6 +38,7 @@
         });
       }
  </script>
+ <script src="{% static 'geeks/assets/libs/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
 {% endblock body_scripts %}
 
 
@@ -47,7 +49,10 @@
   {% include './homepage_sections/trusted_us.html' %}
   {% include './homepage_sections/homepage_categories.html' with categories=categories %}
   {% include './homepage_sections/homepage_lecturers.html' with lecturers=homepage_lecturers %}
-  {% include './homepage_sections/homepage_loyalty_program.html' %}
+  {% comment %} {% include './homepage_sections/homepage_loyalty_program.html' %} {% endcomment %}
+
+  {% include "geeks/components/loyalty/LoyaltyProgramVideoSection.html" with section_class="pb-lg-14 pb-6" show_button=True %}
+
   {% include './homepage_sections/homepage_certificate.html' %}
 </main>
 {% endblock root %}

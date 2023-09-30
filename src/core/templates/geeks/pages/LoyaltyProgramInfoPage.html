@@ -1,6 +1,9 @@
 {% extends 'geeks/extends/foundation.html' %}
-
 {% load static %}
+
+{% block head_stylesheets %}
+  <link rel="stylesheet" href="{% static 'geeks/assets/libs/magnific-popup/magnific-popup.css' %}" type="text/css" />
+{% endblock head_stylesheets %}
 
 {% block title %}
   <title>Polecaj i Zarabiaj</title>
@@ -8,15 +11,93 @@
 
 {% block root %}
 <main>
-  <!-- Page Content -->
   <section class="container-fluid">
     <div class="row">
       <!-- col -->
       <div class="col-lg-12 col-md-12 col-12 mt-5">
         <div class="px-xl-20 py-7 py-lg-0">
           <div>
-            <h1 class="display-4 fw-bold">Polecaj i Zarabiaj</h1>
+            {% include "geeks/components/loyalty/LoyaltyProgramVideoSection.html" %}
+
+            <section class="pt-4 pb-8 bg-gray-100">
+              <div class="container ">
+                 <div class="row">
+                    <div class="col-xl-10 offset-xl-1 col-md-12 col-12">
+                       <div class="row">
+                          <div class="col-xl-4 col-md-4 col-12">
+                             <div class="d-flex mb-4 mb-md-0">
+                                <div class="icon icon-shape rounded icon-md bg-gray-300 p-4">
+                                   <i class="bi bi-play-fill fs-4 text-gray-600"></i>
+                                </div>
+                                <div class="ms-3">
+                                   <p class="mb-0 text-dark fw-medium">
+                                      Weź udział jako firma lub osoba prywatna
+                                  </p>
+                                </div>
+                             </div>
+                          </div>
+                          <div class="col-xl-4  col-md-4 col-12">
+                             <div class="d-flex mb-4 mb-md-0">
+                                <div class="icon icon-shape rounded icon-md bg-gray-300 p-4">
+                                   <i class="bi bi-star-fill fs-4 text-gray-600"></i>
+                                </div>
+                                <div class="ms-3">
+                                   <p class="mb-0 text-dark fw-medium">
+                                      10% prowizij dla Ciebie
+                                  </p>
+                                </div>
+                             </div>
+                          </div>
+                          <div class="col-xl-4  col-md-4 col-12">
+                             <div class="d-flex">
+                                <div class="icon icon-shape rounded icon-lg bg-gray-300 p-4 ">
+                                   <i class="bi bi-infinity fs-4 text-gray-600"></i>
+                                </div>
+                                <div class="ms-3">
+                                   <p class="mb-0 text-dark fw-medium">
+                                      5% zniżki dla polecanego
+                                   </p>
+                                </div>
+                             </div>
+                          </div>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+           </section>
+
             {% include 'geeks/pages/homepage/homepage_sections/homepage_loyalty_program.html' %}
+
+            <section class="pb-lg-10">
+              <div class="container">
+                <div class="row">
+                  <div class="col-xl-10 offset-xl-1 col-md-12 col-12">
+                    <div class="bg-primary py-6 px-6 px-xl-0 rounded-4 ">
+                      <div class="row align-items-center">
+                        <div class="offset-xl-1 col-xl-5 col-md-6 col-12">
+                          <div>
+                            <h2 class="h1 text-white mb-3">
+                              Masz trudności w zapisaniu się do programu?
+                            </h2>
+                            <p class="text-white fs-4">
+                              Napisz do nas wiadomośc na adres e-mail: <a style="letter-spacing: 2px;" class="fs-3 text-white fw-bold" href="mailto:{{COMPANY_OFFICE_EMAIL}}?subject=Chcę wziąć udział w programie partnerskim">{{COMPANY_OFFICE_EMAIL}}</a>
+                              <br>
+                              <span class="mt-2">a my zajmiemy się resztą!</span>
+                            </p>
+                          </div>
+                        </div>
+                        <div class="col-xl-6 col-md-6 col-12">
+                          <div class="text-center">
+                            <img src="{% static "geeks/assets/images/education/course.png" %}" alt="learning" class="img-fluid">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
           </div>
         </div>
       </div>
@@ -25,4 +106,6 @@
 </main>
 {% endblock root %}
 
-
+{% block body_scripts %}
+  <script src="{% static 'geeks/assets/libs/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+{% endblock body_scripts %}

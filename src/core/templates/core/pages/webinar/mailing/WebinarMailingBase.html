@@ -33,7 +33,7 @@
                   <td style="{{td_classes|safe}}">
                     <h1 style="margin: .67em 0; font-size:2em">{{webinar.title}}</h1>
                     {% if webinar.description %}
-                    <h2 style="margin: .83em 0; font-size:1.5em">- {{webinar.description}}</h2>
+                    <h2 style="margin: .83em 0; font-size:1.5em">{{webinar.description}}</h2>
                     {% endif %}
                   </td>
                 </tr>
@@ -94,6 +94,8 @@
                     <h3 style="margin: 1em 0; font-size:1.17em">Program webinaru</h3>
                     <hr style="border-width: 0; background: #000; color: #000; height:0.2em">
                     <p style="margin: 1em 0;">{{program|safe}}</p>
+                    <p style="margin: 1em 0;">...</p>
+                    
                     <p style="margin: 1em 0;text-align:center;">
                       <strong style="font-weight: bold; color: #dc143c;">
                         Użyj poniższego przycisku, aby przeczytać cały program webinaru.

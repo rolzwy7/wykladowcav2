@@ -29,7 +29,7 @@
             </div>
             <!-- Form -->
             <form
-                action="{% url 'core:login_page' %}"
+                action="{% url 'core:login_page' %}?next={{next_param}}"
                 method="post"
             >
               {% csrf_token %}
