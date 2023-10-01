@@ -12,7 +12,7 @@ def login_page(request):
     template_name = "geeks/pages/LoginPage.html"
     auth_failed = False
 
-    next_param = request.GET.get("next")
+    next_param = request.GET.get("next", "")
 
     if request.method == POST:
         form = LoginForm(request.POST)
