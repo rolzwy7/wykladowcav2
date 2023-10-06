@@ -58,7 +58,7 @@ urlpatterns = [
     ),
     # Webinar Mailing Template
     path(
-        "<int:pk>/szablon-mailingowy/",
+        "<int:pk>/szablon-mailingowy/<str:template_name>/",
         webinar_mailing_template_page,
         name="webinar_mailing_template_page",
     ),

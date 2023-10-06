@@ -6,9 +6,11 @@ from core.models import Webinar
 from core.services.mailing import MailingWebinarTemplateService
 
 
-def webinar_mailing_template_page(request: HttpRequest, pk: int):
+def webinar_mailing_template_page(
+    request: HttpRequest, pk: int, template_name: str
+):
     """Webinar email template page"""
-    template_name = "core/pages/webinar/mailing/WebinarMailingBase.html"
+    template_name = f"core/pages/webinar/mailing/{template_name}.html"
     webinar = get_object_or_404(Webinar, pk=pk)
     webinar_template_service = MailingWebinarTemplateService(webinar)
 

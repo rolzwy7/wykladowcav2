@@ -85,7 +85,11 @@
                                {% endif %}
                                {% endif %}
                                <!--Patron-->
+                               {% if subcategories or category.parent %}
                                <div class="card mt-4">
+                                  {% else %}
+                               <div class="card mt-0">
+                              {% endif %}
                                   <!-- Card body -->
                                   <div class="card-body">
                                      <div class="d-flex align-items-center">
@@ -161,6 +165,7 @@
                                      </p>
                                   </div>
                                   <!-- Table -->
+                                  {% if webinars %}
                                   <div class="table-responsive overflow-y-hidden">
                                      <table
                                         class="table mb-0 text-nowrap table-hover table-centered text-nowrap"
@@ -178,6 +183,22 @@
                                         </tbody>
                                      </table>
                                   </div>
+                                  {% else %}
+                                  <div class="mt-2 p-5">
+                                     <h2 class="text-center">Brak szkoleń</h2>
+                                     <p class="text-center">Obecnie nie prowadzimy szkoleń z kategorii 'Kadrowo-płacowe'.</p>
+                                     <p class="text-center">
+                                       Jednakże, jeśli jesteś zainteresowany otrzymywaniem powiadomień o naszych przyszłych szkoleniach, <br>
+                                       zachęcamy do zapisania się do naszego newslettera.
+                                     </p>
+                                     <p class="text-center fw-bold">
+                                       Będziesz na bieżąco z naszą ofertą! <br>
+                                       <a href="https://mailchi.mp/b5e14cbaf165/zapis-do-listy-mailingowej" target="_blank" rel="nofollow">
+                                          Kliknij tutaj, aby dołączyć do naszej listy subskrybentów.
+                                       </a>
+                                    </p>
+                                    </div>
+                                  {% endif %}
                                </div>
                             </div>
                          </div>

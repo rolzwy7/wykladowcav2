@@ -27,7 +27,7 @@
           <div class="col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="row justify-content-between align-items-center">
               <div class="col-xl-8 col-md-6 col-12">
-                <h4 class="mb-3 mb-md-0">{{subcategories|length}} kategorii szkoleń</h4>
+                <h4 class="mb-3 mb-md-0">Kategorie główne ( {{subcategories|length}} )</h4>
               </div>
               {% comment %}
               <div class="col-xl-2 col-md-3 col-6 pe-0">
@@ -78,17 +78,27 @@
                   </h4>
                   <p class="mb-0 fs-6">
                     <span class="me-2">
-                      <span class="text-dark fw-medium">{{subcategory_count}}</span>
-                      {% if subcategory_count == 1 %}
-                      szkolenie
-                      {% elif subcategory_count <= 4 %}
-                      szkolenia
-                      {% elif subcategory_count >= 5 %}
-                      szkoleń
+                      {% if subcategory_count == 0 %}
+                        Brak szkoleń
+                      {% else %}
+                        <span class="text-dark fw-medium">{{subcategory_count}}</span>
+                        {% if subcategory_count == 1 %}
+                        szkolenie
+                        {% elif subcategory_count >= 2 %}
+                        szkolenia
+                        {% elif subcategory_count >= 5 %}
+                        szkoleń
+                        {% elif subcategory_count >= 22 %}
+                        szkolenia
+                        {% elif subcategory_count >= 25 %}
+                        szkoleń
+                        {% elif subcategory_count >= 32 %}
+                        szkolenia
+                        {% elif subcategory_count >= 35 %}
+                        szkoleń
+                        {% endif %}
                       {% endif %}
                     </span>
-                    {% comment %} <span><span class="text-dark fw-medium">XX </span>
-                      Hours</span> {% endcomment %}
                   </p>
                 </div>
               </div>

@@ -12,6 +12,7 @@ from django.db.models import (
     ManyToManyField,
     Model,
     OneToOneField,
+    PositiveIntegerField,
     PositiveSmallIntegerField,
     Q,
     QuerySet,
@@ -274,6 +275,8 @@ class WebinarMetadata(Model):
     )
 
     assets_token = UUIDField("Token dostępu do materiałów", default=uuid.uuid4)
+
+    click_count = PositiveIntegerField("Kliknięcia", default=0)
 
     def __str__(self) -> str:
         return f"Metadata for webinar {self.pk}"

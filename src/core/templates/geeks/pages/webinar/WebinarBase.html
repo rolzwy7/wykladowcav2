@@ -56,8 +56,11 @@
                     <a class="dropdown-item" href="{% url 'core:crm_webinar_detail_dashboard' pk=webinar.pk %}">
                       Zobacz w CRM
                     </a>
-                    <a class="dropdown-item" href="{% url 'core:webinar_mailing_template_page' pk=webinar.pk %}">
-                      Szablon mailingowy
+                    <a class="dropdown-item" href="{% url 'core:webinar_mailing_template_page' pk=webinar.pk template_name="WebinarMailingBase" %}">
+                      Szablon mailingowy - WebinarMailingBase
+                    </a>
+                    <a class="dropdown-item" href="{% url 'core:webinar_mailing_template_page' pk=webinar.pk template_name="WebinarMailingVersionA" %}">
+                      Szablon mailingowy - WebinarMailingVersionA
                     </a>
                   </div>
                 </div>
