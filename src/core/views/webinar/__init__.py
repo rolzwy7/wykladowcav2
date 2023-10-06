@@ -8,4 +8,5 @@ from .webinar_program_page import webinar_program_page
 from .webinar_redirects import (
     webinar_redirect_to_application,
     webinar_redirect_to_program,
+    webinar_redirect_to_program_facebook,
 )

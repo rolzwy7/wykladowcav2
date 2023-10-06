@@ -44,25 +44,27 @@
               {% if request.user.is_staff %}
                 <div class="ms-4 dropdown">
                   <button class="btn btn-sm btn-info dropdown-toggle" type="button" id="webinarOptionsDropdown" data-bs-toggle="dropdown">
-                    Administracja
+                    Admin
                   </button>
                   <div class="dropdown-menu" aria-labelledby="webinarOptionsDropdown">
                     <a class="dropdown-item" href="{% url 'admin:core_webinar_change' object_id=webinar.id %}">
-                      Edytuj termin w CMS
+                      [CMS] Edytuj termin
                     </a>
                     <a class="dropdown-item" href="{% url 'admin:core_lecturer_change' object_id=webinar.lecturer.id %}">
-                      Edytuj wykładowce w CMS
+                      [CMS] Edytuj wykładowce
                     </a>
                     <a class="dropdown-item" href="{% url 'core:crm_webinar_detail_dashboard' pk=webinar.pk %}">
-                      Zobacz w CRM
+                      [CRM] Zarządzaj w CRM
                     </a>
-                    <a class="dropdown-item" href="{% url 'core:webinar_mailing_template_page' pk=webinar.pk template_name="WebinarMailingBase" %}">
-                      Szablon mailingowy - WebinarMailingBase
-                    </a>
-                    <a class="dropdown-item" href="{% url 'core:webinar_mailing_template_page' pk=webinar.pk template_name="WebinarMailingVersionA" %}">
-                      Szablon mailingowy - WebinarMailingVersionA
+                    <a class="dropdown-item" href="{% url 'core:lecturer_experience_page' slug=webinar.lecturer.slug %}">
+                      [Strona] Zobacz profil wykładowcy  
                     </a>
                   </div>
+                </div>
+                <div class="ms-4">
+                  <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#employeeModal">
+                    Dla pracownika
+                  </button>
                 </div>
               {% endif %}
             </div>
@@ -230,6 +232,51 @@
   </div>
 </div>
 
+{% if request.user.is_staff %}
+<div class="modal fade" id="employeeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Dla pracownika (ID = {{webinar.id}})</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <h3>Przekierowania</h3>
+              
+              <p class="fw-bold mb-1">Krótki link (używany głównie w mailingu)</p>
+              <p class="mb-1">Zlicza kliknięcia</p>
+              <p>
+                <i>{{META__BASE_URL}}{% url "core:webinar_redirect_to_program" pk=webinar.pk %}</i>
+              </p>
+              
+              <p class="fw-bold mb-1">Krótki link (facebook)</p>
+              <p class="mb-1">Zlicza kliknięcia</p>
+              <p>
+                <i>{{META__BASE_URL}}{% url "core:webinar_redirect_to_program_facebook" pk=webinar.pk %}</i>
+              </p>
+              
+
+              <h3>Szablony mailingowe</h3>
+              <ol>
+                <li>
+                  <a href="{% url 'core:webinar_mailing_template_page' pk=webinar.pk template_name="WebinarMailingBase" %}">
+                    Szablon mailingowy - WebinarMailingBase
+                  </a>
+                </li>
+                <li>
+                  <a href="{% url 'core:webinar_mailing_template_page' pk=webinar.pk template_name="WebinarMailingVersionA" %}">
+                    Szablon mailingowy - WebinarMailingVersionA
+                  </a>
+                </li>
+              </ol>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+          </div>
+      </div>
+  </div>
+</div>
+{% endif %}
 {% endblock root %}
 
 

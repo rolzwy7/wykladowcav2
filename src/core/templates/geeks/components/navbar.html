@@ -1472,6 +1472,19 @@
           </a>
           {% endif %}
         </li>
+
+        {% if request.user.is_staff %}
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'admin:index' %}">
+            CMS
+          </a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'core:crm_upcoming_webinars' %}">
+            CRM
+          </a>
+        </li>
+        {% endif %}
         {% comment %} <li class="nav-item dropdown">
           <a
             class="nav-link"

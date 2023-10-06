@@ -9,6 +9,7 @@ from core.views.webinar import (
     webinar_program_page,
     webinar_redirect_to_application,
     webinar_redirect_to_program,
+    webinar_redirect_to_program_facebook,
 )
 from core.views.webinar_cancellation import webinar_cancellation_page
 from core.views.webinar_moving import (
@@ -25,9 +26,9 @@ urlpatterns = [
         name="webinar_redirect_to_program",
     ),
     path(
-        "<int:pk>/program/",
-        webinar_redirect_to_program,
-        name="webinar_redirect_to_program",
+        "<int:pk>/facebook/",
+        webinar_redirect_to_program_facebook,
+        name="webinar_redirect_to_program_facebook",
     ),
     path(
         "<int:pk>/zgloszenie/",

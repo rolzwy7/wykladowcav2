@@ -276,7 +276,11 @@ class WebinarMetadata(Model):
 
     assets_token = UUIDField("Token dostępu do materiałów", default=uuid.uuid4)
 
-    click_count = PositiveIntegerField("Kliknięcia", default=0)
+    click_count_mailing = PositiveIntegerField("Kliknięcia Mailing", default=0)
+    click_count_facebook = PositiveIntegerField(
+        "Kliknięcia Facebook", default=0
+    )
+    site_enter_count = PositiveIntegerField("Wejść na stronę", default=0)
 
     def __str__(self) -> str:
         return f"Metadata for webinar {self.pk}"
