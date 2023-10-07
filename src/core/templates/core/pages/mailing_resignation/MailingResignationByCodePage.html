@@ -15,9 +15,18 @@
     <p style="font-size: 1.5rem;">
         <b>Kliknij poniższy przycisk</b>, aby zrezygnować z otrzymywania wiadomości:
     </p>
-    <form method="post" action="{% url 'core:mailing_resignation_page' resignation_code=resignation_code %}">
+    <form
+        method="post"
+        action="{% url 'core:mailing_resignation_page' resignation_code=resignation_code %}"
+        onsubmit="actionSubmit.disabled = true; return true;"
+    >
         {% csrf_token %}
-        <input style="font-size: 1.5rem;" type="submit" value="Rezygnacja">
+        <input
+            name="actionSubmit"
+            style="font-size: 1.5rem;cursor: pointer;"
+            type="submit"
+            value="Rezygnacja"
+        >
     </form>
     {% endif %}
 </body>

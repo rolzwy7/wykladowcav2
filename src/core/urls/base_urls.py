@@ -9,7 +9,10 @@ from core.views import (
     webmap_page,
 )
 from core.views.lecturer import lecturer_list_page
-from core.views.mailing_resignation import mailing_resignation_page
+from core.views.mailing_resignation import (
+    mailing_resignation_by_code_page,
+    mailing_resignation_by_form_page,
+)
 
 from .application_urls import urlpatterns as application_urlpatterns
 from .assets_urls import urlpatterns as assets_urlpatterns
@@ -50,8 +53,13 @@ urlpatterns = [
     path("nagrania/", include(recording_urlpatterns)),
     path("materialy-szkoleniowe/", include(assets_urlpatterns)),
     path(
-        "rezygnacja/<str:resignation_code>/",
-        mailing_resignation_page,
+        "rezyg/formularz/",
+        mailing_resignation_by_form_page,
+        name="mailing_resignation_by_form_page",
+    ),
+    path(
+        "rezyg/<str:resignation_code>/",
+        mailing_resignation_by_code_page,
         name="mailing_resignation_page",
     ),
     *terms_and_conditions_urlpatterns,

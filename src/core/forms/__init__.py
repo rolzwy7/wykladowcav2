@@ -22,5 +22,6 @@ from .mailing_forms import (
     MailingSendTestEmailForm,
 )
 from .registration_form import RegistrationForm
+from .resignation_forms import ResignationForm
 from .tagging_forms import TaggingAddEmailsForm
 from .webinar_asset_forms import WebinarAssetForm

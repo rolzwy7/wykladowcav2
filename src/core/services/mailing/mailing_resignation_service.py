@@ -18,7 +18,7 @@ class MailingResignationService:
         return ret
 
     @staticmethod
-    def get_or_create_resignation_code(email: str) -> str:
+    def get_or_create_inactive_resignation(email: str) -> str:
         """Create inactive resignation for email and return resignation code"""
         manager = MailingResignationManager()
         resignation_code = manager.get_or_create_resignation(email)["_id"]
@@ -43,8 +43,8 @@ class MailingResignationService:
                 email=document["email"],
                 confirmed=document["confirmed"],
             )
-        else:
-            return None
+
+        return None
 
     @staticmethod
     def confirm_resignation_by_code(code: str) -> None:

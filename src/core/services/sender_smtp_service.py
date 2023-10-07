@@ -76,9 +76,8 @@ class SenderSmtpService:
         reply_to = self.smtp_sender.reply_to
 
         # TODO: temporary solution
-        resignation_service = MailingResignationService()
-        resignation_code = resignation_service.get_or_create_resignation_code(
-            email
+        resignation_code = (
+            MailingResignationService.get_or_create_inactive_resignation(email)
         )
         resignation_url = BASE_URL + reverse(
             "core:mailing_resignation_page",
