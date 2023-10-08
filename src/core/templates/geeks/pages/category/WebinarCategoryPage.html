@@ -86,9 +86,9 @@
                                {% endif %}
                                <!--Patron-->
                                {% if subcategories or category.parent %}
-                               <div class="card mt-4">
+                               <div class="card mt-4 js-sticky-widget">
                                   {% else %}
-                               <div class="card mt-0">
+                               <div class="card mt-0 js-sticky-widget">
                               {% endif %}
                                   <!-- Card body -->
                                   <div class="card-body">
@@ -236,5 +236,16 @@
         document.body.addEventListener('htmx:configRequest', (event) => {
             event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
         })
+    </script>
+    <script src="{% static 'js/sticksy.min.js' %}"></script>
+    <script>
+        var stickyElement = new Sticksy('.js-sticky-widget', {topSpacing: 10});
+        stickyElement.onStateChanged = function (state) {
+            if(state === 'fixed') {
+               stickyElement.nodeRef.classList.add('widget--sticky')
+            } else {
+               stickyElement.nodeRef.classList.remove('widget--sticky')
+            }
+        }
     </script>
 {% endblock body_scripts %}

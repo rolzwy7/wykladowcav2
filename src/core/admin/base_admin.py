@@ -10,7 +10,6 @@ from core.models import (
     CrmCompany,
     CrmContact,
     DiscountApplicationApplied,
-    DiscountCode,
     Eventlog,
     LecturerOpinion,
     LoyaltyProgram,
@@ -55,7 +54,6 @@ admin.site.register(LoyaltyProgramPayout)
 
 admin.site.register(WebinarMoveRegister)
 admin.site.register(WebinarMoveRegisterItem)
-admin.site.register(DiscountCode)
 admin.site.register(WebinarApplicationCancellation)
 admin.site.register(WebinarApplicationCompany)
 admin.site.register(WebinarApplicationPrivatePerson)

@@ -1,8 +1,11 @@
 {% load static %}
 
-<tr>
+<tr
+  style="cursor: pointer;"
+  onclick="window.location.href='{% url 'core:webinar_program_page' slug=webinar.slug %}'"
+>
   <td>
-    <div class="d-flex align-items-center">
+    <div class="d-flex align-items-start">
     {% if show_image %}    
       <div>
         <a href="{% url 'core:webinar_program_page' slug=webinar.slug %}">
@@ -15,6 +18,26 @@
       </div>
       {% endif %}
       <div class="ms-3">
+        {% if webinar.description %}
+        <h4 class="mb-1 h4">
+          <a
+            href="{% url 'core:webinar_program_page' slug=webinar.slug %}"
+            class="text-inherit"
+            style="text-wrap: wrap"
+          >
+            {{webinar.title}}
+          </a>
+        </h4>
+        <h5>
+          <a
+          href="{% url 'core:webinar_program_page' slug=webinar.slug %}"
+          class="text-inherit"
+          style="text-wrap: wrap"
+          >
+            {{webinar.description}}
+          </a>
+        </h5>
+        {% else %}
         <h4 class="mb-1 h4">
           <a
             href="{% url 'core:webinar_program_page' slug=webinar.slug %}"
@@ -24,6 +47,7 @@
             {{webinar.title_original}}
           </a>
         </h4>
+        {% endif %}
         <ul class="list-inline fs-5 mb-0">
           <li class="list-inline-item">
             <a

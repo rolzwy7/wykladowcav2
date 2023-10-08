@@ -51,13 +51,13 @@ class WebinarCertificate(Model):
     def __str__(self) -> str:
         return f"{self.first_name} {self.last_name}"
 
-    @property
-    def absolute_url(self) -> str:
+    def get_absolute_url(self) -> str:
         """Get absolute URL for this certificate
 
         Returns:
             str: absolute url to certificate
         """
+
         certificate_path = reverse(
             "core:certificate_pdf_page", kwargs={"uuid": self.uuid}
         )

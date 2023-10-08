@@ -38,10 +38,20 @@
   </div>
   <!--end::Toolbar-->
 
+  <div class="table-responsive">
+    <table class="table table-bordered  table-row-gray-900" style="border: 1px solid black;">
+      <tbody>
+        {% for webinar_ctx in webinars_ctxs %}
+          {% include './snippets/CrmWebinarRow.html' with webinar_ctx=webinar_ctx %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
-  {% for webinar_ctx in webinars_ctxs %}
+
+  {% comment %} {% for webinar_ctx in webinars_ctxs %}
     {% include './snippets/CrmWebinarCard.html' with webinar_ctx=webinar_ctx %}
-  {% endfor %}
+  {% endfor %} {% endcomment %}
 
 {% endblock crm_content %}
 

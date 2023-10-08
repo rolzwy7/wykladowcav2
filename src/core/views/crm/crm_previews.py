@@ -39,7 +39,7 @@ def crm_participant_certificate_email_preview(request):
 
     if certificates.exists():
         certificate = certificates.order_by("?").first()
-        certificate_url = certificate.absolute_url  # type: ignore
+        certificate_url = certificate.get_absolute_url()  # type: ignore
     else:
         certificate_url = "#certificate_url"
 

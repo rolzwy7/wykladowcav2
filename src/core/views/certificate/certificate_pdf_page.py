@@ -14,6 +14,10 @@ def certificate_pdf_page(request, uuid: str):
     response = HttpResponse(
         service.get_pdf_bytes(), content_type="application/pdf"
     )
-    filename = f"Certyfikat {certificate.first_name} {certificate.last_name}"
+    filename = (
+        f"Certyfikat"
+        f" {certificate.first_name} {certificate.last_name}"
+        f" - Wykladowca_pl"
+    )
     response["Content-Disposition"] = f'inline; filename="{filename}.pdf"'
     return response

@@ -21,6 +21,7 @@ from django.db.models import (
     URLField,
     UUIDField,
 )
+from django.template.defaultfilters import timeuntil_filter
 from django.utils.timezone import now, timedelta
 
 from core.consts import SLUG_HELP_TEXT
@@ -133,7 +134,10 @@ class Webinar(Model):
     title = TextField(
         "Tytuł szkolenia",
         max_length=220,
-        help_text="Tytuł szkolenia zmodyfikowany, aby mieścił się w ogrniczonej ilości znaków",  # noqa
+        help_text=(
+            "Tytuł szkolenia zmodyfikowany,"
+            " aby mieścił się w ogrniczonej ilości znaków"
+        ),
     )
     slug = SlugField(
         "Skrót URL", max_length=230, unique=True, help_text=SLUG_HELP_TEXT
@@ -224,6 +228,15 @@ class Webinar(Model):
         return ret
 
     @property
+    def time_to_webinar(self) -> str:
+        """Returns formatted time left to webinar or False
+        if webinar start date is in the past
+        """
+        return (
+            "" if now() > self.date else timeuntil_filter(self.date, arg=now())
+        )
+
+    @property
     def is_discounted(self) -> bool:
         """Tells if webinar is discounted"""
         if self.discount_until:
@@ -267,7 +280,10 @@ class WebinarMetadata(Model):
     auto_send_invoices = BooleanField(
         "Automatyczne wysyłanie faktur",
         default=True,
-        help_text="Czy po zrealizowanym szkoleniu faktury mają być wysłane automatycznie do wszystkich",  # noqa
+        help_text=(
+            "Czy po zrealizowanym szkoleniu faktury mają być wysłane"
+            " automatycznie do wszystkich"
+        ),
     )
 
     lecturer_price_netto = PositiveSmallIntegerField(

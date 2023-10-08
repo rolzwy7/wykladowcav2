@@ -24,8 +24,8 @@ class WebinarCategoryModelAdmin(ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     list_display = [
         "name",
+        "parent",
         "visible",
         "slug",
-        "parent",
         "order",
     ]
