@@ -18,7 +18,7 @@
 								<div class="d-flex align-items-center">
 									<div class="me-2 position-relative d-flex justify-content-end align-items-end mt-n5">
 										<img src="{% get_media_prefix %}uploads/lecturers/{{lecturer.slug}}_80x80.webp" class="avatar-xl rounded-circle border border-4 border-white position-relative" alt="avatar">
-										<a href="#" class="position-absolute top-0 end-0" data-bs-toggle="tooltip" data-placement="top" aria-label="Verified" data-bs-original-title="Verified">
+										<a href="#" class="position-absolute top-0 end-0" data-bs-toggle="tooltip" data-placement="top" aria-label="Zweryfikowany" data-bs-original-title="Zweryfikowany">
 											<img src="{% static 'geeks/assets/images/svg/checked-mark.svg' %}" alt="checked" height="30" width="30">
 										</a>
 									</div>
@@ -26,16 +26,32 @@
 										<h2 class="mb-0">{{lecturer.fullname}}</h2>
 										<p class="mb-0 d-block">{{lecturer.profession}}</p>
 									</div>
+									{% if request.user.is_staff %}
+									<div class="btn-group ms-4">
+										<button class="btn btn-info btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Admin
+										</button>
+										<div class="dropdown-menu">
+										<a class="dropdown-item" href="{% url 'admin:core_lecturer_change' object_id=lecturer.id %}">
+											[CMS] Edytuj wykładowce
+										</a>
+										<a class="dropdown-item" href="{% url 'core:lecturer_mailing_template_page' slug=lecturer.slug %}">
+											[Szablon Mailing] Zestawienie szkoleń
+										</a>
+										</div>
+									</div>
+									{% endif %}
 								</div>
 							</div>
 						</div>
 				</div>
 			</div>
 
-	<!-- Content -->
+			<!-- Content -->
 
-	<div class="row mt-0 mt-md-4">
+			<div class="row mt-0 mt-md-4">
 				<div class="col-lg-3 col-md-4 col-12">
+				
 					<!-- Side navabar -->
 					<nav class="navbar navbar-expand-md navbar-light shadow-sm mb-4 mb-lg-0 sidenav">
 						<!-- Menu -->
@@ -44,8 +60,10 @@
 						<button class="navbar-toggler d-md-none icon-shape icon-sm rounded bg-primary text-light" type="button" data-bs-toggle="collapse" data-bs-target="#sidenav" aria-controls="sidenav" aria-expanded="false" aria-label="Toggle navigation">
 							<span class="fe fe-menu"></span>
 						</button>
+						
 						<!-- Navbar Collapse -->
 						<div class="collapse navbar-collapse" id="sidenav">
+							
 							<div class="navbar-nav flex-column">
 								<!-- Navbar header -->
 								<span class="navbar-header">PODSTRONY</span>

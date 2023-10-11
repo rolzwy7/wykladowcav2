@@ -22,6 +22,7 @@ def mailing_resignation_by_form_page(request: HttpRequest):
                 email
             )
             MailingResignationService.confirm_resignation_by_email(email)
+            MailingResignationService.mark_resignation_as_manual(email)
             return redirect(
                 reverse(
                     "core:mailing_resignation_page",

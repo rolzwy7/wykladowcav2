@@ -68,6 +68,10 @@ class MailingResignationManager:
             {"email": email}, {"$set": {"confirmed": True}}
         )
 
+    def mark_resignation_as_manual(self, email: str) -> None:
+        """Mark resignation as manual (by form)"""
+        self.collection.update_one({"email": email}, {"$set": {"manual": True}})
+
     def mark_confirmed_by_code(self, code: str) -> None:
         """Mark resignation as cofirmed by code"""
         self.collection.update_one({"_id": code}, {"$set": {"confirmed": True}})

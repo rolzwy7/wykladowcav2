@@ -255,17 +255,36 @@
                 <i>{{META__BASE_URL}}{% url "core:webinar_redirect_to_program_facebook" pk=webinar.pk %}</i>
               </p>
               
+              <h3>Rezygnacje</h3>
+              <ol>
+                <li>
+                  <a href="{{META__BASE_URL}}{% url 'core:mailing_resignation_by_form_page' %}">
+                    Rezygnacja przez formularz
+                  </a>
+                  <p>
+                    <i>{{META__BASE_URL}}{% url 'core:mailing_resignation_by_form_page' %}</i>
+                  </p>
+                </li>
+                <li>
+                  <a href="{{META__BASE_URL}}{% url 'core:mailing_resignation_page' resignation_code="KOD_TUTAJ" %}">
+                    Rezygnacja przez kod
+                  </a>
+                  <p>
+                    <i>{{META__BASE_URL}}{% url 'core:mailing_resignation_page' resignation_code="KOD_TUTAJ" %}</i>
+                  </p>
+                </li>
+              </ol>
 
               <h3>Szablony mailingowe</h3>
               <ol>
                 <li>
-                  <a href="{% url 'core:webinar_mailing_template_page' pk=webinar.pk template_name="WebinarMailingBase" %}">
-                    Szablon mailingowy - WebinarMailingBase
+                  <a href="{% url 'core:webinar_mailing_template_page' pk=webinar.pk template_name="VersionA" %}">
+                    Szablon mailingowy - VersionA
                   </a>
                 </li>
                 <li>
-                  <a href="{% url 'core:webinar_mailing_template_page' pk=webinar.pk template_name="WebinarMailingVersionA" %}">
-                    Szablon mailingowy - WebinarMailingVersionA
+                  <a href="{% url 'core:webinar_mailing_template_page' pk=webinar.pk template_name="VersionB" %}">
+                    Szablon mailingowy - VersionB
                   </a>
                 </li>
               </ol>

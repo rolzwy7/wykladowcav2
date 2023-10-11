@@ -151,6 +151,10 @@ class CrmWebinarService:
         """Get webinar's assets"""
         return WebinarAsset.manager.get_for_webinar(webinar=self.webinar)
 
+    def get_webinar_rating(self) -> float:
+        """Get webinar rating"""
+        return 0.0
+
     def get_context(self):
         """Number of gathered participants"""
         gathered_participants = self.get_gathered_participants()
@@ -162,6 +166,7 @@ class CrmWebinarService:
         resigned_applications = self.get_resigned_applications()
         recordings = self.get_recordings()
         certificates = self.get_certificates()
+        webinar_metadata = WebinarMetadata.objects.get(webinar=self.webinar)
         return {
             "webinar": self.webinar,
             # Sent applications
@@ -182,7 +187,12 @@ class CrmWebinarService:
             # Recordings
             "certificates": certificates,
             "certificates_count": certificates.count(),
-            #
+            # Clicks
+            "click_count_mailing": webinar_metadata.click_count_mailing,
+            "click_count_facebook": webinar_metadata.click_count_facebook,
+            # Webinar rating
+            "webinar_rating": self.get_webinar_rating(),
+            # Other
             "lecturer_netto_price": lecturer_price_netto,
             "lecturer_netto_price_display": f"{lecturer_price_netto:,}",
             "total_netto_value_of_webinar": total_netto_value_of_webinar,

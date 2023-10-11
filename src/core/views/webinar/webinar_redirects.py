@@ -11,8 +11,10 @@ def webinar_redirect_to_program(request: HttpRequest, pk: int):
     metadata = WebinarMetadata.objects.get(webinar=webinar)
     metadata.click_count_mailing += 1
     metadata.save()
+
     return redirect(
         reverse("core:webinar_program_page", kwargs={"slug": webinar.slug})
+        + f"?utm_campaign={webinar.slug}"
     )
 
 

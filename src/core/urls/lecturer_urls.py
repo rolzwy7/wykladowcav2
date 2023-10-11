@@ -2,6 +2,7 @@ from django.urls import path
 
 from core.views.lecturer import (
     lecturer_experience_page,
+    lecturer_mailing_template_page,
     lecturer_opinion_form_page,
     lecturer_opinion_thanks,
     lecturer_opinions_page,
@@ -23,6 +24,11 @@ urlpatterns = [
         "<slug:slug>/szkolenia/",
         lecturer_webinars_page,
         name="lecturer_webinars_page",
+    ),
+    path(
+        "<slug:slug>/mailing-zestawienie/",
+        lecturer_mailing_template_page,
+        name="lecturer_mailing_template_page",
     ),
     path(
         "<slug:slug>/przeslij-opinie/",

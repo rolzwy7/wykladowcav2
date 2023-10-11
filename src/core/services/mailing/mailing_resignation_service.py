@@ -33,6 +33,13 @@ class MailingResignationService:
         manager.close()
 
     @staticmethod
+    def mark_resignation_as_manual(email: str) -> None:
+        """Confirm resignation by email"""
+        manager = MailingResignationManager()
+        manager.mark_resignation_as_manual(email)
+        manager.close()
+
+    @staticmethod
     def get_by_resignation_code(code: str) -> Optional[MailingResignation]:
         """Get by resignation code"""
         manager = MailingResignationManager()

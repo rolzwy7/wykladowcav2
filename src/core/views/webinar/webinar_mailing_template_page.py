@@ -10,7 +10,9 @@ def webinar_mailing_template_page(
     request: HttpRequest, pk: int, template_name: str
 ):
     """Webinar email template page"""
-    template_name = f"core/pages/webinar/mailing/{template_name}.html"
+    template_name = (
+        f"mailing_templates/MailingTemplateWebinarOffer/{template_name}.html"
+    )
     webinar = get_object_or_404(Webinar, pk=pk)
     webinar_template_service = MailingWebinarTemplateService(webinar)
 
