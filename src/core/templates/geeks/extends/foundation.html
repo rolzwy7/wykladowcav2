@@ -2,6 +2,27 @@
 <!DOCTYPE html>
 <html lang="{{META__HTML_LANG}}" dir="{{META__HTML_DIR}}">
   <head>
+    
+    {% if META__APP_ENV == "production" %}
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9C0FK07Z1V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-9C0FK07Z1V');
+    </script>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(function(OneSignal) {
+        OneSignal.init({
+          appId: "32218943-1240-44e5-9496-4a02a498b41f",
+        });
+      });
+    </script>
+    {% endif %}
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="keywords" content="" />

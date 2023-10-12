@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from core.views import meta_redirect_page, robots_page
+from core.views import meta_redirect_page, one_signal_worker_script, robots_page
 
 from .sitemap_urls import sitemap_xml_path
 
@@ -16,6 +16,12 @@ urlpatterns = [
     # SEO
     sitemap_xml_path,
     path("robots.txt", robots_page, name="robots_page"),
+    # OneSignal
+    path(
+        "OneSignalSDKWorker.js",
+        one_signal_worker_script,
+        name="one_signal_worker_script",
+    ),
     # Django Debug Toolbar
     path("__debug__/", include("debug_toolbar.urls"), name="debug_toolbar"),
     path("", include("core.urls", namespace="core")),

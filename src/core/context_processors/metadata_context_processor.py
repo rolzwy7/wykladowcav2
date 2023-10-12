@@ -4,6 +4,7 @@ from django.http import HttpRequest
 
 COMPANY_NAME = settings.COMPANY_NAME
 BASE_URL = settings.BASE_URL
+APP_ENV = settings.APP_ENV
 
 
 def page_title(request: HttpRequest) -> str:
@@ -27,6 +28,7 @@ def page_title(request: HttpRequest) -> str:
 def metadata(request: HttpRequest):
     """Metadata"""
     return {
+        "META__APP_ENV": APP_ENV,
         "META__BASE_URL": BASE_URL,
         "META__TITLE": page_title(request),
         "META__DESCRIPTION": "META__DESCRIPTION",  # TODO

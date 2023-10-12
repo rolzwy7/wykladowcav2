@@ -6,6 +6,7 @@ from .home_page import home_page
 from .login_page import login_page
 from .logout_page import logout_page
 from .meta_redirect_page import meta_redirect_page
+from .one_signal_views import one_signal_worker_script
 from .register_page import (
     register_activation_page,
     register_info_page,
