@@ -1,0 +1,105 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %}
+{% load static %}
+
+{% block head_stylesheets %}
+
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+
+<!--start::Col-->
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title fw-bold text-primary fs-1">Przenieś termin szkolenia</h3>
+        </div>
+        <div class="card-body fs-3">
+
+            <p><b>Szkolenie</b>: {{webinar.title_original}}</p>
+            <p><b>Data</b>: {{webinar.date|date:"j E Y"}}, godz. {{webinar.date|date:"H:i"}}</p>
+            <p><b>Wykładowca</b>: {{webinar.lecturer.fullname}}</p>
+
+            <h2>Co się stanie?</h2>
+
+            <div class="separator my-5"></div>
+
+            <ol>
+                <li>Termin (data) szkolenia zostanie zmieniona</li>
+                <li>Termin pozostanie w stanie zbierania zgłoszeń</li>
+                <li>Do osób zgłaszających zostanie wysłana wiadomość e-mail z prosbą o określenie, czy akceptują przeniesienie terminu czy rezygnują</li>
+            </ol>
+
+            <div class="separator my-5"></div>
+
+            <form
+                onsubmit="actionSubmit.disabled = true; return true;"
+                method="post"
+                action="{% url 'core:crm_webinar_move' pk=webinar.pk %}"
+            >
+                {% csrf_token %}
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        {{form.new_date}}
+                        {% comment %} <div
+                            class="input-group"
+                            id="kt_new_date"
+                            data-td-target-input="nearest"
+                            data-td-target-toggle="nearest"
+                        >
+                            <input
+                                type="text"
+                                name="new_date"
+                                required
+                                class="form-control"
+                                data-td-target="#kt_new_date"
+                            />
+                            <span
+                                class="input-group-text"
+                                data-td-target="#kt_new_date"
+                                data-td-toggle="datetimepicker"
+                            >
+                                <i class="ki-duotone ki-calendar fs-2"><span class="path1"></span><span class="path2"></span></i>
+                            </span>
+                        </div> {% endcomment %}
+                    </div>
+                </div>
+                
+
+                <div class="separator my-5"></div>
+                {{form.i_am_sure}}
+                <div class="separator my-5"></div>
+                
+                <input
+                    id="confirm-submit-btn"
+                    name="actionSubmit"
+                    class="btn btn-primary mt-4"
+                    type="submit"
+                    value="Pzenieś szkolenie"
+                    disabled
+                >
+            </form>
+        </div>
+    </div>
+</div>
+<!--end::Col-->
+
+{% endblock crm_content %}
+
+{% block body_scripts %}
+<script>
+    var checkInput = document.querySelector("#id_i_am_sure");
+    checkInput.addEventListener("click", function(e) {
+        let btn = document.querySelector("#confirm-submit-btn");
+        btn.disabled = !btn.disabled;
+    })
+
+    new tempusDominus.TempusDominus(document.getElementById("kt_id_new_date"), {
+        localization: {
+            locale: "pl",
+            startOfTheWeek: 1,
+            format: "dd/MM/yyyy hh:mm"
+        }
+    });
+</script>
+{% endblock body_scripts %}

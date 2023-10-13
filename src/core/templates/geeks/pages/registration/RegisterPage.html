@@ -1,0 +1,109 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+{% block navbar %}{% endblock navbar %}
+{% block footer %}{% endblock footer %}
+
+{% block root %}
+<main>
+<section class="container d-flex flex-column">
+    <div class="row align-items-center justify-content-center g-0 min-vh-100">
+        <div class="col-lg-5 col-md-8 py-8 py-xl-0">
+            <!-- Card -->
+            <div class="card shadow">
+                <!-- Card body -->
+                <div class="card-body p-6">
+                    <div class="mb-4">
+                    <a href="{% url 'core:homepage' %}">
+                        <i class="fe fe-arrow-left align-middle me-2"></i>
+                        Powróć do strony główniej    
+                    </a>
+                    <hr class="my-4">
+                        <h1 class="mb-1 fw-bold">Zarejestruj się</h1>
+                        <span>Masz już konto ?
+                            <a href="{% url 'core:login_page' %}" class="ms-1">
+                                Zaloguj się
+                            </a>
+                        </span>
+                    </div>
+                    {% for error in form.non_field_errors  %}
+                        <div class="text-danger fw-medium">{{error}}</div>
+                    {% endfor %}
+                    <!-- Form -->
+                    <form
+                        onsubmit="actionSubmit.disabled = true; return true;"
+                        method="post"
+                        action="{% url 'core:register_page' %}"
+                    >
+                        {% csrf_token %}
+                            <!-- first_name -->
+                        <div class="mb-3">
+                            {{form.first_name}}
+                            {% for error in form.first_name.errors %}
+                                <div class="text-danger">{{error}}</div>
+                            {% endfor %}
+                        </div>
+                            <!-- last_name -->
+                        <div class="mb-3">
+                            {{form.last_name}}
+                            {% for error in form.last_name.errors %}
+                                <div class="text-danger">{{error}}</div>
+                            {% endfor %}
+                        </div>
+                            <!-- Email -->
+                        <div class="mb-3">
+                            {{form.email}}
+                            {% for error in form.email.errors %}
+                                <div class="text-danger">{{error}}</div>
+                            {% endfor %}
+                        </div>
+                            <!-- Password1 -->
+                        <div class="mb-3">
+                            {{form.password1}}
+                            {% for error in form.password1.errors %}
+                                <div class="text-danger">{{error}}</div>
+                            {% endfor %}
+                        </div>
+                            <!-- Password2 -->
+                        <div class="mb-3">
+                            {{form.password2}}
+                            {% for error in form.password2.errors %}
+                                <div class="text-danger">{{error}}</div>
+                            {% endfor %}
+                        </div>
+                        
+                        <div>
+                                <!-- Button -->
+                                <div class="d-grid">
+                            <button type="submit" name="actionSubmit" class="btn btn-primary">
+                                Stwórz konto
+                            </button>
+                            </div>
+                        </div>
+                        {% comment %} <hr class="my-4">
+                        <div class="mt-4 text-center">
+                            <!--Facebook-->
+                            <a href="sign-up.html#" class="btn-social btn-social-outline btn-facebook">
+                                <i class="mdi mdi-facebook fs-4"></i>
+                            </a>
+                            <!--Twitter-->
+                            <a href="sign-up.html#" class="btn-social btn-social-outline btn-twitter">
+                                <i class="mdi mdi-twitter fs-4"></i>
+                            </a>
+                            <!--LinkedIn-->
+                            <a href="sign-up.html#" class="btn-social btn-social-outline btn-linkedin">
+                                <i class="mdi mdi-linkedin"></i>
+                            </a>
+                            <!--GitHub-->
+                            <a href="sign-up.html#" class="btn-social btn-social-outline btn-github">
+                                <i class="mdi mdi-github"></i>
+                            </a>
+                        </div> {% endcomment %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</main>
+{% endblock root %}

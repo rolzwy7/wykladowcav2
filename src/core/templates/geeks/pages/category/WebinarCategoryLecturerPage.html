@@ -1,0 +1,90 @@
+{% extends './WebinarCategoryBase.html' %}
+
+{% load static %}
+
+{% block content %}
+<section class="py-6">
+<div class="container">
+    <div class="row">
+    <div class="col-md-12">
+        <!-- Tab content -->
+        <div class="tab-content" id="pills-tabContent">
+        <!-- Tab Pane -->
+        <div
+            class="tab-pane fade active show"
+            id="pills-author"
+            role="tabpanel"
+            aria-labelledby="pills-author-tab"
+        >
+            <div class="row">
+                {% for lecturer in category_lecturers %}
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <!-- Card -->
+                        <div class="card mb-4">
+                        <!-- Card body -->
+                        <div class="card-body">
+                            <div class="d-lg-flex">
+                            <div class="position-relative">
+                                <img
+                                src="{% get_media_prefix %}uploads/lecturers/{{lecturer.slug}}_80x80.webp"
+                                alt="avatar"
+                                class="rounded-circle avatar-xl mb-3 mb-lg-0"
+                                />
+                                <a
+                                href="#"
+                                class="position-absolute mt-2 ms-n3"
+                                data-bs-toggle="tooltip"
+                                data-placement="top"
+                                aria-label="Verifed"
+                                data-bs-original-title="Verifed"
+                                >
+                                <img
+                                    src="{% static 'geeks/assets/images/svg/checked-mark.svg' %}"
+                                    alt="checked"
+                                    height="30"
+                                    width="30"
+                                />
+                                </a>
+                            </div>
+                            <div class="ms-lg-4">
+                                <h4 class="mb-0">{{lecturer.fullname}}</h4>
+                                <p class="mb-0 fs-6">{{lecturer.profession}}</p>
+                                {% comment %} <p class="fs-6 mb-1 text-warning">
+                                <span>4.5</span
+                                ><span class="mdi mdi-star text-warning me-2"></span
+                                >Instructor Rating
+                                </p> {% endcomment %}
+                                <p class="fs-6 text-muted">
+                                <span class="me-2">
+                                    <span class="text-dark fw-medium">
+                                        {{lecturer.fake_stat_webinars}}
+                                    </span>
+                                    Zrealizowanych szkoleń
+                                    </span>
+                                <span class="ms-2">
+                                    <span class="text-dark fw-medium">
+                                        {{lecturer.fake_stat_participants}}
+                                    </span>
+                                        Uczestników
+                                    </span>
+                                </p>
+                                <p>
+                                    {{lecturer.biography_email|truncatechars:150}}
+                                </p>
+                                <a href="{% url 'core:lecturer_experience_page' slug=lecturer.slug %}" class="btn btn-outline-secondary btn-sm">
+                                    Zobacz profil wykładowcy
+                                </a>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
+</section>
+{% endblock content %}

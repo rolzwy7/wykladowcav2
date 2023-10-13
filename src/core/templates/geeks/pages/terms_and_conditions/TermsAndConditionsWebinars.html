@@ -1,0 +1,13 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+
+{% block body_tag %}
+<body class="bg-white">
+{% endblock body_tag %}
+
+{% block root %}
+<main>
+  {% include './snippets/TermsAndConditionsWebinarsCard.html' %}
+</main>
+{% endblock root %}

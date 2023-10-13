@@ -1,0 +1,38 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+<!--begin::Toolbar-->
+<div class="toolbar d-flex flex-stack flex-wrap mb-5 mb-lg-7" id="kt_toolbar">
+    <!--begin::Page title-->
+    <div class="page-title d-flex flex-column py-1">
+        <!--begin::Title-->
+        <h1 class="d-flex align-items-center my-1">
+            <span class="text-dark fw-bold fs-1">Wykładowcy ({{lecturers.count}} wykładowców)</span>
+        </h1>
+        <!--end::Title-->
+    </div>
+    <!--end::Page title-->
+</div>
+<!--end::Toolbar-->  
+
+<ol>
+    {% for lecturer in lecturers %}
+        <li>
+            <a href="{% url 'core:lecturer_stats_page' pk=lecturer.pk %}">
+                {{lecturer}}
+            </a>
+        </li>
+    {% endfor %}
+</ol>
+
+{% endblock crm_content %}
+
+
+{% block body_scripts %}
+
+{% endblock body_scripts %}

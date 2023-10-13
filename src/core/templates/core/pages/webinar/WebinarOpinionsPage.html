@@ -1,6 +1,22 @@
 {% extends './WebinarBase.html' %}
 
+{% comment %} {% block webinar_main_col %}
+<div class="col-xl-12">
+{% endblock webinar_main_col %}
+
+{% block webinar_rightbar %}{% endblock webinar_rightbar %} {% endcomment %}
 
 {% block webinar_content %}
-    Opinie
+
+<div class="card shadow-sm">
+    <div class="card-body">  
+        <div class="row">
+            {% for lecturer_opinion in lecturer_opinions %}
+                <div class="col-md-6">
+                    {% include 'core/pages/lecturer/snippets/OpinionAboutLecturer.html' with opinion=lecturer_opinion %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 {% endblock webinar_content %}

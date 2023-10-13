@@ -1,0 +1,24 @@
+{% extends './LecturerBase.html' %}
+{% load static %}
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+{% block rightbar %}{% endblock rightbar %}
+
+{% block lecturer_main_col %}
+<div class="col-xl-12">
+{% endblock lecturer_main_col %}
+
+{% block lecturer_rightbar %}{% endblock lecturer_rightbar %}
+
+{% block lecturer_content %}
+<div class="card">
+    <div class="card-body">
+        {% for webinar in webinars %}
+          {% include 'core/components/WebinarCard.html' with webinar=webinar %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock lecturer_content %}
+
+{%block body_scripts %}
+
+{% endblock body_scripts %}

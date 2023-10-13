@@ -1,8 +1,12 @@
 from django.template.response import TemplateResponse
 
-from core.models import Webinar
+from core.services import HomepageService
 
 
 def home_page(request):
-    context = {"webinars": Webinar.manager.homepage_webinars()}
-    return TemplateResponse(request, "core/pages/Homepage.html", context)
+    """Homepage controller"""
+    template_name = "geeks/pages/homepage/HomePage.html"
+    homepage_service = HomepageService()
+    return TemplateResponse(
+        request, template_name, {**homepage_service.get_context()}
+    )

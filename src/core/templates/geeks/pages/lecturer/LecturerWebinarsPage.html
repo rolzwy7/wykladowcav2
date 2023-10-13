@@ -1,0 +1,36 @@
+{% extends './LecturerBase.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="card mb-4">
+    <!-- Card header -->
+    <div class="card-header">
+        <h3 class="mb-0">Szkolenia</h3>
+        <span>
+            {{lecturer.fullname}}
+        </span>
+    </div>
+    <!-- Card body -->
+    <div class="card-body">
+        <!-- Table -->
+        <div class="table-responsive overflow-y-hidden">
+        <table
+            class="table mb-0 text-nowrap table-hover table-centered text-nowrap"
+            >
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">Szkolenia</th>
+                    <th scope="col">Data / Cena</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for webinar in webinars %}
+                {% include 'geeks/components/webinar_tr.html' with webinar=webinar  %}
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,112 @@
+{% extends 'geeks/extends/foundation.html' %}
+{% load static %}
+{% block root %}
+
+<main>
+	<section class="pt-5 pb-5">
+		<div class="container">
+			<div class="row align-items-center">
+				<!-- User info -->
+				<div class="col-xl-12 col-lg-12 col-md-12 col-12">
+					<!-- Bg -->
+					<div class="pt-16 rounded-top" style="
+								background: url({% static 'geeks/assets/images/background/profile-bg.jpg' %}) no-repeat;
+								background-size: cover;
+							"></div>
+						<div class="card px-4 pt-2 pb-4 shadow-sm rounded-top-0 rounded-bottom-0 rounded-bottom-md-2 ">
+							<div class="d-flex align-items-end justify-content-between  ">
+								<div class="d-flex align-items-center">
+									<div class="me-2 position-relative d-flex justify-content-end align-items-end mt-n5">
+										<img src="{% get_media_prefix %}uploads/lecturers/{{lecturer.slug}}_80x80.webp" class="avatar-xl rounded-circle border border-4 border-white position-relative" alt="avatar">
+										<a href="#" class="position-absolute top-0 end-0" data-bs-toggle="tooltip" data-placement="top" aria-label="Zweryfikowany" data-bs-original-title="Zweryfikowany">
+											<img src="{% static 'geeks/assets/images/svg/checked-mark.svg' %}" alt="checked" height="30" width="30">
+										</a>
+									</div>
+									<div class="lh-1">
+										<h2 class="mb-0">{{lecturer.fullname}}</h2>
+										<p class="mb-0 d-block">{{lecturer.profession}}</p>
+									</div>
+									{% if request.user.is_staff %}
+									<div class="btn-group ms-4">
+										<button class="btn btn-info btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Admin
+										</button>
+										<div class="dropdown-menu">
+										<a class="dropdown-item" href="{% url 'admin:core_lecturer_change' object_id=lecturer.id %}">
+											[CMS] Edytuj wykładowce
+										</a>
+										<a class="dropdown-item" href="{% url 'core:lecturer_mailing_template_page' slug=lecturer.slug %}">
+											[Szablon Mailing] Zestawienie szkoleń
+										</a>
+										</div>
+									</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+				</div>
+			</div>
+
+			<!-- Content -->
+
+			<div class="row mt-0 mt-md-4">
+				<div class="col-lg-3 col-md-4 col-12">
+				
+					<!-- Side navabar -->
+					<nav class="navbar navbar-expand-md navbar-light shadow-sm mb-4 mb-lg-0 sidenav">
+						<!-- Menu -->
+						<a class="d-xl-none d-lg-none d-md-none text-inherit fw-bold" href="#">Menu</a>
+						<!-- Button -->
+						<button class="navbar-toggler d-md-none icon-shape icon-sm rounded bg-primary text-light" type="button" data-bs-toggle="collapse" data-bs-target="#sidenav" aria-controls="sidenav" aria-expanded="false" aria-label="Toggle navigation">
+							<span class="fe fe-menu"></span>
+						</button>
+						
+						<!-- Navbar Collapse -->
+						<div class="collapse navbar-collapse" id="sidenav">
+							
+							<div class="navbar-nav flex-column">
+								<!-- Navbar header -->
+								<span class="navbar-header">PODSTRONY</span>
+								<ul class="list-unstyled ms-n2 mb-4">
+									<!-- Nav item -->
+									<li class="nav-item {% if request.path == '/wykladowca/'|add:lecturer.slug|add:'/' %}active{% endif %}">
+										<a class="nav-link" href="{% url 'core:lecturer_experience_page' slug=lecturer.slug %}">
+                                            <i class="fe fe-home nav-icon"></i>
+                                            Doświadczenie
+                                        </a>
+									</li>
+									<!-- Nav item -->
+									<li class="nav-item {% if request.path == '/wykladowca/'|add:lecturer.slug|add:'/szkolenia/' %}active{% endif %}">
+										<a class="nav-link" href="{% url 'core:lecturer_webinars_page' slug=lecturer.slug %}">
+                                            <i class="fe fe-book nav-icon"></i>
+                                            Szkolenia
+                                        </a>
+									</li>
+									<!-- Nav item -->
+									<li class="nav-item {% if request.path == '/wykladowca/'|add:lecturer.slug|add:'/opinie/' %}active{% endif %}">
+										<a class="nav-link" href="{% url 'core:lecturer_opinions_page' slug=lecturer.slug %}">
+                                            <i class="fe fe-star nav-icon"></i>
+                                            Opinie
+                                        </a>
+									</li>
+									<!-- Nav item -->
+									<li class="nav-item {% if request.path == '/wykladowca/'|add:lecturer.slug|add:'/szkolenia-zamkniete/' %}active{% endif %}">
+										<a class="nav-link" href="{% url 'core:lecturer_closed_webinar_pages' slug=lecturer.slug %}">
+                                            <i class="fe fe-pie-chart nav-icon"></i>
+                                            Szkolenia zamknięte
+                                        </a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</nav>
+				</div>
+				<div class="col-lg-9 col-md-8 col-12">
+					{% block content %}{% endblock content %}
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+
+{% endblock root %}

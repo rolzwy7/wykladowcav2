@@ -1,0 +1,229 @@
+{% extends 'core/extends/base.html' %} 
+{% load static %}
+
+{% block leftbar %}{% endblock leftbar %}
+{% block rightbar %}{% endblock rightbar %}
+
+{% block head_stylesheets %}
+  {% comment %}
+  <!--begin::Vendor Stylesheets(used for this page only)-->
+  <link
+  href="{% static 'plugins/custom/fullcalendar/fullcalendar.bundle.css' %}"
+  rel="stylesheet"
+  type="text/css"
+  />
+  <link
+  href="{% static 'plugins/custom/datatables/datatables.bundle.css' %}"
+  rel="stylesheet"
+  type="text/css"
+  />
+  <!--end::Vendor Stylesheets-->
+  {% endcomment %}
+<style>
+  @media only screen and (min-width: 992px)
+  section#hero {
+      height: 100vh;
+      background-color: red;
+  }
+</style>
+{% endblock head_stylesheets %}
+
+{% block content %}
+<!--begin::Wrapper-->
+<div
+  class="wrapper d-flex flex-column flex-row-fluid mt-5 mt-lg-10"
+  id="kt_wrapper"
+>
+  <!--begin::Content-->
+  <div class="content flex-column-fluid" id="kt_content">
+    <!--begin::Post-->
+    <div class="post" id="kt_post">
+      <!--begin::Questions-->
+      <div class="mb-10">
+
+
+        <section id="hero">
+            test
+        </section>
+
+
+          <section class="py-20">
+            <h3 class="fs-2hx fw-bold text-center">Najbliższe szkolenia Online</h3>
+            <p class="text-muted fs-4 fw-semibold text-center mb-10">
+              Sprawdź najbliższe szkolenia online, które dla Ciebie przygotowaliśmy!
+            </p>
+            <div class="tns tns-default" style="direction: ltr">
+              <!--begin::Slider-->
+              <div
+              data-tns="true"
+              data-tns-loop="true"
+              data-tns-swipe-angle="false"
+              data-tns-speed="2000"
+              data-tns-autoplay="true"
+              data-tns-autoplay-timeout="18000"
+              data-tns-controls="true"
+              data-tns-nav="false"
+              data-tns-items="3"
+              data-tns-center="false"
+              data-tns-dots="false"
+              data-tns-prev-button="#kt_team_slider_prev1"
+              data-tns-next-button="#kt_team_slider_next1">
+          
+                  <!--begin::Item-->
+                  <div class="text-center px-5 py-5">
+                      <img src="{% static 'media/stock/600x400/img-1.jpg' %}" class="card-rounded mw-100" alt=""/>
+                  </div>
+                  <!--end::Item-->
+                  <!--begin::Item-->
+                  <div class="text-center px-5 py-5">
+                      <img src="{% static 'media/stock/600x400/img-1.jpg' %}" class="card-rounded mw-100" alt=""/>
+                  </div>
+                  <!--end::Item-->
+                  <!--begin::Item-->
+                  <div class="text-center px-5 py-5">
+                      <img src="{% static 'media/stock/600x400/img-1.jpg' %}" class="card-rounded mw-100" alt=""/>
+                  </div>
+                  <!--end::Item-->
+                  <!--begin::Item-->
+                  <div class="text-center px-5 py-5">
+                      <img src="{% static 'media/stock/600x400/img-1.jpg' %}" class="card-rounded mw-100" alt=""/>
+                  </div>
+                  <!--end::Item-->
+                  <!--begin::Item-->
+                  <div class="text-center px-5 py-5">
+                      <img src="{% static 'media/stock/600x400/img-1.jpg' %}" class="card-rounded mw-100" alt=""/>
+                  </div>
+                  <!--end::Item-->
+  
+                </div>
+              <!--end::Slider-->
+          
+              <!--begin::Slider button-->
+              <button class="btn btn-icon btn-active-color-primary" id="kt_team_slider_prev1">
+                  <span class="svg-icon fs-3x">
+                      ...
+                  </span>
+              </button>
+              <!--end::Slider button-->
+          
+              <!--begin::Slider button-->
+              <button class="btn btn-icon btn-active-color-primary" id="kt_team_slider_next1">
+                  <span class="svg-icon fs-3x">
+                      ...
+                  </span>
+              </button>
+              <!--end::Slider button-->
+          </div>
+            
+          </section>
+
+          
+          <section class="text-center">
+            <a href="#" class="btn btn-success hover-scale">
+              Harmonogram szkoleń online
+            </a>
+          </section>
+
+
+          <section class="py-20">
+            <h3 class="fs-2hx fw-bold text-center">Nasi klienci</h3>
+            <p class="text-muted fs-4 fw-semibold text-center mb-10">
+              Skorzystali z naszych usług szkoleniowych
+            </p>
+         
+            
+          </section>
+
+          <section class="py-20">
+            <h3 class="fs-2hx fw-bold text-left">
+              Od 2021 roku firma {{COMPANY_NAME}} specjalizujemy się w integrowaniu środowiska biznesowego oraz w rozwijaniu kompetencji zawodowych.
+            </h3>
+            <p class="text-muted fs-4 fw-semibold text-left">
+              Dostarczamy usługi z zakresu doradztwa podatkowego, księgowości, konsultingu, organizacji konferencji oraz prowadzenia szkoleń. Naszym priorytetem jest realizacja profesjonalnych szkoleń online związanych z zagadnieniami rachunkowości i finansów, które są aktualizowane wraz z postępem technologicznym.              
+            </p>
+
+            <p class="text-muted fs-4 fw-semibold text-left">
+          Współpracujemy z zespołem ekspertów, którzy posiadają szerokie doświadczenie w przeprowadzaniu szkoleń dla pracowników różnych branż. Nasze szkolenia dotyczą m.in. prawa pracy, podatków, płac, czasu pracy, ubezpieczeń społecznych i dochodów międzynarodowych. Tworzymy spersonalizowane programy szkoleniowe, które dostosowujemy do oczekiwań i potrzeb naszych Klientów.
+            </p>
+            <p class="text-muted fs-4 fw-semibold text-left">
+          Nasze usługi szkoleniowe skierowane są do kadry zarządzającej, specjalistów finansowo-księgowych oraz osób prywatnych. Wyzwania biznesowe, jakie stają przed przedsiębiorcami, wymagają stałego poszerzania wiedzy i umiejętności. Dlatego nasze szkolenia są dostępne dla osób o różnym poziomie wiedzy - od podstawowej, po zaawansowaną.
+            </p>
+
+            <h3 class="fs-2hx fw-bold text-left">
+              Jako partnerzy biznesowi, dbamy o profesjonalną realizację usług oraz o budowanie trwałych relacji opartych na zaufaniu i zrozumieniu potrzeb Klientów.    
+            </h3>
+            <p class="text-muted fs-4 fw-semibold text-left">
+           Chcemy, aby nasi Klienci czuli się komfortowo i zapewniamy im pełne wsparcie w trakcie szkoleń. Nasza kadra trenerska to doświadczeni eksperci, którzy przekazują wiedzę i umiejętności na najwyższym poziomie.
+            </p>
+
+
+            <p class="text-muted fs-4 fw-semibold text-left">
+          Wykorzystując bogaty kapitał intelektualny naszych wykładowców, trenerów, ekspertów i praktyków, realizujemy nasz główny cel - dostarczanie szkoleń z zakresu rachunkowości, finansów, podatków, kadr i płac, umiejętności interpersonalnych oraz zarządczych. Nasz zespół składa się z doświadczonych profesjonalistów, którzy w sposób przystępny i zrozumiały przekazują swoją wiedzę i umiejętności. Jesteśmy dumni z faktu, że w ciągu ponad dwóch lat działalności, udało nam się zrealizować nasz cel z powodzeniem, pomagając ponad tysiącu uczestników w rozwoju ich kwalifikacji zawodowych. Chcemy kontynuować naszą misję i dostarczać skuteczne i wartościowe szkolenia, dostosowane do potrzeb naszych klientów.
+            </p>
+
+            <h3 class="fs-2hx fw-bold text-left">
+              {{COMPANY_NAME}} oferuje szkolenia, które umożliwiają rozwijanie wiedzy merytorycznej i umiejętności biznesowych dla różnych grup odbiorców  
+            </h3>
+            <p class="text-muted fs-4 fw-semibold text-left">
+            takich jak kadra zarządzająca, specjaliści finansowo-księgowi, przedstawiciele jednostek samorządu terytorialnego, sektora budżetowego oraz osoby prywatne. Nasze szkolenia są dostosowane do potrzeb i oczekiwań uczestników i pozwalają zarówno na poszerzenie wiedzy podstawowej, jak i zdobycie nowych, wartościowych kwalifikacji na rynku pracy.
+            </p>
+            <p class="text-muted fs-4 fw-semibold text-left">
+          Jako firma szkoleniowa, dbamy o rozwój naszych uczestników, dlatego też po każdym szkoleniu udostępniamy materiały szkoleniowe oraz zapewniamy dostęp do naszych ekspertów, którzy służą pomocą i radą. Naszym celem jest stałe dostosowywanie się do potrzeb rynku i zapewnienie naszym klientom konkurencyjnej przewagi na rynku pracy.
+            </p>
+
+            <p class="text-muted fs-4 fw-semibold text-left">
+          Nasze szkolenia są prowadzone przez czołowych specjalistów w swoich dziedzinach, którzy posiadają praktyczne doświadczenie w swojej pracy. Wśród wykładowców znajdują się przedstawiciele Izb i Urzędów Skarbowych, wykładowcy wyższych uczelni, praktycy - prawnicy, doradcy podatkowi, biegli rewidenci, główni księgowi, dyrektorzy, kontrolerzy i analitycy finansowi. Każdy z wykładowców posiada duże doświadczenie zawodowe oraz doskonałe przygotowanie warsztatowe, co pozwala im przekazać uczestnikom wiedzę na wysokim poziomie. Cieszą się oni również uznaniem w swoich dziedzinach, publikując liczne fachowe opracowania i artykuły.
+            </p>
+
+            <h3 class="fs-2hx fw-bold text-left">
+              Jako firma dbamy o to, aby standardy naszych szkoleń były jak najwyższe.    
+            </h3>
+            <p class="text-muted fs-4 fw-semibold text-left">
+          Dlatego też, zawsze wybieramy trenerów, którzy nie ograniczają swojego przekazu tylko do omówienia przepisów prawnych, ale przekazują praktyczną wiedzę, którą można zastosować w codziennej pracy. Poza tym, każde szkolenie jest oceniane przez uczestników poprzez wypełnienie ankiet oceniających trenerów oraz skuteczność szkolenia. Dzięki temu, jesteśmy w stanie ewaluować naszą pracę i wciąż podnosić jakość naszych usług. Ponadto, każdy trener jest rozliczany z efektów przeprowadzonych zajęć, co zobowiązuje ich do jak najlepszej pracy i przekazania praktycznych umiejętności.
+            </p>
+            <p class="text-muted fs-4 fw-semibold text-left">
+          Nasi wykładowcy to prawdziwi eksperci w swoich dziedzinach, którzy stworzyli najnowsze i najbardziej innowacyjne programy szkoleniowe z zakresu kadr i płac. Dzięki ich doświadczeniu i wiedzy, tysiące osób z powodzeniem wykorzystało zdobytą przez nas wiedzę w swojej pracy. Każdy z nich posiada praktyczne podejście do prowadzonych zajęć, a ich umiejętności w przekazywaniu informacji są na bardzo wysokim poziomie. Dysponują wieloletnim doświadczeniem trenerskim, dzięki czemu potrafią skutecznie angażować grupę oraz przekazywać trudne tematy w prosty i zrozumiały sposób.
+            </p>
+         
+            
+          </section>
+
+      
+
+      </div>
+      <!--end::Questions-->
+    </div>
+    <!--end::Post-->
+  </div>
+  <!--end::Content-->
+</div>
+<!--end::Wrapper-->
+{% endblock content %}
+
+
+{% block body_scripts %}
+  {% comment %}
+  <!--begin::Vendors Javascript(used for this page only)-->
+  <script src="{% static 'plugins/custom/fullcalendar/fullcalendar.bundle.js' %}"></script>
+  <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/radar.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/map.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/geodata/worldLow.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/geodata/continentsLow.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/geodata/usaLow.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/geodata/worldTimeZonesLow.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/geodata/worldTimeZoneAreasLow.js"></script>
+  <script src="{% static 'plugins/custom/datatables/datatables.bundle.js' %}"></script>
+  <!--end::Vendors Javascript-->
+  <!--begin::Custom Javascript(used for this page only)-->
+  <script src="{% static 'js/widgets.bundle.js' %}"></script>
+  <script src="{% static 'js/custom/widgets.js' %}"></script>
+  <script src="{% static 'js/custom/apps/chat/chat.js' %}"></script>
+  <script src="{% static 'js/custom/utilities/modals/upgrade-plan.js' %}"></script>
+  <script src="{% static 'js/custom/utilities/modals/users-search.js' %}"></script>
+  <!--end::Custom Javascript-->
+  {% endcomment %}
+{% endblock body_scripts %}

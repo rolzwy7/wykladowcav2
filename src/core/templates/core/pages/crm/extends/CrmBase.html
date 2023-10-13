@@ -1,0 +1,41 @@
+{% extends 'core/extends/base.html' %} 
+{% load static %}
+
+{% block title %}
+    <title>CRM</title>
+{% endblock title %}
+
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+
+{% block leftbar %}
+    {% include './leftbar.html' %}
+{% endblock leftbar %}
+
+{% block rightbar %}{% endblock rightbar %}
+
+{% block header %}
+    {% include './header.html' %}
+{% endblock header %}
+
+{% block body_tag %}
+<body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed aside-enabled sidebar-enabled" style="background-color: #f1f5f9;">
+{% endblock body_tag %}
+
+{% block content %}
+    <div class="wrapper d-flex flex-column flex-row-fluid mt-5 mt-lg-10" id="kt_wrapper">
+        <div class="content flex-column-fluid" id="kt_content">
+            {% block crm_content %}{% endblock crm_content %}
+        </div>
+    </div>
+
+    <script src="{% static 'js/htmx.min.js' %}"></script>
+    <script>
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+        })
+    </script>
+
+{% endblock content %}
+
+
+{% block body_scripts %}{% endblock body_scripts %}

@@ -1,0 +1,125 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+{% block navbar %}{% endblock navbar %}
+{% block footer %}{% endblock footer %}
+
+{% block root %}
+<main>
+  <section class="container d-flex flex-column">
+    <div class="row align-items-center justify-content-center g-0 min-vh-100">
+      <div class="col-lg-5 col-md-8 py-8 py-xl-0">
+        <!-- Card -->
+        <div class="card shadow">
+          <!-- Card body -->
+          <div class="card-body p-6">
+            <div class="mb-4">
+              <a href="{% url 'core:homepage' %}">
+                <i class="fe fe-arrow-left align-middle me-2"></i>
+                Powróć do strony główniej    
+              </a>
+              <hr class="my-4">
+              <h1 class="mb-1 fw-bold">Zaloguj się</h1>
+              <span
+                >Nie masz konta?
+                <a href="{% url 'core:register_page' %}" class="ms-1">
+                  Zarejestruj się
+                </a>
+              </span>
+            </div>
+            <!-- Form -->
+            <form
+                action="{% url 'core:login_page' %}?next={{next_param}}"
+                method="post"
+            >
+              {% csrf_token %}
+              <!-- Username -->
+              <div class="mb-3">
+                <label for="email" class="form-label">Adres E-mail</label>
+                <input
+                  type="email"
+                  id="email"
+                  class="form-control"
+                  name="username"
+                  placeholder=""
+                  required
+                />
+              </div>
+              <!-- Password -->
+              <div class="mb-3">
+                <label for="password" class="form-label">Hasło</label>
+                <input
+                  type="password"
+                  id="password"
+                  class="form-control"
+                  name="password"
+                  placeholder=""
+                  required
+                />
+              </div>
+              <!-- Checkbox -->
+              <div
+                class="d-lg-flex justify-content-between align-items-center mb-4"
+              >
+                <div class="form-check">
+                  {% if auth_failed %}
+                  <div class="my-3">
+                    <span class="text-danger">
+                      Nazwa użytkownika lub hasło jest niepoprawne
+                    </span>
+                  </div>
+                  {% endif %}
+                </div>
+                <div>
+                  <a href="{% url 'core:forgot_password_page' %}">
+                    Zapomniałeś hasła?
+                  </a>
+                </div>
+              </div>
+              <div>
+                <!-- Button -->
+                <div class="d-grid">
+                  <button type="submit" name="actionSubmit" class="btn btn-primary">
+                    Zaloguj się
+                  </button>
+                </div>
+              </div>
+              {% comment %} <hr class="my-4" />
+              <div class="mt-4 text-center">
+                <!--Facebook-->
+                <a
+                  href="sign-in.html#"
+                  class="btn-social btn-social-outline btn-facebook"
+                >
+                  <i class="mdi mdi-facebook fs-4"></i>
+                </a>
+                <!--Twitter-->
+                <a
+                  href="sign-in.html#"
+                  class="btn-social btn-social-outline btn-twitter"
+                >
+                  <i class="mdi mdi-twitter fs-4"></i>
+                </a>
+                <!--LinkedIn-->
+                <a
+                  href="sign-in.html#"
+                  class="btn-social btn-social-outline btn-linkedin"
+                >
+                  <i class="mdi mdi-linkedin"></i>
+                </a>
+                <!--GitHub-->
+                <a
+                  href="sign-in.html#"
+                  class="btn-social btn-social-outline btn-github"
+                >
+                  <i class="mdi mdi-github"></i>
+                </a>
+              </div> {% endcomment %}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock root %}

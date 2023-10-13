@@ -1,0 +1,30 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+    <h1>Testowa wysyłka</h1>
+    <p>
+        <a target="_blank" href="https://www.mail-tester.com/">
+            <b>mail-tester.com</b>
+        </a>
+    </p>
+    <p>
+        <a target="_blank" href="https://mailchecker.net/">
+            <b>mailchecker.net</b>
+        </a>
+    </p>
+    <hr>
+    <form method="post" action="{% url 'core:crm_mailing_campaign_send_test_email' pk=mailing_campaign.pk %}">
+        {% csrf_token %}
+        {{form}}
+        <input type="submit" value="Send">
+    </form>
+{% endblock crm_content %}
+
+{% block body_scripts %}
+
+{% endblock body_scripts %}

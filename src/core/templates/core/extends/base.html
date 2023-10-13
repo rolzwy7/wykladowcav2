@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-  <title>DEFAULT TITLE</title>
+  <title>{{META__TITLE}}</title>
 {% endblock title %}
 
 {% block fonts_mandatory %}
@@ -16,31 +16,14 @@
 
 {% block head_stylesheets_mandatory %}
   <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
-  <link
-    href="{% static 'plugins/global/plugins.bundle.css' %}"
-    rel="stylesheet"
-    type="text/css"
-  />
-  <link
-    href="{% static 'css/style.bundle.css' %}"
-    rel="stylesheet"
-    type="text/css"
-  />
+  <link href="{% static 'plugins/global/plugins.bundle.css' %}" rel="stylesheet"type="text/css"/>
+  <link href="{% static 'css/style.bundle.css' %}" rel="stylesheet" type="text/css" />
   <!--end::Global Stylesheets Bundle-->
+  <link href="{% static 'plugins/custom/cookiealert/cookiealert.bundle.css' %}" rel="stylesheet" type="text/css"/>
 {% endblock head_stylesheets_mandatory %}
 
 {% block meta %}
-    <meta charset="utf-8" />
-    <meta name="description" content="TODO" />
-    <meta name="keywords" content="TODO" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta property="og:locale" content="pl_PL" />
-    <meta property="og:type" content="article" />
-    <meta property="og:title" content="TODO" />
-    <meta property="og:url" content="TODO" />
-    <meta property="og:site_name" content="TODO" />
-    <link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
-		<link rel="shortcut icon" href="{% static 'media/logos/favicon.ico' %}" />
+  {% include 'core/includes/Metadata.html' %}
 {% endblock meta %}
 
 {% block body_scripts_mandatory %}
@@ -48,6 +31,7 @@
   <script src="{% static 'plugins/global/plugins.bundle.js' %}"></script>
   <script src="{% static 'js/scripts.bundle.js' %}"></script>
   <!--end::Global Javascript Bundle-->
+  <script src="{% static 'plugins/custom/cookiealert/cookiealert.bundle.js' %}"></script>
 {% endblock body_scripts_mandatory %}
 
 {% block head_stylesheets %}{% endblock head_stylesheets %}
@@ -81,6 +65,19 @@
       <!--end::Container-->
     </div>
     <!--end::Page-->
+    {% block footer %}
+      {% include './footer.html' %}
+    {% endblock footer %}
+    <!--begin::Cookie alert-->
+  <div class="d-flex d-lg-block flex-column bg-dark text-gray-300 text-center rounded-0 cookiealert py-5">
+    Strona korzysta z plików cookies w celu realizacji usług i zgodnie z <a href="{% url 'core:cookies_policy' %}">Polityką Plików Cookies</a>.
+    Możesz określić warunki przechowywania lub dostępu do plików cookies w Twojej przeglądarce.
+
+    <button type="button" class="btn btn-primary d-inline mx-auto ms-lg-5 acceptcookies mt-5 mt-lg-0">
+        Akceptuj
+    </button>
+  </div>
+  <!--end::Cookie alert-->
   </div>
   <!--end::Root-->
   <!--end::Main-->

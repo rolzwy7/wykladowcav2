@@ -1,4 +1,14 @@
-from .application_buyer_page import application_buyer_page  # noqa
-from .application_invoice_page import application_invoice_page  # noqa
-from .application_submitter_page import application_submitter_page  # noqa
-from .application_type_page import application_type_page  # noqa
+# flake8: noqa
+from .application_additional_information_page import (
+    application_additional_information_page,
+)
+from .application_buyer_page import application_buyer_page
+from .application_buyer_recipient_page import application_buyer_recipient_page
+from .application_invoice_page import application_invoice_page
+from .application_participants_page import application_participants_page
+from .application_pdf_card import application_pdf_card
+from .application_person_details_page import application_person_details_page
+from .application_submitter_page import application_submitter_page
+from .application_success_page import application_success_page
+from .application_summary_page import application_summary_page
+from .application_type_page import application_type_page

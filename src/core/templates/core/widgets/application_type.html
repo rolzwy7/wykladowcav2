@@ -1,0 +1,7 @@
+{% with id=widget.attrs.id %}
+    {% for group, options, index in widget.optgroups %}
+        {% for option in options %}
+            {% include './application_type_option.html' with option=option widget=widget %}
+        {% endfor %}
+    {% endfor %}
+{% endwith %}

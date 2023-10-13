@@ -1,0 +1,402 @@
+{% extends 'core/extends/base.html' %}
+{% load static %}
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+{% block rightbar %}{% endblock rightbar %}
+{% block leftbar %}{% endblock leftbar %}
+
+{% block body_tag %}
+<body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed" style="background-color: #f1f5f9;">
+{% endblock body_tag %}
+
+{% block content %}
+  <!--begin::Wrapper-->
+  <div
+    class="wrapper d-flex flex-column flex-row-fluid mt-5 mt-lg-10"
+    id="kt_wrapper"
+  >
+    <!--begin::Content-->
+    <div class="content flex-column-fluid" id="kt_content">
+      <div class="post" id="kt_post">
+        <h1 class="mt-5 mb-10">Konto partnera</h1>
+
+        {% if payout_saved %}
+        <div class="alert alert-success d-flex align-items-center p-5 fs-4">
+          <div class="d-flex flex-column">
+              <h4 class="mb-1 text-dark">Żądanie wypłaty zostało wysłane</h4>
+              <span class="text-dark">
+                Nasi pracownicy rozpatrzą Państwa żądanie. Jeśli stwierdzimy zgodność z regulaminem programu partnerkiego Państwa prowizja zostanie wypłacona.
+              </span>
+          </div>
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="alert alert-danger d-flex align-items-center p-5 fs-4">
+          <div class="d-flex flex-column">
+              <h4 class="mb-1 text-dark">Błąd</h4>
+              <span class="text-dark">
+                {{error}}
+              </span>
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="row">
+
+          <div class="col-lg-4">
+            <div class="card shadow-sm fs-5">
+              <div class="card-header">
+                <h3 class="card-title fw-bolder">Kod referencyjny</h3>
+              </div>
+              <div class="card-body">
+                Twój Kod referencyjny partnera to:
+                <span class="fw-bold fs-3">{{ref_code}}</span>
+                <div class="separator my-5"></div>
+                <p class="m-0">
+                  Aby twoja prowizja została zliczona przez nasz system,
+                  powyższy kod musi zostać wpisany
+                  <span class="fw-bold">
+                    jako kod promocyjny podczas wysyłania zgłoszenia na
+                    szkolenie </span
+                  >.
+                </p>
+                <div class="separator my-5"></div>
+                <p class="m-0">
+                  Osoba wpisująca kod otrzyma
+                  <b
+                    >-5% zniżki na szkolenie, a ty otrzymasz 10% z wartości
+                    netto zgłoszenia</b
+                  >.
+                </p>
+                <div class="separator my-5"></div>
+                <p class="m-0">
+                  Więcej informacji znajdziesz
+                  <a
+                    href="{% url 'core:terms_and_conditions_loyalty_program' %}"
+                    target="_blank"
+                    class="fw-bold"
+                    >tutaj</a
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="card shadow-sm fs-5">
+              <div class="card-header">
+                <h3 class="card-title fw-bolder">Jak wypłacić prowizję?</h3>
+              </div>
+              <div class="card-body">
+                <p class="m-0">Wypłać prowizję w 4 krokach</p>
+                <div class="separator my-5"></div>
+                <ul>
+                  <li>
+                    Wystaw fakturę lub rachunek
+                    <a
+                      href="{% static 'loyalty_program/Wzor_Rachunku.docx' %}"
+                      class="fw-bold"
+                    >
+                      (kliknij tutaj, aby pobrać wzór)
+                    </a>
+                    i prześlij go za pomocą formularza wypłaty prowizij.
+                  </li>
+                  <li>
+                    Rachunek należy wypełnić za pomocą dowolnego narzędzia do
+                    edycji tekstu.
+                    <b>Nie akceptujemy ręcznie uzupełnionego dokumentu.</b>
+                  </li>
+                  <li>
+                    Wpisz kwotę wypłaty w polu formularza wypłaty i zatwierdź
+                    żądanie wypłaty.
+                  </li>
+                  <li>Czekaj na przetworzenie żądania wypłaty.</li>
+                </ul>
+                <div class="separator my-5"></div>
+                <p class="m-0">
+                  Więcej informacji znajdziesz
+                  <a
+                    href="{% url 'core:terms_and_conditions_loyalty_program' %}"
+                    target="_blank"
+                    class="fw-bold"
+                    >tutaj</a
+                  >
+                  lub na stronie FAQ
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="card shadow-sm fs-5">
+              <div class="card-header">
+                <h3 class="card-title fw-bolder">Wypłać prowizję</h3>
+              </div>
+              <div class="card-body">
+                <p>
+                  Dostępne do wypłaty:
+                </p>
+                <p>
+                  <b>{{available_payout_value}} zł</b> brutto
+                </p>
+                {% if not reached_minium_payout %}
+                {% endif %}
+                <p class="text-danger">
+                  Minimalna kwota wypłaty to {{MIN_PAYOUT_VALUE}} zł brutto
+                </p>
+                <form
+                  method="post"
+                  action="{% url 'core:loyalty_program_page' %}"
+                  enctype='multipart/form-data'
+                >
+                  {% csrf_token %}
+                  <div class="mb-3">
+                    <label for="id_payout_brutto" class="form-label">
+                      Kwota brutto do wypłaty (zł)
+                    </label>
+                    <input
+                      {% if not reached_minium_payout %}disabled{% endif %}
+                      required
+                      placeholder="np. 250.30"
+                      class="form-control"
+                      type="number"
+                      name="payout_brutto"
+                      min="{{MIN_PAYOUT_VALUE}}"
+                      step="0.01"
+                      id="id_payout_brutto"
+                    >
+                    {% for error in form.payout_brutto.errors %}
+                      <div class="text-danger">{{error}}</div>
+                    {% endfor %}
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="id_invoice_attachment" class="form-label">
+                      Dołącz fakturę lub rachunek
+                    </label>
+                    <input
+                      {% if not reached_minium_payout %}disabled{% endif %}
+                      required
+                      class="form-control"
+                      type="file"
+                      name="invoice_attachment"
+                      id="id_invoice_attachment"
+                    >
+                    {% for error in form.invoice_attachment.errors %}
+                      <div class="text-danger">{{error}}</div>
+                    {% endfor %}
+                  </div>
+                  <div class="d-flex justify-content-end">
+                    <input
+                      {% if not reached_minium_payout %}disabled{% endif %}
+                      type="submit"
+                      class="btn btn-danger"
+                      value="Prześlij żądanie wypłaty"
+                    />
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="card shadow-sm fs-5 mt-5">
+              <div class="card-header">
+                <h3 class="card-title fw-bolder">Statystyki</h3>
+              </div>
+              <div class="card-body">
+
+                <div class="d-flex justify-content-between">
+                  <p class="m-0 mb-3">
+                    Oczekujące środki:
+                  </p>
+                  <p class="m-0">
+                    {% if total_pending_income %}
+                    {{total_pending_income}} zł
+                    {% else %}0 zł{% endif %}
+                  </p>
+                </div>
+                <div class="separator my-2"></div>
+
+                <div class="d-flex justify-content-between">
+                  <p class="m-0 mb-3">
+                    Wypłacalne środki:
+                  </p>
+                  <p class="m-0">
+                    {% if total_payable_income %}
+                    {{total_payable_income}} zł
+                    {% else %}0 zł{% endif %}
+                  </p>
+                </div>
+                <div class="separator my-2"></div>
+
+                <div class="d-flex justify-content-between">
+                  <p class="m-0 mb-3">
+                    Zgłoszono do wypłaty:
+                  </p>
+                  <p class="m-0">
+                    {% if total_pending_payout %}
+                    {{total_pending_payout}} zł
+                    {% else %}0 zł{% endif %}
+                  </p>
+                </div>
+                <div class="separator my-2"></div>
+
+                <div class="d-flex justify-content-between">
+                  <p class="m-0 mb-3">
+                    Wypłacone środki:
+                  </p>
+                  <p class="m-0">
+                    {% if total_paid_payout %}
+                    {{total_paid_payout}} zł
+                    {% else %}0 zł{% endif %}
+                  </p>
+                </div>
+                <div class="separator my-2"></div>
+
+
+                <div class="d-flex justify-content-between">
+                  <p class="m-0 mb-3">
+                    Wysokość prowizji:
+                  </p>
+                  <p class="m-0">
+                    <b>{{loyalty_program.provision_percent}}%</b>
+                  </p>
+                </div>
+                <div class="separator my-2"></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {% if all_payouts %}
+        <div class="row mt-10">
+          <div class="col-lg-12">
+            <div class="card shadow-sm fs-5">
+              <div class="card-header">
+                <h3 class="card-title fw-bolder">Żądania wypłaty</h3>
+              </div>
+              <div class="card-body">
+                <table
+                  id="kt_loyalty_program_payouts"
+                  class="table table-row-bordered gy-5"
+                >
+                  <thead>
+                    <tr class="fw-semibold fs-6 text-muted">
+                      <th>Data</th>
+                      <th>Status</th>
+                      <th>Kwota BRUTTO</th>
+                      <th>Przesłany plik</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for payout in all_payouts %}
+                    <tr>
+                      <td>{{payout.created_at}}</td>
+                      <td>
+                        {% if payout.status == 'WAITING_FOR_CONFIRMATION' %}
+                          <span class="text-warning fw-bold">
+                            {{payout.get_status_display}}
+                          </span>
+                        {% elif payout.status == 'PAYED' %}
+                          <span class="text-success fw-bold">
+                            {{payout.get_status_display}}
+                          </span>
+                        {% else %}
+                          {{payout.get_status_display}}
+                        {% endif %}
+                        <p>
+                          {{payout.note_employee}}
+                        </p>
+                      </td>
+                      <td><b>{{payout.payout_brutto}} zł</b></td>
+                      <td>
+                        <a href="{% get_media_prefix %}{{payout.invoice_attachment}}">
+                          <b>Pobierz plik</b>
+                        </a>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        
+        {% if all_incomes %}
+        <div class="row mt-10">
+          <div class="col-lg-12">
+            <div class="card shadow-sm fs-5">
+              <div class="card-header">
+                <h3 class="card-title fw-bolder">Zgłoszenia na szkolenia</h3>
+              </div>
+              <div class="card-body">
+                <table
+                  id="kt_loyalty_program_incomes"
+                  class="table table-row-bordered gy-5"
+                >
+                  <thead>
+                    <tr class="fw-semibold fs-6 text-muted">
+                      <th>Zgłoszenie</th>
+                      <th>Status prowizij</th>
+                      <th>Szkolenie</th>
+                      <th>Status zgłoszenia</th>
+                      <th>Wartość BRUTTO</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for income in all_incomes %}
+                    <tr>
+                      <td>{{income.application}}</td>
+                      <td>
+                        {% if income.status == 'PAYABLE' %}
+                          <span class="text-success fw-bold">
+                            {{income.get_status_display}}  
+                          </span>
+                        {% else %}
+                          {{income.get_status_display}}
+                        {% endif %}
+                      </td>
+                      <td>
+                        {{income.application.webinar.get_status_display}} <br />
+                        {{income.application.webinar.date|date:"j E Y H:i"}}
+                      </td>
+                      <td>
+                        {% if income.application.status == 'RESIGNATION' %}
+                          <span class="text-danger fw-bold">
+                            {{income.application.get_status_display}}
+                          </span>
+                        {% elif income.application.status == 'PAYED' %}
+                          <span class="text-success fw-bold">
+                            {{income.application.get_status_display}}
+                          </span>
+                        {% else %}
+                          {{income.application.get_status_display}}
+                        {% endif %}
+                      </td>
+                      <td><b>{{income.amount_brutto}} zł</b></td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+
+      </div>
+      <!--end::Content-->
+    </div>
+    <!--end::Wrapper-->
+    {% endblock content %}
+    
+    {% block body_scripts %}
+    <script>
+      $("#kt_loyalty_program_payouts").DataTable();
+      $("#kt_loyalty_program_incomes").DataTable();
+    </script>
+    {% endblock body_scripts %}
+    

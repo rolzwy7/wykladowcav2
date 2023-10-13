@@ -9,7 +9,7 @@ data-kt-drawer-overlay="true"
 data-kt-drawer-width="{default:'200px', '300px': '225px'}"
 data-kt-drawer-direction="start"
 data-kt-drawer-toggle="#kt_aside_toggle"
-data-kt-sticky="true"
+data-kt-sticky="false"
 data-kt-sticky-name="aside-sticky"
 data-kt-sticky-offset="{default: false, lg: '1px'}"
 data-kt-sticky-width="{lg: '225px'}"
@@ -36,32 +36,34 @@ data-kt-sticky-zindex="95"
     data-kt-menu="true"
   >
 
-  {% for widget_type, category_order, category_url, category_name in SIDEBAR_CATEGORIES %}
-    {% if widget_type == "HEADER" %}
-      <!--begin::Heading-->
-      <div class="menu-item">
-        <div class="menu-content pb-2">
-          <span
-            class="menu-section text-muted text-uppercase fs-7 fw-bold"
-            >Szkolenia {{category_name}}</span
-          >
-        </div>
-      </div>
-      <!--end::Heading-->
-    {% endif %}
-    {% if widget_type == "ITEM" %}
+  <!--begin::Menu item-->
+  <div class="menu-item">
+    <a
+      href="{% url 'core:webinar_category_page' slug="wszystkie" %}"
+      class="menu-link {% if request.path == "/szkolenia/wszystkie/" %}active{% endif %}"
+    >
+      <span class="menu-title">Wszystkie szkolenia</span>
+    </a>
+  </div>
+  <!--end::Menu item-->
+
+  {% for category_order, category_count, category_name, category_url in SIDEBAR_CATEGORIES %}
       <!--begin::Menu item-->
       <div class="menu-item">
         <a
           href="{{category_url}}"
-          class="menu-link active"
+          class="menu-link {% if request.path == category_url %}active{% endif %}"
         >
-          <span class="menu-title">{{category_name}}</span>
-          <span class="menu-badge">6,234</span>
+          <span class="menu-title text-gray-700">{{category_name}}</span>
+          {% if category_count %}
+
+          <span class="menu-badge">
+            <span class="badge badge-sm badge-circle badge-primary">{{category_count}}</span>
+        </span>
+          {% endif %}
         </a>
       </div>
       <!--end::Menu item-->
-    {% endif %}
   {% endfor %}
   </div>
   <!--end::Menu-->

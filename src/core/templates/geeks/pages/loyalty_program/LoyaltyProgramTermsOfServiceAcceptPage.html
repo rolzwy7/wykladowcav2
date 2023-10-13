@@ -1,0 +1,63 @@
+{% extends 'geeks/extends/foundation.html' %}
+{% load static %}
+{% block root %}
+
+
+<main>
+    <section class="py-5">
+       <div class="container">
+          <div class="row justify-content-center">
+             <div class="col-lg-8 col-md-12 col-12">
+                <!-- text center -->
+                <div class="text-center">
+                   <h1 class="display-3 fw-bold">Polecaj i Zarabiaj</h1>
+                   <p class="lead px-8">Zaakceptuj regulamin programu partnerskiego {{COMPANY_NAME}}</p>
+                   <p class="lead px-8">Kliknij <b>poniższy przycisk</b>, aby zaakceptować regulamin.</p>
+                </div>
+             </div>
+          </div>
+       </div>
+    </section>
+
+    {% include "./components/loyalty_program_accept_button.html" %}
+
+    {% include 'core/pages/terms_and_conditions/snippets/TermsAndConditionsLoyaltyProgramCard.html' %}
+
+    {% include "./components/loyalty_program_accept_button.html" %}
+
+ </main>
+
+{% comment %} <main>
+    <section class="pt-5 pb-5">
+       <div class="container">
+       <div class="row align-items-center">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+             <div class="card">
+                <div class="card-header">
+                   <h3 class="card-title">Zaakceptuj regulamin programu parterskiego</h3>
+                   <div class="card-toolbar">
+                      <form method="post" action="{% url 'core:loyalty_program_terms_of_service_accept_page' %}">
+                         {% csrf_token %}
+                         <input type="submit" class="btn btn-success hover-scale" value="Akceptuję regulamin programu parterskiego">
+                      </form>
+                   </div>
+                </div>
+                <div class="card-body">
+                   {% include 'core/pages/terms_and_conditions/snippets/TermsAndConditionsLoyaltyProgramCard.html' %}
+                </div>
+                <div class="card-header">
+                   <h3 class="card-title">Zaakceptuj regulamin programu parterskiego</h3>
+                   <div class="card-toolbar">
+                      <form method="post" action="{% url 'core:loyalty_program_terms_of_service_accept_page' %}">
+                         {% csrf_token %}
+                         <input type="submit" class="btn btn-success hover-scale" value="Akceptuję regulamin programu parterskiego">
+                      </form>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </section>
+ </main> {% endcomment %}
+
+{% endblock root %}

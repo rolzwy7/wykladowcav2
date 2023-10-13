@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <meta content="pl" http-equiv="Content-Language" />
+  </head>
+  <body style="margin: 0;padding: 0;">
+    <center style="width: 100%; background-color: #f1f4fa">
+      <table style="background-color: #f1f4fa; width:100%;" align="center" bgcolor="#f1f4fa" border="0" cellpadding="0" cellspacing="0">
+        <tbody>
+          <tr>
+            <td align="center" valign="top">
+              <table style="max-width:640px" border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                  <!--padding-top: START-->
+                  <tr>
+                    <td height="50" style="font-size:1px; line-height:0px;">&nbsp;
+                    </td>
+                  </tr>
+                  <!--padding-top: END-->
+                  {% include '../includes/EmailLogoSection.html' %}
+                                    
+                  {% block content %}{% endblock content %}
+
+                  {% include '../includes/EmailFooterSection.html' %}
+                  <!--padding-bottom: START-->
+                  <tr>
+                    <td height="50" style="font-size:1px; line-height:0px;">&nbsp;
+                    </td>
+                  </tr>
+                  <!--padding-bottom: END-->
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </center>
+  </body>
+</html>

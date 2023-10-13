@@ -1,0 +1,197 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+
+{% endblock head_stylesheets %}
+
+{% block crm_content %}    
+    <!--begin::Toolbar-->
+    <div class="toolbar d-flex flex-stack flex-wrap mb-5 mb-lg-7" id="kt_toolbar">
+        <!--begin::Page title-->
+        <div class="page-title d-flex flex-column py-1">
+            <!--begin::Title-->
+            <h1 class="d-flex align-items-center my-1">
+                <span class="text-dark fw-bold fs-1">
+                    Dodaj e-maile:
+                    <a href="{% url 'core:crm_mailing_campaign_detail' pk=mailing_campaign.pk %}">
+                        {{mailing_campaign}}
+                    </a>
+                </span>
+                <!--begin::Description-->
+                <small class="text-muted fs-6 fw-semibold ms-1">( XX e-maili )</small>
+                <!--end::Description-->
+            </h1>
+            <!--end::Title-->
+        </div>
+        <!--end::Page title-->
+        </div>
+        <!--end::Toolbar-->
+
+    <!--begin::Form-->
+    <form class="form" action="#" method="post">
+        <!--begin::Input group-->
+        <div class="form-group row">
+            <!--begin::Label-->
+            <label class="col-lg-2 col-form-label text-lg-right">Prześlij pliki:</label>
+            <!--end::Label-->
+
+            <!--begin::Col-->
+            <div class="col-lg-10">
+                <!--begin::Dropzone-->
+                <div class="dropzone dropzone-queue mb-2" id="kt_mailing_campaign_add_emails_form">
+                    <!--begin::Controls-->
+                    <div class="dropzone-panel mb-lg-0 mb-2">
+                        <a class="dropzone-select btn btn-sm btn-primary me-2">Dodaj pliki</a>
+                        <a class="dropzone-upload btn btn-sm btn-light-success me-2">Prześlij wszystkie</a>
+                        <a class="dropzone-remove-all btn btn-sm btn-light-danger">Usuń wszystkie</a>
+                    </div>
+                    <!--end::Controls-->
+
+                    <!--begin::Items-->
+                    <div class="dropzone-items wm-200px">
+                        <div class="dropzone-item" style="display:none">
+                            <!--begin::File-->
+                            <div class="dropzone-file">
+                                <div class="dropzone-filename" title="some_image_file_name.jpg">
+                                    <span data-dz-name>some_image_file_name.jpg</span>
+                                    <strong>(<span data-dz-size>340kb</span>)</strong>
+                                </div>
+
+                                <div class="dropzone-error" data-dz-errormessage></div>
+                            </div>
+                            <!--end::File-->
+
+                            <!--begin::Progress-->
+                            <div class="dropzone-progress">
+                                <div class="progress">
+                                    <div
+                                        class="progress-bar bg-primary"
+                                        role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-dz-uploadprogress>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end::Progress-->
+
+                            <!--begin::Toolbar-->
+                            <div class="dropzone-toolbar">
+                                <span class="dropzone-start"><i class="bi bi-play-fill fs-3"></i></span>
+                                <span class="dropzone-cancel" data-dz-remove style="display: none;"><i class="bi bi-x fs-3"></i></span>
+                                <span class="dropzone-delete" data-dz-remove><i class="bi bi-x fs-1"></i></span>
+                            </div>
+                            <!--end::Toolbar-->
+                        </div>
+                    </div>
+                    <!--end::Items-->
+                </div>
+                <!--end::Dropzone-->
+
+                <!--begin::Hint-->
+                <span class="form-text text-muted">
+                    Maksymalnie 30 plików. Maksymalny rozmiar każdego pliku to 5 MB.
+                </span>
+                <!--end::Hint-->
+            </div>
+            <!--end::Col-->
+        </div>
+        <!--end::Input group-->
+    </form>
+    <!--end::Form-->
+
+{% endblock crm_content %}
+
+{% block body_scripts %}
+<script>
+    // set the dropzone container id
+    const id = "#kt_mailing_campaign_add_emails_form";
+    const dropzone = document.querySelector(id);
+
+    // set the preview element template
+    var previewNode = dropzone.querySelector(".dropzone-item");
+    previewNode.id = "";
+    var previewTemplate = previewNode.parentNode.innerHTML;
+    previewNode.parentNode.removeChild(previewNode);
+
+    var myDropzone = new Dropzone(id, { // Make the whole body a dropzone
+        url: "{% url 'core:crm_mailing_campaign_add_emails' pk=mailing_campaign.pk %}",
+        parallelUploads: 1,
+        previewTemplate: previewTemplate,
+        maxFiles: 30,
+        headers: {'X-CSRFToken': '{{csrf_token}}'},
+        maxFilesize: 5, // Max filesize in MB
+        autoQueue: false, // Make sure the files aren't queued until manually added
+        previewsContainer: id + " .dropzone-items", // Define the container to display the previews
+        clickable: id + " .dropzone-select" // Define the element that should be used as click trigger to select files.
+    });
+
+    myDropzone.on("addedfile", function (file) {
+        // Hookup the start button
+        file.previewElement.querySelector(id + " .dropzone-start").onclick = function () { myDropzone.enqueueFile(file); };
+        const dropzoneItems = dropzone.querySelectorAll('.dropzone-item');
+        dropzoneItems.forEach(dropzoneItem => {
+            dropzoneItem.style.display = '';
+        });
+        dropzone.querySelector('.dropzone-upload').style.display = "inline-block";
+        dropzone.querySelector('.dropzone-remove-all').style.display = "inline-block";
+    });
+
+    // Update the total progress bar
+    myDropzone.on("totaluploadprogress", function (progress) {
+        const progressBars = dropzone.querySelectorAll('.progress-bar');
+        progressBars.forEach(progressBar => {
+            progressBar.style.width = progress + "%";
+        });
+    });
+
+    myDropzone.on("sending", function (file) {
+        // Show the total progress bar when upload starts
+        const progressBars = dropzone.querySelectorAll('.progress-bar');
+        progressBars.forEach(progressBar => {
+            progressBar.style.opacity = "1";
+        });
+        // And disable the start button
+        file.previewElement.querySelector(id + " .dropzone-start").setAttribute("disabled", "disabled");
+    });
+
+    // Hide the total progress bar when nothing's uploading anymore
+    myDropzone.on("complete", function (progress) {
+        const progressBars = dropzone.querySelectorAll('.dz-complete');
+
+        setTimeout(function () {
+            progressBars.forEach(progressBar => {
+                progressBar.querySelector('.progress-bar').style.opacity = "0";
+                progressBar.querySelector('.progress').style.opacity = "0";
+                progressBar.querySelector('.dropzone-start').style.opacity = "0";
+            });
+        }, 300);
+    });
+
+    // Setup the buttons for all transfers
+    dropzone.querySelector(".dropzone-upload").addEventListener('click', function () {
+        myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
+    });
+
+    // Setup the button for remove all files
+    dropzone.querySelector(".dropzone-remove-all").addEventListener('click', function () {
+        dropzone.querySelector('.dropzone-upload').style.display = "none";
+        dropzone.querySelector('.dropzone-remove-all').style.display = "none";
+        myDropzone.removeAllFiles(true);
+    });
+
+    // On all files completed upload
+    myDropzone.on("queuecomplete", function (progress) {
+        const uploadIcons = dropzone.querySelectorAll('.dropzone-upload');
+        uploadIcons.forEach(uploadIcon => {
+            uploadIcon.style.display = "none";
+        });
+    });
+
+    // On all files removed
+    myDropzone.on("removedfile", function (file) {
+        if (myDropzone.files.length < 1) {
+            dropzone.querySelector('.dropzone-upload').style.display = "none";
+            dropzone.querySelector('.dropzone-remove-all').style.display = "none";
+        }
+    });
+</script>
+{% endblock body_scripts %}

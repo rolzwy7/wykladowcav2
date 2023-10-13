@@ -1,11 +1,14 @@
 ### Custom .gitignore
 
+.inbox-test
 .pytest_cache
 .venv
 __pycache__
 .env
+.pg_service.conf
+.pgpass
 .vscode
-media
+public/
 
 ### Github generated .gitignore
 

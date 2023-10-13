@@ -1,0 +1,66 @@
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr class="fw-bold fs-6 text-gray-800">
+                <th>ID Zgłoszenia</th>
+                <th>Osoba zgłaszająca</th>
+                <th>Wykryto otwarcie e-mail</th>
+                <th>Kliknięto w link</th>
+                <th>Przyjęto do wiadomości</th>
+                <th>URL</th>
+                <th>Kod rabatowy</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cancellation in cancellations %}
+            <tr>
+                <td>
+                    <a 
+                        href="{% url 'admin:core_webinarapplication_change' object_id=cancellation.application.id %}"
+                        class="fw-bold">
+                        Zgłoszenie
+                        {{cancellation.application.id}}
+                    </a>
+                </td>
+                <td>
+                    {% with cancellation.application.submitter as submitter %}
+                        {{submitter.fullname}}
+                        <br>
+                        {{submitter.email}}
+                        /
+                        {{submitter.phone}}
+                    {% endwith %}
+                </td>
+                <td>
+                    {% if cancellation.email_open_detected %}
+                    Tak
+                    {% else %}
+                    Nie
+                    {% endif %}
+                </td>
+                <td>
+                    {% if cancellation.clicked_in_link %}
+                    Tak
+                    {% else %}
+                    Nie
+                    {% endif %}
+                </td>
+                <td>
+                    <div
+                        hx-get="{% url 'htmx:htmx_crm_application_cancellation_toggle' pk=cancellation.pk %}"
+                        hx-trigger="load">
+                    </div>
+                </td>
+                <td>
+                    <a href="{% url 'core:webinar_cancellation_page' token=cancellation.token %}">
+                        <b>Link</b>
+                    </a>
+                </td>
+                <td>
+                    {{cancellation.discount_code|default:"-"}}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

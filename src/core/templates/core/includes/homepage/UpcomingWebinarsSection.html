@@ -1,0 +1,71 @@
+{% load static %}
+<!--begin::Team Section-->
+<div class="py-10 pt-lg-5 pb-lg-20">
+  <!--begin::Container-->
+  <div class="container">
+    <!--begin::Heading-->
+    <div class="text-center mb-12">
+      <!--begin::Title-->
+      <h3
+        class="fs-2hx text-dark mb-5"
+        id="team"
+        data-kt-scroll-offset="{default: 100, lg: 150}"
+      >
+        Najblisze szkolenia
+      </h3>
+      <!--end::Title-->
+      <!--begin::Sub-title-->
+      <div class="fs-5 text-muted fw-bold">
+        Sprawdź najbliższe szkolenia online, które dla Ciebie przygotowaliśmy!
+      </div>
+      <!--end::Sub-title=-->
+    </div>
+    <!--end::Heading-->
+    <!--begin::Slider-->
+    <div class="tns tns-default" style="direction: ltr">
+      <!--begin::Wrapper-->
+      <div
+        data-tns="true"
+        data-tns-loop="false"
+        data-tns-swipe-angle="false"
+        data-tns-speed="2000"
+        data-tns-autoplay="false"
+        data-tns-autoplay-timeout="10000"
+        data-tns-controls="true"
+        data-tns-nav="false"
+        data-tns-items="1"
+        data-tns-center="false"
+        data-tns-dots="false"
+        data-tns-prev-button="#kt_upcoming_webinars_section_prev"
+        data-tns-next-button="#kt_upcoming_webinars_section_next"
+        data-tns-responsive="{1200: {items: 2}, 992: {items: 2}}"
+      >
+
+
+        {% for webinar in webinars %}
+          {% include "./UpcomingWebinarsHomepageCard.html" with forloop_counter=forloop.counter0 webinar=webinar %}
+        {% endfor %}
+      </div>
+      <!--end::Wrapper-->
+      <!--begin::Button-->
+      <button
+        class="btn btn-icon btn-active-color-primary"
+        id="kt_upcoming_webinars_section_prev"
+      >
+        <i class="ki-duotone ki-left fs-2x"></i>
+      </button>
+      <!--end::Button-->
+      <!--begin::Button-->
+      <button
+        class="btn btn-icon btn-active-color-primary"
+        id="kt_upcoming_webinars_section_next"
+      >
+        <i class="ki-duotone ki-right fs-2x"></i>
+      </button>
+      <!--end::Button-->
+    </div>
+    <!--end::Slider-->
+  </div>
+  <!--end::Container-->
+</div>
+<!--end::Team Section-->

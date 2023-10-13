@@ -1,0 +1,14 @@
+<div hx-target="this" hx-swap="outerHTML">
+    <a
+      style="cursor: pointer;"
+      class="text-hover-primary fw-bold"
+      hx-post="{% url 'htmx:htmx_crm_application_cancellation_toggle' pk=cancellation.pk %}"
+    >
+      {% if cancellation.confirmed %}
+          <span class="badge badge-success">TAK</span>
+      {% else %}
+          <span class="badge badge-danger">NIE</span>
+      {% endif %}
+    </a>
+  </div>
+  

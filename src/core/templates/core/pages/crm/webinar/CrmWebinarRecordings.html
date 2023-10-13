@@ -1,0 +1,135 @@
+{% extends './CrmWebinarBase.html' %}
+{% load static %}
+
+{% block head_stylesheets %} {% endblock head_stylesheets %}
+
+{% block crm_webinar_content %}
+<!--begin::Row-->
+<div class="row g-6 g-xl-9 mb-10">
+  <!--begin::Col-->
+  <div class="col-md-12 col-xl-12">
+    <div class="card shadow-sm">
+      <div class="card-header">
+        <h3 class="card-title">Nagrania</h3>
+      </div>
+      <div class="card-body">
+
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr class="fw-bold fs-6 text-gray-800">
+                <th>Nagranie ID</th>
+                <th>Nazwa</th>
+                <th>Status</th>
+                <th>Stworzono</th>
+                <th>Czas trwania</th>
+                <th>Rozpoczęto nagrywanie</th>
+                <th>Rozmiar</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for recording in recordings %}
+              <tr class="bg-gray-100">
+                <td class="fw-bold ps-2">
+                  <a href="{% url 'admin:core_webinarrecording_change' object_id=recording.recording_id %}">
+                    {{recording.recording_id}}
+                  </a>
+                </td>
+                <td>{{recording.recording_name}}</td>
+                <td class="fw-bold">{{recording.get_status_display}}</td>
+                <td>{{recording.created_at}}</td>
+                <td>{{recording.recording_duration_seconds}} s</td>
+                <td>{{recording.recorder_started}}</td>
+                <td>{{recording.recording_file_size}} B</td>
+                <td>
+                  <!--begin::Menu-->
+                  <div class="me-0">
+                    <button class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                        <i class="ki-solid ki-dots-horizontal fs-2x me-1"></i>
+                    </button>
+                    <!--begin::Menu 3-->
+                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-300px py-3" data-kt-menu="true" style="">
+                        <!--begin::Heading-->
+                        <div class="menu-item px-3">
+                            <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">
+                                Akcje
+                            </div>
+                        </div>
+                        <!--end::Heading-->
+                        <!--begin::Menu item-->
+                        <div class="menu-item px-3">
+                            <a href="{% url 'admin:core_webinar_change' object_id=webinar.id %}" class="menu-link px-3">
+                                Wyślij wszystkim uczestnikom
+                            </a>
+                        </div>
+                        <!--end::Menu item-->
+                        <!--begin::Menu item-->
+                        <div class="menu-item px-3">
+                            <a href="#" class="menu-link px-3">
+                                Stwórz token i wyślij na e-mail
+                            </a>
+                        </div>
+                        <!--end::Menu item-->
+                    </div>
+                    <!--end::Menu 3-->
+                </div>
+                <!--end::Menu-->
+                </td>
+              </tr>
+              <tr>
+                <td colspan="7">
+
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr class="fw-bold fs-6 text-gray-800">
+                          <th>Nr</th>
+                          <th>Token</th>
+                          <th>Odmówiono dostępu</th>
+                          <th>Wygasa</th>
+                          <th>Uczestnik</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for token in all_tokens %}
+                        <tr>
+                          <td>{{forloop.counter}}</td>
+                          <td>
+                            <a href="{% url 'admin:core_webinarrecordingtoken_change' object_id=token.id %}">
+                              <b>{{token.token}}</b>
+                              <br>
+                              <a href="{% url 'core:recording_token_page' uuid=token.token %}">
+                                ( Strona dla oglądającego )
+                              </a>
+                            </a>
+                          </td>
+                          <td>
+                            {% if token.deny_access %}
+                              <span class="text-danger">Tak</span>
+                            {% else %}
+                              <span>Nie</span>
+                            {% endif %}
+                          </td>
+                          <td>{{token.expires_at}}</td>
+                          <td>{{token.participant}}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--end::Col-->
+</div>
+<!--end::Row-->
+{% endblock crm_webinar_content %}
+
+{% block body_scripts %} {% endblock body_scripts %}

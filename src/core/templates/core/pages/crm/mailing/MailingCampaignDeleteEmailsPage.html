@@ -1,0 +1,23 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+    <h1>MailingCampaignDeleteEmailsPage.html</h1>
+    <p>
+        delete all emails
+    </p>
+    <hr>
+    <form method="post" action="{% url 'core:crm_mailing_campaign_delete_emails' pk=mailing_campaign.pk %}">
+        {% csrf_token %}
+        {{form}}
+        <input type="submit" value="Submit">
+    </form>
+{% endblock crm_content %}
+
+{% block body_scripts %}
+
+{% endblock body_scripts %}

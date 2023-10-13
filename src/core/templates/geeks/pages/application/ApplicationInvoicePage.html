@@ -1,0 +1,82 @@
+{% extends './ApplicationBase.html' %} 
+{% load static %}
+
+{% block content %}
+<div class="row mt-0 mt-md-4">
+    <div class="col-lg-8 col-md-8 col-12">
+        <div class="card mb-4">
+            <!-- Card header -->
+            <div class="card-header">
+                <h3 class="mb-0"><span class="text-primary">Krok {{step_number}}:</span> {{step_title}}</h3>
+                <span>{{step_description}}</span>
+            </div>
+            <!-- Card body -->
+            <div class="card-body">
+
+                <ul class="list-unstyled">
+                    <li class="d-flex mb-2">
+                      <i class="mdi mdi-check-circle-outline fs-4 text-success me-1"></i>
+                      <span>Faktura zostanie wystawiona w dniu szkolenia</span>
+                    </li>
+                    <li class="d-flex mb-2">
+                      <i class="mdi mdi-check-circle-outline fs-4 text-success me-1"></i>
+                      <span>Zapłata przelewem na konto następuje do {{INVOICE_DEADLINE_DAYS}} dni po szkoleniu.</span>
+                    </li>
+                    {% if WE_ARE_TAX_EXEMPT %}
+                    <li class="d-flex mb-2">
+                        <i class="mdi mdi-check-circle-outline fs-4 text-success me-1"></i>
+                        <span>{{TAX_EXEMPT_TOOLTIP}}</span>
+                    </li>
+                    {% endif %}
+                  </ul>
+
+                <form
+                    class="row"
+                    action="{% url 'core:application_invoice_page' uuid=application.uuid %}"
+                    method="post"
+                >
+                    {% csrf_token %}
+                    {{form_invoice.invoice_type}}
+
+                    <div class="mb-3 col-12 col-md-12">
+                        <label class="form-label" for="id_invoice_email">
+                            E-mail do faktury <span class="text-danger">*</span>
+                        </label>
+                        {{form_invoice.invoice_email}}
+                        <small>
+                            Adres e-mail na który zostanie wysłana faktura elektroniczna po szkoleniu
+                        </small>
+                    </div>
+                    <div class="mb-3 col-12 col-md-12">
+                        <label class="form-label" for="id_vat_exemption">
+                            Zwolnienie z VAT <span class="text-danger">*</span>
+                        </label>
+                        {{form_invoice.vat_exemption}}
+                    </div>
+
+                    <hr>
+
+                    <div class="mb-3 col-12 col-md-12">
+                        <label class="form-label fw-normal" for="id_additional_information">
+                            Dodatkowe uwagi (opcjonalnie)
+                        </label>
+                        {{form_additional_info.additional_information}}
+                    </div>
+            
+                    {% include './components/next_previous_buttons.html' %}
+                </form> 
+                
+            </div>
+        </div>                        
+    </div>
+    <div class="col-lg-4 col-md-4 col-12">
+        {% comment %} Date and hour card {% endcomment %}
+        {% include 'geeks/pages/webinar/components/date_and_hour_card.html' with webinar=webinar hide_ctas="1" %}
+
+        {% comment %} What we offer {% endcomment %}
+        {% include 'geeks/pages/webinar/components/what_we_offer.html' with webinar=webinar %}
+    </div>
+</div>
+{% endblock content %}
+
+{% block body_scripts %}{% endblock body_scripts %}

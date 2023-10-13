@@ -1,1 +1,0 @@
-from .application_type_widget import ApplicationTypeWidget

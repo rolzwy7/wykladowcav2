@@ -1,0 +1,72 @@
+{% extends 'core/extends/base.html' %} 
+{% load static %}
+{% block head_stylesheets %}
+<link rel="stylesheet" href="{% static 'css/video-js-8.3.0.min.css' %}">
+{% endblock head_stylesheets %}
+
+{% block rightbar %}{%endblock rightbar %}
+{% block leftbar %}{%endblock leftbar %}
+
+{% block content %}
+<!--begin::Wrapper-->
+<div
+  class="wrapper d-flex flex-column flex-row-fluid mt-5 mt-lg-10"
+  id="kt_wrapper"
+>
+    <!--begin::Content-->
+    <div class="content flex-column-fluid" id="kt_content">
+
+        <div class="row bg-dark p-5">
+          <div class="col-lg-8 offset-lg-2">
+
+              <div id="video-container">
+                <video
+                    id="recording_video"
+                    class="video-js"
+                  >
+                  <source src="/nagrania/stream/{{uuid}}/" type="video/mp4" />
+                  <p class="vjs-no-js">
+                    Aby obejrzeć to video włącz obsługę JavaScript lub zaktualizuj swoją przeglądarke:
+                  <a href="https://videojs.com/html5-video-support/" target="_blank">HTML5 support</a>
+                  </p>
+                </video>
+              </div>
+          </div>
+          
+
+
+        </div>
+        
+        <div class="row mt-10">
+          <div class="col-lg-8">
+            <h1>{{webinar.title_original}}</h1>
+            <div class="separator border-5 my-5"></div>
+            <h2>Materiały szkoleniowe</h2>
+            {% for asset in webinar_assets %}
+            {% include 'core/pages/asset/snippets/AssetItem.html' with asset=asset %}
+            {% endfor %}
+          </div>
+        </div>
+
+    </div>
+    <!--end::Content-->
+</div>
+<!--end::Wrapper-->
+{% endblock content %} 
+{% block body_scripts %}
+<script>
+  window.HELP_IMPROVE_VIDEOJS = false;
+</script>
+<script src="{% static 'js/video-js-8.3.0.min.js' %}"></script>
+<script>
+  const player = videojs('recording_video', {
+    fluid: true,
+    controls: true,
+    autoplay: false,
+    disablePictureInPicture: true,
+    preload: 'auto',
+    playbackRates: [1, 1.5, 2],
+    // poster: "MY_VIDEO_POSTER.jpg", <!-- TODO: Poster can be automatically generated -->
+  });
+</script>
+{% endblock body_scripts %}

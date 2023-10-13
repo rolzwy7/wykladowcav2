@@ -1,0 +1,28 @@
+<div class="rating">
+{% with id=widget.attrs.id %}
+    {% for group, options, index in widget.optgroups %}
+        {% for option in options %}
+            
+            {% if option.value %}
+            <label class="rating-label" for="kt_rating_input_{{option.value}}">
+                <i class="ki-duotone ki-star fs-1"></i>
+            </label>
+            <input
+            type="{{option.type}}"
+                name="{{option.name}}"
+                value="{{option.value}}"
+                class="rating-input"
+                {% if widget.required %}
+                required
+                {% endif %}
+                id="kt_rating_input_{{option.value}}"
+                {% if option.value == "5stars" %}
+                checked
+                {% endif %}
+                />
+            {% endif %}
+            
+        {% endfor %}
+    {% endfor %}
+{% endwith %}
+</div>

@@ -1,0 +1,12 @@
+INIT_TAGS = [
+    "KSIEGOWOSC-KADRY",
+    "KADRY",
+    "KSIEGOWOSC",
+    "SP_MIESZKANIOWE",
+    "GŁ_KSIEGOWA",
+    "VERIFY_VALID",
+    "JST",
+    "NASZ_KLIENT",
+    "WODOCIĄGI-KANALIZACJA",
+    "OŚWIATA",
+]

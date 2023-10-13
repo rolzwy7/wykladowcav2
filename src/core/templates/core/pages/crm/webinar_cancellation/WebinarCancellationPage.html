@@ -1,0 +1,97 @@
+{% extends 'core/extends/base.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+
+{% block rightbar %}{% endblock rightbar %}
+
+{% block content %}
+<!--begin::Wrapper-->
+<div class="wrapper d-flex flex-column flex-row-fluid mt-5 mt-lg-10" id="kt_wrapper">
+  <!--begin::Content-->
+  <div class="content flex-column-fluid" id="kt_content">
+    <div class="post" id="kt_post">
+
+        
+        <!--begin::Card-->
+        <div class="card">
+            <!--begin::Card body-->
+            <div class="card-body p-0">
+                <!--begin::Wrapper-->
+                <div class="card-px text-center">
+
+                    {% if webinar_cancellation.confirmed %}
+                        <!--begin::Title-->
+                        <h2 class="fs-2x fw-bold mb-10">
+                            Potwierdzono!
+                        </h2>
+                        <!--end::Title-->
+                        <!--begin::Description-->
+                        <p class="text-gray-700 fs-4 fw-semibold mb-10">
+                            Dziękujemy za ułatwienie nam procesu odwoływania szkolenia!
+                        </p>
+                        <p class="text-gray-700 fs-4 fw-semibold mb-10">
+                            W ramach podziękowania wygenerowaliśmy dla Państwa <span class="fw-bold text-success fs-2">kod rabatowy</span> 
+                            <br> ważny przez <b>14 dni</b> od teraz
+                            <br> uprawniający do <b>10% zniżki</b> na dowolne szkolenie
+                        </p>
+                        <p class="text-gray-700 fs-1 fw-semibold mb-10">
+                            <b>KOD RABATOWY:</b> <br>
+                            <b>{{webinar_cancellation.discount_code}}</b>
+                        </p>
+                        <!--end::Description-->
+                    {% else %}
+                        <!--begin::Title-->
+                        <h2 class="fs-2x fw-bold mb-10">
+                            Potwierdź otrzymanie wiadomości
+                        </h2>
+                        <!--end::Title-->
+                        <!--begin::Description-->
+                        <p class="text-gray-700 fs-4 fw-semibold mb-10">
+                            <span class="text-danger fw-bold">Bardzo prosimy o kliknięcie w poniższy przycisk</span>
+                            , aby <br> potwierdzić otrzymanie wiadomości o odwołanym szkoleniu.
+                        </p>
+                        <!--end::Description-->
+                        
+                        <p class="text-gray-700 fs-4 fw-semibold mb-10">
+                            Ułatwi nam to proces odwoływania szkolenia.
+                        </p>
+                        <!--end::Description-->
+                        <!--begin::Action-->
+                        <form method="post" action="{% url 'core:webinar_cancellation_page' token=webinar_cancellation.token %}">
+                            {% csrf_token %}
+                            <input type="submit" value="Potwierdzam otrzymanie wiadomości" class="btn btn-primary hover-elevate-up" />
+                        </form>
+                        <!--end::Action-->
+                    
+                    {% endif %}
+
+                </div>
+                <!--end::Wrapper-->
+                <!--begin::Illustration-->
+                <div class="text-center px-4">
+                    {% if webinar_cancellation.confirmed %}
+                        <img src="{% static 'media/illustrations/sketchy-1/1.png' %}" class="mw-100 mh-300px">
+                    {% else %}
+                        <img src="{% static 'media/illustrations/sketchy-1/4.png' %}" class="mw-100 mh-300px">
+                    {% endif %}
+                </div>
+                <!--end::Illustration-->
+            </div>
+            <!--end::Card body-->
+        </div>
+        <!--end::Card-->
+
+
+
+
+        </div>
+    </div>
+    <!--end::Content-->
+</div>
+<!--end::Wrapper-->
+{% endblock content %}
+
+{% block body_scripts %}
+
+{% endblock body_scripts %}

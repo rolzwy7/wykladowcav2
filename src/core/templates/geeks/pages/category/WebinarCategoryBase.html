@@ -1,0 +1,122 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+
+{% block root %}
+<main>
+  <!-- Bg cover -->
+  <section
+    class="py-6"
+    {% comment %} style="background: linear-gradient(270deg, #9d4eff 0%, #782af4 100%)" {% endcomment %}
+    style="background-color: #9d4eff;"
+  ></section>
+  <!-- Page header -->
+  <section class="bg-white shadow-sm">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+          <div
+            class="d-md-flex align-items-center justify-content-between bg-white pt-3 pb-3 pb-lg-5"
+          >
+            <div class="d-md-flex align-items-center text-lg-start text-center">
+              <!-- <div class="me-3  mt-n8">
+                  <img src="https://marekkulakowski.e-kei.pl/wp-content/uploads/2021/09/blog-1.jpg" class="avatar-xxl rounded border p-0 bg-white "
+                    alt="bootstarp">
+                </div> -->
+              <div class="mt-3 mt-md-0">
+                <h1 class="mb-0 fw-bold me-3">{{category_name}}</h1>
+              </div>
+              {% comment %}
+              <div>
+                <span class="ms-2 fs-6"
+                  ><span class="text-dark fw-medium">1,500</span>
+                  przeszkolonych</span
+                >
+                <span class="ms-2 fs-6"
+                  ><span class="text-dark fw-medium">13</span> wykładowców</span
+                >
+                <span class="ms-2 fs-6"
+                  ><span class="text-dark fw-medium">11</span> szkoleń</span
+                >
+                <span class="ms-2 fs-6"
+                  ><span class="text-dark fw-medium">323</span> opinii</span
+                >
+              </div>
+              {% endcomment %}
+            </div>
+            <!-- Dropdown -->
+          </div>
+          <!-- Nav tab -->
+          <ul class="nav nav-lt-tab" id="pills-tab" role="tablist">
+            <li class="nav-item ms-0" role="presentation">
+              <a
+                class="nav-link {% if request.path == '/szkolenia/'|add:slug|add:'/' %}active{% endif %}"
+                id="pills-course-tab"
+                href="{% url 'core:webinar_category_page' slug=slug %}"
+                role="tab"
+                aria-controls="pills-course"
+                aria-selected="true"
+                >Szkolenia
+              </a>
+            </li>
+            {% if not category.parent %}
+            <li class="nav-item" role="presentation">
+              <a
+                class="nav-link {% if request.path == '/szkolenia/'|add:slug|add:'/kim-jestesmy/' %}active{% endif %}"
+                id="pills-about-tab"
+                href="{% url 'core:webinar_category_who_are_we_page' slug=slug %}"
+                role="tab"
+                aria-controls="pills-about"
+                aria-selected="false"
+                tabindex="-1"
+                >Kim jesteśmy
+              </a>
+            </li>
+            {% endif %}
+            <li class="nav-item" role="presentation">
+              <a
+                class="nav-link {% if request.path == '/szkolenia/'|add:slug|add:'/wykladowcy/' %}active{% endif %}"
+                id="pills-author-tab"
+                href="{% url 'core:webinar_category_lecturer_page' slug=slug %}"
+                role="tab"
+                aria-controls="pills-author"
+                aria-selected="false"
+                tabindex="-1"
+                >Wykładowcy</a
+              >
+            </li>
+            <li class="nav-item" role="presentation">
+              <a
+                class="nav-link {% if request.path == '/szkolenia/'|add:slug|add:'/opinie/' %}active{% endif %}"
+                id="pills-author-tab"
+                href="{% url 'core:webinar_category_opinions_page' slug=slug %}"
+                role="tab"
+                aria-controls="pills-author"
+                aria-selected="false"
+                tabindex="-1"
+                >Opinie</a
+              >
+            </li>
+            {% comment %} <li class="nav-item" role="presentation">
+              <a
+                class="nav-link"
+                id="pills-author-tab"
+                data-bs-toggle="pill"
+                href="course-path-single.html#pills-author"
+                role="tab"
+                aria-controls="pills-author"
+                aria-selected="false"
+                tabindex="-1"
+                >Grupa wsparcia</a
+              >
+            </li> {% endcomment %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content  -->
+  {% block content %}{% endblock content %}
+</main>
+{% endblock root %}

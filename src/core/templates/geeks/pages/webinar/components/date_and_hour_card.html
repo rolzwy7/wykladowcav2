@@ -1,0 +1,61 @@
+<div class="card mb-3 mb-4">
+    <div>
+      <!-- Card header -->
+      <div class="card-header">
+        <h4 class="mb-0">Data i godzina szkolenia</h4>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item bg-transparent">
+          <i class="fe fe-calendar align-middle me-2 text-info"></i>
+          {{webinar.date|date:"j E Y"}} r.
+        </li>
+        <li class="list-group-item bg-transparent">
+          <i class="fe fe-clock align-middle me-2 text-warning"></i>
+            {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}
+        </li>
+        <li
+          class="list-group-item bg-transparent border-bottom-0"
+          data-bs-toggle="tooltip"
+          data-placement="top"
+          title="{{TAX_EXEMPT_TOOLTIP}}"
+          style="cursor: pointer;"
+        >
+          <i class="fe fe-dollar-sign align-middle me-2 text-success"></i>
+          
+          {% if webinar.is_discounted %}
+            <span class="text-decoration-line-through text-danger me-1">{{webinar.price_netto}}zł</span>
+            <b>{{webinar.price}}zł</b>
+          {% else %}
+            <b>{{webinar.price}}zł</b>
+          {% endif %}
+          
+          <span class="fw-bold">{{PRICE_ADNOTATION}} za uczestnika</span>
+
+          {% if webinar.is_discounted %}
+            <br>
+            Promocja do trwa {{webinar.discount_until|date:"j E Y"}} godz. {{webinar.discount_until|date:"H:i"}}
+          {% endif %}
+
+        </li>
+      </ul>
+    </div>
+    {% if hide_ctas != "1" %}
+    <!-- Card body -->
+    <div class="card-body pt-0">
+      <div class="d-grid">
+        {% include './cta_button.html' %}
+        <a
+          href="{% url 'core:application_type_page' pk=webinar.pk %}?pdf=show"
+          rel="nofollow"
+          class="btn btn-outline-primary mb-2"
+        >
+          Pobierz kartę zgłoszeniową
+        </a>
+        {% comment %} <a href="#" class="btn btn-outline-primary">
+          <!-- TODO: "Pobierz ulotkę" -->
+          Pobierz ulotkę
+        </a> {% endcomment %}
+      </div>
+    </div>
+    {% endif %}
+  </div>

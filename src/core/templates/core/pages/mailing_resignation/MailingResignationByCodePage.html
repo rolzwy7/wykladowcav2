@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezygnacja</title>
+</head>
+<body style="background-color: lightgrey;">
+
+    {% if confirmed %}
+    <p style="font-size: 1.5rem;">
+        Zrezygnowano z otrzymywania wiadomości
+    </p>
+    {% else %}
+    <p style="font-size: 1.5rem;">
+        <b>Kliknij poniższy przycisk</b>, aby zrezygnować z otrzymywania wiadomości:
+    </p>
+    <form
+        method="post"
+        action="{% url 'core:mailing_resignation_page' resignation_code=resignation_code %}"
+        onsubmit="actionSubmit.disabled = true; return true;"
+    >
+        {% csrf_token %}
+        <input
+            name="actionSubmit"
+            style="font-size: 1.5rem;cursor: pointer;"
+            type="submit"
+            value="Rezygnacja"
+        >
+    </form>
+    {% endif %}
+</body>
+</html>

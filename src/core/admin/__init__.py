@@ -1,5 +1,9 @@
-from .base_admin import *  # noqa
-from .lecturer_lecturermodel import LecturerModelAdmin  # noqa
-from .webinar_category_modeladmin import WebinarCategoryModelAdmin  # noqa
+# flake8: noqa
+from .base_admin import *
+from .crm_todo_modeladmin import CrmTodoModelAdmin
+from .discountcode_modeladmin import DiscountCodeModelAdmin
+from .lecturer_modeladmin import LecturerModelAdmin
+from .webinar_category_modeladmin import WebinarCategoryModelAdmin
+from .webinar_certificate_modeladmin import WebinarCertificateModelAdmin
 from .webinar_metadata_modeladmin import WebinarMetadataModelAdmin
-from .webinar_modeladmin import WebinarModelAdmin  # noqa
+from .webinar_modeladmin import WebinarModelAdmin

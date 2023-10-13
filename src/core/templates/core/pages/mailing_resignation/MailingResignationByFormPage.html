@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezygnacja</title>
+</head>
+<body style="background-color: lightgrey;">
+
+    <p style="font-size: 1.5rem;">
+        Wpisz adres e-mail, który chcesz wypisać z listy
+    </p>
+
+    <form
+        method="post"
+        onsubmit="actionSubmit.disabled = true; return true;"
+        action="{% url "core:mailing_resignation_by_form_page" %}"
+    >
+        {% csrf_token %}
+        {{form}}
+        <input
+            style="font-size: 1.2rem;cursor: pointer;margin-top:15px;"
+            type="submit"
+            name="actionSubmit"
+            value="Rezygnuję"
+        >
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+
+<!--begin::Toolbar-->
+<div class="toolbar d-flex flex-stack flex-wrap mb-5 mb-lg-7" id="kt_toolbar">
+  <!--begin::Page title-->
+  <div class="page-title d-flex flex-column py-1">
+      <!--begin::Title-->
+      <h1 class="d-flex align-items-center my-1">
+          <span class="text-dark fw-bold fs-1">Nadchodzące szkolenia</span>
+          <!--begin::Description-->
+          <small class="text-muted fs-6 fw-semibold ms-1">
+            ( {{upcoming_webinars_count}} )
+          </small>
+          <!--end::Description-->
+      </h1>
+      <!--end::Title-->
+  </div>
+  <!--end::Page title-->
+  <!--begin::Actions-->
+  <div class="d-flex align-items-center py-1">
+      <!--begin::Button-->
+      <a 
+          href="{% url 'admin:core_webinar_add' %}"
+          class="btn btn-flex btn-sm btn-primary fw-bold border-0 fs-6 h-40px"
+      >
+          Dodaj szkolenie
+      </a>
+      <!--end::Button-->
+  </div>
+  <!--end::Actions-->
+  </div>
+  <!--end::Toolbar-->
+
+  <div class="table-responsive">
+    <table class="table table-bordered  table-row-gray-900" style="border: 1px solid black;">
+      <tbody>
+        {% for webinar_ctx in webinars_ctxs %}
+          {% include './snippets/CrmWebinarRow.html' with webinar_ctx=webinar_ctx %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+
+  {% comment %} {% for webinar_ctx in webinars_ctxs %}
+    {% include './snippets/CrmWebinarCard.html' with webinar_ctx=webinar_ctx %}
+  {% endfor %} {% endcomment %}
+
+{% endblock crm_content %}
+
+{% block body_scripts %}
+
+{% endblock body_scripts %}

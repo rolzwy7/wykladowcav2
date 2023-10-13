@@ -1,0 +1,43 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+
+{% block root %}
+  <section class="py-lg-16 py-8">
+    <!-- container -->
+   <div class="container">
+      <!-- row -->
+     <div class="row align-items-center">
+        <!-- col -->
+       <div class="col-12 mb-6">
+         <div class="">
+            <!-- heading -->
+           <h5 class="text-dark mb-4"><i class="fe fe-check icon-xxs icon-shape bg-light-success text-success rounded-circle me-2"></i>
+            
+            E-mail aktywacyjny</span> został wysłany na adres <span class="text-info">{{email}}</span>
+            </h5>
+              <!-- heading -->
+           <h1 class="display-3 fw-bold mb-3">Potwierdź konto przez e-mail</h1>
+            <!-- para -->
+           <p class="pe-lg-10 mb-2">
+            Kliknij w <b>znajdujący się w wiadomości e-mail przycisk</b>, aby aktywować konto.
+           </p>
+            <!-- para -->
+           <p class="pe-lg-10 mb-5">
+            Jeśli wiadomość nie dotrze w ciągu minuty do skrzynki <span class="text-info">{{email}}</span>, prosimy sprawdzić folder <span class="fw-medium text-danger">Spam / Wiadomości śmieci</span>
+           </p>
+              <!-- btn -->
+           <a href="{% url 'core:login_page' %}" class="btn btn-primary">
+                Przejdź do strony logowania
+           </a>
+           {% comment %}
+           <a href="https://www.youtube.com/watch?v=JRzWRZahOVU" class="popup-youtube fs-4 text-inherit ms-3"><img src="../assets/images/svg/play-btn.svg" alt="" class="me-2">Watch Demo</a>
+           {% endcomment %}
+         </div>
+       </div>
+     </div>
+   </div>
+ </section>
+
+
+{% endblock root %}

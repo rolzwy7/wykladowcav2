@@ -1,0 +1,22 @@
+{% for application in sent_applications %}
+    {% if application.additional_information %}
+        <!--begin::Alert-->
+        <div class="alert alert-danger d-flex align-items-center p-5">
+            <!--begin::Wrapper-->
+            <div class="d-flex flex-column">
+            <!--begin::Title-->
+            <h4 class="mb-1 text-dark">
+                UWAGI: {{application.submitter.fullname}} / {{application.submitter.email}} / {{application.submitter.phone}}
+            </h4>
+            <!--end::Title-->
+            <!--begin::Content-->
+            <span>
+                {{application.additional_information}}
+            </span>
+            <!--end::Content-->
+            </div>
+            <!--end::Wrapper-->
+        </div>
+        <!--end::Alert-->
+    {% endif %}
+{% endfor %}

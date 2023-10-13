@@ -1,13 +1,41 @@
 from django.urls import path
 
-from core.views import (
-    webinar_lecturer_biography_page,
+from core.views.webinar import (
+    webinar_faq_page,
+    webinar_loyalty_program_page,
+    webinar_mailing_template_page,
     webinar_opinions_page,
     webinar_price_and_invoice_page,
     webinar_program_page,
+    webinar_redirect_to_application,
+    webinar_redirect_to_program,
+    webinar_redirect_to_program_facebook,
+)
+from core.views.webinar_cancellation import webinar_cancellation_page
+from core.views.webinar_moving import (
+    webinar_moving_accept_page,
+    webinar_moving_resignation_page,
+    webinar_moving_thanks_page,
 )
 
 urlpatterns = [
+    # Webinar redirects
+    path(
+        "<int:pk>/",
+        webinar_redirect_to_program,
+        name="webinar_redirect_to_program",
+    ),
+    path(
+        "<int:pk>/facebook/",
+        webinar_redirect_to_program_facebook,
+        name="webinar_redirect_to_program_facebook",
+    ),
+    path(
+        "<int:pk>/zgloszenie/",
+        webinar_redirect_to_application,
+        name="webinar_redirect_to_application",
+    ),
+    # Webinar by slug
     path("<slug:slug>/", webinar_program_page, name="webinar_program_page"),
     path(
         "<slug:slug>/opinie/",
@@ -20,8 +48,41 @@ urlpatterns = [
         name="webinar_price_and_invoice_page",
     ),
     path(
-        "<slug:slug>/o-wykladowcy/",
-        webinar_lecturer_biography_page,
-        name="webinar_lecturer_biography_page",
+        "<slug:slug>/polecja-i-zarabiaj/",
+        webinar_loyalty_program_page,
+        name="webinar_loyalty_program_page",
+    ),
+    path(
+        "<slug:slug>/faq/",
+        webinar_faq_page,
+        name="webinar_faq_page",
+    ),
+    # Webinar Mailing Template
+    path(
+        "<int:pk>/szablon-mailingowy/<str:template_name>/",
+        webinar_mailing_template_page,
+        name="webinar_mailing_template_page",
+    ),
+    # Cancellation TODO: move this
+    path(
+        "potwierdzenie-odwolania-szkolenia/<uuid:token>/",
+        webinar_cancellation_page,
+        name="webinar_cancellation_page",
+    ),
+    # Moving TODO: move this
+    path(
+        "<uuid:token>/akceptacja-nowego-terminu/",
+        webinar_moving_accept_page,
+        name="webinar_moving_accept_page",
+    ),
+    path(
+        "<uuid:token>/rezygnacja-z-nowego-terminu/",
+        webinar_moving_resignation_page,
+        name="webinar_moving_resignation_page",
+    ),
+    path(
+        "<uuid:token>/dziekujemy-za-odp-przenoszenie-szkol/",
+        webinar_moving_thanks_page,
+        name="webinar_moving_thanks_page",
     ),
 ]

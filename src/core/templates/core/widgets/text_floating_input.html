@@ -1,0 +1,15 @@
+<div class="form-floating mb-3">
+    <input
+        type="{{widget.type}}"
+        name="{{widget.name}}"
+        {% if widget.required %}required{% endif %}
+        {% if widget.value != None %} value="{{ widget.value|stringformat:'s' }}"{% endif %}
+        class="form-control form-control-solid form-control-lg {{widget.attrs.classes}}"
+        id="{{widget.attrs.id}}"
+        placeholder="{{widget.name}}"
+        {% for property_name, property_value in widget.attrs.properties %}
+        {{property_name|safe}}={{property_value|safe}}
+        {% endfor %}
+    />
+    <label for="{{widget.attrs.id}}">{{widget.attrs.label}}</label>
+</div>

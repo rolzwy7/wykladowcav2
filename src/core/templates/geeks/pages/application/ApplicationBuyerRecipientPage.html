@@ -1,0 +1,196 @@
+{% extends './ApplicationBase.html' %} 
+{% load static %}
+
+{% block content %}
+<div class="row mt-0 mt-md-4">
+    <div class="col-lg-8 col-md-8 col-12">
+
+        <div class="card mb-4">
+            <!-- Card header -->
+            <div class="card-header">
+                <h3 class="mb-0"><span class="text-primary">Krok {{step_number}}:</span> {{step_title}}</h3>
+                <span>{{step_description}}</span>
+            </div>
+            <!-- Card body -->
+            <div class="card-body">
+
+                <form
+                    class="row"
+                    action="{% url 'core:application_buyer_recipient_page' uuid=application.uuid %}"
+                    method="post"
+                >
+                    {% csrf_token %}
+
+                    {% comment %} Dane kontaktowe {% endcomment %}
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <div class="row">
+                            <h2>Dane kontaktowe</h2>
+                            <div class="mb-3 col-12 col-md-6">
+                                <label class="form-label" for="id_buyer-phone_number">
+                                Kontaktowy numer telefonu
+                                <span class="text-danger">*</span>
+                                </label>
+                                {{form_buyer.phone_number}}
+                            </div>
+                            <div class="mb-3 col-12 col-md-6">
+                                <label class="form-label" for="id_buyer-email">
+                                    Kontaktowy adres e-mail
+                                    <span class="text-danger">*</span>
+                                </label>
+                                {{form_buyer.email}}
+                            </div>
+                            <div class="mb-3 col-12 col-md-12">
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% comment %} Buyer {% endcomment %}
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <div class="row">
+                            
+                        <h2>Nabywca</h2>
+                        <span class="text-muted mb-3">
+                            Po wpisaniu numeru NIP dane zostaną <b>automatycznie pobrane z rejestru Regon</b>, jeśli coś się nie zgadza dane moża poprawić.
+                        </span>
+                        <div class="mb-3 col-12 col-md-6">
+                            <label class="form-label" for="id_buyer-nip">
+                                NIP
+                                <span class="text-danger">*</span>
+                                <span class="text-success d-none" id="buyer-regon_success">
+                                    <i class="bi bi-check2-circle"></i>
+                                    Znaleziono w rejestrze REGON
+                                </span>
+                                <span class="text-primary d-none" id="buyer-regon_loading">
+                                    <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+                                    Ładuję dane z rejestru REGON
+                                </span>
+                                <span class="text-danger d-none" id="buyer-regon_not_found">
+                                    <i class="bi bi-x-circle"></i>
+                                    NIP jest niepoprawny
+                                </span>
+                                <span class="text-danger d-none" id="buyer-regon_is_down">
+                                    <i class="bi bi-x-circle"></i>
+                                    Rejestr REGON jest czasowo niedostępny. Wypełnij dane ręcznie.
+                                </span>
+                            </label>
+                            {{form_buyer.nip}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6">
+                            <label class="form-label" for="id_buyer-name">
+                                Nazwa podmiotu <span class="text-danger">*</span>
+                            </label>
+                            {{form_buyer.name}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6">
+                            <label class="form-label" for="id_buyer-postal_code">
+                                Kod pocztowy <span class="text-danger">*</span>
+                            </label>
+                            {{form_buyer.postal_code}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6">
+                            <label class="form-label" for="id_buyer-city">
+                                Miejscowość <span class="text-danger">*</span>
+                            </label>
+                            {{form_buyer.city}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-12">
+                            <label class="form-label" for="id_buyer-address">
+                                Ulica i numer lokalu <span class="text-danger">*</span>
+                            </label>
+                            {{form_buyer.address}}
+                        </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <hr>
+                    </div>
+                    
+                    {% comment %} Recipient {% endcomment %}
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <div class="row">
+                        <h2>Odbiorca</h2>
+                        <span class="text-muted mb-3">
+                            Po wpisaniu numeru NIP dane zostaną <b>automatycznie pobrane z rejestru Regon</b>, jeśli coś się nie zgadza dane moża poprawić.
+                        </span>
+                        <div class="mb-3 col-12 col-md-6">
+                            <label class="form-label" for="id_recipient-nip">
+                                NIP
+                                <span class="text-danger">*</span>
+                                <span class="text-success d-none" id="recipient-regon_success">
+                                    <i class="bi bi-check2-circle"></i>
+                                    Znaleziono w rejestrze REGON
+                                </span>
+                                <span class="text-primary d-none" id="recipient-regon_loading">
+                                    <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+                                    Ładuję dane z rejestru REGON
+                                </span>
+                                <span class="text-danger d-none" id="recipient-regon_not_found">
+                                    <i class="bi bi-x-circle"></i>
+                                    NIP jest niepoprawny
+                                </span>
+                                <span class="text-danger d-none" id="recipient-regon_is_down">
+                                    <i class="bi bi-x-circle"></i>
+                                    Rejestr REGON jest czasowo niedostępny. Wypełnij dane ręcznie.
+                                </span>
+                            </label>
+                            {{form_recipient.nip}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6">
+                            <label class="form-label" for="id_recipient-name">
+                                Nazwa podmiotu <span class="text-danger">*</span>
+                            </label>
+                            {{form_recipient.name}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6">
+                            <label class="form-label" for="id_recipient-postal_code">
+                                Kod pocztowy <span class="text-danger">*</span>
+                            </label>
+                            {{form_recipient.postal_code}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6">
+                            <label class="form-label" for="id_recipient-city">
+                                Miejscowość <span class="text-danger">*</span>
+                            </label>
+                            {{form_recipient.city}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-12">
+                            <label class="form-label" for="id_recipient-address">
+                                Ulica i numer lokalu <span class="text-danger">*</span>
+                            </label>
+                            {{form_recipient.address}}
+                        </div>
+                        {% comment %}
+                        <div class="mb-3 col-12 col-md-6">
+                            <label class="form-label fw-normal" for="id_recipient-phone_number">Numer telefonu firmowy (opjonalnie)</label>
+                            {{form_recipient.phone_number}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6">
+                            <label class="form-label fw-normal" for="id_recipient-email">E-mail firmowy (opcjonalnie)</label>
+                            {{form_recipient.email}}
+                        </div>
+                        {% endcomment %}
+                        </div>
+                    </div>
+
+                    {% include './components/next_previous_buttons.html' %}
+                </form>
+
+            </div>
+        </div>                        
+    </div>
+    <div class="col-lg-4 col-md-4 col-12">
+        {% comment %} Date and hour card {% endcomment %}
+        {% include 'geeks/pages/webinar/components/date_and_hour_card.html' with webinar=webinar hide_ctas="1" %}
+
+        {% comment %} What we offer {% endcomment %}
+        {% include 'geeks/pages/webinar/components/what_we_offer.html' with webinar=webinar %}
+    </div>
+</div>
+{% endblock content %}
+
+{% block body_scripts %}
+    {% include './js_scripts/populate_nip_by_regon.html' with prefix="buyer" %}
+    {% include './js_scripts/populate_nip_by_regon.html' with prefix="recipient" %}
+{% endblock body_scripts %}

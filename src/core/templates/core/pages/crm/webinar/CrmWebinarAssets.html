@@ -1,0 +1,189 @@
+{% extends './CrmWebinarBase.html' %}
+{% load static %}
+
+{% block head_stylesheets %}
+<style>
+    tr.htmx-swapping td {
+        opacity: 0;
+        transition: opacity 2s ease-out;
+    }
+</style>
+{% endblock head_stylesheets %}
+
+{% block crm_webinar_content %}
+<!--begin::Row-->
+<div class="row g-6 g-xl-9 mb-10">
+  <!--begin::Col-->
+  <div class="col-md-12 col-xl-12">
+    <div class="card shadow-sm">
+      <div class="card-header">
+        <h3 class="card-title">Materiały szkoleniowe</h3>
+        <div class="card-toolbar">
+            <a
+                href="{% url 'core:webinar_assets_page' uuid=webinar_metadata.assets_token %}"
+                type="button"
+                class="btn btn-sm btn-primary">
+                Zobacz stronę dla uczestników
+            </a>
+        </div>
+      </div>
+      <div class="card-body">
+       {% include './snippets/AssetsUploadForm.html' %}
+
+       <div class="separator border-3 my-10"></div>
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+            <thead>
+                <tr class="fw-bold fs-6 text-gray-800">
+                    <th></th>
+                    <th>Plik</th>
+                    <th>Data przesłania</th>
+                </tr>
+            </thead>
+            <tbody hx-confirm="Na pewno chcesz usunąć?" hx-target="closest tr" hx-swap="outerHTML swap:1s">
+                {% for asset in assets %}
+                    <tr>
+                    <td style="vertical-align: middle; cursor: pointer;">
+                        <i
+                            class="ki-outline ki-cross fs-1"
+                            hx-delete="{% url 'htmx:htmx_crm_delete_webinar_asset' pk=asset.id %}"
+                        ></i>
+                    </td>
+                    <td>
+                        <!--begin::Item-->
+                        <div class="d-flex flex-aligns-center pe-10 pe-lg-20 mb-4">
+                        <!--begin::Icon-->
+                        <img alt="" class="w-30px me-3" src="{% static 'media/svg/files/pdf.svg' %}">
+                        <!--end::Icon-->
+                        <!--begin::Info-->
+                        <div class="ms-1 fw-semibold">
+                        <!--begin::Desc-->
+                        <a href="{% get_media_prefix %}{{asset.file}}" class="fs-6 text-hover-primary fw-bold">
+                        {{asset.filename}}
+                        </a>
+                        <!--end::Desc-->
+                        <!--begin::Number-->
+                        <div
+                            class="text-gray-600 fw-bold"
+                            title="{{asset.content_type}}"
+                        >{{asset.filesize_human}}</div>
+                        <!--end::Number-->
+                        </div>
+                        <!--begin::Info-->
+                        </div>
+                        <!--end::Item-->
+                    </td>
+                    <td>{{asset.created_at|date:"j E Y"}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+
+      </div>
+      <div class="card-footer">
+      </div>
+    </div>
+  </div>
+  <!--end::Col-->
+</div>
+<!--end::Row-->
+{% endblock crm_webinar_content %}
+
+{% block body_scripts %}
+<script>
+// set the dropzone container id
+const id = "#kt_dropzonejs_example_2";
+const dropzone = document.querySelector(id);
+
+// set the preview element template
+var previewNode = dropzone.querySelector(".dropzone-item");
+previewNode.id = "";
+var previewTemplate = previewNode.parentNode.innerHTML;
+previewNode.parentNode.removeChild(previewNode);
+
+var myDropzone = new Dropzone(id, { // Make the whole body a dropzone
+    url: "{% url 'core:crm_webinar_assets' pk=webinar.pk %}", // Set the url for your upload script location
+    parallelUploads: 1,
+    headers: {'X-CSRFToken': '{{csrf_token}}'},
+    previewTemplate: previewTemplate,
+    maxFiles: 30,
+    maxFilesize: 2.5, // Max filesize in MB
+    autoQueue: false, // Make sure the files aren't queued until manually added
+    previewsContainer: id + " .dropzone-items", // Define the container to display the previews
+    clickable: id + " .dropzone-select" // Define the element that should be used as click trigger to select files.
+});
+
+myDropzone.on("addedfile", function (file) {
+    // Hookup the start button
+    file.previewElement.querySelector(id + " .dropzone-start").onclick = function () { myDropzone.enqueueFile(file); };
+    const dropzoneItems = dropzone.querySelectorAll('.dropzone-item');
+    dropzoneItems.forEach(dropzoneItem => {
+        dropzoneItem.style.display = '';
+    });
+    dropzone.querySelector('.dropzone-upload').style.display = "inline-block";
+    dropzone.querySelector('.dropzone-remove-all').style.display = "inline-block";
+});
+
+// Update the total progress bar
+myDropzone.on("totaluploadprogress", function (progress) {
+    const progressBars = dropzone.querySelectorAll('.progress-bar');
+    progressBars.forEach(progressBar => {
+        progressBar.style.width = progress + "%";
+    });
+});
+
+myDropzone.on("sending", function (file) {
+    // Show the total progress bar when upload starts
+    const progressBars = dropzone.querySelectorAll('.progress-bar');
+    progressBars.forEach(progressBar => {
+        progressBar.style.opacity = "1";
+    });
+    // And disable the start button
+    file.previewElement.querySelector(id + " .dropzone-start").setAttribute("disabled", "disabled");
+});
+
+// Hide the total progress bar when nothing's uploading anymore
+myDropzone.on("complete", function (progress) {
+    const progressBars = dropzone.querySelectorAll('.dz-complete');
+
+    setTimeout(function () {
+        progressBars.forEach(progressBar => {
+            progressBar.querySelector('.progress-bar').style.opacity = "0";
+            progressBar.querySelector('.progress').style.opacity = "0";
+            progressBar.querySelector('.dropzone-start').style.opacity = "0";
+        });
+        location.reload();
+    }, 300);
+});
+
+// Setup the buttons for all transfers
+dropzone.querySelector(".dropzone-upload").addEventListener('click', function () {
+    myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
+});
+
+// Setup the button for remove all files
+dropzone.querySelector(".dropzone-remove-all").addEventListener('click', function () {
+    dropzone.querySelector('.dropzone-upload').style.display = "none";
+    dropzone.querySelector('.dropzone-remove-all').style.display = "none";
+    myDropzone.removeAllFiles(true);
+});
+
+// On all files completed upload
+myDropzone.on("queuecomplete", function (progress) {
+    const uploadIcons = dropzone.querySelectorAll('.dropzone-upload');
+    uploadIcons.forEach(uploadIcon => {
+        uploadIcon.style.display = "none";
+    });
+});
+
+// On all files removed
+myDropzone.on("removedfile", function (file) {
+    if (myDropzone.files.length < 1) {
+        dropzone.querySelector('.dropzone-upload').style.display = "none";
+        dropzone.querySelector('.dropzone-remove-all').style.display = "none";
+    }
+});
+</script>
+{% endblock body_scripts %}

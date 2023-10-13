@@ -1,0 +1,31 @@
+<div class="card shadow-sm mt-2">
+    <div class="card-header">
+        <h3 class="card-title fw-bold">
+            <span class="me-2">
+                {{email}}
+            </span>
+            {% if is_dangerous %}
+                <span class="badge badge-danger me-2">Niebezpieczny</span>
+            {% endif %}
+            {% if is_webmail %}
+                <span class="badge badge-dark me-2">Publiczna skrzynka</span>
+            {% endif %}
+        </h3>
+        <div class="card-toolbar">
+            <a href="https://hunter.io/verify/{{email}}" target="_blank" class="btn btn-sm btn-light">
+                Hunter.io Verify
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="d-flex flex-row flex-wrap">
+            {% for delay_ms, tag in tags %}
+                <div hx-get="{% url 'htmx:htmx_crm_email_tagging_toggle' email=email tag=tag %}" hx-trigger="load delay:{{delay_ms}}ms">
+                    <span class="badge badge-light">
+                        Ładuję Tag ... 
+                    </span>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

@@ -1,9 +1,16 @@
 from django.urls import path
 
 from core.views.webinar_application import (
+    application_additional_information_page,
     application_buyer_page,
+    application_buyer_recipient_page,
     application_invoice_page,
+    application_participants_page,
+    application_pdf_card,
+    application_person_details_page,
     application_submitter_page,
+    application_success_page,
+    application_summary_page,
     application_type_page,
 )
 
@@ -19,6 +26,11 @@ urlpatterns = [
         name="application_buyer_page",
     ),
     path(
+        "<uuid:uuid>/nabywca-odbiorca/",
+        application_buyer_recipient_page,
+        name="application_buyer_recipient_page",
+    ),
+    path(
         "<uuid:uuid>/faktura/",
         application_invoice_page,
         name="application_invoice_page",
@@ -27,5 +39,35 @@ urlpatterns = [
         "<uuid:uuid>/osoba-zglaszajaca/",
         application_submitter_page,
         name="application_submitter_page",
+    ),
+    path(
+        "<uuid:uuid>/osoba-prywatna/",
+        application_person_details_page,
+        name="application_person_details_page",
+    ),
+    path(
+        "<uuid:uuid>/uczestnicy/",
+        application_participants_page,
+        name="application_participants_page",
+    ),
+    path(
+        "<uuid:uuid>/dodatkowe-uwagi/",
+        application_additional_information_page,
+        name="application_additional_information_page",
+    ),
+    path(
+        "<uuid:uuid>/podsumowanie/",
+        application_summary_page,
+        name="application_summary_page",
+    ),
+    path(
+        "<uuid:uuid>/karta-zgloszeniowa/",
+        application_pdf_card,
+        name="application_pdf_card",
+    ),
+    path(
+        "wyslano/",
+        application_success_page,
+        name="application_success_page",
     ),
 ]

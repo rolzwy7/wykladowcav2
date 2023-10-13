@@ -1,0 +1,52 @@
+{% extends './CrmWebinarBase.html' %}
+{% load static %}
+
+{% block head_stylesheets %} {% endblock head_stylesheets %}
+
+{% block crm_webinar_content %}
+<!--begin::Row-->
+<div class="row g-6 g-xl-9 mb-10">
+  <!--begin::Col-->
+  <div class="col-md-12 col-xl-12">
+    <div class="card shadow-sm">
+      <div class="card-header">
+        <h3 class="card-title">Faktury</h3>
+      </div>
+      <div class="card-body">
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr class="fw-bold fs-6 text-gray-800">
+                        <th>Faktura ID</th>
+                        <th>Numer faktury</th>
+                        <th>URL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for metadata in sent_applications_metadata %}
+                    <tr>
+                        <td>{{metadata.invoice_id}}</td>
+                        <td>{{metadata.invoice_number}}</td>
+                        <td>
+                            <a href="{{metadata.invoice_url}}">
+                                {{metadata.invoice_url}}
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+      </div>
+      <div class="card-footer">
+      </div>
+    </div>
+  </div>
+  <!--end::Col-->
+</div>
+<!--end::Row-->
+{% endblock crm_webinar_content %}
+
+{% block body_scripts %} {% endblock body_scripts %}

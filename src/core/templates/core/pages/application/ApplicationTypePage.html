@@ -1,5 +1,5 @@
 
-{% extends 'core/extends/base.html' %} 
+{% extends 'core/pages/application/ApplicationBase.html' %} 
 {% load static %}
 
 {% block head_stylesheets %}
@@ -7,17 +7,63 @@
 {% endblock head_stylesheets %}
 
 {% block rightbar %}{% endblock rightbar %}
+{% block leftbar %}{% endblock leftbar %}
+{% block application_toolbar %}{% endblock application_toolbar %}
 
-{% block content %}
+{% block application_content %}
 
-<form action="{% url 'core:application_type_page' pk=webinar.pk %}" method="post">
-    {% csrf_token %}
-    {{form}}
-    <input type="submit" value="Submit">
-</form>
+<div class="card shadow-lg">
+    <div class="card-header">
+      <h3 class="card-title">Wybierz typ wysyłanego zgłoszenia</h3>
+    </div>
+    <div class="card-body">
 
-{% endblock content %}
+        {% if show_pdf_card_alert %}
+        <!--begin::Alert-->
+        <div class="alert alert-dismissible bg-light-warning border border-warning d-flex flex-column flex-sm-row p-5 mb-10">
+            <!--begin::Icon-->
+            <i class="ki-duotone ki-file-down fs-2hx text-warning me-4 mb-5 mb-sm-0">
+                <span class="path1"></span><span class="path2"></span><span class="path3"></span>
+            </i>
+            <!--end::Icon-->
 
+            <!--begin::Wrapper-->
+            <div class="d-flex flex-column pe-0 pe-sm-10">
+                <!--begin::Title-->
+                <h5 class="mb-1">Karta zgłoszeniowa</h5>
+                <!--end::Title-->
+
+                <!--begin::Content-->
+                <span class="fs-5">
+                    <br>
+                    <u>Wypełniona</u> <b>Karta zgłoszeniowa PDF</b> jest możliwa do pobrania po <b>wypełnieniu poniższego formularza zgłoszeniowego</b>.
+                    <br>
+                    <br>
+                    Aby pobrać kartę zgłoszeniową kliknij w przycisk <b>„Pobierz kartę zgłoszeniową”</b> znajdujący się na górze, po prawej stronie na <i>Stronie Podsumowania</i>.
+                </span>
+                <!--end::Content-->
+            </div>
+            <!--end::Wrapper-->
+        </div>
+        <!--end::Alert-->
+        {% endif %}
+
+        <div class="d-flex flex-row justify-content-center">
+            <form action="{% url 'core:application_type_page' pk=webinar.pk %}" method="post">
+                {% csrf_token %}
+                {{form.application_type}}
+                {{form.application_type.errors}}
+                <div class="separator my-5"></div>
+                <div class="d-flex flex-column">
+                    <div class="d-flex justify-content-end">
+                        <input type="submit" class="btn btn-primary hover-elevate-up" value="Przejdź dalej">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+  </div>
+{% endblock application_content %}
 
 {% block body_scripts %}
   

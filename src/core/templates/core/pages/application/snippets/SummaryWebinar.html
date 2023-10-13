@@ -1,0 +1,47 @@
+<!--begin::Section-->
+<div class="mb-10">
+    <!--begin::Title-->
+    <h5 class="mb-4">Szkolenie:</h5>
+    <!--end::Title-->
+    <!--begin::Details-->
+    <div class="d-flex flex-wrap py-5">
+        <!--begin::Row-->
+        <div class="flex-equal me-5">
+            <!--begin::Details-->
+            <table class="table fs-6 fw-semibold gs-0 gy-2 gx-2 m-0">
+                <!--begin::Row-->
+                <tbody>
+                <tr>
+                    <td class="text-gray-400 min-w-175px w-175px">Tytuł</td>
+                    <td class="text-gray-800 min-w-200px">
+                        {{webinar.title_original}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-gray-400 min-w-175px w-175px">Data</td>
+                    <td class="text-gray-800 min-w-200px">
+                        {{webinar.date|date:"j E Y"}} r.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-gray-400 min-w-175px w-175px">Godzina</td>
+                    <td class="text-gray-800 min-w-200px">
+                        {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-gray-400 min-w-175px w-175px">Wykładowca</td>
+                    <td class="text-gray-800 min-w-200px">
+                        {{webinar.lecturer.fullname}}
+                    </td>
+                </tr>
+                <!--end::Row-->
+            </tbody></table>
+            <!--end::Details-->
+        </div>
+        <!--end::Row-->
+
+    </div>
+    <!--end::Row-->
+</div>
+<!--end::Section-->

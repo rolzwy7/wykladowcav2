@@ -1,0 +1,173 @@
+{% extends 'core/extends/base.html' %} {% load static %} {% block content %}
+<!--begin::Wrapper-->
+<div
+  class="wrapper d-flex flex-column flex-row-fluid mt-5 mt-lg-10"
+  id="kt_wrapper"
+>
+  <!--begin::Content-->
+  <div class="content flex-column-fluid" id="kt_content">
+    <div class="card">
+      <div class="card-body">
+        <h1>
+            Przyjęliśmy Państwa zgłoszenie!
+        </h1>
+
+        <div class="fs-5 fw-bold text-gray-600 mt-5">
+          <p>
+            Z przyjemnością informujemy, że przyjęliśmy Państwa zgłoszenie na szkolenie.
+          </p>
+        </div>
+
+        <div class="separator my-5"></div>
+        <h2>Co dalej?</h2>
+        <div class="separator my-5"></div>
+
+        <!--begin::Content-->
+        <div id="kt_activities_scroll" class="position-relative me-n5 pe-5">
+          <!--begin::Timeline items-->
+          <div class="timeline">
+            
+            <!--begin::Timeline item-->
+            <div class="timeline-item">
+              <!--begin::Timeline line-->
+              <div class="timeline-line w-40px"></div>
+              <!--end::Timeline line-->
+              <!--begin::Timeline icon-->
+              <div class="timeline-icon symbol symbol-circle symbol-40px me-4">
+                <div class="symbol-label bg-light">
+                  <i class="ki-duotone ki-sms fs-2 text-gray-500"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                </div>
+              </div>
+              <!--end::Timeline icon-->
+              <!--begin::Timeline content-->
+              <div class="timeline-content mb-10 mt-n1">
+                <!--begin::Timeline heading-->
+                <div class="pe-3 mb-5">
+                  <!--begin::Title-->
+                  <div class="fs-5 fw-semibold mb-2">
+                    Wysłaliśmy na adresy e-mail <u>osoby zgłaszającej</u> oraz <u>uczestników</u> potwierdzenie przyjęcia zgłoszenia
+                  </div>
+                  <!--end::Title-->
+                  <!--begin::Description-->
+                  <div class="d-flex align-items-center mt-1 fs-6">
+                    <!--begin::Info-->
+                    <div class="text-danger me-2 fs-7 fw-bold">
+                      W razie nie otrzymania wiadomości E-mail prosimy sprawdzić folder „Spam” lub „Wiadomości Śmieci”.
+                    </div>
+                    <!--end::Info-->
+                  </div>
+                  <!--end::Description-->
+                </div>
+                <!--end::Timeline heading-->
+                <!--begin::Timeline details-->
+                <!--end::Timeline details-->
+              </div>
+              <!--end::Timeline content-->
+            </div>
+            <!--end::Timeline item-->
+
+            
+            <!--begin::Timeline item-->
+            <div class="timeline-item">
+              <!--begin::Timeline line-->
+              <div class="timeline-line w-40px"></div>
+              <!--end::Timeline line-->
+              <!--begin::Timeline icon-->
+              <div class="timeline-icon symbol symbol-circle symbol-40px me-4">
+                <div class="symbol-label bg-light">
+                  <i class="ki-duotone ki-youtube fs-2 text-gray-500"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                </div>
+              </div>
+              <!--end::Timeline icon-->
+              <!--begin::Timeline content-->
+              <div class="timeline-content mb-10 mt-n1">
+                <!--begin::Timeline heading-->
+                <div class="pe-3 mb-5">
+                  <!--begin::Title-->
+                  <div class="fs-5 fw-semibold mb-2">
+                    Dzień przed szkoleniem, na adresy e-mail <u>uczestników</u> zostaną wysłane zaproszenia do platformy szkoleniowej ClickMeeting <u>wraz z materiałami szkoleniowymi</u>
+                  </div>
+                  <!--end::Title-->
+                  <!--begin::Description-->
+                  <div class="d-flex align-items-center mt-1 fs-6">
+                    <!--begin::Info-->
+                    <div class="text-muted me-2 fs-7 fw-bold">
+                      Nasi konsultanci będą <span class="text-danger">kontaktować się dzień przed szkoleniem z uczestnikami telefonicznie</span> w celu potwierdzenia otrzymania zaproszenia.
+                    </div>
+                    <!--end::Info-->
+                  </div>
+                  <!--end::Description-->
+                </div>
+                <!--end::Timeline heading-->
+                <!--begin::Timeline details-->
+                <!--end::Timeline details-->
+              </div>
+              <!--end::Timeline content-->
+            </div>
+            <!--end::Timeline item-->
+
+
+            <!--begin::Timeline item-->
+            <div class="timeline-item">
+              <!--begin::Timeline line-->
+              <div class="timeline-line w-40px"></div>
+              <!--end::Timeline line-->
+              <!--begin::Timeline icon-->
+              <div class="timeline-icon symbol symbol-circle symbol-40px me-4">
+                <div class="symbol-label bg-light">
+                  <i class="ki-duotone ki-message-text-2 fs-2 text-gray-500"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                </div>
+              </div>
+              <!--end::Timeline icon-->
+              <!--begin::Timeline content-->
+              <div class="timeline-content mb-10 mt-n1">
+                <!--begin::Timeline heading-->
+                <div class="pe-3 mb-5">
+                  <!--begin::Title-->
+                  <div class="fs-5 fw-semibold mb-2">
+                    Faktura za udział w szkoleniu zostanie wysłana po zajęciach na <u>podany przez Państwa adres e-mail</u>
+                  </div>
+                  <!--end::Title-->
+                  <!--begin::Description-->
+                  <div class="d-flex align-items-center mt-1 fs-6">
+                    <!--begin::Info-->
+                    <div class="text-muted me-2 fs-7 fw-bold">
+                      Płatności należy dokonać przelewem <span class="text-danger">do {{INVOICE_DEADLINE_DAYS}} dni</span> po szkoleniu.
+                    </div>
+                    <!--end::Info-->
+                  </div>
+                  <!--end::Description-->
+                </div>
+                <!--end::Timeline heading-->
+                <!--begin::Timeline details-->
+                <!--end::Timeline details-->
+              </div>
+              <!--end::Timeline content-->
+            </div>
+            <!--end::Timeline item-->
+
+
+
+
+          </div>
+          <!--end::Timeline items-->
+        </div>
+        <!--end::Content-->
+
+        <div class="fs-5 fw-bold text-gray-600 mt-5">
+          <p>W razie pytań prosimy o kontakt z obsługą klienta.</p>
+        </div>
+        <div class="separator border-3 my-10"></div>
+        <div class="fs-5 fw-bold text-gray-600 mt-5">
+          <p>
+            Dziękujemy za wybranie naszych usług szkoleniowych<br />
+            ~ zespół {{COMPANY_NAME}}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--end::Content-->
+</div>
+<!--end::Wrapper-->
+{% endblock content %} {% block body_scripts %} {% endblock body_scripts %}

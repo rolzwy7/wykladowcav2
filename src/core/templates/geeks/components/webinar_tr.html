@@ -1,0 +1,90 @@
+{% load static %}
+
+<tr
+  style="cursor: pointer;"
+  onclick="window.location.href='{% url 'core:webinar_program_page' slug=webinar.slug %}'"
+>
+  <td>
+    <div class="d-flex align-items-start">
+    {% if show_image %}    
+      <div>
+        <a href="{% url 'core:webinar_program_page' slug=webinar.slug %}">
+          <img
+            src="{% get_media_prefix %}uploads/lecturers/{{webinar.lecturer.slug}}_80x80.webp"
+            alt="{{webinar.lecturer.fullname}}"
+            class="rounded img-4by3-lg"
+          />
+        </a>
+      </div>
+      {% endif %}
+      <div class="ms-3">
+        {% if webinar.description %}
+        <h4 class="mb-1 h4">
+          <a
+            href="{% url 'core:webinar_program_page' slug=webinar.slug %}"
+            class="text-inherit"
+            style="text-wrap: wrap"
+          >
+            {{webinar.title}}
+          </a>
+        </h4>
+        <h5>
+          <a
+          href="{% url 'core:webinar_program_page' slug=webinar.slug %}"
+          class="text-inherit"
+          style="text-wrap: wrap"
+          >
+            {{webinar.description}}
+          </a>
+        </h5>
+        {% else %}
+        <h4 class="mb-1 h4">
+          <a
+            href="{% url 'core:webinar_program_page' slug=webinar.slug %}"
+            class="text-inherit"
+            style="text-wrap: wrap"
+          >
+            {{webinar.title_original}}
+          </a>
+        </h4>
+        {% endif %}
+        <ul class="list-inline fs-5 mb-0">
+          <li class="list-inline-item">
+            <a
+              href="{% url 'core:lecturer_experience_page' slug=webinar.lecturer.slug %}"
+            >
+              {{webinar.lecturer.fullname}}
+            </a>
+          </li>
+          <!-- <li class="list-inline-item">
+                   <i class="mdi mdi-clock-time-four-outline text-muted me-1"></i>28 sierpnia 2023 r.
+                   </li> -->
+          <li class="list-inline-item">
+            <i class="mdi mdi-clock-time-four-outline text-muted me-1"></i
+            >{{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </td>
+  <td style="color: var(--geeks-gray-800)">
+    <b>DATA SZKOLENIA</b> <br />
+    {{webinar.date|date:"j E Y"}}
+    <br />
+    <br />
+    <b>CENA</b> <br />
+    {% if webinar.is_discounted %}
+    <span class="text-decoration-line-through fw-bolder text-danger">
+      {{webinar.price_netto}}zł
+    </span>
+    <span>{{webinar.price}}zł</span>
+    {% else %} {{webinar.price}}zł {% endif %} {{PRICE_ADNOTATION}}
+    <br />
+    {% if webinar.is_discounted %}
+    <span class="text-success fw-bold">
+      (promocja do {{webinar.discount_until|date:"j E Y"}}
+      {{webinar.discount_until|date:"H:i"}})
+    </span>
+    {% endif %}
+  </td>
+</tr>

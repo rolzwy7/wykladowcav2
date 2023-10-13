@@ -1,13 +1,13 @@
 {% load static %}
 <!--begin::Navbar-->
 <div class="card mb-6">
-    <div class="card-body pt-9">
+    <div class="card-body pt-9 pb-0">
         <!--begin::Details-->
         <div class="d-flex flex-wrap flex-sm-nowrap">
             <!--begin: Pic-->
             <div class="me-7 mb-4">
                 <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
-                    <img src="{% static 'media/avatars/300-1.jpg' %}" alt="image" />
+                    <img src="{% get_media_prefix %}uploads/lecturers/{{lecturer.slug}}_160x160.webp" alt="image" />
                     <div class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-body h-20px w-20px"></div>
                 </div>
             </div>
@@ -21,59 +21,57 @@
                         <!--begin::Name-->
                         <div class="d-flex align-items-center mb-2">
                             <a href="#" class="text-gray-900 text-hover-primary fs-2 fw-bold me-1">
-                                Max Smith
+                                {{lecturer.fullname}}
                             </a>
-                            <a href="#">
-                                <i class="ki-duotone ki-verify fs-1 text-primary">
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                </i>
-                            </a>
+                            <i
+                                class="ki-duotone ki-verify fs-1 text-primary"
+                                data-bs-toggle="tooltip"
+                                data-bs-custom-class="tooltip-inverse"
+                                data-bs-placement="top"
+                                title="Wykładowca zweryfikowany"
+                                style="cursor: pointer;"
+                            >
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
                         </div>
                         <!--end::Name-->
                         <!--begin::Info-->
                         <div class="d-flex flex-wrap fw-semibold fs-6 mb-4 pe-2">
-                            <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
+                            {% if lecturer.profession %}
+                            <span class="d-flex align-items-center text-gray-400 me-5 mb-2">
                                 <i class="ki-duotone ki-profile-circle fs-4 me-1">
                                     <span class="path1"></span>
                                     <span class="path2"></span>
                                     <span class="path3"></span>
                                 </i>
-                                Developer
-                            </a>
-                            <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
+                                {{lecturer.profession}}
+                            </span>
+                            {% endif %}
+                            <span class="d-flex align-items-center text-gray-400 me-5 mb-2">
                                 <i class="ki-duotone ki-geolocation fs-4 me-1">
                                     <span class="path1"></span>
                                     <span class="path2"></span>
                                 </i>
-                                SF, Bay Area
-                            </a>
-                            <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary mb-2">
-                                <i class="ki-duotone ki-sms fs-4 me-1">
+                                Szkolenie Online
+                            </span>
+                            <span class="d-flex align-items-center text-gray-400 mb-2">
+                                <i class="ki-duotone ki-cd fs-4 me-1">
                                     <span class="path1"></span>
                                     <span class="path2"></span>
                                 </i>
-                                max@kt.com
-                            </a>
+                                {% for category in lecturer.categories.all %}
+                                {% if forloop.last %}
+                                  {{category}}
+                                {% else %}
+                                  {{category}},
+                                {% endif %}
+                              {% endfor %}
+                            </span>
                         </div>
                         <!--end::Info-->
                     </div>
                     <!--end::User-->
-                    <!--begin::Actions-->
-                    <div class="d-flex my-4">
-                        <a href="#" class="btn btn-sm me-2 btn-light" id="kt_user_follow_button">
-                            <i class="ki-duotone ki-check fs-3 d-none"></i>
-                            <!--begin::Indicator label-->
-                            <span class="indicator-label">Follow</span>
-                            <!--end::Indicator label-->
-                            <!--begin::Indicator progress-->
-                            <span class="indicator-progress">Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                            <!--end::Indicator progress-->
-                        </a>
-                        <a href="#" class="btn btn-sm btn-primary me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_offer_a_deal">Hire Me</a>
-                    
-                    </div>
-                    <!--end::Actions-->
                 </div>
                 <!--end::Title-->
                 <!--begin::Stats-->
@@ -86,15 +84,17 @@
                             <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
                                 <!--begin::Number-->
                                 <div class="d-flex align-items-center">
-                                    <i class="ki-duotone ki-arrow-up fs-3 text-success me-2">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
+                                    <i class="ki-duotone ki-calendar fs-3 text-grey me-2">
+                                        <i class="path1"></i>
+                                        <i class="path2"></i>
                                     </i>
-                                    <div class="fs-2 fw-bold counted" data-kt-countup="true" data-kt-countup-value="4500" data-kt-countup-prefix="$" data-kt-initialized="1">$4,500</div>
+                                    <div class="fs-2 fw-bold counted">
+                                        {{webinar.date|date:"j E Y"}} r.
+                                    </div>
                                 </div>
                                 <!--end::Number-->
                                 <!--begin::Label-->
-                                <div class="fw-semibold fs-6 text-gray-400">Earnings</div>
+                                <div class="fw-semibold fs-6 text-gray-400">Data szkolenia</div>
                                 <!--end::Label-->
                             </div>
                             <!--end::Stat-->
@@ -102,15 +102,17 @@
                             <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
                                 <!--begin::Number-->
                                 <div class="d-flex align-items-center">
-                                    <i class="ki-duotone ki-arrow-down fs-3 text-danger me-2">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
+                                    <i class="ki-duotone ki-time fs-3 text-grey me-2">
+                                        <i class="path1"></i>
+                                        <i class="path2"></i>
                                     </i>
-                                    <div class="fs-2 fw-bold counted" data-kt-countup="true" data-kt-countup-value="80" data-kt-initialized="1">80</div>
+                                    <div class="fs-2 fw-bold counted">
+                                        {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}
+                                    </div>
                                 </div>
                                 <!--end::Number-->
                                 <!--begin::Label-->
-                                <div class="fw-semibold fs-6 text-gray-400">Projects</div>
+                                <div class="fw-semibold fs-6 text-gray-400">Godzina szkolenia</div>
                                 <!--end::Label-->
                             </div>
                             <!--end::Stat-->
@@ -118,15 +120,39 @@
                             <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
                                 <!--begin::Number-->
                                 <div class="d-flex align-items-center">
-                                    <i class="ki-duotone ki-arrow-up fs-3 text-success me-2">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
+                                    <i class="ki-duotone ki-price-tag fs-3 text-grey me-2">
+                                        <i class="path1"></i>
+                                        <i class="path2"></i>
                                     </i>
-                                    <div class="fs-2 fw-bold counted" data-kt-countup="true" data-kt-countup-value="60" data-kt-countup-prefix="%" data-kt-initialized="1">%60</div>
+                                    <div class="fs-2 fw-bold counted">
+                                        {% if webinar.is_discounted %}
+                                        <span class="text-decoration-line-through fw-bolder text-danger">{{webinar.price_netto}}zł</span>
+                                        <span>{{webinar.price}}zł</span>
+                                        {% else %}
+                                        {{webinar.price}}zł
+                                        {% endif %}
+                                        <span class="fs-4">{{PRICE_ADNOTATION}}</span>
+                                    </div>
                                 </div>
                                 <!--end::Number-->
                                 <!--begin::Label-->
-                                <div class="fw-semibold fs-6 text-gray-400">Success Rate</div>
+                                <div class="fw-semibold fs-6 text-gray-400">
+                                    Cena {% if webinar.is_discounted %}<span class="fw-bolder text-success fs-3">promocyjna</span>{% endif %} (od osoby)
+                                    {% if WE_ARE_TAX_EXEMPT %}
+                                    <i
+                                        class="ki-duotone ki-question-2 fs-1"
+                                        style="vertical-align: middle; cursor: pointer;"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-custom-class="tooltip-inverse"
+                                        data-bs-placement="top"
+                                        title="{{TAX_EXEMPT_TOOLTIP}}"
+                                    >
+                                        <i class="path1"></i>
+                                        <i class="path2"></i>
+                                        <i class="path3"></i>
+                                    </i>
+                                    {% endif %}
+                                </div>
                                 <!--end::Label-->
                             </div>
                             <!--end::Stat-->
@@ -134,23 +160,44 @@
                         <!--end::Stats-->
                     </div>
                     <!--end::Wrapper-->
+                    {% if webinar.is_discounted %}
                     <!--begin::Progress-->
                     <div class="d-flex align-items-center w-200px w-sm-300px flex-column mt-3">
                         <div class="d-flex justify-content-between w-100 mt-auto mb-2">
-                            <span class="fw-semibold fs-6 text-gray-400">Profile Compleation</span>
-                            <span class="fw-bold fs-6">50%</span>
+                            <span class="fw-semibold fs-6 text-gray-400">Do końca promocji</span>
+                            <div class="fw-bold fs-6 d-flex" id="discount-countdown"></div>
                         </div>
                         <div class="h-5px mx-3 w-100 bg-light mb-3">
-                            <div class="bg-success rounded h-5px" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="bg-danger rounded h-5px" role="progressbar" style="width: 100%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                     <!--end::Progress-->
+                    {% endif %}
                 </div>
                 <!--end::Stats-->
             </div>
             <!--end::Info-->
         </div>
         <!--end::Details-->
+        <!--begin::Navs-->
+        <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold">
+            {% for tab_name, tab_url, tab_is_active, tab_icon in webinar_tabs %}
+            <!--begin::Nav item-->
+            <li class="nav-item mt-2">
+                <a
+                    class="nav-link text-active-primary ms-0 me-10 py-5 {% if tab_is_active %}active{% endif %}"
+                    href="{{tab_url}}"
+                >   
+                    {% if tab_icon %}
+                        <i class="ki-duotone {{tab_icon}} fs-1 me-2"><i class="path1"></i><i class="path2"></i></i>
+                    {% endif %}
+                    {{tab_name}}
+                </a>
+            </li>
+            <!--end::Nav item-->
+            {% endfor %}
+        </ul>
+        <!--begin::Navs-->
     </div>
 </div>
 <!--end::Navbar-->

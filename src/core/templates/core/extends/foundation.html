@@ -1,7 +1,8 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="pl_PL">
-  
+<html lang="{{META__HTML_LANG}}">
+<!-- Bartosz Nowakowski -->
+<!-- https://github.com/rolzwy7 -->
 <!--begin::Head-->
   <head>
     <base href="" />
@@ -12,6 +13,17 @@
     <!-- Head stylesheets placeholder (for this page only) -->
     {% endblock head_stylesheets %}
     {% block head_stylesheets_mandatory %}{% endblock head_stylesheets_mandatory %}
+    <style>
+      .form-control.form-control-solid {
+        background-color: var(--bs-gray-300);
+      }
+      .form-select.form-select-solid {
+        background-color: var(--bs-gray-300);
+      }
+      .blockui-overlay {
+        background-color: rgba(213, 213, 213, 0.7)!important;
+      }
+    </style>
   </head>
   <!--end::Head-->
   
@@ -22,14 +34,11 @@
     class="header-fixed header-tablet-and-mobile-fixed aside-enabled sidebar-enabled"
   >
   {% endblock body_tag %}
-  
     {% include '../includes/ThemeModeSetup.html' %}
     {% block root %}{% endblock root %}
-    
-  
-    {% include './drawers.html' %}
+    {% comment %} {% include './drawers.html' %} {% endcomment %}
     {% include '../includes/ScrollTop.html' %}
-    {% include './modals.html' %}
+    {% comment %} {% include './modals.html' %} {% endcomment %}
     <!--begin::Javascript-->
     <script>
       var hostUrl = "static/";

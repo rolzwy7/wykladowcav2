@@ -1,0 +1,84 @@
+{% load static %}
+<div hx-target="this" hx-swap="outerHTML">
+
+  {% if further_discounts_allowed %}
+  <form
+    hx-post="{% url 'htmx:htmx_application_discount_panel' pk=application.pk %}"
+    method="post"
+  >
+    <div class="d-flex flex-row">
+      <div class="input-group mb-1">
+        <input
+          type="text"
+          name="discount_code"
+          required
+          class="form-control form-control-solid"
+          placeholder="Kod promocyjny"
+        />
+        <span class="input-group-text p-0">
+          <button
+            type="submit"
+            class="btn btn-icon btn-primary py-2 px-4"
+            style="border-top-left-radius: 0; border-bottom-left-radius: 0; width:auto;"
+          >
+          Wprowadź kod
+          </button>
+        </span>
+      </div>
+    </div>
+  </form>
+  {% endif %}
+  
+  {% if error_msg %}
+  <span class="text-danger fw-bold">{{error_msg}}</span>
+  <br>
+  {% endif %}
+
+
+{% if application_discounts_exists %}
+  <!--begin::Seperator-->
+  <div class="separator separator-dashed my-2"></div>
+  <!--end::Seperator-->
+  <!--begin::Title-->
+  <h5 class="mb-2">Zniżki</h5>
+  <!--end::Title-->
+  <!--begin::Section-->
+  <div class="mw-300px">
+    {% for application_discount in application_discounts %}
+    <!--begin::Item-->
+    <div class="d-flex flex-stack mb-1">
+      <!--begin::Accountname-->
+      <div class="fw-semibold pe-10 text-gray-600 fs-7">
+        {{application_discount.name}}
+      </div>
+      <!--end::Accountname-->
+      <!--begin::Label-->
+      <div class="text-end text-success fw-bold fs-6">
+        -{{application_discount.amount}} zł
+      </div>
+      <!--end::Label-->
+    </div>
+    <!--end::Item-->
+    {% endfor %}
+  </div>
+  <!--end::Section-->
+{% endif %}
+
+  <div class="separator separator-dashed my-2"></div>
+  <span class="my-2 fs-5 fw-bold">
+
+    Cena za osobę:
+    {{application.price_netto}} zł
+    {% if WE_ARE_TAX_EXEMPT or application.invoice.vat_exemption == "VAT_EXEMPTION_0" %}
+      {{PRICE_ADNOTATION}}
+    {% endif %}
+
+    <hr class="my-1">
+    
+    Całkowita cena: {{preview_total_price_netto}} zł
+    {% if WE_ARE_TAX_EXEMPT or application.invoice.vat_exemption == "VAT_EXEMPTION_0" %}
+      {{PRICE_ADNOTATION}}
+    {% endif %}
+  
+  </span>
+</div>

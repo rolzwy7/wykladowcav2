@@ -1,0 +1,19 @@
+{% extends './LecturerBase.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="card mb-4">
+    <!-- Card header -->
+    <div class="card-header">
+        <h3 class="mb-0">Szkolenia zamknięte</h3>
+        <span>
+            {{lecturer.fullname}}
+        </span>
+    </div>
+    <!-- Card body -->
+    <div class="card-body">
+        Jeśli są Państwo zainteresowani organizacją szkolenia zamkniętego przez wykładowcę <b>{{lecturer.fullname}}</b>, prosimy o przesłanie nam wiadomości na adres e-mail <b>{{COMPANY_OFFICE_EMAIL}}</b> lub zadzwonienie pod numer <b>{{COMPANY_OFFICE_PHONE}}</b>, abyśmy mogli zapoznać się z Państwa wymaganiami i przedstawić naszą ofertę.
+    </div>
+</div>
+{% endblock content %}

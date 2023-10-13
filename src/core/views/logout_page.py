@@ -1,8 +1,9 @@
 from django.contrib.auth import logout
-from django.template.response import TemplateResponse
+from django.shortcuts import redirect
+from django.urls import reverse
 
 
 def logout_page(request):
-    template_name = "core_app/pages/LogoutPage.html"
+    """Logout controller"""
     logout(request)
-    return TemplateResponse(request, template_name, {})
+    return redirect(reverse("core:homepage"))

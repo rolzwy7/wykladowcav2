@@ -1,0 +1,17 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+<h1>Firmy</h1>
+{% for company in object_list %}
+    {{company}} - <a href="{% url 'core:crm_company_detail' pk=company.pk %}">detail</a>
+{% endfor %}
+{% endblock crm_content %}
+
+{% block body_scripts %}
+
+{% endblock body_scripts %}

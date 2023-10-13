@@ -1,0 +1,88 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+
+{% block title %}
+  <title>Kontakt</title>
+{% endblock title %}
+
+{% block root %}
+<main>
+<section class="py-8 bg-light">
+    <div class="container">
+    <div class="row">
+        <div class="offset-md-2 col-md-8 col-12 ">
+        <!-- caption-->
+        <h1 class="fw-bold mb-0 display-4 lh-1">Mapa Strony</h1>
+        </div>
+    </div>
+    </div>
+</section>
+    <!-- container  -->
+<section class="pt-3">
+    <div class="container">
+        <div class="row">
+            <div class="offset-md-2 col-md-8 col-12">
+                <div>
+                    <!-- breadcrumb  -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'core:homepage' %}">
+                            Strona główna
+                        </a></li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Mapa Strony
+                        </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+<!-- container  -->
+<section class="py-lg-10 py-7">
+<div class="container">
+    <div class="row ">
+    <div class="offset-md-2 col-md-8 col-12">
+        <div class="row">
+            {% comment %}
+            <div class="col-lg-6 col-12">
+                <!-- card  -->
+                <div class="card border mb-4">
+                    <!-- card body  -->
+                    <div class="card-body p-5">
+                        <div class="mb-5">
+                        <h2 class="fw-semibold">Getting Started</h2>
+                        <p>Get your Help Geeks account set up in just 6 simple steps.</p>
+                        </div>
+                        <!-- list  -->
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <a href="help-center-guide-single.html" class="text-body"><i class="mdi mdi-arrow-right me-1 text-muted"></i>What is this geeks app?</a>
+                            </li>
+                                <li class="mb-2">
+                                <a href="help-center-guide-single.html" class="text-body"><i class="mdi mdi-arrow-right me-1 text-muted"></i>Start using the geeks app?</a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="help-center-guide-single.html" class="text-body"><i class="mdi mdi-arrow-right me-1 text-muted"></i>Signing in to the dashboard</a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="help-center-guide-single.html" class="text-body"><i class="mdi mdi-arrow-right me-1 text-muted"></i>Navigating within the Geeks app</a>
+                            </li>
+                            <li>
+                                <a href="help-center-guide-single.html" class="text-body"><i class="mdi mdi-arrow-right me-1 text-muted"></i>Affiliate with geeks app</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% endcomment %}
+        </div>
+        </div>
+    </div>
+    </div>
+</section>
+</main>
+{% endblock root %}
+

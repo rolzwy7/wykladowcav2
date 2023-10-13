@@ -1,0 +1,291 @@
+{% extends './CrmWebinarBase.html' %}
+{% load static %}
+{% load custom_templatetags %}
+
+{% block head_stylesheets %}
+<link href="{% static 'plugins/custom/datatables/datatables.bundle.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock head_stylesheets %}
+
+{% block crm_webinar_content %}
+<!--begin::Row-->
+<div class="row g-6 g-xl-9 mb-10">
+    <!--begin::Col-->
+    <div class="col-md-6 col-xl-6">
+        <div class="card shadow-sm card-flush h-md-100 mb-5 mb-xl-10">
+            <!--begin::Header-->
+            <div class="card-header pt-5">
+                <!--begin::Title-->
+                <div class="card-title d-flex flex-column">
+                    <!--begin::Info-->
+                    <div class="d-flex align-items-center">
+                        <!--begin::Currency-->
+                        <span class="fs-4 fw-semibold text-gray-400 me-1 align-self-start">PLN</span>
+                        <!--end::Currency-->
+                        <!--begin::Amount-->
+                        <span class="fs-2hx fw-bold text-dark me-2 lh-1 ls-n2">
+                            {{total_netto_value_of_webinar_display}}
+                        </span>
+                        <!--end::Amount-->
+                    </div>
+                    <!--end::Info-->
+                    <!--begin::Subtitle-->
+                    <span class="text-gray-400 pt-1 fw-semibold fs-6">
+                        Wartość NETTO szkolenia
+                    </span>
+                    <!--end::Subtitle-->
+                </div>
+                <!--end::Title-->
+            </div>
+            <!--end::Header-->
+            <!--begin::Card body-->
+            <div class="card-body pt-2 pb-4 d-flex align-items-center">
+                <!--begin::Labels-->
+                <div class="d-flex flex-column content-justify-center w-100">
+                    
+                    {% for name_display, name, count in get_groupby_application_type_count %}
+                    <!--begin::Label-->
+                    <div class="d-flex fs-6 fw-semibold align-items-center mb-3">
+                        <!--begin::Bullet-->
+                        {% if name == "COMPANY" %}
+                        <div class="bullet w-8px h-6px rounded-2 bg-primary me-3"></div>
+                        {% elif name == "JSFP" %}
+                        <div class="bullet w-8px h-6px rounded-2 bg-danger me-3"></div>
+                        {% elif name == "PRIVATE_PERSON" %}
+                        <div class="bullet w-8px h-6px rounded-2 bg-success me-3"></div>
+                        {% else %}
+                        <div class="bullet w-8px h-6px rounded-2 bg-secondary me-3"></div>
+                        {% endif %}
+                        <!--end::Bullet-->
+                        <!--begin::Label-->
+                        <div class="text-gray-500 flex-grow-1 me-4">{{name_display}}</div>
+                        <!--end::Label-->
+                        <!--begin::Stats-->
+                        <div class="fw-bolder text-gray-700 text-xxl-end">{{count}}</div>
+                        <!--end::Stats-->
+                    </div>
+                    <!--end::Label-->
+                    {% endfor %}
+                </div>
+                <!--end::Labels-->
+            </div>
+            <!--end::Card body-->
+        </div>
+    </div>
+    <!--end::Col-->
+    <!--begin::Col-->
+    <div class="col-md-6 col-xl-6">
+        <div class="card shadow-sm card-flush h-md-100 mb-xl-10">
+            <div
+                hx-get="{% url 'htmx:htmx_crm_lecturer_price_card' webinar_pk=webinar.pk mode='result' %}"
+                hx-trigger="load">
+            </div>
+        </div>
+    </div>
+    <!--end::Col-->
+
+    {% if webinar.status == "CANCELED" %}
+    <!--start::Col-->
+    <div class="col-md-12">
+
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h3 class="card-title">
+                    Potwierdzenia przyjęcia wiadomości o&nbsp;
+                    <span class="fw-bold text-danger">odwołaniu szkolenia</span>
+                </h3>
+            </div>
+            <div class="card-body">
+                {% include './snippets/CrmCancellationTable.html' with cancellations=cancellations %}
+            </div>
+        </div>
+    </div>
+    <!--end::Col-->
+    {% endif %}
+    
+    {% if move_registers %}
+    <!--start::Col-->
+    <div class="col-md-12">
+
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h3 class="card-title">
+                    Potwierdzenia przyjęcia wiadomości o&nbsp;
+                    <span class="fw-bold text-primary">przeniesieniu szkolenia</span>
+                </h3>
+            </div>
+            <div class="card-body">
+
+
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr class="fw-bold fs-6 text-gray-800">
+                                <th>Osoba zgłaszająca</th>
+                                <th>Status</th>
+                                <th>Wykryto otwarcie e-mail</th>
+                                <th>Wykryto kliknięcie "Akceptuję"</th>
+                                <th>Wykryto kliknięcie "Rezygnuję"</th>
+                                <th>URL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for move_register in move_registers %}
+                                <tr class="bg-light-grey p-3">
+                                    <td colspan="5">
+                                        Przeniesiono z 
+                                        <b>{{move_register.from_datetime}}</b>
+                                        na
+                                        <b>{{move_register.to_datetime}}</b>
+                                        :
+                                        <b>
+                                            {{move_register.applications_count}}
+                                            uczestników
+                                        </b>
+                                    </td>
+                                </tr>
+                                {% for move_register_item in move_register.register_items %}
+                                    <tr>
+                                        <td>
+                                            {% with move_register_item.application.submitter as submitter %}
+                                                {{submitter.fullname}}
+                                                <br>
+                                                {{submitter.email}}
+                                                /
+                                                {{submitter.phone}}
+                                            {% endwith %}
+                                        </td>
+                                        <td>
+                                            <b>{{move_register_item.get_status_display}}</b>
+                                        </td>
+                                        <td>
+                                            {% if move_register_item.email_open_detected %}
+                                            Tak
+                                            {% else %}
+                                            Nie
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if move_register_item.clicked_accept_link %}
+                                            Tak
+                                            {% else %}
+                                            Nie
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if move_register_item.clicked_resignation_link %}
+                                            Tak
+                                            {% else %}
+                                            Nie
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'core:webinar_moving_accept_page' token=move_register_item.token %}">
+                                                Akceptuję
+                                            </a>
+                                            <br>
+                                            <a href="{% url 'core:webinar_moving_resignation_page' token=move_register_item.token %}">
+                                                Rezygnuję
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <!--end::Col-->
+    {% endif %}
+
+    <!--start::Col-->
+    <div class="col-md-12">
+
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h3 class="card-title">Uczestnicy ({{gathered_participants_count}})</h3>
+            </div>
+            <div class="card-body">
+                {% include './snippets/CrmWebinarParticipantsTable.html' with gathered_participants=gathered_participants %}                
+            </div>
+        </div>
+    </div>
+    <!--end::Col-->
+
+    <!--start::Col-->
+    <div class="col-md-12">
+        
+        <div class="card shadow-sm mt-4">
+            <div class="card-header">
+                <h3 class="card-title">Szczegóły zgłoszeń ({{sent_applications_count}})</h3>
+            </div>
+            {% if sent_applications_count != 0 %}
+            <div class="card-body">
+                {% include './snippets/CrmWebinarApplicationsInfo.html' with sent_applications=sent_applications %}
+                {% include './snippets/CrmWebinarApplicationTable.html' with applications=sent_applications table_name='sent_applications' %}
+            </div>
+            {% endif %}
+        </div>
+    
+    </div>
+    <!--end::Col-->
+
+    <!--start::Col-->
+    <div class="col-md-12">
+        <div class="card shadow-sm mt-4">
+            <div class="card-header">
+                <h3 class="card-title">
+                    Zrezygnowało ({{resigned_applications_count}})
+                </h3>
+            </div>
+            {% if resigned_applications_count != 0 %}
+            <div class="card-body">
+                {% include './snippets/CrmWebinarApplicationTable.html' with applications=resigned_applications table_name='resigned_applications' %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <!--end::Col-->
+
+    <!--start::Col-->
+    <div class="col-md-12">
+        <div class="card shadow-sm mt-4">
+            <div class="card-header">
+                <h3 class="card-title">
+                    NIEWYSŁANE ZGŁOSZENIA ({{unfinished_applications_count}})
+                </h3>
+            </div>
+            {% if unfinished_applications_count != 0 %}
+            <div class="card-body">
+                {% include './snippets/CrmWebinarUnsentApplicationsTable.html' with applications=unfinished_applications table_name='unfinished_applications' %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <!--end::Col-->
+    
+</div>
+<!--end::Row-->
+{% endblock crm_webinar_content %}
+
+{% block body_scripts %}
+<script src="{% static 'plugins/custom/datatables/datatables.bundle.js' %}"></script>
+<script>
+    $("#sent_applications").DataTable({
+        responsive: true,
+        pageLength: 50,
+    });
+    $("#resigned_applications").DataTable({
+        responsive: true,
+        pageLength: 50
+    });
+    $("#unfinished_applications").DataTable({
+        responsive: true,
+        pageLength: 50
+    });
+</script>
+{% endblock body_scripts %}

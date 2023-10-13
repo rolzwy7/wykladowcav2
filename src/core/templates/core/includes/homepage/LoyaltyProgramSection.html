@@ -1,0 +1,222 @@
+{% load static %}
+<!--begin::How It Works Section-->
+<div class="mb-n10 mb-lg-n20 z-index-2">
+  <!--begin::Container-->
+  <div class="container">
+    <!--begin::Heading-->
+    <div class="text-center mb-17">
+      <!--begin::Title-->
+      <h3
+        class="fs-2hx text-dark mb-5"
+        id="how-it-works"
+      >
+        Program partnerski
+      </h3>
+      <!--end::Title-->
+      <!--begin::Text-->
+      <div class="fs-5 text-muted fw-bold">
+        Polecaj nasze szkolenia i zarabiaj! <br>
+        Oferujemy <span class="fw-bold text-danger">
+          10% prowizij
+        </span> od wartości netto, a polecanym <span class="fw-bold text-danger">
+          -5% zniżki</span> na szkolenia.
+      </div>
+      <!--end::Text-->
+    </div>
+    <!--end::Heading-->
+    <!--begin::Row-->
+    <div class="row w-100 gy-10 mb-md-20">
+      <!--begin::Col-->
+      <div class="col-md-4 px-5">
+        <!--begin::Story-->
+        <div class="text-center mb-10 mb-md-0">
+          <!--begin::Illustration-->
+          <img
+            src="{% static 'media/illustrations/sketchy-1/2.png' %}"
+            class="mh-125px mb-9"
+            alt=""
+          />
+          <!--end::Illustration-->
+          <!--begin::Heading-->
+          <div class="d-flex flex-center mb-5">
+            <!--begin::Badge-->
+            <span
+              class="badge badge-circle badge-light-primary fw-bold p-5 me-3 fs-3"
+              >1</span
+            >
+            <!--end::Badge-->
+            <!--begin::Title-->
+            <div class="fs-5 fs-lg-3 fw-bold text-dark">Załóż u nas konto</div>
+            <!--end::Title-->
+          </div>
+          <!--end::Heading-->
+          <!--begin::Description-->
+          <div class="fw-semibold fs-6 fs-lg-4 text-muted">
+            Załóż u nas konto
+            <a target="_blank" href="{% url 'core:register_page' %}">
+              poprzez stronę rejestracji
+            </a>.
+          </div>
+          <!--end::Description-->
+        </div>
+        <!--end::Story-->
+      </div>
+      <!--end::Col-->
+      <!--begin::Col-->
+      <div class="col-md-4 px-5">
+        <!--begin::Story-->
+        <div class="text-center mb-10 mb-md-0">
+          <!--begin::Illustration-->
+          <img
+            src="{% static 'media/illustrations/sketchy-1/8.png' %}"
+            class="mh-125px mb-9"
+            alt=""
+          />
+          <!--end::Illustration-->
+          <!--begin::Heading-->
+          <div class="d-flex flex-center mb-5">
+            <!--begin::Badge-->
+            <span
+              class="badge badge-circle badge-light-primary fw-bold p-5 me-3 fs-3"
+              >2</span
+            >
+            <!--end::Badge-->
+            <!--begin::Title-->
+            <div class="fs-5 fs-lg-3 fw-bold text-dark">
+              Zapisz się do programu partnerskiego
+            </div>
+            <!--end::Title-->
+          </div>
+          <!--end::Heading-->
+          <!--begin::Description-->
+          <div class="fw-semibold fs-6 fs-lg-4 text-muted">
+            Jeśli jesteś już <b>zalogowany</b>
+            <a loyalty_program_page href="{% url 'core:loyalty_program_terms_of_service_accept_page' %}">
+              zaakceptuj regulamin uczestnictwa w programie partnerskim
+            </a>.
+          </div>
+          <!--end::Description-->
+        </div>
+        <!--end::Story-->
+      </div>
+      <!--end::Col-->
+      <!--begin::Col-->
+      <div class="col-md-4 px-5">
+        <!--begin::Story-->
+        <div class="text-center mb-10 mb-md-0">
+          <!--begin::Illustration-->
+          <img
+            src="{% static 'media/illustrations/sketchy-1/12.png' %}"
+            class="mh-125px mb-9"
+            alt=""
+          />
+          <!--end::Illustration-->
+          <!--begin::Heading-->
+          <div class="d-flex flex-center mb-5">
+            <!--begin::Badge-->
+            <span
+              class="badge badge-circle badge-light-primary fw-bold p-5 me-3 fs-3"
+              >3</span
+            >
+            <!--end::Badge-->
+            <!--begin::Title-->
+            <div class="fs-5 fs-lg-3 fw-bold text-dark">
+              Wyślij kod referencyjny do współpracowników lub znajomych
+            </div>
+            <!--end::Title-->
+          </div>
+          <!--end::Heading-->
+          <!--begin::Description-->
+          <div class="fw-semibold fs-6 fs-lg-4 text-muted">
+            Jeśli twój kod referencyjny zostanie wpisany jako kod promocyjny przy wysyłaniu
+            zgłoszenia
+            <a target="_blank" href="{% url 'core:loyalty_program_page' %}">
+              otrzymasz prowizję po zrealizowanym szkoleniu!
+            </a>
+          </div>
+          <!--end::Description-->
+        </div>
+        <!--end::Story-->
+      </div>
+      <!--end::Col-->
+    </div>
+    <!--end::Row-->
+    <!--begin::Product slider-->
+    <div class="tns tns-default">
+      <!--begin::Slider-->
+      <div
+        data-tns="true"
+        data-tns-loop="true"
+        data-tns-swipe-angle="false"
+        data-tns-speed="2000"
+        data-tns-autoplay="false"
+        data-tns-autoplay-timeout="18000"
+        data-tns-controls="false"
+        data-tns-nav="false"
+        data-tns-items="1"
+        data-tns-center="false"
+        data-tns-dots="false"
+        data-tns-prev-button="#kt_team_slider_prev1"
+        data-tns-next-button="#kt_team_slider_next1"
+      >
+        <!--begin::Item-->
+        <div class="text-center px-5 pt-5 pt-lg-10 px-lg-10">
+          <img
+            src="{% static 'media/preview/demos/demo1/light-ltr.png' %}"
+            class="card-rounded shadow mh-lg-650px mw-100"
+            alt=""
+          />
+        </div>
+        <!--end::Item-->
+        <!--begin::Item-->
+        <div class="text-center px-5 pt-5 pt-lg-10 px-lg-10">
+          <img
+            src="{% static 'media/preview/demos/demo2/light-ltr.png' %}"
+            class="card-rounded shadow mh-lg-650px mw-100"
+            alt=""
+          />
+        </div>
+        <!--end::Item-->
+        <!--begin::Item-->
+        <div class="text-center px-5 pt-5 pt-lg-10 px-lg-10">
+          <img
+            src="{% static 'media/preview/demos/demo4/light-ltr.png' %}"
+            class="card-rounded shadow mh-lg-650px mw-100"
+            alt=""
+          />
+        </div>
+        <!--end::Item-->
+        <!--begin::Item-->
+        <div class="text-center px-5 pt-5 pt-lg-10 px-lg-10">
+          <img
+            src="{% static 'media/preview/demos/demo5/light-ltr.png' %}"
+            class="card-rounded shadow mh-lg-650px mw-100"
+            alt=""
+          />
+        </div>
+        <!--end::Item-->
+      </div>
+      <!--end::Slider-->
+      {% comment %}
+      <!--begin::Slider button-->
+      <button
+        class="btn btn-icon btn-active-color-primary"
+        id="kt_team_slider_prev1"
+      >
+        <i class="ki-duotone ki-left fs-2x"></i>
+      </button>
+      <!--end::Slider button-->
+      <!--begin::Slider button-->
+      <button
+        class="btn btn-icon btn-active-color-primary"
+        id="kt_team_slider_next1"
+      >
+        <i class="ki-duotone ki-right fs-2x"></i>
+      </button>
+      <!--end::Slider button--> 
+      {% endcomment %}
+    <!--end::Product slider-->
+  </div>
+  <!--end::Container-->
+</div>
+<!--end::How It Works Section-->

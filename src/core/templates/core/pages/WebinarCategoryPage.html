@@ -1,1 +1,77 @@
-WebinarCategoryPage.html
+{% extends 'core/extends/base.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+
+{% block rightbar %}{% endblock rightbar %}
+
+{% block body_tag %}
+<body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed aside-enabled sidebar-enabled" style="background-color: #f1f5f9;">
+{% endblock body_tag %}
+
+{% block content %}
+<!--begin::Wrapper-->
+<div
+  class="wrapper d-flex flex-column flex-row-fluid mt-5 mt-lg-10"
+  id="kt_wrapper"
+>
+  <!--begin::Content-->
+  <div class="content flex-column-fluid" id="kt_content">
+    <!--begin::Toolbar-->
+    <div
+      class="toolbar d-flex flex-stack flex-wrap mb-5 mb-lg-7"
+      id="kt_toolbar"
+    >
+      <!--begin::Page title-->
+      <div class="page-title d-flex flex-column py-1">
+        <!--begin::Title-->
+        <h1 class="d-flex align-items-center my-1">
+          <span class="text-dark fw-bold fs-1 me-1">
+            Szkolenia {{category_name}}
+          </span>
+          {% comment %} 
+          <!--begin::Description-->
+          <small class="text-muted fs-6 fw-semibold ms-1">(27)</small>
+          <!--end::Description-->
+          {% endcomment %}
+        </h1>
+        <!--end::Title-->
+      </div>
+      <!--end::Page title-->
+      {% comment %}
+      <!--begin::Actions-->
+      <div class="d-flex align-items-center py-1">
+        <!--begin::Button-->
+        <a
+          href="../../demo5/dist/apps/devs/ask.html"
+          class="btn btn-flex btn-sm btn-primary fw-bold border-0 fs-6 h-40px"
+          id="kt_toolbar_primary_button"
+          >Ask Question</a
+        >
+        <!--end::Button-->
+      </div>
+      <!--end::Actions-->
+      {% endcomment %}
+    </div>
+    <!--end::Toolbar-->
+    <!--begin::Post-->
+    <div class="post" id="kt_post">
+      <!--begin::Questions-->
+      <div class="mb-10">
+        
+        {% for webinar in webinars %}
+          {% include 'core/components/WebinarCard.html' with webinar=webinar %}
+        {% endfor %}
+
+      </div>
+      <!--end::Questions-->
+    </div>
+    <!--end::Post-->
+  </div>
+  <!--end::Content-->
+</div>
+<!--end::Wrapper-->
+{% endblock content %}
+
+
+{% block body_scripts %}{% endblock body_scripts %}

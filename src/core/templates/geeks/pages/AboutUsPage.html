@@ -1,0 +1,156 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+
+{% block root %}
+<main>
+  <div
+    class="py-20"
+    style="
+      background: url({% static 'geeks/assets/images/background/company-bg.jpg' %}) no-repeat;
+      background-position: center;
+      background-size: cover;
+    "
+  ></div>
+  <section>
+    <!-- container -->
+    <div class="container">
+      <!-- row -->
+      <div class="row align-items-center">
+        <!-- col -->
+        <div class="col-12">
+          <div class="d-md-flex align-items-center">
+            {% comment %} <!-- img -->
+            <div class="position-relative mt-n5">
+              <img
+                src="{% static 'geeks/assets/images/job/png/job-logo.png' %}"
+                alt="logo"
+                class="rounded-3 border"
+              />
+            </div> {% endcomment %}
+
+            {% comment %} <div class="w-100 ms-md-4 mt-4"> {% endcomment %}
+            <div class="w-100 mt-4">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <!-- heading -->
+                  <h1 class="mb-0">{{COMPANY_NAME}}</h1>
+
+                  <div>
+                    <!-- reviews -->
+                    <span class="text-dark fw-medium"
+                      >4.5
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="10"
+                        height="10"
+                        fill="currentColor"
+                        class="bi bi-star-fill text-warning align-baseline"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
+                        ></path>
+                      </svg> </span
+                    ><span class="ms-0">(2643 opinii)</span>
+                  </div>
+                </div>
+                {% comment %} <div>
+                  <!-- button -->
+                  <a href="#" class="btn btn-outline-primary">Follow</a>
+                </div> {% endcomment %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  {% comment %} START {% endcomment %}
+  <section class="py-6">
+    <div class="container">
+       <div class="row">
+          <div class="col-md-12">
+             <!-- nav -->
+             <div>
+                <ul class="nav nav-line-bottom">
+                   <li class="nav-item">
+                      <a href="company-about.html" class="nav-link active">O nas</a>
+                   </li>
+                   <li class="nav-item">
+                      <a href="company-reviews.html" class="nav-link ">Opinie
+                        <span class="text-inherit">(1 263)</span>
+                     </a>
+                   </li>
+                   {% comment %} <li class="nav-item">
+                      <a href="company-jobs.html" class="nav-link">Jobs <span class="text-inherit">(109)</span></a>
+                   </li>
+                   <li class="nav-item">
+                      <a href="company-benefits.html" class="nav-link">Benefits</a>
+                   </li> {% endcomment %}
+                </ul>
+             </div>
+          </div>
+       </div>
+
+       <div class="row mt-6">
+         <div class="col-12">
+            <div class="mb-6">
+               <!-- text -->
+               <h2 class="mb-3">O firmie</h2>
+               <p>Wykładowca.pl jest dynamiczną firmą, której początki sięgają roku 2021. Od tego momentu nieustannie rozwijamy naszą działalność, stawiając na innowacyjne podejście do szkoleń i doradztwa biznesowego. Nasza firma to miejsce, w którym tworzymy synergiczne połączenia między różnymi branżami, umożliwiając naszym klientom osiągnięcie pełnego potencjału w zakresie rozwoju zawodowego i biznesowego. W pełni świadomi dynamicznych zmian na rynku, oferujemy szeroką gamę usług, w tym doradztwo podatkowe, obsługę księgową, profesjonalne konsultacje oraz organizację inspirujących konferencji.
+               </p>
+               <p>Jednak to nasze innowacyjne podejście do prowadzenia szkoleń, zwłaszcza tych dostępnych online, przyciąga uwagę i cieszy się uznaniem naszych klientów. Jesteśmy przekonani, że odpowiednie narzędzia i wiedza to klucz do sukcesu w dzisiejszym świecie biznesu, dlatego stale dostosowujemy naszą ofertę do zmieniających się technologii i potrzeb rynku.</p>
+            </div>
+            <!-- text -->
+            <div class="mb-6">
+               <h2 class="mb-3">Cel firmy</h2>
+               <p>Nasza misja to o wiele więcej niż tylko dostarczanie informacji. Dążymy do tworzenia warunków sprzyjających rozwojowi naszych klientów. Wierzymy, że każdy ma ogromny potencjał, który można odkryć i rozwijać. Naszym głównym celem jest poszerzanie kompetencji naszych uczestników poprzez dostarczanie spersonalizowanych programów szkoleniowych, które uwzględniają ich unikalne potrzeby i cele. Dlatego też nieustannie pracujemy nad tym, aby nasze szkolenia były interaktywne, inspirujące i dostosowane do zmieniających się realiów rynku pracy. Nasza firma zobowiązuje się do ciągłego doskonalenia naszych usług, aby pomóc naszym klientom osiągać wyższe cele zawodowe i biznesowe. To nasza pasja i zaangażowanie sprawiają, że jesteśmy liderem w dziedzinie szkoleń i rozwoju zawodowego.
+               </p>
+            </div>
+            <!-- text -->
+            <div>
+               <!-- table -->
+               <table class="table table-borderless w-lg-40 w-md-50">
+                  <tbody>
+                     <tr>
+                        <td class="ps-0 pb-0"><span class="text-dark fw-semibold">Nazwa firmy:</span></td>
+                        <td class="ps-0 pb-0"><span> {{COMPANY_NAME_FULL}}
+                           </span>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="ps-0 pb-0"><span class="text-dark fw-semibold">Adres:</span></td>
+                        <td class="ps-0 pb-0"><span>{{COMPANY_STREET}} </span></td>
+                     </tr>
+                     <tr>
+                        <td class="ps-0 pb-0"><span class="text-dark fw-semibold">Kod pocztowy i miasto:</span></td>
+                        <td class="ps-0 pb-0">{{COMPANY_POSTAL_CODE}} {{COMPANY_CITY}}</td>
+                     </tr>
+                     <tr>
+                        <td class="ps-0 pb-0"><span class="text-dark fw-semibold">NIP:</span></td>
+                        <td class="ps-0 pb-0">{{COMPANY_NIP}}</td>
+                     </tr>
+                     <tr>
+                        <td class="ps-0 pb-0"><span class="text-dark fw-semibold">Rachunek bankowy:</span></td>
+                        <td class="ps-0 pb-0">{{COMPANY_BANK_ACCOUNT_NUMBER}}
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="ps-0 pb-0"></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+
+    </div>
+ </section>
+  {% comment %} END {% endcomment %}
+
+  
+</main>
+{% endblock root %}

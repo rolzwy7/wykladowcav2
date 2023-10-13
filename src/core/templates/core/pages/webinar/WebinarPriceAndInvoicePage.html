@@ -1,6 +1,106 @@
 {% extends './WebinarBase.html' %}
 
-
 {% block webinar_content %}
-    Cena i Faktura
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <div class="fs-5 fw-bold text-gray-700">
+      <p class="mb-4">
+        {{webinar.price}}zł {{PRICE_ADNOTATION}}
+        {% if WE_ARE_TAX_EXEMPT %}
+          <br>
+          ({{TAX_EXEMPT_TOOLTIP}})
+        {% endif %}
+      </p>
+      <p class="mb-4">
+        Zapłata przelewem na konto następuje do {{INVOICE_DEADLINE_DAYS}} dni po szkoleniu.
+      </p>
+    </div>
+    <div class="text-left my-5"><h2 class="mb-1">Cena zawiera</h2></div>
+    <div class="fs-5 fw-bold text-gray-600">
+      <div class="d-flex flex-column">
+        <li class="d-flex align-items-center py-2">
+          <span class="bullet me-5"></span>dostęp do platformy ClickMeeting w
+          czasie realizacji szkolenia
+        </li>
+        <li class="d-flex align-items-center py-2">
+          <span class="bullet me-5"></span>autorskie materiały szkoleniowe
+        </li>
+        <li class="d-flex align-items-center py-2">
+          <span class="bullet me-5"></span>możliwość zadawania pytań wykładowcy na chatcie
+        </li>
+        <li class="d-flex align-items-center py-2">
+          <span class="bullet me-5"></span>imienny certyfikaty ukończenia
+          szkolenia
+        </li>
+      </div>
+    </div>
+    <div class="text-left my-5"><h2 class="mb-1">Faktura</h2></div>
+    <div class="fs-5 fw-bold text-gray-600">
+      <div class="d-flex flex-column">
+        
+        {% if WE_ARE_TAX_EXEMPT %}
+        <li class="d-flex align-items-center py-2">
+          <span class="bullet me-5"></span>{{TAX_EXEMPT_TOOLTIP}}
+        </li>
+        {% endif %}
+    
+        <li class="d-flex align-items-center py-2">
+          <span class="bullet me-5"></span>Faktura za udział w szkoleniu zostanie
+          wysłana do Państwa po zajęciach mailem w formacie PDF lub listownie
+        </li>
+        <li class="d-flex align-items-center py-2">
+          <span class="bullet me-5"></span>Płatności należy dokonać przelewem do
+          {{INVOICE_DEADLINE_DAYS}} dni po szkoleniu.
+        </li>
+      </div>
+    </div>
+    <div class="text-left my-5"><h2 class="mb-1">Proces</h2></div>
+    <div class="fs-5 fw-bold text-gray-600">
+      <div class="d-flex flex-column">
+        <li class="d-flex align-items-center py-2">
+          <span class="bullet me-5"></span>Uczestnik zgłasza się na szkolenie
+          poprzez zgłoszenie online, telefonicznie <br> {{PATRON_PHONE}} lub poprzez kartę zgłoszeniową
+        </li>
+        <li class="d-flex align-items-center py-2">
+          <span class="bullet me-5"></span>Uczestnik otrzymuje potwierdzenie o
+          zarejestrowaniu zgłoszenia w systemie.
+        </li>
+        <li class="d-flex align-items-center py-2">
+          <span class="bullet me-5"></span>Dzień przed szkoleniem uczestnik
+          otrzymuje na wskazanego maila:
+        </li>
+        <li class="d-flex align-items-center py-2 ms-10">
+          <span class="bullet me-5"></span>dostęp do webinaru w formie
+          zaproszenia z linkiem
+        </li>
+        <li class="d-flex align-items-center py-2 ms-10">
+          <span class="bullet me-5"></span>wskazówki techniczne oraz informacje
+          o szkoleniu
+        </li>
+        <li class="d-flex align-items-center py-2 ms-10">
+          <span class="bullet me-5"></span>materiały szkoleniowe w formie
+          elektronicznej
+        </li>
+        <li class="d-flex align-items-center py-2">
+          <span class="bullet me-5"></span>Uczestnik przed zajęciami loguje się
+          do platformy szkoleniowej poprzez link z zaproszenia.
+        </li>
+        <li class="d-flex align-items-center py-2">
+          <span class="bullet me-5"></span>Po szkoleniu zostaje wysyłana:
+        </li>
+        <li class="d-flex align-items-center py-2 ms-10">
+          <span class="bullet me-5"></span>faktura z terminem płatności do {{INVOICE_DEADLINE_DAYS}}
+          dni po szkoleniu
+        </li>
+        <li class="d-flex align-items-center py-2 ms-10">
+          <span class="bullet me-5"></span>certyfikat uczestnictwa emailem (na
+          życzenie pocztą tradycyjna) po zakończonych zajęciach
+        </li>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 {% endblock webinar_content %}

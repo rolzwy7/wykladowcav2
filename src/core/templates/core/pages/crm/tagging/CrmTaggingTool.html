@@ -1,0 +1,68 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+{% endblock head_stylesheets %}
+
+{% block leftbar %}{% endblock leftbar %}
+
+{% block crm_content %}
+<!--begin::Row-->
+<div class="row g-6 g-xl-9 mb-10">
+
+    <!--begin::Col-->
+    <div class="col-md-12 col-xl-12">
+      <div class="card">
+        <div class="card-header">
+            <form method="get" action="{% url 'core:crm_tagging_tool' %}" class="w-100">
+                <div class="input-group mb-3 w-100">
+                    <span class="input-group-text" id="basic-addon1">
+                        <span class="badge badge-{{color}} me-2">{{status_code}}</span>
+                    </span>
+                    <input type="text" class="form-control" name="url" placeholder="URL" value="{{url}}">
+                    <span class="input-group-text">
+                        <input type="submit" class="form-control" name="submit" value="Szukaj">
+                    </span>
+                </div>
+            </form>
+            <p>
+                E-mails: {{emails|length}}
+                <span class="text-danger fw-bold">
+                    (Jeśli e-maile się nie podświetlają znaczy, że są generowane dynamicznie)
+                </span>
+            </p>
+          </div>
+        <div class="card-body">
+            <iframe
+                src="{% url 'core:crm_tagging_iframe_mirror' %}?url={{url}}"
+                style="width:100%; height:500px;border:1px solid black;"
+                frameborder="1">
+            </iframe>
+        </div>
+      </div>
+    </div>
+    <!--end::Col-->
+
+    <!--begin::Col-->
+    <div class="col-md-12 col-xl-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">
+            <span class="badge badge-{{color}} me-2">{{status_code}}</span>
+            URL: {{url}}
+        </h3>
+        </div>
+        <div class="card-body">
+            <p>emails: {{emails}}</p>
+        </div>
+      </div>
+    </div>
+    <!--end::Col-->
+
+  </div>
+  <!--end::Row-->
+
+  {% endblock crm_content %}
+
+{% block body_scripts %}
+{% endblock body_scripts %}

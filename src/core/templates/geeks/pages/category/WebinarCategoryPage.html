@@ -1,0 +1,251 @@
+{% extends './WebinarCategoryBase.html' %}
+
+{% load static %}
+
+{% block content %}
+<section class="py-1">
+    <div class="container">
+       <div class="row">
+          <div class="col-md-12">
+             <!-- Tab content -->
+             <div class="tab-content" id="pills-tabContent">
+                <div
+                   class="tab-pane fade show active"
+                   id="pills-course"
+                   role="tabpanel"
+                   aria-labelledby="pills-course-tab"
+                   >
+                   <!-- Tab pane -->
+                   <div class="row">
+                      <div class="col-12">
+                         <div class="row mt-0 mt-md-4">
+                            <div class="col-lg-3 col-md-4 col-12">
+                               {% if subcategories %}
+                               <!-- Side navabar -->
+                               <nav
+                                  class="navbar navbar-expand-md navbar-light shadow-sm mb-4 mb-lg-0 sidenav"
+                                  >
+                                  <!-- Navbar Collapse -->
+                                  <div id="sidenav">
+                                     <div class="navbar-nav flex-column">
+                                        <!-- Navbar header -->
+                                        <span class="navbar-header">Kategorie szkoleń</span>
+                                        <ul class="list-unstyled ms-n2 mb-4">
+                                           {% comment %} <li class="nav-item {% if slug == "wszystkie" %}active{% endif %}">
+                                           <a
+                                           class="nav-link"
+                                           href="{% url 'core:webinar_category_page' slug="wszystkie" %}"
+                                           >
+                                           <i class="fe fe-book nav-icon"></i>
+                                           Wszystkie szkolenia
+                                           </a>
+                                           </li> {% endcomment %}
+                                           {% for subcategory in subcategories %}
+                                           <!-- Nav item -->
+                                           <li class="nav-item {% if slug == subcategory.slug %}active{% endif %}">
+                                              <a
+                                                 class="nav-link"
+                                                 href="{% url 'core:webinar_category_page' slug=subcategory.slug %}"
+                                                 >
+                                              <i class="fe fe-book nav-icon"></i>
+                                              {{subcategory.name}}
+                                              </a>
+                                           </li>
+                                           {% endfor %}
+                                        </ul>
+                                     </div>
+                                  </div>
+                               </nav>
+                               {% else %}
+                               {% if category.parent %}
+                               <nav
+                                  class="navbar navbar-expand-md navbar-light shadow-sm mb-4 mb-lg-0 sidenav"
+                                  >
+                                  <!-- Navbar Collapse -->
+                                  <div id="sidenav">
+                                     <div class="navbar-nav flex-column">
+                                        <!-- Navbar header -->
+                                        <span class="navbar-header">Kategoria główna</span>
+                                        <ul class="list-unstyled ms-n2 mb-4">
+                                           </li>
+                                           <!-- Nav item -->
+                                           <li class="nav-item">
+                                              <a
+                                                 class="nav-link"
+                                                 href="{% url 'core:webinar_category_page' slug=category.parent.slug %}"
+                                                 >
+                                              <i class="fe fe-book nav-icon"></i>
+                                              {{category.parent.name}}
+                                              </a>
+                                           </li>
+                                        </ul>
+                                     </div>
+                                  </div>
+                               </nav>
+                               {% endif %}
+                               {% endif %}
+                               <!--Patron-->
+                               {% if subcategories or category.parent %}
+                               <div class="card mt-4 js-sticky-widget">
+                                  {% else %}
+                               <div class="card mt-0 js-sticky-widget">
+                              {% endif %}
+                                  <!-- Card body -->
+                                  <div class="card-body">
+                                     <div class="d-flex align-items-center">
+                                        <div class="position-relative">
+                                           <img
+                                              src="{% static 'media//avatars/300-12.webp' %}"
+                                              alt="avatar"
+                                              class="rounded-circle avatar-xl"
+                                              />
+                                           <a
+                                              href="course-single.html#"
+                                              class="position-absolute mt-2 ms-n3"
+                                              >
+                                           <img
+                                              src="{% static 'geeks/assets/images/svg/checked-mark.svg' %}"
+                                              alt="checked-mark"
+                                              height="30"
+                                              width="30"
+                                              />
+                                           </a>
+                                        </div>
+                                        <div class="ms-4">
+                                           <h4 class="mb-0">{{PATRON_FIRST_NAME}} {{PATRON_LAST_NAME}}</h4>
+                                           <p class="mb-1 fs-6">{{PATRON_JOB_TITLE}}</p>
+                                        </div>
+                                     </div>
+                                     <div class="row mt-3 mb-3 g-0">
+                                        <div class="col-12">
+                                           <div class="pe-1 ps-2 py-3">
+                                              <h5 class="mb-0">E-mail</h5>
+                                              <span>
+                                              <a href="mailto:{{PATRON_EMAIL}}">
+                                              {{PATRON_EMAIL}}
+                                              </a>
+                                              </span>
+                                           </div>
+                                        </div>
+                                        <div class="col-12">
+                                           <div class="pe-1 ps-2 py-1">
+                                              <h5 class="mb-0">Numer telefonu</h5>
+                                              <span>
+                                              {{PATRON_PHONE}}
+                                              </span>
+                                           </div>
+                                        </div>
+                                     </div>
+                                     <div class="text-center">
+                                        <a
+                                           href="#"
+                                           data-bs-toggle="modal" data-bs-target="#askQuestionModal"
+                                           class="btn btn-outline-primary btn-sm"
+                                           >
+                                        Zadaj pytanie
+                                        </a>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                            <div class="col-lg-9 col-md-8 col-12">
+                               <!-- Card -->
+                               <div class="card mb-4">
+                                  <!-- Card header -->
+                                  <div class="card-header">
+                                     <h3 class="mb-0">
+                                        {% if slug == "wszystkie" %}
+                                        {{category_name}}
+                                        {% else %}
+                                        Szkolenia {{category_name}}
+                                        {% endif %}
+                                     </h3>
+                                     <p>
+                                        {{short_description}}
+                                     </p>
+                                  </div>
+                                  <!-- Table -->
+                                  {% if webinars %}
+                                  <div class="table-responsive overflow-y-hidden">
+                                     <table
+                                        class="table mb-0 text-nowrap table-hover table-centered text-nowrap"
+                                        >
+                                        <thead class="table-light">
+                                           <tr>
+                                              <th scope="col">Szkolenia</th>
+                                              <th scope="col">Data / Cena</th>
+                                           </tr>
+                                        </thead>
+                                        <tbody>
+                                           {% for webinar in webinars %}
+                                             {% include 'geeks/components/webinar_tr.html' with webinar=webinar show_image=1 %}
+                                           {% endfor %}
+                                        </tbody>
+                                     </table>
+                                  </div>
+                                  {% else %}
+                                  <div class="mt-2 p-5">
+                                     <h2 class="text-center">Brak szkoleń</h2>
+                                     <p class="text-center">Obecnie nie prowadzimy szkoleń z kategorii 'Kadrowo-płacowe'.</p>
+                                     <p class="text-center">
+                                       Jednakże, jeśli jesteś zainteresowany otrzymywaniem powiadomień o naszych przyszłych szkoleniach, <br>
+                                       zachęcamy do zapisania się do naszego newslettera.
+                                     </p>
+                                     <p class="text-center fw-bold">
+                                       Będziesz na bieżąco z naszą ofertą! <br>
+                                       <a href="https://mailchi.mp/b5e14cbaf165/zapis-do-listy-mailingowej" target="_blank" rel="nofollow">
+                                          Kliknij tutaj, aby dołączyć do naszej listy subskrybentów.
+                                       </a>
+                                    </p>
+                                    </div>
+                                  {% endif %}
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </section>
+
+ <div class="modal fade" id="askQuestionModal" tabindex="-1" role="dialog" aria-labelledby="askQuestionModalTitle" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h5 class="modal-title" id="askQuestionModalTitle">Zadaj pytanie</h5>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+         </button>
+       </div>
+       <div class="modal-body">
+         <div hx-get="{% url 'htmx:htmx_contact_message' %}?related_to={{request.path}}" hx-trigger="load">
+           Ładowanie ...
+         </div>
+       </div>
+     </div>
+   </div>
+ </div>
+{% endblock content %}
+
+
+{%block body_scripts %}
+    <script src="{% static 'js/htmx.min.js' %}"></script>
+    <script>
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+        })
+    </script>
+    <script src="{% static 'js/sticksy.min.js' %}"></script>
+    <script>
+        var stickyElement = new Sticksy('.js-sticky-widget', {topSpacing: 10});
+        stickyElement.onStateChanged = function (state) {
+            if(state === 'fixed') {
+               stickyElement.nodeRef.classList.add('widget--sticky')
+            } else {
+               stickyElement.nodeRef.classList.remove('widget--sticky')
+            }
+        }
+    </script>
+{% endblock body_scripts %}

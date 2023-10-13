@@ -1,0 +1,40 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+<style>
+div.htmx-swapping {
+    opacity: 0;
+    transition: opacity 1s ease-out;
+}
+</style>
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+
+<ul class="nav nav-tabs nav-line-tabs mb-5 fs-6">
+    <li class="nav-item fw-bold">
+        <a class="nav-link {% if request.path == '/crm/zadania/' %}active{% endif %}" href="{% url 'core:crm_todos_list' %}">
+            Zadania do wykonania
+        </a>
+    </li>
+    <li class="nav-item fw-bold">
+        <a class="nav-link {% if request.path == '/crm/zadania/wykonane/' %}active{% endif %}" href="{% url 'core:crm_todos_done_list' %}">
+            Zadania wykonane
+        </a>
+    </li>
+</ul>
+
+<div hx-confirm="Na pewno?" hx-target="closest div.alert" hx-swap="outerHTML swap:1s">
+    {% for todo in todos %}
+    {% include './snippets/CrmTodoCard.html' with todo=todo %}
+    {% empty %}
+    Brak zadań
+    {% endfor %}
+</div>
+
+{% endblock crm_content %}
+
+{% block body_scripts %}
+
+{% endblock body_scripts %}

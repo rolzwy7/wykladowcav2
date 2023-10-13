@@ -1,0 +1,57 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+
+<!--begin::Row-->
+<div class="row g-6 g-xl-9 mb-10">
+
+    <!--begin::Col-->
+    <div class="col-md-12 col-xl-12">
+
+      <div class="card">
+        <div class="card-header pt-4">
+            <h1>
+              Tagowanie wklejonego tekstu
+            </h1>
+        </div>
+        <div class="card-body">
+          <ol>
+            <li>
+              <a href="https://quickemailverification.com/verify" class="fw-bold fs-2" target="_blank">
+                Quick Email Verification
+              </a>
+            </li>
+          </ol>
+          <form method="post" action="{% url 'core:crm_tagging_paste_text_page' %}">
+            {% csrf_token %}
+            <div class="input-group">
+              <span class="input-group-text">Wklej tekst tutaj</span>
+              <textarea class="form-control" name="text"></textarea>
+              <span class="input-group-text">
+                <input type="submit" class="btn btn-sm btn-primary" value="Prześlij">
+              </span>
+            </div>
+          </form>
+          <hr>
+            <p>
+              {% for delay_ms, email in emails %}{{email}}<br>{% endfor %}
+            </p>
+          <hr>
+          {% for delay_ms, email in emails %}
+            {% include './snippets/EmailTaggingCard.html' with email=email delay_ms=delay_ms %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <!--end::Col-->
+
+  </div>
+  <!--end::Row-->
+
+  {% endblock crm_content %}
+
+{% block body_scripts %}{% endblock body_scripts %}

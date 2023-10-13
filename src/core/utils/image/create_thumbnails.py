@@ -5,9 +5,12 @@ from PIL import Image
 
 from core.models import Lecturer
 
+MEDIA_ROOT = settings.MEDIA_ROOT
+
 
 def create_thumbnails_for_lecturer(image_path: str, lecturer: Lecturer):
-    media_root = settings.MEDIA_ROOT
+    """Create thumbnails for lecturer"""
+    media_root = MEDIA_ROOT
     filepath = Path(media_root, image_path)
     dirpath = filepath.parent
 

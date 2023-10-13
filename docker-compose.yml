@@ -2,6 +2,20 @@ version: '3'
 
 services:
 
+  postgres_db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8085:8080
+
   redis:
     container_name: redis_db
     image: redis:7
@@ -9,22 +23,44 @@ services:
   worker:
     container_name: celery_worker
     build: ./src
-    command: celery -A notifications_app.celery worker --loglevel=info
+    command: celery -A wykladowcapl.celery worker --loglevel=info --concurrency 1
     volumes:
       - ./src:/app
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/5
-      - CELERY_RESULT_BACKEND=redis://redis:6379/5
+    depends_on:
+      - redis
+  
+  beat:
+    container_name: celery_beat
+    build: ./src
+    command: celery -A wykladowcapl.celery beat --loglevel=info
+    volumes:
+      - ./src:/app
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/5
     depends_on:
       - redis
 
   web:
-    container_name: notifications_app
+    container_name: wykladowcapl
     build: ./src
     command: python manage.py runserver 0.0.0.0:8080
     volumes:
       - ./src:/app
     ports:
       - 8080:8080
+    depends_on:
+      - postgres_db
+      - worker
+
+  flower:
+    container_name: celery_flower
+    build: ./src
+    ports:
+      - 5566:5566
+    command: celery -A wykladowcapl.celery flower --address=0.0.0.0 --port=5566
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/5
     depends_on:
       - worker

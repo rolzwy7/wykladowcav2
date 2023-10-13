@@ -1,0 +1,70 @@
+{% load static %}
+<div class="card mb-5 mb-xxl-8">
+    <!--begin::Body-->
+    <div class="card-body pb-0">
+        <!--begin::Header-->
+        <div class="d-flex align-items-center mb-5">
+            <!--begin::User-->
+            <div class="d-flex align-items-center flex-grow-1">
+                <!--begin::Avatar-->
+                <div class="symbol symbol-45px me-5">
+                    <div class="symbol-label fs-2 fw-semibold text-success">{{opinion.fullname.0}}</div>
+                </div>
+                <!--end::Avatar-->
+                <!--begin::Info-->
+                <div class="d-flex flex-column">
+                    {% if request.user.is_staff %}
+                    <a 
+                        href="{% url 'admin:core_lectureropinion_change' object_id=opinion.id %}" class="text-gray-900 text-hover-primary fs-6 fw-bold"
+                        target="_blank"
+                    >
+                        {{opinion.fullname}}
+                    </a>
+                    {% else %}
+                    {{opinion.fullname}}
+                    {% endif %}
+                    <span class="text-gray-400 fw-bold">
+                        {{opinion.job_title}}
+                    </span>
+                </div>
+                <!--end::Info-->
+            </div>
+            <!--end::User-->
+        </div>
+        <!--end::Header-->
+        <!--begin::Post-->
+        <div class="mb-5">
+            <!--begin::Text-->
+            <p class="text-gray-800 fw-normal mb-5 fs-4">
+                {{opinion.opinion_text}}
+            </p>
+            <!--end::Text-->
+            <!--begin::Toolbar-->
+            <div class="d-flex align-items-center mb-5">
+                <div class="rating">
+                    {% for rating in opinion.rating_sequence %}
+                        <div class="
+                            rating-label
+                            {% if rating <= opinion.rating_number %}checked{% endif %}
+                        ">
+                            <i class="ki-duotone ki-star fs-1"></i>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <!--end::Toolbar-->
+        </div>
+        <!--end::Post-->
+        {% if opinion.company_name %}
+        <!--begin::Separator-->
+        <div class="separator mb-4"></div>
+        <!--end::Separator-->
+        <!--begin::Text-->
+        <p class="text-gray-800 fw-normal mb-5 fst-italic fw-lighter">
+            ~ {{opinion.company_name}}
+        </p>
+        <!--end::Text-->
+        {% endif %}
+    </div>
+    <!--end::Body-->
+</div>

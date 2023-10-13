@@ -1,0 +1,40 @@
+{% extends './WebinarBase.html' %}
+
+{% block content %}
+<div id="review"
+    role="tabpanel"
+    aria-labelledby="review-tab"
+>
+    {% if opinions_breakdown %}
+    {% include 'geeks/components/rating_breakdown.html' with opinions_breakdown=opinions_breakdown %}
+    {% endif %}
+    <!-- hr -->
+    <hr class="my-5">
+    <div class="mb-3">
+        <div class="d-md-flex align-items-center align-items-center justify-content-between mb-5">
+            <!-- Reviews -->
+            <div class="mb-3 mb-lg-0">
+                <h3 class="mb-0">Opinie</h3>
+            </div>
+            {% comment %} <div>
+                <!-- Form -->
+                <form class="form-inline">
+                    <div class="d-flex align-items-center">
+                        <span class="position-absolute ps-3">
+                            <i class="fe fe-search"></i>
+                        </span>
+                        <input type="search" class="form-control ps-6" placeholder="Search Review">
+                    </div>
+                </form>
+            </div> {% endcomment %}
+        </div>
+
+        {% for opinion in opinions_page %}
+            {% include 'geeks/components/opinion.html' with opinion=opinion %}
+        {% endfor %}
+    
+        {% include 'geeks/components/pagination.html' with page_obj=opinions_page %}
+
+    </div>
+</div>
+{% endblock content %}

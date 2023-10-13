@@ -1,0 +1,51 @@
+<form
+  onsubmit="actionSubmit.disabled = true; return true;"
+  class="row"
+  hx-post="{% url 'htmx:htmx_contact_message' %}"
+  hx-target="this"
+  hx-swap="outerHTML"
+>
+  {{form.related_to}}
+  <!-- form group -->
+  <div class="mb-3 col-12 col-md-6">
+    <label class="form-label" for="first_name">
+      Imię:
+      <span class="text-danger">*</span>
+    </label>
+    {{form.first_name}}
+  </div>
+  <!-- form group -->
+  <div class="mb-3 col-12 col-md-6">
+    <label class="form-label" for="last_name">
+      Nazwisko:
+      <span class="text-danger">*</span>
+    </label>
+    {{form.last_name}}
+  </div>
+  <!-- form group -->
+  <div class="mb-3 col-12 col-md-6">
+    <label class="form-label" for="email"
+      >E-mail:<span class="text-danger">*</span></label
+    >
+    {{form.email}}
+  </div>
+  <!-- form group -->
+  <div class="mb-3 col-12 col-md-6">
+    <label class="form-label" for="phone_number">Numer telefonu:</label>
+    {{form.phone_number}}
+  </div>
+  <!-- form group -->
+  <div class="mb-3 col-12">
+    <label class="text-dark form-label" for="message">
+      Wiadomość:
+      <span class="text-danger">*</span>
+    </label>
+    {{form.message}}
+  </div>
+  <!-- button -->
+  <div class="col-12">
+    <button name="actionSubmit" type="submit" class="btn btn-primary btn-block">
+      Prześlij
+    </button>
+  </div>
+</form>

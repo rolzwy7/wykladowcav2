@@ -1,0 +1,410 @@
+
+{% extends 'core/pages/application/ApplicationBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+
+{% endblock head_stylesheets %}
+
+{% block rightbar %}{% endblock rightbar %}
+{% block leftbar %}{% endblock leftbar %}
+
+
+{% block application_toolbar_actions %}
+<div class="d-flex align-items-center py-1">
+{% if application.application_type != "PRIVATE_PERSON" %}
+    <!--begin::Button-->
+    <button
+    data-bs-toggle="modal"
+    data-bs-target="#kt_modal_pdf_application_card"
+    class="btn btn-sm btn-flex btn-warning fw-bold border-0 me-3">
+        Pobierz kartę zgłoszeniową
+    </button>
+    <!--end::Button-->
+{% endif %}
+<!--begin::Button-->
+<button
+    type="button"
+    class="btn btn-sm btn-bg-secondary me-3"
+    data-bs-toggle="modal"
+    data-bs-target="#kt_modal_terms_and_conditions"
+>
+<i class="ki-outline ki-question-2 fs-3"></i>
+    Przeczytaj regulamin szkoleń
+</button>
+<!--end::Button-->
+{% if application.status == 'INIT' %}
+<!--begin::Button-->
+<a
+    href="{{first_step_url}}"
+    class="btn btn-sm btn-flex btn-primary fw-bold border-0">
+    Popraw zgłoszenie
+</a>
+<!--end::Button-->
+{% endif %}
+</div>
+{% endblock application_toolbar_actions %}
+
+{% block application_content %}
+
+<div class="post" id="kt_post">
+    <!--begin::Layout-->
+    <div class="d-flex flex-column flex-lg-row">
+        <!--begin::Content-->
+        <div class="flex-lg-row-fluid me-lg-15 order-2 order-lg-1 mb-10 mb-lg-0">
+
+
+            {% if application.refcode %}            
+            <!--begin::Alert-->
+            <div class="p-5 mb-5 alert alert-dismissible bg-light-success d-flex flex-column flex-sm-row">
+                <!--begin::Icon-->
+                <i class="ki-outline ki-medal-star fs-2hx text-success me-4 mb-5 mb-sm-0"></i>
+                <!--end::Icon-->
+                
+                <!--begin::Wrapper-->
+                <div class="d-flex flex-column pe-0 pe-sm-10">
+                    <!--begin::Title-->
+                    <h4 class="fw-semibold">Bierzesz udział w programie lojalnościowym</h4>
+                    <!--end::Title-->
+                    
+                    <!--begin::Content-->
+                    <span>
+                        Używając kodu referencyjnego <b>{{application.refcode}}</b> otrzymujesz od nas dodatkowe -5% zniżki
+                    </span>
+                    <!--end::Content-->
+                </div>
+                <!--end::Wrapper-->
+            </div>
+            <!--end::Alert-->
+            {% endif %}
+
+
+            {% if request.user.is_authenticated %}
+            <!--begin::Alert-->
+            <div class="p-5 mb-5 alert alert-dismissible bg-light-success d-flex flex-column flex-sm-row">
+                <!--begin::Icon-->
+                <i class="ki-outline ki-check-circle fs-2hx text-success me-4 mb-5 mb-sm-0"></i>
+                <!--end::Icon-->
+                
+                <!--begin::Wrapper-->
+                <div class="d-flex flex-column pe-0 pe-sm-10">
+                    <!--begin::Title-->
+                    <h4 class="fw-semibold">Jesteś zalogowany</h4>
+                    <!--end::Title-->
+                    
+                    <!--begin::Content-->
+                    <span>
+                        To zgłoszenie zostanie przypisane do twojego konta w naszym serwisie.
+                    </span>
+                    <!--end::Content-->
+                </div>
+                <!--end::Wrapper-->
+            </div>
+            <!--end::Alert-->
+            {% endif %}
+
+
+            <!--begin::Card-->
+            <div class="card card-flush pt-3 mb-5 mb-xl-10">
+                <!--begin::Card header-->
+                <div class="card-header">
+                    <!--begin::Card title-->
+                    <div class="card-title">
+                        <h2 class="fw-bold">Szczegóły zgłoszenia</h2>
+                    </div>
+                    <!--begin::Card title-->
+                    {% comment %}
+                    <!--begin::Card toolbar-->
+                    <div class="card-toolbar">
+                        <a href="../../demo5/dist/apps/subscriptions/add.html" class="btn btn-light-warning">
+                            <i class="ki-duotone ki-cloud-download fs-1"><i class="path1"></i><i class="path2"></i></i>
+                            Pobierz kartę zgłoszeniową
+                        </a>
+                    </div>
+                    <!--end::Card toolbar-->
+                    {% endcomment %}
+                </div>
+                <!--end::Card header-->
+                <!--begin::Card body-->
+                <div class="card-body pt-3">
+                    {% include './snippets/SummaryWebinar.html' with webinar=webinar %}
+                    <div class="separator separator-dashed border-dark my-10"></div>
+                    
+                    {% include './snippets/SummaryParticipants.html' with participants=participants %}
+                    <div class="separator separator-dashed border-dark my-10"></div>
+
+                    {% with application.submitter as submitter %}
+                        {% include './snippets/SummarySubmitter.html' with submitter=submitter %}
+                    {% endwith %}
+                    <div class="separator separator-dashed border-dark my-10"></div>
+                    
+                    {% if application.buyer %}
+                        {% include './snippets/SummaryCompany.html' with title="Nabywca" company=application.buyer %}
+                        <div class="separator separator-dashed border-dark my-10"></div>
+                    {% endif %}
+                    
+                    {% if application.recipient %}
+                        {% include './snippets/SummaryCompany.html' with title="Odbiorca" company=application.recipient %}
+                        <div class="separator separator-dashed border-dark my-10"></div>
+                    {% endif %}
+                    
+                    {% include './snippets/SummaryInvoice.html' with invoice=application.invoice %}
+                    <div class="separator separator-dashed border-dark my-10"></div>
+                    
+                    {% include './snippets/SummaryAdditionalInformation.html' with application=application %}
+                </div>
+                <!--end::Card body-->
+            </div>
+            <!--end::Card-->
+
+        </div>
+        <!--end::Content-->
+        <!--begin::Sidebar-->
+        <div class="flex-column flex-lg-row-auto w-lg-250px w-xl-300px mb-10 order-1 order-lg-2">
+            <!--begin::Card-->
+            <div
+                class="card card-flush mb-0"
+                {% if application.status == 'INIT' %}
+                data-kt-sticky="true"
+                data-kt-sticky-name="subscription-summary"
+                data-kt-sticky-offset="{default: false, lg: '200px'}"
+                data-kt-sticky-width="{lg: '250px', xl: '300px'}"
+                data-kt-sticky-left="auto"
+                data-kt-sticky-top="150px"
+                data-kt-sticky-animation="false"
+                data-kt-sticky-zindex="95"
+                {% endif %}
+            >
+
+                <!--begin::Card body-->
+                <div class="card-body pt-0 fs-6">
+                    <!--begin::Section-->
+                    <div class="mb-4 mt-4">
+                        <!--begin::Title-->
+                        <h5 class="mb-4">Cena podstawowa</h5>
+                        <!--end::Title-->
+                        <!--begin::Details-->
+                        {% comment %} <div class="d-flex justify-content-start"> {% endcomment %}
+                        <div>
+                            <!--begin::Section-->
+                            <div class="mw-300px">
+                                <!--begin::Item-->
+                                <div class="d-flex flex-stack mb-3">
+                                    <!--begin::Accountname-->
+                                    <div class="fw-semibold pe-10 text-gray-600 fs-7">
+                                        Ilość:
+                                    </div>
+                                    <!--end::Accountname-->
+                                    <!--begin::Label-->
+                                    <div class="text-end fw-bold fs-6 text-gray-800">
+                                        {% with participants|length as participants_length %}
+                                        {{participants_length}}
+                                        {% if participants_length == 1 %}
+                                        uczestnik
+                                        {% else %}
+                                        uczestników
+                                        {% endif %}
+                                        {% endwith %}
+                                    </div>
+                                    <!--end::Label-->
+                                </div>
+                                <!--end::Item-->
+                                <!--begin::Item-->
+                                <div class="d-flex flex-stack mb-3">
+                                    <!--begin::Accountname-->
+                                    <div class="fw-semibold pe-10 text-gray-600 fs-7">
+                                        Za uczestnika:
+                                    </div>
+                                    <!--end::Accountname-->
+                                    <!--begin::Label-->
+                                    <div class="text-end fw-bold fs-6 text-gray-800">
+                                        {% if application.webinar.is_discounted %}
+                                        <span class="text-decoration-line-through fw-bolder text-danger me-1">
+                                            {{application.price_old}}zł
+                                        </span>
+                                        <span class="fw-bold text-success">
+                                            {{application.price_netto}}zł
+                                        </span>
+                                        {% else %}
+                                            {{application.price_netto}}zł
+                                        {% endif %}
+                                        {{PRICE_ADNOTATION}}
+                                    </div>
+                                    <!--end::Label-->
+                                </div>
+                                <!--end::Item-->
+                                <!--begin::Item-->
+                                <div class="d-flex flex-stack mb-3">
+                                    <!--begin::Accountname-->
+                                    <div class="fw-semibold pe-10 text-gray-600 fs-7">
+                                        VAT
+                                    </div>
+                                    <!--end::Accountname-->
+                                    <!--begin::Label-->
+                                    <div class="text-end fw-bold fs-6 text-gray-800">
+                                        {% if application.invoice.vat_exemption == "VAT_EXEMPTION_0" %}
+                                        23%
+                                        {% else %}
+
+                                        {% if WE_ARE_TAX_EXEMPT %}
+                                            <i
+                                                class="ki-duotone ki-question-2 fs-1"
+                                                style="vertical-align: middle; cursor: pointer;"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-custom-class="tooltip-inverse"
+                                                data-bs-placement="top"
+                                                title="{{TAX_EXEMPT_TOOLTIP}}"
+                                            >
+                                                <i class="path1"></i>
+                                                <i class="path2"></i>
+                                                <i class="path3"></i>
+                                            </i>
+                                        {% endif %}
+
+                                        Zwolnienie
+
+                                        {% endif %}
+                                    </div>
+                                    <!--end::Label-->
+                                </div>
+                                <!--end::Item-->
+                            </div>
+                            <!--end::Section-->
+                        </div>
+                        <!--end::Details-->
+                        <div hx-get="{% url 'htmx:htmx_application_discount_panel' pk=application.pk %}" hx-trigger="load">
+                            <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
+                        </div>
+                        <!--begin::Title-->
+                    </div>
+                    <!--end::Section-->
+                    <!--begin::Seperator-->
+                    <div class="separator separator-dashed my-2"></div>
+                    <!--end::Seperator-->
+                    {% if application.status == 'INIT' %}
+                    <!--begin::Actions-->
+                    <div class="mb-0 mt-3">
+                        <form
+                            action="{% url 'core:application_summary_page' uuid=application.uuid %}"
+                            method="post">
+                            {% csrf_token %}
+                            <div class="d-flex justify-content-center">
+                            {{form.accept_terms_of_service}}
+                            </div>
+                            <!--begin::Seperator-->
+                            <div class="separator separator-dashed my-1"></div>
+                            <!--end::Seperator-->
+                            <div class="d-flex justify-content-center">
+                                <button
+                                    type="submit"
+                                    class="btn btn-danger mt-3 w-100"
+                                    disabled
+                                    id="send-application-btn"
+                                >
+                                    <i class="ki-duotone ki-send fs-1"><i class="path1"></i><i class="path2"></i></i>
+                                    Wyślij zgłoszenie
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <!--end::Actions-->
+                    {% endif %}
+                </div>
+                <!--end::Card body-->
+            </div>
+            <!--end::Card-->
+        </div>
+        <!--end::Sidebar-->
+    </div>
+    <!--end::Layout-->
+</div>
+
+
+
+<div class="modal bg-body fade" tabindex="-1" id="kt_modal_terms_and_conditions">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content shadow-none">
+            <div class="modal-header">
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-2x"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body">
+                {% include 'core/pages/terms_and_conditions/snippets/TermsAndConditionsWebinarsCard.html' %}
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Zamknij regulamin szkoleń</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" tabindex="-1" id="kt_modal_pdf_application_card">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Pobierz kartę zgłoszeniową</h3>
+
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body fw-medium text-gray-900 fs-5">
+                <p>
+                    Kliknij poniższy przycisk, aby pobrać kartę zgłoszeniową.
+                </p>
+                <p>
+                    <span class="text-danger">Uwaga</span>
+                    po kliknięciu prosimy cierpiliwe poczekać na wygenerowanie karty.
+                </p>
+                <p>
+                    <u>Może to potrwać nawet do 30 sekund.</u>
+                </p>
+                <div class="separator border-2 my-5"></div>
+                <div class="text-center">
+                    <!--begin::Button-->
+                    <a
+                    href="{% url 'core:application_pdf_card' uuid=application.uuid %}"
+                    target="_blank"
+                    class="btn btn-sm btn-flex btn-warning fw-bold border-0 me-3">
+                    Pobierz kartę zgłoszeniową
+                    </a>
+                    <!--end::Button-->
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock application_content %}
+
+{% block body_scripts %}
+<script src="{% static 'js/htmx.min.js' %}"></script>
+<script>
+    document.body.addEventListener('htmx:configRequest', (event) => {
+        event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+    })
+</script>
+<script>
+    var checkInput = document.querySelector("#id_accept_terms_of_service");
+    
+    checkInput.addEventListener("click", function(e) {
+        let btn = document.querySelector("#send-application-btn");
+        btn.disabled = !btn.disabled;
+    })
+</script>
+{% endblock body_scripts %}

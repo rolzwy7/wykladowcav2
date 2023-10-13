@@ -1,0 +1,31 @@
+{% extends './LecturerBase.html' %}
+{% load static %}
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+{% block rightbar %}{% endblock rightbar %}
+
+{% block lecturer_main_col %}
+<div class="col-xl-12">
+{% endblock lecturer_main_col %}
+
+{% block lecturer_rightbar %}{% endblock lecturer_rightbar %}
+
+{% block lecturer_content %}
+
+<div class="row g-6 g-xl-9">
+    {% for opinion in opinions %}
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                {% include './snippets/OpinionAboutLecturer.html' with opinion=opinion %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock lecturer_content %}
+
+{%block body_scripts %}
+
+{% endblock body_scripts %}

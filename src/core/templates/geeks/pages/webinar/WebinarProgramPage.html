@@ -1,0 +1,53 @@
+{% extends './WebinarBase.html' %}
+
+{% block head_stylesheets %}
+<style>
+    {% comment %} Markers inside li {% endcomment %}
+    .program-enriched ul, .program-enriched ol {
+        list-style-position: inside;
+    }
+    .program-enriched > ul, .program-enriched > ol {
+        padding: 0;
+    }
+    
+    {% comment %} Apply border on first level li-s {% endcomment %}
+    .program-enriched > ol > li, .program-enriched > ul > li {
+        border: 1px solid #F4F4F4;
+        border-radius: 0.625rem;
+        margin-bottom: 1rem;
+        padding: 1rem;
+        background-color: #f1f5f9;
+    }
+    
+    {% comment %} Delete list styling for inner lists {% endcomment %}
+    .program-enriched > ol > li > ol,
+    .program-enriched > ul > li > ul,
+    .program-enriched > ol > li > ul,
+    .program-enriched > ul > li > ol{
+        list-style-type: none;
+    }
+    
+    {% comment %} Apply custom list style for inner lists {% endcomment %}
+    .program-enriched > ol > li > ol > li:before,
+    .program-enriched > ul > li > ul > li:before,
+    .program-enriched > ol > li > ul > li:before,
+    .program-enriched > ul > li > ol > li:before {
+        content: '\2714';
+        margin-left: -20px;
+        margin-right: 10px;
+        color: lightgreen;
+    }
+</style>
+{% endblock head_stylesheets %}
+
+{% block content %}
+<div
+  id="description"
+  role="tabpanel"
+  aria-labelledby="description-tab"
+>
+  <div class="program-enriched fw-semibold lh-base">
+    {{webinar.program_enchanted|safe}}
+  </div>
+</div>
+{% endblock content %}

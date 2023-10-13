@@ -1,0 +1,23 @@
+{% load static %}
+<!--begin::Item-->
+<div class="d-flex flex-aligns-center pe-10 pe-lg-20 mb-4">
+<!--begin::Icon-->
+<img alt="" class="w-30px me-3" src="{% static 'media/svg/files/file.svg' %}">
+<!--end::Icon-->
+<!--begin::Info-->
+<div class="ms-1 fw-semibold">
+<!--begin::Desc-->
+<a href="{% url 'core:webinar_asset_download' uuid=asset.token %}" class="fs-6 text-hover-primary fw-bold">
+{{asset.filename}}
+</a>
+<!--end::Desc-->
+<!--begin::Number-->
+<div
+    class="text-gray-600 fw-bold"
+    title="{{asset.content_type}}"
+>{{asset.filesize_human}}</div>
+<!--end::Number-->
+</div>
+<!--begin::Info-->
+</div>
+<!--end::Item-->
