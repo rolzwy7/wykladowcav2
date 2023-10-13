@@ -82,6 +82,21 @@
     {% endblock %}
     {% endif %}
 
+    <div class="breadcrumbs" style="text-align:center;">
+      <a href="{% url "admin:core_webinar_changelist" %}">
+        <b>[&nbsp;Webinary&nbsp;]</b>
+      </a>
+      <a href="{% url "admin:core_webinar_add" %}" style="color: #010203;">
+        <b>[&nbsp;Dodaj Webinar&nbsp;]</b>
+      </a>
+      <a href="{% url "admin:core_discountcode_changelist" %}">
+        <b>[&nbsp;Kody promocyjne&nbsp;]</b>
+      </a>
+      <a href="{% url "admin:core_discountcode_add" %}">
+        <b>[&nbsp;Dodaj kod promocyjny&nbsp;]</b>
+      </a>
+    </div>
+
     <div class="main" id="main">
       {% if not is_popup and is_nav_sidebar_enabled %}
         {% block nav-sidebar %}
