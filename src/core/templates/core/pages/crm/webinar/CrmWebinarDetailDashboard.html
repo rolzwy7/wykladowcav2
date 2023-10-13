@@ -83,6 +83,26 @@
     </div>
     <!--end::Col-->
 
+    <!--start::Col-->
+    <div class="col-md-12">
+
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h3 class="card-title">
+                    Wszystkie E-maile uczesntików biorących udział w szkoleniu
+                </h3>
+            </div>
+            <div class="card-body">
+                <ol>
+                    {% for gathered_participant in gathered_participants %}
+                        <li>{{gathered_participant.email}}</li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!--end::Col-->
+
     {% if webinar.status == "CANCELED" %}
     <!--start::Col-->
     <div class="col-md-12">
