@@ -2,9 +2,10 @@
 
 {% with webinar_ctx.webinar as webinar %}
 
+
 <tr class="bg-gray-300">
     <td colspan="1" style="min-width: 230px;">
-        <b>{{webinar.date|date:"j E Y"}}</b>
+        ({{webinar.date|date:"l"}}) <b>{{webinar.date|date:"j E Y"}}</b>
         <br>
         <b>{{webinar.date|date:"H:i"}}</b> - {{webinar.date_end|date:"H:i"}}
         <br>
