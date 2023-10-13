@@ -24,6 +24,14 @@
 <tr>
     <td>
         <a href="{% url 'core:lecturer_stats_page' pk=webinar.lecturer.pk %}">
+            <div class="symbol">
+                <img
+                src="{% static 'media/misc/spinner.gif' %}"
+                data-src="{% get_media_prefix %}uploads/lecturers/{{webinar.lecturer.slug}}_50x50.webp"
+                class="lozad"
+                alt="{{webinar.lecturer.fullname}}"
+                />
+            </div>
             <b>{{webinar.lecturer.fullname}}</b>
         </a>
     </td>
