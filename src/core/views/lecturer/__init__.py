@@ -1,4 +1,5 @@
 # flake8: noqa
+from .lecturer_closed_webinar_pages import lecturer_closed_webinar_pages
 from .lecturer_experience_page import lecturer_experience_page
 from .lecturer_list_page import lecturer_list_page
 from .lecturer_mailing_template_page import lecturer_mailing_template_page

@@ -90,8 +90,8 @@
                                         </a>
 									</li>
 									<!-- Nav item -->
-									<li class="nav-item">
-										<a class="nav-link" href="#">
+									<li class="nav-item {% if request.path == '/wykladowca/'|add:lecturer.slug|add:'/szkolenia-zamkniete/' %}active{% endif %}">
+										<a class="nav-link" href="{% url 'core:lecturer_closed_webinar_pages' slug=lecturer.slug %}">
                                             <i class="fe fe-pie-chart nav-icon"></i>
                                             Szkolenia zamknięte
                                         </a>

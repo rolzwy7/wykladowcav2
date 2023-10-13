@@ -1,6 +1,7 @@
 from django.urls import path
 
 from core.views.lecturer import (
+    lecturer_closed_webinar_pages,
     lecturer_experience_page,
     lecturer_mailing_template_page,
     lecturer_opinion_form_page,
@@ -24,6 +25,11 @@ urlpatterns = [
         "<slug:slug>/szkolenia/",
         lecturer_webinars_page,
         name="lecturer_webinars_page",
+    ),
+    path(
+        "<slug:slug>/szkolenia-zamkniete/",
+        lecturer_closed_webinar_pages,
+        name="lecturer_closed_webinar_pages",
     ),
     path(
         "<slug:slug>/mailing-zestawienie/",
