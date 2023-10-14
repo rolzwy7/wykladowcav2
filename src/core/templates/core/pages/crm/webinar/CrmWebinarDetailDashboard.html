@@ -87,17 +87,22 @@
     <div class="col-md-12">
 
         <div class="card shadow-sm">
-            <div class="card-header">
+            <div class="card-header collapsible cursor-pointer rotate" data-bs-toggle="collapse" data-bs-target="#kt_docs_card_collapsible">
                 <h3 class="card-title">
                     Wszystkie E-maile uczesntików biorących udział w szkoleniu
                 </h3>
+                <div class="card-toolbar rotate-180">
+                    <i class="ki-duotone ki-down fs-1"></i>
+                </div>
             </div>
-            <div class="card-body">
-                <ol>
-                    {% for gathered_participant in gathered_participants %}
-                        <li>{{gathered_participant.email}}</li>
-                    {% endfor %}
-                </ol>
+            <div id="kt_docs_card_collapsible" class="collapse">
+                <div class="card-body">
+                    <ol>
+                        {% for gathered_participant in gathered_participants %}
+                            <li>{{gathered_participant.email}}</li>
+                        {% endfor %}
+                    </ol>
+                </div>
             </div>
         </div>
     </div>
