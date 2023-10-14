@@ -3,7 +3,7 @@
 <html lang="{{META__HTML_LANG}}" dir="{{META__HTML_DIR}}">
   <head>
     
-    {% if META__APP_ENV == "production" %}
+    {% if META__APP_ENV == "production" and not request.user.is_staff %}
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9C0FK07Z1V"></script>
     <script>
