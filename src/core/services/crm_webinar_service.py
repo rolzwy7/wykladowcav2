@@ -151,9 +151,37 @@ class CrmWebinarService:
         """Get webinar's assets"""
         return WebinarAsset.manager.get_for_webinar(webinar=self.webinar)
 
-    def get_webinar_rating(self) -> float:
+    def get_webinar_rating(
+        self,
+        gathered_participants_count: int,
+        click_count_mailing: int,
+        click_count_facebook: int,
+        lecturer_price_netto: int,
+        total_netto_value_of_webinar: int,
+    ) -> float:
         """Get webinar rating"""
-        return 0.0
+        # Facebook clicks
+        fb_click_score = min(25, (click_count_facebook / 300) * 25)
+        mailing_click_score = min(15, (click_count_mailing / 1_000) * 15)
+        participants_score = min(35, (gathered_participants_count / 15) * 35)
+
+        if lecturer_price_netto:
+            netto_base = total_netto_value_of_webinar - lecturer_price_netto
+        else:
+            netto_base = max(0, total_netto_value_of_webinar - 1500)
+
+        netto_score = min(25, (netto_base / 10_000) * 25)
+
+        score_sum = sum(
+            [
+                fb_click_score,
+                mailing_click_score,
+                participants_score,
+                netto_score,
+            ]
+        )
+
+        return score_sum
 
     def get_context(self):
         """Number of gathered participants"""
@@ -167,6 +195,7 @@ class CrmWebinarService:
         recordings = self.get_recordings()
         certificates = self.get_certificates()
         webinar_metadata = WebinarMetadata.objects.get(webinar=self.webinar)
+        gathered_participants_count = gathered_participants.count()
         return {
             "webinar": self.webinar,
             # Sent applications
@@ -180,7 +209,7 @@ class CrmWebinarService:
             "resigned_applications_count": resigned_applications.count(),
             # Gathered participants
             "gathered_participants": gathered_participants,
-            "gathered_participants_count": gathered_participants.count(),
+            "gathered_participants_count": gathered_participants_count,
             # Recordings
             "recordings": recordings,
             "recordings_count": recordings.count(),
@@ -191,7 +220,13 @@ class CrmWebinarService:
             "click_count_mailing": webinar_metadata.click_count_mailing,
             "click_count_facebook": webinar_metadata.click_count_facebook,
             # Webinar rating
-            "webinar_rating": self.get_webinar_rating(),
+            "webinar_rating": self.get_webinar_rating(
+                gathered_participants_count,
+                webinar_metadata.click_count_mailing,
+                webinar_metadata.click_count_facebook,
+                lecturer_price_netto,
+                total_netto_value_of_webinar,
+            ),
             # Other
             "lecturer_netto_price": lecturer_price_netto,
             "lecturer_netto_price_display": f"{lecturer_price_netto:,}",
