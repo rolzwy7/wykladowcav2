@@ -1,3 +1,4 @@
+import re
 import uuid
 
 from django.conf import settings
@@ -98,6 +99,14 @@ class WebinarApplicationSubmitter(Model):
     def fullname(self):
         """Returns submitter's fullname"""
         return f"{self.first_name} {self.last_name}"
+
+    def save(self, *args, **kwargs) -> None:
+        # normalize phone number
+        if self.phone and re.match("[0-9]{9}", self.phone):
+            temp = self.phone
+            self.phone = f"{temp[:3]} {temp[3:6]} {temp[6:9]}"
+
+        return super().save(*args, **kwargs)
 
 
 class WebinarApplicationPrivatePerson(Model):

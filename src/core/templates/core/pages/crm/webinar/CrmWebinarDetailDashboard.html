@@ -83,6 +83,35 @@
     </div>
     <!--end::Col-->
 
+    <!--start::Col-->
+    <div class="col-md-12">
+
+        <div class="card shadow-sm">
+            <div
+                class="card-header collapsible cursor-pointer rotate"
+                data-bs-toggle="collapse"
+                data-bs-target="#kt_card_email_copy"
+            >
+                <h3 class="card-title">
+                    Wszystkie E-maile uczestników biorących udział w szkoleniu
+                </h3>
+                <div class="card-toolbar rotate-180">
+                    <i class="ki-duotone ki-down fs-1"></i>
+                </div>
+            </div>
+            <div id="kt_card_email_copy" class="collapse">
+                <div class="card-body">
+                    <ol>
+                        {% for gathered_participant in gathered_participants %}
+                            <li>{{gathered_participant.email}}</li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end::Col-->
+
     {% if webinar.status == "CANCELED" %}
     <!--start::Col-->
     <div class="col-md-12">
@@ -206,11 +235,20 @@
     <div class="col-md-12">
 
         <div class="card shadow-sm">
-            <div class="card-header">
+            <div
+                class="card-header collapsible cursor-pointer rotate"
+                data-bs-toggle="collapse"
+                data-bs-target="#kt_card_participants"
+            >
                 <h3 class="card-title">Uczestnicy ({{gathered_participants_count}})</h3>
+                <div class="card-toolbar rotate-180">
+                    <i class="ki-duotone ki-down fs-1"></i>
+                </div>
             </div>
-            <div class="card-body">
-                {% include './snippets/CrmWebinarParticipantsTable.html' with gathered_participants=gathered_participants %}                
+            <div id="kt_card_participants" class="collapse show">
+                <div class="card-body">
+                    {% include './snippets/CrmWebinarParticipantsTable.html' with gathered_participants=gathered_participants %}                
+                </div>
             </div>
         </div>
     </div>

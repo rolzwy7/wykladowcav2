@@ -1,3 +1,6 @@
+# flake8: noqa=E501
+# pylint: disable=line-too-long
+
 import uuid
 
 from django.conf import settings
@@ -183,7 +186,7 @@ class Webinar(Model):
     # Price
     price_netto = PositiveSmallIntegerField("Cena NETTO")
     discount_netto = PositiveSmallIntegerField(
-        "Cena NETTO (Promocyjna)", default=0
+        "Cena NETTO (Promocyjna)", default=0, blank=True, null=True
     )
     discount_until = DateTimeField("Promocja do", blank=True, null=True)
 
@@ -240,15 +243,14 @@ class Webinar(Model):
     def is_discounted(self) -> bool:
         """Tells if webinar is discounted"""
         if self.discount_until:
-            is_active = self.discount_until >= now()
-            return is_active
+            return self.discount_until >= now()
         else:
             return False
 
     @property
     def price(self):
         """Resolves current NETTO price"""
-        if self.is_discounted:
+        if self.is_discounted and self.discount_netto:
             return self.discount_netto
         else:
             return self.price_netto
@@ -256,19 +258,31 @@ class Webinar(Model):
     @property
     def discount_value(self):
         """Discount NETTO value"""
-        return self.price_netto - self.discount_netto
+        if self.discount_netto:
+            return self.price_netto - self.discount_netto
+        else:
+            return 0
 
     def clean(self):
         # Make sure that discount price is >= than normal price
         if all(
             [
-                self.discount_netto is not None,
                 self.price_netto is not None,
-                self.discount_netto >= self.price_netto,
+                self.discount_netto and self.discount_netto >= self.price_netto,
             ]
         ):
             raise ValidationError(
                 "Cena promocyjna nie może być większa niż normalna cena"
+            )
+
+        # Make sure that when `discount_netto` is set `discount_until` must be too
+        if self.discount_netto is None and self.discount_until:
+            raise ValidationError(
+                "`Promocja do` nie może być ustawiona bez `Cena NETTO (Promocyjna)`"
+            )
+        if self.discount_until is None and self.discount_netto:
+            raise ValidationError(
+                "`Cena NETTO (Promocyjna)` nie może być ustawiona bez `Promocja do`"
             )
 
 
