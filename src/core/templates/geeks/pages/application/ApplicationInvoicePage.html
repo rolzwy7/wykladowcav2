@@ -31,8 +31,9 @@
                   </ul>
 
                 <form
-                    class="row"
                     action="{% url 'core:application_invoice_page' uuid=application.uuid %}"
+                    onsubmit="actionSubmit.disabled = true; return true;"
+                    class="row"
                     method="post"
                 >
                     {% csrf_token %}
