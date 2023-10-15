@@ -13,7 +13,11 @@
             <!-- Card body -->
             <div class="card-body">
 
-                <form action="{% url 'core:application_additional_information_page' uuid=application.uuid %}" method="post">
+                <form
+                    action="{% url 'core:application_additional_information_page' uuid=application.uuid %}"
+                    onsubmit="actionSubmit.disabled = true; return true;"
+                    method="post"
+                >
                     {% csrf_token %}
             
                     <div class="mb-3 col-12 col-md-12">

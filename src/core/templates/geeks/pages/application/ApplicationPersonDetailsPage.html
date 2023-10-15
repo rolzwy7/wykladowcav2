@@ -15,10 +15,11 @@
             <div class="card-body">
                 
                 <form
-                action="{% url 'core:application_person_details_page' uuid=application.uuid %}"
-                method="post"
-                class="row"
-            >
+                    action="{% url 'core:application_person_details_page' uuid=application.uuid %}"
+                    onsubmit="actionSubmit.disabled = true; return true;"
+                    method="post"
+                    class="row"
+                >
                 {% csrf_token %}
     
     

@@ -23,6 +23,7 @@
                 <div class="d-flex flex-row justify-content-center">
                     <form
                         action="{% url 'core:application_type_page' pk=webinar.pk %}"
+                        onsubmit="actionSubmit.disabled = true; return true;"
                         method="post"
                         class="form"
                     >

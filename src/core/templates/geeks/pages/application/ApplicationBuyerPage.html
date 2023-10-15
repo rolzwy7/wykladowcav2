@@ -15,8 +15,9 @@
 
                 <div class="d-flex flex-row justify-content-center">
                     <form
-                        class="row"
                         action="{% url 'core:application_buyer_page' uuid=application.uuid %}"
+                        onsubmit="actionSubmit.disabled = true; return true;"
+                        class="row"
                         method="post"
                     >
                         {% csrf_token %}
