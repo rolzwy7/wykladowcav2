@@ -70,7 +70,12 @@ def try_to_add_opinion(lecturer: Lecturer, opinion_raw: str):
         rating=rating,
         opinion_hash=opinion_hash,
     )
-    opinion.created_at = now() - timedelta(hours=30 * randint(0, 24))
+    opinion.save()
+
+    # Override `created_at`
+    opinion.created_at = now() - timedelta(
+        days=randint(0, 120), hours=randint(0, 48), minutes=randint(0, 180)
+    )
     opinion.save()
 
 
