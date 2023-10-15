@@ -31,35 +31,54 @@
             {{lecturer.fullname}}
           </a>
         </h4>
-        <p class="mb-1 fs-6">{{lecturer.profession}}</p>
+        {% if lecturer.profession %}
+          <p class="mb-1 fs-6">{{lecturer.profession}}</p>
+        {% endif %}
+
+        {% with lecturer_opinions_count=lecturer_service.get_lecturer_opinions_count %}
+        {% if lecturer_opinions_count %}
         <span class="fs-6">
           <span class="text-warning">4.5</span>
-          <span class="mdi mdi-star text-warning me-2">
-          </span>
-          {{lecturer_service.get_lecturer_opinions_count}} opinii
-          </span>
+          <span class="mdi mdi-star text-warning me-2"></span>
+          {{lecturer_opinions_count}} opinii
+        </span>
+        {% endif %}
+        {% endwith %}
+
       </div>
     </div>
+
     <div class="border-top row mt-3 border-bottom mb-3 g-0">
+      {% if lecturer.fake_stat_participants %}
       <div class="col">
         <div class="pe-1 ps-2 py-3">
           <h5 class="mb-0">{{lecturer.fake_stat_participants}}</h5>
           <span>Przeszkolonych</span>
         </div>
       </div>
+      {% endif %}
+      {% comment %}
+      {% with lecturer_opinions_count=lecturer_service.get_lecturer_opinions_count %}
+      {% if lecturer_opinions_count %}
       <div class="col border-start">
         <div class="pe-1 ps-3 py-3">
-          <h5 class="mb-0">{{lecturer_service.get_lecturer_opinions_count}}</h5>
+          <h5 class="mb-0">{{lecturer_opinions_count}}</h5>
           <span>Opinii</span>
         </div>
       </div>
+      {% endif %}
+      {% endwith %}
+      {% endcomment %}
+      {% if lecturer.fake_stat_webinars %}
       <div class="col border-start">
         <div class="pe-1 ps-3 py-3">
           <h5 class="mb-0">{{lecturer.fake_stat_webinars}}</h5>
           <span>Szkoleń</span>
         </div>
       </div>
+      {% endif %}
     </div>
+
     <p>
       <div id="id_lecturer_short_desc">{{lecturer.biography_email|truncatechars:150}}</div>
       <div id="id_lecturer_long_desc" class="d-none">{{lecturer.biography_email}}</div>

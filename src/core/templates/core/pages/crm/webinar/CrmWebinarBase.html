@@ -90,7 +90,7 @@
                             <div class="me-0">
                                 <button class="btn btn-sm btn-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                     <i class="ki-duotone ki-setting-2 fs-2"><i class="path1"></i><i class="path2"></i></i>
-                                    Więcej opcji
+                                    Administracja
                                 </button>
                                 {% comment %} <button class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                     <i class="ki-solid ki-dots-horizontal fs-2x me-1"></i>
@@ -100,21 +100,28 @@
                                     <!--begin::Heading-->
                                     <div class="menu-item px-3">
                                         <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">
-                                            CMS
+                                            Administracja
                                         </div>
                                     </div>
                                     <!--end::Heading-->
                                     <!--begin::Menu item-->
                                     <div class="menu-item px-3">
+                                        <a href="{% url 'core:webinar_program_page' slug=webinar.slug %}" class="menu-link px-3">
+                                            [Strona] Zobacz na stronie
+                                        </a>
+                                    </div>
+                                    <!--end::Menu item-->
+                                    <!--begin::Menu item-->
+                                    <div class="menu-item px-3">
                                         <a href="{% url 'admin:core_webinar_change' object_id=webinar.id %}" class="menu-link px-3">
-                                            Edytuj termin w CMS
+                                            [CMS] Edytuj termin
                                         </a>
                                     </div>
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
                                     <div class="menu-item px-3">
                                         <a href="{% url 'admin:core_lecturer_change' object_id=webinar.lecturer.id %}" class="menu-link px-3">
-                                            Edytuj wykładowce w CMS
+                                            [CMS] Edytuj wykładowce
                                         </a>
                                     </div>
                                     <!--end::Menu item-->
