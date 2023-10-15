@@ -16,7 +16,7 @@ def try_to_add_opinion(lecturer: Lecturer, opinion_raw: str):
     """Try to add opinion for lecturer"""
 
     # Normalize raw opinion
-    opinion_normalized = opinion_raw.strip().strip("#")
+    opinion_normalized = opinion_raw.strip()
     if not opinion_normalized:
         return
 
@@ -32,11 +32,11 @@ def try_to_add_opinion(lecturer: Lecturer, opinion_raw: str):
     except ValueError:
         return
     else:
+        rating = rating.strip()
         fullname = fullname.strip()
+        opinion_text = opinion_text.strip()
         company_name = company_name.strip()
         job_title = job_title.strip()
-        opinion_text = opinion_text.strip()
-        rating = rating.strip()
 
     # Make opinion hash
     opinion_hash = hashlib.sha256(opinion_text.encode()).hexdigest()
