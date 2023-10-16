@@ -80,7 +80,7 @@ class WebinarApplicationCompany(Model):
     phone_number = CharField("Telefon", max_length=150, blank=True)
 
     def __str__(self):
-        return str(self.nip)
+        return f"{self.nip} - {self.name}"
 
 
 class WebinarApplicationSubmitter(Model):
@@ -119,7 +119,7 @@ class WebinarApplicationPrivatePerson(Model):
     phone = CharField("Numer telefonu", max_length=100)
 
     def __str__(self):
-        return f"{self.fullname}"
+        return f"{self.fullname} <{self.email}>"
 
     def save(self, *args, **kwargs) -> None:
         self.phone = normalize_phone_number(self.phone)
