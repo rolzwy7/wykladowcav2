@@ -7,7 +7,7 @@ from core.services import CrmWebinarService
 def crm_archived_webinars(request):
     """CRM webinars archive"""
     template_name = "core/pages/crm/webinar/CrmArchivedWebinars.html"
-    webinars = Webinar.manager.get_done_or_canceled_webinars()
+    webinars = Webinar.manager.get_done_or_canceled_webinars().order_by("-date")
 
     return TemplateResponse(
         request,
