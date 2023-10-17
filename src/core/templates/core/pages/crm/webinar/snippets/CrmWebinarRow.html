@@ -19,6 +19,14 @@
         <a href="{% url 'core:crm_webinar_detail_dashboard' pk=webinar.pk %}" class="text-gray-900 text-hover-primary fw-bold">
             {{webinar.title_original}}
         </a>
+        <br>
+        <a href="{% url "admin:core_webinar_change" object_id=webinar.id %}">
+            Edytuj w CMS
+        </a>
+        |
+        <a href="{% url "core:webinar_program_page" slug=webinar.slug %}">
+            Zobacz na stronie
+        </a>
     </td>
 </tr>
 <tr>

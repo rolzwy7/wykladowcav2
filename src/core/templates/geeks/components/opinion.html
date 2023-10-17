@@ -25,8 +25,10 @@
       </span>
     </h4>
     <div class="fs-6 mb-2">
-      <span class="fs-6 text-muted"> {{opinion.job_title}} </span>
-      , {% for rating in opinion.rating_sequence %}
+      {% if opinion.job_title %}
+      <span class="fs-6 text-muted"> {{opinion.job_title}} </span> ,
+      {% endif %}
+      {% for rating in opinion.rating_sequence %}
       <i
         class="mdi mdi-star me-n1 {% if rating <= opinion.rating_number %}text-warning{% else %}text-light{% endif %}"
       ></i>

@@ -13,7 +13,6 @@ class WebinarModelAdminInline(StackedInline):
     model = WebinarMetadata
     can_delete = False
     classes = ["collapse"]
-    readonly_fields = ["clickmeeting_id"]
 
 
 class WebinarModelAdminForm(ModelForm):

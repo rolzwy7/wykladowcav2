@@ -4,7 +4,7 @@
     <thead>
         <tr class="fw-semibold fs-6 text-gray-800">
             <th>Imię i Nazwisko</th>
-            <th>Osoba zgłaszająca</th>
+            {% comment %} <th>Osoba zgłaszająca</th> {% endcomment %}
             <th>Telefon & E-mail</th>
             <th>Zadzwoniono</th>
             <th>Info</th>
@@ -12,23 +12,31 @@
     </thead>
     <tbody>
         {% for participant in gathered_participants %}
-        <tr>
-            <td>
-                <a href="{% url 'admin:core_webinarparticipant_change' object_id=participant.id %}">
-                    {{participant.fullname}}
+        <tr class="{% cycle 'bg-gray-300' '' %}">
+            <td style="padding-left: 15px;">
+                <a class="fs-3" href="{% url 'admin:core_webinarparticipant_change' object_id=participant.id %}">
+                    <b>{{forloop.counter}}.) {{participant.fullname}}</b>
                 </a>
+                <br><br>
+                <b><u>Kontakt do uczestnika:</u></b>
+                <br>
+                <b>{{participant.phone|default:"Nie podano"}}</b>
+                <br>
+                {{participant.email}}
             </td>
-            <td>
+            {% comment %} <td>
                 {{participant.application.submitter}}
                 <br>
                 {{participant.application.submitter.email}}
                 /
                 {{participant.application.submitter.phone}}
-            </td>
+            </td> {% endcomment %}
             <td>
-                <b>{{participant.phone}}</b>
+                <b>Kontaktowy ogólny:</b>
                 <br>
-                {{participant.email}}
+                {{participant.application.submitter.phone|default:"Nie podano"}}
+                <br>
+                {{participant.application.submitter.email}}
             </td>
             <td>
                 <div

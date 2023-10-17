@@ -1,4 +1,3 @@
-import re
 import uuid
 
 from django.conf import settings
@@ -25,6 +24,7 @@ from core.consts import (
     VAT_VALUE_PERCENT,
     WE_ARE_TAX_EXEMPT,
 )
+from core.libs.normalizers import normalize_phone_number
 from core.libs.validators import validate_nip_modelfield
 
 from .enums import ApplicationStatus, InvoiceType, WebinarApplicationType
@@ -80,7 +80,7 @@ class WebinarApplicationCompany(Model):
     phone_number = CharField("Telefon", max_length=150, blank=True)
 
     def __str__(self):
-        return str(self.nip)
+        return f"{self.nip} - {self.name}"
 
 
 class WebinarApplicationSubmitter(Model):
@@ -95,22 +95,18 @@ class WebinarApplicationSubmitter(Model):
     def __str__(self):
         return f"{self.fullname}"
 
+    def save(self, *args, **kwargs) -> None:
+        self.phone = normalize_phone_number(self.phone)
+        return super().save(*args, **kwargs)
+
     @property
     def fullname(self):
         """Returns submitter's fullname"""
         return f"{self.first_name} {self.last_name}"
 
-    def save(self, *args, **kwargs) -> None:
-        # normalize phone number
-        if self.phone and re.match("[0-9]{9}", self.phone):
-            temp = self.phone
-            self.phone = f"{temp[:3]} {temp[3:6]} {temp[6:9]}"
-
-        return super().save(*args, **kwargs)
-
 
 class WebinarApplicationPrivatePerson(Model):
-    """Represents application submitter"""
+    """Represents application private person"""
 
     first_name = CharField("Imię", max_length=100)
     last_name = CharField("Nazwisko", max_length=100)
@@ -123,7 +119,11 @@ class WebinarApplicationPrivatePerson(Model):
     phone = CharField("Numer telefonu", max_length=100)
 
     def __str__(self):
-        return f"{self.fullname}"
+        return f"{self.fullname} <{self.email}>"
+
+    def save(self, *args, **kwargs) -> None:
+        self.phone = normalize_phone_number(self.phone)
+        return super().save(*args, **kwargs)
 
     @property
     def fullname(self):

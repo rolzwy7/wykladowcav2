@@ -49,7 +49,8 @@ def after_application_sent_dispatch(
             ],
         ),
         task_send_telegram_notification.si(
-            f"Wysłano zgłoszenie na szkolenie #{webinar_id}",
+            "Wysłano zgłoszenie na szkolenie "
+            f"#{webinar_id}: {webinar.title_original}",
             TelegramChats.APPLICATIONS,
         ),
     ).apply_async()

@@ -114,14 +114,19 @@ class RegonService:
             if silos not in ["1", "6"]:
                 continue
 
-            # Property number
-            property_number = _.find("NrNieruchomosci").text
-
             # Address
-            address = f"{_.find('Ulica').text} {property_number}"
+            property_number = _.find("NrNieruchomosci").text
             apartment_number = _.find("NrLokalu").text
-            if apartment_number:
-                address = f"{address}/{apartment_number}"
+            if property_number and apartment_number:
+                address_property = f"{property_number}/{apartment_number}"
+            else:
+                address_property = (property_number or apartment_number) or ""
+
+            street_name = _.find("Ulica").text
+            if street_name and address_property:
+                address = f"{street_name} {address_property}"
+            else:
+                address = (street_name or address_property) or ""
 
             company = RegonCompany(
                 nip=nip,

@@ -42,5 +42,8 @@ class WebinarCertificateModelAdmin(ModelAdmin):
     def actions_view(self, obj: WebinarCertificate):
         """Actions for list element"""
         return format_html(
-            '<a href="{}" target="_blank">Podgląd</a>', obj.get_absolute_url()
+            '<a href="{}" target="_blank"><b>Podgląd</b></a>',
+            obj.get_absolute_url(),
         )
+
+    actions_view.short_description = "Akcje"

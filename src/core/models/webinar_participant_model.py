@@ -1,5 +1,3 @@
-import re
-
 from django.db.models import (
     CASCADE,
     BooleanField,
@@ -11,6 +9,8 @@ from django.db.models import (
     Q,
     QuerySet,
 )
+
+from core.libs.normalizers import normalize_phone_number
 
 from .enums import (
     ApplicationStatus,
@@ -93,18 +93,14 @@ class WebinarParticipant(Model):
     def __str__(self) -> str:
         return f"{self.first_name} {self.last_name} ({self.email})"
 
+    def save(self, *args, **kwargs) -> None:
+        self.phone = normalize_phone_number(self.phone)
+        return super().save(*args, **kwargs)
+
     @property
     def fullname(self):
         """Get participant fullname"""
         return f"{self.first_name} {self.last_name}"
-
-    def save(self, *args, **kwargs) -> None:
-        # normalize phone number
-        if self.phone and re.match("[0-9]{9}", self.phone):
-            temp = self.phone
-            self.phone = f"{temp[:3]} {temp[3:6]} {temp[6:9]}"
-
-        return super().save(*args, **kwargs)
 
 
 class WebinarParticipantMetadata(Model):
