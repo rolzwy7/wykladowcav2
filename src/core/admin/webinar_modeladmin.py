@@ -40,7 +40,7 @@ class WebinarModelAdmin(ModelAdmin):
     inlines = [
         WebinarModelAdminInline,
     ]
-    prepopulated_fields = {"slug": ("title",)}
+    # prepopulated_fields = {"slug": ("title",)}
     filter_horizontal = ("categories",)
     list_display = ["title", "date", "status", "lecturer", "price_netto"]
 
@@ -53,7 +53,7 @@ class WebinarModelAdmin(ModelAdmin):
                     "remaining_places",
                     "recording_allowed",
                     ("status", "slug"),
-                    "lecturer",
+                    ("lecturer", "grouping_token"),
                     "title_original",
                     "title",
                     "description",

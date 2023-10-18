@@ -28,6 +28,7 @@ from django.template.defaultfilters import timeuntil_filter
 from django.utils.timezone import now, timedelta
 
 from core.consts import SLUG_HELP_TEXT
+from core.utils.text import slugify
 
 from .enums import WebinarDuration, WebinarStatus
 
@@ -143,7 +144,11 @@ class Webinar(Model):
         ),
     )
     slug = SlugField(
-        "Skrót URL", max_length=230, unique=True, help_text=SLUG_HELP_TEXT
+        "Skrót URL",
+        max_length=230,
+        blank=True,
+        unique=True,
+        help_text=SLUG_HELP_TEXT,
     )
 
     # Description
@@ -211,6 +216,14 @@ class Webinar(Model):
     )
     external_url = URLField("Zewnętrzny dostawca - URL", blank=True)
     external_description = TextField("Zewnętrzny dostawca - Opis", blank=True)
+
+    # Grouping
+    grouping_token = CharField(
+        "Token grupujący",
+        max_length=32,
+        blank=True,
+        help_text="Ciąg znaków grupujący razem terminy",
+    )
 
     class Meta:
         verbose_name = "Webinar"
