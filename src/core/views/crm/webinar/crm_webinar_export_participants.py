@@ -1,5 +1,5 @@
 import csv
-from io import BytesIO, StringIO
+from io import StringIO
 
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404

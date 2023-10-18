@@ -21,6 +21,7 @@ def webinar_opinions_page(request, slug: str):
         template_name,
         {
             "webinar": webinar,
+            "related_webinars": webinar_service.get_related_webinars(),
             "webinar_tabs": webinar_service.get_webinar_tabs(2),
             "lecturer_service": lecturer_service,
             "opinions_page": opinions_service.get_opinions_page(

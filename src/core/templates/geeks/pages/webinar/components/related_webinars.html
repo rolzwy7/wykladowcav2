@@ -1,0 +1,20 @@
+{% if related_webinars %}
+<div class="card mb-3 mb-4">
+    <div>
+      <!-- Card header -->
+      <div class="card-header">
+        <h4 class="mb-0">Inne terminy tego szkolenia</h4>
+      </div>
+      <ul class="list-group list-group-flush">
+        {% for related_webinar in related_webinars %}
+        <li class="list-group-item bg-transparent">
+            <i class="fe fe-calendar align-middle me-2 text-info"></i>
+            <a href="{% url "core:webinar_program_page" slug=related_webinar.slug %}">
+              {{related_webinar.date|date:"j E Y"}} r. {{related_webinar.date|date:"H:i"}} - {{related_webinar.date_end|date:"H:i"}}
+            </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endif %}

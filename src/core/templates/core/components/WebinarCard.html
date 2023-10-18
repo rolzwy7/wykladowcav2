@@ -58,7 +58,11 @@
           <div class="symbol symbol-35px me-2">
               <img
                   src="{% static 'media/misc/spinner.gif' %}"
+                  {% if webinar.lecturer.avatar %}
                   data-src="{% get_media_prefix %}uploads/lecturers/{{webinar.lecturer.slug}}_35x35.webp"
+                  {% else %}
+                  data-src="{% static "default/default-lecturer-avatar-35x35.webp" %}"
+                  {% endif %}
                   class="lozad"
                   alt="{{webinar.lecturer.fullname}}"
               />

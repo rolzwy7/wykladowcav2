@@ -39,7 +39,11 @@
                 <td>{{recording.recording_name}}</td>
                 <td class="fw-bold">{{recording.get_status_display}}</td>
                 <td>{{recording.created_at}}</td>
-                <td>{{recording.recording_duration_seconds}} s</td>
+                <td>
+                  {{recording.recording_duration_seconds}} sekund
+                  <br>
+                  (~ {% widthratio recording.recording_duration_seconds 60 1 %} minut)
+                </td>
                 <td>{{recording.recorder_started}}</td>
                 <td>{{recording.recording_file_size}} B</td>
                 <td>

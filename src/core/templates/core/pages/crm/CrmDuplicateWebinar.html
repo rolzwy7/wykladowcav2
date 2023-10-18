@@ -1,0 +1,78 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %}
+
+{% load static %}
+
+{% block head_stylesheets %} {% endblock head_stylesheets %}
+
+{% block crm_content %}
+
+<!--begin::Row-->
+<div class="row g-6 g-xl-9 mb-10">
+  <!--begin::Col-->
+  <div class="col-md-12 col-xl-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Duplikuj termin</h3>
+      </div>
+      <div class="card-body fs-4">
+        <p>
+            <b>ID = {{webinar.id}}</b>
+            |
+            <a href="{% url "core:webinar_program_page" slug=webinar.slug %}">Zobacz na stronie</a>
+            |
+            <a href="{% url "admin:core_webinar_change" object_id=webinar.id %}">Edytuj w CMS</a>
+        </p>
+        <p>
+            Duplikujesz termin szkolenia:
+        </p>
+        <p>
+            <b>{{webinar.title_original}}</b>
+        </p>
+        <p>
+            Data: <b>{{webinar.date|date:"j E Y"}} r.</b>
+        </p>
+        <p>
+            Godzina: <b>{{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}</b>
+        </p>
+
+        <p>
+            Istniejące powiązane terminy <b>( token grupujący = <i>{{webinar.grouping_token|default:"Brak tokenu, lepiej go ustawić przed duplikacją"}}</i> )</b>:
+        </p>
+        
+        <ol>
+            {% for related_webinar in related_webinars %}
+            <li>
+                {{webinar.date|date:"j E Y"}} r., {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}
+            </li>
+            {% empty %}
+            <li>= Brak powiązanych terminów =</li>
+            {% endfor %}
+        </ol>
+
+        <p class="text-danger fw-bold">
+            Po kliknięciu zostaniesz przekierowany do edycji tego terminu w CMS.
+            <br>
+            Zmień datę i godzinę zduplikowanego szkolenia.
+        </p>
+
+        <hr>
+
+        <form
+            method="post" action="{% url "core:crm_webinar_duplicate" pk=webinar.pk %}"
+            onsubmit="actionSubmit.disabled = true; return true;"
+        >
+            {% csrf_token %}
+            <input type="submit" value="Duplikuj termin" name="actionSubmit">
+        </form>
+
+      </div>
+    </div>
+  </div>
+  <!--end::Col-->
+</div>
+<!--end::Row-->
+
+{% endblock crm_content %}
+
+
+{% block body_scripts %} {% endblock body_scripts %}
