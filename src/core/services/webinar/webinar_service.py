@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.urls import reverse
 
 from core.models import Webinar
@@ -8,6 +9,16 @@ class WebinarService:
 
     def __init__(self, webinar: Webinar) -> None:
         self.webinar = webinar
+
+    def get_related_webinars(self):
+        """Get related webinars for this webinar"""
+        webinar_id: int = self.webinar.id  # type: ignore
+        related_webinars = Webinar.manager.get_active_webinars().filter(
+            ~Q(grouping_token="")
+            & ~Q(id=webinar_id)
+            & Q(grouping_token=self.webinar.grouping_token)
+        )
+        return related_webinars if related_webinars.exists() else []
 
     def get_webinar_tabs(self, tab_index: int):
         """Returns structure of webinar tabs

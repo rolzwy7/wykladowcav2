@@ -60,11 +60,12 @@ class MailingWebinarTemplateService:
 
     def get_program(self) -> str:
         """Get program"""
-        lines = self.webinar.program_markdown.split("\n")
-        new_program = ""
-        for idx in range(int(len(lines) / 1.5)):
-            new_program += f"{lines[idx]}\n"
-        return markdown(new_program)
+        # lines = self.webinar.program_markdown.split("\n")
+        # new_program = ""
+        # for idx in range(int(len(lines) / 1.5)):
+        #     new_program += f"{lines[idx]}\n"
+        # return markdown(new_program)
+        return markdown(self.webinar.program_markdown)
 
     def get_title(self) -> str:
         """Get title"""  # TODO

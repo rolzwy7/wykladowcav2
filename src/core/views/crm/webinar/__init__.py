@@ -3,6 +3,7 @@ from .crm_upcoming_webinars import crm_upcoming_webinars
 from .crm_webinar_assets import crm_webinar_assets
 from .crm_webinar_certificates import crm_webinar_certificates
 from .crm_webinar_detail_dashboard import crm_webinar_detail_dashboard
+from .crm_webinar_duplicate import crm_webinar_duplicate
 from .crm_webinar_eventlogs import crm_webinar_eventlogs
 from .crm_webinar_export_participants import crm_webinar_export_participants
 from .crm_webinar_invoices import crm_webinar_invoices

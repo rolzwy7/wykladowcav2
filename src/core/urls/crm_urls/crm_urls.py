@@ -12,6 +12,7 @@ from core.views.crm import (
     crm_webinar_assets,
     crm_webinar_certificates,
     crm_webinar_detail_dashboard,
+    crm_webinar_duplicate,
     crm_webinar_eventlogs,
     crm_webinar_export_participants,
     crm_webinar_invoices,
@@ -47,6 +48,11 @@ urlpatterns = [
         "webinar/<int:pk>/eksportuj-uczestnikow/",
         crm_webinar_export_participants,
         name="crm_webinar_export_participants",
+    ),
+    path(
+        "webinar/<int:pk>/duplikuj-szkolenie/",
+        crm_webinar_duplicate,
+        name="crm_webinar_duplicate",
     ),
     path(
         "webinar/<int:pk>/faktury/",

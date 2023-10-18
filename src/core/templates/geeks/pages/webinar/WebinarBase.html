@@ -125,6 +125,9 @@
           {% comment %} Lecturer's card {% endcomment %}
           {% include './components/lecturer_card.html' with lecturer=webinar.lecturer %}
           
+          {% comment %} Related webinars {% endcomment %}
+          {% include './components/related_webinars.html' with related_webinars=related_webinars %}
+          
           {% comment %} Date and hour card {% endcomment %}
           {% include './components/date_and_hour_card.html' with webinar=webinar %}
 
@@ -237,7 +240,9 @@
   <div class="modal-dialog" role="document">
       <div class="modal-content">
           <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Dla pracownika (ID = {{webinar.id}})</h5>
+              <h5 class="modal-title" id="exampleModalLabel">
+                Dla pracownika (ID = {{webinar.id}}) (Token grupujący = {{webinar.grouping_token}})
+              </h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">

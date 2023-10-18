@@ -21,6 +21,7 @@ from .webinar import (
     crm_webinar_assets,
     crm_webinar_certificates,
     crm_webinar_detail_dashboard,
+    crm_webinar_duplicate,
     crm_webinar_eventlogs,
     crm_webinar_export_participants,
     crm_webinar_invoices,

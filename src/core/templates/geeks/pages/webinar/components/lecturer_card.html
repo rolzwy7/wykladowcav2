@@ -6,7 +6,11 @@
     <div class="d-flex align-items-center">
       <div class="position-relative">
         <img
+          {% if lecturer.avatar %}
           src="{% get_media_prefix %}uploads/lecturers/{{lecturer.slug}}_80x80.webp"
+          {% else %}
+          src="{% static "default/default-lecturer-avatar-80x80.webp" %}"
+          {% endif %}
           alt="avatar"
           class="rounded-circle avatar-xl"
         />

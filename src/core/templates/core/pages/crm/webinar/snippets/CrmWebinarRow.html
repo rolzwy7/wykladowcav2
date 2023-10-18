@@ -86,15 +86,24 @@
         {% endif %}
     </td>
     <td>
+        <span
         {% if webinar_ctx.webinar_rating < 15 %}
-        <span class="fs-6 badge badge-light">
+            class="fs-6 badge badge-light"
         {% elif webinar_ctx.webinar_rating < 30 %}
-        <span class="fs-6 badge badge-secondary">
+            class="fs-6 badge badge-secondary"
         {% elif webinar_ctx.webinar_rating <= 50 %}
-        <span class="fs-6 badge badge-dark">
+            class="fs-6 badge badge-dark"
         {% elif webinar_ctx.webinar_rating >= 50 %}
-        <span class="fs-6 badge badge-success">
+            class="fs-6 badge badge-success"
+        {% elif webinar_ctx.webinar_rating >= 75 %}
+            class="fs-6 badge badge-danger"
         {% endif %}
+            data-bs-toggle="tooltip"
+            data-bs-custom-class="tooltip-inverse"
+            data-bs-placement="top"
+            title="M {{webinar_ctx.click_count_mailing}} / FB {{webinar_ctx.click_count_facebook}}"
+            style="cursor: pointer;" 
+        >
             <b>Rating: {{webinar_ctx.webinar_rating|floatformat:"0"}} / 100</b>
         </span>
     </td>

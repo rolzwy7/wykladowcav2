@@ -62,7 +62,12 @@
                         <!--begin: Pic-->
                         <div class="me-7 mb-4">
                             <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
+                                {% if webinar.lecturer.avatar %}
                                 <img src="{% get_media_prefix %}uploads/lecturers/{{webinar.lecturer.slug}}_160x160.webp" alt="image" />
+                                {% else %}
+                                <img src="{% static "default/default-lecturer-avatar-160x160.webp" %}" alt="image" />
+                                {% endif %}
+                                
                                 {% comment %} <div class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-body h-20px w-20px"></div> {% endcomment %}
                             </div>
                         </div>

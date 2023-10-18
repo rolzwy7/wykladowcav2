@@ -19,6 +19,7 @@ def webinar_program_page(request, slug: str):
         {
             "META__TITLE": webinar.title,
             "webinar": webinar,
+            "related_webinars": webinar_service.get_related_webinars(),
             "webinar_tabs": webinar_service.get_webinar_tabs(0),
             "lecturer_service": lecturer_service,
         },
