@@ -25,6 +25,16 @@
   <!--end::Page title-->
   <!--begin::Actions-->
   <div class="d-flex align-items-center py-1">
+
+      <a
+        href="."
+        class="btn btn-icon btn-secondary me-4"
+        data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" data-bs-placement="top" title="Odśwież listę"
+      >
+        <i class="ki-solid ki-arrows-circle fs-4">
+        </i>
+      </a>
+
       <!--begin::Button-->
       <a 
           href="{% url 'admin:core_webinar_add' %}"

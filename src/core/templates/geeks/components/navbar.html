@@ -1225,12 +1225,15 @@
         </li>
         {% endcomment %}
         
-        {% comment %} <li class="nav-item dropdown dropdown-fullwidth">
+        
+        {% if 1 %}
+
+        <li class="nav-item dropdown dropdown-fullwidth">
           <a class="nav-link dropdown-toggle" href="{% url 'core:webinar_all_categries_page' %}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Szkolenia Online
           </a>
           
-          <a
+          {% comment %} <a
             class="btn btn-light-primary text-primary"
             href="home-academy.html#"
             data-bs-toggle="dropdown"
@@ -1238,23 +1241,14 @@
             aria-expanded="false"
           >
           <i class="fe fe-list me-2 align-middle"></i>Szkolenia Online
-          </a>
+          </a> {% endcomment %}
 
-          <div class="dropdown-menu dropdown-menu-md">
+          <div class="dropdown-menu dropdown-menu-md" style="max-width:2000px;">
             <div class="px-4 pt-2 pb-2">
               <div class="row">
-                <div class="col-12">
-                  <div class="lh-1 mb-5">
-                    <h3 class="mb-1">Earn a Degree</h3>
-                    <p>
-                      Breakthrough pricing on 100% online degrees designed to
-                      fit into your life.
-                    </p>
-                  </div>
-                </div>
                 <div class="col-lg-4 col-12">
                   <div class="border-bottom pb-2 mb-3">
-                    <h5 class="mb-0">Degrees</h5>
+                    <h5 class="mb-0">Kategorie szkoleń</h5>
                   </div>
                   <div class="">
                     <a href="home-academy.html#">
@@ -1313,16 +1307,15 @@
                     </a>
                     <div class="mt-4">
                       <a
-                        href="home-academy.html#"
+                        href="{% url 'core:webinar_category_page' slug="wszystkie" %}"
                         class="btn btn-outline-primary btn-sm"
-                        >View all degree</a
-                      >
+                      >Wszystkie kategorie</a>
                     </div>
                   </div>
                 </div>
                 <div class="col-lg-4 col-12 mt-4 mt-lg-0">
                   <div class="border-bottom pb-2 mb-3">
-                    <h5 class="mb-0">Certificate Programs</h5>
+                    <h5 class="mb-0">Wykładowcy</h5>
                   </div>
                   <div class="">
                     <a href="home-academy.html#">
@@ -1369,17 +1362,6 @@
                         </div>
                       </div>
                     </a>
-                    <a href="home-academy.html#">
-                      <div class="d-flex mb-3">
-                        <img src="{% static 'geeks/assets/images/png/meta.png' %}" alt="" />
-                        <div class="ms-2">
-                          <small class="text-body"
-                            >University of Colorado</small
-                          >
-                          <h6 class="mb-0">Meta Marketing Analytics</h6>
-                        </div>
-                      </div>
-                    </a>
                     <div class="mt-4">
                       <a
                         href="home-academy.html#"
@@ -1391,7 +1373,7 @@
                 </div>
                 <div class="col-lg-4 col-12 mt-4 mt-lg-0">
                   <div class="border-bottom pb-2 mb-3">
-                    <h5 class="mb-0">Popular Skills</h5>
+                    <h5 class="mb-0">Terminy szkoleń</h5>
                   </div>
                   <div class="">
                     <ul class="nav flex-column">
@@ -1442,15 +1424,38 @@
                     </div>
                   </div>
                 </div>
+                <div class="col-12 border-top border-light mt-3">
+                  <div class="lh-1 mt-3">
+                    <h3 class="mb-1">Polecaj i Zarabiaj (10% prowizij dla Ciebie!)</h3>
+                    <p>
+                      <span class="mb-2">
+                        Jesteś księgową, kadrową lub innym specjalistą korzystającym z naszej ofert szkoleniowej?
+                      </span>
+                      <br>
+                      <span>
+                        Weź udział w naszym programie partnerskim i zarabiaj prowizję za każde polecenie! - 
+                      <a class="fw-bold" href="{% url "core:loyalty_program_info_page" %}">
+                        Sprawdź szczegóły
+                      </a>
+                      </span>
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </li> {% endcomment %}
+        </li>
+
+        {% else %}
+        
         <li class="nav-item active">
           <a class="nav-link" href="{% url 'core:webinar_category_page' slug="wszystkie" %}">
             Szkolenia Online
           </a>
         </li>
+
+        {% endif %}
+
         <li class="nav-item active">
           <a class="nav-link" href="{% url 'core:about_us_page' %}">
             Kim jesteśmy?

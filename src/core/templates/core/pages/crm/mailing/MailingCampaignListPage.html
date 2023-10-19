@@ -24,12 +24,19 @@
             <!--end::Page title-->
             <!--begin::Actions-->
             <div class="d-flex align-items-center py-1">
+                <a 
+
+                href="{% url 'admin:core_mailingcampaign_add' %}"
+                class="btn btn-flex btn-sm btn-primary fw-bold border-0 fs-6 h-40px me-2"
+                >
+                    Dodaj kampanie
+                </a>
                 <!--begin::Button-->
                 {% if show_all %}
                 <a 
 
                     href="{% url 'core:crm_mailing_campaigns_list' %}"
-                    class="btn btn-flex btn-sm btn-danger fw-bold border-0 fs-6 h-40px me-2"
+                    class="btn btn-flex btn-sm btn-secondary fw-bold border-0 fs-6 h-40px me-2"
                 >
                     Ukryj zakończone
                 </a>
@@ -37,7 +44,7 @@
                 <a 
 
                     href="{% url 'core:crm_mailing_campaigns_list' %}?show_all=1"
-                    class="btn btn-flex btn-sm btn-primary fw-bold border-0 fs-6 h-40px me-2"
+                    class="btn btn-flex btn-sm btn-secondary fw-bold border-0 fs-6 h-40px me-2"
                 >
                     Pokaż wszystkie
                 </a>

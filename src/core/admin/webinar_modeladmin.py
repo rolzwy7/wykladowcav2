@@ -49,10 +49,9 @@ class WebinarModelAdmin(ModelAdmin):
             None,
             {
                 "fields": [
-                    "is_confirmed",
-                    "remaining_places",
-                    "recording_allowed",
+                    ("is_confirmed", "remaining_places", "recording_allowed"),
                     ("status", "slug"),
+                    ("date", "duration"),
                     ("lecturer", "grouping_token"),
                     "title_original",
                     "title",
@@ -60,12 +59,12 @@ class WebinarModelAdmin(ModelAdmin):
                 ],
             },
         ),
-        (
-            "Data",
-            {
-                "fields": ["date", "duration"],
-            },
-        ),
+        # (
+        #     "Data",
+        #     {
+        #         "fields": ["date", "duration"],
+        #     },
+        # ),
         (
             "Cena",
             {

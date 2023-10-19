@@ -1,4 +1,5 @@
 from celery import chain, group
+from django.template.defaultfilters import date as _date
 
 from core.consts import TelegramChats
 from core.models import (
@@ -49,7 +50,10 @@ def after_application_sent_dispatch(
             ],
         ),
         task_send_telegram_notification.si(
-            "Wysłano zgłoszenie na szkolenie "
+            "Wysłano zgłoszenie na szkolenie\n"
+            f"Wykładowca: {webinar.lecturer}\n"
+            f"Data: {_date(webinar.date, 'j E Y')} "
+            f"godz. {_date(webinar.date, 'H:i')}\n"
             f"#{webinar_id}: {webinar.title_original}",
             TelegramChats.APPLICATIONS,
         ),
