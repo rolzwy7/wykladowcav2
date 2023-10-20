@@ -40,10 +40,30 @@
           
                 <tr>
                   <td style="{{td_classes|safe}}padding-top:15px;">
-                    <strong style="font-weight: bold">Termin webinaru:</strong> 
-                    {{webinar.date|date:"j E Y"}} godzina {{webinar.date|date:"H:i"}}
+                    <strong style="font-weight: bold">Terminy webinaru:</strong> 
                   </td>
                 </tr>
+                
+                <tr>
+                  <td style="{{td_classes|safe}}padding-top:15px;">
+                    <ul>
+                        <li>
+                          <a href="{{BASE_URL}}{% url "core:webinar_redirect_to_program" pk=webinar.pk %}">
+                            {{webinar.date|date:"j E Y"}} godzina {{webinar.date|date:"H:i"}}
+                          </a>
+                        </li>
+                        {% for related_webinar in related_webinars %}
+                        <li style="margin-top:5px;">
+                          <a href="{{BASE_URL}}{% url "core:webinar_redirect_to_program" pk=related_webinar.pk %}">
+                            {{related_webinar.date|date:"j E Y"}} godzina {{related_webinar.date|date:"H:i"}}
+                          </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                  </td>
+                </tr>
+                
+
                 
                 <tr>
                   <td style="{{td_classes|safe}}padding-top:5px;">
@@ -69,7 +89,7 @@
                 </tr>
                 <tr>
                   <td style="{{td_classes|safe}}padding-top:5px;">
-                    <strong style="font-weight: bold; color: #FF6347;">
+                    <strong style="font-weight: bold;">
                       Stara cena {{webinar.price_netto}}zł. Zniżka trwa do {{webinar.discount_until|date:"j E Y"}} godz. {{webinar.discount_until|date:"H:i"}}
                     </strong> 
                   </td>

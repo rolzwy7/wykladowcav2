@@ -74,21 +74,36 @@ data-kt-sticky-zindex="95"
     </a>
   </div>
   <!--end::Menu item-->
-      <!--begin::Menu item-->
-      <div class="menu-item">
-        <a
-          href="{% url 'core:crm_blacklist_paste' %}"
-          class="menu-link {% if request.path|startswith:'/crm/czarna-lista/' %}active{% endif %}"
-        >
-        <span class="menu-icon">
-          <i class="ki-duotone ki-cross-square fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
-        </span>
-        <span class="menu-title">
-          Czarna lista
-        </span>
-        </a>
-      </div>
-      <!--end::Menu item-->
+  <!--begin::Menu item-->
+  <div class="menu-item">
+    <a
+      href="{% url 'core:crm_blacklist_paste' %}"
+      class="menu-link {% if request.path|startswith:'/crm/czarna-lista/' %}active{% endif %}"
+    >
+    <span class="menu-icon">
+      <i class="ki-duotone ki-cross-square fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+    </span>
+    <span class="menu-title">
+      Czarna lista
+    </span>
+    </a>
+  </div>
+  <!--end::Menu item-->
+  <!--begin::Menu item-->
+  <div class="menu-item">
+    <a
+      href="{% url 'core:crm_resignations_plaintext' %}"
+      class="menu-link"
+    >
+    <span class="menu-icon">
+      <i class="ki-duotone ki-cross-square fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+    </span>
+    <span class="menu-title">
+      Rezygnacje
+    </span>
+    </a>
+  </div>
+  <!--end::Menu item-->
   <!--begin::Menu item-->
   <div class="menu-item">
     <a

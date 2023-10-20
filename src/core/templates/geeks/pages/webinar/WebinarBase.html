@@ -29,6 +29,9 @@
           <div>
             <h1 class="text-white display-4 fw-semibold">
               {{webinar.title}}
+              {% if request.user.is_staff and webinar.is_fake %}
+              <span class="bg-danger py-2">FAKE'OWY TERMIN</span>
+              {% endif %}
             </h1>
             {% if webinar.description %}  
               <p class="text-white mb-6 lead">
@@ -273,10 +276,16 @@
                 <i>{{META__BASE_URL}}{% url "core:webinar_redirect_to_program" pk=webinar.pk %}</i>
               </p>
               
-              <p class="fw-bold mb-1">Krótki link (facebook)</p>
+              <p class="fw-bold mb-1">Krótki link (Social / Facebook)</p>
               <p class="mb-1">Zlicza kliknięcia</p>
               <p>
                 <i>{{META__BASE_URL}}{% url "core:webinar_redirect_to_program_facebook" pk=webinar.pk %}</i>
+              </p>
+
+              <p class="fw-bold mb-1">Krótki link (Push / OneSignal)</p>
+              <p class="mb-1">Zlicza kliknięcia</p>
+              <p>
+                <i>{{META__BASE_URL}}{% url "core:webinar_redirect_to_program_onesignal" pk=webinar.pk %}</i>
               </p>
               
               <h3>Rezygnacje</h3>

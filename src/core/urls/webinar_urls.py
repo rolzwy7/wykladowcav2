@@ -10,6 +10,7 @@ from core.views.webinar import (
     webinar_redirect_to_application,
     webinar_redirect_to_program,
     webinar_redirect_to_program_facebook,
+    webinar_redirect_to_program_onesignal,
 )
 from core.views.webinar_cancellation import webinar_cancellation_page
 from core.views.webinar_moving import (
@@ -29,6 +30,11 @@ urlpatterns = [
         "<int:pk>/facebook/",
         webinar_redirect_to_program_facebook,
         name="webinar_redirect_to_program_facebook",
+    ),
+    path(
+        "<int:pk>/push-onesignal/",
+        webinar_redirect_to_program_onesignal,
+        name="webinar_redirect_to_program_onesignal",
     ),
     path(
         "<int:pk>/zgloszenie/",

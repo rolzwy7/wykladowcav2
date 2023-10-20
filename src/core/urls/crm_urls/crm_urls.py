@@ -5,6 +5,7 @@ from core.views.crm import (
     crm_blacklist_paste,
     crm_contact_messages,
     crm_eventlogs,
+    crm_resignations_plaintext,
     crm_take_over_account,
     crm_todos_done_list,
     crm_todos_list,
@@ -141,6 +142,11 @@ urlpatterns = [
         "czarna-lista/",
         crm_blacklist_paste,
         name="crm_blacklist_paste",
+    ),
+    path(
+        "rezygnacje/",
+        crm_resignations_plaintext,
+        name="crm_resignations_plaintext",
     ),
     # Tasks
     path(

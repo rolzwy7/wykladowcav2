@@ -49,7 +49,10 @@ class WebinarModelAdmin(ModelAdmin):
             None,
             {
                 "fields": [
-                    ("is_confirmed", "remaining_places", "recording_allowed"),
+                    "is_confirmed",
+                    "remaining_places",
+                    "recording_allowed",
+                    "is_fake",
                     ("status", "slug"),
                     ("date", "duration"),
                     ("lecturer", "grouping_token"),

@@ -198,6 +198,8 @@ class CrmWebinarService:
         gathered_participants_count = gathered_participants.count()
         return {
             "webinar": self.webinar,
+            "is_fake": self.webinar.is_fake,
+            "grouping_token": self.webinar.grouping_token,
             # Sent applications
             "sent_applications": sent_applications,
             "sent_applications_count": sent_applications.count(),

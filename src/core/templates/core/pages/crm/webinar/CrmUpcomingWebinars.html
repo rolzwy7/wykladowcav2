@@ -25,46 +25,54 @@
   <!--end::Page title-->
   <!--begin::Actions-->
   <div class="d-flex align-items-center py-1">
-
       <a
         href="."
         class="btn btn-icon btn-secondary me-4"
         data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" data-bs-placement="top" title="Odśwież listę"
-      >
-        <i class="ki-solid ki-arrows-circle fs-4">
-        </i>
-      </a>
-
-      <!--begin::Button-->
+      ><i class="ki-solid ki-arrows-circle fs-4"></i></a>
       <a 
           href="{% url 'admin:core_webinar_add' %}"
           class="btn btn-flex btn-sm btn-primary fw-bold border-0 fs-6 h-40px"
-      >
-          Dodaj szkolenie
-      </a>
-      <!--end::Button-->
+      >Dodaj szkolenie</a>
   </div>
   <!--end::Actions-->
+</div>
+<!--end::Toolbar-->
+
+
+<!--begin::Toolbar-->
+<div class="toolbar d-flex flex-stack flex-wrap justify-content-end mb-5 mb-lg-7">
+  <!--begin::Actions-->
+  <div class="d-flex align-items-center py-1">
+    {% if param_search %}
+    <a href="{% url "core:crm_upcoming_webinars" %}" class="me-3 fw-bold text-danger">
+      Resetuj wyszukiwanie
+    </a>
+    {% endif %}
+    <form method="get" action="{% url "core:crm_upcoming_webinars" %}">
+      <div class="input-group mb-3">
+        <input value="{{param_search}}" type="text" name="search" class="form-control" placeholder="Szukaj...">
+        <button class="btn btn-secondary" type="submit">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </form>
   </div>
-  <!--end::Toolbar-->
+  <!--end::Actions-->
+</div>
+<!--end::Toolbar-->
 
-  <div class="table-responsive">
-    <table class="table table-bordered  table-row-gray-900" style="border: 1px solid black;">
-      <tbody>
-        {% for webinar_ctx in webinars_ctxs %}
-          {% include './snippets/CrmWebinarRow.html' with webinar_ctx=webinar_ctx %}
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+<div class="table-responsive">
+  <table class="table table-bordered  table-row-gray-900" style="border: 1px solid black;">
+    <tbody>
+      {% for webinar_ctx in webinars_ctxs %}
+        {% include './snippets/CrmWebinarRow.html' with webinar_ctx=webinar_ctx %}
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 
-
-  {% comment %} {% for webinar_ctx in webinars_ctxs %}
-    {% include './snippets/CrmWebinarCard.html' with webinar_ctx=webinar_ctx %}
-  {% endfor %} {% endcomment %}
 
 {% endblock crm_content %}
 
-{% block body_scripts %}
-
-{% endblock body_scripts %}
+{% block body_scripts %}{% endblock body_scripts %}
