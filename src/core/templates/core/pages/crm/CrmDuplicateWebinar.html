@@ -42,7 +42,9 @@
         <ol>
             {% for related_webinar in related_webinars %}
             <li>
-                {{webinar.date|date:"j E Y"}} r., {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}
+                ( ID = {{related_webinar.id}} ) |
+                <a href="{% url "admin:core_webinar_change" object_id=related_webinar.id %}">Edytuj w CMS</a> |
+                 {{related_webinar.date|date:"j E Y"}} r., {{webinar.date|date:"H:i"}} - {{related_webinar.date_end|date:"H:i"}} | {{related_webinar.title}}
             </li>
             {% empty %}
             <li>= Brak powiązanych terminów =</li>

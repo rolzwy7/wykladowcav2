@@ -1,5 +1,24 @@
 {% extends 'geeks/extends/foundation.html' %}
 {% load static %}
+
+
+{% block head_stylesheets %}
+{% block _head_stylesheets %}{% endblock _head_stylesheets %}
+<style>
+  @media only screen and (min-width: 992px) {
+    #WebinarDetailAside {
+      {% with webinar_length=webinar.title|length %}
+      {% if webinar_length <= 30 %}
+      margin-top: -10rem !important
+      {% else %}
+      margin-top: -20rem !important
+      {% endif %}
+      {% endwith %}
+    }
+  }
+</style>
+{% endblock head_stylesheets %}
+
 {% block root %}
 <main>
   <!-- Page header -->
@@ -10,6 +29,9 @@
           <div>
             <h1 class="text-white display-4 fw-semibold">
               {{webinar.title}}
+              {% if request.user.is_staff and webinar.is_fake %}
+              <span class="bg-danger py-2">FAKE'OWY TERMIN</span>
+              {% endif %}
             </h1>
             {% if webinar.description %}  
               <p class="text-white mb-6 lead">
@@ -118,8 +140,8 @@
           </div>
         </div>
         <div
+          id="WebinarDetailAside"
           class="col-lg-4 col-md-12 col-12 mt-lg-n22"
-          style="margin-top: -20rem !important"
         >
 
           {% comment %} Lecturer's card {% endcomment %}
@@ -254,10 +276,16 @@
                 <i>{{META__BASE_URL}}{% url "core:webinar_redirect_to_program" pk=webinar.pk %}</i>
               </p>
               
-              <p class="fw-bold mb-1">Krótki link (facebook)</p>
+              <p class="fw-bold mb-1">Krótki link (Social / Facebook)</p>
               <p class="mb-1">Zlicza kliknięcia</p>
               <p>
                 <i>{{META__BASE_URL}}{% url "core:webinar_redirect_to_program_facebook" pk=webinar.pk %}</i>
+              </p>
+
+              <p class="fw-bold mb-1">Krótki link (Push / OneSignal)</p>
+              <p class="mb-1">Zlicza kliknięcia</p>
+              <p>
+                <i>{{META__BASE_URL}}{% url "core:webinar_redirect_to_program_onesignal" pk=webinar.pk %}</i>
               </p>
               
               <h3>Rezygnacje</h3>

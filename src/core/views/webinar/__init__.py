@@ -9,4 +9,5 @@ from .webinar_redirects import (
     webinar_redirect_to_application,
     webinar_redirect_to_program,
     webinar_redirect_to_program_facebook,
+    webinar_redirect_to_program_onesignal,
 )

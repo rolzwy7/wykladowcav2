@@ -4,6 +4,7 @@ from django.template.response import TemplateResponse
 
 from core.models import Webinar
 from core.services.mailing import MailingWebinarTemplateService
+from core.services.webinar import WebinarService
 
 
 def webinar_mailing_template_page(
@@ -15,6 +16,7 @@ def webinar_mailing_template_page(
     )
     webinar = get_object_or_404(Webinar, pk=pk)
     webinar_template_service = MailingWebinarTemplateService(webinar)
+    webinar_service = WebinarService(webinar)
 
     return TemplateResponse(
         request,
@@ -22,5 +24,6 @@ def webinar_mailing_template_page(
         {
             **webinar_template_service.get_context(),
             "webinar": webinar,
+            "related_webinars": webinar_service.get_related_webinars(),
         },
     )

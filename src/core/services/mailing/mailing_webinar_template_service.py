@@ -58,6 +58,27 @@ class MailingWebinarTemplateService:
         """Get read more href URL"""
         return f"Czytaj cały program webinaru na stronie {COMPANY_NAME}"
 
+    def apply_antispam(self, content: str):
+        """Apply antispam measures"""
+        ret: str = content
+        replace_map = {
+            "osobow": "oso;bow",
+            "dyrektyw": "dyre;ktyw",
+            "zgoda": "zgo;da",
+            "szkolen": "szko;len",
+            "kurs": "ku;rs",
+            "nabyć": "na;być",
+            "nabycia": "na;bycia",
+            "publicz": "pub;licz",
+            "w celu": "w ce;lu",
+            "finans": "fina;ns",
+        }
+        for original, replacement in replace_map.items():
+            ret = ret.replace(original, replacement)
+            ret = ret.replace(original.upper(), replacement)
+            ret = ret.replace(original.capitalize(), replacement)
+        return ret
+
     def get_program(self) -> str:
         """Get program"""
         # lines = self.webinar.program_markdown.split("\n")
@@ -65,7 +86,7 @@ class MailingWebinarTemplateService:
         # for idx in range(int(len(lines) / 1.5)):
         #     new_program += f"{lines[idx]}\n"
         # return markdown(new_program)
-        return markdown(self.webinar.program_markdown)
+        return self.apply_antispam(markdown(self.webinar.program_markdown))
 
     def get_title(self) -> str:
         """Get title"""  # TODO

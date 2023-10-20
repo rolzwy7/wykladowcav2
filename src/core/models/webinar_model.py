@@ -109,6 +109,8 @@ class Webinar(Model):
         help_text="Pokaż `Pewny termin` przy szkoleniu na stronie",  # noqa
     )
 
+    is_fake = BooleanField("Fake'owy termin", default=False)
+
     recording_allowed = BooleanField(
         "Nagrania dostępne",
         default=False,
