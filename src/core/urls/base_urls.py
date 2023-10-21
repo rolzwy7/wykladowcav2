@@ -40,7 +40,7 @@ urlpatterns = [
     path("zgloszenie-online/", include(application_urlpatterns)),
     path("przypomnij-haslo/", include(forgot_password_urlpatterns)),
     path("rejestracja/", include(registration_urlpatterns)),
-    path("wykladowcy/", lecturer_list_page, name="lecturer_list_page"),
+    path("wykladowcy/", lecturer_list_page, name="all_lecturers_list_page"),
     path("wykladowca/", include(lecturer_urlpatterns)),
     path("crm/", include(crm_urlpatterns)),
     path("logowanie/", login_page, name="login_page"),

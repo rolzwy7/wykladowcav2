@@ -1226,7 +1226,7 @@
         {% endcomment %}
         
         
-        {% if 1 %}
+        {% if 0 %}
 
         <li class="nav-item dropdown dropdown-fullwidth">
           <a class="nav-link dropdown-toggle" href="{% url 'core:webinar_all_categries_page' %}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -1315,7 +1315,11 @@
                 </div>
                 <div class="col-lg-4 col-12 mt-4 mt-lg-0">
                   <div class="border-bottom pb-2 mb-3">
-                    <h5 class="mb-0">Wykładowcy</h5>
+                    <h5 class="mb-0">
+                      <a href="{% url "core:all_lecturers_list_page" %}">
+                        Nasi wykładowcy
+                      </a>
+                    </h5>
                   </div>
                   <div class="">
                     <a href="home-academy.html#">
@@ -1373,7 +1377,11 @@
                 </div>
                 <div class="col-lg-4 col-12 mt-4 mt-lg-0">
                   <div class="border-bottom pb-2 mb-3">
-                    <h5 class="mb-0">Terminy szkoleń</h5>
+                    <h5 class="mb-0">
+                      <a href="{% url "core:webinar_all_categries_page" %}">
+                        Terminy szkoleń
+                      </a>
+                    </h5>
                   </div>
                   <div class="">
                     <ul class="nav flex-column">

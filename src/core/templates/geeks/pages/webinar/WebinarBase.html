@@ -16,6 +16,21 @@
       {% endwith %}
     }
   }
+
+  @media only screen and (min-width: 992px) {
+    display: none;
+  }
+
+  @media only screen and (max-width: 992px) {    
+    #MobileFloatingTab {
+      position: fixed;
+      bottom:0;
+      width:100%;
+      height: 100px;
+      background-color: white;
+    }
+  }
+
 </style>
 {% endblock head_stylesheets %}
 
@@ -239,6 +254,38 @@
     </div>
   </section>
 </main>
+
+<div id="MobileFloatingTab" class="shadow">
+  <div class="d-flex justify-content-between align-items-center px-4" style="height: 100%;">
+
+    <div>
+      <p style="font-size: 0.8rem;">
+        <b>Data</b>: {{webinar.date|date:"j.n.Y"}} <br>
+        <b>Godzina</b>: {{webinar.date|date:"H:i"}} <br>
+        {% if webinar.is_discounted %}
+          <b>Cena</b>: {{webinar.price}}zł 
+          <span class="text-decoration-line-through text-danger me-1">
+            {{webinar.price_netto}}zł
+          </span>
+        {% else %}
+          <b>Cena</b>: {{webinar.price}}zł 
+        {% endif %}
+      </p>
+
+    </div>
+
+    <div>
+      <a
+        href="{% url 'core:application_type_page' pk=webinar.pk %}"
+        class="btn btn-danger"
+        style="background-color: #f1416c; font-size: 0.8rem;">
+        Zapisz się na szkolenie
+      </a>
+    </div>
+  
+  </div>
+
+</div>
 
 <div class="modal fade" id="askQuestionModal" tabindex="-1" role="dialog" aria-labelledby="askQuestionModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">

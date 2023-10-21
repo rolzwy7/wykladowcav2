@@ -1,0 +1,66 @@
+{% extends 'geeks/extends/foundation.html' %}
+{% load static %}
+{% block root %}
+
+<main>
+	<section class="pt-5 pb-5">
+		<div class="container">
+
+			<div class="row align-items-center">
+				<!-- User info -->
+				<div class="col-xl-12 col-lg-12 col-md-12 col-12">
+                        <!-- Bg -->
+                        <div class="pt-16 rounded-top" style="
+                            background: url({% static 'geeks/assets/images/background/profile-bg.jpg' %}) no-repeat;
+                            background-size: cover;
+                        "></div>
+						<div class="card px-4 pt-2 pb-2 shadow-sm rounded-top-0 rounded-bottom-0 rounded-bottom-md-2 ">
+							<div class="d-flex align-items-end justify-content-between  ">
+								<div class="d-flex align-items-center">
+									<div class="lh-1">
+										<h1 class="mb-0">Nasi wykładowcy</h1>
+										<p class="mb-0 d-block">{{lecturer.profession}}</p>
+									</div>
+								</div>
+							</div>
+						</div>
+				</div>
+			</div>
+            
+
+            {% for category, lecturers in category_lecturers_map.items %}
+                {% if lecturers %}
+                
+                    <div class="row mt-0 mt-md-4">
+                        <div class="col-lg-12 col-md-12 col-12">
+                            <div class="card px-4 pt-2 pb-2 shadow-sm ">
+                                <div class="d-flex align-items-end justify-content-between  ">
+                                    <div class="d-flex align-items-center">
+                                        <div class="lh-1">
+                                            <h2 class="mb-0">{{category.name}}</h2>
+                                            {% if category.short_description %}
+                                                <p class="mb-0 d-block">{{category.short_description}}</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        {% for lecturer in lecturers %}
+                            <div class="col-lg-6 col-md-6 col-12">
+                                {% include "geeks/components/lecturer_card.html" with lecturer=lecturer classes="mt-4" %}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                {% endif %}
+            {% endfor %}
+
+		</div>
+	</section>
+</main>
+
+{% endblock root %}
