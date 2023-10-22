@@ -150,10 +150,12 @@
             data-bs-toggle="tooltip"
             data-bs-custom-class="tooltip-inverse"
             data-bs-placement="top"
-            title="M {{webinar_ctx.click_count_mailing}} / FB {{webinar_ctx.click_count_facebook}}"
-            style="cursor: pointer;" 
         >
             <b>Rating: {{webinar_ctx.webinar_rating|floatformat:"0"}} / 100</b>
+        </span>
+        <br>
+        <span class="badge badge-light mt-2">
+            M {{webinar_ctx.click_count_mailing}} / FB {{webinar_ctx.click_count_facebook}} / PUSH {{webinar_ctx.click_count_onesignal}}
         </span>
     </td>
 </tr>

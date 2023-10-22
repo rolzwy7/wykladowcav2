@@ -221,6 +221,7 @@ class CrmWebinarService:
             # Clicks
             "click_count_mailing": webinar_metadata.click_count_mailing,
             "click_count_facebook": webinar_metadata.click_count_facebook,
+            "click_count_onesignal": webinar_metadata.click_count_onesignal,
             # Webinar rating
             "webinar_rating": self.get_webinar_rating(
                 gathered_participants_count,

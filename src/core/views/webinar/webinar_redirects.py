@@ -22,7 +22,7 @@ def webinar_redirect_to_program_onesignal(request: HttpRequest, pk: int):
     """Redirect to webinar program by webinar ID"""
     webinar: Webinar = get_object_or_404(Webinar, pk=pk)
     metadata = WebinarMetadata.objects.get(webinar=webinar)
-    metadata.click_count_mailing += 1
+    metadata.click_count_onesignal += 1
     metadata.save()
 
     return redirect(

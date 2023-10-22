@@ -32,26 +32,51 @@
                         Witaj!
                     </p>
                     <p style="margin: 1em 0;">
-                        Zapraszam Cię do dołączenia do naszego najnowszego cyklu webinarów online, które organizujemy przy współpracy z wykładowcą: {{lecturer.fullname}}.
-                        Możesz wybrać jedno z interesujących Cię webinarów!
+                        Zapraszam Cię do dołączenia do naszego najnowszego cyklu webinarów online, które organizujemy przy współpracy z wykładowcą
+                        <b>{{lecturer.fullname}}</b>.
                     </p>
-                    <hr style="border-width: 0; background: #000; color: #000; height:0.2em">
-                    <p style="margin: 1em 0;">Poniżej znajdziesz wszystkie dostępne szkolenia z tego cyklu:</p>
+                    <p style="margin: 1em 0;">Poniżej znajdziesz wszystkie dostępne terminy z tego cyklu:</p>
                   </td>
                 </tr>
                 
-                {% for pack in webinars_packed %}
-                <tr>
-                    {% for webinar in pack %}
-                        <td width="33.33%" style="{{td_classes|safe}}text-align:center;">
-                            <p style="margin: 1em 0;font-weight:bold;"><strong>{{webinar.title}}</strong></p>
-                            <p style="margin: 1em 0;">{{webinar.date|date:"j E Y"}} godzina {{webinar.date|date:"H:i"}}</p>
-                            
-                            <a href="{% url "core:webinar_redirect_to_program" pk=webinar.pk %}" style="background-color:#005959; text-decoration: none; padding: .5em 2em; color: #FCFDFF; display:inline-block; border-radius:.4em; mso-padding-alt:0;text-underline-color:#005959"><!--[if mso]><i style="mso-font-width:200%;mso-text-raise:100%" hidden>&emsp;</i><span style="mso-text-raise:50%;"><![endif]-->Sprawdź program<!--[if mso]></span><i style="mso-font-width:200%;" hidden>&emsp;&#8203;</i><![endif]-->
-                            </a>
-                        </td>
-                    {% endfor %}
-                </tr>
+                {% for duration, grouping_map in webinars_map.items %}
+                  <tr>
+                    <td colspan="2">
+                      <h3 style="padding: 1em 0; margin: 0; font-size:1.17em; text-align: center; background-color: lightgrey;">
+                        Szkolenia trwające {{duration}}
+                      </h3>
+                    </td>
+                  </tr>
+
+                  {% for grouping_token, packed in grouping_map.items %}
+
+                    {% if grouping_token %}
+                      {% for pack in packed %}
+                      <tr>
+                        <td width="50%" style="{{td_classes|safe}}text-align:center;">
+                            <p style="margin: 1em 0;font-weight:bold;"><strong>{{pack.0.title}}</strong></p>
+                              {% for webinar in pack %}
+                                <a href="{% url "core:webinar_redirect_to_program" pk=webinar.pk %}" style="margin-bottom:0.5em; background-color:#005959; text-decoration: none; padding: .5em 2em; color: #FCFDFF; display:inline-block; border-radius:.4em; mso-padding-alt:0;text-underline-color:#005959"><!--[if mso]><i style="mso-font-width:200%;mso-text-raise:100%" hidden>&emsp;</i><span style="mso-text-raise:50%;"><![endif]-->{{webinar.date|date:"j E"}} godzina {{webinar.date|date:"H:i"}}<!--[if mso]></span><i style="mso-font-width:200%;" hidden>&emsp;&#8203;</i><![endif]--></a>
+                                <br>
+                              {% endfor %}
+                          </td>
+                      </tr>
+                      {% endfor %}
+                    {% else %}
+                      {% for pack in packed %}
+                      <tr>
+                          {% for webinar in pack %}
+                              <td width="50%" style="{{td_classes|safe}}text-align:center;">
+                                  <p style="margin: 1em 0;font-weight:bold;"><strong>{{webinar.title}}</strong></p>
+                                  <a href="{% url "core:webinar_redirect_to_program" pk=webinar.pk %}" style="margin-bottom:0.5em; background-color:#005959; text-decoration: none; padding: .5em 2em; color: #FCFDFF; display:inline-block; border-radius:.4em; mso-padding-alt:0;text-underline-color:#005959"><!--[if mso]><i style="mso-font-width:200%;mso-text-raise:100%" hidden>&emsp;</i><span style="mso-text-raise:50%;"><![endif]-->{{webinar.date|date:"j E"}} godzina {{webinar.date|date:"H:i"}}<!--[if mso]></span><i style="mso-font-width:200%;" hidden>&emsp;&#8203;</i><![endif]--></a>
+                              </td>
+                          {% endfor %}
+                      </tr>
+                      {% endfor %}
+                    {% endif %}
+
+                  {% endfor %}
+
                 {% endfor %}
 
               </tbody>
