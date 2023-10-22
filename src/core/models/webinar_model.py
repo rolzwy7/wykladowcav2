@@ -321,6 +321,9 @@ class WebinarMetadata(Model):
 
     assets_token = UUIDField("Token dostępu do materiałów", default=uuid.uuid4)
 
+    click_count_onesignal = PositiveIntegerField(
+        "Kliknięcia Onesignal", default=0
+    )
     click_count_mailing = PositiveIntegerField("Kliknięcia Mailing", default=0)
     click_count_facebook = PositiveIntegerField(
         "Kliknięcia Facebook", default=0
