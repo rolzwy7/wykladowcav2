@@ -33,18 +33,22 @@
              <h4 class="mb-0">{{lecturer.fullname}}</h4>
              <p class="mb-0 fs-6">{{lecturer.profession}}</p>
              <p class="fs-6 text-muted">
-                <span class="me-2">
-                <span class="text-dark fw-medium">
-                {{lecturer.fake_stat_webinars}}
-                </span>
-                Zrealizowanych szkoleń
-                </span>
-                <span class="ms-2">
-                <span class="text-dark fw-medium">
-                {{lecturer.fake_stat_participants}}
-                </span>
-                Uczestników
-                </span>
+               {% if lecturer.fake_stat_webinars %}
+               <span class="me-2">
+                  <span class="text-dark fw-medium">
+                     {{lecturer.fake_stat_webinars}}
+                  </span>
+                  Zrealizowanych szkoleń
+               </span>
+               {% endif %}
+               {% if lecturer.fake_stat_participants %}
+               <span {% if lecturer.fake_stat_webinars %}class="ms-2"{% endif %}>
+                  <span class="text-dark fw-medium">
+                     {{lecturer.fake_stat_participants}}
+                  </span>
+                  Uczestników
+               </span>
+               {% endif %}
              </p>
              <p>
                 {{lecturer.biography_email|truncatechars:150}}

@@ -14,6 +14,18 @@ class MailingCampaignService:
         """Get count of all emails that are in given campaign"""
         return MailingPoolManager().get_email_count_for_campaign(campaign_id)
 
+    def get_spam_phrases(self):
+        """Get spam phrases"""
+        ret = []
+        if self.mailing_campaign.template:
+            template_text = self.mailing_campaign.template.text
+            spam_phrases = ["credit", "kredyt", "free", "tax", "life"]
+            for spam_phrase in spam_phrases:
+                if spam_phrase in template_text.lower():
+                    ret.append(spam_phrase)
+
+        return ret
+
     def group_by_count_statuses(self, campaign_id: int):
         """Perform group-by-count operation on statuses"""
         pool_manager = MailingPoolManager()

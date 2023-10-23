@@ -90,5 +90,9 @@ class WebinarCategory(Model):
             return str(self.name)
 
     def save(self, *args, **kwargs) -> None:
-        self.slug = slugify(self.name)
+        if self.parent:
+            self.slug = f"{slugify(self.name)}-{slugify(self.parent.name)}"
+        else:
+            self.slug = slugify(self.name)
+
         return super().save(*args, **kwargs)

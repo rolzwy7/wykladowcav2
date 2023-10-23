@@ -83,4 +83,6 @@ mailing_pool_status_display_map = {
     MailingPoolStatus.INVALID_EMAIL_FORMAT: "Niepoprawny format e-mail",
     MailingPoolStatus.UNEXPECTED_ERROR: "UNEXPECTED_ERROR",
     MailingPoolStatus.SENT: "Wysłano",
+    MailingPoolStatus.SMTP_SERVER_DISCONNECTED: "Smtp błąd połączenia",
+    MailingPoolStatus.CONNECTION_REFUSED: "Odmówiono połączenia",
 }
