@@ -9,7 +9,7 @@ from core.services import ApplicationPdfCardService
 COMPANY_NAME = settings.COMPANY_NAME
 
 
-@cache_page(15 * 60)  # 15m
+@cache_page(10 * 60)  # 10m
 def application_pdf_card(request, uuid: str):
     """Controller for application PDF card rendering"""
     application = get_object_or_404(WebinarApplication, uuid=uuid)

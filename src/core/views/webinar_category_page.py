@@ -9,15 +9,15 @@ def webinar_all_categories_page(request):
     """Webinar all categories page"""
 
     template_name = "geeks/pages/category/WebinarAllCategoriesPage.html"
-    category_name = "Wszystkie szkolenia"
+    category_name = "Wszystkie kategorie szkoleń"
     # short_description = ""
     # webinars = Webinar.manager.homepage_webinars()
 
     subcategories = [
         (
             category,
-            Webinar.manager.get_active_webinars_for_category(
-                category.slug
+            Webinar.manager.get_active_webinars_for_category_slugs(
+                [category.slug]
             ).count(),
         )
         for category in WebinarCategory.manager.get_main_categories()
@@ -43,8 +43,11 @@ def webinar_category_page(request, slug: str):
     category = get_object_or_404(WebinarCategory, slug=slug)
     category_name = category.name
     short_description = category.short_description
-    webinars = Webinar.manager.get_active_webinars_for_category(slug)
+
     subcategories = WebinarCategory.manager.get_subcategories(category)
+
+    slugs = [slug, *[subcategory.slug for subcategory in subcategories]]
+    webinars = Webinar.manager.get_active_webinars_for_category_slugs(slugs)
 
     return TemplateResponse(
         request,

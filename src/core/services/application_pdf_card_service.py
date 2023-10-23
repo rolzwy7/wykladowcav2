@@ -1,5 +1,6 @@
 # flake8: noqa:submitter.email
 # pylint: disable=line-too-long
+# pylint: disable=import-outside-toplevel
 import io
 from decimal import Decimal
 from pathlib import Path
@@ -75,7 +76,7 @@ class ApplicationPdfCardService:
         self.number_of_rows = 13
 
         self.number_of_rows += (
-            self.application_service.get_valid_participants().count()
+            self.application_service.get_all_participants().count()
         )
 
         if self.application.recipient:
@@ -306,7 +307,7 @@ class ApplicationPdfCardService:
             )
         )
 
-        for participant in self.application_service.get_valid_participants():
+        for participant in self.application_service.get_all_participants():
             self.table.add(
                 TableCell(
                     Paragraph(

@@ -80,6 +80,17 @@
         {% endfor %}
     </ol>
 
+    {% if spam_phrases %}
+    <p class="fs-4 mb-1 fw-bold text-danger">
+        Spam frazy:
+    </p>
+    <ol>
+        {% for spam_phrase in spam_phrases %}
+        <li class="fs-4"><span class="text-danger fw-bold">{{spam_phrase}}</span></li>
+        {% endfor %}
+    </ol>
+    {% endif %}
+
     <div class="table-responsive">
         <table class="table">
             <thead>

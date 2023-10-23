@@ -17,6 +17,8 @@ def consts(request):
     """Settings context processor"""
 
     return {
+        "VERSION_NUMBER": settings.VERSION_NUMBER,
+        "VERSION_DATE": settings.VERSION_DATE,
         # Price and Tax
         "PRICE_ADNOTATION": PRICE_ADNOTATION,
         "WE_ARE_TAX_EXEMPT": WE_ARE_TAX_EXEMPT,

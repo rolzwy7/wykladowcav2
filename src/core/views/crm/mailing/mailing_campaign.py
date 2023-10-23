@@ -52,6 +52,7 @@ def crm_mailing_campaign_detail(request, pk: int):
         template_name,
         {
             "mailing_campaign": mailing_campaign,
+            "spam_phrases": service.get_spam_phrases,
             "emails_count": service.get_email_count_for_campaign(
                 mailing_campaign_id
             ),

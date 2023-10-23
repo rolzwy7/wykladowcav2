@@ -28,7 +28,6 @@ from django.template.defaultfilters import timeuntil_filter
 from django.utils.timezone import now, timedelta
 
 from core.consts import SLUG_HELP_TEXT
-from core.utils.text import slugify
 
 from .enums import WebinarDuration, WebinarStatus
 
@@ -74,15 +73,15 @@ class WebinarManager(Manager):
             .order_by("date")
         )
 
-    def get_active_webinars_for_category(
-        self, slug: str
+    def get_active_webinars_for_category_slugs(
+        self, slugs: list[str]
     ) -> QuerySet["Webinar"]:
-        """Returns webinars for given category slug
+        """Returns webinars for given category slugs
 
         Returns:
             QuerySet['Webinar']: queryset of webinars
         """
-        return self.get_active_webinars().filter(categories__slug__in=[slug])
+        return self.get_active_webinars().filter(categories__slug__in=slugs)
 
     def get_active_webinars_for_lecturer(
         self, lecturer_id: int

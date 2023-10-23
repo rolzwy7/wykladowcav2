@@ -365,9 +365,13 @@
                                         <b>{{application.created_at|date:"j E Y"}}</b> {{application.created_at|date:"H:i"}}
                                         <br>
                                         {{application.created_at|date:"l"}}
-                                        <br>
+                                        <br> <br>
                                         <a href="{% url 'admin:core_webinarapplication_change' object_id=application.id %}">
                                             <b>Edytuj w CMS</b>
+                                        </a>
+                                        <br> <br>
+                                        <a target="_blank" href="{% url 'core:application_pdf_card' uuid=application.uuid %}">
+                                            <b>Generuj kartę zgłoszeniową</b>
                                         </a>
                                     </td>
                                     <td class="fs-5">
@@ -388,7 +392,7 @@
                                         <b>Uczestnicy:</b> <br>
                                         {% for participant in gathered_participants %}
                                             {% if participant.application.id == application.id %}
-                                            {{participant.fullname}} - {{participant.email}} - {{participant.phone}} <br>
+                                            {{participant.fullname}} - {{participant.email}} - {{participant.phone|default:"Brak telefonu"}} - <a href="{% url 'admin:core_webinarparticipant_change' object_id=participant.id %}">Edytuj w CRM</a> <br>
                                             {% endif %}
                                         {% endfor %}
 

@@ -1,6 +1,9 @@
 {% extends 'geeks/extends/foundation.html' %}
 {% load static %}
 
+{% block title %}
+  <title>Szkolenie - {{webinar.title}}</title>
+{% endblock title %}
 
 {% block head_stylesheets %}
 {% block _head_stylesheets %}{% endblock _head_stylesheets %}
@@ -8,19 +11,21 @@
   @media only screen and (min-width: 992px) {
     #WebinarDetailAside {
       {% with webinar_length=webinar.title|length %}
-      {% if webinar_length <= 30 %}
+      {% if webinar_length <= 100 %}
       margin-top: -10rem !important
+      {% elif webinar_length <= 150 %}
+      margin-top: -15rem !important
       {% else %}
-      margin-top: -20rem !important
+      margin-top: -25rem !important
       {% endif %}
       {% endwith %}
     }
   }
-
+  
   @media only screen and (min-width: 992px) {
     display: none;
   }
-
+  
   @media only screen and (max-width: 992px) {    
     #MobileFloatingTab {
       position: fixed;

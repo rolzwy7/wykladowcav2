@@ -21,7 +21,7 @@ class WebinarCategoryModelAdmin(ModelAdmin):
     """Webinar Category Model Admin"""
 
     form = WebinarCategoryModelAdminForm
-    prepopulated_fields = {"slug": ("name",)}
+    # prepopulated_fields = {"slug": ("name",)}
     list_display = [
         "name",
         "parent",
