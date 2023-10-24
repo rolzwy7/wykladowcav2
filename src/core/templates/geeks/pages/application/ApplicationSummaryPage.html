@@ -267,27 +267,16 @@
                         onsubmit="actionSubmit.disabled = true; return true;"
                     >
                         {% csrf_token %}
-                        <div class="separator separator-dashed my-1"></div>
+                        <div class="separator separator-dashed my-1"></div> 
                         <div class="d-flex justify-content-center">
-                            <button
-                                type="button"
-                                class="btn btn-warning mt-3 w-100"
-                                data-bs-toggle="modal"
-                                data-bs-target=".modal-card-pdf"
-                            >
-                            Pobierz kartę zgłoszeniową PDF
-                            </button>
+                            <p>
+                                Klikając przycisk <i>„Wyślij zgłoszenie”</i> oświadczam, że zapoznałem się i akceptuję postanowienia
+                                <a href="#" data-bs-toggle="modal" data-bs-target=".modal-terms-of-service">
+                                    <b>Regulaminu Szkoleń</b>
+                                </a>
+                            </p>
                         </div>
-                        <div class="d-flex justify-content-center">
-                            <button
-                                type="button"
-                                class="btn btn-light mt-3 w-100"
-                                data-bs-toggle="modal"
-                                data-bs-target=".modal-terms-of-service"
-                            >
-                            Przeczytaj regulamin szkoleń
-                            </button>
-                        </div>
+
                         <div class="d-flex justify-content-center">
                             <button
                                 name="actionSubmit"
@@ -299,6 +288,24 @@
                             </button>
                         </div>
                     </form>
+
+                    <hr>
+
+                    <p>
+                        Zapisując się Online na szkolenie, <b>nie ma potrzeby</b> dostarczania nam karty zgłoszeniowej. <br>
+                        Karta zgłoszeniowa przeznaczona jest wyłącznie dla indywidualnych potrzeb klientów.
+                    </p>
+
+                    <div class="d-flex justify-content-center">
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-warning w-100"
+                            data-bs-toggle="modal"
+                            data-bs-target=".modal-card-pdf"
+                        >
+                        Pobierz kartę zgłoszeniową PDF
+                        </button>
+                    </div>
                 </div>
                 <!--end::Actions-->
                 {% endif %}

@@ -2,6 +2,7 @@
 from .htmx_crm_application_cancellation import (
     htmx_crm_application_cancellation_toggle,
 )
+from .htmx_crm_check_nip import htmx_crm_check_nip
 from .htmx_crm_email_tagging import (
     htmx_crm_email_tagging_init,
     htmx_crm_email_tagging_toggle,

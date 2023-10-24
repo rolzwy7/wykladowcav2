@@ -83,6 +83,7 @@
     </div>
     <!--end::Col-->
 
+    {% if gathered_participants %}
     <!--start::Col-->
     <div class="col-md-12">
 
@@ -93,7 +94,7 @@
                 data-bs-target="#kt_card_email_copy"
             >
                 <h3 class="card-title">
-                    Wszystkie E-maile uczestników biorących udział w szkoleniu
+                    Wszystkie E-maile uczestników biorących udział w szkoleniu ({{gathered_participants_count}})
                 </h3>
                 <div class="card-toolbar rotate-180">
                     <i class="ki-duotone ki-down fs-1"></i>
@@ -111,7 +112,9 @@
         </div>
     </div>
     <!--end::Col-->
+    {% endif %}
 
+    {% if additional_infos_applications %}
     <!--start::Col-->
     <div class="col-md-12">
 
@@ -121,47 +124,42 @@
                 data-bs-toggle="collapse"
                 data-bs-target="#kt_card_additional_info"
             >
-                <h3 class="card-title">
-                    Uwagi
+                <h3 class="card-title text-danger">
+                    <u>
+                        Uwagi ({{additional_infos_applications_count}})
+                    </u>
                 </h3>
                 <div class="card-toolbar rotate-180">
                     <i class="ki-duotone ki-down fs-1"></i>
                 </div>
             </div>
-            <div id="kt_card_additional_info" class="collapse show">
+            <div id="kt_card_additional_info" class="collapse   ">
                 <div class="card-body">
-                    {% for application in sent_applications %}
-                        {% if application.additional_information %}
-                            <!--begin::Alert-->
-                            <div class="alert alert-danger d-flex align-items-center p-5">
-                                <!--begin::Wrapper-->
-                                <div class="d-flex flex-column">
-                                <!--begin::Title-->
-                                <h4 class="mb-1 text-dark">
-                                    UWAGI:
-                                    {% if application.buyer %}
-                                        {{application.buyer}}
-                                    {% else %}
-                                        {{application.private_person}}
-                                    {% endif %}
-                                </h4>
-                                <!--end::Title-->
-                                <!--begin::Content-->
-                                <span>
-                                    {{application.additional_information}}
-                                </span>
-                                <!--end::Content-->
-                                </div>
-                                <!--end::Wrapper-->
+                    {% for application in additional_infos_applications %}
+                        <div class="alert alert-danger d-flex align-items-center p-5">
+                            <div class="d-flex flex-column">
+                            <h4 class="mb-1 text-dark">
+                                UWAGI:
+                                {% if application.buyer %}
+                                    {{application.buyer}}
+                                {% else %}
+                                    {{application.private_person}}
+                                {% endif %}
+                            </h4>
+                            <span>
+                                {{application.additional_information}}
+                            </span>
                             </div>
-                            <!--end::Alert-->
-                        {% endif %}
+                        </div>
+                    {% empty %}
+                    Brak uwag
                     {% endfor %}
                 </div>
             </div>
         </div>
     </div>
     <!--end::Col-->
+    {% endif %}
 
     {% if webinar.status == "CANCELED" %}
     <!--start::Col-->
@@ -389,6 +387,16 @@
                                             {{application.private_person.fullname}}
                                         {% endif %}
                                         <br><br>
+                                        {% if application.application_type == "COMPANY" or application.application_type == "JSFP" %}
+                                        <div
+                                            hx-get="{% url 'htmx:htmx_crm_check_nip' nip=application.buyer.nip %}"
+                                            hx-trigger="revealed"
+                                            hx-target="this"
+                                            hx-swap="outerHTML"
+                                            >
+                                            <img class="htmx-indicator" width="25" src="{% static "media/loading/bars.svg" %}"/>
+                                        </div>
+                                        {% endif %}
                                         <b>Uczestnicy:</b> <br>
                                         {% for participant in gathered_participants %}
                                             {% if participant.application.id == application.id %}
@@ -407,6 +415,19 @@
 
                                         <br><br>
                                         <b>E-mail do faktury:</b> {{application.invoice.invoice_email}}
+
+                                        {% if application.additional_information %}
+                                        <div class="alert alert-danger d-flex align-items-center p-5">
+                                            <div class="d-flex flex-column">
+                                            <h4 class="mb-1 text-dark">
+                                                Uwagi
+                                            </h4>
+                                            <span>
+                                                {{application.additional_information}}
+                                            </span>
+                                            </div>
+                                        </div>
+                                        {% endif %}
                                     </td>
                                 </tr>
                                 {% endfor %}

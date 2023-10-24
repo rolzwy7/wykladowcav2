@@ -45,6 +45,11 @@ class WebinarService:
                 "core:webinar_opinions_page",
                 "ki-like-shapes",
             ),
+            (
+                "Certyfikat",
+                "core:webinar_certificate_page",
+                "ki-like-shapes",
+            ),
             # (
             #     "Polecja i Zarabiaj",
             #     "core:webinar_loyalty_program_page",
