@@ -1,6 +1,7 @@
 from django.urls import path
 
 from core.views.webinar import (
+    webinar_certificate_page,
     webinar_faq_page,
     webinar_loyalty_program_page,
     webinar_mailing_template_page,
@@ -47,6 +48,11 @@ urlpatterns = [
         "<slug:slug>/opinie/",
         webinar_opinions_page,
         name="webinar_opinions_page",
+    ),
+    path(
+        "<slug:slug>/certyfikat/",
+        webinar_certificate_page,
+        name="webinar_certificate_page",
     ),
     path(
         "<slug:slug>/cena-i-faktura/",

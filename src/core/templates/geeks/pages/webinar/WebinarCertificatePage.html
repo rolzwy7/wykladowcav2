@@ -1,0 +1,59 @@
+{% extends './WebinarBase.html' %}
+
+{% block content %}
+<div
+  id="id-certificate-tab"
+  role="tabpanel"
+  aria-labelledby="cena-i-faktura-tab"
+>
+
+{% load static %}
+
+<section class="pb-lg-14 pb-6">
+    <div class="container">
+       <div class="row">
+       <div class=" row align-items-center ">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+            <div class="row">
+               <div class="col">
+                  <div>
+                     <div>
+                        <h4>Imienne certyfikaty dla uczestników</h4>
+                        <p>Certyfikat uczestnictwa zawiera:</p>
+                        <ul>
+                            <li><b>Ilość godzin szkolenia</b></li>
+                            <li>Imię i nazwisko uczestnika</li>
+                            <li>Datę szkolenia</li>
+                            <li>Temat szkolenia</li>
+                            <li>Numer certyfikatu</li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+          <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+             <div class="mb-6 mt-6 mb-lg-0">
+                <div class="mb-2 text-center">
+                   <img src="{% static "geeks/assets/images/education/certificate2.png" %}"
+                    alt="Certyfikat uczestnictwa w szkoleniu"
+                    class="img-fluid"
+                    style="width: 60%!important;"
+                   >
+                </div>
+                <div class="d-flex justify-content-center">
+                   <span>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="var(--geeks-primary)" class="bi bi-patch-check-fill" viewBox="0 0 16 16">
+                         <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01-.622-.636zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708z"></path>
+                      </svg>
+                   </span>
+                   <span class="ms-2">Każdy uczestnik otrzymuje certyfikat po zrealizowanym szkoleniu</span>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </section>
+
+</div>
+{% endblock content %}
