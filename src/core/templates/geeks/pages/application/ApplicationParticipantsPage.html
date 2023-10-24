@@ -21,7 +21,6 @@
                     
                     <form
                         action="{% url 'core:application_participants_page' uuid=application.uuid %}"
-                        onsubmit="actionSubmit.disabled = true; return true;"
                         method="post"
                     >
                         {% csrf_token %}

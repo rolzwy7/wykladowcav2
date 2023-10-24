@@ -23,6 +23,7 @@ from borb.pdf.canvas.layout.layout_element import LayoutElement
 from django.conf import settings
 from django.template.defaultfilters import date as _date
 from django.urls import reverse
+from django.utils.timezone import get_current_timezone
 
 from core.consts.exemptions_consts import PRICE_ADNOTATION
 from core.models import (
@@ -81,6 +82,9 @@ class ApplicationPdfCardService:
 
         if self.application.recipient:
             self.number_of_rows += 3
+
+        if self.application.application_type == "PRIVATE_PERSON":
+            self.number_of_rows -= 3
 
         self.table = FlexibleColumnWidthTable(
             number_of_columns=self.number_of_columns,
@@ -204,7 +208,7 @@ class ApplicationPdfCardService:
                 "Nazwa:",
                 font=self.font_bold,
             ),
-            column_span=3,
+            column_span=2,
             background_color=HexColor("D3D3D3"),
         )
 
@@ -214,7 +218,7 @@ class ApplicationPdfCardService:
                     company.name,
                     font=self.font_regular,
                 ),
-                column_span=9,
+                column_span=10,
             )
         )
         self.table.add(
@@ -223,7 +227,7 @@ class ApplicationPdfCardService:
                     "NIP:",
                     font=self.font_bold,
                 ),
-                column_span=1,
+                column_span=2,
                 background_color=HexColor("D3D3D3"),
             )
         )
@@ -233,7 +237,7 @@ class ApplicationPdfCardService:
                     company.nip,
                     font=self.font_regular,
                 ),
-                column_span=3,
+                column_span=2,
             )
         )
         self.table.add(
@@ -383,7 +387,7 @@ class ApplicationPdfCardService:
         self.table.add(
             TableCell(
                 Paragraph("Szkolenie:", font=self.font_bold),
-                column_span=4,
+                column_span=3,
                 background_color=HexColor("D3D3D3"),
             )
         )
@@ -393,7 +397,7 @@ class ApplicationPdfCardService:
                     self.application.webinar.title,
                     font=self.font_regular,
                 ),
-                column_span=8,
+                column_span=9,
             )
         )
         self.table.add(
@@ -406,10 +410,15 @@ class ApplicationPdfCardService:
                 background_color=HexColor("D3D3D3"),
             )
         )
+
+        tz = get_current_timezone()
         self.table.add(
             TableCell(
                 Paragraph(
-                    _date(self.application.webinar.date, "j E Y H:i"),
+                    _date(
+                        self.application.webinar.date.astimezone(tz),
+                        "j E Y H:i",
+                    ),
                     font=self.font_regular,
                 ),
                 column_span=3,
@@ -425,13 +434,11 @@ class ApplicationPdfCardService:
                 background_color=HexColor("D3D3D3"),
             )
         )
-        total_price_netto = (
-            self.application_service.get_preview_total_price_netto()
-        )
+        price_per_participant = self.application.webinar.price
         self.table.add(
             TableCell(
                 Paragraph(
-                    f"{total_price_netto} zł {PRICE_ADNOTATION} za uczestnika",
+                    f"{price_per_participant} zł {PRICE_ADNOTATION} za uczestnika",
                     font=self.font_regular,
                 ),
                 column_span=3,

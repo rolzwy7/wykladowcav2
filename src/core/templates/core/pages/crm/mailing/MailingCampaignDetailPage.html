@@ -25,9 +25,11 @@
                 <b>Edytuj kampanie w CMS</b>
             </a>
             /
-            <a target="_blank" href="{% url 'admin:core_mailingtemplate_change' object_id=mailing_campaign.id %}">
+            {% if mailing_campaign.template %}
+            <a target="_blank" href="{% url 'admin:core_mailingtemplate_change' object_id=mailing_campaign.template.id %}">
                 <b>Edytuj szablon w CMS</b>
             </a>
+            {% endif %}
             /
             <a target="_blank" href="{% url 'core:crm_mailing_campaign_preview_html' pk=mailing_campaign.pk %}">
                 <b>HTML preview</b>
