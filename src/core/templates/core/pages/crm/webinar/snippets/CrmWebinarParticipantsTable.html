@@ -41,13 +41,15 @@
             <td>
                 <div
                     hx-get="{% url 'htmx:htmx_crm_participant_toggle_phoned' pk=participant.pk %}"
-                    hx-trigger="load delay:1s">
+                    hx-trigger="revealed">
+                    <img class="htmx-indicator" width="25" src="{% static "media/loading/bars.svg" %}"/>
                 </div>
             </td>
             <td>
                 <div
                     hx-get="{% url 'htmx:htmx_crm_participant_indicators' pk=participant.pk %}"
-                    hx-trigger="load delay:{{forloop.counter}}s">
+                    hx-trigger="revealed">
+                    <img class="htmx-indicator" width="25" src="{% static "media/loading/bars.svg" %}"/>
                 </div>
             </td>
         </tr>

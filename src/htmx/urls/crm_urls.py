@@ -2,6 +2,7 @@ from django.urls import path
 
 from htmx.views.crm import (
     htmx_crm_application_cancellation_toggle,
+    htmx_crm_check_nip,
     htmx_crm_delete_webinar_asset,
     htmx_crm_email_tagging_init,
     htmx_crm_email_tagging_toggle,
@@ -51,5 +52,10 @@ urlpatterns = [
         "toggle-tag/<str:email>/<str:tag>",
         htmx_crm_email_tagging_toggle,
         name="htmx_crm_email_tagging_toggle",
+    ),
+    path(
+        "crm-check-nip/<str:nip>/",
+        htmx_crm_check_nip,
+        name="htmx_crm_check_nip",
     ),
 ]

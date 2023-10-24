@@ -1,7 +1,7 @@
 # flake8: noqa:E501
 # pylint: disable=line-too-long
 
-from django.db.models import Count
+from django.db.models import Count, QuerySet
 
 from core.models import (
     Webinar,
@@ -41,6 +41,16 @@ class CrmWebinarService:
         return WebinarApplication.manager.sent_applications_for_webinar(
             self.webinar
         )
+
+    def get_applications_with_additional_infos(
+        self, applications: QuerySet[WebinarApplication]
+    ):
+        """Returns applications that have additional infos set"""
+        return [
+            application
+            for application in applications
+            if application.additional_information
+        ]
 
     def get_sent_applications_metadata(self):
         """Returns metadatas from sent applications metadata"""
@@ -186,6 +196,7 @@ class CrmWebinarService:
     def get_context(self):
         """Number of gathered participants"""
         gathered_participants = self.get_gathered_participants().order_by("-id")
+        gathered_participants_count = gathered_participants.count()
         total_netto_value_of_webinar = self.total_netto_value_of_webinar()
         webinar_assets_count = self.get_webinar_assets().count()
         lecturer_price_netto = self.lecturer_price_netto()
@@ -195,7 +206,11 @@ class CrmWebinarService:
         recordings = self.get_recordings()
         certificates = self.get_certificates()
         webinar_metadata = WebinarMetadata.objects.get(webinar=self.webinar)
-        gathered_participants_count = gathered_participants.count()
+        additional_infos_applications = (
+            self.get_applications_with_additional_infos(sent_applications)
+        )
+        additional_infos_applications_count = len(additional_infos_applications)
+
         return {
             "webinar": self.webinar,
             "is_fake": self.webinar.is_fake,
@@ -212,6 +227,9 @@ class CrmWebinarService:
             # Gathered participants
             "gathered_participants": gathered_participants,
             "gathered_participants_count": gathered_participants_count,
+            # Applications with additional infos
+            "additional_infos_applications": additional_infos_applications,
+            "additional_infos_applications_count": additional_infos_applications_count,
             # Recordings
             "recordings": recordings,
             "recordings_count": recordings.count(),

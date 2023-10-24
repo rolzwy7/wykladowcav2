@@ -4169,6 +4169,27 @@
               </div>
               <!--end:Menu item-->
 
+              {% if META__APP_ENV == "production" %}
+              <!--begin:Menu item-->
+                <div
+                class="menu-item menu-lg-down-accordion me-0 me-lg-2"
+              >
+                <!--begin:Menu link-->
+                <span class="menu-link py-3">
+                  <span class="menu-title">
+                    <a
+                      class="text-gray-800 text-hover-primary"
+                      href="http://wykladowca.pl:5567"
+                    >
+                      Flower
+                    </a>
+                  </span>
+                </span>
+                <!--end:Menu link-->
+              </div>
+              <!--end:Menu item-->
+              {% endif %}
+
             </div>
             <!--end::Menu-->
           </div>

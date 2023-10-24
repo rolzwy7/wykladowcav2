@@ -207,6 +207,9 @@
                             <!--begin::Label-->
                             <div class="fw-semibold fs-6 text-gray-400">
                                 Cena (od osoby)
+                                {% if webinar.is_discounted %}
+                                Promocja trwa do {{webinar.discount_until|date:"j E Y"}} godz. {{webinar.discount_until|date:"H:i"}}
+                                {% endif %}
                             </div>
                             <!--end::Label-->
                         </div>

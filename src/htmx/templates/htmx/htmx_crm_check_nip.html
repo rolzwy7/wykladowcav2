@@ -1,0 +1,15 @@
+{% if company %}
+{% if company.is_nonpaying %}
+    <div class="alert alert-dismissible bg-danger d-flex flex-column flex-sm-row p-5 mb-5">
+        <i class="ki-duotone ki-information fs-2hx text-light me-4 mb-5 mb-sm-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+        <div class="d-flex flex-column text-light pe-0 pe-sm-10">
+            <h4 class="mb-2 light">Klient oznaczony jako niepłacący</h4>
+            <span>
+                {{company.notes}}
+            </span>
+        </div>
+    </div>
+{% else %}
+<span class="badge badge-secondary">Klient zweryfikowany pozytywnie</span>
+{% endif %}
+{% endif %}

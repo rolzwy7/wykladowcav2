@@ -33,7 +33,7 @@
 
           {% if webinar.is_discounted %}
             <br>
-            Promocja do trwa {{webinar.discount_until|date:"j E Y"}} godz. {{webinar.discount_until|date:"H:i"}}
+            Promocja trwa do {{webinar.discount_until|date:"j E Y"}} godz. {{webinar.discount_until|date:"H:i"}}
           {% endif %}
 
         </li>
