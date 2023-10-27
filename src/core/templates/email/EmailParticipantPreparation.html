@@ -19,12 +19,46 @@
                   <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;">
                     Termin szkolenia, którego są Państwo uczestnikami <b>został potwierdzony</b>.
                     <br> <br>
-                    <b>{{webinar.title_original}}</b>
+                    <b>„{{webinar.title_original}}”</b>
                     <br> <br>
-                    Szkolenie odbędzie się <b>{{webinar.date|date:"j E Y"}}</b> o godzinie <b>{{webinar.date|date:"H:i"}}</b>.
+                    Szkolenie odbędzie się online <b>{{webinar.date|date:"j E Y"}}</b> o godzinie <b>{{webinar.date|date:"H:i"}}</b>.
                   </td>
                 </tr>
                 
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    <hr style="border-width: 0; background: #000; color: #000; height:0.1em">
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    Wysłaliśmy Państwu <b>osobną wiadomości e-mail</b>
+                    <br>
+                    z zaproszeniem na szkolenie, zawierającym link do platformy ClickMeeting.
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    <b style="color: red;">
+                      Jeśli nie mogą Państwo znaleźć wiadomości z zaproszeniem do platformy ClickMeeting prosimy sprawdzić folder „Spam” lub „Wiadomości śmieci”
+                    </b>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                      Jeśli mają Państwo pytania prosimy o kontakt: {{COMPANY_OFFICE_EMAIL}} , tel: {{COMPANY_OFFICE_PHONE}}
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    <hr style="border-width: 0; background: #000; color: #000; height:0.1em">
+                  </td>
+                </tr>
+
                 <tr>
                   <td style="border-collapse:collapse;padding-left:20px;padding-top:20px">
                     {% with BASE_URL|add:assets_url as absolute_assets_url %}
@@ -32,19 +66,12 @@
                     {% endwith %}
                   </td>
                 </tr>
-                
+
                 <tr>
-                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
-                    <u>W osobnej wiadomości e-mail</u> otrzymają Państwo zaproszenie na szkolenie wraz z linkiem do platformy ClickMeeting.
-                  </td>
-                </tr>
-                
-                <tr>
-                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
-                    Prosimy o zapoznanie się z wymaganiami technicznymi platformy ClickMeeting: <br>
-                    <a href="https://utilities.clickmeeting.com/connection-tester">
-                        https://utilities.clickmeeting.com/connection-tester
-                    </a>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-top:20px">
+                    {% with BASE_URL|add:assets_url as absolute_assets_url %}
+                      {% include './includes/EmailButton.html' with text="Przetestuj swoje urządzenie" url="https://utilities.clickmeeting.com/connection-tester" %}
+                    {% endwith %}
                   </td>
                 </tr>
 
