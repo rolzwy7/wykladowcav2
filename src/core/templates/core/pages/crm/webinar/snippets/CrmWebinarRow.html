@@ -65,31 +65,33 @@
 </tr>
 <tr>
     <td>
-        <a href="{% url 'core:lecturer_stats_page' pk=webinar.lecturer.pk %}">
-            <div class="d-flex">
-                <div class="symbol me-3">
-                    <img
-                    src="{% static 'media/misc/spinner.gif' %}"
-                    {% if webinar.lecturer.avatar %}
-                    data-src="{% get_media_prefix %}uploads/lecturers/{{webinar.lecturer.slug}}_50x50.webp"
-                    {% else %}
-                    data-src="{% static "default/default-lecturer-avatar-50x50.webp" %}"
-                    {% endif %}
-                    class="lozad"
-                    alt="{{webinar.lecturer.fullname}}"
-                    />
-                </div>
-                <div>
-                    <b>{{webinar.lecturer.fullname}}</b>
-                    {% if webinar_ctx.is_fake %}
-                    <br>
-                    <span class="fs-6 badge badge-danger">Fake'owy termin</span>
-                    {% endif %}
-                </div>
+        <div class="d-flex">
+            <div class="symbol me-3">
+                <img
+                src="{% static 'media/misc/spinner.gif' %}"
+                {% if webinar.lecturer.avatar %}
+                data-src="{% get_media_prefix %}uploads/lecturers/{{webinar.lecturer.slug}}_50x50.webp"
+                {% else %}
+                data-src="{% static "default/default-lecturer-avatar-50x50.webp" %}"
+                {% endif %}
+                class="lozad"
+                alt="{{webinar.lecturer.fullname}}"
+                />
             </div>
-
-
-        </a>
+            <div>
+                <a href="{% url 'core:lecturer_stats_page' pk=webinar.lecturer.pk %}">
+                    <b>{{webinar.lecturer.fullname}}</b>
+                </a>
+                {% if webinar_ctx.is_fake %}
+                <br>
+                <span class="fs-6 badge badge-danger mb-1">Fake'owy termin</span>
+                {% endif %}
+                {% if webinar_ctx.is_hidden %}
+                <br>
+                <span class="fs-6 badge badge-info mb-1">Ukryty termin</span>
+                {% endif %}
+            </div>
+        </div>
     </td>
     <td>
         <span class="fw-bold text-{% include './WebinarStatusColor.html' %}">

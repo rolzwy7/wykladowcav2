@@ -66,9 +66,13 @@ class WebinarManager(Manager):
         return (
             self.get_init_or_confirmed_webinars()
             .filter(
+                Q(is_hidden=False)
+                &
                 # Show webinar on homepage N-15 minutes after the start
-                date__gte=now()
-                - timedelta(minutes=settings.WEBINAR_ARCHIVE_DELAY_MINUTES)
+                Q(
+                    date__gte=now()
+                    - timedelta(minutes=settings.WEBINAR_ARCHIVE_DELAY_MINUTES)
+                )
             )
             .order_by("date")
         )
@@ -113,6 +117,8 @@ class Webinar(Model):
     )
 
     is_fake = BooleanField("Fake'owy termin", default=False)
+
+    is_hidden = BooleanField("Ukryj termin szkolenia", default=False)
 
     recording_allowed = BooleanField(
         "Nagrania dostępne",

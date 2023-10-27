@@ -214,6 +214,7 @@ class CrmWebinarService:
         return {
             "webinar": self.webinar,
             "is_fake": self.webinar.is_fake,
+            "is_hidden": self.webinar.is_hidden,
             "grouping_token": self.webinar.grouping_token,
             # Sent applications
             "sent_applications": sent_applications,

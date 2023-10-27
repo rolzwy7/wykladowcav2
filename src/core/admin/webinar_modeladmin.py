@@ -49,6 +49,7 @@ class WebinarModelAdmin(ModelAdmin):
             None,
             {
                 "fields": [
+                    "is_hidden",
                     "is_confirmed",
                     "remaining_places",
                     "recording_allowed",
