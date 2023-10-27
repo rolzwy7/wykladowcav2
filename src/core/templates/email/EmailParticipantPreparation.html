@@ -60,6 +60,12 @@
                 </tr>
 
                 <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    Przesyłamy Państwu również materiały szkoleniowe:
+                  </td>
+                </tr>
+
+                <tr>
                   <td style="border-collapse:collapse;padding-left:20px;padding-top:20px">
                     {% with BASE_URL|add:assets_url as absolute_assets_url %}
                       {% include './includes/EmailButton.html' with text="Pobierz materiały szkoleniowe" url=absolute_assets_url %}
@@ -68,10 +74,11 @@
                 </tr>
 
                 <tr>
-                  <td style="border-collapse:collapse;padding-left:20px;padding-top:20px">
-                    {% with BASE_URL|add:assets_url as absolute_assets_url %}
-                      {% include './includes/EmailButton.html' with text="Przetestuj swoje urządzenie" url="https://utilities.clickmeeting.com/connection-tester" %}
-                    {% endwith %}
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    Prosimy o przetestowanie czy Państwa urządzenie spełnia wymogi platformy ClickMeeting: 
+                    <a target="_blank" href="https://utilities.clickmeeting.com/connection-tester">
+                      Przetestuj swoje urządzenie
+                    </a>
                   </td>
                 </tr>
 

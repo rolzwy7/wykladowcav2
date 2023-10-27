@@ -29,7 +29,7 @@ urlpatterns = [
 
 
 handler404 = "core.views.custom404_page"
-handler404 = "core.views.custom500_page"
+handler500 = "core.views.custom500_page"
 
 if settings.DEBUG:
     urlpatterns = urlpatterns + static(
