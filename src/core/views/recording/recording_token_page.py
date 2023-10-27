@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
@@ -12,6 +13,7 @@ from core.models import (
 from core.services import StreamingService
 
 
+@login_required(login_url="/logowanie/")
 def recording_token_page(request: HttpRequest, uuid: str):
     """Recording token page"""
     recording_token = get_object_or_404(WebinarRecordingToken, token=uuid)

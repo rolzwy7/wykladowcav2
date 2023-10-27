@@ -362,7 +362,7 @@
                 </li>
               </ol>
 
-              <h3>Szablony mailingowe</h3>
+              <h3>Szablony mailingowe - Webinar</h3>
               <ol>
                 <li>
                   <a href="{% url 'core:webinar_mailing_template_page' pk=webinar.pk template_name="VersionA" %}">
@@ -375,6 +375,16 @@
                   </a>
                 </li>
               </ol>
+              
+              <h3>Szablony mailingowe - Facebook</h3>
+              <ol>
+                <li>
+                  <a href="{% url 'core:mailing-template-fb-group-invite' %}">
+                    Facebook zaproszenie do grupy
+                  </a>
+                </li>
+              </ol>
+
           </div>
           <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>

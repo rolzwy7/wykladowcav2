@@ -22,6 +22,7 @@ from .crm_urls import urlpatterns as crm_urlpatterns
 from .forgot_password_urls import urlpatterns as forgot_password_urlpatterns
 from .lecturer_urls import urlpatterns as lecturer_urlpatterns
 from .loyalty_urls import urlpatterns as loyalty_urlpatterns
+from .mailing_templates_urls import urlpatterns as mailing_templates_urlpatterns
 from .previews_urls import urlpatterns as previews_urlpatterns
 from .recording_urls import urlpatterns as recording_urlpatterns
 from .registration_urls import urlpatterns as registration_urlpatterns
@@ -62,6 +63,7 @@ urlpatterns = [
         mailing_resignation_by_code_page,
         name="mailing_resignation_page",
     ),
+    path("szablony-mailingowe/", include(mailing_templates_urlpatterns)),
     *terms_and_conditions_urlpatterns,
     path("", home_page, name="homepage"),
 ]

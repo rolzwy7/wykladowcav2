@@ -4,7 +4,6 @@ from core.views.webinar import (
     webinar_certificate_page,
     webinar_faq_page,
     webinar_loyalty_program_page,
-    webinar_mailing_template_page,
     webinar_opinions_page,
     webinar_price_and_invoice_page,
     webinar_program_page,
@@ -68,12 +67,6 @@ urlpatterns = [
         "<slug:slug>/faq/",
         webinar_faq_page,
         name="webinar_faq_page",
-    ),
-    # Webinar Mailing Template
-    path(
-        "<int:pk>/szablon-mailingowy/<str:template_name>/",
-        webinar_mailing_template_page,
-        name="webinar_mailing_template_page",
     ),
     # Cancellation TODO: move this
     path(
