@@ -34,14 +34,16 @@
         <div class="row">
           <div class="offset-xl-1 col-xl-10 col-md-12 col-12">
             <div class="mt-4 d-flex justify-content-between align-items-center">
-              <a href="../index.html"><img src="geeks/assets/images/brand/logo/logo.svg" alt="logo" class="logo-inverse" /></a>
+              <a href="/">
+                <img src="{% static "geeks/assets/images/brand/logo/logo.svg" %}" alt="logo" class="logo-inverse" />
+            </a>
             </div>
           </div>
         </div>
         <div class="row align-items-center justify-content-center g-0 h-lg-100 py-10">
           <!-- Docs -->
           <div class="offset-xl-1 col-xl-4 col-lg-6 col-md-12 col-12 text-center text-lg-start">
-            <h1 class="display-1 mb-3">Nie znaleziono strony</h1>
+            <h1 class="display-1 mb-3">404</h1>
 
             <p class="mb-5 lead px-4 px-md-0">
               Ups! Przepraszamy, ale nie udało nam się znaleźć strony, której szukasz.
@@ -52,7 +54,7 @@
           </div>
           <!-- img -->
           <div class="offset-xl-1 col-xl-6 col-lg-6 col-md-12 col-12 mt-8 mt-lg-0">
-            <img src="geeks/assets/images/error/404-error-img.svg" alt="error" class="w-100" />
+            <img src="{% static "geeks/assets/images/error/404-error-img.svg" %}" alt="error" class="w-100" />
           </div>
         </div>
         <div class="row">
@@ -70,11 +72,11 @@
 
     <!-- Scripts -->
     <!-- Libs JS -->
-    <script src="geeks/assets/libs/@popperjs/core/dist/umd/popper.min.js"></script>
-    <script src="geeks/assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="geeks/assets/libs/simplebar/dist/simplebar.min.js"></script>
+    <script src="{% static "geeks/assets/libs/@popperjs/core/dist/umd/popper.min.js" %}"></script>
+    <script src="{% static "geeks/assets/libs/bootstrap/dist/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "geeks/assets/libs/simplebar/dist/simplebar.min.js" %}"></script>
 
     <!-- Theme JS -->
-    <script src="geeks/assets/js/theme.min.js"></script>
+    <script src="{% static "geeks/assets/js/theme.min.js" %}"></script>
   </body>
 </html>
