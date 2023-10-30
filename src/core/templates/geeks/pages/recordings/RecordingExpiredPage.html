@@ -1,0 +1,37 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+
+{% block title %}
+   <title>Nagranie wygasło</title>
+{% endblock title %}
+
+{% block root %}
+<main>
+   <section class="py-8">
+   <!-- container -->
+   <div class="container">
+      <div class="row">
+         <div class="offset-xl-1 col-xl-10 col-md-12 col-12">
+         <div class="row text-center">
+            <!-- col -->
+            <div class="col-md-12 px-lg-8 mb-8 mt-6">
+               <span class="text-uppercase text-primary fw-semibold ls-md">Nagranie wygasło</span>
+               <!-- heading -->
+               <h1 class="h1 fw-bold mt-3">
+               Dostęp do nagrania wygasł
+               </h1>
+               <h2 class="h2 fw-bold mt-3">
+               Nagranie było dostępne do dnia 
+               {% if recording.expires_at %}
+                  {{recording.expires_at|date:"j E Y"}} godzina {{recording.expires_at|date:"H:i"}}
+               {% endif %}
+               </h2>
+            </div>
+         </div>
+         </div>
+      </div>
+   </div>
+   </section>
+</main>
+{% endblock root %}

@@ -42,17 +42,36 @@ class StreamingService:
         """
 
         # Deny access if denied manually by checkbox
-        deny_access = self.recording_token.deny_access
-        if deny_access:
+        if self.is_access_denied():
             return False
 
         # Check if token expires
         # If expired then deny access
-        expires_at = self.recording_token.expires_at
-        if expires_at and now() > expires_at:
+        if self.is_token_expired():
             return False
 
         return True
+
+    def is_token_expired(self) -> bool:
+        """Check if token expired
+
+        Returns:
+            bool: True if is expired, False otherwise
+        """
+        expires_at = self.recording_token.expires_at
+
+        if expires_at and now() > expires_at:
+            return True
+
+        return False
+
+    def is_access_denied(self) -> bool:
+        """Check if access is denied for this token
+
+        Returns:
+            bool: True if is denied, False otherwise
+        """
+        return self.recording_token.deny_access
 
     def get_streaming_response(self, request: HttpRequest):
         """Get HTTP response to answer video player video request"""

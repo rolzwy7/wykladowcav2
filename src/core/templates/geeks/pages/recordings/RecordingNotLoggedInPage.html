@@ -1,0 +1,118 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+
+{% block title %}
+   <title>Obejrzyj nagranie - Nie zalogowano</title>
+{% endblock title %}
+
+{% block root %}
+<main>
+    <section class="py-4">
+        <!-- container -->
+        <div class="container">
+          <div class="row">
+            <div class="offset-xl-1 col-xl-10 col-md-12 col-12">
+              <div class="row text-center">
+                <!-- col -->
+                <div class="col-md-12 px-lg-8 mb-8 mt-6">
+                  <span class="text-uppercase text-primary fw-semibold ls-md">
+                    Dostęp do nagrania ze szkolenia
+                  </span>
+                  <!-- heading -->
+                  <h2 class="h1 fw-bold mt-3">
+                    Zaloguj się, aby uzyskać dostęp do nagrania ze szkolenia
+                  </h2>
+                </div>
+              </div>
+              <div class="row gy-6">
+                <!-- col -->
+                <div class="col-md-4 col-12">
+                  <div class="text-center">
+                    <!-- icon -->
+                    <div class="icon-shape icon-lg border border-primary border-2 fs-3 rounded-circle mb-4 process-line text-primary smooth-shadow-md">1</div>
+                    <!-- heading -->
+                    <h3>Stwórz konto</h3>
+                    <!-- text -->
+                    <p class="mb-0 px-4">
+                      Jeśli nie posiadasz konta w naszym serwisie
+                      <a href="{% url "core:register_page" %}" target="_blank">
+                        <b>stwórz je klikając tutaj</b>
+                      </a>
+                      .
+                    </p>
+                  </div>
+                </div>
+                <!-- col -->
+                <div class="col-md-4 col-12">
+                  <div class="text-center">
+                    <!-- icon -->
+                    <div class="icon-shape icon-lg border border-primary border-2 fs-3 rounded-circle mb-4 process-line text-primary smooth-shadow-md">2</div>
+                    <!-- heading -->
+                    <h3>Zaloguj się</h3>
+                    <!-- text -->
+                    <p class="mb-0 px-2">
+                      <a href="{% url "core:login_page" %}?next={% url "core:recording_token_page" uuid=uuid %}" target="_blank"><b>Zaloguj się</b></a>
+                      do swojego konta wykorzystując login (adres e-mail) i hasło.
+                    </p>
+                  </div>
+                </div>
+                <!-- col -->
+                <div class="col-md-4 col-12">
+                  <div class="text-center">
+                    <!-- icon -->
+                    <div class="icon-shape icon-lg border border-primary border-2 fs-3 rounded-circle mb-4 text-primary smooth-shadow-md">3</div>
+                    <!-- heading -->
+                    <h3>Kliknij ponownie w link</h3>
+                    <!-- text -->
+                    <p class="mb-0 px-3">
+                      Jeśli już jesteś zalogowany, kliknij ponownie w link do nagrania znajdujący się w wiadomości e-mail lub
+                      <a href="./">
+                        <b>odświerz tę stronę</b>
+                      </a>
+                      .
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    <section class="py-1">
+        <!-- container -->
+        <div class="container">
+          <div class="row">
+            <div class="offset-xl-1 col-xl-10 col-md-12 col-12">
+              <div class="row text-center">
+                <!-- col -->
+                <div class="col-md-12 px-lg-8 mb-8 mt-6">
+                  <!-- heading -->
+                  <h2 class="h1 fw-bold mt-3">
+                    Jeśli masz problem z założeniem konta obejrzyj filmik z instrukcją 👇
+                  </h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="py-4">
+      <div class="container">
+          <div class="row">
+              <div class="col-12">
+                  <!-- Tab content -->
+                  <div class="tab-content content" id="course-tabContent">
+                      <div class="tab-pane fade show active" id="course-intro" role="tabpanel" aria-labelledby="course-intro-tab">
+                      <!-- Video -->
+                      <div class="embed-responsive position-relative w-100 d-block overflow-hidden p-0" style="height: 600px">
+                          <iframe class="position-absolute top-0 end-0 start-0 end-0 bottom-0 h-100 w-100" width="560" height="315" src="https://www.youtube.com/embed/Nfzi7034Kbg?si=C2_CU7iIZJA5VWcS" title="Geeks - Academy and LMS Template" frameborder="0"></iframe>
+                      </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      </section>
+</main>
+{% endblock root %}
