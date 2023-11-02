@@ -27,7 +27,7 @@ def webinar_all_categories_page(request):
         request,
         template_name,
         {
-            "slug": "wszystkie",
+            "slug": "wszystkie-kategorie",
             "category_name": category_name,
             # "webinars": webinars,
             # "short_description": short_description,
@@ -40,6 +40,7 @@ def webinar_category_page(request, slug: str):
     """Webinar category page"""
 
     template_name = "geeks/pages/category/WebinarCategoryPage.html"
+
     category = get_object_or_404(WebinarCategory, slug=slug)
     category_name = category.name
     short_description = category.short_description

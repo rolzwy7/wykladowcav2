@@ -1,6 +1,18 @@
 {% extends 'geeks/extends/foundation.html' %}
 {% load static %}
 
+{% block meta %}
+<meta property="og:url" content="{{META__BASE_URL}}{% url "core:webinar_redirect_to_program_facebook" pk=webinar.pk %}" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="{{webinar.title}}" />
+{% if webinar.description %}
+<meta property="og:description" content="{{webinar.description}}" />
+{% endif %}
+{% if webinar.facebook_post_image %}
+<meta property="og:image" content="{{META__BASE_URL}}{% get_media_prefix %}{{webinar.facebook_post_image}}" />
+{% endif %}
+{% endblock meta %}
+
 {% block title %}
   <title>Szkolenie - {{webinar.title}}</title>
 {% endblock title %}
@@ -362,7 +374,7 @@
                 </li>
               </ol>
 
-              <h3>Szablony mailingowe</h3>
+              <h3>Szablony mailingowe - Webinar</h3>
               <ol>
                 <li>
                   <a href="{% url 'core:webinar_mailing_template_page' pk=webinar.pk template_name="VersionA" %}">
@@ -375,6 +387,16 @@
                   </a>
                 </li>
               </ol>
+              
+              <h3>Szablony mailingowe - Facebook</h3>
+              <ol>
+                <li>
+                  <a href="{% url 'core:mailing-template-fb-group-invite' %}">
+                    Facebook zaproszenie do grupy
+                  </a>
+                </li>
+              </ol>
+
           </div>
           <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>

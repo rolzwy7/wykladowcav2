@@ -11,6 +11,7 @@ from django.db.models import (
     CharField,
     DateTimeField,
     ForeignKey,
+    ImageField,
     Manager,
     ManyToManyField,
     Model,
@@ -66,9 +67,13 @@ class WebinarManager(Manager):
         return (
             self.get_init_or_confirmed_webinars()
             .filter(
+                Q(is_hidden=False)
+                &
                 # Show webinar on homepage N-15 minutes after the start
-                date__gte=now()
-                - timedelta(minutes=settings.WEBINAR_ARCHIVE_DELAY_MINUTES)
+                Q(
+                    date__gte=now()
+                    - timedelta(minutes=settings.WEBINAR_ARCHIVE_DELAY_MINUTES)
+                )
             )
             .order_by("date")
         )
@@ -113,6 +118,8 @@ class Webinar(Model):
     )
 
     is_fake = BooleanField("Fake'owy termin", default=False)
+
+    is_hidden = BooleanField("Ukryj termin szkolenia", default=False)
 
     recording_allowed = BooleanField(
         "Nagrania dostępne",
@@ -228,6 +235,13 @@ class Webinar(Model):
         max_length=32,
         blank=True,
         help_text="Ciąg znaków grupujący razem terminy",
+    )
+
+    facebook_post_image = ImageField(
+        "Facebook Post Image",
+        blank=True,
+        upload_to="uploads/webinar-facebook-covers",
+        help_text=("wymiary: 1200px na 630px"),
     )
 
     class Meta:

@@ -7,9 +7,7 @@
 {% endblock title %}
 
 {% block root %}
-
 <main>
-    <!-- Page header -->
     <section class="bg-primary">
       <div class="container">
         <div class="row align-items-center">
@@ -24,196 +22,14 @@
         </div>
       </div>
     </section>
-    {% if 0 %}
-    <!-- Content -->
-    <section class="py-7">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-            <div class="row justify-content-between align-items-center">
-              <div class="col-xl-8 col-md-6 col-12">
-                <h4 class="mb-3 mb-md-0">Kategorie główne</h4>
-              </div>
-              {% comment %}
-              <div class="col-xl-2 col-md-3 col-6 pe-0">
-                <!-- Custom select -->
-                <div class="dropdown bootstrap-select" style="width: 100%;"><select class="selectpicker" data-width="100%">
-                  <option value="">Category</option>
-                  <option value="2">Design</option>
-                  <option value="3">Development</option>
-                  <option value="3">Program</option>
-                </select><button type="button" tabindex="-1" class="btn dropdown-toggle bs-placeholder btn-light" data-bs-toggle="dropdown" role="combobox" aria-owns="bs-select-1" aria-haspopup="listbox" aria-expanded="false" title="Category"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">Category</div></div> </div></button><div class="dropdown-menu "><div class="inner show" role="listbox" id="bs-select-1" tabindex="-1"><ul class="dropdown-menu inner show" role="presentation"></ul></div></div></div>
-              </div>
-               <!-- Custom select -->
-              <div class="col-xl-2 col-md-3 col-6">
-                <div class="dropdown bootstrap-select" style="width: 100%;"><select class="selectpicker" data-width="100%">
-                  <option value="">Sort by</option>
-                  <option value="1">Newest</option>
-                  <option value="2">Popularity</option>
-                  <option value="3">Rated</option>
-                </select><button type="button" tabindex="-1" class="btn dropdown-toggle bs-placeholder btn-light" data-bs-toggle="dropdown" role="combobox" aria-owns="bs-select-2" aria-haspopup="listbox" aria-expanded="false" title="Sort by"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">Sort by</div></div> </div></button><div class="dropdown-menu "><div class="inner show" role="listbox" id="bs-select-2" tabindex="-1"><ul class="dropdown-menu inner show" role="presentation"></ul></div></div></div>
-              </div>
-              {% endcomment %}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- Content -->
-    {% endif %}
-
-
-
-
-    
     <section class="container py-7">
       <div class="row gy-4">
         {% for subcategory, subcategory_count in subcategories %}
           <div class="col-lg-4 col-md-4 col-12">
-            <!-- card -->
-
-            <div
-              class="card border-top border-4 card-hover-with-icon"
-              onclick="window.location.href='{% url 'core:webinar_category_page' slug=subcategory.slug %}'"
-            >
-              <!-- card body -->
-
-              <div class="card-body">
-                <!-- icon  -->
-
-                <div
-                  class="icon-shape icon-lg rounded-circle bg-light text-muted mb-3 card-icon"
-                >
-
-                  {% if subcategory.icon_html %}
-                    {{subcategory.icon_html|safe}}
-                  {% else %}
-                    <i class="bi bi-chat-dots-fill" style="font-size:1.2rem;"></i>
-                  {% endif %}
-                  
-                </div>
-                <div class="d-flex align-items-center justify-content-between">
-                  <div>
-                    <!-- heading -->
-
-                    <h4 class="mb-0">{{subcategory.name}}</h4>
-                    <!-- text -->
-                    <p class="mb-0 text-muted">
-                        <span class="me-2">
-                          {% if subcategory_count == 0 %}
-                            Brak szkoleń
-                          {% else %}
-                            <span class="text-dark fw-medium">{{subcategory_count}}</span>
-                            {% if subcategory_count == 1 %}
-                            szkolenie
-                            {% elif subcategory_count >= 2 %}
-                            szkolenia
-                            {% elif subcategory_count >= 5 %}
-                            szkoleń
-                            {% elif subcategory_count >= 22 %}
-                            szkolenia
-                            {% elif subcategory_count >= 25 %}
-                            szkoleń
-                            {% elif subcategory_count >= 32 %}
-                            szkolenia
-                            {% elif subcategory_count >= 35 %}
-                            szkoleń
-                            {% endif %}
-                          {% endif %}
-                        </span>
-                    </p>
-                  </div>
-                  <!-- arrow -->
-
-                  <a href="{% url 'core:webinar_category_page' slug=subcategory.slug %}" class="text-inherit">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      class="bi bi-chevron-right"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
-                      ></path>
-                    </svg>
-                  </a>
-                </div>
-              </div>
-            </div>
+          {% include "geeks/components/category_card.html" with category=subcategory count=subcategory_count %}
           </div>
-          {% endfor %}
-      </div>
-    </section>
-    
-    
-    {% if 0 %}
-    <section class="container py-7">
-      <div class="row">
-        {% for subcategory, subcategory_count in subcategories %}
-        {% if subcategory_count != 0 %}
-        <div class="col-xl-4 col-lg-6 col-md-6 col-12">
-          <!-- Card -->
-          <div
-            class="card mb-4 card-hover"
-            onclick="window.location.href='{% url 'core:webinar_category_page' slug=subcategory.slug %}'"
-            style="cursor:pointer;"
-          >
-            <div class="d-flex align-items-center p-4">
-              <div class="icon-shape icon-lg rounded-circle bg-light text-muted mb-3 card-icon">
-                {% if subcategory.icon_html %}
-                  {{subcategory.icon_html|safe}}
-                {% else %}
-                  <i class="bi bi-chat-dots-fill" style="font-size:1.2rem;"></i>
-                {% endif %}
-            </div>
-              <div class="d-flex">
-                <a href="{% url 'core:webinar_category_page' slug=subcategory.slug %}">
-                   <!-- Img -->
-                  {% comment %} <img src="{% static 'geeks/assets/images/path/path-bootstrap.svg' %}" alt="bootstrap" class="avatar-md"></a> {% endcomment %}
-                <div class="ms-3">
-                  <h4 class="mb-1">
-                    <a href="{% url 'core:webinar_category_page' slug=subcategory.slug %}" class="text-inherit">
-                      {{subcategory.name}}
-                    </a>
-                  </h4>
-                  <p class="mb-0 fs-6">
-                    <span class="me-2">
-                      {% if subcategory_count == 0 %}
-                        Brak szkoleń
-                      {% else %}
-                        <span class="text-dark fw-medium">{{subcategory_count}}</span>
-                        {% if subcategory_count == 1 %}
-                        szkolenie
-                        {% elif subcategory_count >= 2 %}
-                        szkolenia
-                        {% elif subcategory_count >= 5 %}
-                        szkoleń
-                        {% elif subcategory_count >= 22 %}
-                        szkolenia
-                        {% elif subcategory_count >= 25 %}
-                        szkoleń
-                        {% elif subcategory_count >= 32 %}
-                        szkolenia
-                        {% elif subcategory_count >= 35 %}
-                        szkoleń
-                        {% endif %}
-                      {% endif %}
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {% endif %}
         {% endfor %}
       </div>
     </section>
-    {% endif %}
-
-    </main>
-
+</main>
 {% endblock root %}

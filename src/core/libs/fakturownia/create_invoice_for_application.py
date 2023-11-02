@@ -38,6 +38,8 @@ def create_invoice_for_application(
         application_service.get_valid_participants().count()
     )
 
+    buyer_email = application.invoice.invoice_email  # type: ignore
+
     buyer_data = {}
     recipient_data = {}
 
@@ -49,6 +51,7 @@ def create_invoice_for_application(
             "buyer_post_code": buyer.postal_code,
             "buyer_city": buyer.city,
             "buyer_street": buyer.address,
+            "buyer_email": buyer_email,
         }
 
     if private_person:
@@ -60,6 +63,7 @@ def create_invoice_for_application(
             "buyer_post_code": private_person.postal_code,
             "buyer_city": private_person.city,
             "buyer_street": private_person.address,
+            "buyer_email": buyer_email,
         }
 
     if recipient:
@@ -71,7 +75,6 @@ def create_invoice_for_application(
         }
 
     # Add text adnotation about tax exempt reason
-    # TODO: Add normal tax exempt from select here
     if WE_ARE_TAX_EXEMPT:
         extra_data = {"exempt_tax_kind": TAX_EXEMPT_TOOLTIP}
     else:

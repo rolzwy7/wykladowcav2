@@ -1,0 +1,39 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+
+{% block title %}
+   <title>Nagranie zabroniono dostępu</title>
+{% endblock title %}
+
+{% block root %}
+<main>
+   <section class="py-8">
+   <!-- container -->
+   <div class="container">
+      <div class="row">
+         <div class="offset-xl-1 col-xl-10 col-md-12 col-12">
+         <div class="row text-center">
+            <!-- col -->
+            <div class="col-md-12 px-lg-8 mb-8 mt-6">
+               <span class="text-uppercase text-primary fw-semibold ls-md">Zabroniono dostępu</span>
+               <!-- heading -->
+               <h1 class="h1 fw-bold mt-3">
+               Automatycznie zabroniono dalszego dostępu do tego nagrania
+               </h1>
+               <h2 class="h2 fw-bold mt-3">
+               Nasz system automatycznie wykrył <u>niepokojącą aktywność</u> na stronie udostępnionego Państwu nagrania,
+               mogącą wskazywać na zabronione dalsze rozpowszechnianie, o którym mowa w art. 25 ust. 1 pkt b Ustawy z dnia 4 lutego 1994 r. o prawie autorskim i prawach pokrewnych.
+               </h2>
+               <hr>
+               <h2 class="h2 fw-bold mt-3">
+               Jeśli uważają Państwo, że blokada była niesłuszna, prosimy o kontakt: {{COMPANY_OFFICE_EMAIL}} / {{COMPANY_OFFICE_PHONE}}
+               </h2>
+            </div>
+         </div>
+         </div>
+      </div>
+   </div>
+   </section>
+</main>
+{% endblock root %}

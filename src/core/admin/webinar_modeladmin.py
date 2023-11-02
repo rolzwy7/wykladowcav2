@@ -49,10 +49,12 @@ class WebinarModelAdmin(ModelAdmin):
             None,
             {
                 "fields": [
+                    "is_hidden",
                     "is_confirmed",
                     "remaining_places",
                     "recording_allowed",
                     "is_fake",
+                    "facebook_post_image",
                     ("status", "slug"),
                     ("date", "duration"),
                     ("lecturer", "grouping_token"),

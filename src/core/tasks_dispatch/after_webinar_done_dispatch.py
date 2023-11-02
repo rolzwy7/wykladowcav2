@@ -12,7 +12,6 @@ from core.consts import TelegramChats
 from core.models import Webinar, WebinarApplication, WebinarParticipant
 from core.tasks import (
     params_send_participant_certificate_email,
-    params_send_participant_opinion_email,
     task_create_application_invoice,
     task_create_participant_certificate,
     task_save_application_invoice_metadata,
@@ -33,11 +32,11 @@ def after_webinar_done_dispatch(webinar: Webinar):
         every=35,
         period=IntervalSchedule.MINUTES,
     )
-    # Create "every 24 hours" interval
-    schedule_24h, _ = IntervalSchedule.objects.get_or_create(
-        every=24,
-        period=IntervalSchedule.HOURS,
-    )
+    # # Create "every 24 hours" interval
+    # schedule_24h, _ = IntervalSchedule.objects.get_or_create(
+    #     every=24,
+    #     period=IntervalSchedule.HOURS,
+    # )
 
     # Prepare data
     participants = (
@@ -103,17 +102,17 @@ def after_webinar_done_dispatch(webinar: Webinar):
         + timedelta(hours=24),  # try to download within 24h or give up
     )
 
-    # Schedule periodic task: Send opinion e-mail
-    for participant in participants:
-        participant_id: int = participant.id  # type: ignore
-        PeriodicTask.objects.create(
-            interval=schedule_24h,
-            one_off=True,
-            name=f"Send opinion e-mail to participant #{participant_id}",
-            task="send_participant_opinion_email",
-            args=params_send_participant_opinion_email(
-                participant.email, participant.application.id
-            ),
-            expires=now()
-            + timedelta(hours=30),  # just in case to prevent resend
-        )
+    # # Schedule periodic task: Send opinion e-mail
+    # for participant in participants:
+    #     participant_id: int = participant.id  # type: ignore
+    #     PeriodicTask.objects.create(
+    #         interval=schedule_24h,
+    #         one_off=True,
+    #         name=f"Send opinion e-mail to participant #{participant_id}",
+    #         task="send_participant_opinion_email",
+    #         args=params_send_participant_opinion_email(
+    #             participant.email, participant.application.id
+    #         ),
+    #         expires=now()
+    #         + timedelta(hours=30),  # just in case to prevent resend
+    #     )

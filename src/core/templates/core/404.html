@@ -1,11 +1,84 @@
-<!DOCTYPE html>
+{% load static %}
+
+<!doctype html>
 <html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404</title>
-</head>
-<body>
-    <h1>Nie można znaleźć strony</h1>
-</body>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="Codescandy" />
+
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'geeks/assets/images/favicon/favicon.ico' %}" />
+
+    <!-- darkmode js -->
+    <script src="{% static 'geeks/assets/js/vendors/darkMode.js' %}"></script>
+
+    <!-- Libs CSS -->
+    <link href="{% static 'geeks/assets/fonts/feather/feather.css' %}" rel="stylesheet" />
+    <link href="{% static 'geeks/assets/libs/bootstrap-icons/font/bootstrap-icons.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'geeks/assets/libs/simplebar/dist/simplebar.min.css' %}" rel="stylesheet" />
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="{% static 'geeks/assets/css/theme.min.css' %}" />
+
+    <title>Nie znaleziono strony</title>
+  </head>
+
+  <body class="bg-white">
+    <!-- Page Content -->
+    <main>
+      <section class="container d-flex flex-column vh-100">
+        <div class="row">
+          <div class="offset-xl-1 col-xl-10 col-md-12 col-12">
+            <div class="mt-4 d-flex justify-content-between align-items-center">
+              <a href="{% url "core:homepage" %}">
+                <img src="{% static 'media/logos/wykladowcapl/logo.svg' %}" style="height:30px;" alt="logo" class="logo-inverse" />
+            </a>
+            </div>
+          </div>
+        </div>
+        <div class="row align-items-center justify-content-center g-0 h-lg-100 py-10">
+          <!-- Docs -->
+          <div class="offset-xl-1 col-xl-4 col-lg-6 col-md-12 col-12 text-center text-lg-start">
+            <h1 class="display-1 mb-3">404</h1>
+
+            <p class="mb-5 lead px-4 px-md-0">
+              Ups! Przepraszamy, ale nie udało nam się znaleźć strony, której szukasz.
+              <br>
+              <br>
+              Jeżeli uważasz, że problem leży po naszej stronie
+              <a href="{% url "core:contact_page" %}" class="btn-link">skontaktuj się z nami</a>
+            </p>
+            <a href="{% url "core:homepage" %}" class="btn btn-primary me-2">Powrót do strony głównej</a>
+          </div>
+          <!-- img -->
+          <div class="offset-xl-1 col-xl-6 col-lg-6 col-md-12 col-12 mt-8 mt-lg-0">
+            <img src="{% static "geeks/assets/images/error/404-error-img.svg" %}" alt="error" class="w-100" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="offset-xl-1 col-xl-10 col-lg-12 col-md-12 col-12">
+            <div class="row align-items-center my-6">
+              <div class="col-md-6 col-8">
+                <p class="mb-0">© {{COMPANY_NAME}} {{CURRENT_YEAR}}</p>
+              </div>
+              <div class="col-md-6 col-4 d-flex justify-content-end"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Scripts -->
+    <!-- Libs JS -->
+    <script src="{% static "geeks/assets/libs/@popperjs/core/dist/umd/popper.min.js" %}"></script>
+    <script src="{% static "geeks/assets/libs/bootstrap/dist/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "geeks/assets/libs/simplebar/dist/simplebar.min.js" %}"></script>
+
+    <!-- Theme JS -->
+    <script src="{% static "geeks/assets/js/theme.min.js" %}"></script>
+  </body>
 </html>
