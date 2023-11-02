@@ -10,7 +10,7 @@ from core.views import (
 
 urlpatterns = [
     path(
-        "wszystkie/",
+        "wszystkie-kategorie/",
         webinar_all_categories_page,
         name="webinar_all_categries_page",
     ),

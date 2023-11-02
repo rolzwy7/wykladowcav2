@@ -63,10 +63,18 @@
 <!--end::Toolbar-->
 
 <div class="table-responsive">
-  <table class="table table-bordered  table-row-gray-900" style="border: 1px solid black;">
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Szczegóły</th>
+        <th scope="col">Status</th>
+        <th scope="col">Pozostało</th>
+      </tr>
+    </thead>
     <tbody>
       {% for webinar_ctx in webinars_ctxs %}
-        {% include './snippets/CrmWebinarRow.html' with webinar_ctx=webinar_ctx %}
+        {% include './snippets/CrmWebinarRow.html' with webinar_ctx=webinar_ctx forloop_counter=forloop.counter0 %}
       {% endfor %}
     </tbody>
   </table>

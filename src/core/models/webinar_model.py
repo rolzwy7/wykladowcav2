@@ -11,6 +11,7 @@ from django.db.models import (
     CharField,
     DateTimeField,
     ForeignKey,
+    ImageField,
     Manager,
     ManyToManyField,
     Model,
@@ -234,6 +235,13 @@ class Webinar(Model):
         max_length=32,
         blank=True,
         help_text="Ciąg znaków grupujący razem terminy",
+    )
+
+    facebook_post_image = ImageField(
+        "Facebook Post Image",
+        blank=True,
+        upload_to="uploads/webinar-facebook-covers",
+        help_text=("wymiary: 1200px na 630px"),
     )
 
     class Meta:

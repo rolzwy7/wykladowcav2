@@ -28,58 +28,7 @@
         <div class="row gy-4">
           {% for category in categories %}
           <div class="col-lg-4 col-md-4 col-12">
-            <!-- card -->
-
-            <div
-              class="card border-top border-4 card-hover-with-icon"
-              onclick="window.location.href='{% url 'core:webinar_category_page' slug=category.slug %}'"
-            >
-              <!-- card body -->
-
-              <div class="card-body">
-                <!-- icon  -->
-
-                <div
-                  class="icon-shape icon-lg rounded-circle bg-light text-muted mb-3 card-icon"
-                >
-
-                  {% if category.icon_html %}
-                    {{category.icon_html|safe}}
-                  {% else %}
-                    <i class="bi bi-chat-dots-fill" style="font-size:1.2rem;"></i>
-                  {% endif %}
-                  
-                </div>
-                <div class="d-flex align-items-center justify-content-between">
-                  <div>
-                    <!-- heading -->
-
-                    <h4 class="mb-0">{{category.name}}</h4>
-                    <!-- text -->
-
-                    {% comment %} <!-- TODO --> {% endcomment %}
-                    {% comment %} <p class="mb-0 text-muted">2k Jobs</p> {% endcomment %}
-                  </div>
-                  <!-- arrow -->
-
-                  <a href="{% url 'core:webinar_category_page' slug=category.slug %}" class="text-inherit">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      class="bi bi-chevron-right"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
-                      ></path>
-                    </svg>
-                  </a>
-                </div>
-              </div>
-            </div>
+            {% include "geeks/components/category_card.html" with category=category count=0 %}
           </div>
           {% endfor %}
           {% comment %} <div class="col-12 mt-8 text-center">

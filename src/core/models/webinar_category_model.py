@@ -23,7 +23,13 @@ class WebinarCategoryManager(Manager):
         """Get main categories (visible categories without parents)"""
         return (
             self.get_queryset()
-            .filter(Q(visible=True) & Q(parent=None))
+            .filter(
+                Q(visible=True)
+                & (
+                    Q(parent=None)
+                    | (~Q(parent=None) & Q(parent__is_homepage_category=True))
+                )
+            )
             .order_by("order")
         )
 
@@ -33,7 +39,10 @@ class WebinarCategoryManager(Manager):
         """Get subcategories for given category"""
         return (
             self.get_queryset()
-            .filter(Q(visible=True) & Q(parent=category))
+            .filter(
+                Q(visible=True)
+                & (Q(parent=category) | Q(parent__parent=category))
+            )
             .order_by("order")
         )
 
@@ -71,11 +80,6 @@ class WebinarCategory(Model):
         ),
     )
     is_homepage_category = BooleanField("Jest kategorią domową", default=False)
-    # is_new_category = BooleanField(
-    #     "Jest kategorią domową",
-    #     default=False,
-    #     help_text="Kategoria jest nowa",
-    # )
 
     about_html = TextField("Opis kategorii", default="[Opis kategorii]")
 
@@ -85,7 +89,7 @@ class WebinarCategory(Model):
 
     def __str__(self):
         if self.parent:
-            return f"{str(self.parent.name)}/{str(self.name)}"
+            return f"{str(self.parent.name)} / {str(self.name)}"
         else:
             return str(self.name)
 

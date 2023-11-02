@@ -1,6 +1,18 @@
 {% extends 'geeks/extends/foundation.html' %}
 {% load static %}
 
+{% block meta %}
+<meta property="og:url" content="{{META__BASE_URL}}{% url "core:webinar_redirect_to_program_facebook" pk=webinar.pk %}" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="{{webinar.title}}" />
+{% if webinar.description %}
+<meta property="og:description" content="{{webinar.description}}" />
+{% endif %}
+{% if webinar.facebook_post_image %}
+<meta property="og:image" content="{{META__BASE_URL}}{% get_media_prefix %}{{webinar.facebook_post_image}}" />
+{% endif %}
+{% endblock meta %}
+
 {% block title %}
   <title>Szkolenie - {{webinar.title}}</title>
 {% endblock title %}

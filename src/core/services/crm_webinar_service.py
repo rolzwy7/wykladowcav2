@@ -178,7 +178,7 @@ class CrmWebinarService:
         if lecturer_price_netto:
             netto_base = total_netto_value_of_webinar - lecturer_price_netto
         else:
-            netto_base = max(0, total_netto_value_of_webinar - 1500)
+            netto_base = max(0, total_netto_value_of_webinar - 2500)
 
         netto_score = min(25, (netto_base / 10_000) * 25)
 
