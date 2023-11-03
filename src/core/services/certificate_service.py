@@ -243,7 +243,7 @@ class CertificateService:
         # Draw participant fullname
 
         fullname = f"{self.certificate.first_name} {self.certificate.last_name}"
-        fullname_fs = 200 if len(fullname) < 30 else 150
+        fullname_fs = 200 if len(fullname) < 20 else 150
         font = load_font(CertificateFonts.AleoLight, fullname_fs)
         text_center_multiline(
             draw,

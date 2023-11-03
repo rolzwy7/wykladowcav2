@@ -17,22 +17,19 @@ def recording_token_page(request: HttpRequest, uuid: str):
     recording_token = get_object_or_404(WebinarRecordingToken, token=uuid)
     streaming_service = StreamingService(recording_token)
 
-    if streaming_service.is_access_denied():
-        template_name = "geeks/pages/recordings/RecordingDeniedPage.html"
-        return TemplateResponse(
-            request, template_name, {"uuid": uuid, "recording": recording_token}
-        )
-
+    # Recording expired
     if streaming_service.is_token_expired():
         template_name = "geeks/pages/recordings/RecordingExpiredPage.html"
         return TemplateResponse(
             request, template_name, {"uuid": uuid, "recording": recording_token}
         )
 
-    # Display login instructions
-    if not request.user.is_authenticated:
-        template_name = "geeks/pages/recordings/RecordingNotLoggedInPage.html"
-        return TemplateResponse(request, template_name, {"uuid": uuid})
+    # Recording denied
+    if streaming_service.is_access_denied():
+        template_name = "geeks/pages/recordings/RecordingDeniedPage.html"
+        return TemplateResponse(
+            request, template_name, {"uuid": uuid, "recording": recording_token}
+        )
 
     recording: WebinarRecording = recording_token.recording
     webinar: Webinar = recording.webinar
@@ -41,6 +38,15 @@ def recording_token_page(request: HttpRequest, uuid: str):
     webinar_assets = WebinarAsset.manager.filter(webinar=webinar).order_by(
         "filename"
     )
+
+    # TODO: Free access
+    # TODO: Password access
+    # TODO: Simplified registration + login
+
+    # Display login instructions
+    if not request.user.is_authenticated:
+        template_name = "geeks/pages/recordings/RecordingNotLoggedInPage.html"
+        return TemplateResponse(request, template_name, {"uuid": uuid})
 
     return TemplateResponse(
         request,

@@ -103,6 +103,19 @@ class WebinarRecordingToken(Model):
         "WebinarRecording", verbose_name="Nagranie", on_delete=CASCADE
     )
 
+    free_access = BooleanField(
+        "Otwarty dostęp",
+        default=False,
+        help_text="To nagranie jest dostępne dla każdego kto ma link",
+    )
+
+    password = CharField(
+        "Hasło",
+        max_length=64,
+        blank=True,
+        help_text="To nagranie jest zabezpieczone hasłem",
+    )
+
     participant = ForeignKey(
         "WebinarParticipant",
         verbose_name="Uczestnik",

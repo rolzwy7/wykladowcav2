@@ -87,6 +87,7 @@
     {% endblock %}
     {% endif %}
 
+    {% if request.user.is_staff %}
     <div class="breadcrumbs" style="text-align:center;">
       <a href="{% url "admin:core_webinar_changelist" %}">
         <b>[&nbsp;Webinary&nbsp;]</b>
@@ -107,6 +108,7 @@
         <b>[&nbsp;CRM Mailingi&nbsp;]</b>
       </a>
     </div>
+    {% endif %}
 
     <div class="main" id="main">
       {% if not is_popup and is_nav_sidebar_enabled %}

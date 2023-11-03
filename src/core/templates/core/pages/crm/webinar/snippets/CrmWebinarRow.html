@@ -71,15 +71,15 @@
         {% if webinar_ctx.webinar_rating >= 1 %}
             <span
             {% if webinar_ctx.webinar_rating < 5 %}
-                class="fs-6"
+                class="fs-6 fw-bold badge bg-light text-dark"
             {% elif webinar_ctx.webinar_rating < 30 %}
-                class="fs-6 fw-bold text-secondary"
+                class="fs-6 fw-bold badge bg-secondary"
             {% elif webinar_ctx.webinar_rating < 50 %}
                 class="fs-6 fw-bold badge badge-dark"
             {% elif webinar_ctx.webinar_rating >= 50 %}
                 class="fs-6 fw-bold badge badge-success"
             {% elif webinar_ctx.webinar_rating >= 75 %}
-                class="fs-6 fw-bold text-info"
+                class="fs-6 fw-bold badge bg-primary"
             {% endif %}
                 data-bs-toggle="tooltip"
                 data-bs-custom-class="tooltip-inverse"

@@ -417,12 +417,12 @@
                                         <b>E-mail do faktury:</b> {{application.invoice.invoice_email}}
 
                                         {% for metadata in sent_applications_metadata %}
-                                        {% if metadata.application.id == application.id %}
-                                        <br> Wystawiono fakturę: {{metadata.invoice_number}}
-                                        <a href="{{metadata.invoice_url}}">
-                                            {{metadata.invoice_url}}
-                                        </a>
-                                        {% endif %}
+                                            {% if metadata.application.id == application.id %}
+                                                <br> Wystawiono fakturę: {{metadata.invoice_number}}
+                                                <a href="{{metadata.invoice_url}}">
+                                                    {{metadata.invoice_url}}
+                                                </a>
+                                            {% endif %}
                                         {% endfor %}
 
                                         {% if application.additional_information %}
