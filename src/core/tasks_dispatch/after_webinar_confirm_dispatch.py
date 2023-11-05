@@ -1,3 +1,6 @@
+# flake8: noqa:E501
+# pylint: disable=line-too-long
+
 from celery import chain, group
 from django.urls import reverse
 
@@ -19,8 +22,8 @@ def after_webinar_confirm_dispatch(webinar: Webinar):
 
     # Prepare data
     webinar_id: int = webinar.id  # type: ignore
-    participants = (
-        WebinarParticipant.manager.get_valid_participants_for_webinar(webinar)
+    participants = WebinarParticipant.manager.get_valid_participants_for_webinar(
+        webinar
     )
     lecturer: Lecturer = webinar.lecturer
     webinar_metadata = WebinarMetadata.objects.get(webinar=webinar)
@@ -55,9 +58,7 @@ def after_webinar_confirm_dispatch(webinar: Webinar):
     # Dispatch tasks
     chain(
         # Create clickmeeting room
-        task_create_clickmeeting_room.s(
-            params_create_clickmeeting_room(webinar)
-        ),
+        task_create_clickmeeting_room.s(params_create_clickmeeting_room(webinar)),
         # Broadcast `room_id` (int), send invitations for participants
         group(*clickmeeting_invitations),
         group(*preparation_emails),
