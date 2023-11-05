@@ -38,12 +38,44 @@ def recording_token_page(request: HttpRequest, uuid: str):
     webinar_assets = WebinarAsset.manager.filter(webinar=webinar).order_by(
         "filename"
     )
+    context = {
+        "uuid": uuid,
+        "recording": recording_token,
+        "webinar": webinar,
+        "ip_address": IpAddressService.get_client_ip(request),
+        "lecturer": lecturer,
+        "webinar_assets": webinar_assets,
+    }
 
-    # TODO: Free access
+    if streaming_service.is_free_access():
+        return TemplateResponse(
+            request,
+            "geeks/pages/recordings/RecordingTokenPage.html",
+            context,
+        )
+
     # TODO: Password access
-    # TODO: Simplified registration + login
+    # if <password set on recording model instance>:
+    #     if <POST>:
+    #         get POST.password
+    #         if recording model.password == POST.password:
+    #             ret video panel
+    #         else:
+    #             ret display form with error text
+    #     else:
+    #         ret display form
 
-    # Display login instructions
+    # TODO: Simplified registration + login
+    # if participant set:
+    #     if user authed:
+    #         if user.email == participant.email:
+    #             ret video panel
+    #         else:
+    #             ret bad email in user
+    #     else:
+    #         ret page with button to simplified register
+
+    # Display registration and login instructions
     if not request.user.is_authenticated:
         template_name = "geeks/pages/recordings/RecordingNotLoggedInPage.html"
         return TemplateResponse(request, template_name, {"uuid": uuid})
@@ -51,12 +83,5 @@ def recording_token_page(request: HttpRequest, uuid: str):
     return TemplateResponse(
         request,
         "geeks/pages/recordings/RecordingTokenPage.html",
-        {
-            "uuid": uuid,
-            "recording": recording_token,
-            "webinar": webinar,
-            "ip_address": IpAddressService.get_client_ip(request),
-            "lecturer": lecturer,
-            "webinar_assets": webinar_assets,
-        },
+        context,
     )

@@ -73,6 +73,14 @@ class StreamingService:
         """
         return self.recording_token.deny_access
 
+    def is_free_access(self) -> bool:
+        """Check if recording is in free access
+
+        Returns:
+            bool: True if is in free access, False otherwise
+        """
+        return self.recording_token.free_access
+
     def get_streaming_response(self, request: HttpRequest):
         """Get HTTP response to answer video player video request"""
 
