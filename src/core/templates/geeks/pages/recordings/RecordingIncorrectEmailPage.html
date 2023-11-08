@@ -1,0 +1,49 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+
+{% block title %}
+   <title>Niepoprawne konto</title>
+{% endblock title %}
+
+{% block root %}
+<main>
+   <section class="py-8">
+   <!-- container -->
+   <div class="container">
+      <div class="row">
+         <div class="offset-xl-1 col-xl-10 col-md-12 col-12">
+         <div class="row text-center">
+            <!-- col -->
+            <div class="col-md-12 px-lg-8 mb-8 mt-6">
+               <span class="text-uppercase text-primary fw-semibold ls-md">
+                Wystąpił błąd
+               </span>
+               <!-- heading -->
+               <h1 class="h1 fw-bold mt-3">
+               Niepoprawny adres e-mail zalogowanego użytkownika
+               </h1>
+               <h2 class="h2 fw-bold mt-3">
+               To nagranie jest dostępne tylko dla użytkownika zalogowane poprzez adres e-mail
+               <br>
+               <b class="text-primary fw-bold">{{participant_email}}</b>
+               </h2>
+               <h2 class="h2 fw-bold mt-3">
+               Obecnie są Państwo zalogowani poprzez adres e-mail 
+               <br>
+               <b class="text-primary fw-bold">{{request.user.email}}</b>
+               </h2>
+               <h3 class="h3 fw-bold mt-3">
+               Prosimy o <a href="{% url "core:logout_page" %}">wylogowanie się</a>, a następnie ponowne zalogowanie na odpowiednie konto.
+               </h3>
+               <h3 class="h3 fw-bold mt-3">
+               W razie problemów prosimy o kontakt {{COMPANY_OFFICE_EMAIL}} , {{COMPANY_OFFICE_PHONE}}
+               </h3>
+            </div>
+         </div>
+         </div>
+      </div>
+   </div>
+   </section>
+</main>
+{% endblock root %}

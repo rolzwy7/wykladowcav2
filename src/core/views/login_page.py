@@ -13,6 +13,7 @@ def login_page(request):
     auth_failed = False
 
     next_param = request.GET.get("next", "")
+    login_param = request.GET.get("login_param", "")
 
     if request.method == POST:
         form = LoginForm(request.POST)
@@ -30,7 +31,8 @@ def login_page(request):
     else:
         if request.user.is_authenticated:
             return redirect(reverse("core:homepage"))
-        form = LoginForm()
+
+        form = LoginForm(initial={"username": login_param})
 
     return TemplateResponse(
         request,

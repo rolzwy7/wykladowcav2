@@ -26,9 +26,9 @@ class CrmWebinarService:
 
     def get_move_registers(self):
         """Get move registers for this webinar"""
-        return WebinarMoveRegister.manager.filter(
-            webinar=self.webinar
-        ).order_by("-created_at")
+        return WebinarMoveRegister.manager.filter(webinar=self.webinar).order_by(
+            "-created_at"
+        )
 
     def get_applications_cancellations(self):
         """Get cancellations for applications of this webinar"""
@@ -38,9 +38,7 @@ class CrmWebinarService:
 
     def get_sent_applications(self):
         """Returns all sent applications for this webinar"""
-        return WebinarApplication.manager.sent_applications_for_webinar(
-            self.webinar
-        )
+        return WebinarApplication.manager.sent_applications_for_webinar(self.webinar)
 
     def get_applications_with_additional_infos(
         self, applications: QuerySet[WebinarApplication]
@@ -54,9 +52,7 @@ class CrmWebinarService:
 
     def get_sent_applications_metadata(self):
         """Returns metadatas from sent applications metadata"""
-        application_ids = [
-            _.id for _ in self.get_sent_applications()  # type: ignore
-        ]
+        application_ids = [_.id for _ in self.get_sent_applications()]  # type: ignore
         return WebinarApplicationMetadata.objects.filter(
             application__in=application_ids
         )
@@ -74,7 +70,7 @@ class CrmWebinarService:
         )
 
     def get_gathered_participants(self):
-        """Participants from `sent` applications"""
+        """Participants that are `valid` for this webinar"""
         return WebinarParticipant.manager.get_valid_participants_for_webinar(
             self.webinar
         )
@@ -91,15 +87,11 @@ class CrmWebinarService:
 
     def get_all_recording_tokens(self):
         """Get all tokens for all recordings for this webinar"""
-        return WebinarRecordingToken.manager.filter(
-            recording__webinar=self.webinar
-        )
+        return WebinarRecordingToken.manager.filter(recording__webinar=self.webinar)
 
     def lecturer_price_netto(self) -> int:
         """Get lecturer's NETTO price for this webinar"""
-        metatada, _ = WebinarMetadata.objects.get_or_create(
-            webinar=self.webinar
-        )
+        metatada, _ = WebinarMetadata.objects.get_or_create(webinar=self.webinar)
         return metatada.lecturer_price_netto
 
     def get_percent_goal(self) -> int:
@@ -206,8 +198,8 @@ class CrmWebinarService:
         recordings = self.get_recordings()
         certificates = self.get_certificates()
         webinar_metadata = WebinarMetadata.objects.get(webinar=self.webinar)
-        additional_infos_applications = (
-            self.get_applications_with_additional_infos(sent_applications)
+        additional_infos_applications = self.get_applications_with_additional_infos(
+            sent_applications
         )
         additional_infos_applications_count = len(additional_infos_applications)
 

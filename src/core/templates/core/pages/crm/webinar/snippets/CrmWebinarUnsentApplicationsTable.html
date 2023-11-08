@@ -7,9 +7,7 @@
             <th class="min-w-50px">NIP</th>
             <th class="min-w-50px">Typ <br> zgłoszenia</th>
             <th class="min-w-150px">Osoba <br> zgłaszająca</th>
-            <th class="min-w-50px">Uczestników <br> szkolenia</th>
             <th class="min-w-50px">Za <br> osobę</th>
-            <th class="min-w-50px">Wartość <br> zgłoszenia</th>
             <th class="min-w-50px">Zgłoszenie <br> stworzono</th>
         </tr>
     </thead>
@@ -18,9 +16,10 @@
         <tr>
             <td>
                 <a href="{% url 'admin:core_webinarapplication_change' object_id=application.id %}">
+                <b>Zobacz w CMS</b> <br>
                 {% if application.application_type == "COMPANY" or application.application_type == "JSFP" %}
                     <span class="fw-bold {% if application.application_type == "COMPANY" %}text-primary{% else %}text-danger{% endif %}" title="{{application.buyer.name}}">
-                        {{application.buyer.name|shorten:7}}
+                        {{application.buyer.name|shorten:14}}
                         <small>
                             {% if application.buyer.email %}
                                 <br>
@@ -34,7 +33,7 @@
                     </span>
                 {% elif application.application_type == "PRIVATE_PERSON" %}
                     <span class="fw-bold text-success" title="{{application.private_person.fullname}}">
-                        {{application.private_person.fullname|shorten:7}}
+                        {{application.private_person.fullname|shorten:14}}
                         <small>
                             {% if application.private_person.email %}
                                 <br>
@@ -49,7 +48,7 @@
                 {% endif %}
                 </a>
                 <br>
-                <a href="{% url 'core:application_summary_page' uuid=application.uuid %}">
+                <a class="mt-3" href="{% url 'core:application_summary_page' uuid=application.uuid %}">
                     ( Podsumowanie )
                 </a>
             </td>
@@ -85,9 +84,7 @@
                     <span>{{application.submitter.phone}}</span>
                 </div>
             </td>
-            <td>application.participants.count</td>
             <td>{{application.price_netto}}zł</td>
-            <td>application.total_price_netto zł</td>
             <td>
                 {{application.created_at|date:"Y/m/j"}}, {{application.created_at|date:"H:i"}}
             </td>

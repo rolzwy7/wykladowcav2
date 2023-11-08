@@ -10,9 +10,7 @@ from .create_participant_certificate import task_create_participant_certificate
 from .download_and_process_clickmeeting_recording import (
     task_download_and_process_clickmeeting_recording,
 )
-from .save_application_invoice_metadata import (
-    task_save_application_invoice_metadata,
-)
+from .save_application_invoice_metadata import task_save_application_invoice_metadata
 from .send_clickmeeting_invitation_lecturer import (
     task_send_clickmeeting_invitation_lecturer,
 )
@@ -35,6 +33,10 @@ from .send_participant_opinion_email import (
 from .send_participant_preparation_email import (
     params_send_participant_preparation_email,
     task_send_participant_preparation_email,
+)
+from .send_participant_recording_email import (
+    params_send_participant_recording_email,
+    task_send_participant_recording_email,
 )
 from .send_submitter_cancellation_email import (
     params_send_submitter_cancellation_email,

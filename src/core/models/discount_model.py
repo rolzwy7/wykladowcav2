@@ -1,6 +1,7 @@
 import uuid
 
 from django.db.models import (
+    CASCADE,
     RESTRICT,
     BooleanField,
     CharField,
@@ -38,9 +39,7 @@ class DiscountCode(Model):
 
     manager = DiscountCodeManager()
 
-    uuid = UUIDField(
-        "Identyfikator kodu promocyjnego", default=uuid.uuid4, unique=True
-    )
+    uuid = UUIDField("Identyfikator kodu promocyjnego", default=uuid.uuid4, unique=True)
 
     discount_code = CharField("Kod promocyjny", max_length=32, unique=True)
 
@@ -50,9 +49,7 @@ class DiscountCode(Model):
         help_text="W zależności od typu. Albo `zł` albo `%`",
     )
 
-    expired = BooleanField(
-        "Zużyty", default=False, help_text="Kod został zużyty."
-    )
+    expired = BooleanField("Zużyty", default=False, help_text="Kod został zużyty.")
 
     USE_TYPE = [
         (DiscountCodeUseType.ONE_TIME, "Jednorazowy"),
@@ -64,9 +61,7 @@ class DiscountCode(Model):
         (DiscountCodeType.PERCENT, "( % ) Procentowa"),
         (DiscountCodeType.VALUE, "( zł ) Złotówkowa"),
     ]
-    discount_type = CharField(
-        "Typ zniżki", max_length=32, choices=DISCOUNT_TYPE
-    )
+    discount_type = CharField("Typ zniżki", max_length=32, choices=DISCOUNT_TYPE)
 
     expires = DateTimeField(
         "Zniżka wygasa",
@@ -87,7 +82,7 @@ class DiscountApplicationApplied(Model):
     """Represents discounts applied to applications"""
 
     application = ForeignKey(
-        "WebinarApplication", verbose_name="Zgłoszenie", on_delete=RESTRICT
+        "WebinarApplication", verbose_name="Zgłoszenie", on_delete=CASCADE
     )
 
     discount_weight = PositiveSmallIntegerField(

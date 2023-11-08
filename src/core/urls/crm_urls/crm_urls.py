@@ -1,3 +1,5 @@
+# flake8: noqa:E501
+# pylint: disable=line-too-long
 from django.urls import include, path
 
 from core.views.crm import (
@@ -22,6 +24,7 @@ from core.views.crm import (
 from core.views.crm.company import CrmCompanyDetail, CrmCompanyList
 from core.views.crm.contact import CrmContactDetail, CrmContactList
 from core.views.crm.mailing import download_emails_from_sender_page
+from core.views.crm.recording import crm_send_recording_to_all_participants
 from core.views.crm.webinar.actions import (
     CancelWebinarAction,
     ConfirmWebinarAction,
@@ -169,6 +172,13 @@ urlpatterns = [
         crm_eventlogs,
         name="crm_eventlogs",
     ),
+    # Recordings
+    path(
+        "nagrania/<str:recording_id>/wyslij-wszystkim-uczestnikom/",
+        crm_send_recording_to_all_participants,
+        name="crm_send_recordings_to_all_participants",
+    ),
+    # Upcoming webinars
     path(
         "",
         crm_upcoming_webinars,
