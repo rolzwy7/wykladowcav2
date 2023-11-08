@@ -1,5 +1,7 @@
 ### Custom .gitignore
 
+node_modules
+
 .inbox-test
 .pytest_cache
 .venv
