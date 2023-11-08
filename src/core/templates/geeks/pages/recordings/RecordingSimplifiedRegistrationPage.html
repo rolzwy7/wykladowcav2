@@ -1,0 +1,55 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+
+{% block title %}
+   <title>Nagranie uproszczona rejestracja</title>
+{% endblock title %}
+
+{% block root %}
+<main>
+   <section class="py-8">
+   <!-- container -->
+   <div class="container">
+      <div class="row">
+         <div class="offset-xl-1 col-xl-10 col-md-12 col-12">
+         <div class="row text-center">
+            <!-- col -->
+            <div class="col-md-12 px-lg-8 mb-8 mt-6">
+               <span class="text-uppercase text-primary fw-semibold ls-md">
+                Dostęp do nagrania ze szkolenia
+               </span>
+               <!-- heading -->
+               <h1 class="h1 fw-bold mt-3">
+               Aby uzyskać dostęp do nagranie ze szkolenia musisz posiadać konto w serwisie {{COMPANY_NAME}}
+               </h1>
+
+               <h3 class="h3 fw-bold mt-3">
+               Konto musi być powiązane z adresem e-mail
+               <span class="text-primary">{{participant_email}}</span>
+               </h3>
+
+               <h3 class="h3 fw-bold mt-2">
+               Specjalnie dla naszych klientów
+               <span class="text-primary">uprościliśmy maksymalnie</span>
+               proces rejestracji nowego konta!
+               </h3>
+               
+               <h3 class="h3 fw-bold mt-2">
+               <span class="text-primary">Wystarczy podać hasło</span>, zatwierdzić rejestrację i gotowe!
+               </h3>
+
+               <h2 class="h2 fw-bold mt-4">
+                <a href="{% url "core:register_page" %}?ruuid={{uuid}}" target="_blank" class="btn btn-lg btn-primary">
+                    Kliknij tutaj, aby stworzyć konto w 20 sekund
+                </a>
+               </h2>
+               
+            </div>
+         </div>
+         </div>
+      </div>
+   </div>
+   </section>
+</main>
+{% endblock root %}

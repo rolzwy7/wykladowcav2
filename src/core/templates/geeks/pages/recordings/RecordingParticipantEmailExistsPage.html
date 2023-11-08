@@ -1,0 +1,55 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+
+{% block title %}
+   <title>Nagranie zaloguj się</title>
+{% endblock title %}
+
+{% block root %}
+<main>
+   <section class="py-8">
+   <!-- container -->
+   <div class="container">
+      <div class="row">
+         <div class="offset-xl-1 col-xl-10 col-md-12 col-12">
+         <div class="row text-center">
+            <!-- col -->
+            <div class="col-md-12 px-lg-8 mb-8 mt-6">
+               <span class="text-uppercase text-primary fw-semibold ls-md">
+                Zaloguj się
+               </span>
+               <!-- heading -->
+               <h1 class="h1 fw-bold mt-3">
+               Zaloguj się, aby uzyskać dostęp do nagrania
+               </h1>
+               <h2 class="h2 fw-bold mt-3">
+               Konto powiązane z adresem e-mail
+               <br>
+               <b class="text-primary fw-bold">{{participant_email}}</b>
+               <br>
+               już istnieje w naszym systemie.
+               </h2>
+               
+               <h2 class="h2 fw-bold mt-3">
+                <a target="_blank" href="{% url "core:login_page" %}?next={% url "core:recording_token_page" uuid=uuid %}&login_param={{participant_email}}" class="btn btn-lg btn-primary">
+                    Kliknij tutaj, aby się na nie zalogować.
+                </a>
+               </h2>
+               
+               <h3 class="h3 fw-bold mt-6">
+               Jeśli nie pamiętają Państwo hasła prosimy skorzystać z opcji
+               <a href="{% url "core:forgot_password_page" %}">przypomnij hasło</a>.
+               </h3>
+               
+               <h3 class="h3 fw-bold mt-3">
+               W razie problemów prosimy o kontakt {{COMPANY_OFFICE_EMAIL}} , {{COMPANY_OFFICE_PHONE}}
+               </h3>
+            </div>
+         </div>
+         </div>
+      </div>
+   </div>
+   </section>
+</main>
+{% endblock root %}

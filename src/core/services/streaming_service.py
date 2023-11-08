@@ -1,3 +1,6 @@
+# flake8: noqa:E501
+# pylint: disable=line-too-long
+
 import os
 from io import BytesIO
 from pathlib import Path
@@ -80,6 +83,39 @@ class StreamingService:
             bool: True if is in free access, False otherwise
         """
         return self.recording_token.free_access
+
+    def is_password_access(self) -> bool:
+        """Check if recording is protected by password
+
+        Returns:
+            bool: True if is protected by password, False otherwise
+        """
+        return self.recording_token.password != ""
+
+    def is_password_correct(self, user_password: str) -> bool:
+        """Check if user provided passwords is correct
+
+        Returns:
+            bool: True if is correct, False otherwise
+        """
+        return self.recording_token.password == user_password
+
+    def is_participant_access(self) -> bool:
+        """Check if recording is protected by participant login
+
+        Returns:
+            bool: True if is protected by participant login, False otherwise
+        """
+        return self.recording_token.participant is not None
+
+    def is_participant_email_correct(self, email: str) -> bool:
+        """Check if recording given email is the same as participant email
+
+        Returns:
+            bool: True if it is, False otherwise
+        """
+        participant_email: str = self.recording_token.participant.email  # type: ignore
+        return participant_email == email
 
     def get_streaming_response(self, request: HttpRequest):
         """Get HTTP response to answer video player video request"""

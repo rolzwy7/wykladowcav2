@@ -55,9 +55,7 @@ class WebinarRecording(Model):
 
     recording_id = CharField("ID nagrania", max_length=64, primary_key=True)
     recording_url = URLField("URL do pobrania nagrania")
-    recording_duration_seconds = PositiveIntegerField(
-        "Czas trwania nagrania (sekundy)"
-    )
+    recording_duration_seconds = PositiveIntegerField("Czas trwania nagrania (sekundy)")
     recorder_started = DateTimeField("Kiedy rozpoczęto nagrywanie")
     recording_file_size = CharField("Rozmiar nagrania", max_length=64)
     recording_name = CharField("Nazwa nagrania", max_length=500)

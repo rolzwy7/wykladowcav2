@@ -39,6 +39,9 @@
                 <input
                   type="email"
                   id="email"
+                  {% if form.username.value %}
+                  value="{{form.username.value}}"
+                  {% endif %}
                   class="form-control"
                   name="username"
                   placeholder=""
@@ -71,7 +74,7 @@
                   {% endif %}
                 </div>
                 <div>
-                  <a href="{% url 'core:forgot_password_page' %}">
+                  <a href="{% url 'core:forgot_password_page' %}" class="fw-bold">
                     Zapomniałeś hasła?
                   </a>
                 </div>

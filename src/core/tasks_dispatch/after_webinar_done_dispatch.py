@@ -39,12 +39,10 @@ def after_webinar_done_dispatch(webinar: Webinar):
     # )
 
     # Prepare data
-    participants = (
-        WebinarParticipant.manager.get_valid_participants_for_webinar(webinar)
-    )
-    applications = WebinarApplication.manager.sent_applications_for_webinar(
+    participants = WebinarParticipant.manager.get_valid_participants_for_webinar(
         webinar
     )
+    applications = WebinarApplication.manager.sent_applications_for_webinar(webinar)
     webinar_id: int = webinar.id  # type: ignore
 
     # Create invoice jobs
@@ -98,8 +96,7 @@ def after_webinar_done_dispatch(webinar: Webinar):
         name=f"Downloading clickmeeting recording for webinar #{webinar_id}",
         task="download_and_process_clickmeeting_recording",
         args=json.dumps([webinar_id]),
-        expires=now()
-        + timedelta(hours=24),  # try to download within 24h or give up
+        expires=now() + timedelta(hours=24),  # try to download within 24h or give up
     )
 
     # # Schedule periodic task: Send opinion e-mail

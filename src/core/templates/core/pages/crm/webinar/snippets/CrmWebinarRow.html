@@ -48,8 +48,13 @@
     {% comment %} Sales {% endcomment %}
     <td>
         <span class="fw-bold text-{% include './WebinarStatusColor.html' %}">
+            {% if webinar_ctx.sent_applications_count != 0 %}
             {% include './WebinarStatusText.html' with webinar=webinar count=webinar_ctx.gathered_participants_count %}
             <span class="text-dark">( {{webinar_ctx.sent_applications_count}} zgł. )</span>
+            {% else %}
+            <span class="fw-light">brak zgłoszeń</span>
+            {% endif %}
+            
         </span>
         <br>
         <div style="font-weight: bold;">

@@ -1,0 +1,74 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %}
+{% load static %}
+
+{% block head_stylesheets %}
+
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title fw-bold fs-1">
+                Wyślij dostęp do nagrania ze szkolenia wszystkim jego uczestnikom
+            </h3>
+        </div>
+        <div class="card-body fs-3">
+
+            
+            <p><b>Szkolenie</b>: {{webinar_recording.webinar.title_original}}</p>
+            <p><b>Data</b>: {{webinar_recording.webinar.date|date:"j E Y"}}, godz. {{webinar_recording.webinar.date|date:"H:i"}}</p>
+            <p><b>Wykładowca</b>: {{webinar_recording.webinar.lecturer.fullname}}</p>
+            
+            <div class="separator my-5"></div>
+            <h2>Co się stanie?</h2>
+            <div class="separator my-5"></div>
+
+            <p>E-maile z linkiem umożliwiającym dostęp do nagrania ze szkolenia (na zasadzie uczestnika) zostaną wysłane na adresy e-mail uczesnitków:</p>
+
+            <ol>
+                {% for participant in participants %}
+                <li>
+                    {{participant.first_name}} {{participant.last_name}} - <b>{{participant.email}}</b>
+                </li>
+                {% endfor %}
+            </ol>
+
+            <div class="separator my-5"></div>
+
+            <form
+                onsubmit="actionSubmit.disabled = true; return true;"
+                method="post"
+                action="{% url "core:crm_send_recordings_to_all_participants" recording_id=recording_id %}"
+            >
+                {% csrf_token %}
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="i_am_sure" id="id_i_am_sure" style="cursor: pointer!important;">
+                    <label class="form-check-label text-gray-700 fw-bold" for="id_i_am_sure" style="cursor: pointer!important; user-select: none;">
+                        Chcę wykonać tę operację
+                    </label>
+                </div>
+                <div class="separator my-5"></div>
+                <input
+                    id="confirm-submit-btn"
+                    name="actionSubmit"
+                    class="btn btn-primary mt-4"
+                    type="submit"
+                    value="Wyślij"
+                    disabled
+                >
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock crm_content %}
+
+{% block body_scripts %}
+<script>
+    var checkInput = document.querySelector("#id_i_am_sure");
+    checkInput.addEventListener("click", function(e) {
+        let btn = document.querySelector("#confirm-submit-btn");
+        btn.disabled = !btn.disabled;
+    })
+</script>
+{% endblock body_scripts %}

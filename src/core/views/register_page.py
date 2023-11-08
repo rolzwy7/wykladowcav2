@@ -1,3 +1,4 @@
+# flake8: noqa:E501
 from django.contrib.auth import login
 from django.http import HttpRequest
 from django.shortcuts import redirect
@@ -6,6 +7,7 @@ from django.urls import reverse
 
 from core.consts import POST
 from core.forms import RegistrationForm
+from core.models import WebinarRecordingToken
 from core.services import RegistrationService
 
 
@@ -13,11 +15,27 @@ def register_page(request: HttpRequest):
     """Register page"""
     template_name = "geeks/pages/registration/RegisterPage.html"
 
+    # If user is already authenticated redirect to list of webinar categories
     if request.user.is_authenticated:
         return redirect(
             reverse("core:webinar_category_page", kwargs={"slug": "wszystkie"})
         )
 
+    # If recording token is set try to get participant
+    recording_token = request.GET.get("ruuid", "")
+    if recording_token:
+        token_exists = WebinarRecordingToken.manager.filter(
+            token=recording_token
+        ).exists()
+        if token_exists:
+            recording_token = WebinarRecordingToken.manager.get(token=recording_token)
+            participant = recording_token.participant
+        else:
+            return redirect(reverse("core:register_page"))
+    else:
+        participant = None
+
+    # Handle POST request
     if request.method == POST:
         form = RegistrationForm(request.POST)
         if form.is_valid():
@@ -28,18 +46,37 @@ def register_page(request: HttpRequest):
 
             registration_service = RegistrationService(email, password1)
             user = registration_service.create_user(first_name, last_name)
-            registration_service.send_confirmation_email(
-                str(user.activation_token)
-            )
-            webpath = reverse("core:register_info_page")
-            return redirect(f"{webpath}?email={email}")
+
+            # Simplified registration
+            if participant:
+                webpath = reverse(
+                    "core:recording_token_page", kwargs={"uuid": recording_token}
+                )
+                user.is_active = True
+                user.save()
+                login(request, user)
+                return redirect(webpath)
+            else:
+                registration_service.send_confirmation_email(str(user.activation_token))
+                webpath = reverse("core:register_info_page")
+                return redirect(f"{webpath}?email={email}")
+
     else:
-        form = RegistrationForm()
+        if participant:
+            form = RegistrationForm(
+                initial={
+                    "first_name": participant.first_name,
+                    "last_name": participant.last_name,
+                    "email": participant.email,
+                }
+            )
+        else:
+            form = RegistrationForm()
 
     return TemplateResponse(
         request,
         template_name,
-        {"form": form},
+        {"form": form, "participant": participant, "recording_token": recording_token},
     )
 
 

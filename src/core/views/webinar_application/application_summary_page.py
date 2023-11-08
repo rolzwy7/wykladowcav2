@@ -42,11 +42,11 @@ def application_summary_page(request, uuid):
                     loyalty_service = LoyaltyProgramService(provision_user)
                     loyalty_service.create_income_for_application(application)
 
-            # Send application
+            # Send application if user if not staff
             summary_service = ApplicationSummaryService(
                 application, request.user, webinar
             )
-            summary_service.send_application()
+            summary_service.send_application(dispatch=not request.user.is_staff)
 
             return redirect(reverse("core:application_success_page"))
     else:

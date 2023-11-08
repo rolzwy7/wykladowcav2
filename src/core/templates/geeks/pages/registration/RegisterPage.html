@@ -19,12 +19,17 @@
                         Powróć do strony główniej    
                     </a>
                     <hr class="my-4">
-                        <h1 class="mb-1 fw-bold">Zarejestruj się</h1>
-                        <span>Masz już konto ?
-                            <a href="{% url 'core:login_page' %}" class="ms-1">
-                                Zaloguj się
-                            </a>
-                        </span>
+                    {% if participant %}
+                    <div class="alert alert-primary" role="alert">
+                        Wpisz hasło, aby utworzyć konto. <b>Nie zmieniaj adresu e-mail</b>.
+                    </div>
+                    {% endif %}
+                    <h1 class="mb-1 fw-bold">Zarejestruj się</h1>
+                    <span>Masz już konto ?
+                        <a href="{% url 'core:login_page' %}" class="ms-1">
+                            Zaloguj się
+                        </a>
+                    </span>
                     </div>
                     {% for error in form.non_field_errors  %}
                         <div class="text-danger fw-medium">{{error}}</div>
@@ -33,7 +38,11 @@
                     <form
                         onsubmit="actionSubmit.disabled = true; return true;"
                         method="post"
+                        {% if recording_token %}
+                        action="{% url 'core:register_page' %}?ruuid={{recording_token}}"
+                        {% else %}
                         action="{% url 'core:register_page' %}"
+                        {% endif %}
                     >
                         {% csrf_token %}
                             <!-- first_name -->
