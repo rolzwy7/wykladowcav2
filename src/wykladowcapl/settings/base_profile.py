@@ -10,8 +10,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-VERSION_NUMBER = "1.3.0"
-VERSION_DATE = "2023/11/08"
+VERSION_NUMBER = "1.3.1"
+VERSION_DATE = "2023/11/11"
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

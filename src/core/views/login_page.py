@@ -37,5 +37,10 @@ def login_page(request):
     return TemplateResponse(
         request,
         template_name,
-        {"form": form, "auth_failed": auth_failed, "next_param": next_param},
+        {
+            "form": form,
+            "auth_failed": auth_failed,
+            "next_param": next_param,
+            "login_param": login_param,
+        },
     )

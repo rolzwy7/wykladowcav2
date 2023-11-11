@@ -187,7 +187,7 @@ class CrmWebinarService:
 
     def get_context(self):
         """Number of gathered participants"""
-        gathered_participants = self.get_gathered_participants().order_by("-id")
+        gathered_participants = self.get_gathered_participants().order_by("first_name")
         gathered_participants_count = gathered_participants.count()
         total_netto_value_of_webinar = self.total_netto_value_of_webinar()
         webinar_assets_count = self.get_webinar_assets().count()

@@ -1,0 +1,85 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+
+{% block title %}
+   <title>Konto - Moje nagrania</title>
+{% endblock title %}
+
+{% block root %}
+<main>
+    <!-- Page header -->
+    <section class="py-8">
+       <div class="container">
+          <div class="row">
+             <div class="col-xl-12 col-md-12 mb-6 mb-md-0">
+                <div class="row align-items-center mb-4">
+                   <div class="col">
+                    <h1>Moje nagrania</h1>
+                   </div>
+                </div>
+
+                {% for recording_token in recording_tokens %}
+                <div
+                    class="card card-bordered mb-3 card-hover cursor-pointer"
+                    onclick="window.location.href='{% url "core:recording_token_page" uuid=recording_token.token %}'"
+                >
+                   <!-- card body -->
+                   <div class="card-body">
+                      <div class="d-xl-flex">
+                         <!-- text -->
+                         <div class="w-100 mt-3 mt-xl-1">
+                            <div class="d-flex justify-content-between mb-5">
+                               <div>
+                                  <h3 class="mb-1 fs-4">
+                                     <a href="{% url "core:recording_token_page" uuid=recording_token.token %}" class="text-inherit">
+                                        {{recording_token.recording.webinar.title_original}}
+                                     </a>
+                                     {% if recording_token.deny_access %}
+                                     <span class="badge bg-danger-soft ms-2">
+                                         Odmówiono dostępu
+                                     </span>
+                                    {% endif %}
+                                  </h3>
+                                  <div>
+                                     <span>
+                                        {{recording_token.recording.webinar.lecturer}}
+                                     </span>
+                                  </div>
+                               </div>
+                            </div>
+                            <div class="d-md-flex justify-content-between">
+                               <div class="mb-2 mb-md-0">
+                                  <span class="me-2">
+                                  <i class="fe fe-clock"></i>
+                                  <span class="ms-1">
+                                    Nagranie wygasa {{recording_token.expires_at|date:"j E Y"}} godz. {{recording_token.expires_at|date:"H:i:s"}}
+                                  </span>
+                                  </span>
+                                  <span class="me-2">
+                                  <i class="fe fe-user"></i>
+                                  <span class="ms-1">
+                                    Udostępniono dla: {{recording_token.participant.first_name}} {{recording_token.participant.last_name}}
+                                  </span>
+                                  </span>
+                               </div>
+                               <div>
+                                  <a href="{% url "core:recording_token_page" uuid=recording_token.token %}" class="btn btn-sm btn-primary">
+                                    Obejrzyj
+                                  </a>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+                {% empty %}
+                <h2>Brak nagrań</h2>
+                {% endfor %}
+
+             </div>
+          </div>
+       </div>
+    </section>
+ </main>
+{% endblock root %}

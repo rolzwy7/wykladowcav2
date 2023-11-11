@@ -1,3 +1,5 @@
+# flake8: noqa:E501
+# pylint: disable=line-too-long
 from django.urls import include, path
 
 from core.views import (
@@ -26,12 +28,11 @@ from .mailing_templates_urls import urlpatterns as mailing_templates_urlpatterns
 from .previews_urls import urlpatterns as previews_urlpatterns
 from .recording_urls import urlpatterns as recording_urlpatterns
 from .registration_urls import urlpatterns as registration_urlpatterns
-from .terms_and_conditions_urls import (
-    urlpatterns as terms_and_conditions_urlpatterns,
-)
+from .terms_and_conditions_urls import urlpatterns as terms_and_conditions_urlpatterns
+from .user_account_urls import urlpatterns as user_account_urlpatterns
 from .webinar_urls import urlpatterns as webinar_urlpatterns
 
-app_name = "core"
+app_name = "core"  # pylint: disable=invalid-name
 
 urlpatterns = [
     # path("api/", include("api.urls"), namespace="api"),
@@ -64,6 +65,7 @@ urlpatterns = [
         name="mailing_resignation_page",
     ),
     path("szablony-mailingowe/", include(mailing_templates_urlpatterns)),
+    path("moje-konto/", include(user_account_urlpatterns)),
     *terms_and_conditions_urlpatterns,
     path("", home_page, name="homepage"),
 ]

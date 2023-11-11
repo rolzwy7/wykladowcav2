@@ -79,8 +79,8 @@ def recording_token_page(request: HttpRequest, uuid: str):
                 {**context},
             )
 
-    participant_email: str = recording_token.participant.email  # type: ignore
     if streaming_service.is_participant_access():
+        participant_email: str = recording_token.participant.email  # type: ignore
         if request.user.is_authenticated:
             user_email: str = request.user.email  # type: ignore
             if streaming_service.is_participant_email_correct(user_email):
