@@ -105,11 +105,11 @@ previewNode.parentNode.removeChild(previewNode);
 
 var myDropzone = new Dropzone(id, { // Make the whole body a dropzone
     url: "{% url 'core:crm_webinar_assets' pk=webinar.pk %}", // Set the url for your upload script location
-    parallelUploads: 1,
+    parallelUploads: 3,
     headers: {'X-CSRFToken': '{{csrf_token}}'},
     previewTemplate: previewTemplate,
     maxFiles: 30,
-    maxFilesize: 2.5, // Max filesize in MB
+    maxFilesize: 15, // Max filesize in MB
     autoQueue: false, // Make sure the files aren't queued until manually added
     previewsContainer: id + " .dropzone-items", // Define the container to display the previews
     clickable: id + " .dropzone-select" // Define the element that should be used as click trigger to select files.
@@ -154,7 +154,7 @@ myDropzone.on("complete", function (progress) {
             progressBar.querySelector('.progress').style.opacity = "0";
             progressBar.querySelector('.dropzone-start').style.opacity = "0";
         });
-        location.reload();
+        {% comment %} location.reload(); {% endcomment %}
     }, 300);
 });
 
