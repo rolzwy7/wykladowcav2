@@ -3,6 +3,7 @@ from random import choices
 
 from django.db.models import (
     CASCADE,
+    SET_NULL,
     BooleanField,
     CharField,
     DateTimeField,
@@ -54,6 +55,14 @@ class MailingCampaign(Model):
 
     manager = MailingCampaignManager()
 
+    webinar = ForeignKey(
+        "Webinar",
+        verbose_name="Szkolenie",
+        on_delete=SET_NULL,
+        null=True,
+        blank=True,
+    )
+
     created_at = DateTimeField(auto_now_add=True)
     title = CharField("Tytuł kampanii", max_length=100)
 
@@ -89,6 +98,9 @@ class MailingCampaign(Model):
 
     # Template
     template = ForeignKey("MailingTemplate", on_delete=CASCADE)
+
+    # Comment
+    comment = TextField("Komentarz", blank=True)
 
     # Days
     monday = BooleanField(default=True)

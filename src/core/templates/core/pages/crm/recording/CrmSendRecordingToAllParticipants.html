@@ -42,6 +42,13 @@
                 action="{% url "core:crm_send_recordings_to_all_participants" recording_id=recording_id %}"
             >
                 {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label" for="id_hours_from_now">
+                        Udostępniam na X godzin od teraz
+                    </label>
+                    <input type="number" id="id_hours_from_now" name="hours_from_now" class="form-control" value="48">
+                </div>
+                <div class="separator my-5"></div>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="i_am_sure" id="id_i_am_sure" style="cursor: pointer!important;">
                     <label class="form-check-label text-gray-700 fw-bold" for="id_i_am_sure" style="cursor: pointer!important; user-select: none;">

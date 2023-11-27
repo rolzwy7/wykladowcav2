@@ -1,6 +1,7 @@
 # flake8: noqa:E501
 # pylint: disable=line-too-long
 from django.urls import include, path
+from django.views.generic.base import RedirectView
 
 from core.views import (
     about_us_page,
@@ -67,5 +68,12 @@ urlpatterns = [
     path("szablony-mailingowe/", include(mailing_templates_urlpatterns)),
     path("moje-konto/", include(user_account_urlpatterns)),
     *terms_and_conditions_urlpatterns,
+    #
+    path(
+        "r/pp",
+        RedirectView.as_view(url="/polecaj-i-zarabiaj/informacje/"),
+        name="redirect_loyalty_program",
+    ),
+    #
     path("", home_page, name="homepage"),
 ]

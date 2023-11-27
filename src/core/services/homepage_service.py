@@ -1,6 +1,6 @@
 import random
 
-from core.models import Lecturer, Webinar, WebinarCategory
+from core.models import Lecturer, Webinar
 
 
 class HomepageService:
@@ -20,8 +20,8 @@ class HomepageService:
                 (f"{logos_base}/kghm.svg", "KGHM"),
                 (f"{logos_base}/pge.svg", "PGE"),
                 (f"{logos_base}/pocztapolska.svg", "Poczta Polska"),
-                (f"{logos_base}/deutsche_bahn.svg", "Deutsche Bahn"),
-                (f"{logos_base}/hydro_vacuum.svg", "Hydro Vacuum"),
+                # (f"{logos_base}/deutsche_bahn.svg", "Deutsche Bahn"),
+                # (f"{logos_base}/hydro_vacuum.svg", "Hydro Vacuum"),
                 (f"{logos_base}/jsw_sa.svg", "JSW SA"),
                 (f"{logos_base}/orbis_sa.svg", "Orbis SA"),
             ],
@@ -37,7 +37,6 @@ class HomepageService:
     def get_context(self):
         """Get context for homepage"""
         return {
-            "categories": WebinarCategory.manager.get_main_categories(),
             "webinars": Webinar.manager.get_active_webinars(),
             "homepage_lecturers": self.get_homepage_lecturers(),
             "our_clients": self.get_our_clients(),

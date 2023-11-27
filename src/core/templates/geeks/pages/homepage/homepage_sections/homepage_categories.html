@@ -26,9 +26,9 @@
           </div>
         </div>
         <div class="row gy-4">
-          {% for category in categories %}
+          {% for subcategory, subcategory_count in subcategories %}
           <div class="col-lg-4 col-md-4 col-12">
-            {% include "geeks/components/category_card.html" with category=category count=0 %}
+            {% include "geeks/components/category_card.html" with category=subcategory count=subcategory_count %}
           </div>
           {% endfor %}
           {% comment %} <div class="col-12 mt-8 text-center">

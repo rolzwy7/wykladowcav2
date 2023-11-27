@@ -12,7 +12,8 @@
           <td align="left" valign="top" style="border-collapse:collapse;">
             <table border="0" cellpadding="0" cellspacing="0" style="border-spacing:0;width: 100%;max-width: 640px;">
               <tbody>
-
+                
+                {% if show_logo %}
                 <tr>
                   <td style="{{td_classes|safe}}text-align:center;">
                     <p style="margin: 0;font-size:2em">
@@ -20,14 +21,17 @@
                         {{COMPANY_NAME}}
                       </a>
                     </p>
+                    {% if webinar_for %}
                     <p style="margin-top: 0.3em;font-size:1.65em">
                       <a href="{{cta_href}}" style="text-decoration: none;">
-                        Szkolenia dla [BRANŻA]
+                        Szkolenia dla {{webinar_for}}
                       </a>
                     </p>
+                    {% endif %}
                     <hr style="border-width: 0; background: #000; color: #000; height:0.2em">
                   </td>
                 </tr>
+                {% endif %}
 
                 <tr>
                   <td style="{{td_classes|safe}}">
@@ -64,6 +68,13 @@
                 </tr>
                 
 
+                {% if show_last_spots %}
+                <tr>
+                  <td style="{{td_classes|safe}}padding-top:5px;">
+                    <strong style="font-weight: bold; color: orange;">Pozostało wolnych miejsc:</strong> {{webinar.remaining_places}}
+                  </td>
+                </tr>
+                {% endif %}
                 
                 <tr>
                   <td style="{{td_classes|safe}}padding-top:5px;">
@@ -79,28 +90,30 @@
                   </td>
                 </tr>
                 
-                {% if webinar.is_discounted %}
-                <tr>
-                  <td style="{{td_classes|safe}}padding-top:5px;">
-                    <strong style="font-weight: bold">Cena:</strong> 
-                    <span style="text-decoration: line-through;"></span>
-                    {{webinar.discount_netto}}zł {{PRICE_ADNOTATION}} za uczestnika
-                  </td>
-                </tr>
-                <tr>
-                  <td style="{{td_classes|safe}}padding-top:5px;">
-                    <strong style="font-weight: bold;">
-                      Stara cena {{webinar.price_netto}}zł. Zniżka trwa do {{webinar.discount_until|date:"j E Y"}} godz. {{webinar.discount_until|date:"H:i"}}
-                    </strong> 
-                  </td>
-                </tr>
-                {% else %}
-                <tr>
-                  <td style="{{td_classes|safe}}padding-top:5px;">
-                    <strong style="font-weight: bold">Cena:</strong> 
-                    {{webinar.price}}zł {{PRICE_ADNOTATION}} za uczestnika
-                  </td>
-                </tr>
+                {% if show_price %}
+                  {% if webinar.is_discounted %}
+                  <tr>
+                    <td style="{{td_classes|safe}}padding-top:5px;">
+                      <strong style="font-weight: bold">Cena:</strong> 
+                      <span style="text-decoration: line-through;"></span>
+                      {{webinar.discount_netto}}zł {{PRICE_ADNOTATION}} za uczestnika
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="{{td_classes|safe}}padding-top:5px;">
+                      <strong style="font-weight: bold;">
+                        Stara cena {{webinar.price_netto}}zł. Zniżka trwa do {{webinar.discount_until|date:"j E Y"}} godz. {{webinar.discount_until|date:"H:i"}}
+                      </strong> 
+                    </td>
+                  </tr>
+                  {% else %}
+                  <tr>
+                    <td style="{{td_classes|safe}}padding-top:5px;">
+                      <strong style="font-weight: bold">Cena:</strong> 
+                      {{webinar.price}}zł {{PRICE_ADNOTATION}} za uczestnika
+                    </td>
+                  </tr>
+                  {% endif %}
                 {% endif %}
 
                 <tr>
@@ -108,11 +121,32 @@
                   {% include './snippets/WebinarMailingCTA.html' with text=cta_text href=cta_href %}
                   </td>
                 </tr>
+                
+                {% if promo_code %}
+                <tr>
+                  <td style="{{td_classes|safe}}padding-top:15px;">
+                    <hr style="border-width: 0; background: #000; color: #000; height:0.2em">
+                    <h2 style="margin: .83em 0; font-size:1.5em; text-align: center;">
+                      Użyj kodu promocyjnego <span style="color:#754ffe;">{{promo_code}}</span>
+                    </h2>
+                    <h2 style="margin: 0; font-size:1.5em; text-align: center;">
+                      aby otrzymać <span style="color:#754ffe;">{{promo_value}} zniżki</span>
+                    </h2>
+                    {% if promo_text %}
+                    <p style="margin: 1em 0; text-align:center;">
+                      {{promo_text}}
+                    </p>
+                    {% endif %}
+                    <hr style="border-width: 0; background: #000; color: #000; height:0.2em">
+                  </td>
+                </tr>
+                {% endif %}
+
 
                 <tr>
                   <td style="{{td_classes|safe}}padding-top:15px;">
                     <h3 style="margin: 1em 0; font-size:1.17em">Program webinaru</h3>
-                    <hr style="border-width: 0; background: #000; color: #000; height:0.2em">
+                    {% comment %} <hr style="border-width: 0; background: #000; color: #000; height:0.2em"> {% endcomment %}
                     <p style="margin: 1em 0;">{{program|safe}}</p>
 
                     {% include './snippets/WebinarMailingCTA.html' with text=cta_text href=cta_href %}
@@ -120,6 +154,48 @@
                   </td>
                 </tr>
 
+                {% if section_loyalty %}
+                <tr>
+                  <td style="{{td_classes|safe}}padding-top:15px;">
+                    <h3 style="margin: 1em 0; font-size:1.17em">
+                      Za każde polecenie tego szkolenia możesz otrzymać 10% zwrotu na swoje prywatne konto
+                    </h3>
+                    <hr style="border-width: 0; background: #000; color: #000; height:0.2em">
+                    <p style="margin: 1em 0;">
+                      Dołącz do naszego <u>programu partnerskiego</u> i otrzymuj 10% za polecanie naszych szkoleń znajomym i współpracownikom.
+                    </p>
+                    <p style="margin: 1em 0;">
+                      <a href="{{BASE_URL}}/r/pp" target="_blank">
+                        &gt; &gt; Sprawdź szczegóły za pomocą tego linku &lt; &lt;
+                      </a>
+                    </p>
+                  </td>
+                </tr>
+                {% endif %}
+
+                {% if section_fb_kk_job %}
+                <tr>
+                  <td style="{{td_classes|safe}}padding-top:15px;">
+                    <h3 style="margin: 1em 0; font-size:1.17em">
+                      Księgowość i kadry - #Dam pracę, #Szukam pracy
+                    </h3>
+                    <hr style="border-width: 0; background: #000; color: #000; height:0.2em">
+                    <p style="margin: 1em 0;">
+                      📊💼 Chcesz zmienić pracę? Szukasz pracy w księgowości lub kadrach? 📄🖋️
+                    </p>
+                    <p style="margin: 1em 0;">
+                      Mamy dla Ciebie idealne miejsce! Dołącz do dedykowanej grupy na Facebooku, w której znajdziesz najświeższe oferty pracy publikowane przez ekspertów i firmy z branży.
+                    </p>
+                    <p style="margin: 1em 0;">
+                      🔗 Link: <a href="https://www.facebook.com/groups/pracawkadrachiksiegowosci/">
+                        https://www.facebook.com/groups/pracawkadrachiksiegowosci/
+                      </a>
+                    </p>
+                  </td>
+                </tr>
+                {% endif %}
+
+                {% if lecturer_section %}
                 <tr>
                   <td style="{{td_classes|safe}}padding-top:15px;">
                     <h3 style="margin: 1em 0; font-size:1.17em">Wykładowca: {{webinar.lecturer}}</h3>
@@ -129,6 +205,7 @@
                     {% include './snippets/WebinarMailingCTA.html' with text=cta_text href=cta_href %}
                   </td>
                 </tr>
+                {% endif %}
                 
               </tbody>
             </table>

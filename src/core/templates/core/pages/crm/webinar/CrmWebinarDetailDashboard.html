@@ -29,8 +29,8 @@
                     </div>
                     <!--end::Info-->
                     <!--begin::Subtitle-->
-                    <span class="text-gray-400 pt-1 fw-semibold fs-6">
-                        Wartość NETTO szkolenia
+                    <span class="text-dark pt-1 fw-semibold fs-6">
+                        Wartość <b><u>BRUTTO</u></b> szkolenia
                     </span>
                     <!--end::Subtitle-->
                 </div>
@@ -107,6 +107,47 @@
                             <li>{{gathered_participant.email}}</li>
                         {% endfor %}
                     </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end::Col-->
+    {% endif %}
+
+    {% if buyer_nip_duplicates or recipient_nip_duplicates or participant_email_duplicates %}
+    <div class="col-md-12">
+
+        <div class="card shadow-sm">
+            <div
+                class="card-header collapsible cursor-pointer rotate"
+                data-bs-toggle="collapse"
+                data-bs-target="#kt_card_email_copy"
+            >
+                <h3 class="card-title">
+                    <span class="fw-bold text-danger">&gt;&gt; DUPLIKATY &lt;&lt;</span>
+                </h3>
+                <div class="card-toolbar rotate-180">
+                    <i class="ki-duotone ki-down fs-1"></i>
+                </div>
+            </div>
+            <div id="kt_card_email_copy" class="collapse show">
+                <div class="card-body">
+                    <p>Ten termin szkolenia prawdopodobnie posiada <b>duplikaty</b> zgłoszeń (i/lub) uczestników.</p>
+                    {% if buyer_nip_duplicates or recipient_nip_duplicates %}
+                        <p><b>Zgłoszenia:</b></p>
+                        {% if buyer_nip_duplicates %}
+                            <p>Zduplikowani nabywcy:</p>
+                            <ol>{% for nip in buyer_nip_duplicates %}<li>{{nip}}</li>{% endfor %}</ol>
+                        {% endif %}
+                        {% if recipient_nip_duplicates %}
+                            <p>Zduplikowani odbiorcy:</p>
+                            <ol>{% for nip in recipient_nip_duplicates %}<li>{{nip}}</li>{% endfor %}</ol>
+                        {% endif %}
+                    {% endif %}
+                    {% if participant_email_duplicates %}
+                        <p><b>Zduplikowani uczestnicy:</b></p>
+                        <ol>{% for email in participant_email_duplicates %}<li>{{email}}</li>{% endfor %}</ol>
+                    {% endif %}
                 </div>
             </div>
         </div>

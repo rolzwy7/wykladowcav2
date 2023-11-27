@@ -29,7 +29,7 @@
       </div>
       <!--end::Page title-->
 
-
+        {% if webinar_assets %}
         <div class="table-responsive">
             <table class="table table-striped">
             <thead>
@@ -59,6 +59,9 @@
             </tbody>
             </table>
         </div>
+        {% else %}
+        <h2>Jeszcze nie dodano materiałów</h2>
+        {% endif %}
 
 
     </div>
@@ -67,3 +70,5 @@
 <!--end::Wrapper-->
 {% endblock content %} 
 {% block body_scripts %} {% endblock body_scripts %}
+
+

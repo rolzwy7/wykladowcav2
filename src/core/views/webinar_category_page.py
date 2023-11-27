@@ -1,3 +1,6 @@
+# flake8: noqa:E501
+# pylint: disable=line-too-long
+
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 
@@ -13,15 +16,7 @@ def webinar_all_categories_page(request):
     # short_description = ""
     # webinars = Webinar.manager.homepage_webinars()
 
-    subcategories = [
-        (
-            category,
-            Webinar.manager.get_active_webinars_for_category_slugs(
-                [category.slug]
-            ).count(),
-        )
-        for category in WebinarCategory.manager.get_main_categories()
-    ]
+    subcategories = CategoryService.get_all_categories_with_counts()
 
     return TemplateResponse(
         request,

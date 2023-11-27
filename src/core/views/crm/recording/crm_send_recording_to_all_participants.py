@@ -1,7 +1,8 @@
 # flake8: noqa:E501
 # pylint: disable=line-too-long
-from celery import chain, group
+from celery import group
 from django.shortcuts import get_object_or_404, redirect
+from django.template.defaultfilters import date as _date
 from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils.timezone import now, timedelta
@@ -24,13 +25,15 @@ def crm_send_recording_to_all_participants(request, recording_id: str):
     participants = crm_webinar_service.get_gathered_participants()
     webinar_id: int = webinar_recording.webinar.id
 
+    hours_from_now: int = int(request.POST.get("hours_from_now", 48))
+
     if request.method == POST:
         send_recording_tasks = []
 
         for participant in participants:
             # Create and save token with participant access
             token = WebinarRecordingToken(
-                expires_at=now() + timedelta(hours=48),
+                expires_at=now() + timedelta(hours=hours_from_now),
                 recording=webinar_recording,
                 participant=participant,
             )
@@ -46,16 +49,16 @@ def crm_send_recording_to_all_participants(request, recording_id: str):
                         reverse(
                             "core:recording_token_page", kwargs={"uuid": token.token}
                         ),
+                        f'{_date(token.expires_at, "j E Y")} godzina {_date(token.expires_at, "H:i:s")}',
                     )
                 )
             )
 
-        chain(
-            group(*send_recording_tasks),
-            task_send_telegram_notification.si(
-                f"Wysłano nagrania do uczestników szkolenia #{webinar_id}",
-                TelegramChats.OTHER,
-            ),
+        group(*send_recording_tasks).apply_async()
+
+        task_send_telegram_notification.si(
+            f"Wysłano nagrania do uczestników szkolenia #{webinar_id}",
+            TelegramChats.OTHER,
         ).apply_async()
 
         return redirect(

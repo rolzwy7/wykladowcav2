@@ -4,9 +4,11 @@
 from django.urls import path
 from django.views.generic import TemplateView
 
+from core.views.editor_email_page import editor_email_page
 from core.views.webinar import webinar_mailing_template_page
 
 urlpatterns = [
+    path("<int:pk>/edytor-mailingowy/", editor_email_page, name="editor_email_page"),
     # Facebook
     path(
         "fb-group-invite-version-a/",
@@ -17,7 +19,7 @@ urlpatterns = [
     ),
     # Webinar Mailing Template
     path(
-        "<int:pk>/szablon-mailingowy/<str:template_name>/",
+        "<int:pk>/szablon-mailingowy/",
         webinar_mailing_template_page,
         name="webinar_mailing_template_page",
     ),

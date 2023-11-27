@@ -1,3 +1,5 @@
+# flake8: noqa:E501
+
 import time
 from smtplib import SMTPRecipientsRefused, SMTPServerDisconnected
 
@@ -6,12 +8,7 @@ from django.db.models import Q
 from django.utils.timezone import now, timedelta
 
 from core.consts import TelegramChats
-from core.models import (
-    MailingCampaign,
-    MailingPoolManager,
-    MailingTemplate,
-    SmtpSender,
-)
+from core.models import MailingCampaign, MailingPoolManager, MailingTemplate, SmtpSender
 from core.models.enums import MailingCampaignStatus, MailingPoolStatus
 from core.services import SenderSmtpService, TelegramService
 
@@ -24,7 +21,7 @@ class ProcessSendingStatus:
     LIMIT_NOT_REACHED = "LIMIT_NOT_REACHED"
 
 
-def process_sending(campaign: MailingCampaign, limit: int = 100) -> str:
+def process_sending(campaign: MailingCampaign, /, *, limit: int = 100) -> str:
     """Mailing sending process"""
 
     campaign_id: int = campaign.id  # type: ignore
@@ -75,9 +72,7 @@ def process_sending(campaign: MailingCampaign, limit: int = 100) -> str:
             print("[*] Sleeping 10s ...")
             time.sleep(10)
             print(f"[*] Marking `{email}` as `BEING_PROCESSED`")
-            pool_manager.change_status(
-                document_id, MailingPoolStatus.BEING_PROCESSED
-            )
+            pool_manager.change_status(document_id, MailingPoolStatus.BEING_PROCESSED)
             connection = smtp_service.get_smtp_connection()
         except SMTPServerDisconnected as exception:
             pool_manager.change_status(
@@ -130,7 +125,7 @@ def try_to_finish_campaign(campaign: MailingCampaign):
 
         telegram_service = TelegramService()
         telegram_service.send_chat_message(
-            f"Kampania mailignowa zakończona: {campaign.title}",
+            f"Kampania mailingowa zakończona: {campaign.title}",
             TelegramChats.OTHER,
         )
 
@@ -146,6 +141,7 @@ def try_to_reset_daily_limit_for_campaigns():
     Reset `limit_sent_so_far` to 0
     Set `limit_timestamp` to `now()`
     """
+    # TODO: This doesn't work
     # TODO: Check manually if this works
     MailingCampaign.manager.active_campaigns().filter(
         ~Q(limit_per_day=0) & Q(limit_timestamp__lt=now() - timedelta(hours=24))
@@ -166,25 +162,23 @@ class Command(BaseCommand):
 
     def start_loop(self):
         """Start infinite loop"""
-        loop_counter = 0
+        last_reset_daily_limit = now() - timedelta(days=999)
 
         while True:
-            # Increment loop counter and apply modulo
-            loop_counter += 1
-            loop_counter = loop_counter % 10_000
-
-            # Try to reset daily limit for campaigns
-            # Run on first and every 20th loop
-            if loop_counter == 1 or loop_counter % 20 == 0:
+            #
+            # Every 5 minutes try to reset daily limit for campaigns
+            if now() > last_reset_daily_limit:
+                last_reset_daily_limit = now() + timedelta(minutes=5)
                 try_to_reset_daily_limit_for_campaigns()
-
+            #
             # Get all active mailing campaigns
             active_campaigns = MailingCampaign.manager.active_campaigns()
 
+            #
             # Sleep and continue loop if no active campaigns
             if active_campaigns.count() == 0:
-                print("[*] No active campaigns, sleeping 60s ...")
-                time.sleep(60)
+                print("[*] No active campaigns, sleeping 20s ...")
+                time.sleep(20)
                 continue
 
             # Iterate over active campaigns and start sending process

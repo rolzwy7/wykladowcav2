@@ -18,9 +18,16 @@ class SendParticipantRecordingEmailParams(BaseModel):
     webinar_id: int
     application_id: int
     access_url: str
+    expiration_date_human: str
 
 
-def params(email: str, webinar_id: int, application_id: int, access_url: str) -> str:
+def params(
+    email: str,
+    webinar_id: int,
+    application_id: int,
+    access_url: str,
+    expiration_date_human: str,
+) -> str:
     """Create params"""
     json_dump = json.dumps(
         SendParticipantRecordingEmailParams(
@@ -28,6 +35,7 @@ def params(email: str, webinar_id: int, application_id: int, access_url: str) ->
             webinar_id=webinar_id,
             application_id=application_id,
             access_url=access_url,
+            expiration_date_human=expiration_date_human,
         ).dict()
     )
     return json_dump
@@ -43,6 +51,7 @@ def send_participant_recording_email(
         {
             **email_get_application_context(procedure_params.application_id),
             "access_url": procedure_params.access_url,
+            "expiration_date_human": procedure_params.expiration_date_human,
         },
     )
     email_message = EmailMessage(
