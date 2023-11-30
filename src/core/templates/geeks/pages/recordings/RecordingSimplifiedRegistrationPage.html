@@ -25,7 +25,7 @@
                </h1>
 
                <h3 class="h3 fw-bold mt-3">
-               Konto musi być powiązane z adresem e-mail
+               Konto <u>musi być</u> powiązane z adresem e-mail
                <span class="text-primary">{{participant_email}}</span>
                </h3>
 
@@ -42,6 +42,14 @@
                <h2 class="h2 fw-bold mt-4">
                 <a href="{% url "core:register_page" %}?ruuid={{uuid}}" target="_blank" class="btn btn-lg btn-primary">
                     Kliknij tutaj, aby stworzyć konto w 20 sekund
+                </a>
+               </h2>
+               
+               <hr>
+
+               <h2 class="h2 fw-bold mt-4">
+                <a href="{% url "core:login_page" %}?login_param={{participant_email}}" target="_blank" class="btn btn-secondary">
+                    Jeśli posiadasz już konto kliknij tutaj, aby się zalogować
                 </a>
                </h2>
                

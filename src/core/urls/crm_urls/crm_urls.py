@@ -25,6 +25,7 @@ from core.views.crm.company import CrmCompanyDetail, CrmCompanyList
 from core.views.crm.contact import CrmContactDetail, CrmContactList
 from core.views.crm.mailing import download_emails_from_sender_page
 from core.views.crm.recording import crm_send_recording_to_all_participants
+from core.views.crm.statistics import crm_statistics_dashboard
 from core.views.crm.webinar.actions import (
     CancelWebinarAction,
     ConfirmWebinarAction,
@@ -177,6 +178,12 @@ urlpatterns = [
         "nagrania/<str:recording_id>/wyslij-wszystkim-uczestnikom/",
         crm_send_recording_to_all_participants,
         name="crm_send_recordings_to_all_participants",
+    ),
+    # Statistics
+    path(
+        "statystyki/",
+        crm_statistics_dashboard,
+        name="crm_statistics_dashboard",
     ),
     # Upcoming webinars
     path(

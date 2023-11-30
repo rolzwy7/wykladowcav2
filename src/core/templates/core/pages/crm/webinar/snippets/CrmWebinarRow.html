@@ -27,23 +27,66 @@
     </td>
     {% comment %} Details {% endcomment %}
     <td style="max-width: 350px;">
-        <a href="{% url 'core:crm_webinar_detail_dashboard' pk=webinar.pk %}" class="text-primary text-hover-primary fw-bold">
-            {{webinar.title_original}}
-        </a>
-        <br>
-        <b>{{webinar.date|date:"j E (l)"}}</b> <b>{{webinar.date|date:"H:i"}}</b> - {{webinar.date_end|date:"H:i"}}
-        <br>
-        {{webinar.lecturer.fullname}}
+        
+        <div class="mb-3">
+            <a href="{% url 'core:crm_webinar_detail_dashboard' pk=webinar.pk %}" class="text-primary text-hover-primary fw-bold">
+                {{webinar.title_original}}
+            </a>
+            <br>
+            <b>{{webinar.date|date:"j E (l)"}}</b> <b>{{webinar.date|date:"H:i"}}</b> - {{webinar.date_end|date:"H:i"}}
+            <br>
+            {{webinar.lecturer.fullname}}
+        </div>
 
-        {% if webinar_ctx.is_fake and not webinar_ctx.is_hidden %}
-        <br> <span class="fw-bold text-danger mb-1">Fake'owy termin</span>
+        {% if webinar_ctx.is_confirmed %}
+        <span class="fw-bold text-warning mb-1">[ Pewny termin ]</span> <br>
         {% endif %}
-        {% if webinar_ctx.is_hidden and not webinar_ctx.is_fake %}
-        <br> <span class="fw-bold text-info mb-1">Ukryty termin</span>
+        {% if webinar_ctx.is_fake %}
+        <span class="fw-bold text-danger mb-1">[ Fake'owy termin ]</span> <br>
         {% endif %}
-        {% if webinar_ctx.is_hidden and webinar_ctx.is_fake %}
-        <br> <span class="fw-bold text-danger mb-1">Fake'owy termin</span> / <span class="fw-bold text-info mb-1">Ukryty termin</span>
+        {% if webinar_ctx.is_hidden %}
+        <span class="fw-bold text-info mb-1">[ Ukryty termin ]</span> <br>
         {% endif %}
+
+        <div class="d-flex">
+            <!--begin::Menu-->
+            <div class="me-3">
+                <a href="#" class="mt-4" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                    Zarządzaj
+                </a>
+                <!--begin::Menu 3-->
+                <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-300px py-3" data-kt-menu="true">
+                    <!--begin::Menu item-->
+                    <div class="menu-item px-3">
+
+                        {% if webinar.status == "INIT" %}
+                        <a href="{% url 'core:crm_webinar_confirm' pk=webinar.pk %}" class="menu-link px-3 text-warning">
+                            [CRM] Potwierdź termin
+                        </a>
+                        {% elif webinar.status == "CONFIRMED" %}
+                        <a href="{% url 'core:crm_webinar_done' pk=webinar.pk %}" class="menu-link px-3 text-success">
+                            [CRM] Zakończ szkolenie
+                        </a>
+                        {% endif %}
+                        <a href="{% url 'core:webinar_program_page' slug=webinar.slug %}" class="menu-link px-3">
+                            [Strona] Zobacz na stronie
+                        </a>
+                        <a href="{% url 'admin:core_webinar_change' object_id=webinar.id %}" class="menu-link px-3">
+                            [CMS] Edytuj termin
+                        </a>
+                        <a href="{% url 'admin:core_lecturer_change' object_id=webinar.lecturer.id %}" class="menu-link px-3">
+                            [CMS] Edytuj wykładowce
+                        </a>
+                        <a target="_blank" href="https://trends.google.com/trends/explore?q={{webinar.title}}&date=now%201-d&geo=PL&hl=pl" class="menu-link px-3">
+                            Google Trends
+                        </a>
+                    
+                    </div>
+                </div>
+                <!--end::Menu 3-->
+            </div>
+            <!--end::Menu-->
+        </div>
     </td>
     {% comment %} Sales {% endcomment %}
     <td>
@@ -94,7 +137,8 @@
             </span>
             <br>
         {% endif %}
-
+        
+        <span style="font-size: 0.9rem;">
         {% if webinar_ctx.click_count_mailing %}
             <span>M={{webinar_ctx.click_count_mailing}}</span>
         {% endif %}
@@ -104,6 +148,7 @@
         {% if webinar_ctx.click_count_onesignal %}
             <span>PUSH={{webinar_ctx.click_count_onesignal}}</span>
         {% endif %}
+        </span>
 
     </td>
     {% comment %} Time left {% endcomment %}
@@ -135,48 +180,26 @@
             </a>
         </span>
         {% endif %}
-    
-    </td>
-    <td colspan="3" style="font-size: 1.1rem;">
-        <div class="d-flex">
-            <!--begin::Menu-->
-            <div class="me-3">
-                <button class="btn btn-sm btn-bg-secondary btn-active-color-primary px-4 py-1" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                    Zarządzaj
-                </button>
-                <!--begin::Menu 3-->
-                <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-300px py-3" data-kt-menu="true">
-                    <!--begin::Menu item-->
-                    <div class="menu-item px-3">
 
-                        {% if webinar.status == "INIT" %}
-                        <a href="{% url 'core:crm_webinar_confirm' pk=webinar.pk %}" class="menu-link px-3 text-warning">
-                            [CRM] Potwierdź termin
-                        </a>
-                        {% elif webinar.status == "CONFIRMED" %}
-                        <a href="{% url 'core:crm_webinar_done' pk=webinar.pk %}" class="menu-link px-3 text-success">
-                            [CRM] Zakończ szkolenie
-                        </a>
-                        {% endif %}
-                        <a href="{% url 'core:webinar_program_page' slug=webinar.slug %}" class="menu-link px-3">
-                            [Strona] Zobacz na stronie
-                        </a>
-                        <a href="{% url 'admin:core_webinar_change' object_id=webinar.id %}" class="menu-link px-3">
-                            [CMS] Edytuj termin
-                        </a>
-                        <a href="{% url 'admin:core_lecturer_change' object_id=webinar.lecturer.id %}" class="menu-link px-3">
-                            [CMS] Edytuj wykładowce
-                        </a>
-                        <a target="_blank" href="https://trends.google.com/trends/explore?q={{webinar.title}}&date=now%201-d&geo=PL&hl=pl" class="menu-link px-3">
-                            Google Trends
-                        </a>
-                    
-                    </div>
-                </div>
-                <!--end::Menu 3-->
-            </div>
-            <!--end::Menu-->
+        {% if webinar_ctx.mailing_campaigns %}
+        <div class="mt-4">
+            <b>Mailingi:</b> <br>
+            {% for mailing_campaign in webinar_ctx.mailing_campaigns %}
+                <span>{{mailing_campaign.created_at}}</span> <br>
+            {% endfor %}
+
+            <a 
+                hx-get="{% url "htmx:htmx_webinar_mailing_modal" pk=webinar.pk %}" 
+                hx-target="#modals-here" 
+                hx-trigger="click" 
+                data-bs-toggle="modal" 
+                data-bs-target="#modals-here"
+                style="cursor: pointer;"
+                class="mt-4">Szczegóły mailingów</a>
+
         </div>
+        {% endif %}
+    
     </td>
 </tr>
 

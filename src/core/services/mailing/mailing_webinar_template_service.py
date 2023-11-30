@@ -6,6 +6,7 @@ from django.utils.timezone import now
 from markdown import markdown
 
 from core.consts.exemptions_consts import PRICE_ADNOTATION
+from core.consts.spamphrases_consts import SPAM_PHRASES
 from core.models import Webinar
 
 COMPANY_NAME = settings.COMPANY_NAME
@@ -37,9 +38,7 @@ class MailingWebinarTemplateService:
     def get_cta_href(self) -> str:
         """Get CTA href"""
         webinar_pk: int = self.webinar.pk
-        webpath = reverse(
-            "core:webinar_redirect_to_program", kwargs={"pk": webinar_pk}
-        )
+        webpath = reverse("core:webinar_redirect_to_program", kwargs={"pk": webinar_pk})
         return f"{BASE_URL}{webpath}"
 
     def antispam_text(self, text: str) -> str:
@@ -49,9 +48,7 @@ class MailingWebinarTemplateService:
     def get_read_more_href(self) -> str:
         """Get read more href URL"""
         webinar_pk: int = self.webinar.pk
-        webpath = reverse(
-            "core:webinar_redirect_to_program", kwargs={"pk": webinar_pk}
-        )
+        webpath = reverse("core:webinar_redirect_to_program", kwargs={"pk": webinar_pk})
         return f"{BASE_URL}{webpath}"
 
     def get_read_more_text(self) -> str:
@@ -61,19 +58,7 @@ class MailingWebinarTemplateService:
     def apply_antispam(self, content: str):
         """Apply antispam measures"""
         ret: str = content
-        replace_map = {
-            "osobow": "oso;bow",
-            "dyrektyw": "dyre;ktyw",
-            "zgoda": "zgo;da",
-            "szkolen": "szko;len",
-            "kurs": "ku;rs",
-            "nabyć": "na;być",
-            "nabycia": "na;bycia",
-            "publicz": "pub;licz",
-            "w celu": "w ce;lu",
-            "finans": "fina;ns",
-        }
-        for original, replacement in replace_map.items():
+        for original, replacement in SPAM_PHRASES.items():
             ret = ret.replace(original, replacement)
             ret = ret.replace(original.upper(), replacement)
             ret = ret.replace(original.capitalize(), replacement)

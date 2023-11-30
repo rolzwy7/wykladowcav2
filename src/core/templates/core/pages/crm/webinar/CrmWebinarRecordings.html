@@ -86,6 +86,7 @@
                           <th>Odmówiono dostępu</th>
                           <th>Wygasa</th>
                           <th>Uczestnik</th>
+                          <th>Typ dostępu</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -102,14 +103,41 @@
                             </a>
                           </td>
                           <td>
+                            <b>
                             {% if token.deny_access %}
                               <span class="text-danger">Tak</span>
                             {% else %}
-                              <span>Nie</span>
+                              <span class="text-success">Nie</span>
                             {% endif %}
+                            </b>
                           </td>
-                          <td>{{token.expires_at}}</td>
+                          <td>
+                            <b>
+                            {% if now > token.expires_at  %}
+                              <span class="text-danger">{{token.expires_at}}</span>
+                            {% else %}
+                              <span class="text-success">{{token.expires_at}}</span>
+                            {% endif %}
+                            </b>
+                          </td>
                           <td>{{token.participant}}</td>
+                          <td>
+                            <b>
+                            {% if token.free_access %}
+                              Otwarty dostęp
+                            {% else %}
+                              {% if token.password %}
+                                Hasło
+                              {% else %}
+                                {% if token.participant %}
+                                  Zalogowany uczestnik
+                                {% else %}
+                                  Dowolny użytkownik
+                                {% endif %}
+                              {% endif %}
+                            {% endif %}
+                            </b>
+                          </td>
                         </tr>
                         {% endfor %}
                       </tbody>

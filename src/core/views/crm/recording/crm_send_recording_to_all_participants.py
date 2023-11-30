@@ -2,16 +2,19 @@
 # pylint: disable=line-too-long
 from celery import group
 from django.shortcuts import get_object_or_404, redirect
+from django.template.defaultfilters import date as _date
 from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils.timezone import now, timedelta
 
+from core.consts import TelegramChats
 from core.consts.requests_consts import POST
 from core.models import WebinarRecording, WebinarRecordingToken
 from core.services import CrmWebinarService
 from core.tasks import (
     params_send_participant_recording_email,
     task_send_participant_recording_email,
+    task_send_telegram_notification,
 )
 
 
@@ -22,20 +25,22 @@ def crm_send_recording_to_all_participants(request, recording_id: str):
     participants = crm_webinar_service.get_gathered_participants()
     webinar_id: int = webinar_recording.webinar.id
 
+    hours_from_now: int = int(request.POST.get("hours_from_now", 48))
+
     if request.method == POST:
-        tasks = []
+        send_recording_tasks = []
 
         for participant in participants:
             # Create and save token with participant access
             token = WebinarRecordingToken(
-                expires_at=now() + timedelta(hours=48),
+                expires_at=now() + timedelta(hours=hours_from_now),
                 recording=webinar_recording,
                 participant=participant,
             )
             token.save()
 
             # Add task to group
-            tasks.append(
+            send_recording_tasks.append(
                 task_send_participant_recording_email.si(
                     params_send_participant_recording_email(
                         participant.email,
@@ -44,11 +49,17 @@ def crm_send_recording_to_all_participants(request, recording_id: str):
                         reverse(
                             "core:recording_token_page", kwargs={"uuid": token.token}
                         ),
+                        f'{_date(token.expires_at, "j E Y")} godzina {_date(token.expires_at, "H:i:s")}',
                     )
                 )
             )
 
-        group(*tasks).apply_async()
+        group(*send_recording_tasks).apply_async()
+
+        task_send_telegram_notification.si(
+            f"Wysłano nagrania do uczestników szkolenia #{webinar_id}",
+            TelegramChats.OTHER,
+        ).apply_async()
 
         return redirect(
             reverse("core:crm_webinar_recordings", kwargs={"pk": webinar_id})

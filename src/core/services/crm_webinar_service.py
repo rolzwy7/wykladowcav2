@@ -4,6 +4,7 @@
 from django.db.models import Count, QuerySet
 
 from core.models import (
+    MailingCampaign,
     Webinar,
     WebinarApplication,
     WebinarApplicationCancellation,
@@ -128,9 +129,46 @@ class CrmWebinarService:
         lecturer_netto = self.lecturer_price_netto()
         return total_netto - lecturer_netto
 
+    def get_participant_duplicates(
+        self, participants: QuerySet[WebinarParticipant]
+    ) -> list[str]:
+        """Check if there are participants duplicates"""
+        emails, emails_dups = [], []
+        for participant in participants:
+            if participant.email in emails:
+                emails_dups.append(participant.email)
+            else:
+                emails.append(participant.email)
+
+        return emails_dups
+
+    def get_application_duplicates(
+        self, applications: QuerySet[WebinarApplication]
+    ) -> tuple[list[str], list[str]]:
+        """Get duplicates of buyer's and recipient's NIPs"""
+        buyer_nips, buyer_nips_dups = [], []
+        recipient_nips, recipient_nips_dups = [], []
+        for application in applications:
+            # Buyer
+            if application.buyer:
+                nip = application.buyer.nip
+                if nip in buyer_nips:
+                    buyer_nips_dups.append(nip)
+                else:
+                    buyer_nips.append(nip)
+            # Recipient
+            if application.recipient:
+                nip = application.recipient.nip
+                if nip in recipient_nips:
+                    recipient_nips_dups.append(nip)
+                else:
+                    recipient_nips.append(nip)
+
+        return buyer_nips_dups, recipient_nips_dups
+
     def get_groupby_application_type_count(self):
         """Get count for each application type"""
-        qs = (
+        queryset = (
             self.get_sent_applications()
             .values("application_type")
             .annotate(count=Count("application_type"))
@@ -146,7 +184,7 @@ class CrmWebinarService:
                 _["application_type"],
                 _["count"],
             )
-            for _ in qs
+            for _ in queryset
         ]
 
     def get_webinar_assets(self):
@@ -187,7 +225,7 @@ class CrmWebinarService:
 
     def get_context(self):
         """Number of gathered participants"""
-        gathered_participants = self.get_gathered_participants().order_by("-id")
+        gathered_participants = self.get_gathered_participants().order_by("first_name")
         gathered_participants_count = gathered_participants.count()
         total_netto_value_of_webinar = self.total_netto_value_of_webinar()
         webinar_assets_count = self.get_webinar_assets().count()
@@ -202,10 +240,15 @@ class CrmWebinarService:
             sent_applications
         )
         additional_infos_applications_count = len(additional_infos_applications)
+        buyer_nip_dups, recipient_nip_dups = self.get_application_duplicates(
+            sent_applications
+        )
+        participant_email_dups = self.get_participant_duplicates(gathered_participants)
 
         return {
             "webinar": self.webinar,
             "is_fake": self.webinar.is_fake,
+            "is_confirmed": self.webinar.is_confirmed,
             "is_hidden": self.webinar.is_hidden,
             "grouping_token": self.webinar.grouping_token,
             # Sent applications
@@ -248,4 +291,9 @@ class CrmWebinarService:
             "total_netto_value_of_webinar_display": f"{total_netto_value_of_webinar:,}",
             "get_groupby_application_type_count": self.get_groupby_application_type_count(),
             "webinar_assets_count": webinar_assets_count,
+            "buyer_nip_duplicates": buyer_nip_dups,
+            "recipient_nip_duplicates": recipient_nip_dups,
+            "participant_email_duplicates": participant_email_dups,
+            # Mailing campaign
+            "mailing_campaigns": MailingCampaign.manager.filter(webinar=self.webinar),
         }

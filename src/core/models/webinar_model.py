@@ -25,6 +25,7 @@ from django.db.models import (
     URLField,
     UUIDField,
 )
+from django.template.defaultfilters import date as _date
 from django.template.defaultfilters import timeuntil_filter
 from django.utils.timezone import now, timedelta
 
@@ -86,15 +87,9 @@ class WebinarManager(Manager):
         Returns:
             QuerySet['Webinar']: queryset of webinars
         """
-        return (
-            self.get_active_webinars()
-            .filter(categories__slug__in=slugs)
-            .distinct()
-        )
+        return self.get_active_webinars().filter(categories__slug__in=slugs).distinct()
 
-    def get_active_webinars_for_lecturer(
-        self, lecturer_id: int
-    ) -> QuerySet["Webinar"]:
+    def get_active_webinars_for_lecturer(self, lecturer_id: int) -> QuerySet["Webinar"]:
         """Returns webinars for given lecturer id
 
         Returns:
@@ -138,9 +133,7 @@ class Webinar(Model):
         (WebinarStatus.DONE, "Termin zrealizowany"),
     ]
 
-    status = CharField(
-        max_length=32, default=WebinarStatus.INIT, choices=STATUS
-    )
+    status = CharField(max_length=32, default=WebinarStatus.INIT, choices=STATUS)
 
     # Title
     title_original = TextField(
@@ -208,9 +201,7 @@ class Webinar(Model):
     discount_until = DateTimeField("Promocja do", blank=True, null=True)
 
     # Lecturer
-    lecturer = ForeignKey(
-        "Lecturer", on_delete=CASCADE, verbose_name="Wykładowca"
-    )
+    lecturer = ForeignKey("Lecturer", on_delete=CASCADE, verbose_name="Wykładowca")
 
     # Categories
     categories = ManyToManyField(
@@ -223,9 +214,7 @@ class Webinar(Model):
     program_enchanted = TextField("Program szkolenia (enchanted)", blank=True)
 
     # External
-    external_name = CharField(
-        "Zewnętrzny dostawca - Nazwa", max_length=64, blank=True
-    )
+    external_name = CharField("Zewnętrzny dostawca - Nazwa", max_length=64, blank=True)
     external_url = URLField("Zewnętrzny dostawca - URL", blank=True)
     external_description = TextField("Zewnętrzny dostawca - Opis", blank=True)
 
@@ -250,7 +239,7 @@ class Webinar(Model):
         ordering = ["date"]
 
     def __str__(self) -> str:
-        return str(self.title)
+        return f"({self.human_date}) {self.title}"
 
     def save(self, *args, **kwargs) -> None:
         return super().save(*args, **kwargs)
@@ -267,9 +256,7 @@ class Webinar(Model):
         """Returns formatted time left to webinar or False
         if webinar start date is in the past
         """
-        return (
-            "" if now() > self.date else timeuntil_filter(self.date, arg=now())
-        )
+        return "" if now() > self.date else timeuntil_filter(self.date, arg=now())
 
     @property
     def is_discounted(self) -> bool:
@@ -295,6 +282,21 @@ class Webinar(Model):
         else:
             return 0
 
+    @property
+    def is_archival(self):
+        """Is webinar archival"""
+        return any(
+            [
+                self.status in [WebinarStatus.DONE, WebinarStatus.CANCELED],
+                now() > self.date + timedelta(days=3),
+            ]
+        )
+
+    @property
+    def human_date(self):
+        """Display webinar datetime in human format"""
+        return _date(self.date, "j E Y - H:i")
+
     def clean(self):
         # Make sure that discount price is >= than normal price
         if all(
@@ -305,6 +307,14 @@ class Webinar(Model):
         ):
             raise ValidationError(
                 "Cena promocyjna nie może być większa niż normalna cena"
+            )
+
+        # Make sure that lecturer agrees to recordings
+        if self.lecturer and (
+            not self.lecturer.agrees_to_recording and self.recording_allowed
+        ):
+            raise ValidationError(
+                f"Wykładowca `{self.lecturer.fullname}` nie zgadza się na nagrania"
             )
 
         # Make sure that when `discount_netto` is set `discount_until` must be too
@@ -332,19 +342,13 @@ class WebinarMetadata(Model):
         ),
     )
 
-    lecturer_price_netto = PositiveSmallIntegerField(
-        "Cena NETTO wykładowcy", default=0
-    )
+    lecturer_price_netto = PositiveSmallIntegerField("Cena NETTO wykładowcy", default=0)
 
     assets_token = UUIDField("Token dostępu do materiałów", default=uuid.uuid4)
 
-    click_count_onesignal = PositiveIntegerField(
-        "Kliknięcia Onesignal", default=0
-    )
+    click_count_onesignal = PositiveIntegerField("Kliknięcia Onesignal", default=0)
     click_count_mailing = PositiveIntegerField("Kliknięcia Mailing", default=0)
-    click_count_facebook = PositiveIntegerField(
-        "Kliknięcia Facebook", default=0
-    )
+    click_count_facebook = PositiveIntegerField("Kliknięcia Facebook", default=0)
     site_enter_count = PositiveIntegerField("Wejść na stronę", default=0)
 
     def __str__(self) -> str:

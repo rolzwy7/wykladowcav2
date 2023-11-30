@@ -184,6 +184,14 @@
           {% comment %} Related webinars {% endcomment %}
           {% include './components/related_webinars.html' with related_webinars=related_webinars %}
           
+          {% if webinar.is_archival %}
+          <div class="alert alert-primary d-flex align-items-center" role="alert">
+            <div>
+              W tej chwili nie realizujemy szkolenia z tej tematyki.
+            </div>
+         </div>
+         {% endif %}
+
           {% comment %} Date and hour card {% endcomment %}
           {% include './components/date_and_hour_card.html' with webinar=webinar %}
 
@@ -239,7 +247,8 @@
              
 
               </div>
-
+              
+              {% if not webinar.is_archival %}
               <div class="d-grid">
                 <a
                   href="{% url 'core:application_type_page' pk=webinar.pk %}"
@@ -264,6 +273,7 @@
                   Pobierz ulotkę
                 </a> {% endcomment %}
               </div>
+              {% endif %}
 
             </div>
           </div>
@@ -274,9 +284,9 @@
   </section>
 </main>
 
+{% if not webinar.is_archival %}
 <div id="MobileFloatingTab" class="shadow">
   <div class="d-flex justify-content-between align-items-center px-4" style="height: 100%;">
-
     <div>
       <p style="font-size: 0.8rem;">
         <b>Data</b>: {{webinar.date|date:"j.n.Y"}} <br>
@@ -290,9 +300,7 @@
           <b>Cena</b>: {{webinar.price}}zł 
         {% endif %}
       </p>
-
     </div>
-
     <div>
       <a
         href="{% url 'core:application_type_page' pk=webinar.pk %}"
@@ -301,10 +309,10 @@
         Zapisz się na szkolenie
       </a>
     </div>
-  
   </div>
-
 </div>
+{% endif %}
+
 
 <div class="modal fade" id="askQuestionModal" tabindex="-1" role="dialog" aria-labelledby="askQuestionModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -377,13 +385,13 @@
               <h3>Szablony mailingowe - Webinar</h3>
               <ol>
                 <li>
-                  <a href="{% url 'core:webinar_mailing_template_page' pk=webinar.pk template_name="VersionA" %}">
-                    Szablon mailingowy - VersionA
+                  <a href="{% url 'core:editor_email_page' pk=webinar.pk %}">
+                    Edytor
                   </a>
                 </li>
                 <li>
-                  <a href="{% url 'core:webinar_mailing_template_page' pk=webinar.pk template_name="VersionB" %}">
-                    Szablon mailingowy - VersionB
+                  <a href="{% url 'core:webinar_mailing_template_page' pk=webinar.pk %}?version=VersionA">
+                    Szablon mailingowy - VersionA
                   </a>
                 </li>
               </ol>

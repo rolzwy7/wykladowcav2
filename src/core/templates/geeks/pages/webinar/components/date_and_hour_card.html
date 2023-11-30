@@ -13,6 +13,7 @@
           <i class="fe fe-clock align-middle me-2 text-warning"></i>
             {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}
         </li>
+        {% if not webinar.is_archival %}
         <li
           class="list-group-item"
           data-bs-toggle="tooltip"
@@ -37,9 +38,11 @@
           {% endif %}
 
         </li>
+        {% endif %}
       </ul>
     </div>
-    {% if hide_ctas != "1" %}
+
+    {% if hide_ctas != "1" and not webinar.is_archival %}
     <!-- Card body -->
     <div class="card-body pt-0">
       <div class="d-grid">

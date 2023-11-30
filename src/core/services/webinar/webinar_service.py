@@ -61,9 +61,7 @@ class WebinarService:
             #     "ki-like-shapes",
             # ),
         ]
-        _tab_index = (
-            tab_index if all([tab_index >= 0, tab_index < len(tabs)]) else 0
-        )
+        _tab_index = tab_index if all([tab_index >= 0, tab_index < len(tabs)]) else 0
         return [
             (
                 title,  # tab title

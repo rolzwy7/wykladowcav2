@@ -1,3 +1,5 @@
+# flake8: noqa:E501
+# pylint: disable=line-too-long
 from django.conf import settings
 from django.db.models import (
     CASCADE,
@@ -53,13 +55,17 @@ class Lecturer(Model):
         help_text="Czy wykładowca ma być widoczny na stronie głównej",
     )
 
+    agrees_to_recording = BooleanField(
+        "Zgadza się na nagrania",
+        default=True,
+        help_text="Czy wykładowca zgadza się na nagrania",
+    )
+
     order_value = PositiveIntegerField("Wartość sortująca", default=100)
 
     fullname = CharField("Imie i Nazwisko", max_length=100)
 
-    slug = SlugField(
-        "Skrót URL", max_length=120, blank=False, help_text=SLUG_HELP_TEXT
-    )
+    slug = SlugField("Skrót URL", max_length=120, blank=False, help_text=SLUG_HELP_TEXT)
 
     categories = ManyToManyField("WebinarCategory", verbose_name="Kategorie")
 
@@ -96,9 +102,7 @@ class Lecturer(Model):
         help_text="Widoczna na stronie webinaru pod imieniem i nazwiskiem",
     )
 
-    fake_stat_participants = PositiveIntegerField(
-        "Przeszkolonych (baza)", default=0
-    )
+    fake_stat_participants = PositiveIntegerField("Przeszkolonych (baza)", default=0)
     fake_stat_webinars = PositiveIntegerField(
         "Przeprowadzonych szkoleń (baza)", default=0
     )

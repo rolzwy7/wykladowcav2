@@ -42,6 +42,9 @@
                   {% if form.username.value %}
                   value="{{form.username.value}}"
                   {% endif %}
+                  {% if not login_param %}
+                  autofocus
+                  {% endif %}
                   class="form-control"
                   name="username"
                   placeholder=""
@@ -54,6 +57,9 @@
                 <input
                   type="password"
                   id="password"
+                  {% if login_param %}
+                  autofocus
+                  {% endif %}
                   class="form-control"
                   name="password"
                   placeholder=""

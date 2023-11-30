@@ -1,0 +1,55 @@
+{% load humanize %}
+<div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Mailingi</h5>
+      </div>
+      <div class="modal-body">
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Status</th>
+              <th scope="col">Nazwa</th>
+              <th scope="col">Wysłano</th>
+              <th scope="col">Szablon</th>
+              <th scope="col">Komentarz</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for campaign in campaigns %}
+            <tr>
+              <td>{{campaign.get_status_display}}</td>
+              <td>
+                <b>{{campaign.title}}</b> <br>
+                {{campaign.created_at}} <br>
+                <i>Alias: {{campaign.alias}}</i>
+              </td>
+              <td>
+                {{campaign.stat_sent|intcomma}}
+              </td>
+              <td>
+                <a target="_blank" href="{% url 'core:crm_mailing_campaign_preview_html' pk=campaign.pk %}">
+                  html
+                </a>
+                /
+                <a target="_blank" href="{% url 'core:crm_mailing_campaign_preview_text' pk=campaign.pk %}">
+                  text
+                </a>
+              </td>
+              <td>
+                <i>{{campaign.comment|default:"Brak komentarza"}}</i>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Zamknij
+        </button>
+      </div>
+    </div>
+  </div>
