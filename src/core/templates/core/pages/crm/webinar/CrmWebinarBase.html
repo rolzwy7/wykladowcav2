@@ -12,8 +12,11 @@
     <!--begin::Page title-->
     <div class="page-title d-flex flex-column py-1">
         <!--begin::Title-->
-        <h1 class="d-flex align-items-center my-1">
+        <h1 class="align-items-center my-1">
             {{webinar.title_original}}
+            <a href="{% url 'admin:core_webinar_change' object_id=webinar.id %}" class="menu-link">
+                ( Edytuj w CMS )
+            </a>
         </h1>
         <!--end::Title-->
     </div>
@@ -35,6 +38,23 @@
 </div>
 <!--end::Toolbar-->
 
+{% if got_to_summary_applications_count %}
+<div class="col-md-12">
+    <div class="alert alert-info d-flex align-items-center p-5">
+        <i class="ki-duotone ki-shield-tick fs-2hx text-info me-4"><span class="path1"></span><span class="path2"></span></i>
+        <div class="d-flex flex-column">
+            <h4 class="mb-1 text-dark">Wykryto całkowicie wypełnione, niewysłane zgłoszenia</h4>
+            <span>
+                To szkolenie ma {{unfinished_applications_count}} niewysłanych zgłoszeń
+                z czego <b>{{got_to_summary_applications_count}} zgłoszenia</b> są gotowe do wysyłki.
+                <br> <br>
+                Albo ktoś zapomniał wysłać zgłoszenia albo się rozmyślił przy samym końcu.
+            </span>
+        </div>
+    </div>
+</div>
+{% endif %}
+
 
 {% if buyer_nip_duplicates or recipient_nip_duplicates or participant_email_duplicates %}
 <div class="col-md-12">
@@ -43,7 +63,7 @@
            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
         </svg>
         <div>
-           <b>TO SZKOLENIE ZAWIERA <u>DUPLIKATY ZGŁOSZEŃ</u>. SZCZEGÓŁY NA DOLE. 👇</b>
+           <b>To szkolenie <i>prawdopodobnie</i> zawiera <u>DUPLIKATY ZGŁOSZEŃ</u>. Szczegóły na dole. 👇</b>
         </div>
    </div>
 </div>
@@ -74,27 +94,40 @@
                             <div class="d-flex align-items-center mb-2">
                                 <a href="#" class="text-gray-900 text-hover-primary fs-2 fw-bold me-1">
                                     {{webinar.lecturer.fullname}}
+                                    <a href="{% url 'admin:core_lecturer_change' object_id=webinar.lecturer.id %}">
+                                        <b>( edytuj w CMS )</b>
+                                    </a>
                                 </a>
                             </div>
                             <!--end::Name-->
                             <!--begin::Info-->
-                            <div class="d-flex flex-wrap fw-semibold fs-6 mb-4 pe-2">
+                            <div class="d-flex flex-wrap flex-column fw-semibold fs-6 mb-4 pe-2">
                                 {% if webinar.lecturer.email %}
-                                <a href="mailto:{{webinar.lecturer.email}}" class="d-flex align-items-center text-gray-900 text-hover-primary mb-2">
-                                    <i class="ki-duotone ki-sms fs-4 me-1">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
-                                    </i>
-                                    {{webinar.lecturer.email}}
-                                </a>
+                                <p class="m-0">
+                                    <a href="mailto:{{webinar.lecturer.email}}" class="d-flex align-items-center text-gray-900 text-hover-primary mb-2">
+                                        <i class="ki-duotone ki-sms fs-4 me-1">
+                                            <span class="path1"></span>
+                                            <span class="path2"></span>
+                                        </i>
+                                        {{webinar.lecturer.email}}
+                                    </a>
+                                </p>
                                 {% else %}
-                                <span class="text-danger">
-                                    Nie podano adresu e-mail !
-                                </span>
+                                <p class="text-danger fw-bold m-0">
+                                    Nie uzupełniono adresu e-mail wykładowcy!
+                                </p>
                                 {% endif %}
-                                <a href="{% url 'admin:core_lecturer_change' object_id=webinar.lecturer.id %}">
-                                    &nbsp;(zmień)
-                                </a>
+                                {% if webinar.lecturer.agrees_to_recording %}
+                                    <p class="text-success m-0">
+                                        <i class="bi bi-check-circle text-success"></i>
+                                        Zgadza się na nagrania
+                                    </p>
+                                {% else %}
+                                    <p class="text-danger m-0">
+                                        <i class="bi bi-slash-circle text-danger"></i>
+                                        Nie zgadza się na nagrania
+                                    </p>
+                                {% endif %}
                             </div>
                             <!--end::Info-->
                         </div>
@@ -151,6 +184,13 @@
                                     <div class="menu-item px-3">
                                         <a href="{% url 'core:crm_webinar_export_participants' pk=webinar.pk %}?export=CSV" class="menu-link px-3">
                                             Eksportuj uczestników do CSV
+                                        </a>
+                                    </div>
+                                    <!--end::Menu item-->
+                                    <!--begin::Menu item-->
+                                    <div class="menu-item px-3">
+                                        <a href="{% url "core:create_mailing_campaign_from_webinar" pk=webinar.pk %}" class="menu-link px-3">
+                                            Stwórz kampanie mailingową
                                         </a>
                                     </div>
                                     <!--end::Menu item-->

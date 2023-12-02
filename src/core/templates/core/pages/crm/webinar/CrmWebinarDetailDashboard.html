@@ -82,7 +82,7 @@
         </div>
     </div>
     <!--end::Col-->
-
+    
     {% if gathered_participants %}
     <!--start::Col-->
     <div class="col-md-12">
@@ -121,16 +121,16 @@
             <div
                 class="card-header collapsible cursor-pointer rotate"
                 data-bs-toggle="collapse"
-                data-bs-target="#kt_card_email_copy"
+                data-bs-target="#kt_card_duplicates"
             >
                 <h3 class="card-title">
-                    <span class="fw-bold text-danger">&gt;&gt; DUPLIKATY &lt;&lt;</span>
+                    <span class="fw-bold text-danger">&gt;&gt; Duplikaty &lt;&lt;</span>
                 </h3>
                 <div class="card-toolbar rotate-180">
                     <i class="ki-duotone ki-down fs-1"></i>
                 </div>
             </div>
-            <div id="kt_card_email_copy" class="collapse show">
+            <div id="kt_card_duplicates" class="collapse show">
                 <div class="card-body">
                     <p>Ten termin szkolenia prawdopodobnie posiada <b>duplikaty</b> zgłoszeń (i/lub) uczestników.</p>
                     {% if buyer_nip_duplicates or recipient_nip_duplicates %}
@@ -202,7 +202,7 @@
     <!--end::Col-->
     {% endif %}
 
-    {% if webinar.status == "CANCELED" %}
+    {% comment %} {% if webinar.status == "CANCELED" %}
     <!--start::Col-->
     <div class="col-md-12">
 
@@ -219,9 +219,9 @@
         </div>
     </div>
     <!--end::Col-->
-    {% endif %}
+    {% endif %} {% endcomment %}
     
-    {% if move_registers %}
+    {% comment %} {% if move_registers %}
     <!--start::Col-->
     <div class="col-md-12">
 
@@ -319,7 +319,7 @@
         </div>
     </div>
     <!--end::Col-->
-    {% endif %}
+    {% endif %} {% endcomment %}
 
     <!--start::Col-->
     <div class="col-md-12">
@@ -330,7 +330,10 @@
                 data-bs-toggle="collapse"
                 data-bs-target="#kt_card_participants"
             >
-                <h3 class="card-title">Uczestnicy ({{gathered_participants_count}})</h3>
+                <h3 class="card-title">
+                    <i class="bi bi-people-fill fs-2x me-2 text-black"></i>
+                    Uczestnicy ({{gathered_participants_count}})
+                </h3>
                 <div class="card-toolbar rotate-180">
                     <i class="ki-duotone ki-down fs-1"></i>
                 </div>
@@ -374,7 +377,10 @@
                 data-bs-toggle="collapse"
                 data-bs-target="#kt_card_applications"
             >
-                <h3 class="card-title">Szczegóły zgłoszeń ({{sent_applications_count}})</h3>
+                <h3 class="card-title">
+                    <i class="bi bi-card-list fs-2x me-2 text-black"></i>
+                    Szczegóły zgłoszeń ({{sent_applications_count}})
+                </h3>
                 <div class="card-toolbar rotate-180">
                     <i class="ki-duotone ki-down fs-1"></i>
                 </div>
@@ -440,9 +446,14 @@
                                         {% endif %}
                                         <b>Uczestnicy:</b> <br>
                                         {% for participant in gathered_participants %}
-                                            {% if participant.application.id == application.id %}
-                                            {{participant.fullname}} - {{participant.email}} - {{participant.phone|default:"Brak telefonu"}} - <a href="{% url 'admin:core_webinarparticipant_change' object_id=participant.id %}">Edytuj w CMS</a> <br>
-                                            {% endif %}
+                                        {% if participant.application.id == application.id %}
+                                            <a href="{% url 'admin:core_webinarparticipant_change' object_id=participant.id %}">
+                                                <b>{{participant.fullname}}</b>
+                                            </a>
+                                            - {{participant.email}}
+                                            - {{participant.phone|default:"Brak telefonu"}}
+                                            <br>
+                                        {% endif %}
                                         {% endfor %}
 
                                         <br>
@@ -458,12 +469,14 @@
                                         <b>E-mail do faktury:</b> {{application.invoice.invoice_email}}
 
                                         {% for metadata in sent_applications_metadata %}
-                                            {% if metadata.application.id == application.id %}
-                                                <br> Wystawiono fakturę: {{metadata.invoice_number}}
-                                                <a href="{{metadata.invoice_url}}">
-                                                    {{metadata.invoice_url}}
-                                                </a>
-                                            {% endif %}
+                                        {% if metadata.application.id == application.id %}
+                                        {% if metadata.invoice_number %}
+                                            <br> Wystawiono fakturę: {{metadata.invoice_number}}
+                                            <a href="{{metadata.invoice_url}}">
+                                                {{metadata.invoice_url}}
+                                            </a>
+                                        {% endif %}
+                                        {% endif %}
                                         {% endfor %}
 
                                         {% if application.additional_information %}

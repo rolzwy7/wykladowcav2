@@ -1,4 +1,5 @@
 # flake8: noqa
+from .create_mailing_campaign_from_webinar import create_mailing_campaign_from_webinar
 from .download_emails_from_sender_page import download_emails_from_sender_page
 from .mailing_campaign import (
     crm_mailing_campaign_add_emails,

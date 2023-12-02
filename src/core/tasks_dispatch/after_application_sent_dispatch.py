@@ -1,3 +1,7 @@
+"""
+Procedure that executes after webinar application has been sent
+"""
+
 from celery import chain, group
 from django.template.defaultfilters import date as _date
 

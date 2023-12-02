@@ -1,10 +1,15 @@
+"""
+Mailing sending procedure
+"""
+
 # flake8: noqa:E501
+# pylint: disable=line-too-long
 
 import time
 from smtplib import SMTPRecipientsRefused, SMTPServerDisconnected
 
 from django.core.management.base import BaseCommand
-from django.db.models import Q
+from django.db.models import F, Q
 from django.utils.timezone import now, timedelta
 
 from core.consts import TelegramChats
@@ -21,23 +26,27 @@ class ProcessSendingStatus:
     LIMIT_NOT_REACHED = "LIMIT_NOT_REACHED"
 
 
-def process_sending(campaign: MailingCampaign, /, *, limit: int = 100) -> str:
+def process_sending(campaign_id: int, /, *, limit: int = 100) -> str:
     """Mailing sending process"""
 
-    campaign_id: int = campaign.id  # type: ignore
+    print("[*] Processing campaign", campaign_id)
+
+    # Get campaign
+    campaign = MailingCampaign.manager.get(id=campaign_id)
     alias = campaign.alias
 
+    # Get template
     template: MailingTemplate = campaign.template
     html = template.html
     text = template.text
 
+    # Get SMTP sender account + service
     smtp_sender: SmtpSender = campaign.smtp_sender
     smtp_service = SenderSmtpService(smtp_sender)
 
+    # Open pool manager and get ready to send messages
     pool_manager = MailingPoolManager()
     documents = pool_manager.get_ready_to_send_for_campaign(campaign_id)
-
-    print("[*] Processing campaign", campaign_id)
 
     # Open SMTP connection to sender
     connection = smtp_service.get_smtp_connection()
@@ -97,15 +106,18 @@ def process_sending(campaign: MailingCampaign, /, *, limit: int = 100) -> str:
             print(f"[+] Sent to `{email}`")
 
             # Increment sent counter
-            campaign.stat_sent = campaign.stat_sent + 1
+            MailingCampaign.manager.filter(id=campaign_id).update(
+                stat_sent=F("stat_sent") + 1
+            )
 
             # Increment sent so far counter if limit per day set
             if campaign.limit_per_day != 0:
-                campaign.limit_sent_so_far = campaign.limit_sent_so_far + 1
+                MailingCampaign.manager.filter(id=campaign_id).update(
+                    limit_sent_so_far=F("limit_sent_so_far") + 1
+                )
 
     pool_manager.close()  # close mongo manager
     connection.close()  # close SMTP connection
-    campaign.save()
 
     if send_attempt_counter == 0:
         return_value = ProcessSendingStatus.NO_EMAILS_SENT
@@ -113,19 +125,20 @@ def process_sending(campaign: MailingCampaign, /, *, limit: int = 100) -> str:
     return return_value
 
 
-def try_to_finish_campaign(campaign: MailingCampaign):
+def try_to_finish_campaign(campaign_id: int):
     """Try to finish campaign if there are no init-like emails left"""
-    campaign_id: int = campaign.id  # type: ignore
     pool_manager = MailingPoolManager()
     campaign_is_finished = pool_manager.is_campaign_finished(campaign_id)
     if campaign_is_finished:
-        print("[*] No init emails left, closing campaign:", campaign)
-        campaign.status = MailingCampaignStatus.DONE
-        campaign.save()
+        print("[*] No init emails left, closing campaign:", campaign_id)
+
+        MailingCampaign.manager.filter(id=campaign_id).update(
+            status=MailingCampaignStatus.DONE
+        )
 
         telegram_service = TelegramService()
         telegram_service.send_chat_message(
-            f"Kampania mailingowa zakończona: {campaign.title}",
+            f"Kampania mailingowa ID={campaign_id} zakończona",
             TelegramChats.OTHER,
         )
 
@@ -180,16 +193,17 @@ class Command(BaseCommand):
                 print("[*] No active campaigns, sleeping 20s ...")
                 time.sleep(20)
                 continue
-
+            #
             # Iterate over active campaigns and start sending process
             for campaign in active_campaigns:
+                campaign_id: int = campaign.id  # type: ignore
                 print("\n[*] Processing campaign:", campaign)
-                result = process_sending(campaign, limit=100)
-
+                result = process_sending(campaign_id, limit=100)
+                #
                 # Try to finish campaign
                 if result == ProcessSendingStatus.NO_EMAILS_SENT:
                     print("[*] No email sent with campaign:", campaign)
-                    try_to_finish_campaign(campaign)
+                    try_to_finish_campaign(campaign_id)
 
             print("[*] Sleeping 5s between sending ...")
             time.sleep(5)

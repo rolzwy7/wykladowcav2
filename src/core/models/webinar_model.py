@@ -239,7 +239,7 @@ class Webinar(Model):
         ordering = ["date"]
 
     def __str__(self) -> str:
-        return f"({self.human_date}) {self.title}"
+        return f"({_date(self.date, 'j E Y')}) {self.title}"
 
     def save(self, *args, **kwargs) -> None:
         return super().save(*args, **kwargs)

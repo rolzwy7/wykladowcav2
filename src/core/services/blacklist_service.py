@@ -59,12 +59,9 @@ class BlacklistService:
     @staticmethod
     def blacklist_email_temporarily(email: str) -> None:
         """Blacklist email temporarily"""
-        obj, created = BlacklistedEmailTemporary.objects.get_or_create(
-            email=email
-        )
-        if not created:
-            obj.expires_at = now() + timedelta(days=14)
-            obj.save()
+        obj, _ = BlacklistedEmailTemporary.objects.get_or_create(email=email)
+        obj.expires_at = now() + timedelta(days=10)
+        obj.save()
 
     @staticmethod
     def is_email_phrase_blacklisted(email: str):

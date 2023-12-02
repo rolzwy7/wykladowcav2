@@ -64,6 +64,12 @@ class CrmWebinarService:
             self.webinar
         )
 
+    def get_got_to_summary_applications(self):
+        """Returns all unfinished applications that got to summary"""
+        return WebinarApplication.manager.unfinished_applications_for_webinar(
+            self.webinar
+        ).filter(got_to_summary=True)
+
     def get_resigned_applications(self):
         """Returns all resigned applications for this webinar"""
         return WebinarApplication.manager.resigned_applications_for_webinar(
@@ -232,6 +238,7 @@ class CrmWebinarService:
         lecturer_price_netto = self.lecturer_price_netto()
         sent_applications = self.get_sent_applications().order_by("-created_at")
         unfinished_applications = self.get_unfinished_applications()
+        got_to_summary_applications = self.get_got_to_summary_applications()
         resigned_applications = self.get_resigned_applications()
         recordings = self.get_recordings()
         certificates = self.get_certificates()
@@ -257,6 +264,9 @@ class CrmWebinarService:
             # Unfinished applications
             "unfinished_applications": unfinished_applications,
             "unfinished_applications_count": unfinished_applications.count(),
+            # `got_to_summary` applications
+            "got_to_summary_applications": got_to_summary_applications,
+            "got_to_summary_applications_count": got_to_summary_applications.count(),
             # Resigned applications
             "resigned_applications": resigned_applications,
             "resigned_applications_count": resigned_applications.count(),

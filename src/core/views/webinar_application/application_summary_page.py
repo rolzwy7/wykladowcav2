@@ -27,8 +27,10 @@ def application_summary_page(request, uuid):
     # form_service.redirect_on_application_error()
     participants = WebinarParticipant.manager.filter(application=application)
 
-    # if not application.submitter:
-    #     return redirect(form_service.get_first_step_url())
+    # Mark `got_to_summary` as True
+    if not application.got_to_summary:
+        application.got_to_summary = True
+        application.save()
 
     if request.method == POST and application.status == ApplicationStatus.INIT:
         form = ApplicationSummarySubmitForm(request.POST)

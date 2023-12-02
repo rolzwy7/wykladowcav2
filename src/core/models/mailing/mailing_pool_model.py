@@ -1,3 +1,9 @@
+"""
+Mailing pool manager
+"""
+
+# flake8: noqa=E501
+
 from django.conf import settings
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
 from pymongo import UpdateOne
@@ -58,17 +64,19 @@ class MailingPoolManager:
 
     def change_status(self, document_id: str, status: str) -> None:
         """Change status of pool object"""
-        self.collection.update_one(
-            {"_id": document_id}, {"$set": {"status": status}}
-        )
+        self.collection.update_one({"_id": document_id}, {"$set": {"status": status}})
 
     def find_all_by_status(self, status: str):
         """Find all by status"""
         return self.collection.find({"status": status})
 
-    def get_ready_to_send_for_campaign(
-        self, campaign_id: int, limit: int = 100
-    ):
+    def find_all_by_status_and_campaign_ids(self, status: str, campaign_ids: list[int]):
+        """Find all by status"""
+        return self.collection.find(
+            {"status": status, "campaign_id": {"$in": campaign_ids}}
+        )
+
+    def get_ready_to_send_for_campaign(self, campaign_id: int, limit: int = 100):
         """Get ready to send emails for campaign"""
         return self.collection.find(
             {
