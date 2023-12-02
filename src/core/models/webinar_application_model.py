@@ -1,3 +1,10 @@
+"""
+Webinar application model
+"""
+
+# flake8: noqa=E501
+# pylint: disable=line-too-long
+
 import uuid
 
 from django.conf import settings
@@ -183,14 +190,10 @@ class WebinarApplication(Model):
 
     manager = WebinarApplicationManager()
 
-    status = CharField(
-        max_length=32, default=ApplicationStatus.INIT, choices=STATUS
-    )
+    status = CharField(max_length=32, default=ApplicationStatus.INIT, choices=STATUS)
 
     created_at = DateTimeField("Stworzono", auto_now_add=True)
-    uuid = UUIDField(
-        "Identyfikator zgłoszenia", default=uuid.uuid4, unique=True
-    )
+    uuid = UUIDField("Identyfikator zgłoszenia", default=uuid.uuid4, unique=True)
 
     refcode = CharField("Kod referencyjny", max_length=32, blank=True)
 
@@ -269,26 +272,18 @@ class WebinarApplication(Model):
         verbose_name="Użytkownik",
     )
 
+    got_to_summary = BooleanField(
+        "Dotarł do podsumowania",
+        default=False,
+        help_text="Czy zgłaszający dotarł do strony podsumowania?",
+    )
+
     class Meta:
         verbose_name = "Zgłoszenie"
         verbose_name_plural = "Zgłoszenia"
 
     def __str__(self) -> str:
         return f"Zgłoszenie {self.id}"  # type: ignore
-
-    # @property  # TODO: move to service
-    # def participants(self) -> QuerySet["WebinarParticipant"]:
-    #     """Return paticipants for this application"""
-    #     return (
-    #         WebinarParticipant.manager.get_valid_participants_for_application(
-    #             application=self
-    #         )
-    #     )
-
-    # @property  # TODO: move to service
-    # def total_price_netto(self):
-    #     """Calculate total NETTO price for this application"""
-    #     return self.participants.count() * self.price_netto
 
     @property
     def price_brutto(self):

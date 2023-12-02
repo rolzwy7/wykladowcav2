@@ -82,11 +82,10 @@ class InboxMessage:
             "urlop",
             "urlopie",
             "Abwesenheit",
+            "przebywam na urlopie",
         ]
         for phrase in phrases:
-            is_match = normalize_polish(phrase) in normalize_polish(
-                self.subject_header
-            )
+            is_match = normalize_polish(phrase) in normalize_polish(self.subject_header)
 
             if is_match:
                 return True
@@ -128,9 +127,7 @@ class InboxMessage:
         else:
             content_type = self.message.get_content_type()
             content_charset = self.message.get_content_charset()
-            parts_preferences.append(
-                (content_type, self.message, content_charset)
-            )
+            parts_preferences.append((content_type, self.message, content_charset))
 
         fallback_content = "NO_CONTENT"
 

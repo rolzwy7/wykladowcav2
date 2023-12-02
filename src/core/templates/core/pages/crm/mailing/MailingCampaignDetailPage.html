@@ -13,6 +13,17 @@
     <div class="page-title d-flex flex-column py-1">
         <!--begin::Title-->
         <h1 class="d-flex align-items-center my-1">
+            {% if mailing_campaign.status == 'PAUSED' %}
+            <span class="text-warning fw-bold">
+            {% elif mailing_campaign.status == 'SENDING' %}
+            <span class="text-dark fw-bold">
+            {% elif mailing_campaign.status == 'DONE' %}
+            <span class="text-success fw-bold">
+            {% endif %}
+                [{{mailing_campaign.get_status_display}}]&nbsp;
+            </span>
+
+
             <span class="text-dark fw-bold fs-1">{{mailing_campaign}}</span>
             <!--begin::Description-->
             <small class="text-muted fs-6 fw-semibold ms-1">( {{emails_count}} e-maili )</small>
@@ -74,7 +85,13 @@
     <!--end::Toolbar-->
 
     <p class="fs-4 mb-1">
-        Tytuły:
+        <b>Konto wysyłkowe:</b> {{mailing_campaign.smtp_sender}}
+    </p>
+    <p class="fs-4 mb-1">
+        <b>Alias:</b> {{mailing_campaign.alias}}
+    </p>
+    <p class="fs-4 mb-1">
+        <b>Tytuły:</b>
     </p>
     <ol>
         {% for subject in mailing_campaign.get_subjects %}

@@ -1,0 +1,56 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+<!--begin::Row-->
+<div class="row g-6 g-xl-9 mb-10">
+    <!--begin::Col-->
+    <div class="col-md-12 col-xl-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Stwórz kampanie mailingową z terminu szkolenia</h3>
+        </div>
+        <div class="card-body fs-4">
+
+            <p>
+                Tworzysz kampanie mailingową dla terminu:
+            </p>
+            <p>
+                <b>{{webinar.title_original}}</b>
+            </p>
+            <p>
+                Data: <b>{{webinar.date|date:"j E Y"}} r.</b>
+            </p>
+            <p>
+                Godzina: <b>{{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}</b>
+            </p>
+
+          <hr>
+  
+          <form
+              method="post" action="{% url "core:create_mailing_campaign_from_webinar" pk=webinar.pk %}"
+              onsubmit="actionSubmit.disabled = true; return true;"
+          >
+              {% csrf_token %}
+              <select name="smpt_sender_id">
+                {% for smtp_sender in smtp_senders %}
+                    <option value="{{smtp_sender.id}}">{{smtp_sender}}</option>
+                {% endfor %}
+              </select>
+              <input type="text" name="content_url" placeholder="Content URL">
+              <input type="submit" value="Duplikuj termin" name="actionSubmit">
+          </form>
+  
+        </div>
+      </div>
+    </div>
+    <!--end::Col-->
+  </div>
+  <!--end::Row-->
+{% endblock crm_content %}
+
+{% block body_scripts %}{% endblock body_scripts %}
