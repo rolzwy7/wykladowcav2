@@ -2,8 +2,8 @@
 {% load static %}
 {% block root %}
 
-
 <main>
+
     <section class="py-5">
        <div class="container">
           <div class="row justify-content-center">
@@ -16,14 +16,15 @@
                 </div>
              </div>
           </div>
+          <div class="row justify-content-center">
+             <div class="col-lg-8 col-md-12 col-12">
+               {% include "./components/loyalty_program_accept_button.html" %}
+               {% include 'geeks/pages/terms_and_conditions/snippets/TermsAndConditionsLoyaltyProgramCard.html' %}
+               {% include "./components/loyalty_program_accept_button.html" %}  
+             </div>
+          </div>
        </div>
     </section>
-
-    {% include "./components/loyalty_program_accept_button.html" %}
-
-    {% include 'core/pages/terms_and_conditions/snippets/TermsAndConditionsLoyaltyProgramCard.html' %}
-
-    {% include "./components/loyalty_program_accept_button.html" %}
 
  </main>
 

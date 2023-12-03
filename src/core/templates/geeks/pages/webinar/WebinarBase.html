@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block meta %}
-<meta property="og:url" content="{{META__BASE_URL}}{% url "core:webinar_redirect_to_program_facebook" pk=webinar.pk %}" />
+<meta property="og:url" content="{{META__BASE_URL}}{% url "core:webinar_program_page" slug=webinar.slug %}" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="{{webinar.title}}" />
 {% if webinar.description %}
@@ -11,6 +11,7 @@
 {% if webinar.facebook_post_image %}
 <meta property="og:image" content="{{META__BASE_URL}}{% get_media_prefix %}{{webinar.facebook_post_image}}" />
 {% endif %}
+<meta property="og:image:alt" content="{{webinar.lecturer.fullname}}" />
 {% endblock meta %}
 
 {% block title %}

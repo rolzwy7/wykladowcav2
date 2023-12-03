@@ -14,9 +14,7 @@ class VatExemption:
     legal_basis: str
 
 
-VAT_EXEMPTION_0 = VatExemption(
-    "VAT_EXEMPTION_0", "Brak zwolnienia z VAT", 0, ""
-)
+VAT_EXEMPTION_0 = VatExemption("VAT_EXEMPTION_0", "Brak zwolnienia z VAT", 0, "")
 
 VAT_EXEMPTION_13 = VatExemption(
     "VAT_EXEMPTION_13",
@@ -42,7 +40,7 @@ VAT_EXEMPTION_113 = VatExemption(
 # True if we are exempt from income TAX up to 200,000 PLN
 # What does it do?:
 # - Hides select input on application form page
-WE_ARE_TAX_EXEMPT = True
+WE_ARE_TAX_EXEMPT = False
 
 # VAT percent value
 VAT_VALUE_PERCENT = 23
@@ -67,10 +65,7 @@ VAT_EXEMPTIONS = [
 
 def to_choices(exemptions_list: list[VatExemption]):
     """Convert list of exemptions to select choices"""
-    return [
-        (exemption.db_key, exemption.description)
-        for exemption in exemptions_list
-    ]
+    return [(exemption.db_key, exemption.description) for exemption in exemptions_list]
 
 
 # Choices for `CharField.choices` argument
@@ -85,9 +80,7 @@ if WE_ARE_TAX_EXEMPT:
     }
 else:
     ALLOWED_EXEMPTIONS_BY_APPLICATION_TYPE = {
-        WebinarApplicationType.COMPANY: to_choices(
-            [VAT_EXEMPTION_0, VAT_EXEMPTION_13]
-        ),
+        WebinarApplicationType.COMPANY: to_choices([VAT_EXEMPTION_0, VAT_EXEMPTION_13]),
         WebinarApplicationType.JSFP: to_choices(
             [
                 VAT_EXEMPTION_0,
