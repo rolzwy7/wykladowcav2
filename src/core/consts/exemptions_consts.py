@@ -40,7 +40,7 @@ VAT_EXEMPTION_113 = VatExemption(
 # True if we are exempt from income TAX up to 200,000 PLN
 # What does it do?:
 # - Hides select input on application form page
-WE_ARE_TAX_EXEMPT = False
+WE_ARE_TAX_EXEMPT = True
 
 # VAT percent value
 VAT_VALUE_PERCENT = 23
