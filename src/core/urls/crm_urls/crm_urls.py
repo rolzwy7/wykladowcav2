@@ -21,6 +21,7 @@ from core.views.crm import (
     crm_webinar_invoices,
     crm_webinar_recordings,
 )
+from core.views.crm.application.actions import crm_application_send_invoice_action_page
 from core.views.crm.company import CrmCompanyDetail, CrmCompanyList
 from core.views.crm.contact import CrmContactDetail, CrmContactList
 from core.views.crm.mailing import download_emails_from_sender_page
@@ -29,7 +30,7 @@ from core.views.crm.statistics import crm_statistics_dashboard
 from core.views.crm.webinar.actions import (
     CancelWebinarAction,
     ConfirmWebinarAction,
-    DoneWebinarAction,
+    crm_webinar_done_action_page,
     move_webinar_action,
 )
 
@@ -79,6 +80,13 @@ urlpatterns = [
         crm_webinar_certificates,
         name="crm_webinar_certificates",
     ),
+    # CRM Webinar Actions
+    path(
+        "zgloszenie/<int:pk>/przeslij-fakture/",
+        crm_application_send_invoice_action_page,
+        name="crm_application_send_invoice_action",
+    ),
+    # CRM Webinar Actions
     path(
         "webinar/<int:pk>/potwierdz-termin/",
         ConfirmWebinarAction.as_view(),
@@ -91,8 +99,8 @@ urlpatterns = [
     ),
     path(
         "webinar/<int:pk>/zakoncz-termin/",
-        DoneWebinarAction.as_view(),
-        name="crm_webinar_done",
+        crm_webinar_done_action_page,
+        name="crm_webinar_done_action",
     ),
     path(
         "webinar/<int:pk>/przenies/",

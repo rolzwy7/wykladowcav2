@@ -1,3 +1,5 @@
+# flake8: noqa=E501
+# pylint: disable=line-too-long
 # pylint: disable=import-outside-toplevel
 import requests
 from django.conf import settings
@@ -7,10 +9,12 @@ from pydantic import BaseModel  # pylint: disable=no-name-in-module
 
 from core.consts.exemptions_consts import (
     TAX_EXEMPT_TOOLTIP,
+    VAT_EXEMPTION_0,
+    VAT_EXEMPTION_113,
     VAT_VALUE_PERCENT,
     WE_ARE_TAX_EXEMPT,
 )
-from core.models import Webinar, WebinarApplication
+from core.models import Webinar, WebinarApplication, WebinarApplicationInvoice
 
 
 class InvoiceCreateResult(BaseModel):
@@ -30,15 +34,14 @@ def create_invoice_for_application(
     recipient = application.recipient
     buyer = application.buyer
     private_person = application.private_person
+    invoice: WebinarApplicationInvoice = application.invoice  # type: ignore
 
     from core.services import ApplicationService
 
     application_service = ApplicationService(application)
-    valid_participants_count = (
-        application_service.get_valid_participants().count()
-    )
+    valid_participants_count = application_service.get_valid_participants().count()
 
-    buyer_email = application.invoice.invoice_email  # type: ignore
+    buyer_email = invoice.invoice_email  # type: ignore
 
     buyer_data = {}
     recipient_data = {}
@@ -75,7 +78,7 @@ def create_invoice_for_application(
         }
 
     # Add text adnotation about tax exempt reason
-    if WE_ARE_TAX_EXEMPT:
+    if WE_ARE_TAX_EXEMPT or invoice.vat_exemption == VAT_EXEMPTION_113.db_key:
         extra_data = {"exempt_tax_kind": TAX_EXEMPT_TOOLTIP}
     else:
         extra_data = {}
@@ -101,52 +104,44 @@ def create_invoice_for_application(
         "seller_city": settings.COMPANY_CITY,
         "seller_street": settings.COMPANY_STREET,
         "seller_country": "PL",
-        # "seller_email": settings.COMPANY_OFFICE_EMAIL,
-        # "seller_www": settings.COMPANY_WWW,
         "seller_phone": settings.COMPANY_OFFICE_PHONE,
     }
+
+    if invoice.vat_exemption == VAT_EXEMPTION_113.db_key:
+        tax = "zw"
+    elif invoice.vat_exemption == VAT_EXEMPTION_0.db_key:
+        tax = VAT_VALUE_PERCENT
+    else:
+        tax = VAT_VALUE_PERCENT
 
     invoice_position = {
         "name": webinar.title_original,
         "quantity": valid_participants_count,
         "quantity_unit": "os.",
         "code": f"webinar{webinar.id}",  # type: ignore
-    }
-
-    if WE_ARE_TAX_EXEMPT:
-        price = {
-            "tax": "zw",
-            "total_price_gross": application.price_netto
-            * valid_participants_count,
-        }
-    else:
-        price = {
-            "tax": VAT_VALUE_PERCENT,
-            "total_price_gross": application.price_brutto
-            * valid_participants_count,
-        }
-
-    invoice_position = {**invoice_position, **price}
-
-    invoice = {
-        **extra_data,
-        "kind": "vat",
-        # Dates
-        "sell_date": sell_date,
-        "issue_date": issue_date,
-        "payment_to": payment_to,
-        # Seller
-        **seller_data,
-        # Buyer
-        **buyer_data,
-        # Recipient
-        **recipient_data,
-        "positions": [invoice_position],
+        "tax": tax,
+        "total_price_gross": round(
+            application.price_brutto * valid_participants_count, 2
+        ),
     }
 
     payload = {
         "api_token": settings.FAKTUROWNIA_API_KEY,
-        "invoice": invoice,
+        "invoice": {
+            **extra_data,
+            "kind": "vat",
+            # Dates
+            "sell_date": sell_date,
+            "issue_date": issue_date,
+            "payment_to": payment_to,
+            # Seller
+            **seller_data,
+            # Buyer
+            **buyer_data,
+            # Recipient
+            **recipient_data,
+            "positions": [invoice_position],
+        },
     }
 
     response = requests.request(

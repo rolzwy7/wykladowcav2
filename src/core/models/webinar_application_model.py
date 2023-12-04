@@ -28,6 +28,7 @@ from django.db.models import (
 from core.consts import (
     CHOICES_VAT_EXEMPTIONS,
     VAT_EXEMPTION_0,
+    VAT_EXEMPTION_113,
     VAT_VALUE_PERCENT,
     WE_ARE_TAX_EXEMPT,
 )
@@ -289,12 +290,8 @@ class WebinarApplication(Model):
     def price_brutto(self):
         """Calculate BRUTTO price for one participant"""
 
-        # Take exemption into consideration
-        if WE_ARE_TAX_EXEMPT:
-            return self.price_netto
-
         # Application is not VAT exempt
-        if self.invoice.vat_exemption != VAT_EXEMPTION_0.db_key:  # type: ignore
+        if self.invoice.vat_exemption == VAT_EXEMPTION_113.db_key:  # type: ignore
             return self.price_netto
 
         multiplier = round((100 + VAT_VALUE_PERCENT) / 100, 2)

@@ -92,7 +92,7 @@
                                         Potwierdź termin
                                     </a>
                                     {% elif webinar.status == "CONFIRMED" %}
-                                    <a href="{% url 'core:crm_webinar_done' pk=webinar.pk %}" class="menu-link px-3 text-success">
+                                    <a href="{% url 'core:crm_webinar_done_action' pk=webinar.pk %}" class="menu-link px-3 text-success">
                                         Zakończ szkolenie
                                     </a>
                                     {% endif %}

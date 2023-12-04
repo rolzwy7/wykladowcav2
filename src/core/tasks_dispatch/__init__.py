@@ -4,3 +4,10 @@ from .after_webinar_cancel_dispatch import after_webinar_cancel_dispatch
 from .after_webinar_confirm_dispatch import after_webinar_confirm_dispatch
 from .after_webinar_done_dispatch import after_webinar_done_dispatch
 from .after_webinar_moved_dispatch import after_webinar_moved_dispatch
+from .dispatch_certificates_for_webinar import dispatch_certificates_for_webinar
+from .dispatch_invoice_for_application import dispatch_invoice_for_application
+from .dispatch_invoices_for_webinar import dispatch_invoices_for_webinar
+from .dispatch_recording_download_for_webinar import (
+    dispatch_recording_download_for_webinar,
+)
+from .dispatch_telegram_message import dispatch_telegram_message

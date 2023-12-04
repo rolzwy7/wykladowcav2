@@ -1,0 +1,72 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %}
+{% load static %}
+
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+
+{% block crm_content %}
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title fw-bold text-success fs-1">
+                Zakończ szkolenie
+            </h3>
+        </div>
+        <div class="card-body fs-3">
+
+            <p><b>Szkolenie</b>: {{webinar.title_original}}</p>
+            <p><b>Data</b>: {{webinar.date|date:"j E Y"}}, godz. {{webinar.date|date:"H:i"}}</p>
+            <p><b>Wykładowca</b>: {{webinar.lecturer.fullname}}</p>
+
+            <h2>Co się stanie?</h2>
+
+            <div class="separator my-5"></div>
+
+            <ol>
+                <li>
+                    Jeśli zaznaczono opcję <b>Faktury</b> zostaną wysłane na adresy e-mail do faktur podane w zgłoszeniach
+                </li>
+                <li><b>Certyfikaty</b> zostaną wysłane na adresy e-mail uczestników</li>
+                <li>Zostanie uruchomione zadanie próbujące pobrać <b>nagranie</b> (jeśli istnieje w ClickMeeting) w okresie 24 godzin (próba co ~30 minut)</li>
+            </ol>
+
+            <div class="separator my-5"></div>
+
+            <form
+                onsubmit="actionSubmit.disabled = true; return true;"
+                method="post"
+                action="{% url "core:crm_webinar_done_action" pk=webinar.pk %}"
+            >
+                {% csrf_token %}
+                {{form.i_am_sure}}
+                {{form.send_invoices}}
+                <div class="separator my-5"></div>
+                <input
+                    id="submit-btn"
+                    name="actionSubmit"
+                    class="btn btn-success mt-4"
+                    type="submit"
+                    value="Najpierw potwierdź operację"
+                    disabled
+                >
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock crm_content %}
+
+{% block body_scripts %}
+<script>
+    var checkInput = document.querySelector("#id_i_am_sure");
+    checkInput.addEventListener("click", function(e) {
+        let btn = document.querySelector("#submit-btn");
+        if(btn.disabled) {
+            btn.disabled = false;
+            btn.value = "Zakończ szkolenie";
+        } else {
+            btn.disabled = true;
+            btn.value = "Najpierw potwierdź operację";
+        }
+    })
+</script>
+{% endblock body_scripts %}

@@ -1,0 +1,71 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %}
+{% load static %}
+
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+
+{% block crm_content %}
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title fw-bold text-dark fs-1">
+                Stwórz i Prześlij fakture
+            </h3>
+        </div>
+        <div class="card-body fs-3">
+
+            <p><b>Zgłoszenie ID</b>: {{application.id}}</p>
+            <p><b>VAT</b>: {{application.invoice.get_vat_exemption_display}}</p>
+
+            <h2>Co się stanie?</h2>
+
+            <div class="separator my-5"></div>
+
+            <p>
+                Jeśli faktura nie istnieje w Fakturowni dla tego zgłoszenia to zostanie stworzona.
+            </p>
+            
+            <p>
+                Faktura w fakturowni powiązana z tym zgłoszeniem zostanie wysłana przez e-mail na adres podany w zgłoszeniu jako adres do faktury.
+            </p>
+
+            <div class="separator my-5"></div>
+
+            <form
+                onsubmit="actionSubmit.disabled = true; return true;"
+                method="post"
+                action="{% url "core:crm_application_send_invoice_action" pk=application.pk %}"
+            >
+                {% csrf_token %}
+                {{form.i_am_sure}}
+                {{form.send_invoice}}
+                <div class="separator my-5"></div>
+                <input
+                    id="submit-btn"
+                    name="actionSubmit"
+                    class="btn btn-secondary mt-4"
+                    type="submit"
+                    value="Najpierw potwierdź operację"
+                    disabled
+                >
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock crm_content %}
+
+{% block body_scripts %}
+<script>
+    var checkInput = document.querySelector("#id_i_am_sure");
+    checkInput.addEventListener("click", function(e) {
+        let btn = document.querySelector("#submit-btn");
+        if(btn.disabled) {
+            btn.disabled = false;
+            btn.value = "Prześlij fakturę";
+        } else {
+            btn.disabled = true;
+            btn.value = "Najpierw potwierdź operację";
+        }
+    })
+</script>
+{% endblock body_scripts %}

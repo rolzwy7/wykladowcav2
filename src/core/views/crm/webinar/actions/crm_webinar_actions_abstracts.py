@@ -10,7 +10,7 @@ from core.forms.crm import CrmAreYouSureForm
 from core.models import Webinar, WebinarAsset
 
 
-def get_meta_redirect_url(path: str):  # TODO: move this
+def get_meta_redirect_url(path: str):
     """Get meta redirect url"""
     return f"{reverse('meta_redirect_page')}?path={path}"
 

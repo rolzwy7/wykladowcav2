@@ -40,7 +40,7 @@ VAT_EXEMPTION_113 = VatExemption(
 # True if we are exempt from income TAX up to 200,000 PLN
 # What does it do?:
 # - Hides select input on application form page
-WE_ARE_TAX_EXEMPT = True
+WE_ARE_TAX_EXEMPT = False
 
 # VAT percent value
 VAT_VALUE_PERCENT = 23
@@ -80,13 +80,22 @@ if WE_ARE_TAX_EXEMPT:
     }
 else:
     ALLOWED_EXEMPTIONS_BY_APPLICATION_TYPE = {
-        WebinarApplicationType.COMPANY: to_choices([VAT_EXEMPTION_0, VAT_EXEMPTION_13]),
+        WebinarApplicationType.COMPANY: to_choices([VAT_EXEMPTION_0]),
         WebinarApplicationType.JSFP: to_choices(
             [
                 VAT_EXEMPTION_0,
-                VAT_EXEMPTION_13,
-                VAT_EXEMPTION_36,
             ]
         ),
         WebinarApplicationType.PRIVATE_PERSON: to_choices([VAT_EXEMPTION_0]),
     }
+    # ALLOWED_EXEMPTIONS_BY_APPLICATION_TYPE = {
+    #     WebinarApplicationType.COMPANY: to_choices([VAT_EXEMPTION_0, VAT_EXEMPTION_13]),
+    #     WebinarApplicationType.JSFP: to_choices(
+    #         [
+    #             VAT_EXEMPTION_0,
+    #             VAT_EXEMPTION_13,
+    #             VAT_EXEMPTION_36,
+    #         ]
+    #     ),
+    #     WebinarApplicationType.PRIVATE_PERSON: to_choices([VAT_EXEMPTION_0]),
+    # }
