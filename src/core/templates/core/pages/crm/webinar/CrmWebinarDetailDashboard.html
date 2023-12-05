@@ -409,19 +409,82 @@
                                         <br>
                                         <b>{{application.created_at|date:"j E Y"}}</b> {{application.created_at|date:"H:i"}}
                                         <br>
-                                        {{application.created_at|date:"l"}}
+                                        (&nbsp;{{application.created_at|date:"l"}}&nbsp;)
                                         <br> <br>
-                                        <a href="{% url 'admin:core_webinarapplication_change' object_id=application.id %}">
-                                            <b>Edytuj w CMS</b>
-                                        </a>
-                                        <br> <br>
-                                        <a target="_blank" href="{% url 'core:application_pdf_card' uuid=application.uuid %}">
-                                            <b>Generuj kartę zgłoszeniową</b>
-                                        </a>
-                                        <br> <br>
-                                        <a href="{% url 'core:crm_application_send_invoice_action' pk=application.pk %}">
-                                            <b>Stwórz i Prześlij fakture</b>
-                                        </a>
+
+
+                                        <!--begin::Menu-->
+                                        <div class="menu menu-rounded menu-column menu-gray-600 menu-state-bg fw-semibold w-250px" data-kt-menu="true">
+                                            <!--begin::Menu item-->
+                                            <div class="menu-item" data-kt-menu-trigger="hover" data-kt-menu-placement="right-start">
+                                                <!--begin::Menu link-->
+                                                <a href="#" class="menu-link py-3 ps-0">
+                                                    <span class="menu-icon">
+                                                        <i class="ki-duotone ki-notepad-edit fs-3">
+                                                            <span class="path1"></span>
+                                                            <span class="path2"></span>
+                                                        </i>
+                                                    </span>
+                                                    <span class="menu-title">Edytuj w CMS</span>
+                                                    <span class="menu-arrow"></span>
+                                                </a>
+                                                <!--end::Menu link-->
+
+                                                <!--begin::Menu sub-->
+                                                <div class="menu-sub menu-sub-dropdown p-3 w-200px">
+                                                    <!--begin::Menu item-->
+                                                    <div class="menu-item">
+                                                        <a href="{% url 'admin:core_webinarapplication_change' object_id=application.id %}" class="menu-link px-1 py-3">
+                                                            <span class="menu-title">Zgłoszenie</span>
+                                                        </a>
+                                                    </div>
+                                                    <!--end::Menu item-->
+                                                    <!--begin::Menu item-->
+                                                    <div class="menu-item">
+                                                        <a href="{% url 'admin:core_webinarapplicationinvoice_change' object_id=application.invoice.id %}" class="menu-link px-1 py-3">
+                                                            <span class="menu-title">Fakturę</span>
+                                                        </a>
+                                                    </div>
+                                                    <!--end::Menu item-->
+                                                </div>
+                                                <!--end::Menu sub-->
+                                            </div>
+                                            <!--end::Menu item-->
+
+                                            <!--begin::Menu item-->
+                                            <div class="menu-item">
+                                                <a target="_blank" href="{% url 'core:application_pdf_card' uuid=application.uuid %}" class="menu-link py-3 ps-0">
+                                                    <span class="menu-icon">
+                                                        <i class="ki-duotone ki-scroll fs-3">
+                                                            <span class="path1"></span>
+                                                            <span class="path2"></span>
+                                                            <span class="path3"></span>
+                                                        </i>
+                                                    </span>
+                                                    <span class="menu-title">Generuj kartę zgłoszeniową</span>
+                                                </a>
+                                            </div>
+                                            <!--end::Menu item-->
+
+                                            <!--begin::Menu item-->
+                                            <div class="menu-item">
+                                                <a href="{% url 'core:crm_application_send_invoice_action' pk=application.pk %}" class="menu-link py-3 ps-0">
+                                                    <span class="menu-icon">
+                                                        <i class="ki-duotone ki-send fs-3">
+                                                            <span class="path1"></span>
+                                                            <span class="path2"></span>
+                                                        </i>
+                                                    </span>
+                                                    <span class="menu-title">Stwórz i prześlij fakture</span>
+                                                </a>
+                                            </div>
+                                            <!--end::Menu item-->
+
+                                        </div>
+                                        <!--end::Menu-->
+
+
+
                                     </td>
                                     <td class="fs-5">
                                         {% if application.application_type == "COMPANY" %}

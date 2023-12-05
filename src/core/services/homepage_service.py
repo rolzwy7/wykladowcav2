@@ -22,7 +22,7 @@ class HomepageService:
                 (f"{logos_base}/pocztapolska.svg", "Poczta Polska"),
                 # (f"{logos_base}/deutsche_bahn.svg", "Deutsche Bahn"),
                 # (f"{logos_base}/hydro_vacuum.svg", "Hydro Vacuum"),
-                (f"{logos_base}/jsw_sa.svg", "JSW SA"),
+                # (f"{logos_base}/jsw_sa.svg", "JSW SA"),
                 (f"{logos_base}/orbis_sa.svg", "Orbis SA"),
             ],
             k=5,

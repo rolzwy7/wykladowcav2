@@ -28,7 +28,7 @@ def application_summary_page(request, uuid):
     participants = WebinarParticipant.manager.filter(application=application)
 
     # Mark `got_to_summary` as True
-    if not application.got_to_summary:
+    if not application.got_to_summary and not request.user.is_staff:
         application.got_to_summary = True
         application.save()
 

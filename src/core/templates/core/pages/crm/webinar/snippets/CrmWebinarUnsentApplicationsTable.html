@@ -60,15 +60,15 @@
                 {% else %}
 
                     {% if application.buyer.nip %}
-                        <span>N={{application.buyer.nip}}</span>
+                        <span>Nab. NIP = {{application.buyer.nip}}</span>
                     {% endif %}
 
                     {% if application.recipient.nip %}
-                        <span>O={{application.recipient.nip}}</span>
+                        <span>Odb. NIP = {{application.recipient.nip}}</span>
                     {% endif %}
                     
                     {% if application.refcode %}
-                        <span class="text-danger">Ref={{application.refcode}}</span>
+                        <span class="text-danger">Ref = {{application.refcode}}</span>
                     {% endif %}
                 
                 {% endif %}
@@ -76,7 +76,11 @@
             </td>
             <td>
                 {{application.get_application_type_display}} <br>
-                {{application.got_to_summary}}
+                {% if application.got_to_summary %}
+                <span class="text-success fw-bold">
+                    Gotowe do wysyłki
+                </span>
+                {% endif %}
             </td>
             <td>
                 <div class="d-flex flex-column">
