@@ -17,6 +17,7 @@
     {% else %}
     <meta property="og:image" content="{{META__BASE_URL}}{% url "core:webinar_ogimage_page" pk=webinar.pk %}" />
     {% endif %}
+    <meta property="og:image:alt" content="{{webinar.title}}" />
 
     <meta property="og:image:type" content="image/png" />
 {% endblock meta %}

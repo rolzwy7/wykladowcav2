@@ -32,33 +32,44 @@ def webinar_ogimage_page(request: HttpRequest, pk: int):
     to_tz = get_default_timezone()
     date = webinar.date.astimezone(to_tz)
 
-    base_layer = Image.open(ASSETS_DIR / "webinar_ogimage" / "base.png").convert("RGBA")
+    base_layer = Image.open(
+        ASSETS_DIR / "webinar_ogimage" / "og_image_base.png"
+    ).convert("RGBA")
 
     layer = Image.new("RGBA", (width, height), (255, 255, 255, 0))
 
-    font_24r = load_font(str(ASSETS_DIR / "fonts" / "Montserrat-Regular.ttf"), 24)
+    font_24m = load_font(str(ASSETS_DIR / "fonts" / "Montserrat-Medium.ttf"), 24)
     font_30b = load_font(str(ASSETS_DIR / "fonts" / "Montserrat-Bold.ttf"), 30)
     font_35b = load_font(str(ASSETS_DIR / "fonts" / "Montserrat-Bold.ttf"), 35)
+    font_16ri = load_font(str(ASSETS_DIR / "fonts" / "Montserrat-Italic.ttf"), 16)
 
     draw = ImageDraw.Draw(layer)
-    draw.text((75, 100), "Webinar", font=font_30b, fill=(0, 0, 0, 255))
 
+    draw.text((75, 125), "Webinar", font=font_30b, fill=(0, 0, 0, 255))
     draw_multiline_text(
-        draw, font_35b, webinar.title, (75, 135), 800, fill=(255, 49, 49, 255)
+        draw, font_35b, webinar.title, (75, 160), 800, fill=(117, 79, 254, 255)
     )
 
     draw.text((75, 300), webinar.lecturer.fullname, font=font_30b, fill=(0, 0, 0, 255))
-
-    draw.text((150, 465), _date(date, "l").upper(), font=font_24r, fill=(0, 0, 0, 255))
-    draw.text(
-        (150, 495),
-        f"{_date(date, 'j E Y')} r.".upper(),
-        font=font_24r,
+    draw_multiline_text(
+        draw,
+        font_16ri,
+        webinar.lecturer.very_short_biography,
+        (75, 340),
+        300,
         fill=(0, 0, 0, 255),
     )
 
-    draw.text((150, 540), "GODZINA", font=font_24r, fill=(0, 0, 0, 255))
-    draw.text((150, 570), _date(date, "H:i"), font=font_24r, fill=(0, 0, 0, 255))
+    draw.text((150, 465), _date(date, "l").upper(), font=font_24m, fill=(0, 0, 0, 255))
+    draw.text(
+        (150, 495),
+        _date(date, "j E Y").upper(),
+        font=font_24m,
+        fill=(0, 0, 0, 255),
+    )
+
+    draw.text((150, 540), "GODZINA", font=font_24m, fill=(0, 0, 0, 255))
+    draw.text((150, 570), _date(date, "H:i"), font=font_24m, fill=(0, 0, 0, 255))
 
     out = Image.alpha_composite(base_layer, layer)
 

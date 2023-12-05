@@ -83,6 +83,8 @@ class Lecturer(Model):
 
     biography_email = TextField("Biografia (e-mail)", blank=True)
 
+    very_short_biography = TextField("Bardzo krótka biografia", blank=True)
+
     user = OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=CASCADE,
