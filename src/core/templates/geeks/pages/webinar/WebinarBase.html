@@ -2,16 +2,23 @@
 {% load static %}
 
 {% block meta %}
-<meta property="og:url" content="{{META__BASE_URL}}{% url "core:webinar_program_page" slug=webinar.slug %}" />
-<meta property="og:type" content="article" />
-<meta property="og:title" content="{{webinar.title}}" />
-{% if webinar.description %}
-<meta property="og:description" content="{{webinar.description}}" />
-{% endif %}
-{% if webinar.facebook_post_image %}
-<meta property="og:image" content="{{META__BASE_URL}}{% get_media_prefix %}{{webinar.facebook_post_image}}" />
-{% endif %}
-<meta property="og:image:alt" content="{{webinar.lecturer.fullname}}" />
+    {% if webinar.description %}
+    <meta name="description" content="{{webinar.description}}" />
+    <meta property="og:description" content="{{webinar.description}}" />
+    {% endif %}
+    <link rel="canonical" href="{{META__BASE_URL}}{% url "core:webinar_program_page" slug=webinar.slug %}" />
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:url" content="{{META__BASE_URL}}{% url "core:webinar_program_page" slug=webinar.slug %}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{webinar.title}}" />
+    
+    {% if webinar.facebook_post_image %}
+    <meta property="og:image" content="{{META__BASE_URL}}{% get_media_prefix %}{{webinar.facebook_post_image}}" />
+    {% else %}
+    <meta property="og:image" content="{{META__BASE_URL}}{% url "core:webinar_ogimage_page" pk=webinar.pk %}" />
+    {% endif %}
+
+    <meta property="og:image:type" content="image/png" />
 {% endblock meta %}
 
 {% block title %}

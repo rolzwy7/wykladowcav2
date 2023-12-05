@@ -3,32 +3,12 @@
 <html lang="{{META__HTML_LANG}}" dir="{{META__HTML_DIR}}">
   <head>
     
-    {% if META__APP_ENV == "production" and not request.user.is_staff %}
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9C0FK07Z1V"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-9C0FK07Z1V');
-    </script>
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-    <script>
-      window.OneSignalDeferred = window.OneSignalDeferred || [];
-      OneSignalDeferred.push(function(OneSignal) {
-        OneSignal.init({
-          appId: "32218943-1240-44e5-9496-4a02a498b41f",
-        });
-      });
-    </script>
-    {% endif %}
-
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <meta name="keywords" content="" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name='robots' content='index, follow' />
+    <meta name="Googlebot" content="follow,index" />
     {% block meta %}{% endblock meta %}
     <meta property="og:site_name" content="{{COMPANY_NAME}}">
-    <meta name="Googlebot" content="follow,index" />
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'geeks/assets/images/favicon/favicon.ico' %}" />
 
     <link 
@@ -58,6 +38,26 @@
     {% endblock title %}
 
     {% block head_stylesheets %}{% endblock head_stylesheets %}
+
+    {% if META__APP_ENV == "production" and not request.user.is_staff %}
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9C0FK07Z1V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-9C0FK07Z1V');
+    </script>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(function(OneSignal) {
+        OneSignal.init({
+          appId: "32218943-1240-44e5-9496-4a02a498b41f",
+        });
+      });
+    </script>
+    {% endif %}
   </head>
 
   {% block body_tag %}
