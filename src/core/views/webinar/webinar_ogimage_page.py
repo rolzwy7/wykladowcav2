@@ -51,14 +51,16 @@ def webinar_ogimage_page(request: HttpRequest, pk: int):
     )
 
     draw.text((75, 300), webinar.lecturer.fullname, font=font_30b, fill=(0, 0, 0, 255))
-    draw_multiline_text(
-        draw,
-        font_16ri,
-        webinar.lecturer.very_short_biography,
-        (75, 340),
-        300,
-        fill=(0, 0, 0, 255),
-    )
+
+    if webinar.lecturer.very_short_biography:
+        draw_multiline_text(
+            draw,
+            font_16ri,
+            webinar.lecturer.very_short_biography,
+            (75, 340),
+            300,
+            fill=(0, 0, 0, 255),
+        )
 
     draw.text((150, 465), _date(date, "l").upper(), font=font_24m, fill=(0, 0, 0, 255))
     draw.text(
