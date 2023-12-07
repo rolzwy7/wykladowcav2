@@ -18,7 +18,16 @@
       <div class="card-body">
         <pre>    
 v1.5.0
-
+- dodano wysyłanie faktury dla pojedynczego zgłoszenia z opcją nie wysyłania faktury na maila od razu
+- dodano opcję nie wysyłania faktur na maila przy zakańczaniu szkolenia
+- poprawiono skrypt `mailing_processing` w taki sposób, że maila są przetwarzane po równo dla każdej aktywnej kampanii, a nie po kolej.
+- dodano szybkie tworzenie kampanii mailingowej na podstawie szkolenia.
+- uwagi na fakturze można ustawić w CMS; Będą widoczne w fakturach w fakturowni.
+- zwolnienie z VAT; Select w formularzu zgłoszeniowym; Wyliczanie brutto przy braku zwolnienia;
+- poprawiono generacje og:image tak, aby tytuł nie nachodził na imię i nazwisko wykładowcy
+- dodano podgląd domyślnego obrazka og:image pod przyciskiem "Dla pracownika" na stronie terminu
+- usunięto pole `auto_send_invoices` z modelu webinaru
+- znaczniki HTML `<br />` są usuwane z programu szkolenia po zapisie w CMS
 
 v1.4.1
 - dodano alert w CRM gdy jest się na środowisko `staging`

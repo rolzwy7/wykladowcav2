@@ -205,8 +205,8 @@ class Command(BaseCommand):
                     print("[*] No email sent with campaign:", campaign)
                     try_to_finish_campaign(campaign_id)
 
-            print("[*] Sleeping 5s between sending ...")
-            time.sleep(5)
+            print("[*] Sleeping 3s between sending ...")
+            time.sleep(3)
 
     def handle(self, *args, **options):
         self.start_loop()
