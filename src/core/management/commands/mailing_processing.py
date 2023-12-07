@@ -36,8 +36,8 @@ logging.getLogger("flufl.bounce").setLevel(logging.WARNING)
 
 INBOX_SCAN_CACHE = {}
 
-SLEEP_BETWEEN_LOOPS_SECONDS = 10
-SLEEP_ON_NO_ACTIVE_CAMPAIGNS = 10
+SLEEP_BETWEEN_LOOPS_SECONDS = 5
+SLEEP_ON_NO_ACTIVE_CAMPAIGNS = 15
 
 
 def process_scan_inbox(smtp_sender: SmtpSender):
@@ -333,11 +333,11 @@ class Command(BaseCommand):
             #
             # Run at every loop
             for active_id in active_campaigns_ids:
-                process_check_mx(pool_manager, [active_id], process_count=50)
+                process_check_mx(pool_manager, [active_id], process_count=200)
                 process_bounces(
-                    pool_manager, bounce_manager, [active_id], process_count=50
+                    pool_manager, bounce_manager, [active_id], process_count=200
                 )
-                process_blacklist(pool_manager, [active_id], process_count=50)
+                process_blacklist(pool_manager, [active_id], process_count=200)
             #
             # Close managers
             pool_manager.close()

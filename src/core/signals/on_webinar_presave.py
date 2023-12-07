@@ -41,6 +41,10 @@ def on_webinar_presave(sender, **kwargs):
     if not webinar.slug:
         webinar.slug = f"{slugify(webinar.title)}-{randint(1_000, 99_999)}"
 
+    # Remove <br /> tags from webinar's program
+    for _ in ["<br />", "<br/>", "<br>"]:
+        webinar.program.replace(_, "")
+
     # Generate markdown version
     webinar.program_markdown = markdownify(webinar.program)
 

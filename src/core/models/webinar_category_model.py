@@ -1,3 +1,10 @@
+"""
+Webinar category model
+"""
+
+# flake8: noqa=E501
+# pylint: disable=line-too-long
+
 from django.db.models import (
     CASCADE,
     BooleanField,
@@ -39,10 +46,7 @@ class WebinarCategoryManager(Manager):
         """Get subcategories for given category"""
         return (
             self.get_queryset()
-            .filter(
-                Q(visible=True)
-                & (Q(parent=category) | Q(parent__parent=category))
-            )
+            .filter(Q(visible=True) & (Q(parent=category) | Q(parent__parent=category)))
             .order_by("order")
         )
 
@@ -75,9 +79,7 @@ class WebinarCategory(Model):
     order = PositiveSmallIntegerField(
         "Pozycja",
         default=100,
-        help_text=(
-            "Im niższa wartość tym wyższa pozycja kategorii przy wyświetlaniu"
-        ),
+        help_text=("Im niższa wartość tym wyższa pozycja kategorii przy wyświetlaniu"),
     )
     is_homepage_category = BooleanField("Jest kategorią domową", default=False)
 

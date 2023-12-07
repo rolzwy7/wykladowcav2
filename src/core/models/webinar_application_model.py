@@ -152,7 +152,7 @@ class WebinarApplicationInvoice(Model):
         help_text="E-mail na który zostanie przesłana faktura",
     )
     invoice_additional_info = TextField(
-        "Dodatkowe informacje (Faktura)", max_length=200, blank=True
+        "Dodatkowe informacje widoczne na Fakturze", max_length=200, blank=True
     )
 
     # Vat exemption
