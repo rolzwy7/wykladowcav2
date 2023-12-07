@@ -7,7 +7,7 @@ from core.utils.text import slugify
 class SlugifyTestCase(TestCase):
     """Slugify test case"""
 
-    def test_WhenCalledCorrectly_ThenSlugifyCorrectly(self):
+    def test_When_CalledCorrectly_Then_SlugifyCorrectly(self):
         """Assert that custom slugify works"""
         assert slugify("a---a") == "a-a"
         assert slugify("a  -a") == "a-a"

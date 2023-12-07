@@ -540,19 +540,32 @@
                                         {% for metadata in sent_applications_metadata %}
                                         {% if metadata.application.id == application.id %}
                                         {% if metadata.invoice_number %}
-                                            <br> Wystawiono fakturę: {{metadata.invoice_number}}
-                                            <a href="{{metadata.invoice_url}}">
-                                                {{metadata.invoice_url}}
+                                            <br> <b>Wystawiono fakturę:</b> 
+                                            <a href="{{metadata.invoice_url}}" target="_blank">
+                                                <b>{{metadata.invoice_number}}</b>
                                             </a>
+                                            <hr>
                                         {% endif %}
                                         {% endif %}
                                         {% endfor %}
 
+                                        {% if application.invoice.invoice_additional_info %}
+                                        <div class="alert alert-info d-flex align-items-center p-5">
+                                            <div class="d-flex flex-column">
+                                            <h4 class="mb-1 text-dark">
+                                                Uwagi <u>widoczne na fakturze</u>
+                                            </h4>
+                                            <span>
+                                                {{application.invoice.invoice_additional_info}}
+                                            </span>
+                                            </div>
+                                        </div>
+                                        {% endif %}
                                         {% if application.additional_information %}
                                         <div class="alert alert-danger d-flex align-items-center p-5">
                                             <div class="d-flex flex-column">
                                             <h4 class="mb-1 text-dark">
-                                                Uwagi
+                                                Uwagi do zgłoszenia
                                             </h4>
                                             <span>
                                                 {{application.additional_information}}

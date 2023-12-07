@@ -211,7 +211,7 @@ class Webinar(Model):
     # Program
     program = TextField("Program szkolenia", default="[Program Szkolenia]")
     program_markdown = TextField("Program szkolenia (markdown)", blank=True)
-    program_enchanted = TextField("Program szkolenia (enchanted)", blank=True)
+    program_pretty = TextField("Program szkolenia (enchanted)", blank=True)
 
     # External
     external_name = CharField("Zewnętrzny dostawca - Nazwa", max_length=64, blank=True)
@@ -333,14 +333,6 @@ class WebinarMetadata(Model):
 
     webinar = OneToOneField("Webinar", on_delete=CASCADE)
     clickmeeting_id = CharField("ClickMeeting ID", blank=True, max_length=100)
-    auto_send_invoices = BooleanField(
-        "Automatyczne wysyłanie faktur",
-        default=True,
-        help_text=(
-            "Czy po zrealizowanym szkoleniu faktury mają być wysłane"
-            " automatycznie do wszystkich"
-        ),
-    )
 
     lecturer_price_netto = PositiveSmallIntegerField("Cena NETTO wykładowcy", default=0)
 

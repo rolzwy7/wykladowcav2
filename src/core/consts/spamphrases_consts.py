@@ -1,5 +1,5 @@
 """
-    Spam and forbidden phrases
+    Spam and spam-forbidden phrases
 """
 
 FORBIDDEN_PHRASES = {
@@ -58,7 +58,7 @@ SPAM_PHRASES = {
     "kurs": "ku;rs",
     # L
     # M
-    "musisz się": "należy się",
+    "musisz się": "mus;isz się",
     # N
     "nabyć": "na;być",
     "nabycia": "na;bycia",

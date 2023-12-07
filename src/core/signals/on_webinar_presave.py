@@ -1,3 +1,10 @@
+"""
+Webinar presave
+"""
+
+# flake8: noqa=E501
+# pylint: disable=line-too-long
+
 from random import randint
 
 from django.db.models.signals import pre_save
@@ -12,19 +19,30 @@ from core.utils.text import slugify
 @receiver(pre_save, sender=Webinar, dispatch_uid="1f4ea25e80")
 def on_webinar_presave(sender, **kwargs):
     """On Webinar Presave"""
-    if kwargs.get("instance"):
-        webinar: Webinar = kwargs["instance"]
 
-        if not webinar.slug:
-            webinar.slug = f"{slugify(webinar.title)}-{randint(1_000, 99_999)}"
+    if not kwargs.get("instance"):
+        return
 
-        for _ in ["\r\n", "\n"]:
-            webinar.title_original = webinar.title_original.replace(_, "")
-            webinar.title = webinar.title.replace(_, "")
-            webinar.description = webinar.description.replace(_, "")
+    webinar: Webinar = kwargs["instance"]
 
-        webinar.program_markdown = markdownify(webinar.program)
+    # Remove special characters from titles
+    for _ in ["\r", "\n", "\t"]:
+        webinar.title_original = webinar.title_original.replace(_, "")
+        webinar.title = webinar.title.replace(_, "")
+        webinar.description = webinar.description.replace(_, "")
 
-        webinar.program_enchanted = ProgramService(
-            webinar.program_markdown
-        ).get_enriched()
+    # Remove multiple spaces from titles
+    for _ in range(5):
+        webinar.title_original = webinar.title_original.replace(" " * 2, " ")
+        webinar.title = webinar.title.replace(" " * 2, " ")
+        webinar.description = webinar.description.replace(" " * 2, " ")
+
+    # Calculate webinar's slug
+    if not webinar.slug:
+        webinar.slug = f"{slugify(webinar.title)}-{randint(1_000, 99_999)}"
+
+    # Generate markdown version
+    webinar.program_markdown = markdownify(webinar.program)
+
+    # Generate pretty version
+    webinar.program_pretty = ProgramService(webinar.program_markdown).get_enriched()

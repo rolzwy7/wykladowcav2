@@ -363,9 +363,17 @@
               
               <p class="fw-bold mb-1">Krótki link (Social / Facebook)</p>
               <p class="mb-1">Zlicza kliknięcia</p>
-              <p>
+              <p class="m-0">
                 <i>{{META__BASE_URL}}{% url "core:webinar_redirect_to_program_facebook" pk=webinar.pk %}</i>
               </p>
+
+              <p class="m-0">
+                <a target="_blank" href="https://developers.facebook.com/tools/debug/">
+                  Facebook Debugger Linków Udostępniania
+                </a>
+              </p>
+
+              <img class="w-100 my-3" style="border: 1px solid black;" src="{% url "core:webinar_ogimage_page" pk=webinar.pk %}" alt="og_image">
 
               <p class="fw-bold mb-1">Krótki link (Push / OneSignal)</p>
               <p class="mb-1">Zlicza kliknięcia</p>

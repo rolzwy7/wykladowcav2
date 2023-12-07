@@ -25,13 +25,7 @@ from django.db.models import (
     UUIDField,
 )
 
-from core.consts import (
-    CHOICES_VAT_EXEMPTIONS,
-    VAT_EXEMPTION_0,
-    VAT_EXEMPTION_113,
-    VAT_VALUE_PERCENT,
-    WE_ARE_TAX_EXEMPT,
-)
+from core.consts import CHOICES_VAT_EXEMPTIONS, VAT_EXEMPTION_0, VAT_VALUE_PERCENT
 from core.libs.normalizers import normalize_phone_number
 from core.libs.validators import validate_nip_modelfield
 
@@ -169,6 +163,11 @@ class WebinarApplicationInvoice(Model):
         default=VAT_EXEMPTION_0.db_key,
     )
 
+    @property
+    def is_vat_exempt(self) -> bool:
+        """Check if invoice is VAT exempt"""
+        return self.vat_exemption != VAT_EXEMPTION_0.db_key
+
     def __str__(self):
         return f"{self.invoice_email}"
 
@@ -290,12 +289,12 @@ class WebinarApplication(Model):
     def price_brutto(self):
         """Calculate BRUTTO price for one participant"""
 
-        # Application is not VAT exempt
-        if self.invoice.vat_exemption == VAT_EXEMPTION_113.db_key:  # type: ignore
-            return self.price_netto
+        # If not VAT exempt apply `VAT_VALUE_PERCENT` value of VAT
+        if not self.invoice.is_vat_exempt:
+            multiplier = round((100 + VAT_VALUE_PERCENT) / 100, 2)
+            return round(self.price_netto * multiplier, 2)
 
-        multiplier = round((100 + VAT_VALUE_PERCENT) / 100, 2)
-        return round(self.price_netto * multiplier, 2)
+        return self.price_netto  # is VAT exempt
 
 
 class WebinarApplicationMetadata(Model):

@@ -1,5 +1,11 @@
+"""
+Dangerouse phrases consts
+
+Used to check e-mails
+"""
+
 DANGEROUSE_COMPETITION = [
-    # Section: "Konkurencja"
+    # Section: "Competition"
     "centrumverte.pl",
     "altkomakademia.pl",
     "weknowhow.pl",

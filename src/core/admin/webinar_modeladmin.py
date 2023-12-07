@@ -96,7 +96,7 @@ class WebinarModelAdmin(ModelAdmin):
                 "classes": ["collapse"],
                 "fields": [
                     "program_markdown",
-                    "program_enchanted",
+                    "program_pretty",
                 ],
             },
         ),

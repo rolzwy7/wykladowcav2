@@ -332,11 +332,12 @@ class Command(BaseCommand):
                     process_scan_inbox(sender)
             #
             # Run at every loop
-            process_check_mx(pool_manager, active_campaigns_ids, process_count=50)
-            process_bounces(
-                pool_manager, bounce_manager, active_campaigns_ids, process_count=50
-            )
-            process_blacklist(pool_manager, active_campaigns_ids, process_count=50)
+            for active_id in active_campaigns_ids:
+                process_check_mx(pool_manager, [active_id], process_count=50)
+                process_bounces(
+                    pool_manager, bounce_manager, [active_id], process_count=50
+                )
+                process_blacklist(pool_manager, [active_id], process_count=50)
             #
             # Close managers
             pool_manager.close()
