@@ -87,7 +87,16 @@ class WebinarManager(Manager):
         Returns:
             QuerySet['Webinar']: queryset of webinars
         """
-        return self.get_active_webinars().filter(categories__slug__in=slugs).distinct()
+        return (
+            self.get_active_webinars()
+            .filter(
+                # Parent's slug
+                Q(categories__slug__in=slugs)
+                # Grandparent's slug
+                | Q(categories__parent__slug__in=slugs)
+            )
+            .distinct()
+        )
 
     def get_active_webinars_for_lecturer(self, lecturer_id: int) -> QuerySet["Webinar"]:
         """Returns webinars for given lecturer id

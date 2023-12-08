@@ -6,6 +6,7 @@ from core.models import (
     BlacklistedEmailTemporary,
     BlacklistedPhrase,
     BlacklistedPrefix,
+    CategoryTrustedUs,
     ContactMessage,
     CrmCompany,
     CrmContact,
@@ -38,6 +39,8 @@ from core.models import (
 admin.site.register(User)
 
 admin.site.register(ContactMessage)
+
+admin.site.register(CategoryTrustedUs)
 
 admin.site.register(BlacklistedDomain)
 admin.site.register(BlacklistedEmail)

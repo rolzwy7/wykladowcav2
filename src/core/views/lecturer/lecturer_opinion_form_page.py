@@ -11,7 +11,7 @@ from core.tasks.create_crm_todo.procedure import create_crm_todo
 
 def lecturer_opinion_form_page(request, slug: str):
     """Lecturer opinion form page"""
-    template_name = "core/pages/lecturer/LecturerOpinionFormPage.html"
+    template_name = "geeks/pages/lecturer/LecturerOpinionFormPage.html"
     lecturer = get_object_or_404(Lecturer, slug=slug)
     service = LecturerService(lecturer)
 
@@ -20,6 +20,7 @@ def lecturer_opinion_form_page(request, slug: str):
         if form.is_valid():
             lecturer_opinion: LecturerOpinion = form.save(commit=False)
             lecturer_opinion.lecturer = lecturer
+            lecturer_opinion.added_on_website = True
             lecturer_opinion.save()
 
             todo_url = reverse(
@@ -41,7 +42,7 @@ def lecturer_opinion_form_page(request, slug: str):
                 )
             )
     else:
-        form = LecturerOpinionForm()
+        form = LecturerOpinionForm(initial={"rating": "5stars"})
 
     return TemplateResponse(
         request,

@@ -20,9 +20,9 @@ def create_crm_todo(
         webinar = None
 
     if application_id:
-        application = None
-    else:
         application = WebinarApplication.manager.get(id=application_id)
+    else:
+        application = None
 
     CrmTodo(
         title=title,

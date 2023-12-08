@@ -1,10 +1,5 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, Select, Textarea, TextInput
 
-from core.forms.widgets import (
-    RatingWidget,
-    TextareaFloatingInputWidget,
-    TextFloatingInputWidget,
-)
 from core.models import LecturerOpinion
 
 
@@ -21,17 +16,9 @@ class LecturerOpinionForm(ModelForm):
             "rating",
         ]
         widgets = {
-            "fullname": TextFloatingInputWidget(
-                attrs={"label": "Imię i Nazwisko"}
-            ),
-            "company_name": TextFloatingInputWidget(
-                attrs={"label": "Nazwa Firmy (opcjonalnie)"}
-            ),
-            "job_title": TextFloatingInputWidget(
-                attrs={"label": "Stanowisko (opcjonalnie)"}
-            ),
-            "opinion_text": TextareaFloatingInputWidget(
-                attrs={"label": "Treść opinii"}
-            ),
-            "rating": RatingWidget(),
+            "fullname": TextInput(attrs={"class": "form-control"}),
+            "company_name": TextInput(attrs={"class": "form-control"}),
+            "job_title": TextInput(attrs={"class": "form-control"}),
+            "opinion_text": Textarea(attrs={"class": "form-control"}),
+            "rating": Select(attrs={"class": "form-control"}),
         }

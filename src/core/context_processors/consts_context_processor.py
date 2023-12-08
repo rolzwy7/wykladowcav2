@@ -1,3 +1,9 @@
+"""
+Consts context processor
+"""
+
+# flake8: noqa=E501
+
 from django.conf import settings
 
 from core.consts import (

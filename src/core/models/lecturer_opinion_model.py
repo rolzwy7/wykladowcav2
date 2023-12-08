@@ -34,11 +34,11 @@ class LecturerOpinion(Model):
 
     created_at = DateTimeField(auto_now_add=True)
 
-    visible_on_page = BooleanField("Widoczna na stronie", default=False)
+    visible_on_page = BooleanField("Widoczna na stronie (Zatwierdzona)", default=False)
 
-    lecturer = ForeignKey(
-        "Lecturer", verbose_name="Wykładowca", on_delete=CASCADE
-    )
+    added_on_website = BooleanField("Dodana przez stronę", default=False)
+
+    lecturer = ForeignKey("Lecturer", verbose_name="Wykładowca", on_delete=CASCADE)
 
     fullname = CharField("Imię i Nazwisko", max_length=100)
 

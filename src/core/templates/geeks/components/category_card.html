@@ -1,20 +1,20 @@
 <div
   class="card border-top border-4 card-hover-with-icon"
-  onclick="window.location.href='{% url 'core:webinar_category_page' slug=category.slug %}'"
+  onclick="window.location.href='{% url 'core:webinar_category_page' slug=slug %}'"
 >
   <div class="card-body">
     <div
       class="icon-shape icon-lg rounded-circle bg-light text-muted mb-3 card-icon"
     >
-      {% if category.icon_html %}
-        {{category.icon_html|safe}}
+      {% if icon_html %}
+        {{icon_html|safe}}
       {% else %}
-        <i class="bi bi-chat-dots-fill" style="font-size:1.2rem;"></i>
+      <i class="bi bi-house-door" style="font-size:1.2rem;"></i>
       {% endif %}
     </div>
     <div class="d-flex align-items-center justify-content-between">
       <div>
-        <h4 class="mb-0">{{category.name}}</h4>
+        <h4 class="mb-0">{{name}}</h4>
         <p class="mb-0 text-muted">
             <span class="me-2">
               {% if count == 0 %}
@@ -23,24 +23,22 @@
                 <span class="text-dark fw-medium">{{count}}</span>
                 {% if count == 1 %}
                 szkolenie
-                {% elif count >= 2 %}
+                {% elif count <= 4 %}
                 szkolenia
-                {% elif count >= 5 %}
+                {% elif count <= 21 %}
                 szkoleń
-                {% elif count >= 22 %}
+                {% elif count <= 24 %}
                 szkolenia
-                {% elif count >= 25 %}
+                {% elif count <= 25 %}
                 szkoleń
-                {% elif count >= 32 %}
+                {% elif count <= 33 %}
                 szkolenia
-                {% elif count >= 35 %}
-                szkoleń
                 {% endif %}
               {% endif %}
             </span>
         </p>
       </div>
-      <a href="{% url 'core:webinar_category_page' slug=category.slug %}" class="text-inherit">
+      <a href="{% url 'core:webinar_category_page' slug=slug %}" class="text-inherit">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"

@@ -12,6 +12,6 @@ def home_page(request):
         template_name,
         {
             **homepage_service.get_context(),
-            "subcategories": CategoryService.get_all_categories_with_counts(),
+            "subcategories": CategoryService.get_main_categories_with_counts(),
         },
     )

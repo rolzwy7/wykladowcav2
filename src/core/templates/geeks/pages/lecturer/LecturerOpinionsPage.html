@@ -6,10 +6,19 @@
 <div class="card mb-4">
     <!-- Card header -->
     <div class="card-header">
-        <h3 class="mb-0">Opinie</h3>
-        <span>
-            {{lecturer.fullname}}
-        </span>
+        <div class="d-flex justify-content-between">
+            <div>
+                <h3 class="mb-0">Opinie</h3>
+                <span>
+                    {{lecturer.fullname}}
+                </span>
+            </div>
+            <div>
+                <a href="{% url "core:lecturer_opinion_form_page" slug=lecturer.slug %}" class="btn btn-outline-primary mb-2">
+                    Dodaj opinię
+                </a>
+            </div>
+        </div>
     </div>
     <!-- Card body -->
     <div class="card-body">
