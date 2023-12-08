@@ -7,6 +7,7 @@ from .blacklist import (
     BlacklistedPhrase,
     BlacklistedPrefix,
 )
+from .category_trusted_us_model import CategoryTrustedUs
 from .contact_message_model import ContactMessage
 from .crm_company_model import CrmCompany
 from .crm_contact_model import CrmContact
@@ -43,12 +44,6 @@ from .webinar_cancellation_model import WebinarApplicationCancellation
 from .webinar_category_model import WebinarCategory
 from .webinar_certificate_model import WebinarCertificate
 from .webinar_model import Webinar, WebinarMetadata
-from .webinar_move_register_model import (
-    WebinarMoveRegister,
-    WebinarMoveRegisterItem,
-)
-from .webinar_participant_model import (
-    WebinarParticipant,
-    WebinarParticipantMetadata,
-)
+from .webinar_move_register_model import WebinarMoveRegister, WebinarMoveRegisterItem
+from .webinar_participant_model import WebinarParticipant, WebinarParticipantMetadata
 from .webinar_recording_model import WebinarRecording, WebinarRecordingToken

@@ -20,7 +20,7 @@
 
     <div class="row">
       {% for lecturer in lecturers %}
-      <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+      <div class="col-xl-3 col-lg-4 col-md-4 col-6">
         <!-- card -->
         <div
           class="card mb-4 card-hover"
@@ -70,11 +70,11 @@
       </div>
       {% endfor %}
 
-      {% comment %} <div class="col-md-12 mt-3 text-center">
-        <a href="#" class="btn btn-primary">
+      <div class="col-md-12 mt-3 text-center">
+        <a href="{% url 'core:all_lecturers_list_page' %}" class="btn btn-dark btn-lg">
           Zobacz wszystkich wykładowców
         </a>
-      </div> {% endcomment %}
+      </div>
     </div>
   </div>
 </section>

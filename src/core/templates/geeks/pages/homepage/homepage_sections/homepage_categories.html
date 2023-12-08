@@ -10,8 +10,10 @@
           <div class="col-md-12 px-lg-10 mb-8 mt-6">
             <!-- text -->
 
-            <span class="text-uppercase text-primary fw-semibold ls-md"
-              >Przeglądaj kategorie
+            <span class="text-uppercase text-primary fw-semibold ls-md">
+              <a href="{% url "core:webinar_all_categries_page" %}">
+                Przeglądaj kategorie
+              </a>
             </span>
             <!-- heading -->
 
@@ -25,17 +27,15 @@
             </p>
           </div>
         </div>
-        <div class="row gy-4">
-          {% for subcategory, subcategory_count in subcategories %}
-          <div class="col-lg-4 col-md-4 col-12">
-            {% include "geeks/components/category_card.html" with category=subcategory count=subcategory_count %}
+        <div class="row gy-4">  
+          <div class="col-lg-6 col-md-6 col-12">
+            {% include "geeks/components/category_card.html" with slug="wszystkie-szkolenia" name="Wszystkie szkolenia" count=CACHED_ACTIVE_WEBINARS_COUNT %}
+          </div>
+          {% for category, count in subcategories %}
+          <div class="col-lg-6 col-md-6 col-12">
+            {% include "geeks/components/category_card.html" with slug=category.slug name=category.name icon_html=category.icon_html count=count %}
           </div>
           {% endfor %}
-          {% comment %} <div class="col-12 mt-8 text-center">
-            <a href="{% url 'core:webinar_category_page' slug="wszystkie" %}" class="btn btn-outline-primary">
-              Zobacz wszystkie kategorie
-            </a>
-          </div> {% endcomment %}
         </div>
       </div>
     </div>

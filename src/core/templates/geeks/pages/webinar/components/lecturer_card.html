@@ -3,6 +3,7 @@
 <div class="card mb-4">
   <!-- Card body -->
   <div class="card-body">
+    
     <div class="d-flex align-items-center">
       <div class="position-relative">
         <img
@@ -52,7 +53,18 @@
       </div>
     </div>
 
-    <div class="border-top row mt-3 border-bottom mb-3 g-0">
+    <div class="m-0 mt-2">
+      <a href="{% url "core:lecturer_opinion_form_page" slug=lecturer.slug %}" class="btn btn-primary btn-xs mb-2">
+        Dodaj opinię
+      </a>
+      {% for category in webinar.categories.all %}
+        <a href="{% url "core:webinar_category_page" slug=category.slug %}" class="btn btn-light btn-xs mb-2">
+          {{category.name}}
+        </a>
+      {% endfor %}
+    </div>
+
+    <div class="border-top row border-bottom mb-3 g-0">
       {% if lecturer.fake_stat_participants %}
       <div class="col">
         <div class="pe-1 ps-2 py-3">
@@ -83,11 +95,15 @@
       {% endif %}
     </div>
 
-    <p>
+
+    <p class="m-0">
       <div id="id_lecturer_short_desc">{{lecturer.biography_email|truncatechars:150}}</div>
       <div id="id_lecturer_long_desc" class="d-none">{{lecturer.biography_email}}</div>
-      <a id="id_lecturer_toggle_desc" href="javascript:$('#id_lecturer_long_desc').toggleClass('d-none');$('#id_lecturer_short_desc').toggleClass('d-none');$('#id_lecturer_toggle_desc').addClass('d-none');">
+      <a id="id_lecturer_show_desc" href="javascript:$('#id_lecturer_long_desc').toggleClass('d-none');$('#id_lecturer_short_desc').toggleClass('d-none');$('#id_lecturer_show_desc').addClass('d-none');$('#id_lecturer_hide_desc').toggleClass('d-none');">
         Zobacz pełny opis
+      </a>
+      <a class="d-none" id="id_lecturer_hide_desc" href="javascript:$('#id_lecturer_long_desc').toggleClass('d-none');$('#id_lecturer_short_desc').toggleClass('d-none');$('#id_lecturer_hide_desc').addClass('d-none');$('#id_lecturer_show_desc').toggleClass('d-none');">
+        Schowaj pełny opis
       </a>
     </p>
     {% comment %}

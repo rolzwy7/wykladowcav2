@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core.cache import cache
 from django.db.models import Q
 
@@ -25,22 +26,23 @@ class CategoryService:
         )
 
     @staticmethod
-    def get_all_categories_with_counts():
-        """Get all categories with counts"""
+    def get_main_categories_with_counts():
+        """Get all main categories with counts"""
 
-        if cache.get("CATEGORIES_WITH_COUNTS"):
-            return cache.get("CATEGORIES_WITH_COUNTS")
+        if not settings.DEBUG and cache.get("MAIN_CATEGORIES_WITH_COUNTS"):
+            return cache.get("MAIN_CATEGORIES_WITH_COUNTS")
 
         categories = []
         for category in WebinarCategory.manager.get_main_categories():
-            if category.slug == "wszystkie-szkolenia":
-                count = Webinar.manager.get_active_webinars().count()
-                categories.append((category, count))
-            else:
-                count = Webinar.manager.get_active_webinars_for_category_slugs(
-                    [category.slug]
-                ).count()
-                categories.append((category, count))
+            categories.append(
+                (
+                    category,
+                    Webinar.manager.get_active_webinars_for_category_slugs(
+                        [category.slug]
+                    ).count(),
+                )
+            )
 
-        cache.set("CATEGORIES_WITH_COUNTS", categories, 600)
+        cache.set("MAIN_CATEGORIES_WITH_COUNTS", categories, 600)
+
         return categories

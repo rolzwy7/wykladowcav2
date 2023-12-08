@@ -5,7 +5,8 @@ from core.models import Lecturer
 
 
 def lecturer_opinion_thanks(request, slug: str):
-    template_name = "core/pages/lecturer/LecturerOpinionThanksPage.html"
+    """lecturer_opinion_thanks"""
+    template_name = "geeks/pages/lecturer/LecturerOpinionThanksPage.html"
     lecturer = get_object_or_404(Lecturer, slug=slug)
 
     return TemplateResponse(

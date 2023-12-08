@@ -25,7 +25,6 @@ class WebinarCategoryModelAdmin(ModelAdmin):
         "name",
         "parent",
         "visible",
-        "is_homepage_category",
         "slug",
         "order",
     ]

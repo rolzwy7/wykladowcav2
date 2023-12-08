@@ -32,7 +32,7 @@ class HomepageService:
         """Get lecturers for homepage"""
         return Lecturer.manager.get_lecturers_visible_on_homepage().order_by(
             "order_value"
-        )[:4]
+        )[:8]
 
     def get_context(self):
         """Get context for homepage"""

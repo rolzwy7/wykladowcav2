@@ -4,7 +4,7 @@ from django.urls import reverse
 from core.models import Webinar, WebinarCategory
 
 
-def categories(request):
+def categories(request):  # TODO This is not used ?
     """Categories context processor"""
 
     # Process the context only on chosen paths

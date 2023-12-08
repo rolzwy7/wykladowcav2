@@ -1,10 +1,14 @@
+"""
+Category pages
+"""
+
 # flake8: noqa:E501
 # pylint: disable=line-too-long
 
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 
-from core.models import Webinar, WebinarCategory
+from core.models import CategoryTrustedUs, Webinar, WebinarCategory
 from core.services import CategoryService, OpinionsService
 
 
@@ -12,21 +16,13 @@ def webinar_all_categories_page(request):
     """Webinar all categories page"""
 
     template_name = "geeks/pages/category/WebinarAllCategoriesPage.html"
-    category_name = "Wszystkie kategorie szkoleń"
-    # short_description = ""
-    # webinars = Webinar.manager.homepage_webinars()
-
-    subcategories = CategoryService.get_all_categories_with_counts()
+    main_catagories_with_counts = CategoryService.get_main_categories_with_counts()
 
     return TemplateResponse(
         request,
         template_name,
         {
-            "slug": "wszystkie-kategorie",
-            "category_name": category_name,
-            # "webinars": webinars,
-            # "short_description": short_description,
-            "subcategories": subcategories,
+            "main_catagories_with_counts": main_catagories_with_counts,
         },
     )
 
@@ -36,25 +32,45 @@ def webinar_category_page(request, slug: str):
 
     template_name = "geeks/pages/category/WebinarCategoryPage.html"
 
-    category = get_object_or_404(WebinarCategory, slug=slug)
-    category_name = category.name
-    short_description = category.short_description
+    page_title: str = ""
+    category_name: str = ""
+    short_description: str = ""
 
-    subcategories = WebinarCategory.manager.get_subcategories(category)
+    if slug == "wszystkie-szkolenia":
+        category_name = "Wszystkie szkolenia"
+        menu_categories = WebinarCategory.manager.get_main_categories()
+        webinars = Webinar.manager.get_active_webinars()
+        parent = None
+        trusted_us = []
+    else:
+        category = get_object_or_404(WebinarCategory, slug=slug)
+        category_name = category.name
+        parent = category.parent
+        trusted_us = CategoryTrustedUs.manager.get_visible().filter(category=category)
+        if parent:
+            page_title = f"{parent.name} > {category.name}"
+            menu_categories = WebinarCategory.manager.get_subcategories(parent)
+        else:
+            page_title = category.name
+            menu_categories = WebinarCategory.manager.get_subcategories(category)
 
-    slugs = [slug, *[subcategory.slug for subcategory in subcategories]]
-    webinars = Webinar.manager.get_active_webinars_for_category_slugs(slugs)
+        webinars = Webinar.manager.get_active_webinars_for_category_slugs(
+            [slug, *[_.slug for _ in menu_categories]]
+        )
 
     return TemplateResponse(
         request,
         template_name,
         {
             "slug": slug,
-            "category": category,
-            "category_name": category_name,
+            "page_title": page_title,
+            "parent": parent,
             "webinars": webinars,
+            "webinars_count": webinars.count(),
             "short_description": short_description,
-            "subcategories": subcategories,
+            "menu_categories": menu_categories,
+            "category_name": category_name,
+            "trusted_us": trusted_us,
         },
     )
 

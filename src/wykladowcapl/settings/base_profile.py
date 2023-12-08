@@ -10,8 +10,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-VERSION_NUMBER = "1.5.0"
-VERSION_DATE = "2023/12/07"
+VERSION_NUMBER = "1.6.0"
+VERSION_DATE = "2023/12/08"
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -110,7 +110,8 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 # Custom context processors
-                "core.context_processors.categories",
+                "core.context_processors.cached",
+                # "core.context_processors.categories",
                 "core.context_processors.header",
                 "core.context_processors.consts",
                 "core.context_processors.crm",
@@ -118,7 +119,7 @@ TEMPLATES = [
                 "core.context_processors.company",
                 "core.context_processors.links",
                 "core.context_processors.metadata",
-                # "core.context_processors.loyalty_program",
+                # "core.context_processors.loyalty_program", # TODO: delete this ??
             ],
         },
     },
