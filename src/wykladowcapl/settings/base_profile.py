@@ -111,7 +111,6 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 # Custom context processors
                 "core.context_processors.cached",
-                # "core.context_processors.categories",
                 "core.context_processors.header",
                 "core.context_processors.consts",
                 "core.context_processors.crm",

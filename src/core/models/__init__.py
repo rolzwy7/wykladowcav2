@@ -1,5 +1,4 @@
 # flake8: noqa
-
 from .blacklist import (
     BlacklistedDomain,
     BlacklistedEmail,
@@ -8,12 +7,14 @@ from .blacklist import (
     BlacklistedPrefix,
 )
 from .category_trusted_us_model import CategoryTrustedUs
+from .conference import ConferenceCycle, ConferenceEdition, ConferenceSchedule
 from .contact_message_model import ContactMessage
 from .crm_company_model import CrmCompany
 from .crm_contact_model import CrmContact
 from .crm_todo_model import CrmTodo
 from .discount_model import DiscountApplicationApplied, DiscountCode
 from .eventlog_model import Eventlog
+from .leads import LeadModel
 from .lecturer_model import Lecturer
 from .lecturer_opinion_model import LecturerOpinion
 from .loyalty_program_model import (
@@ -30,6 +31,7 @@ from .mailing import (
     MailingTemplate,
     SmtpSender,
 )
+from .redirects import RedirectManual
 from .user_model import User
 from .webinar_application_model import (
     WebinarApplication,

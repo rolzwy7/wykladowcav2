@@ -8,7 +8,7 @@ Category pages
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 
-from core.models import CategoryTrustedUs, Webinar, WebinarCategory
+from core.models import CategoryTrustedUs, LecturerOpinion, Webinar, WebinarCategory
 from core.services import CategoryService, OpinionsService
 
 
@@ -16,14 +16,11 @@ def webinar_all_categories_page(request):
     """Webinar all categories page"""
 
     template_name = "geeks/pages/category/WebinarAllCategoriesPage.html"
-    main_catagories_with_counts = CategoryService.get_main_categories_with_counts()
 
     return TemplateResponse(
         request,
         template_name,
-        {
-            "main_catagories_with_counts": main_catagories_with_counts,
-        },
+        {},
     )
 
 
@@ -55,7 +52,7 @@ def webinar_category_page(request, slug: str):
             menu_categories = WebinarCategory.manager.get_subcategories(category)
 
         webinars = Webinar.manager.get_active_webinars_for_category_slugs(
-            [slug, *[_.slug for _ in menu_categories]]
+            [slug, *[_.slug for _ in menu_categories]]  # TODO: delete slug ?
         )
 
     return TemplateResponse(
@@ -80,11 +77,17 @@ def webinar_category_who_are_we_page(request, slug: str):
 
     template_name = "geeks/pages/category/WebinarCategoryWhoAreWePage.html"
     category = get_object_or_404(WebinarCategory, slug=slug)
+    category_service = CategoryService(category)
 
     return TemplateResponse(
         request,
         template_name,
-        {"slug": slug, "category": category, "category_name": category.name},
+        {
+            "slug": slug,
+            "category": category,
+            "category_name": category.name,
+            "category_lecturers": category_service.get_lecturers_for_category(),
+        },
     )
 
 
@@ -111,22 +114,30 @@ def webinar_category_opinions_page(request, slug: str):
     """Webinar category page"""
 
     template_name = "geeks/pages/category/WebinarCategoryOpinionsPage.html"
-    category = get_object_or_404(WebinarCategory, slug=slug)
-    category_service = CategoryService(category)
-    category_opinions = category_service.get_opinions_for_category()
-    opinions_service = OpinionsService(category_opinions)
+
     page_number = request.GET.get("strona")
+
+    if slug == "wszystkie-szkolenia":
+        category_name = "Wszystkie szkolenia"
+        category_opinions = LecturerOpinion.manager.get_all_visible_opinions()
+    else:
+        category = get_object_or_404(WebinarCategory, slug=slug)
+        category_service = CategoryService(category)
+        category_opinions = category_service.get_opinions_for_category()
+        category_name = category.name
+
+    opinions_service = OpinionsService(category_opinions)
 
     return TemplateResponse(
         request,
         template_name,
         {
             "slug": slug,
-            "category": category,
-            "category_name": category.name,
+            "category_name": category_name,
             "opinions_page": opinions_service.get_opinions_page(
-                page_number, per_page=15
+                page_number, per_page=7
             ),
+            "opinions_count": category_opinions.count(),
             "opinions_average": opinions_service.get_opinions_average(),
             "opinions_breakdown": opinions_service.get_opinions_breakdown(),
         },

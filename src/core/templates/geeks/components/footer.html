@@ -1,5 +1,4 @@
 {% load static %}
-{% if 0 %}
 <section class="py-7 mt-5" style="background-color: #754ffe;">
   <div class="container">
      <div class="row">
@@ -14,27 +13,32 @@
               </p>
            </div>
            <!-- Form -->
-           <form class="px-md-8 mx-md-8 needs-validation" novalidate="">
+           <form
+            class="px-md-8 mx-md-8"
+            method="post"
+            onsubmit="actionSubmit.disabled = true; return true;"
+            action="{% url "core:lead_footer_post_endpoint" %}"
+           >
+            {% csrf_token %}
               <div class="mb-3 col ps-0">
-                 <input type="email" class="form-control form-control-lg" placeholder="Twój adres e-mail" required>
+                 <input type="email" name="email" class="form-control form-control-lg" placeholder="Twój adres e-mail" required>
               </div>
               <div class="mb-3">
-                <select class="form-select form-select-lg mb-3">
-                  <option selected>Wybierz interesującą Cię branże</option>
-                  <option value="1">Kadry i Płace</option>
-                  <option value="2">Księgowość i Podatki</option>
-                  <option value="3">Spółdzielnie Mieszkaniowe</option>
+                <select name="category" class="form-select form-select-lg mb-3" required>
+                  <option selected value="0">Wybierz interesującą Cię branże</option>
+                  {% for category, _, _ in CACHED_MAIN_CATEGORIES %}
+                    <option value="{{category.id}}">{{category.name}}</option>
+                  {% endfor %}
                 </select>
               </div>
               <div class="mb-3 col-auto ps-0">
-                 <button class="btn btn-lg btn-dark" type="submit">Zapisz się</button>
+                 <button class="btn btn-lg btn-dark" type="submit" name="actionSubmit">Zapisz się teraz</button>
               </div>
            </form>
         </div>
      </div>
   </div>
 </section>
-{% endif %}
 <footer class="pt-lg-10 pt-5 footer bg-white">
   <div class="container">
     <div class="row">

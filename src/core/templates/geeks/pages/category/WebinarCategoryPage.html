@@ -33,7 +33,13 @@
                                   <div id="sidenav">
                                      <div class="navbar-nav flex-column">
                                         <!-- Navbar header -->
-                                        <span class="navbar-header">Kategorie szkoleń</span>
+                                        <span class="navbar-header">
+                                          {% if slug == "wszystkie-szkolenia" %}
+                                          Kategorie szkoleń
+                                          {% else %}
+                                          Podkategorie
+                                          {% endif %}
+                                        </span>
                                         <ul class="list-unstyled ms-n2 mb-4">
                                           {% if parent %}
                                            <li class="nav-item">
@@ -104,7 +110,7 @@
                                               class="rounded-circle avatar-xl"
                                               />
                                            <a
-                                              href="course-single.html#"
+                                              href="#"
                                               class="position-absolute mt-2 ms-n3"
                                               >
                                            <img
@@ -157,38 +163,8 @@
                                <!-- Card -->
                                
                               {% if trusted_us %}
-                               <div class="card mb-3">
-                                 <div class="card-body">
-
-                                    <div class="py-1">
-                                       <div class="container-fluid text-center">
-                                           <div class="row">
-                                               <div class="col-xl-12 col-md-12 col-12">
-                                                   <div class="text-center mb-3">
-                                                       <span class="text-uppercase text-gray-400 ls-md fw-semibold">Zaufali nam</span>
-                                                   </div>
-                                               </div>
-                                               <div class="col-xl-10 offset-xl-1">
-                                                   <div class="table-responsive-lg">
-                                                       <div class="row row-cols-lg-5 row-cols-md-3 row-cols-2 g-4 flex-nowrap">
-                                                         {% for ts in trusted_us %}
-                                                           <div class="col">
-                                                               <div class="text-center mb-3">
-                                                                   <img src="/media/{{ts.company_logo}}" alt="{{ts.company_name}}" title="{{ts.company_name}}" class="img-fluid">
-                                                               </div>
-                                                           </div>
-                                                         {% endfor %}
-                                                       </div>
-                                                   </div>
-                                               </div>
-                                           </div>
-                                       </div>
-                                   </div>
-
-                                 </div>
-                               </div>
-                               {% endif %}
-
+                                 {% include "./components/trusted_us_category_logos.html" with trusted_us=trusted_us %} 
+                              {% endif %}
 
                                <div class="card">
                                   {% comment %} <!-- Card header -->

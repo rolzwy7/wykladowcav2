@@ -11,7 +11,7 @@
         <a href="{% url 'core:webinar_program_page' slug=webinar.slug %}">
           <img
             {% if webinar.lecturer.avatar %}
-            src="{% get_media_prefix %}uploads/lecturers/{{webinar.lecturer.slug}}_80x80.webp"
+            src="{% get_media_prefix %}uploads/lecturers/{{webinar.lecturer.slug}}_160x160.webp"
             {% else %}
             src="{% static "default/default-lecturer-avatar-80x80.webp" %}"
             {% endif %}

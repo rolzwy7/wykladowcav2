@@ -1,8 +1,16 @@
-from django.db.models import DateTimeField, EmailField, Model
+from django.db.models import DateTimeField, EmailField, Manager, Model
+
+
+class BlacklistedEmailManager(Manager):
+    """BlacklistedEmailManager"""
+
+    ...
 
 
 class BlacklistedEmail(Model):
     """Represents blacklisted domain"""
+
+    manager = BlacklistedEmailManager()
 
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)

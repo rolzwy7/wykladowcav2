@@ -1,0 +1,38 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+
+{% block title %}
+      <title>{{COMPANY_NAME}}</title>
+{% endblock title %}
+
+{% block meta %}{% endblock meta %}
+
+{% block body_scripts %}{% endblock body_scripts %}
+
+
+{% block root %}
+<main>
+   <section class="pb-lg-10 pb-3 pt-10">
+      <div class="container">
+         <div class="row justify-content-center">
+            <!-- caption -->
+            <div class="col-lg-8 col-md-12 col-12">
+               <div class="mb-8 text-center">
+                  <h2 class="mb-2 display-2 fw-bold">
+                     {{cycle.name}}
+                  </h2>
+                  {% if cycle.short_description %}
+                  <p class="lead mb-0">
+                     {{cycle.short_description|safe}}
+                  </p>
+                  {% endif %}
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+</main>
+{% endblock root %}

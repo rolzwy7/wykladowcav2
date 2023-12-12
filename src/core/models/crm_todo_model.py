@@ -4,13 +4,22 @@ from django.db.models import (
     CharField,
     DateTimeField,
     ForeignKey,
+    Manager,
     Model,
     TextField,
 )
 
 
+class CrmTodoManager(Manager):
+    """CrmTodoManager"""
+
+    ...
+
+
 class CrmTodo(Model):
     """Represents To-Do item"""
+
+    manager = CrmTodoManager()
 
     created_at = DateTimeField(auto_now_add=True)
     is_done = BooleanField("Wykonano zadanie", default=False)
@@ -41,3 +50,6 @@ class CrmTodo(Model):
     class Meta:
         verbose_name = "Zadanie"
         verbose_name_plural = "Zadania"
+
+    def __str__(self) -> str:
+        return f"{self.title}"

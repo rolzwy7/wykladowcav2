@@ -8,9 +8,9 @@
       <i class="mdi mdi-star me-n1 text-warning"></i>
       <i class="mdi mdi-star me-n1 text-warning"></i>
       <i class="mdi mdi-star me-n1-half text-warning"></i>
-      {% comment %}
-      <p class="mb-0 fs-6">(Based on 27 reviews)</p>
-      {% endcomment %}
+      {% if opinions_count %}
+      <p class="mb-0 fs-6">({{opinions_count}} opinii)</p>
+      {% endif %}
     </div>
     <!-- Progress bar -->
     <div class="col pt-3 order-3 order-md-2">

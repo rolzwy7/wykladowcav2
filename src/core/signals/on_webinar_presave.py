@@ -43,7 +43,7 @@ def on_webinar_presave(sender, **kwargs):
 
     # Remove <br /> tags from webinar's program
     for _ in ["<br />", "<br/>", "<br>"]:
-        webinar.program.replace(_, "")
+        webinar.program = webinar.program.replace(_, "")
 
     # Generate markdown version
     webinar.program_markdown = markdownify(webinar.program)
