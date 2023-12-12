@@ -22,7 +22,9 @@ class CoreMiddleware:
             try:
                 deny_if_not_staff(request.user)
             except UnauthorizedException:
-                return HttpResponse("Unauthorized", status=401)
+                return HttpResponse(
+                    'Brak dostępu. <a href="/cms/">Zaloguj się</a>', status=401
+                )
 
         response = self.get_response(request)
 

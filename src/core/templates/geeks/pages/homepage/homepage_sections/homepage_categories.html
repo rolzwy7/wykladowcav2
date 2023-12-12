@@ -31,7 +31,7 @@
           <div class="col-lg-6 col-md-6 col-12">
             {% include "geeks/components/category_card.html" with slug="wszystkie-szkolenia" name="Wszystkie szkolenia" count=CACHED_ACTIVE_WEBINARS_COUNT %}
           </div>
-          {% for category, count in subcategories %}
+          {% for category, count, _ in CACHED_MAIN_CATEGORIES %}
           <div class="col-lg-6 col-md-6 col-12">
             {% include "geeks/components/category_card.html" with slug=category.slug name=category.name icon_html=category.icon_html count=count %}
           </div>

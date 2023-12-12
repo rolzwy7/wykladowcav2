@@ -1,6 +1,6 @@
 from django.template.response import TemplateResponse
 
-from core.services import CategoryService, HomepageService
+from core.services import HomepageService
 
 
 def home_page(request):
@@ -10,8 +10,5 @@ def home_page(request):
     return TemplateResponse(
         request,
         template_name,
-        {
-            **homepage_service.get_context(),
-            "subcategories": CategoryService.get_main_categories_with_counts(),
-        },
+        homepage_service.get_context(),
     )

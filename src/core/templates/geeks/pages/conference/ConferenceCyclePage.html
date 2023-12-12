@@ -1,0 +1,91 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+
+{% block title %}
+      <title>{{COMPANY_NAME}}</title>
+{% endblock title %}
+
+{% block meta %}{% endblock meta %}
+
+{% block body_scripts %}{% endblock body_scripts %}
+
+
+{% block root %}
+<main>
+   <section class="pb-lg-10 pb-3 pt-10">
+      <div class="container">
+         <div class="row justify-content-center">
+            <!-- caption -->
+            <div class="col-lg-8 col-md-12 col-12">
+               <div class="mb-8 text-center">
+                  <h2 class="mb-2 display-2 fw-bold">
+                     {{cycle.name}}
+                  </h2>
+                  {% if cycle.short_description %}
+                  <p class="lead mb-0">
+                     {{cycle.short_description|safe}}
+                  </p>
+                  {% endif %}
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   {{cycle.html|safe}}
+   <section class="py-lg-4 py-3">
+      <div class="container">
+         <div class="row">
+            <div class="col-xl-12 col-md-12 col-12">
+               <div class="mb-lg-5 mb-2">
+                  <h2 class="h1 fw-bold">
+                     <u class="text-warning"><span class="text-primary">Nadchodzące bezpłatne webinary</span></u>
+                     w ramach tego cyklu szkoleń
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <div class="table-responsive-xl pb-6" style="overflow: hidden;">
+            <div class="row flex-nowrap">
+               {% for edition in editions %}
+               <div class="col-12">
+                  <div class="card mb-4 mb-xl-0 card-hover border">
+                     <div class="card-body">
+                        <h3 class="mb-4 text-truncate">
+                           <a href="{% url "core:conference_edition_page" slug_cycle=edition.cycle.slug slug_edition=edition.slug %}" class="text-inherit">
+                           {{edition.name}}
+                           </a>
+                        </h3>
+                        <div class="mb-4">
+                           <div class="mb-3 lh-1">
+                              <span class="me-1">
+                              <i class="bi bi-calendar-check"></i>
+                              </span>
+                              <span>{{edition.date_from|date:"j E Y"}}</span>
+                           </div>
+                           <div class="lh-1">
+                              <span class="me-1">
+                              <i class="bi bi-clock"></i>
+                              </span>
+                              <span>
+                              {{edition.date_from|date:"H:i"}}
+                              -
+                              {{edition.date_to|date:"H:i"}}
+                              </span>
+                           </div>
+                        </div>
+                        <a href="{% url "core:conference_edition_page" slug_cycle=edition.cycle.slug slug_edition=edition.slug %}" class="btn btn-light-primary text-primary">
+                        Zapisz się teraz
+                        </a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            {% endfor %}
+         </div>
+      </div>
+   </section>
+</main>
+{% endblock root %}

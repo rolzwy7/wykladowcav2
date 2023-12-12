@@ -1,7 +1,15 @@
 # flake8: noqa
 from .base_admin import *
+from .blacklist_admin import (
+    BlacklistedDomainModelAdmin,
+    BlacklistedEmailModelAdmin,
+    BlacklistedEmailTemporaryModelAdmin,
+    BlacklistedPhraseModelAdmin,
+    BlacklistedPrefixModelAdmin,
+)
 from .crm_todo_modeladmin import CrmTodoModelAdmin
 from .discountcode_modeladmin import DiscountCodeModelAdmin
+from .leads_admin import LeadModelAdmin
 from .lecturer_modeladmin import LecturerModelAdmin
 from .webinar_category_modeladmin import WebinarCategoryModelAdmin
 from .webinar_certificate_modeladmin import WebinarCertificateModelAdmin

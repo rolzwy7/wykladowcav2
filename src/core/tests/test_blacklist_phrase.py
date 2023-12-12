@@ -24,7 +24,12 @@ class BlacklistUnitTestCase(TestCase):
         BlacklistedPhrase(phrase=BLACKLISTED_PHRASE).save()
 
     def test_When_PhraseBlacklisted_Then_Detect(self):
-        assert BlacklistService.is_email_phrase_blacklisted(BLACKLISTED_PHRASE) is True
+        assert (
+            BlacklistService.is_email_phrase_blacklisted(
+                f"test@{BLACKLISTED_PHRASE}.pl"
+            )
+            is True
+        )
 
     def test_When_PhraseNotBlacklisted_Then_DontDetect(self):
         assert (

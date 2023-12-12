@@ -1,3 +1,9 @@
+"""
+Model that represents opinion about given lecturer
+"""
+
+# flake8: noqa=E501
+
 from django.db.models import (
     CASCADE,
     BooleanField,
@@ -6,7 +12,6 @@ from django.db.models import (
     ForeignKey,
     Manager,
     Model,
-    Q,
     QuerySet,
     TextField,
 )
@@ -18,13 +23,15 @@ from .lecturer_model import Lecturer
 class LecturerOpinionManager(Manager):
     """Lecturer opinion query Manager"""
 
+    def get_all_visible_opinions(self) -> QuerySet["LecturerOpinion"]:
+        """Get all opinions that are visible on website"""
+        return self.get_queryset().filter(visible_on_page=True)
+
     def get_visible_opinions_for_lecturer(
         self, lecturer: Lecturer
     ) -> QuerySet["LecturerOpinion"]:
         """Get opinions for lecturer that are marked as visible on page"""
-        return self.get_queryset().filter(
-            Q(lecturer=lecturer) & Q(visible_on_page=True)
-        )
+        return self.get_all_visible_opinions().filter(lecturer=lecturer)
 
 
 class LecturerOpinion(Model):

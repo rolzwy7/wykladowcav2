@@ -8,8 +8,6 @@ from django.utils.translation import gettext_lazy as _
 class User(AbstractUser):
     """User model"""
 
-    objects = UserManager()
-
     username = EmailField(
         _("username"),
         unique=True,
@@ -19,6 +17,8 @@ class User(AbstractUser):
     )
 
     activation_token = UUIDField("Token aktywacyjny", default=uuid.uuid4)
+
+    objects = UserManager()
 
     def __str__(self) -> str:
         return f"{self.username}"

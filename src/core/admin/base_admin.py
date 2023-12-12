@@ -1,12 +1,13 @@
+"""
+Base admin
+"""
 from django.contrib import admin
 
 from core.models import (
-    BlacklistedDomain,
-    BlacklistedEmail,
-    BlacklistedEmailTemporary,
-    BlacklistedPhrase,
-    BlacklistedPrefix,
     CategoryTrustedUs,
+    ConferenceCycle,
+    ConferenceEdition,
+    ConferenceSchedule,
     ContactMessage,
     CrmCompany,
     CrmContact,
@@ -18,6 +19,7 @@ from core.models import (
     LoyaltyProgramPayout,
     MailingCampaign,
     MailingTemplate,
+    RedirectManual,
     SmtpSender,
     User,
     WebinarApplication,
@@ -38,15 +40,16 @@ from core.models import (
 
 admin.site.register(User)
 
+admin.site.register(RedirectManual)
+
+admin.site.register(ConferenceEdition)
+admin.site.register(ConferenceCycle)
+admin.site.register(ConferenceSchedule)
+
 admin.site.register(ContactMessage)
 
 admin.site.register(CategoryTrustedUs)
 
-admin.site.register(BlacklistedDomain)
-admin.site.register(BlacklistedEmail)
-admin.site.register(BlacklistedEmailTemporary)
-admin.site.register(BlacklistedPhrase)
-admin.site.register(BlacklistedPrefix)
 admin.site.register(MailingTemplate)
 admin.site.register(SmtpSender)
 admin.site.register(MailingCampaign)

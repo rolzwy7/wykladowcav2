@@ -87,7 +87,11 @@
               <a
                 class="nav-link {% if request.path == '/szkolenia/'|add:slug|add:'/kim-jestesmy/' %}active{% endif %}"
                 id="pills-about-tab"
+                {% if slug == 'wszystkie-szkolenia' %}
+                href="{% url 'core:about_us_page' %}"
+                {% else %}
                 href="{% url 'core:webinar_category_who_are_we_page' slug=slug %}"
+                {% endif %}
                 role="tab"
                 aria-controls="pills-about"
                 aria-selected="false"
@@ -101,7 +105,11 @@
               <a
                 class="nav-link {% if request.path == '/szkolenia/'|add:slug|add:'/wykladowcy/' %}active{% endif %}"
                 id="pills-author-tab"
+                {% if slug == 'wszystkie-szkolenia' %}
+                href="{% url 'core:all_lecturers_list_page' %}"
+                {% else %}
                 href="{% url 'core:webinar_category_lecturer_page' slug=slug %}"
+                {% endif %}
                 role="tab"
                 aria-controls="pills-author"
                 aria-selected="false"

@@ -1,0 +1,53 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+
+{% block title %}
+   <title>Dziękujemy za zapis do Newsletter'a</title>
+{% endblock title %}
+
+{% block root %}
+<main>
+    <section class="py-lg-16 py-8">
+        <!-- container -->
+        <div class="container">
+           <!-- row -->
+           <div class="row align-items-center">
+              <!-- col -->
+              <div class="col-lg-6 mb-6 mb-lg-0">
+                 <div class="">
+                    <!-- heading -->
+                    <h5 class="text-dark mb-4"><i class="fe fe-check icon-xxs icon-shape bg-light-success text-success rounded-circle me-2"></i>
+                        Zostałeś zapisany do naszego Newsletter'a
+                    </h5>
+                    <!-- heading -->
+                    <h1 class="display-3 fw-bold mb-3">
+                        Dziękujemy
+                    </h1>
+                    <!-- para -->
+                    <p class="pe-lg-10 mb-5">
+
+                    </p>
+                    <!-- btn -->
+                    {% comment %}
+                    <a href="#" class="btn btn-primary">Join Free Now</a>
+                    <a href="https://www.youtube.com/watch?v=JRzWRZahOVU" class="glightbox fs-4 text-inherit ms-3"><img src="../assets/images/svg/play-btn.svg" alt="" class="me-2">Watch Demo</a>
+                    {% endcomment %}
+                 </div>
+              </div>
+              <!-- col -->
+              <div class="col-lg-6 d-flex justify-content-center">
+                 <!-- images -->
+                 <div class="position-relative">
+                    <img src="{% static "geeks/assets/images/background/acedamy-img/bg-thumb.svg" %}" alt="" class=" ">
+                    <img src="{% static "geeks/assets/images/background/acedamy-img/girl-image.png" %}" alt="" class=" position-absolute end-0 bottom-0">
+                    <img src="{% static "geeks/assets/images/background/acedamy-img/target.svg" %}" alt="" class=" position-absolute bottom-0 mb-8 ms-n10 ms-lg-n1 ">
+                    <img src="{% static "geeks/assets/images/background/acedamy-img/sound.svg" %}" alt="" class=" position-absolute top-0  start-0 mt-18 ms-lg-n19 ms-n8">
+                    <img src="{% static "geeks/assets/images/background/acedamy-img/trophy.svg" %}" alt="" class=" position-absolute top-0  start-0 ms-lg-n14 ms-n5">
+                 </div>
+              </div>
+           </div>
+        </div>
+     </section>
+</main>
+{% endblock root %}

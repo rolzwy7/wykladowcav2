@@ -1,8 +1,16 @@
-from django.db.models import CharField, DateTimeField, Model
+from django.db.models import CharField, DateTimeField, Manager, Model
+
+
+class BlacklistedDomainManager(Manager):
+    """BlacklistedDomainManager"""
+
+    ...
 
 
 class BlacklistedDomain(Model):
     """Represents blacklisted domain"""
+
+    manager = BlacklistedDomainManager()
 
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)

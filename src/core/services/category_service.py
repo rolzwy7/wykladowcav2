@@ -29,8 +29,10 @@ class CategoryService:
     def get_main_categories_with_counts():
         """Get all main categories with counts"""
 
-        if not settings.DEBUG and cache.get("MAIN_CATEGORIES_WITH_COUNTS"):
-            return cache.get("MAIN_CATEGORIES_WITH_COUNTS")
+        cache_key = "CACHED_MAIN_CATEGORIES_WITH_COUNTS"
+
+        if not settings.DEBUG and cache.get(cache_key):
+            return cache.get(cache_key)
 
         categories = []
         for category in WebinarCategory.manager.get_main_categories():
@@ -43,6 +45,6 @@ class CategoryService:
                 )
             )
 
-        cache.set("MAIN_CATEGORIES_WITH_COUNTS", categories, 600)
+        cache.set(cache_key, categories, 600)
 
         return categories

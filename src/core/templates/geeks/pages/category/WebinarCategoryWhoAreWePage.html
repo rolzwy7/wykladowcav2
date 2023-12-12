@@ -3,5 +3,89 @@
 {% load static %}
 
 {% block content %}
-  {{category.about_html|safe}}
+<section class="py-6">
+  <div class="container">
+
+    <div class="row mb-4">
+      <div class="col-lg-12 col-md-12 col-12">
+         <div class="card px-4 pt-2 pb-2 shadow-sm ">
+            <div class="d-flex align-items-end justify-content-between  ">
+               <div class="d-flex align-items-center">
+                  <div class="lh-1">
+                     <h2 class="mb-0">
+                        Kim jesteśmy?
+                     </h2>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+     <div class="row mb-4">
+        <div class="col-md-12">
+           <div class="card">
+              <div class="card-body">
+                 {{category.about_html|safe}}
+              </div>
+           </div>
+        </div>
+     </div>
+
+     <div class="row mb-4">
+        <div class="col-lg-12 col-md-12 col-12">
+           <div class="card px-4 pt-2 pb-2 shadow-sm ">
+              <div class="d-flex align-items-end justify-content-between  ">
+                 <div class="d-flex align-items-center">
+                    <div class="lh-1">
+                       <h2 class="mb-0">
+                          Nasi wykładowcy
+                       </h2>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+
+     <div class="row mb-4">
+      {% for lecturer in category_lecturers %}
+      <div class="col-lg-4 col-md-6 col-12">
+        <!-- Card -->
+        <div class="card mb-4">
+           <!-- Card body -->
+           <div class="card-body">
+              <div class="text-center">
+                 <img
+                 {% if lecturer.avatar %}
+                 src="{% get_media_prefix %}uploads/lecturers/{{lecturer.slug}}_160x160.webp"
+                 {% else %}
+                 src="{% static "default/default-lecturer-avatar-80x80.webp" %}"
+                 {% endif %}
+                  class="rounded-circle avatar-xxl mb-3"
+                  alt="{{lecturer.fullname}}"
+                >
+                 <h4 class="mb-1">{{lecturer.fullname}}</h4>
+                 <p class="mb-0">
+                  {{lecturer.profession|default:"Ekspert"}}
+                 </p>
+                 {% comment %} <a href="#" class="btn btn-sm btn-outline-secondarymt-3">Message</a> {% endcomment %}
+              </div>
+              {% comment %} <div class="d-flex justify-content-between border-bottom py-2 mt-4 fs-6">
+                 <span>Enrolled</span>
+                 <span class="text-dark">3/12/2020</span>
+              </div>
+              <div class="d-flex justify-content-between pt-2 fs-6">
+                 <span>Progress</span>
+                 <span class="text-success">0%</span>
+              </div> {% endcomment %}
+           </div>
+        </div>
+      </div>
+      {% endfor %}
+     </div>
+
+  </div>
+  </div>
+</section>
 {% endblock content %}

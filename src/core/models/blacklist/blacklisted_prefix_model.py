@@ -1,8 +1,16 @@
-from django.db.models import CharField, DateTimeField, Model
+from django.db.models import CharField, DateTimeField, Manager, Model
+
+
+class BlacklistedPrefixManager(Manager):
+    """BlacklistedPrefixManager"""
+
+    ...
 
 
 class BlacklistedPrefix(Model):
     """Represents blacklisted prefix"""
+
+    manager = BlacklistedPrefixManager()
 
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)

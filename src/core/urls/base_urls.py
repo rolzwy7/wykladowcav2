@@ -21,13 +21,16 @@ from .application_urls import urlpatterns as application_urlpatterns
 from .assets_urls import urlpatterns as assets_urlpatterns
 from .category_urls import urlpatterns as category_urlpatterns
 from .certificate_urls import urlpatterns as certificate_urlpatterns
+from .conference_urls import urlpatterns as conference_urlpatterns
 from .crm_urls import urlpatterns as crm_urlpatterns
 from .forgot_password_urls import urlpatterns as forgot_password_urlpatterns
+from .leads_urls import urlpatterns as leads_urlpatterns
 from .lecturer_urls import urlpatterns as lecturer_urlpatterns
 from .loyalty_urls import urlpatterns as loyalty_urlpatterns
 from .mailing_templates_urls import urlpatterns as mailing_templates_urlpatterns
 from .previews_urls import urlpatterns as previews_urlpatterns
 from .recording_urls import urlpatterns as recording_urlpatterns
+from .redirect_urls import urlpatterns as redirect_urlpatterns
 from .registration_urls import urlpatterns as registration_urlpatterns
 from .terms_and_conditions_urls import urlpatterns as terms_and_conditions_urlpatterns
 from .user_account_urls import urlpatterns as user_account_urlpatterns
@@ -55,6 +58,7 @@ urlpatterns = [
     path("certyfikat/", include(certificate_urlpatterns)),
     path("nagrania/", include(recording_urlpatterns)),
     path("materialy-szkoleniowe/", include(assets_urlpatterns)),
+    path("leads/", include(leads_urlpatterns)),
     path(
         "rezyg/formularz/",
         mailing_resignation_by_form_page,
@@ -75,5 +79,7 @@ urlpatterns = [
         name="redirect_loyalty_program",
     ),
     #
+    path("cykl-szkolen/", include(conference_urlpatterns)),
+    path("", include(redirect_urlpatterns)),
     path("", home_page, name="homepage"),
 ]

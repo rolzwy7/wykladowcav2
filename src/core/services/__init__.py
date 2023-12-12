@@ -10,6 +10,7 @@ from .crm_webinar_service import CrmWebinarService
 from .discount_service import DiscountService
 from .homepage_service import HomepageService
 from .ip_address_service import IpAddressService
+from .lead_service import LeadService
 from .loyalty_program_service import LoyaltyProgramService
 from .mx_service import MxService
 from .opinions_service import OpinionsService

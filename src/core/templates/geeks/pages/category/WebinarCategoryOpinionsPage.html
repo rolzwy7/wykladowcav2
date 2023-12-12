@@ -3,24 +3,51 @@
 {% load static %}
 
 {% block content %}
-{{category_opinions}}
 
 <section class="py-6">
 <div class="container">
     <div class="row">
-    <div class="col-md-12">
-        {% if opinions_breakdown %}
-            {% include 'geeks/components/rating_breakdown.html' with opinions_breakdown=opinions_breakdown %}
-        {% endif %}
-        
-        <hr class="my-5">
-        
-        {% for opinion in opinions_page %}
-            {% include 'geeks/components/opinion.html' with opinion=opinion %}
-        {% endfor %}
 
-        {% include 'geeks/components/pagination.html' with page_obj=opinions_page %}
-    </div>
+        {% if opinions_page %}
+            <div class="col-md-12">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        {% if opinions_breakdown %}
+                            {% include 'geeks/components/rating_breakdown.html' with opinions_breakdown=opinions_breakdown opinions_count=opinions_count %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            {% for opinion in opinions_page %}
+            <div class="col-lg-6 col-md-12">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        {% include 'geeks/components/opinion.html' with opinion=opinion %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        {% include 'geeks/components/pagination.html' with page_obj=opinions_page %}
+                    </div>
+                </div>
+            </div>
+        {% else %}
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h2>
+                        Jeszcze nie dodano żadnej opinii dla szkoleń tej kategorii 
+                    </h2>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    
     </div>
 </div>
 </section>

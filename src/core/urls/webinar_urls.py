@@ -79,13 +79,13 @@ urlpatterns = [
         webinar_ogimage_page,
         name="webinar_ogimage_page",
     ),
-    # Cancellation TODO: move this
+    # Cancellation TODO: Move this
     path(
         "potwierdzenie-odwolania-szkolenia/<uuid:token>/",
         webinar_cancellation_page,
         name="webinar_cancellation_page",
     ),
-    # Moving TODO: move this
+    # Moving TODO: Move this
     path(
         "<uuid:token>/akceptacja-nowego-terminu/",
         webinar_moving_accept_page,

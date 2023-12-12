@@ -6,10 +6,11 @@ from django.urls import reverse
 from core.consts import POST
 from core.forms import ApplicationSummarySubmitForm
 from core.models import Webinar, WebinarApplication, WebinarParticipant
-from core.models.enums import ApplicationStatus, WebinarApplicationStep
+from core.models.enums import ApplicationStatus, LeadSource, WebinarApplicationStep
 from core.services import (
     ApplicationFormService,
     ApplicationSummaryService,
+    LeadService,
     LoyaltyProgramService,
 )
 
@@ -24,8 +25,9 @@ def application_summary_page(request, uuid):
     form_service = ApplicationFormService(
         webinar, application, WebinarApplicationStep.SUMMARY
     )
-    # form_service.redirect_on_application_error()
-    participants = WebinarParticipant.manager.filter(application=application)
+    participants = WebinarParticipant.manager.get_all_participants_for_application(
+        application=application
+    )
 
     # Mark `got_to_summary` as True
     if not application.got_to_summary and not request.user.is_staff:
@@ -43,6 +45,30 @@ def application_summary_page(request, uuid):
                 if provision_user:
                     loyalty_service = LoyaltyProgramService(provision_user)
                     loyalty_service.create_income_for_application(application)
+
+            # Save participants as leads
+            for participant in participants:
+                lead = LeadService.get_or_create_lead(
+                    participant.email,
+                    LeadSource.WEBINAR_PARTICIPANT,
+                    request=request,
+                    categories=[category for category in webinar.categories.all()],
+                )
+                LeadService.apply_basic_data(
+                    lead,
+                    participant.first_name,
+                    participant.last_name,
+                    participant.phone,
+                )
+
+            # Save fallback contact as lead if set
+            if application.submitter:
+                LeadService.get_or_create_lead(
+                    application.submitter.email,
+                    LeadSource.WEBINAR_CONTACT,
+                    request=request,
+                    categories=[category for category in webinar.categories.all()],
+                )
 
             # Send application if user if not staff
             summary_service = ApplicationSummaryService(

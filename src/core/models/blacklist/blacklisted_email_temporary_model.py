@@ -1,4 +1,4 @@
-from django.db.models import DateTimeField, EmailField, Model
+from django.db.models import DateTimeField, EmailField, Manager, Model
 from django.utils.timezone import now, timedelta
 
 
@@ -7,8 +7,16 @@ def default_expires_at():
     return now() + timedelta(days=14)
 
 
+class BlacklistedEmailTemporaryManager(Manager):
+    """BlacklistedEmailTemporaryManager"""
+
+    ...
+
+
 class BlacklistedEmailTemporary(Model):
     """Represents temporarily blacklisted email"""
+
+    manager = BlacklistedEmailTemporaryManager()
 
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
@@ -20,6 +28,11 @@ class BlacklistedEmailTemporary(Model):
         default=default_expires_at,
         help_text="Kiedy zablokowanie wygasa",
     )
+
+    @property
+    def is_expired(self):
+        """Is temporary blocking expired"""
+        return now() > self.expires_at
 
     class Meta:
         verbose_name = "Zablokowane tymczasowo emaile"
