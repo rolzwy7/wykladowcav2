@@ -9,12 +9,14 @@ Mailing processing procedure
 
 import logging
 import time
+import traceback
 
 from django.core.exceptions import ValidationError
 from django.core.management.base import BaseCommand
 from django.core.validators import validate_email
 from django.utils.timezone import now, timedelta
 
+from core.consts import TelegramChats
 from core.libs.inbox import InboxMessage
 from core.models import (
     MailingBounce,
@@ -28,7 +30,12 @@ from core.models.mailing import (
     MailingProcessingCacheManager,
     MailingResignationManager,
 )
-from core.services import BlacklistService, MxService, SenderSmtpService
+from core.services import (
+    BlacklistService,
+    MxService,
+    SenderSmtpService,
+    TelegramService,
+)
 from core.services.mailing import MailingResignationService
 
 logging.getLogger("flufl.bounce").setLevel(logging.WARNING)
@@ -352,5 +359,17 @@ class Command(BaseCommand):
         load_cache()
         print(f"\n[*] Cache has {len(INBOX_SCAN_CACHE):,} elements")
 
-        # Start infinite loop
-        self.start_loop()
+        telegram_service = TelegramService()
+
+        for retry in range(3):
+            try:
+                # Start infinite loop
+                self.start_loop()
+            except Exception as e:
+                formatted_lines = "\n".join(traceback.format_exc().splitlines())
+                telegram_service.send_chat_message(
+                    f"retry={retry+1}, {e}:\n{formatted_lines}",
+                    TelegramChats.OTHER,
+                )
+                print("[*] Waiting after failure")
+                time.sleep((retry + 1) * (5 * 60))

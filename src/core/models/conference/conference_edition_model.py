@@ -52,6 +52,10 @@ class ConferenceEdition(Model):
 
     html = TextField("Treść HTML", blank=True)
 
+    clickmeeting_id = CharField("ClickMeeting ID", blank=True, max_length=100)
+
+    youtube_live_embed = TextField("YouTube Livestream Embed", blank=True)
+
     class Meta:
         verbose_name = "Konferencja (edycja)"
         verbose_name_plural = "Konferencje (edycja)"

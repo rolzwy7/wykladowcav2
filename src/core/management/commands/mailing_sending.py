@@ -3,9 +3,12 @@ Mailing sending procedure
 """
 
 # flake8: noqa:E501
-# pylint: disable=line-too-long
+# pylint: disable=global-variable-not-assigned
+# pylint: disable=broad-exception-caught
+# pylint: disable=invalid-name
 
 import time
+import traceback
 from smtplib import SMTPRecipientsRefused, SMTPServerDisconnected
 
 from django.core.management.base import BaseCommand
@@ -154,8 +157,7 @@ def try_to_reset_daily_limit_for_campaigns():
     Reset `limit_sent_so_far` to 0
     Set `limit_timestamp` to `now()`
     """
-    # TODO: This doesn't work
-    # TODO: Check manually if this works
+    # TODO: This doesn't work, Check manually if this works
     MailingCampaign.manager.active_campaigns().filter(
         ~Q(limit_per_day=0) & Q(limit_timestamp__lt=now() - timedelta(hours=24))
     ).update(limit_sent_so_far=0, limit_timestamp=now())
@@ -209,4 +211,17 @@ class Command(BaseCommand):
             time.sleep(3)
 
     def handle(self, *args, **options):
-        self.start_loop()
+        telegram_service = TelegramService()
+
+        for retry in range(3):
+            try:
+                # Start infinite loop
+                self.start_loop()
+            except Exception as e:
+                formatted_lines = "\n".join(traceback.format_exc().splitlines())
+                telegram_service.send_chat_message(
+                    f"retry={retry+1}, {e}:\n{formatted_lines}",
+                    TelegramChats.OTHER,
+                )
+                print("[*] Waiting after failure")
+                time.sleep((retry + 1) * (5 * 60))

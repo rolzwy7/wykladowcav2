@@ -35,6 +35,7 @@ class LeadService:
         # Set lead source only if created for the first time
         if created:
             lead.lead_source = lead_source
+            lead.is_subscribed = True
 
         # Set ip address if request is set
         if request:

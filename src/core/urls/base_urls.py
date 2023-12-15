@@ -1,3 +1,6 @@
+"""
+Base URLs
+"""
 # flake8: noqa:E501
 # pylint: disable=line-too-long
 from django.urls import include, path
@@ -11,6 +14,7 @@ from core.views import (
     logout_page,
     webmap_page,
 )
+from core.views.custom_error_pages import custom404_page, custom500_page
 from core.views.lecturer import lecturer_list_page
 from core.views.mailing_resignation import (
     mailing_resignation_by_code_page,
@@ -30,7 +34,6 @@ from .loyalty_urls import urlpatterns as loyalty_urlpatterns
 from .mailing_templates_urls import urlpatterns as mailing_templates_urlpatterns
 from .previews_urls import urlpatterns as previews_urlpatterns
 from .recording_urls import urlpatterns as recording_urlpatterns
-from .redirect_urls import urlpatterns as redirect_urlpatterns
 from .registration_urls import urlpatterns as registration_urlpatterns
 from .terms_and_conditions_urls import urlpatterns as terms_and_conditions_urlpatterns
 from .user_account_urls import urlpatterns as user_account_urlpatterns
@@ -78,8 +81,10 @@ urlpatterns = [
         RedirectView.as_view(url="/polecaj-i-zarabiaj/informacje/"),
         name="redirect_loyalty_program",
     ),
+    # Test error pages
+    path("404/", custom404_page, name="custom404_page"),
+    path("500/", custom500_page, name="custom500_page"),
     #
-    path("cykl-szkolen/", include(conference_urlpatterns)),
-    path("", include(redirect_urlpatterns)),
+    path("szkolenia-cykliczne/", include(conference_urlpatterns)),
     path("", home_page, name="homepage"),
 ]

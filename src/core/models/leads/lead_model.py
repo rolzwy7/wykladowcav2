@@ -55,6 +55,7 @@ class LeadModel(Model):
         (LeadSource.CONFERENCE_FREE, "Konferencja - uczestnik darmowy"),
         (LeadSource.CONFERENCE_PAID, "Konferencja - uczestnik płatny"),
         (LeadSource.EMAIL_MESSAGE_SIGNUP, "E-mail - poprosił od zapis przez e-mail"),
+        (LeadSource.ARCHIVED_WEBINAR, "Zarchiwizowany webinar"),
     ]
 
     lead_source = CharField(

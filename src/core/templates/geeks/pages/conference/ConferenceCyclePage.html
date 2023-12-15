@@ -34,7 +34,9 @@
          </div>
       </div>
    </section>
+   <!-- HTML HERE START -->
    {{cycle.html|safe}}
+   <!-- HTML HERE STOP -->
    <section class="py-lg-4 py-3">
       <div class="container">
          <div class="row">
@@ -76,7 +78,7 @@
                               </span>
                            </div>
                         </div>
-                        <a href="{% url "core:conference_edition_page" slug_cycle=edition.cycle.slug slug_edition=edition.slug %}" class="btn btn-light-primary text-primary">
+                        <a href="{% url "core:conference_edition_page" slug_cycle=edition.cycle.slug slug_edition=edition.slug %}" class="btn btn-primary">
                         Zapisz się teraz
                         </a>
                      </div>

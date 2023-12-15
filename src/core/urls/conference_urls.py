@@ -11,7 +11,7 @@ urlpatterns = [
         name="conference_cycle_page",
     ),
     path(
-        "<slug:slug_cycle>/<slug:slug_edition>",
+        "<slug:slug_cycle>/<slug:slug_edition>/",
         conference_edition_page,
         name="conference_edition_page",
     ),

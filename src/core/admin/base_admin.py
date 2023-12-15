@@ -7,6 +7,7 @@ from core.models import (
     CategoryTrustedUs,
     ConferenceCycle,
     ConferenceEdition,
+    ConferenceFreeParticipant,
     ConferenceSchedule,
     ContactMessage,
     CrmCompany,
@@ -19,7 +20,6 @@ from core.models import (
     LoyaltyProgramPayout,
     MailingCampaign,
     MailingTemplate,
-    RedirectManual,
     SmtpSender,
     User,
     WebinarApplication,
@@ -40,11 +40,10 @@ from core.models import (
 
 admin.site.register(User)
 
-admin.site.register(RedirectManual)
-
 admin.site.register(ConferenceEdition)
 admin.site.register(ConferenceCycle)
 admin.site.register(ConferenceSchedule)
+admin.site.register(ConferenceFreeParticipant)
 
 admin.site.register(ContactMessage)
 

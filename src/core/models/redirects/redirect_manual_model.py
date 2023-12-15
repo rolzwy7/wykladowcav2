@@ -20,7 +20,7 @@ class RedirectManual(Model):
 
     created_at = DateTimeField(auto_now_add=True)
 
-    slug = CharField("Slug", max_length=350)
+    slug = CharField("Slug", max_length=350, primary_key=True)
 
     url = CharField("URL", max_length=350)
 
@@ -40,4 +40,4 @@ class RedirectManual(Model):
         verbose_name_plural = "Przekierowania (manualne)"
 
     def __str__(self) -> str:
-        return f"({self.status_code}) {self.url}"
+        return f"({self.slug})"

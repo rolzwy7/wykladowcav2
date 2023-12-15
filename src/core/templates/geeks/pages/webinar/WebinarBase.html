@@ -196,11 +196,33 @@
           {% include './components/related_webinars.html' with related_webinars=related_webinars %}
           
           {% if webinar.is_archival %}
-          <div class="alert alert-primary d-flex align-items-center" role="alert">
-            <div>
-              W tej chwili nie realizujemy szkolenia z tej tematyki.
+          <!-- Card -->
+          <div class="card mb-4 border border-primary">
+            <!-- Card Header -->
+            <div class="card-header bg-light-primary">
+              <h3 class="mb-0 text-primary">
+                <i class="bi bi-bell-fill"></i>
+                Nie realizujemy szkolenia z tej tematyki w chwili obecnej.
+              </h3>
             </div>
-         </div>
+            <!-- Card Body -->
+            <div class="card-body bg-light-primary pt-1">
+              <p class="text-dark fw-medium">
+                Jeżeli interesuje Cię ten temat daj nam znać, a my <b>wyślemy Ci przypomnienie</b> gdy szkolenie z tej tematyki ponownie znajdzie się w naszej ofercie!
+              </p>
+              <!-- Form -->
+              <form class="row" method="post" action="{% url "core:lead_webinar_post_endpoint" pk=webinar.pk %}">
+                  {% csrf_token %}
+                  <div class="mb-3 col-12 col-md-12">
+                    <label class="form-label" for="id_email">Adres E-mail</label>
+                    <input name="email" type="email" id="id_email" class="form-control" placeholder="Twój adres e-mail" required>
+                  </div>
+                  <div class="mb-3 col-12 col-md-12">
+                    <input type="submit" value="Wyślij" class="btn btn-primary">
+                  </div>
+              </form>
+            </div>
+          </div>
          {% endif %}
 
           {% comment %} Date and hour card {% endcomment %}
