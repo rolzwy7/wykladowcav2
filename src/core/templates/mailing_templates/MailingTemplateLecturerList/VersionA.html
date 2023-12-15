@@ -56,7 +56,7 @@
                         <td width="50%" style="{{td_classes|safe}}text-align:center;">
                             <p style="margin: 1em 0;font-weight:bold;"><strong>{{pack.0.title}}</strong></p>
                               {% for webinar in pack %}
-                                <a href="{% url "core:webinar_redirect_to_program" pk=webinar.pk %}" style="margin-bottom:0.5em; background-color:#005959; text-decoration: none; padding: .5em 2em; color: #FCFDFF; display:inline-block; border-radius:.4em; mso-padding-alt:0;text-underline-color:#005959"><!--[if mso]><i style="mso-font-width:200%;mso-text-raise:100%" hidden>&emsp;</i><span style="mso-text-raise:50%;"><![endif]-->{{webinar.date|date:"j E"}} godzina {{webinar.date|date:"H:i"}}<!--[if mso]></span><i style="mso-font-width:200%;" hidden>&emsp;&#8203;</i><![endif]--></a>
+                                <a href="{{BASE_URL}}{% url "core:webinar_redirect_to_program" pk=webinar.pk %}" style="margin-bottom:0.5em; background-color:#005959; text-decoration: none; padding: .5em 2em; color: #FCFDFF; display:inline-block; border-radius:.4em; mso-padding-alt:0;text-underline-color:#005959"><!--[if mso]><i style="mso-font-width:200%;mso-text-raise:100%" hidden>&emsp;</i><span style="mso-text-raise:50%;"><![endif]-->{{webinar.date|date:"j E"}} godzina {{webinar.date|date:"H:i"}}<!--[if mso]></span><i style="mso-font-width:200%;" hidden>&emsp;&#8203;</i><![endif]--></a>
                                 <br>
                               {% endfor %}
                           </td>
@@ -68,7 +68,7 @@
                           {% for webinar in pack %}
                               <td width="50%" style="{{td_classes|safe}}text-align:center;">
                                   <p style="margin: 1em 0;font-weight:bold;"><strong>{{webinar.title}}</strong></p>
-                                  <a href="{% url "core:webinar_redirect_to_program" pk=webinar.pk %}" style="margin-bottom:0.5em; background-color:#005959; text-decoration: none; padding: .5em 2em; color: #FCFDFF; display:inline-block; border-radius:.4em; mso-padding-alt:0;text-underline-color:#005959"><!--[if mso]><i style="mso-font-width:200%;mso-text-raise:100%" hidden>&emsp;</i><span style="mso-text-raise:50%;"><![endif]-->{{webinar.date|date:"j E"}} godzina {{webinar.date|date:"H:i"}}<!--[if mso]></span><i style="mso-font-width:200%;" hidden>&emsp;&#8203;</i><![endif]--></a>
+                                  <a href="{{BASE_URL}}{% url "core:webinar_redirect_to_program" pk=webinar.pk %}" style="margin-bottom:0.5em; background-color:#005959; text-decoration: none; padding: .5em 2em; color: #FCFDFF; display:inline-block; border-radius:.4em; mso-padding-alt:0;text-underline-color:#005959"><!--[if mso]><i style="mso-font-width:200%;mso-text-raise:100%" hidden>&emsp;</i><span style="mso-text-raise:50%;"><![endif]-->{{webinar.date|date:"j E"}} godzina {{webinar.date|date:"H:i"}}<!--[if mso]></span><i style="mso-font-width:200%;" hidden>&emsp;&#8203;</i><![endif]--></a>
                               </td>
                           {% endfor %}
                       </tr>

@@ -3,6 +3,7 @@ from django.shortcuts import redirect
 
 from core.exceptions import RedirectException, UnauthorizedException
 from core.permissions import deny_if_not_staff
+from core.utils.redirects import manual_redirect
 
 
 class CoreMiddleware:
@@ -26,10 +27,17 @@ class CoreMiddleware:
                     'Brak dostępu. <a href="/cms/">Zaloguj się</a>', status=401
                 )
 
+        # Calling view
         response = self.get_response(request)
 
         # Code to be executed for each request/response after
         # the view is called.
+
+        # If response is 404 try to find and return manual redirect
+        if response.status_code == 404:
+            redirect_response = manual_redirect(request.path)
+            if redirect_response:
+                return redirect_response
 
         return response
 

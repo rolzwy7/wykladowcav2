@@ -24,6 +24,9 @@ class ConferenceCycle(Model):
 
     manager = ConferenceCycleManager()
 
+    # TODO: add `visible_on_page`
+    # visible_on_page = BooleanField("Widoczne na stronie", default=True)
+
     name = CharField("Nazwa cyklu", max_length=230)
 
     short_description = TextField(
