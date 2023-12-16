@@ -97,19 +97,19 @@ class LeadModel(Model):
     singup_ip_address = CharField(max_length=64, blank=True)
 
     last_email_date = DateTimeField(
-        null=True, blank=True, help_text="Ostatnio wysłana wiadomość e-mail"
+        "Ostatnio wysłana wiadomość e-mail", null=True, blank=True
     )
     last_email_opened = DateTimeField(
-        null=True, blank=True, help_text="Ostatnio otwarto wiadomość e-mail"
+        "Ostatnio otwarto wiadomość e-mail", null=True, blank=True
     )
     last_email_clicked = DateTimeField(
-        null=True, blank=True, help_text="Ostatnio kliknięto w wiadomość e-mail"
+        "Ostatnio kliknięto w wiadomość e-mail", null=True, blank=True
     )
     last_purchase_date = DateTimeField(
-        null=True, blank=True, help_text="Ostatnio dokonano zakupu na stronie"
+        "Ostatnio dokonano zakupu na stronie", null=True, blank=True
     )
     last_activity_date = DateTimeField(
-        null=True, blank=True, help_text="Ostatnia jakaklowiek aktywność"
+        "Ostatnia jakakolwiek aktywność", null=True, blank=True
     )
 
     class Meta:

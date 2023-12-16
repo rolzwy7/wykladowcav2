@@ -3,12 +3,8 @@
 {% load static %}
 
 {% block head_stylesheets %}
-  <link
-  href="{% static 'geeks/assets/libs/tiny-slider/tiny-slider.css' %}"
-  rel="stylesheet"
-  type="text/css"
-  >
-  <link rel="stylesheet" href="{% static 'geeks/assets/libs/magnific-popup/magnific-popup.css' %}" type="text/css" />
+  <link rel="preload" href="{% static 'geeks/assets/libs/tiny-slider/tiny-slider.css' %}" rel="stylesheet" type="text/css">
+  <link rel="preload" rel="stylesheet" href="{% static 'geeks/assets/libs/magnific-popup/magnific-popup.css' %}" type="text/css" />
 {% endblock head_stylesheets %}
 
 {% block title %}
