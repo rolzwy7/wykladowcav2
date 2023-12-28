@@ -270,15 +270,15 @@ data-kt-sticky-zindex="95"
     </div>
     <!--end::Menu item-->
     <!--begin::Menu item-->
-    <div class="menu-item">
+    <div class="menu-item" data-kt-menu-trigger="hover" data-kt-menu-placement="right-start">
       <a
-        href="{% url 'core:crm_mailing_campaigns_list' %}"
+        href="#"
         class="menu-link {% if request.path|startswith:'/crm/kampanie-mailingowe/' %}active{% endif %}"
       >
       <span class="menu-icon">
         <i class="ki-duotone ki-sms fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
       </span>
-        <span class="menu-title">
+      <span class="menu-title">
           Mailing
       </span>
       {% if CRM_LEFBAR_ACTIVE_MAILING_CAMPAIGNS %}
@@ -287,8 +287,34 @@ data-kt-sticky-zindex="95"
           {{CRM_LEFBAR_ACTIVE_MAILING_CAMPAIGNS}}
         </span>
       </span>
+      {% else %}
+        <span class="menu-arrow"></span>
       {% endif %}
       </a>
+      <!--begin::Menu sub-->
+      <div class="menu-sub menu-sub-dropdown p-3 w-300px">
+        <!--begin::Menu item-->
+        <div class="menu-item">
+            <a href="{% url 'core:crm_mailing_campaigns_list' %}" class="menu-link px-1 py-3">
+                <span class="menu-bullet me-0">
+                    <span class="bullet bullet-dot"></span>
+                </span>
+                <span class="menu-title">Kampanie mailingowe</span>
+            </a>
+        </div>
+        <!--end::Menu item-->
+        <!--begin::Menu item-->
+        <div class="menu-item">
+            <a href="https://wykladowca.odoo.com" class="menu-link px-1 py-3">
+                <span class="menu-bullet me-0">
+                    <span class="bullet bullet-dot"></span>
+                </span>
+                <span class="menu-title">Odoo - Email marketing</span>
+            </a>
+        </div>
+        <!--end::Menu item-->
+    </div>
+    <!--end::Menu sub-->
     </div>
     <!--end::Menu item-->
     <!--begin::Menu item-->

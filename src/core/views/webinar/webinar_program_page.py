@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
+from django.urls import reverse
 
 from core.models import Webinar
 from core.services.lecturer import LecturerService
@@ -18,6 +19,9 @@ def webinar_program_page(request, slug: str):
         template_name,
         {
             "META__TITLE": webinar.title,
+            "CANONICAL": reverse(
+                "core:webinar_program_page", kwargs={"slug": webinar.slug}
+            ),
             "webinar": webinar,
             "related_webinars": webinar_service.get_related_webinars(),
             "webinar_tabs": webinar_service.get_webinar_tabs(0),
