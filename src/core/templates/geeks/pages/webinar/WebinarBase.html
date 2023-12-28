@@ -6,7 +6,7 @@
     <meta name="description" content="{{webinar.description}}" />
     <meta property="og:description" content="{{webinar.description}}" />
     {% endif %}
-    <link rel="canonical" href="{{META__BASE_URL}}{% url "core:webinar_program_page" slug=webinar.slug %}" />
+    <link rel="canonical" href="{{META__BASE_URL}}{{CANONICAL}}" />
     <meta property="og:locale" content="pl_PL" />
     <meta property="og:url" content="{{META__BASE_URL}}{% url "core:webinar_program_page" slug=webinar.slug %}" />
     <meta property="og:type" content="article" />

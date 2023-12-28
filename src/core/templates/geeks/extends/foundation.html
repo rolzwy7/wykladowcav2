@@ -11,9 +11,9 @@
     <meta property="og:site_name" content="{{COMPANY_NAME}}">
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'geeks/assets/images/favicon/favicon.ico' %}" />
 
-    <link rel="preload" href="{% static 'geeks/assets/fonts/feather/feather.css' %}" rel="stylesheet" type="text/css" />
-    <link rel="preload" href="{% static 'geeks/assets/libs/bootstrap-icons/font/bootstrap-icons.css' %}" rel="stylesheet" type="text/css" />
-    <link rel="preload" href="{% static 'geeks/assets/libs/@mdi/font/css/materialdesignicons.min.css' %}" rel="stylesheet" type="text/css" />    
+    <link href="{% static 'geeks/assets/fonts/feather/feather.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'geeks/assets/libs/bootstrap-icons/font/bootstrap-icons.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'geeks/assets/libs/@mdi/font/css/materialdesignicons.min.css' %}" rel="stylesheet" type="text/css" />    
 
     <link rel="stylesheet" href="{% static 'geeks/assets/css/theme.min.css' %}" type="text/css" />
     
@@ -71,8 +71,8 @@
     <!-- Theme JS -->
     <script src="{% static 'geeks/assets/js/theme.min.js' %}"></script>
 
-    <script defer src="{% static 'geeks/assets/js/vendors/tooltip.js' %}"></script>
-    <script defer src="{% static 'geeks/assets/js/vendors/popup.js' %}"></script>
+    <script src="{% static 'geeks/assets/js/vendors/tooltip.js' %}"></script>
+    <script src="{% static 'geeks/assets/js/vendors/popup.js' %}"></script>
 
     {% block body_scripts %}{% endblock body_scripts %}
 
