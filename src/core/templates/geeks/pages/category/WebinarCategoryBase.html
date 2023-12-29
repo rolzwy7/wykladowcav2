@@ -35,6 +35,11 @@
                   </a>
                 </p>
                 {% endif %}
+                {% if request.user.is_staff %}
+                <a href="{% url "core:webinar_category_mailing_editor_page" slug=slug %}">
+                  Edytor mailing zbiorczy
+                </a>
+                {% endif %}
                 {% if parent and slug != 'wszystkie-szkolenia' %}
                 <p class="m-0">
                   <a href="{% url "core:webinar_category_page" slug=parent.slug %}">

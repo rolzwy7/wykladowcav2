@@ -7,17 +7,6 @@ from .login_page import login_page
 from .logout_page import logout_page
 from .meta_redirect_page import meta_redirect_page
 from .one_signal_views import one_signal_worker_script
-from .register_page import (
-    register_activation_page,
-    register_info_page,
-    register_page,
-)
+from .register_page import register_activation_page, register_info_page, register_page
 from .robots_page import robots_page
-from .webinar_category_page import (
-    webinar_all_categories_page,
-    webinar_category_lecturers_page,
-    webinar_category_opinions_page,
-    webinar_category_page,
-    webinar_category_who_are_we_page,
-)
 from .webmap_page import webmap_page
