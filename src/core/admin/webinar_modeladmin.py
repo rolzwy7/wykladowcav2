@@ -97,6 +97,7 @@ class WebinarModelAdmin(ModelAdmin):
                 "fields": [
                     "program_markdown",
                     "program_pretty",
+                    "program_short",
                 ],
             },
         ),

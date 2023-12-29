@@ -1,0 +1,36 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+
+{% block title %}
+  <title>Edytor email</title>
+{% endblock title %}
+
+{% block root %}
+<main>
+    <section class="container-fluid">
+       <div class="row mt-5">
+          <div class="col-12">
+             <!-- Card -->
+             <div class="card mb-4">
+                <!-- Card Header -->
+                <div class="card-header">
+                   <h3 class="mb-0">Edytor e-mail</h3>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                   <!-- Form -->
+                   <form class="row" method="get" action="{% url "core:webinar_category_mailing_template_page" slug=slug %}">
+    
+                      <button type="submit" class="btn btn-primary">
+                      Generuj
+                      </button>
+                   </form>
+                </div>
+             </div>
+          </div>
+       </div>
+    </section>
+ </main>
+{% endblock root %}
+

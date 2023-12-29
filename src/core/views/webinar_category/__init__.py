@@ -1,0 +1,11 @@
+# flake8: noqa
+
+from .webinar_all_categories_page import webinar_all_categories_page
+from .webinar_category_lecturers_page import webinar_category_lecturers_page
+from .webinar_category_mailing_editor_page import webinar_category_mailing_editor_page
+from .webinar_category_mailing_template_page import (
+    webinar_category_mailing_template_page,
+)
+from .webinar_category_opinions_page import webinar_category_opinions_page
+from .webinar_category_page import webinar_category_page
+from .webinar_category_who_are_we_page import webinar_category_who_are_we_page

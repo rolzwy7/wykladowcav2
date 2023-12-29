@@ -221,6 +221,7 @@ class Webinar(Model):
     program = TextField("Program szkolenia", default="[Program Szkolenia]")
     program_markdown = TextField("Program szkolenia (markdown)", blank=True)
     program_pretty = TextField("Program szkolenia (enchanted)", blank=True)
+    program_short = TextField("Program szkolenia (krótki)", blank=True)
 
     # External
     external_name = CharField("Zewnętrzny dostawca - Nazwa", max_length=64, blank=True)
