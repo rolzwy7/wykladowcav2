@@ -1,3 +1,8 @@
+"""
+Inbox message
+"""
+
+# flake8: noqa=E501
 # pylint: disable=broad-exception-caught
 
 import hashlib
@@ -77,19 +82,73 @@ class InboxMessage:
 
         # Check if subject contains words indicating vacation
         phrases = [
-            "Nieobecność",
-            "Nieobecności",
+            "nieobecn",
             "urlop",
             "urlopie",
-            "Abwesenheit",
+            "abwesenheit",
             "przebywam na urlopie",
+            "nieczynne biuro",
         ]
         for phrase in phrases:
-            is_match = normalize_polish(phrase) in normalize_polish(self.subject_header)
-
-            if is_match:
+            if phrase.lower() in self.subject_header.lower():
                 return True
+        return False
 
+    def is_aggressor(self) -> bool:
+        """Detect if email is aggressor"""
+
+        # Check if subject contains words indicating vacation
+        phrases = ["kurw", "pierdol", "chuj"]
+        for phrase in phrases:
+            if any(
+                [
+                    phrase.lower() in self.subject_header.lower(),
+                    phrase.lower() in self.get_content().lower(),
+                ]
+            ):
+                return True
+        return False
+
+    def is_new_email(self) -> bool:
+        """Detect if email is a info about new email"""
+
+        # Check if subject contains words indicating vacation
+        phrases = [
+            "zmiana konta pocztowego",
+            "nowy mail",
+            "nowy email",
+            "nowy e-mail",
+            "nowe adres",
+            "nowy adres",
+        ]
+        for phrase in phrases:
+            if any(
+                [
+                    phrase.lower() in self.subject_header.lower(),
+                    phrase.lower() in self.get_content().lower(),
+                ]
+            ):
+                return True
+        return False
+
+    def is_reply(self) -> bool:
+        """Detect if email message is a reply"""
+
+        return "re:" in self.subject_header.lower()
+
+    def is_bounce_by_subject(self) -> bool:
+        """Check if email message's subject indicate bounce"""
+
+        phrases = [
+            "failure notice",
+            "undeliverable",
+            "undelivered",
+            "delivery failed",
+            "returned mail",
+        ]
+        for phrase in phrases:
+            if phrase.lower() in self.subject_header.lower():
+                return True
         return False
 
     def is_subject_resignation(self):

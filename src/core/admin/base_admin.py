@@ -2,6 +2,7 @@
 Base admin
 """
 from django.contrib import admin
+from django.contrib.admin import ModelAdmin, register
 
 from core.models import (
     CategoryTrustedUs,
@@ -19,6 +20,7 @@ from core.models import (
     LoyaltyProgramIncome,
     LoyaltyProgramPayout,
     MailingCampaign,
+    MailingReplyMessage,
     MailingTemplate,
     SmtpSender,
     User,
@@ -37,6 +39,32 @@ from core.models import (
     WebinarRecording,
     WebinarRecordingToken,
 )
+
+
+@register(MailingReplyMessage)
+class MailingReplyMessageModelAdmin(ModelAdmin):
+    """MailingReplyMessageModelAdmin"""
+
+    date_hierarchy = "created_at"
+
+    list_display = [
+        "from_email",
+        "checked",
+        "subject",
+        "is_aggressor",
+        "is_vacation",
+        "is_email_change",
+    ]
+
+    search_fields = ["from_email", "subject", "message_content"]
+
+    list_filter = [
+        "checked",
+        "is_aggressor",
+        "is_vacation",
+        "is_email_change",
+    ]
+
 
 admin.site.register(User)
 

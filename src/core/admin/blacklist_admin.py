@@ -4,30 +4,12 @@ Blacklist admin
 from django.contrib.admin import ModelAdmin, register
 
 from core.models.blacklist import (
-    BlacklistAggressor,
     BlacklistedDomain,
     BlacklistedEmail,
     BlacklistedEmailTemporary,
     BlacklistedPhrase,
     BlacklistedPrefix,
-    BlacklistPleading,
 )
-
-
-@register(BlacklistPleading)
-class BlacklistPleadingModelAdmin(ModelAdmin):
-    """BlacklistPleadingModelAdmin"""
-
-    search_fields = ["email"]
-    list_display = ["email", "created_at"]
-
-
-@register(BlacklistAggressor)
-class BlacklistAggressorModelAdmin(ModelAdmin):
-    """BlacklistAggressorModelAdmin"""
-
-    search_fields = ["email"]
-    list_display = ["email", "created_at"]
 
 
 @register(BlacklistedDomain)
@@ -43,7 +25,7 @@ class BlacklistedEmailModelAdmin(ModelAdmin):
     """BlacklistedEmailModelAdmin"""
 
     search_fields = ["email"]
-    list_display = ["email", "created_at"]
+    list_display = ["email", "reason", "created_at"]
 
 
 @register(BlacklistedEmailTemporary)

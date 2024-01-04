@@ -1,4 +1,17 @@
-from django.db.models import DateTimeField, EmailField, Manager, Model
+"""
+Blacklist e-mail model
+"""
+
+from django.db.models import (
+    CharField,
+    DateTimeField,
+    EmailField,
+    Manager,
+    Model,
+    TextField,
+)
+
+from core.models.enums import BLACKLIST_REASON_CHOICES, BlacklistReason
 
 
 class BlacklistedEmailManager(Manager):
@@ -16,6 +29,15 @@ class BlacklistedEmail(Model):
     updated_at = DateTimeField(auto_now=True)
 
     email = EmailField("Adres E-mail", primary_key=True)
+
+    reason = CharField(
+        "Powód blokowania",
+        choices=BLACKLIST_REASON_CHOICES,
+        max_length=32,
+        default=BlacklistReason.MANUAL,
+    )
+
+    message_content = TextField("Treść wiadomości e-mail", blank=True)
 
     class Meta:
         verbose_name = "Zablokowany e-mail"

@@ -1,6 +1,4 @@
 # flake8: noqa
-from .blacklist_aggressor_model import BlacklistAggressor
-from .blacklist_pleading_model import BlacklistPleading
 from .blacklisted_domain_model import BlacklistedDomain
 from .blacklisted_email_model import BlacklistedEmail
 from .blacklisted_email_temporary_model import BlacklistedEmailTemporary

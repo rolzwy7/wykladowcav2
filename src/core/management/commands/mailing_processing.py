@@ -22,6 +22,7 @@ from core.models import (
     MailingBounce,
     MailingBounceManager,
     MailingPoolManager,
+    MailingReplyMessage,
     SmtpSender,
 )
 from core.models.enums import MailingBounceStatus, MailingPoolStatus
@@ -77,7 +78,8 @@ def process_scan_inbox(smtp_sender: SmtpSender):
             cache_manager.insert_message_id_into_cache(inbox_message.unique_hash)
 
         # Detect permanent failures
-        for email in inbox_message.get_emails_permanent_failure():
+        permanent_failures = inbox_message.get_emails_permanent_failure()
+        for email in permanent_failures:
             print("Permanent failure:", email)
             bounces_list.append(
                 (
@@ -88,7 +90,8 @@ def process_scan_inbox(smtp_sender: SmtpSender):
             )
 
         # Detect temporary failures
-        for email in inbox_message.get_emails_temporary_failure():
+        temporary_failures = inbox_message.get_emails_temporary_failure()
+        for email in temporary_failures:
             print("Temporary failure:", email)
             bounces_list.append(
                 (
@@ -141,8 +144,27 @@ def process_scan_inbox(smtp_sender: SmtpSender):
                 resignation_manager.mark_confirmed_by_email(subject_email)
             resignation_manager.close()
 
-        # TODO: Detect aggressor
-        # TODO: Detect "Please don't spam me"
+        if all(
+            [
+                not MailingReplyMessage.manager.filter(
+                    email_id=inbox_message.unique_hash
+                ).exists(),
+                len(permanent_failures) == 0,
+                len(temporary_failures) == 0,
+                not inbox_message.is_bounce_by_subject(),
+            ]
+        ):
+            print("MailingReplyMessage:", inbox_message.subject_header)
+            MailingReplyMessage(
+                email_id=inbox_message.unique_hash,
+                from_email=inbox_message.from_email,
+                to_email=inbox_message.from_email,
+                is_aggressor=inbox_message.is_aggressor(),
+                is_vacation=inbox_message.is_vacation(),
+                is_email_change=inbox_message.is_new_email(),
+                subject=inbox_message.subject_header,
+                message_content=inbox_message.get_content(),
+            ).save()
 
     try:
         pop3.quit()
@@ -315,6 +337,12 @@ class Command(BaseCommand):
 
         while True:
             #
+            # Run inboxes scan every hour
+            if now() > next_inbox_scan_at:
+                next_inbox_scan_at = now() + timedelta(hours=1)
+                for sender in SmtpSender.objects.all():  # pylint: disable=no-member
+                    process_scan_inbox(sender)
+            #
             # Get active campaigns
             active_campaigns = MailingCampaign.manager.active_campaigns()
             active_campaigns_ids = []
@@ -331,12 +359,6 @@ class Command(BaseCommand):
             # Open managers
             pool_manager = MailingPoolManager()
             bounce_manager = MailingBounceManager()
-            #
-            # Run inboxes scan every hour
-            if now() > next_inbox_scan_at:
-                next_inbox_scan_at = now() + timedelta(hours=1)
-                for sender in SmtpSender.objects.all():  # pylint: disable=no-member
-                    process_scan_inbox(sender)
             #
             # Run at every loop
             for active_id in active_campaigns_ids:

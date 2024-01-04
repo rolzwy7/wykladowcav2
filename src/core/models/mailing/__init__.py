@@ -4,9 +4,7 @@ from .mailing_bounce_model import MailingBounce, MailingBounceManager
 from .mailing_campaign_model import MailingCampaign
 from .mailing_pool_model import MailingPool, MailingPoolManager
 from .mailing_processing_cache_model import MailingProcessingCacheManager
-from .mailing_resignation_model import (
-    MailingResignation,
-    MailingResignationManager,
-)
+from .mailing_reply_message_model import MailingReplyMessage
+from .mailing_resignation_model import MailingResignation, MailingResignationManager
 from .mailing_template_model import MailingTemplate
 from .smtp_sender_model import SmtpSender
