@@ -9,11 +9,11 @@ from django.db.models import (
     RESTRICT,
     BooleanField,
     CharField,
+    DateTimeField,
     ForeignKey,
     Manager,
     Model,
     PositiveSmallIntegerField,
-    Q,
     QuerySet,
     SlugField,
     TextField,
@@ -45,6 +45,9 @@ class WebinarCategory(Model):
     """Represents webinar's category"""
 
     manager = WebinarCategoryManager()
+
+    created_at = DateTimeField(auto_now_add=True)
+    updated_at = DateTimeField(auto_now=True)
 
     visible = BooleanField("Widoczna na stronie", default=True)
     name = CharField("Nazwa kategorii", max_length=100)

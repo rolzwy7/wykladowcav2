@@ -1,31 +1,97 @@
+"""
+Sitemaps
+"""
+
+# pylint: disable=missing-class-docstring
+# pylint: disable=missing-function-docstring
+# flake8: noqa=E501
+
 from django.contrib import sitemaps
 from django.contrib.sitemaps.views import sitemap
 from django.urls import path, reverse
 
-from core.models import Webinar
+from core.models import Lecturer, Webinar, WebinarCategory
+
+
+class HighPrioritySitemap(sitemaps.Sitemap):
+    priority = 1.0
+    changefreq = "weekly"
+
+    def items(self):
+        return [reverse("core:homepage")]
+
+    def location(self, item):
+        return item
+
+
+class LowPrioritySitemap(sitemaps.Sitemap):
+    priority = 0.3
+    changefreq = "weekly"
+
+    def items(self):
+        return [
+            reverse("core:login_page"),
+            reverse("core:contact_page"),
+            reverse("core:about_us_page"),
+            reverse("core:webmap_page"),
+            reverse("core:all_lecturers_list_page"),
+        ]
+
+    def location(self, item):
+        return item
 
 
 class WebinarSitemap(sitemaps.Sitemap):
-    """Webinar sitemap"""
-
-    priority = 0.6
-    changefreq = "daily"
+    priority = 0.8
+    changefreq = "weekly"
 
     def items(self):
         """Items"""
-        return Webinar.manager.all()
+        return Webinar.manager.get_visible_webinars()
 
     def location(self, item: Webinar):
-        """Location"""
         return reverse("core:webinar_program_page", kwargs={"slug": item.slug})
 
     def lastmod(self, item: Webinar):
-        """Last modified"""
+        return item.updated_at
+
+
+class LecturerSitemap(sitemaps.Sitemap):
+    priority = 0.6
+    changefreq = "weekly"
+
+    def items(self):
+        """Items"""
+        return Lecturer.manager.get_lecturers_visible_on_page()
+
+    def location(self, item: Lecturer):
+        return reverse("core:lecturer_experience_page", kwargs={"slug": item.slug})
+
+    def lastmod(self, item: Lecturer):
+        return item.updated_at
+
+
+class CategorySitemap(sitemaps.Sitemap):
+    priority = 0.6
+    changefreq = "weekly"
+
+    def items(self):
+        """Items"""
+        return WebinarCategory.manager.get_visible_categories()
+
+    def location(self, item: WebinarCategory):
+        return reverse("core:webinar_category_page", kwargs={"slug": item.slug})
+
+    def lastmod(self, item: WebinarCategory):
         return item.updated_at
 
 
 sitemaps = {
+    "homepage": HighPrioritySitemap,
     "webinar": WebinarSitemap,
+    "lecturer": LecturerSitemap,
+    "category": CategorySitemap,
+    "low_priority": LowPrioritySitemap,
 }
 
 sitemap_xml_path = path(

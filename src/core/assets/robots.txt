@@ -1,4 +1,5 @@
 User-agent: *
+Allow: /
 Disallow: /cgi-bin/
 Disallow: /cms/
 Disallow: /crm/
