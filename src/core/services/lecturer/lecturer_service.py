@@ -1,3 +1,5 @@
+# flake8: noqa=E501
+
 from django.urls import reverse
 
 from core.models import Lecturer, LecturerOpinion, Webinar
@@ -12,9 +14,11 @@ class LecturerService:
 
     def get_lecturer_webinars(self):
         """Get lecturer webinars"""
-        return Webinar.manager.get_active_webinars_for_lecturer(
-            self.lecturer_id
-        )
+        return Webinar.manager.get_active_webinars_for_lecturer(self.lecturer_id)
+
+    def get_lecturer_webinars_archived(self):
+        """Get lecturer webinars archived"""
+        return Webinar.manager.get_archived_webinars().filter(lecturer=self.lecturer_id)
 
     def get_lecturer_webinars_count(self):
         """Get count for lecturer webinars"""
@@ -22,9 +26,7 @@ class LecturerService:
 
     def get_lecturer_opinions(self):
         """Get opinions about lecturer"""
-        return LecturerOpinion.manager.get_visible_opinions_for_lecturer(
-            self.lecturer
-        )
+        return LecturerOpinion.manager.get_visible_opinions_for_lecturer(self.lecturer)
 
     def get_lecturer_opinions_count(self):
         """Get count for opinions about lecturer"""
@@ -56,9 +58,7 @@ class LecturerService:
                 "ki-price-tag",
             ),
         ]
-        _tab_index = (
-            tab_index if all([tab_index >= 0, tab_index < len(tabs)]) else 0
-        )
+        _tab_index = tab_index if all([tab_index >= 0, tab_index < len(tabs)]) else 0
         return [
             (
                 title,  # tab title

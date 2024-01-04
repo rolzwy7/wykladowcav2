@@ -1,3 +1,5 @@
+# flake8: noqa=E501
+
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 
@@ -18,5 +20,6 @@ def lecturer_webinars_page(request, slug: str):
             "lecturer": lecturer,
             "tabs": lecturer_service.get_lecturer_tabs(1),
             "webinars": lecturer_service.get_lecturer_webinars(),
+            "archived_webinars": lecturer_service.get_lecturer_webinars_archived(),
         },
     )
