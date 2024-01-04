@@ -17,10 +17,10 @@ def robots_page(request: HttpRequest):
     sitemap_url = f"{BASE_URL}/sitemap.xml"
 
     # Add sitemap url
-    content += f"Sitemap: {sitemap_url}\n".encode()
+    content += f"\nSitemap: {sitemap_url}\n".encode()
 
     # Prevent indexing in staging environment
     if settings.APP_ENV in ["develop", "staging"]:
-        content += b"X-Robots-Tag: noindex\n"
+        content += b"\nX-Robots-Tag: noindex\n"
 
     return HttpResponse(content, content_type="text/plain")

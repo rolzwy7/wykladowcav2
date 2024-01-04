@@ -59,6 +59,10 @@ class WebinarManager(Manager):
             Q(status__in=[WebinarStatus.DONE, WebinarStatus.CANCELED])
         )
 
+    def get_visible_webinars(self) -> QuerySet["Webinar"]:
+        """Get visible webinars"""
+        return self.get_queryset().filter(is_hidden=False)
+
     def get_active_webinars(self) -> QuerySet["Webinar"]:
         """Returns active webinars
 

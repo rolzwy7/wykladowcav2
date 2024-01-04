@@ -5,6 +5,7 @@ from django.db.models import (
     CASCADE,
     BooleanField,
     CharField,
+    DateTimeField,
     EmailField,
     ImageField,
     Manager,
@@ -42,6 +43,9 @@ class Lecturer(Model):
     """This model represents Lecturer"""
 
     manager = LecturerManager()
+
+    created_at = DateTimeField(auto_now_add=True)
+    updated_at = DateTimeField(auto_now=True)
 
     visible_on_page = BooleanField(
         "Widoczny na stronie",
