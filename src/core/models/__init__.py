@@ -33,6 +33,7 @@ from .mailing import (
     MailingCampaign,
     MailingPool,
     MailingPoolManager,
+    MailingReplyMessage,
     MailingTemplate,
     SmtpSender,
 )

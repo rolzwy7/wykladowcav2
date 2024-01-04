@@ -11,7 +11,6 @@ from django.utils.timezone import now, timedelta
 
 from core.consts import DANGEROUSE_PHRASES
 from core.models.blacklist import (
-    BlacklistAggressor,
     BlacklistedDomain,
     BlacklistedEmail,
     BlacklistedEmailTemporary,
@@ -93,16 +92,6 @@ class BlacklistService:
     def blacklist_prefix(prefix: str) -> None:
         """Blacklist prefix"""
         BlacklistedPrefix.manager.get_or_create(prefix=prefix.lower())
-
-    @staticmethod
-    def is_email_aggressor(email: str):
-        """Check if email is an aggressor"""
-        return BlacklistAggressor.manager.filter(email=email.lower()).exists()
-
-    @staticmethod
-    def blacklist_aggressor(email: str):
-        """Blacklist aggressor"""
-        return BlacklistAggressor.manager.get_or_create(email=email.lower())
 
     @staticmethod
     def try_to_blacklist_line(line: str) -> tuple[bool, str]:

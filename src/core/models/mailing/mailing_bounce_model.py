@@ -1,4 +1,3 @@
-from django.conf import settings
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
 from pymongo import UpdateOne
 
