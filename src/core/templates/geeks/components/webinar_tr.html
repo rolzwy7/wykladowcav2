@@ -21,7 +21,11 @@
         </a>
       </div>
       {% endif %}
+      {% if show_image and webinar.lecturer.avatar %}
       <div class="ms-3">
+      {% else %}
+      <div>
+      {% endif %}
         {% if webinar.description %}
         <h4 class="mb-1 h4">
           <a

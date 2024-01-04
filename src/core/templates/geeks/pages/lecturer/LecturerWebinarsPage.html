@@ -4,30 +4,37 @@
 
 {% block content %}
 <div class="card mb-4">
-    <!-- Card header -->
+    {% comment %} <!-- Card header -->
     <div class="card-header">
         <h3 class="mb-0">Szkolenia</h3>
         <span>
             {{lecturer.fullname}}
         </span>
     </div>
-    <!-- Card body -->
+    <!-- Card body --> {% endcomment %}
     <div class="card-body">
         <!-- Table -->
         <div class="table-responsive overflow-y-hidden">
-        <table
-            class="table mb-0 text-nowrap table-hover table-centered text-nowrap"
-            >
-            <thead class="table-light">
-                <tr>
-                    <th scope="col">Szkolenia</th>
-                    <th scope="col">Data / Cena</th>
-                </tr>
-            </thead>
+        <table class="table mb-0 text-nowrap table-hover table-centered text-nowrap">
             <tbody>
+                <tr>
+                    <td>
+                       <h3>Szkolenia aktualne</h3>
+                    </td>
+                 </tr>
                 {% for webinar in webinars %}
                 {% include 'geeks/components/webinar_tr.html' with webinar=webinar  %}
                 {% endfor %}
+                {% if archived_webinars %}
+                    <tr>
+                        <td>
+                        <h3>Szkolenia archiwalne</h3>
+                        </td>
+                    </tr>
+                    {% for webinar in archived_webinars %}
+                        {% include 'geeks/components/webinar_tr.html' with webinar=webinar  %}
+                    {% endfor %}
+                {% endif %}
             </tbody>
         </table>
         </div>
