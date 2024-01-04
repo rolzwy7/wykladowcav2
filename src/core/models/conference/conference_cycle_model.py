@@ -45,6 +45,8 @@ class ConferenceCycle(Model):
 
     categories = ManyToManyField("WebinarCategory", verbose_name="Kategorie")
 
+    facebook_image_url = CharField("Facebook image", max_length=250, blank=True)
+
     class Meta:
         verbose_name = "Konferencja (cykl)"
         verbose_name_plural = "Konferencje (cykl)"
