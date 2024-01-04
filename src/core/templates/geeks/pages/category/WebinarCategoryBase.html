@@ -2,6 +2,10 @@
 
 {% load static %}
 
+{% block meta %}
+<link rel="canonical" href="{{META__BASE_URL}}{{request.path}}" />
+{% endblock meta %}
+
 {% block root %}
 <main>
   <!-- Bg cover -->

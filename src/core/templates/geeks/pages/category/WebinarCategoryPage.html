@@ -186,16 +186,34 @@
                                      <table
                                         class="table mb-0 text-nowrap table-hover table-centered text-nowrap"
                                         >
-                                        <thead class="table-light">
+                                        {% comment %} <thead class="table-light">
                                            <tr>
                                               <th class="bg-white" scope="col">Szkolenie</th>
                                               <th class="bg-white" scope="col">Data / Cena</th>
                                            </tr>
-                                        </thead>
+                                        </thead> {% endcomment %}
                                         <tbody>
+                                          <tr>
+                                             <td>
+                                                <h2>Szkolenia aktualne</h2>
+                                             </td>
+                                          </tr>
                                            {% for webinar in webinars %}
                                              {% include 'geeks/components/webinar_tr.html' with webinar=webinar show_image=1 %}
                                            {% endfor %}
+
+                                           {% if archived_webinars %}
+                                             <tr>
+                                                <td>
+                                                   <h2>Szkolenia archiwalne</h2>
+                                                </td>
+                                             </tr>
+                                             {% for webinar in archived_webinars %}
+                                                {% include 'geeks/components/webinar_tr.html' with webinar=webinar show_image=0 %}
+                                             {% endfor %}
+                                         {% endif %}
+
+
                                         </tbody>
                                      </table>
                                   </div>
@@ -217,7 +235,6 @@
                                     </p>
                                     </div>
                                   {% endif %}
-
 
                                </div>
                             </div>

@@ -79,6 +79,18 @@ class WebinarManager(Manager):
             .order_by("date")
         )
 
+    def get_archived_webinars(self) -> QuerySet["Webinar"]:
+        """Returns archived webinars
+
+        Returns:
+            QuerySet['Webinar']: queryset of webinars
+        """
+        return (
+            self.get_done_or_canceled_webinars()
+            .filter(is_hidden=False)
+            .order_by("date")
+        )
+
     def get_active_webinars_for_category_slugs(
         self, slugs: list[str]
     ) -> QuerySet["Webinar"]:
@@ -89,6 +101,25 @@ class WebinarManager(Manager):
         """
         return (
             self.get_active_webinars()
+            .filter(
+                # Parent's slug
+                Q(categories__slug__in=slugs)
+                # Grandparent's slug
+                | Q(categories__parent__slug__in=slugs)
+            )
+            .distinct()
+        )
+
+    def get_archived_webinars_for_category_slugs(
+        self, slugs: list[str]
+    ) -> QuerySet["Webinar"]:
+        """Returns archived webinars for given category slugs
+
+        Returns:
+            QuerySet['Webinar']: queryset of webinars
+        """
+        return (
+            self.get_archived_webinars()
             .filter(
                 # Parent's slug
                 Q(categories__slug__in=slugs)
