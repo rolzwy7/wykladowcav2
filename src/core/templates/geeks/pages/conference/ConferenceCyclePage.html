@@ -8,7 +8,16 @@
       <title>{{COMPANY_NAME}}</title>
 {% endblock title %}
 
-{% block meta %}{% endblock meta %}
+{% block meta %}
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:url" content="{{META__BASE_URL}}{% url "core:conference_cycle_page" slug_cycle=cycle.slug %}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{cycle.name}}" />
+    <meta property="og:description" content="{{cycle.short_description}}" />
+    {% if cycle.facebook_image_url %}
+    <meta property="og:image" content="{{cycle.facebook_image_url}}" />
+    {% endif %}
+{% endblock meta %}
 
 {% block body_scripts %}{% endblock body_scripts %}
 
