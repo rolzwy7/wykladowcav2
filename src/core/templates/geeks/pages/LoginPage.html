@@ -4,6 +4,10 @@
 {% block navbar %}{% endblock navbar %}
 {% block footer %}{% endblock footer %}
 
+{% block meta %}
+<link rel="canonical" href="{{META__BASE_URL}}{% url "core:login_page" %}" />
+{% endblock meta %}
+
 {% block root %}
 <main>
   <section class="container d-flex flex-column">
