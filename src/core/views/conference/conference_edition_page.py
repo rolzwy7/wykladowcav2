@@ -61,6 +61,7 @@ def conference_edition_page(request: HttpRequest, slug_cycle: str, slug_edition:
         main_lecturer = None
         main_title = None
         is_complex_schedule = False
+        first_schedule = None  # type: ignore
 
     has_started = now() > edition.date_from
 
@@ -101,5 +102,6 @@ def conference_edition_page(request: HttpRequest, slug_cycle: str, slug_edition:
             "main_title": main_title,
             "main_lecturer": main_lecturer,
             "has_started": has_started,
+            "first_schedule": first_schedule,
         },
     )
