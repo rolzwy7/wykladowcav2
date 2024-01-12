@@ -14,5 +14,9 @@ def lecturer_experience_page(request, slug: str):
     return TemplateResponse(
         request,
         template_name,
-        {"lecturer": lecturer, "tabs": service.get_lecturer_tabs(0)},
+        {
+            "lecturer": lecturer,
+            "tabs": service.get_lecturer_tabs(0),
+            "nearest_webinar": service.get_lecturer_nearest_webinar(),
+        },
     )

@@ -35,15 +35,21 @@ def webinar_category_page(request, slug: str):
         if parent:
             page_title = f"{parent.name} > {category.name}"
             menu_categories = WebinarCategory.manager.get_subcategories(parent)
+            archived_webinars = (
+                Webinar.manager.get_archived_webinars_for_category_slugs([slug])
+            )
+            webinars = Webinar.manager.get_active_webinars_for_category_slugs([slug])
         else:
             page_title = category.name
             menu_categories = WebinarCategory.manager.get_subcategories(category)
-        archived_webinars = Webinar.manager.get_archived_webinars_for_category_slugs(
-            [slug, *[_.slug for _ in menu_categories]]
-        )
-        webinars = Webinar.manager.get_active_webinars_for_category_slugs(
-            [slug, *[_.slug for _ in menu_categories]]
-        )
+            archived_webinars = (
+                Webinar.manager.get_archived_webinars_for_category_slugs(
+                    [slug, *[_.slug for _ in menu_categories]]
+                )
+            )
+            webinars = Webinar.manager.get_active_webinars_for_category_slugs(
+                [slug, *[_.slug for _ in menu_categories]]
+            )
 
     return TemplateResponse(
         request,

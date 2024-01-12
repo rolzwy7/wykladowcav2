@@ -1,6 +1,14 @@
 # flake8: noqa
 
-from django.db.models import RESTRICT, CharField, EmailField, ForeignKey, Manager, Model
+from django.db.models import (
+    RESTRICT,
+    BooleanField,
+    CharField,
+    EmailField,
+    ForeignKey,
+    Manager,
+    Model,
+)
 
 # TODO: finish this
 
@@ -71,6 +79,8 @@ class ConferenceFreeParticipant(Model):
         max_length=10,
         choices=USING_CLOSED_WEBINARS,
     )
+
+    consent = BooleanField("Zgody marketingowe", default=False)
 
     class Meta:
         verbose_name = "Konferencja (darmowy uczestnik)"

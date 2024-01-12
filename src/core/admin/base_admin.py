@@ -6,10 +6,6 @@ from django.contrib.admin import ModelAdmin, register
 
 from core.models import (
     CategoryTrustedUs,
-    ConferenceCycle,
-    ConferenceEdition,
-    ConferenceFreeParticipant,
-    ConferenceSchedule,
     ContactMessage,
     CrmCompany,
     CrmContact,
@@ -67,11 +63,6 @@ class MailingReplyMessageModelAdmin(ModelAdmin):
 
 
 admin.site.register(User)
-
-admin.site.register(ConferenceEdition)
-admin.site.register(ConferenceCycle)
-admin.site.register(ConferenceSchedule)
-admin.site.register(ConferenceFreeParticipant)
 
 admin.site.register(ContactMessage)
 

@@ -1,5 +1,10 @@
+"""
+Conference cycle model
+"""
+
 # flake8: noqa=E501
 # pylint: disable=line-too-long
+# pylint: disable=missing-class-docstring
 
 from django.db.models import (
     CharField,

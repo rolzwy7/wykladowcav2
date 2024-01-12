@@ -17,14 +17,25 @@
         <div class="table-responsive overflow-y-hidden">
         <table class="table mb-0 text-nowrap table-hover table-centered text-nowrap">
             <tbody>
-                <tr>
-                    <td>
-                       <h3>Szkolenia aktualne</h3>
-                    </td>
-                 </tr>
-                {% for webinar in webinars %}
-                {% include 'geeks/components/webinar_tr.html' with webinar=webinar  %}
-                {% endfor %}
+                {% if webinars %}
+                    <tr>
+                        <td>
+                        <h3>Szkolenia aktualne</h3>
+                        </td>
+                    </tr>
+                    {% for webinar in webinars %}
+                        {% include 'geeks/components/webinar_tr.html' with webinar=webinar  %}
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td>
+                        <h3>
+                            Na chwilę obecną nie prowadzimy szkoleń z tym wykładowcą
+                        </h3>
+                        </td>
+                    </tr>
+                {% endif %}
+
                 {% if archived_webinars %}
                     <tr>
                         <td>
