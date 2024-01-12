@@ -19,6 +19,11 @@
                <div class="mb-8 text-center">
                   <h2 class="mb-2 display-2 fw-bold">
                      Bezpłatne szkolenie
+                     {% if request.user.is_staff %}
+                        <a href="{% url "admin:core_conferenceedition_change"	object_id=edition.id %}">
+                           <i class="bi bi-pencil-square"></i>
+                        </a>
+                     {% endif %}
                   </h2>
                   <h1 class="mb-2 display-4 fw-bold">
                      {{edition.name}}
@@ -28,20 +33,38 @@
 
             <div class="col-lg-12 col-md-12 col-12">
                {% comment %} <div class="py-lg-10 py-7 bg-gray-200" style="background: url({% static "geeks/assets/images/background/course-graphics.svg" %})no-repeat; background-size: cover; background-position: top center"> {% endcomment %}
-               <div class="py-lg-10 py-7 rounded bg-light-primary">
+               <div class="py-lg-10 py-7 rounded {% if status == "INIT" %}bg-light-primary{% elif status == "IN_PROGRESS" %}bg-light-success{% elif status == "DONE" %}bg-light-danger{% endif %}">
                   <div class="container">
                      <!-- row -->
                      <div class="row justify-content-center text-center">
                         <div class="col-md-9 col-12">
                            <!-- heading -->
-                           <h2 class="display-4 fw-bold text-dark">Zapisz się teraz!</h2>
+                           {% if status == "INIT" %}
+                              <h2 class="display-4 fw-bold text-dark">Zapisz się teraz!</h2>
+                           {% elif status == "IN_PROGRESS" %}
+                              <h2 class="display-4 fw-bold text-dark">Szkolenie trwa w tej chwili</h2>
+                           {% elif status == "DONE" %}
+                              <h2 class="display-4 fw-bold text-dark">Nie zdążyłeś na szkolenie? Nic straconego!</h2>
+                              <p class="lead px-lg-4 fw-bold text-dark">
+                                 Szkolenia organizowane są przez nas każdego miesiąca. <br>
+                                 <a href="{% url "core:conference_cycle_page" slug_cycle=cycle.slug %}">
+                                    <u>kliknij tutaj i przejdź do strony cyklu szkoleń</u>
+                                 </a>
+                              </p>
+                           {% endif %}
                            <p class="lead px-lg-4 fw-bold text-dark">Temat darmowego szkolenia</p>
                            <h2 class="display-4 mb-6 fw-bold text-primary">{{main_title}}</h2>
                            <p class="text-dark">
                                <i class="bi bi-calendar3"></i> {{edition.date_from|date:"j E Y"}}
                                <i class="bi bi-stopwatch"></i> Godzina od {{edition.date_from|date:"H:i"}} do {{edition.date_to|date:"H:i"}}
-                               <i class="bi bi-person"></i> {{main_lecturer|default:"Brak wykł"}}
+                               {% if lecturers %}
+                                 <br>
+                                 {% for lecturer in lecturers %}
+                                 <i class="bi bi-person"></i> {{lecturer}}
+                                 {% endfor %}
+                               {% endif %}
                            </p>
+                           {% if status == "INIT" %}
                            <div class="d-flex justify-content-center text-dark">
                               <div class="bg-white rounded me-4" style="width:110px;height:110px;">
                                  <div class="d-flex flex-column text-center pt-2">
@@ -68,6 +91,7 @@
                                  </div>
                               </div>
                            </div>
+                           {% endif %}
                            {% comment %} <!-- button -->
                            <div class="d-grid d-md-block">
                               <a href="#" class="btn btn-primary mb-2 mb-md-0">Zapisz się już dziś</a>
@@ -79,69 +103,118 @@
                </div>
             </div>
 
-            <div class="col-lg-6 col-md-12 col-12 mt-5">
+            <div class="col-lg-12 col-md-12 col-12 mt-5">
                <div class="card border mb-4">
                   <!-- card body  -->
                   <div class="card-body p-5">
                      <div class="mb-5">
-                        <h2 class="fw-semibold">Program szkolenia</h2>
+                        <h2 class="fw-semibold">Harmonogram wydarzenia</h2>
                      </div>
-                     {{first_schedule.html|safe}}
+
+                     <table class="table">
+                        <thead>
+                           <tr>
+                             <th scope="col">Godziny</th>
+                             <th scope="col">Program</th>
+                           </tr>
+                         </thead>
+                        <tbody>
+                           {% for sch in schedule %}
+                           <tr>
+                              {% if request.user.is_staff %}
+                                 <th scope="row">
+                                    <a href="{% url "admin:core_conferenceschedule_change" object_id=sch.id %}">
+                                       od {{sch.hour_from}} do {{sch.hour_to}}
+                                    </a>
+                                 </th>
+                              {% else %}
+                                 <th scope="row">od {{sch.hour_from}} do {{sch.hour_to}}</th>
+                              {% endif %}
+                              <td>
+                                 <p>
+                                    <b>{{sch.title}}</b>
+                                 </p>
+                                 {% if sch.short_description %}
+                                 <p>
+                                    {{sch.short_description}}
+                                 </p>
+                                 {% endif %}
+                                 {% if sch.lecturer %}
+                                 <p>
+                                    Wykładowca: {{sch.lecturer}}
+                                 </p>
+                                 {% endif %}
+
+                                 {{sch.html|safe}}
+                              </td>
+                           </tr>
+                           {% endfor %}
+                        </tbody>
+                     </table>
+
                   </div>
                </div>
             </div>
 
-            <div class="col-lg-6 col-md-12 col-12 mt-5">
-               <h4 class="mt-4 mb-6 fw-bold display-4 text-center">
-                  Wypełnij poniższy formularz
-               </h4>
+            {% if status == "INIT" or status == "IN_PROGRESS" %}
+               <div class="col-lg-8 col-md-12 col-12 mt-5">
+                  <h4 class="mt-4 mb-6 fw-bold display-4 text-center">
+                     Wypełnij poniższy formularz, aby dołączyć do wydarzenia
+                  </h4>
 
 
-               <form class="row" method="post" action="{% url "core:conference_edition_page" slug_cycle=edition.cycle.slug slug_edition=edition.slug %}">
-                  {% csrf_token %}
-                  <div class="mb-3 col-12 col-md-6">
-                    <label class="form-label" for="id_first_name">Imię</label>
-                     {{form.first_name}}
-                  </div>
-                  <div class="mb-3 col-12 col-md-6">
-                    <label class="form-label" for="id_last_name">Nazwisko</label>
-                    {{form.last_name}}
-                  </div>
-                  <div class="mb-3 col-12 col-md-6">
-                    <label class="form-label" for="id_email">Adres E-mail</label>
-                    {{form.email}}
-                  </div>
-           
-                  <div class="mb-3 col-12 col-md-6">
-                    <label class="form-label" for="id_phone">Numer telefonu</label>
-                    {{form.phone}}
-                  </div>
-                  <div class="mb-3 col-12 col-md-6">
-                    <label class="form-label" for="id_voivodeship">Województwo</label>
-                    {{form.voivodeship}}
-                  </div>
-                  <div class="mb-3 col-12 col-md-6">
-                    <label class="form-label" for="id_know_from">Skąd dowiedziałeś się o szkoleniu?</label>
-                    {{form.know_from}}
-                  </div>
-                  <div class="mb-3 col-12 col-md-12">
-                     <label class="form-label" for="id_using_closed_webinars">Czy korzystasz ze szkoleń zamkniętych w swojej firmie lub jednostce?</label>
-                     {{form.using_closed_webinars}}
-                   </div>
-                  <div class="d-flex justify-content-center">
-                     <div>
-                        <input type="submit" class="btn btn-lg btn-primary mt-2" value="Prześlij zgłoszenie">
+                  <form class="row" method="post" action="{% url "core:conference_edition_page" slug_cycle=edition.cycle.slug slug_edition=edition.slug %}">
+                     {% csrf_token %}
+                     <div class="mb-3 col-12 col-md-6">
+                     <label class="form-label" for="id_first_name">Imię</label>
+                        {{form.first_name}}
                      </div>
-                  </div>
-                  <p class="mt-10 text-muted">
-                     <i>
-                        Przesyłając zgłoszenie na szkolenie, zgadzam się na zapisanie mnie do newslettera, co oznacza wyrażenie przeze mnie zgody na otrzymywanie drogą elektroniczną na mój adres e-mail wiadomości z informacjami o usługach {{COMPANY_NAME}}.
-                     </i>
-                  </p>
-                </form>
+                     <div class="mb-3 col-12 col-md-6">
+                     <label class="form-label" for="id_last_name">Nazwisko</label>
+                     {{form.last_name}}
+                     </div>
+                     <div class="mb-3 col-12 col-md-6">
+                     <label class="form-label" for="id_email">Adres E-mail</label>
+                     {{form.email}}
+                     </div>
+            
+                     <div class="mb-3 col-12 col-md-6">
+                     <label class="form-label" for="id_phone">Numer telefonu</label>
+                     {{form.phone}}
+                     </div>
+                     <div class="mb-3 col-12 col-md-6">
+                     <label class="form-label" for="id_voivodeship">Województwo</label>
+                     {{form.voivodeship}}
+                     </div>
+                     <div class="mb-3 col-12 col-md-6">
+                     <label class="form-label" for="id_know_from">Skąd dowiedziałeś się o szkoleniu?</label>
+                     {{form.know_from}}
+                     </div>
+                     <div class="mb-3 col-12 col-md-12">
+                        <label class="form-label" for="id_using_closed_webinars">Czy korzystasz ze szkoleń zamkniętych w swojej firmie lub jednostce?</label>
+                        {{form.using_closed_webinars}}
+                     </div>
+                     <div class="mb-3 col-12 col-md-12">
+                        <div class="form-check">
+                           {{form.consent}}
+                           <label class="form-check-label" for="id_consent">
+                              <b>
+                                 <b class="text-danger">[Zgody marketingowe]</b>
+                                 Chcę zapisać się na bezpłatny webinar oraz do newslettera, wyrażam też zgodę na otrzymywanie na podany adres e-mail wiadomości z informacją o nowościach, promocjach, produktach i usługach Wykładowca.pl.
+                              </b>
+                           </label>
+                         </div>
+                     </div>
+                     <div class="d-flex justify-content-center">
+                        <div>
+                           <input disabled id="submit-btn" type="submit" class="btn btn-lg btn-primary mt-2" value="Zaakceptuj najpierw zgody marketingowe, aby przesłać zgłoszenie">
+                        </div>
+                     </div>
+                  </form>
 
-               
-            </div>
+                  
+               </div>
+            {% endif %}
 
          </div>
       </div>
@@ -151,6 +224,20 @@
 
 
 {% block body_scripts %}
+<script>
+   var checkInput = document.querySelector("#id_consent");
+   checkInput.addEventListener("click", function(e) {
+       let btn = document.querySelector("#submit-btn");
+       if(btn.disabled) {
+           btn.disabled = false;
+           btn.value = "Prześlij zgłoszenie";
+       } else {
+           btn.disabled = true;
+           btn.value = "Zaakceptuj najpierw zgody marketingowe, aby przesłać zgłoszenie";
+       }
+   })
+</script>
+{% if status == "INIT" %}
 <script src="{% static 'js/countdown.min.js' %}"></script>
 <script>
    (function() {
@@ -166,4 +253,5 @@
     countdown.DAYS|countdown.HOURS|countdown.MINUTES|countdown.SECONDS);
    })();
 </script>
+{% endif %}
 {% endblock body_scripts %}

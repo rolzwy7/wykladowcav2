@@ -22,17 +22,26 @@
     </div>
     <!-- Card body -->
     <div class="card-body">
-        {% if opinions_breakdown %}
-            {% include 'geeks/components/rating_breakdown.html' with opinions_breakdown=opinions_breakdown %}
-        {% endif %}
-        
-        <hr class="my-5">
-        
-        {% for opinion in opinions_page %}
-            {% include 'geeks/components/opinion.html' with opinion=opinion %}
-        {% endfor %}
+        {% if opinions_page %}
+            {% if opinions_breakdown %}
+                {% include 'geeks/components/rating_breakdown.html' with opinions_breakdown=opinions_breakdown %}
+            {% endif %}
+            
+            <hr class="my-5">
+            
+            {% for opinion in opinions_page %}
+                {% include 'geeks/components/opinion.html' with opinion=opinion %}
+            {% endfor %}
 
-        {% include 'geeks/components/pagination.html' with page_obj=opinions_page %}
+            {% include 'geeks/components/pagination.html' with page_obj=opinions_page %}
+        {% else %}
+            <h3>
+                Bądź pierwszym, który wystawi opinię temu wykładowcy!
+                <a href="{% url "core:lecturer_opinion_form_page" slug=lecturer.slug %}">
+                    <b>Kliknij tutaj</b>
+                </a> 
+            </h3>
+        {% endif %}
     </div>
 </div>
 {% endblock content %}

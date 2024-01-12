@@ -1,3 +1,7 @@
+"""
+Conference edition model
+"""
+
 # flake8: noqa
 
 from django.db.models import (
@@ -6,18 +10,26 @@ from django.db.models import (
     DateTimeField,
     ForeignKey,
     Manager,
+    ManyToManyField,
     Model,
+    QuerySet,
     SlugField,
     TextField,
 )
 
 from core.utils.text import slugify
 
+from .conference_cycle_model import ConferenceCycle
+
 
 class ConferenceEditionManager(Manager):
     """ConferenceEditionManager"""
 
-    ...
+    def get_active_editions_for_cycle(
+        self, cycle: ConferenceCycle
+    ) -> QuerySet["ConferenceEdition"]:
+        """Get visible categories"""
+        return self.get_queryset().filter(cycle=cycle)
 
 
 class ConferenceEdition(Model):
@@ -26,6 +38,8 @@ class ConferenceEdition(Model):
     manager = ConferenceEditionManager()
 
     name = CharField("Nazwa edycji", max_length=230)
+
+    title = CharField("Tytuł edycji", max_length=230, blank=True)
 
     slug = SlugField(
         "Skrót URL",
@@ -46,6 +60,8 @@ class ConferenceEdition(Model):
         null=True,
         blank=True,
     )
+
+    categories = ManyToManyField("WebinarCategory", verbose_name="Kategorie")
 
     date_from = DateTimeField("Data i Godzina (start)")
     date_to = DateTimeField("Data i Godzina (stop)")

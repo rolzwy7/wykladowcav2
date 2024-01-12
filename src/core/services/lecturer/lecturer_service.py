@@ -32,6 +32,14 @@ class LecturerService:
         """Get count for opinions about lecturer"""
         return self.get_lecturer_opinions().count()
 
+    def get_lecturer_nearest_webinar(self):
+        """Get nearest webinar for this lecturer"""
+        return (
+            Webinar.manager.get_active_webinars_for_lecturer(self.lecturer_id)
+            .order_by("date")
+            .first()
+        )
+
     def get_lecturer_tabs(self, tab_index: int):
         """Returns structure of lecturer tabs
 

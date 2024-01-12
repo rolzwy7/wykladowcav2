@@ -1,9 +1,10 @@
 # flake8: noqa=E501
 
-from django.forms import ModelForm, Select, TextInput
-from django.http import HttpRequest
+from django.forms import CheckboxInput, ModelForm, Select, TextInput
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
+from django.urls import reverse
 from django.utils.timezone import now
 
 from core.consts.requests_consts import POST
@@ -12,6 +13,7 @@ from core.models import (
     ConferenceEdition,
     ConferenceFreeParticipant,
     ConferenceSchedule,
+    Webinar,
 )
 from core.models.enums import LeadSource
 from core.services.lead_service import LeadService
@@ -31,6 +33,7 @@ class ConferenceFreeParticipantModelForm(ModelForm):
             "email",
             "know_from",
             "using_closed_webinars",
+            "consent",
         ]
 
         widgets = {
@@ -41,6 +44,7 @@ class ConferenceFreeParticipantModelForm(ModelForm):
             "email": TextInput(attrs={"class": "form-control"}),
             "know_from": Select(attrs={"class": "form-control"}),
             "using_closed_webinars": Select(attrs={"class": "form-control"}),
+            "consent": CheckboxInput(attrs={"class": "form-check-input"}),
         }
 
 
@@ -51,19 +55,24 @@ def conference_edition_page(request: HttpRequest, slug_cycle: str, slug_edition:
     edition = get_object_or_404(ConferenceEdition, slug=slug_edition)
     schedule = ConferenceSchedule.manager.filter(edition=edition).order_by("hour_from")
 
-    # Prepare data
-    if schedule.exists():
-        is_complex_schedule = schedule.count() > 1
-        first_schedule: ConferenceSchedule = schedule.first()  # type: ignore
-        main_lecturer = first_schedule.lecturer
-        main_title = first_schedule.title
-    else:
-        main_lecturer = None
-        main_title = None
-        is_complex_schedule = False
-        first_schedule = None  # type: ignore
-
     has_started = now() > edition.date_from
+
+    # Determine status
+    if now() < edition.date_from:
+        status = "INIT"
+    elif now() >= edition.date_from and now() <= edition.date_to:
+        status = "IN_PROGRESS"
+    else:
+        status = "DONE"
+
+    # Return error if schedule not set
+    if not schedule.exists():
+        return HttpResponse("Harmonogram nie został dodany")
+
+    # Prepare data
+    first_schedule: ConferenceSchedule = schedule.first()  # type: ignore
+    lecturers = [sch.lecturer for sch in schedule if sch.lecturer]
+    # TODO: is_complex_schedule = schedule.count() > 1
 
     # Handle form submission
     if request.method == POST:
@@ -78,15 +87,28 @@ def conference_edition_page(request: HttpRequest, slug_cycle: str, slug_edition:
                 participant.email,
                 LeadSource.CONFERENCE_FREE,
                 request=request,
-                categories=[_ for _ in cycle.categories.all()],
+                categories=[
+                    *[_ for _ in cycle.categories.all()],
+                    *[_ for _ in edition.categories.all()],
+                ],
             )
             LeadService.apply_basic_data(
                 lead, participant.first_name, participant.last_name, participant.phone
             )
+
             # Perform tasks
             after_free_conference_participant_singup(cycle, edition, participant)
-            # TODO: Redirect to `thank you` page, spam warning
-            return redirect("/")
+
+            # Redirect to `thank you` page
+            return redirect(
+                reverse(
+                    "core:conference_edition_thanks_page",
+                    kwargs={
+                        "slug_cycle": cycle.slug,
+                        "slug_edition": edition.slug,
+                    },
+                )
+            )
     else:
         form = ConferenceFreeParticipantModelForm()
 
@@ -94,14 +116,41 @@ def conference_edition_page(request: HttpRequest, slug_cycle: str, slug_edition:
         request,
         template_name,
         {
+            "status": status,
+            "main_title": edition.title if edition.title else first_schedule.title,
             "cycle": cycle,
             "edition": edition,
             "schedule": schedule,
             "form": form,
-            "is_complex_schedule": is_complex_schedule,
-            "main_title": main_title,
-            "main_lecturer": main_lecturer,
+            # "is_complex_schedule": is_complex_schedule,
+            "lecturers": lecturers,
             "has_started": has_started,
             "first_schedule": first_schedule,
+        },
+    )
+
+
+def conference_edition_thanks_page(
+    request: HttpRequest, slug_cycle: str, slug_edition: str
+):
+    """Conference edition thanks page"""
+    template_name = "geeks/pages/conference/ConferenceEditionThanksPage.html"
+    cycle = get_object_or_404(ConferenceCycle, slug=slug_cycle)
+    edition = get_object_or_404(ConferenceEdition, slug=slug_edition)
+
+    webinars = Webinar.manager.get_active_webinars_for_category_slugs(
+        [
+            *[_.slug for _ in edition.categories.all()],
+            *[_.slug for _ in cycle.categories.all()],
+        ]
+    )
+
+    return TemplateResponse(
+        request,
+        template_name,
+        {
+            "cycle": cycle,
+            "edition": edition,
+            "webinars": webinars,
         },
     )
