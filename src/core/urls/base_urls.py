@@ -15,6 +15,7 @@ from core.views import (
     webmap_page,
 )
 from core.views.custom_error_pages import custom404_page, custom500_page
+from core.views.custom_html_site_page import custom_html_site_page
 from core.views.lecturer import lecturer_list_page
 from core.views.mailing_resignation import (
     mailing_resignation_by_code_page,
@@ -57,6 +58,7 @@ urlpatterns = [
     path("kontakt/", contact_page, name="contact_page"),
     path("o-nas/", about_us_page, name="about_us_page"),
     path("mapa-strony/", webmap_page, name="webmap_page"),
+    path("strona/<slug:slug>/", custom_html_site_page, name="custom_html_site_page"),
     path("preview/", include(previews_urlpatterns)),
     path("certyfikat/", include(certificate_urlpatterns)),
     path("nagrania/", include(recording_urlpatterns)),

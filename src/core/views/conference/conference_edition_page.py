@@ -72,7 +72,6 @@ def conference_edition_page(request: HttpRequest, slug_cycle: str, slug_edition:
     # Prepare data
     first_schedule: ConferenceSchedule = schedule.first()  # type: ignore
     lecturers = [sch.lecturer for sch in schedule if sch.lecturer]
-    # TODO: is_complex_schedule = schedule.count() > 1
 
     # Handle form submission
     if request.method == POST:

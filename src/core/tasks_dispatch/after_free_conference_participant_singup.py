@@ -9,7 +9,9 @@ from celery import chain
 from core.consts import TelegramChats
 from core.models import ConferenceCycle, ConferenceEdition, ConferenceFreeParticipant
 from core.tasks import (
+    params_send_free_participant_conference_email,
     task_send_clickmeeting_invitation_participant,
+    task_send_free_participant_conference_email,
     task_send_telegram_notification,
 )
 
@@ -25,6 +27,11 @@ def after_free_conference_participant_singup(
         # Send clickmeeting invite to free participant
         task_send_clickmeeting_invitation_participant.si(
             edition.clickmeeting_id, participant.email
+        ),
+        task_send_free_participant_conference_email.si(
+            params_send_free_participant_conference_email(
+                participant.email, "#conference_url"  # TODO: conference_url
+            )
         ),
         # Send telegram notification
         task_send_telegram_notification.si(
