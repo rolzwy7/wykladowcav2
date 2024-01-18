@@ -5,6 +5,7 @@ from django.urls import path
 from core.views.conference import (
     conference_cycle_page,
     conference_edition_page,
+    conference_edition_redirect_page,
     conference_edition_thanks_page,
 )
 
@@ -23,5 +24,10 @@ urlpatterns = [
         "<slug:slug_cycle>/<slug:slug_edition>/dziekujemy/",
         conference_edition_thanks_page,
         name="conference_edition_thanks_page",
+    ),
+    path(
+        "p/<uuid:uuid>/",
+        conference_edition_redirect_page,
+        name="conference_edition_redirect_page",
     ),
 ]

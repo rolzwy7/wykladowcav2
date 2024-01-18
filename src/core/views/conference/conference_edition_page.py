@@ -1,3 +1,7 @@
+"""
+Conference edition pages
+"""
+
 # flake8: noqa=E501
 
 from django.forms import CheckboxInput, ModelForm, Select, TextInput
@@ -152,4 +156,21 @@ def conference_edition_thanks_page(
             "edition": edition,
             "webinars": webinars,
         },
+    )
+
+
+def conference_edition_redirect_page(request: HttpRequest, uuid: str):
+    """Conference edition redirect page"""
+
+    try:
+        edition = ConferenceEdition.manager.get(uuid=uuid)
+    except ConferenceEdition.DoesNotExist:  # pylint: disable=no-member
+        return HttpResponse("UUID not found")
+
+    template_name = "geeks/pages/conference/ConferenceEditionRedirectPage.html"
+
+    return TemplateResponse(
+        request,
+        template_name,
+        {"edition": edition, "youtube_live_url": edition.youtube_live_url},
     )

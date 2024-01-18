@@ -4,6 +4,8 @@ Conference edition model
 
 # flake8: noqa
 
+import uuid
+
 from django.db.models import (
     RESTRICT,
     CharField,
@@ -15,6 +17,7 @@ from django.db.models import (
     QuerySet,
     SlugField,
     TextField,
+    UUIDField,
 )
 
 from core.utils.text import slugify
@@ -70,7 +73,9 @@ class ConferenceEdition(Model):
 
     clickmeeting_id = CharField("ClickMeeting ID", blank=True, max_length=100)
 
-    youtube_live_embed = TextField("YouTube Livestream Embed", blank=True)
+    youtube_live_url = TextField("YouTube Livestream Embed", blank=True)
+
+    redirect_token = UUIDField(default=uuid.uuid4, editable=True)
 
     class Meta:
         verbose_name = "Konferencja (edycja)"
