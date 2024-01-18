@@ -1,0 +1,19 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+
+{% block title %}
+      {% if site.title %}
+        <title>{{site.title}}</title>
+      {% else %}
+        <title>{{COMPANY_NAME}}</title>
+      {% endif %}
+{% endblock title %}
+
+{% block root %}
+{{site.html|safe}}
+{% endblock root %}
+
+{% block body_scripts %}{% endblock body_scripts %}

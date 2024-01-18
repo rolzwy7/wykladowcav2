@@ -1,10 +1,12 @@
 # flake8: noqa:DJ07
 
+from django import forms
+from django.contrib import admin
 from django.contrib.admin import ModelAdmin, StackedInline, register
 from django.forms import ModelForm
 from tinymce.widgets import TinyMCE
 
-from core.models import Webinar, WebinarMetadata
+from core.models import Webinar, WebinarCategory, WebinarMetadata
 
 
 class WebinarModelAdminInline(StackedInline):
@@ -22,6 +24,12 @@ class WebinarModelAdminForm(ModelForm):
         model = Webinar
         fields = "__all__"
         widgets = {"program": TinyMCE(attrs={"cols": 80, "rows": 30})}
+
+    def __init__(self, *args, **kwargs):
+        forms.ModelForm.__init__(self, *args, **kwargs)
+        self.fields["categories"].queryset = WebinarCategory.manager.all().order_by(
+            "parent__name"
+        )
 
 
 @register(Webinar)

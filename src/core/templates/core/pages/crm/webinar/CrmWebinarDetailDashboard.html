@@ -410,8 +410,12 @@
                                         <b>{{application.created_at|date:"j E Y"}}</b> {{application.created_at|date:"H:i"}}
                                         <br>
                                         (&nbsp;{{application.created_at|date:"l"}}&nbsp;) <br>
+                                        
+                                        {% if application.refcode %}
                                         <span class="text-danger fw-bold">Partnerski: {{application.refcode}}</span>
                                         <br>
+                                        {% endif %}
+                                        
                                         <br> <br>
 
 

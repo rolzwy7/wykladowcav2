@@ -5,11 +5,14 @@ Procedure that executes after webinar application has been sent
 # flake8: noqa=E501
 
 from celery import chain
+from django.urls import reverse
 
 from core.consts import TelegramChats
 from core.models import ConferenceCycle, ConferenceEdition, ConferenceFreeParticipant
 from core.tasks import (
+    params_send_free_participant_conference_email,
     task_send_clickmeeting_invitation_participant,
+    task_send_free_participant_conference_email,
     task_send_telegram_notification,
 )
 
@@ -25,6 +28,20 @@ def after_free_conference_participant_singup(
         # Send clickmeeting invite to free participant
         task_send_clickmeeting_invitation_participant.si(
             edition.clickmeeting_id, participant.email
+        ),
+        # Send e-mail with conference URL
+        task_send_free_participant_conference_email.si(
+            params_send_free_participant_conference_email(
+                participant.email,
+                reverse(
+                    "core:conference_edition_redirect_page",
+                    kwargs={
+                        "slug_cycle": edition.cycle.slug,
+                        "slug_edition": edition.slug,
+                        "uuid": edition.redirect_token,
+                    },
+                ),
+            )
         ),
         # Send telegram notification
         task_send_telegram_notification.si(

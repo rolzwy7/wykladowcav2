@@ -9,6 +9,7 @@ from core.models import (
     ContactMessage,
     CrmCompany,
     CrmContact,
+    CustomHtmlSite,
     DiscountApplicationApplied,
     Eventlog,
     LecturerOpinion,
@@ -35,6 +36,8 @@ from core.models import (
     WebinarRecording,
     WebinarRecordingToken,
 )
+
+admin.site.register(CustomHtmlSite)
 
 
 @register(MailingReplyMessage)
