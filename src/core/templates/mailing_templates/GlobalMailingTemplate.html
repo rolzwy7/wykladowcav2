@@ -1,0 +1,54 @@
+{% extends "./Extend.html" %}
+
+{% block content %}
+<tr>
+  <td align="center" style="max-width: {{max_width}};" valign="top">
+    <table width="100%" align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" style="border-spacing:0;background-color: #ffffff;">
+      <tbody>
+        <tr><td height="20">&nbsp;</td></tr>
+        <tr>
+          <td align="center" valign="top" style="border-collapse:collapse;">
+            <table border="0" cellpadding="0" cellspacing="0" style="border-spacing:0;width: 100%;max-width: 640px;">
+              <tbody>
+                {% comment %} {% include "./sections/SectionHelloTopText.html" %} {% endcomment %}
+                
+                {% if main_webinar %}
+                  {% include "./sections/SectionMainWebinarTitle.html" with webinar=main_webinar %}
+                  {% include "./sections/SectionMainWebinarProgram.html" with webinar=main_webinar %}
+                {% endif %}
+                
+                {% if webinars_map %}
+                  {% include "./sections/SectionWebinarsColumns.html" with webinars_map=webinars_map %}
+                {% endif %}
+                
+                {% if subcategories_pairs %}
+                  {% include "./sections/SectionSubcategories.html" with subcategories_pairs=subcategories_pairs %}
+                  {% endif %}
+                  
+                
+                {% if section_loyalty %}
+                  {% include "./sections/SectionLoyalty.html" %}
+                {% endif %}
+                
+                {% if section_fb_group %}
+                  {% include "./sections/SectionFBGroup.html" %}
+                  {% endif %}
+                  
+                {% if lecturer_section and lecturer %}
+                  {% include "./sections/SectionLecturerBio.html" %}
+                {% endif %}
+
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </td>
+</tr>
+<tr>
+  <td>
+    <hr style="border-width: 0; background: lightgrey; color: #000; height:0.1em">
+  </td>
+</tr>
+{% endblock content %}

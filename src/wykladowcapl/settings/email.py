@@ -6,7 +6,7 @@ from .base_profile import APP_ENV
 
 # from .base_profile import DEBUG
 
-load_dotenv()
+load_dotenv(override=True)
 
 if APP_ENV == "testing":
     EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"

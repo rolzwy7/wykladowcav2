@@ -1,6 +1,7 @@
 """
 Base URLs
 """
+
 # flake8: noqa:E501
 # pylint: disable=line-too-long
 from django.urls import include, path
@@ -32,7 +33,7 @@ from .forgot_password_urls import urlpatterns as forgot_password_urlpatterns
 from .leads_urls import urlpatterns as leads_urlpatterns
 from .lecturer_urls import urlpatterns as lecturer_urlpatterns
 from .loyalty_urls import urlpatterns as loyalty_urlpatterns
-from .mailing_templates_urls import urlpatterns as mailing_templates_urlpatterns
+from .mailing_template_urls import urlpatterns as mailing_templates_urlpatterns
 from .previews_urls import urlpatterns as previews_urlpatterns
 from .recording_urls import urlpatterns as recording_urlpatterns
 from .registration_urls import urlpatterns as registration_urlpatterns

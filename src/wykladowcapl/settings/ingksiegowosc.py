@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=True)
 
 # TODO: ING Ksiegowosc - Delete this because we no longer use it
 

@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=True)
 
 # Base URL for ClickMeeting
 CLICKMEETING_API_URL = "https://api.clickmeeting.com/v1"

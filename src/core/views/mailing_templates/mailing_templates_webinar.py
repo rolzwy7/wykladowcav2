@@ -10,10 +10,18 @@ from core.services.mailing import MailingWebinarTemplateService
 from core.services.webinar import WebinarService
 
 
+def webinar_mailing_editor_page(request, pk):
+    """Email editor page"""
+
+    template_name = "mailing_templates/WebinarMailingEditor.html"
+    return TemplateResponse(request, template_name, {"pk": pk})
+
+
 def webinar_mailing_template_page(request: HttpRequest, pk: int):
     """Webinar email template page"""
 
-    version = request.GET.get("version")
+    template_name = "mailing_templates/WebinarMailingTemplate.html"
+
     webinar_for = request.GET.get("webinar_for")
     patron_section = request.GET.get("patron_section")
     lecturer_section = request.GET.get("lecturer_section")
@@ -26,7 +34,6 @@ def webinar_mailing_template_page(request: HttpRequest, pk: int):
     show_price = request.GET.get("show_price")
     show_logo = request.GET.get("show_logo")
 
-    template_name = f"mailing_templates/MailingTemplateWebinarOffer/{version}.html"
     webinar = get_object_or_404(Webinar, pk=pk)
     webinar_template_service = MailingWebinarTemplateService(webinar)
     webinar_service = WebinarService(webinar)

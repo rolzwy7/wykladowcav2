@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=True)
 
 MONGO_HOST = os.environ.get("MONGO_HOST")
 MONGO_PORT = os.environ.get("MONGO_PORT")

@@ -1,5 +1,5 @@
 """
-Webinar ctegory template page
+Mailing template category
 """
 
 # flake8: noqa
@@ -10,14 +10,29 @@ from django.template.response import TemplateResponse
 
 from core.models import Webinar, WebinarCategory
 
-BASE_URL = settings.BASE_URL
+
+def webinar_category_mailing_editor_page(request, slug: str):
+    """Mailing editor page for webinar category"""
+
+    template_name = "mailing_templates/WebinarCategoryMailingEditor.html"
+    return TemplateResponse(
+        request,
+        template_name,
+        {"slug": slug},
+    )
 
 
 def webinar_category_mailing_template_page(request, slug: str):
     """Mailing template for webinar category"""
 
-    main_category = get_object_or_404(WebinarCategory, slug=slug)
-    subcategories = WebinarCategory.manager.get_subcategories(main_category)
+    template_name = "mailing_templates/WebinarCategoryMailingTemplate.html"
+
+    if slug == "wszystkie-szkolenia":
+        subcategories = WebinarCategory.manager.get_visible_categories()
+    else:
+        main_category = get_object_or_404(WebinarCategory, slug=slug)
+        subcategories = WebinarCategory.manager.get_subcategories(main_category)
+
     all_slugs = [slug, *[_.slug for _ in subcategories]]
 
     # Get all webinars for main category and subcatagories
@@ -43,12 +58,12 @@ def webinar_category_mailing_template_page(request, slug: str):
 
     return TemplateResponse(
         request,
-        "mailing_templates/MailingWebinarCategoryList/WebinarCategoryMailingTemplatePage.html",
+        template_name,
         {
             "background_color": "#f1f4fa",
             "max_width": "640px",
             "webinars_map": ctx,
-            "subcategories": [s for s in subcategories][:4],
-            "BASE_URL": BASE_URL,
+            "subcategories_pairs": _split_pairs(subcategories),
+            "BASE_URL": settings.BASE_URL,
         },
     )

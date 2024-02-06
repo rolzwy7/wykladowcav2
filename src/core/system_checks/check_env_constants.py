@@ -6,7 +6,7 @@ import os
 from django.core.checks import Error, register
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=True)
 
 MANDATORY_ENV_CONSTANTS = [
     "SECRET_KEY",

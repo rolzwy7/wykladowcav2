@@ -8,7 +8,7 @@ from pathlib import Path
 from django.forms.renderers import TemplatesSetting
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=True)
 
 VERSION_NUMBER = "1.7.0"
 VERSION_DATE = "2023/12/15"

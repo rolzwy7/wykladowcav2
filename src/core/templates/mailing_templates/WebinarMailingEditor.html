@@ -20,13 +20,8 @@
                 <!-- Card Body -->
                 <div class="card-body">
                    <!-- Form -->
-                   <form class="row" method="get" action="{% url "core:webinar_mailing_template_page" pk=pk %}">
-                      <div class="mb-3 col-12 col-md-4">
-                         <label class="form-label">Wersja szablonu</label>
-                         <select class="form-select" data-width="100%" name="version">
-                            <option value="VersionA" selected>Wersja A</option>
-                         </select>
-                      </div>
+                   <form class="row" method="get" action="{% url "core:global_mailing_template" %}">
+                     <input type="hidden" name="webinar_id" value="{{pk}}">
                       <div class="mb-3 col-12 col-md-3">
                         <label class="form-label" for="id_szkol_dla">Szkolenia dla X</label>
                         <input type="text" id="id_szkol_dla" name="webinar_for" class="form-control" placeholder="np. księgowych">
@@ -63,7 +58,7 @@
                             </label>
                          </div>
                          <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="id_fb_kk" name="section_fb_kk_job">
+                            <input type="checkbox" class="form-check-input" id="id_fb_kk" name="section_fb_group">
                             <label class="form-check-label" for="id_fb_kk">
                             Dodaj sekcję z grupą z pracą dla kadrowych i księgowych
                             </label>

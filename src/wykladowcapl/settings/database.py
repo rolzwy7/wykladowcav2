@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 from .base_profile import APP_ENV, BASE_DIR
 
-load_dotenv()
+load_dotenv(override=True)
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

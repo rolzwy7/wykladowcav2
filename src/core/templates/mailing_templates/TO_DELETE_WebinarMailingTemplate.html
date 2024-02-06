@@ -118,7 +118,7 @@
 
                 <tr>
                   <td style="{{td_classes|safe}}padding-top:15px;">
-                  {% include './snippets/WebinarMailingCTA.html' with text=cta_text href=cta_href %}
+                  {% include './includes/WebinarMailingCTA.html' with text=cta_text href=cta_href %}
                   </td>
                 </tr>
                 
@@ -149,8 +149,8 @@
                     {% comment %} <hr style="border-width: 0; background: #000; color: #000; height:0.2em"> {% endcomment %}
                     <p style="margin: 1em 0;">{{program|safe}}</p>
 
-                    {% include './snippets/WebinarMailingCTA.html' with text=cta_text href=cta_href %}
-                    {% comment %} {% include './snippets/WebinarMailingCTA.html' with text=read_more_text href=read_more_href %} {% endcomment %}
+                    {% include './includes/WebinarMailingCTA.html' with text=cta_text href=cta_href %}
+                    {% comment %} {% include './includes/WebinarMailingCTA.html' with text=read_more_text href=read_more_href %} {% endcomment %}
                   </td>
                 </tr>
 
@@ -202,7 +202,7 @@
                     <hr style="border-width: 0; background: #000; color: #000; height:0.2em">
                     {% comment %} <p style="margin: 1em 0;">{{webinar.lecturer.biography_email|truncatechars:300}}</p> {% endcomment %}
                     <p style="margin: 1em 0;">{{webinar.lecturer.biography_email}}</p>
-                    {% include './snippets/WebinarMailingCTA.html' with text=cta_text href=cta_href %}
+                    {% include './includes/WebinarMailingCTA.html' with text=cta_text href=cta_href %}
                   </td>
                 </tr>
                 {% endif %}
