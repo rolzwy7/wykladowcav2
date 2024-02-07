@@ -26,6 +26,25 @@ def split_pairs(seq):
     return ret
 
 
+def global_mailing_editor_page(request):
+    """Email editor page"""
+
+    webinar_id = request.GET.get("for_webinar_id")
+    category_slug = request.GET.get("for_category_slug")
+    lecturer_slug = request.GET.get("for_lecturer_slug")
+
+    template_name = "mailing_templates/GlobalMailingEditor.html"
+    return TemplateResponse(
+        request,
+        template_name,
+        {
+            "webinar_id": webinar_id,
+            "lecturer_slug": lecturer_slug,
+            "category_slug": category_slug,
+        },
+    )
+
+
 def global_mailing_template_page(request):
     """Mailing template for webinar category"""
 
@@ -40,11 +59,17 @@ def global_mailing_template_page(request):
     # show_logo = request.GET.get("show_logo")
 
     controls = {
+        "promo_code": request.GET.get("promo_code"),
+        "promo_value": request.GET.get("promo_value"),
+        "for_whom": request.GET.get("for_whom"),
+        "show_logo": request.GET.get("show_logo"),
         "show_last_spots": request.GET.get("show_last_spots"),
         "show_price": request.GET.get("show_price"),
+        "show_hello_text": request.GET.get("show_hello_text"),
         "section_fb_group": request.GET.get("section_fb_group"),
         "section_loyalty": request.GET.get("section_loyalty"),
         "lecturer_section": request.GET.get("lecturer_section"),
+        "patron_section": request.GET.get("patron_section"),
         "background_color": "#f1f4fa",
         "max_width": "640px",
     }

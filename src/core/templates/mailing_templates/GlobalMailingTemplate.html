@@ -10,13 +10,68 @@
           <td align="center" valign="top" style="border-collapse:collapse;">
             <table border="0" cellpadding="0" cellspacing="0" style="border-spacing:0;width: 100%;max-width: 640px;">
               <tbody>
-                {% comment %} {% include "./sections/SectionHelloTopText.html" %} {% endcomment %}
                 
+                {% if show_logo %}
+                <tr>
+                  <td style="{{td_classes|safe}}text-align:center;">
+                    <p style="margin: 0;font-size:2em">
+                      <a href="{{cta_href}}" style="text-decoration: none;">
+                        {{COMPANY_NAME}}
+                      </a>
+                    </p>
+                    {% if for_whom %}
+                    <p style="margin-top: 0.3em;font-size:1.65em">
+                      <a href="{{cta_href}}" style="text-decoration: none;">
+                        {{for_whom}}
+                      </a>
+                    </p>
+                    {% endif %}
+                    <hr style="border-width: 0; background: #000; color: #000; height:0.2em">
+                  </td>
+                </tr>
+                {% endif %}
+
                 {% if main_webinar %}
                   {% include "./sections/SectionMainWebinarTitle.html" with webinar=main_webinar %}
-                  {% include "./sections/SectionMainWebinarProgram.html" with webinar=main_webinar %}
+                {% endif %}
+
+                {% if main_webinar and show_hello_text %}
+                <tr>
+                  <td style="{{td_classes|safe}}padding-top:15px;">
+                    <hr style="border-width: 0; background: #000; color: #000; height:0.2em">
+                  </td>
+                </tr>
+                {% endif %}
+
+                {% if show_hello_text %}
+                  {% include "./sections/SectionHelloTopText.html" %}
+                {% endif %}
+
+                {% if promo_code %}
+                <tr>
+                  <td style="{{td_classes|safe}}padding-top:15px;">
+                    <hr style="border-width: 0; background: #000; color: #000; height:0.2em">
+                    <h2 style="margin: .83em 0; font-size:1.5em; text-align: center;">
+                      Użyj kodu <span style="color:#754ffe;">{{promo_code}}</span>
+                    </h2>
+                    <h2 style="margin: 0 0 .83em 0; font-size:1.5em; text-align: center;">
+                      aby otrzymać <span style="color:#754ffe;">{{promo_value}}</span>
+                      przy zgłoszeniu
+                    </h2>
+                    {% if promo_text %}
+                    <p style="margin: 1em 0; text-align:center;">
+                      {{promo_text}}
+                    </p>
+                    {% endif %}
+                    <hr style="border-width: 0; background: #000; color: #000; height:0.2em">
+                  </td>
+                </tr>
                 {% endif %}
                 
+                {% if main_webinar %}
+                  {% include "./sections/SectionMainWebinarProgram.html" with webinar=main_webinar %}
+                {% endif %}
+
                 {% if webinars_map %}
                   {% include "./sections/SectionWebinarsColumns.html" with webinars_map=webinars_map %}
                 {% endif %}
@@ -32,12 +87,8 @@
                 
                 {% if section_fb_group %}
                   {% include "./sections/SectionFBGroup.html" %}
-                  {% endif %}
-                  
-                {% if lecturer_section and lecturer %}
-                  {% include "./sections/SectionLecturerBio.html" %}
                 {% endif %}
-
+                
               </tbody>
             </table>
           </td>
@@ -52,3 +103,10 @@
   </td>
 </tr>
 {% endblock content %}
+
+
+{% block outer_content %}
+  {% if lecturer_section and lecturer %}
+    {% include "./sections/SectionLecturerBio.html" %}
+  {% endif %}
+{% endblock outer_content %}
