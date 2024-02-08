@@ -1,0 +1,44 @@
+{% for duration, webinar_pairs in webinars_map.items %}
+
+<tr>
+   <td colspan="2">
+      <h3 style="padding: 10px 0; margin: 0; font-size:15px; text-align: center; background-color: #e3dcff;">
+         Webinary trwające {{duration}}
+      </h3>
+   </td>
+</tr>
+
+{% for webinar_pair in webinar_pairs %}
+<tr>
+   {% for webinar in webinar_pair %}
+   <td width="50%" style="padding:10px;vertical-align: top;">
+      <p style="font-size: 13px;margin-bottom: 1em;font-weight:bold;color:#1e293b;text-align:center;">
+         <strong>{{webinar.title}}</strong>
+      </p>
+      <p style="font-size: 12px;margin-bottom: 0;text-align:center;">
+         {{webinar.date|date:"j E"}} godzina {{webinar.date|date:"H:i"}}
+      </p>
+      <p style="font-size: 12px;margin: 0 0 1em 0;font-weight:bold;text-align:center;">
+         <strong>Wykładowca: {{webinar.lecturer}}</strong>
+      </p>
+      {% if webinar.program_short %}
+      <div style="font-size: 10px;">
+         <ol style='text-align: left;padding-left: 20px;'>
+            <p class="margin-bottom:0;">Między innymi:</p>
+            {{webinar.program_short|safe}}
+         </ol>
+      </div>
+      {% endif %}
+      <div style="text-align:center;margin-top:20px;">
+         <a href="{{BASE_URL}}{% url "core:webinar_redirect_to_program" pk=webinar.pk %}" style="margin-bottom:0.5em; background-color:#754ffe; font-weight:bold; text-decoration: none; padding: .5em 2em; color: #FCFDFF; display:inline-block; border-radius:.4em; mso-padding-alt:0;text-underline-color:#005959"><!--[if mso]><i style="mso-font-width:200%;mso-text-raise:100%" hidden>&emsp;</i>
+         <span style="mso-text-raise:50%;">
+            <![endif]-->Sprawdź program<!--[if mso]>
+         </span>
+         <i style="mso-font-width:200%;" hidden>&emsp;&#8203;</i><![endif]--></a>
+      </div>
+   </td>
+   {% endfor %}
+</tr>
+{% endfor %}
+
+{% endfor %}

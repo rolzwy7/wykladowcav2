@@ -111,7 +111,7 @@
               {% if request.user.is_staff %}
                 <div class="ms-4 dropdown">
                   <button class="btn btn-sm btn-info dropdown-toggle" type="button" id="webinarOptionsDropdown" data-bs-toggle="dropdown">
-                    Admin
+                    Admin (id={{webinar.id}})
                   </button>
                   <div class="dropdown-menu" aria-labelledby="webinarOptionsDropdown">
                     <a class="dropdown-item" href="{% url 'admin:core_webinar_change' object_id=webinar.id %}">
@@ -133,6 +133,14 @@
                     Dla pracownika
                   </button>
                 </div>
+
+                <div class="ms-4">
+                  <a class="btn btn-sm btn-warning"
+                  href="{% url "core:global_mailing_editor" %}?for_webinar_id={{webinar.id}}">
+                    Szablon mailingowy
+                  </a>
+                </div>
+
               {% endif %}
             </div>
           </div>
@@ -422,29 +430,6 @@
                   <p>
                     <i>{{META__BASE_URL}}{% url 'core:mailing_resignation_page' resignation_code="KOD_TUTAJ" %}</i>
                   </p>
-                </li>
-              </ol>
-
-              <h3>Szablony mailingowe - Webinar</h3>
-              <ol>
-                <li>
-                  <a href="{% url 'core:editor_email_page' pk=webinar.pk %}">
-                    Edytor mailingowy
-                  </a>
-                </li>
-                <li>
-                  <a href="{% url 'core:webinar_mailing_template_page' pk=webinar.pk %}?version=VersionA">
-                    Szablon mailingowy - VersionA
-                  </a>
-                </li>
-              </ol>
-              
-              <h3>Szablony mailingowe - Facebook</h3>
-              <ol>
-                <li>
-                  <a href="{% url 'core:mailing-template-fb-group-invite' %}">
-                    Facebook zaproszenie do grupy
-                  </a>
                 </li>
               </ol>
 

@@ -1,0 +1,31 @@
+<tr>
+   <td colspan="2">
+      <hr style="border-width: 0; background: lightgrey; color: #000; height:0.1em">
+   </td>
+</tr>
+
+<tr>
+   <td style="text-align:center;font-size: 20px;" colspan="3">
+      <p style="margin: 1em 0;">
+         <strong>Sprawdź tematy z innych kategorii:</strong>
+      </p>
+   </td>
+</tr>
+{% for pair in subcategories_pairs %}
+<tr>
+   {% for subcategory in pair %}
+   <td width="50%" style="padding:10px;vertical-align: top;">
+      <p style="font-size: 16px;margin-bottom: 1em;font-weight:bold;color:#1e293b;text-align:center;">
+         <strong>{{subcategory.name}}</strong>
+      </p>
+      <div style="text-align:center;margin-top:20px;">
+         <a href="{{BASE_URL}}{% url "core:webinar_category_page" slug=subcategory.slug %}" style="margin-bottom:0.5em; background-color:#754ffe; font-weight:bold; text-decoration: none; padding: .5em 2em; color: #FCFDFF; display:inline-block; border-radius:.4em; mso-padding-alt:0;text-underline-color:#005959"><!--[if mso]><i style="mso-font-width:200%;mso-text-raise:100%" hidden>&emsp;</i>
+         <span style="mso-text-raise:50%;">
+            <![endif]-->Zobacz<!--[if mso]>
+         </span>
+         <i style="mso-font-width:200%;" hidden>&emsp;&#8203;</i><![endif]--></a>
+      </div>
+   </td>
+   {% endfor %}
+</tr>
+{% endfor %}

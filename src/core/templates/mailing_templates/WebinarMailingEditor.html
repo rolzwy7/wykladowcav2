@@ -1,0 +1,96 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+
+{% block title %}
+  <title>Edytor email</title>
+{% endblock title %}
+
+{% block root %}
+<main>
+    <section class="container-fluid">
+       <div class="row mt-5">
+          <div class="col-12">
+             <!-- Card -->
+             <div class="card mb-4">
+                <!-- Card Header -->
+                <div class="card-header">
+                   <h3 class="mb-0">Edytor e-mail</h3>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                   <!-- Form -->
+                   <form class="row" method="get" action="{% url "core:global_mailing_template" %}">
+                     <input type="hidden" name="webinar_id" value="{{pk}}">
+                      <div class="mb-3 col-12 col-md-3">
+                        <label class="form-label" for="id_szkol_dla">Szkolenia dla X</label>
+                        <input type="text" id="id_szkol_dla" name="webinar_for" class="form-control" placeholder="np. księgowych">
+                     </div>
+                      <div class="col-12 mb-3">
+                         <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="id_show_logo" name="show_logo" checked>
+                            <label class="form-check-label" for="id_show_logo">
+                            Dodaj sekcję z logo na górze
+                            </label>
+                         </div>
+                         <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="id_opiekun" name="patron_section" checked>
+                            <label class="form-check-label" for="id_opiekun">
+                            Dodaj sekcję opiekuna szkolenia
+                            </label>
+                         </div>
+                         <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="id_lecturer" name="lecturer_section" checked>
+                            <label class="form-check-label" for="id_lecturer">
+                            Dodaj sekcję wykładowcy
+                            </label>
+                         </div>
+                         <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="id_show_price" name="show_price" checked>
+                            <label class="form-check-label" for="id_show_price">
+                            Pokaż cenę
+                            </label>
+                         </div>
+                         <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="id_loyalty_select" name="section_loyalty">
+                            <label class="form-check-label" for="id_loyalty_select">
+                            Dodaj sekcję z programem lojalnościowym
+                            </label>
+                         </div>
+                         <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="id_fb_kk" name="section_fb_group">
+                            <label class="form-check-label" for="id_fb_kk">
+                            Dodaj sekcję z grupą z pracą dla kadrowych i księgowych
+                            </label>
+                         </div>
+                         <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="id_last_spots" name="show_last_spots">
+                            <label class="form-check-label" for="id_last_spots">
+                            Wyświetl ostatnie miejsca
+                            </label>
+                         </div>
+                      </div>
+                      <div class="mb-3 col-12 col-md-4">
+                         <label class="form-label" for="id_znizka_kod">Kod zniżkowy (kod)</label>
+                         <input type="text" id="id_znizka_kod" class="form-control" name="promo_code" placeholder="np. ABC123">
+                      </div>
+                      <div class="mb-3 col-12 col-md-4">
+                         <label class="form-label" for="id_znizka_value">Kod zniżkowy (wartość)</label>
+                         <input type="text" id="id_znizka_value" class="form-control" name="promo_value" placeholder="np. -20%, -20 zł">
+                      </div>
+                      <div class="mb-3 col-12 col-md-4">
+                         <label class="form-label" for="id_znizka_tekst">Kod zniżkowy (tekst)</label>
+                         <input type="text" id="id_znizka_tekst" class="form-control" name="promo_text" placeholder="np. Promocja trwa do ...">
+                      </div>
+                      <button type="submit" class="btn btn-primary">
+                      Generuj
+                      </button>
+                   </form>
+                </div>
+             </div>
+          </div>
+       </div>
+    </section>
+ </main>
+{% endblock root %}
+

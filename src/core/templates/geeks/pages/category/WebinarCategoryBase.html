@@ -52,7 +52,7 @@
                 </p>
                 {% endif %}
                 {% if request.user.is_staff %}
-                <a href="{% url "core:webinar_category_mailing_editor_page" slug=slug %}">
+                <a href="{% url "core:global_mailing_editor" %}?for_category_slug={{slug}}">
                   Edytor mailing zbiorczy
                 </a>
                 {% endif %}
