@@ -17,13 +17,13 @@
   <td style="{{td_classes|safe}}padding-top:15px;">
     <ul>
         <li>
-          <a href="{{BASE_URL}}{% url "core:webinar_redirect_to_program" pk=webinar.pk %}">
+          <a href="{{BASE_URL}}{% url "core:webinar_redirect_to_program_safe" pk=webinar.pk %}">
             {{webinar.date|date:"j E Y"}} godzina {{webinar.date|date:"H:i"}}
           </a>
         </li>
         {% for related_webinar in related_webinars %}
         <li style="margin-top:5px;">
-          <a href="{{BASE_URL}}{% url "core:webinar_redirect_to_program" pk=related_webinar.pk %}">
+          <a href="{{BASE_URL}}{% url "core:webinar_redirect_to_program_safe" pk=related_webinar.pk %}">
             {{related_webinar.date|date:"j E Y"}} godzina {{related_webinar.date|date:"H:i"}}
           </a>
         </li>
