@@ -3,7 +3,6 @@
 from django.urls import include, path
 
 from core.views.crm import (
-    crm_archived_webinars,
     crm_blacklist_paste,
     crm_contact_messages,
     crm_eventlogs,
@@ -24,6 +23,10 @@ from core.views.crm import (
 from core.views.crm.application.actions import crm_application_send_invoice_action_page
 from core.views.crm.company import CrmCompanyDetail, CrmCompanyList
 from core.views.crm.contact import CrmContactDetail, CrmContactList
+from core.views.crm.crm_archived_webinars import (
+    crm_archived_webinars,
+    crm_archived_webinars_with_applications,
+)
 from core.views.crm.mailing import download_emails_from_sender_page
 from core.views.crm.recording import crm_send_recording_to_all_participants
 from core.views.crm.statistics import crm_statistics_dashboard
@@ -134,6 +137,11 @@ urlpatterns = [
         "archiwum/",
         crm_archived_webinars,
         name="crm_archived_webinars",
+    ),
+    path(
+        "archiwum-odwolane-ze-zgloszeniami/",
+        crm_archived_webinars_with_applications,
+        name="crm_archived_webinars_with_applications",
     ),
     path(
         "pobierz-emaile-konto-wysylkowe/<int:pk>/<str:export_type>/",

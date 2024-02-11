@@ -156,7 +156,15 @@
         {% if webinar.time_to_webinar %}
         <b>Pozostało: {{webinar.time_to_webinar}}</b>
         {% else %}
-        <b class="text-danger">Nie odbyło się</b>
+            {% if webinar.status == "INIT" %}
+            <b class="text-danger">Nie odbył się</b>
+            {% elif webinar.status == "CONFIRMED" %}
+            <b class="text-success">W trakcie</b>
+            {% elif webinar.status == "CANCELED" %}
+            <b class="text-danger">Odwołany</b>
+            {% elif webinar.status == "DONE" %}
+            <b class="text-success">Zrealizowany</b>
+            {% endif %}
         {% endif %}
     
         {% if webinar_ctx.webinar_assets_count == 0 %}
@@ -202,6 +210,5 @@
     
     </td>
 </tr>
-
 
 {% endwith %}
