@@ -22,6 +22,8 @@ from core.views.mailing_resignation import (
     mailing_resignation_by_code_page,
     mailing_resignation_by_form_page,
 )
+from core.views.webinar.webinar_redirects import webinar_redirect_to_program
+from core.views.webinar_category import webinar_category_page
 
 from .application_urls import urlpatterns as application_urlpatterns
 from .assets_urls import urlpatterns as assets_urlpatterns
@@ -83,6 +85,16 @@ urlpatterns = [
         "r/pp",
         RedirectView.as_view(url="/polecaj-i-zarabiaj/informacje/"),
         name="redirect_loyalty_program",
+    ),
+    path(
+        "szkl/<int:pk>/",
+        webinar_redirect_to_program,
+        name="webinar_redirect_to_program_safe",
+    ),
+    path(
+        "kat/<slug:slug>/",
+        webinar_category_page,
+        name="webinar_category_page_safe",
     ),
     # Test error pages
     path("404/", custom404_page, name="custom404_page"),

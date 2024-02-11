@@ -92,7 +92,7 @@ def global_mailing_template_page(request):
         main_webinar = get_object_or_404(Webinar, pk=int(webinar_id))
         lecturer = main_webinar.lecturer
         webpath = reverse(
-            "core:webinar_redirect_to_program", kwargs={"pk": int(webinar_id)}
+            "core:webinar_redirect_to_program_safe", kwargs={"pk": int(webinar_id)}
         )
         cta_href = f"{BASE_URL}{webpath}"
         cta_text = "Zapisz się teraz!"

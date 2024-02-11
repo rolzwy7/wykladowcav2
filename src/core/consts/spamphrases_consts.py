@@ -62,6 +62,7 @@ SPAM_PHRASES = {
     # N
     "nabyć": "na;być",
     "nabycia": "na;bycia",
+    "nabycie": "na;bycie",
     # O
     "osobow": "oso;bow",
     # P

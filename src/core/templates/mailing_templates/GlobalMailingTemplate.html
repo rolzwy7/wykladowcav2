@@ -55,7 +55,7 @@
                       Użyj kodu <span style="color:#754ffe;">{{promo_code}}</span>
                     </h2>
                     <h2 style="margin: 0 0 .83em 0; font-size:1.5em; text-align: center;">
-                      aby otrzymać <span style="color:#754ffe;">{{promo_value}}</span>
+                      i zgarnij dodatkowe <span style="color:#754ffe;">{{promo_value}}</span>
                       przy zgłoszeniu
                     </h2>
                     {% if promo_text %}
@@ -71,23 +71,7 @@
                 {% if main_webinar %}
                   {% include "./sections/SectionMainWebinarProgram.html" with webinar=main_webinar %}
                 {% endif %}
-
-                {% if webinars_map %}
-                  {% include "./sections/SectionWebinarsColumns.html" with webinars_map=webinars_map %}
-                {% endif %}
-                
-                {% if subcategories_pairs %}
-                  {% include "./sections/SectionSubcategories.html" with subcategories_pairs=subcategories_pairs %}
-                  {% endif %}
-                  
-                
-                {% if section_loyalty %}
-                  {% include "./sections/SectionLoyalty.html" %}
-                {% endif %}
-                
-                {% if section_fb_group %}
-                  {% include "./sections/SectionFBGroup.html" %}
-                {% endif %}
+          
                 
               </tbody>
             </table>
@@ -106,6 +90,48 @@
 
 
 {% block outer_content %}
+
+  <tr>
+    <td align="center" valign="top" style="border-collapse:collapse;">
+      <div>
+        <table style="background-color: #ffffff;border-spacing:0;" width="100%" border="0" cellpadding="0" cellspacing="0">
+          <tbody>
+
+            {% if webinars_map %}
+              {% include "./sections/SectionWebinarsColumns.html" with webinars_map=webinars_map %}
+            {% endif %}
+
+          </tbody>
+        </table>
+      </div>
+    </td>
+  </tr>
+
+
+  <tr>
+    <td align="center" valign="top" style="border-collapse:collapse;">
+      <div>
+        <table style="background-color: #ffffff;border-spacing:0;" width="100%" border="0" cellpadding="0" cellspacing="0">
+          <tbody>
+ 
+            {% if subcategories_pairs %}
+              {% include "./sections/SectionSubcategories.html" with subcategories_pairs=subcategories_pairs %}
+            {% endif %}
+ 
+          </tbody>
+        </table>
+      </div>
+    </td>
+  </tr>
+
+  {% if section_loyalty %}
+    {% include "./sections/SectionLoyalty.html" %}
+  {% endif %}
+
+  {% if section_fb_group %}
+    {% include "./sections/SectionFBGroup.html" %}
+  {% endif %}
+
   {% if lecturer_section and lecturer %}
     {% include "./sections/SectionLecturerBio.html" %}
   {% endif %}
