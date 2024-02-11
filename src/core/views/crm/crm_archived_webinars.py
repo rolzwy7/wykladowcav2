@@ -25,7 +25,7 @@ def crm_archived_webinars(request):
 def crm_archived_webinars_with_applications(request):
     """CRM webinars archive"""
     template_name = "core/pages/crm/webinar/CrmArchivedWebinarsWithApplications.html"
-    webinars = Webinar.manager.get_done_or_canceled_webinars().order_by("-date")[:100]
+    webinars = Webinar.manager.get_canceled_webinars().order_by("-date")[:100]
 
     return TemplateResponse(
         request,
