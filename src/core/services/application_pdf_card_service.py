@@ -74,11 +74,9 @@ class ApplicationPdfCardService:
         self.application_service = ApplicationService(application)
 
         self.number_of_columns = 12
-        self.number_of_rows = 13
+        self.number_of_rows = 14
 
-        self.number_of_rows += (
-            self.application_service.get_all_participants().count()
-        )
+        self.number_of_rows += self.application_service.get_all_participants().count()
 
         if self.application.recipient:
             self.number_of_rows += 3
@@ -138,7 +136,7 @@ class ApplicationPdfCardService:
                     "E-mail:",
                     font=self.font_bold,
                 ),
-                column_span=3,
+                column_span=4,
             )
         )
         self.table.add(
@@ -147,7 +145,7 @@ class ApplicationPdfCardService:
                     submitter.email,
                     font=self.font_regular,
                 ),
-                column_span=3,
+                column_span=8,
             )
         )
         self.table.add(
@@ -156,7 +154,7 @@ class ApplicationPdfCardService:
                     "Numer telefonu:",
                     font=self.font_bold,
                 ),
-                column_span=3,
+                column_span=4,
             )
         )
         self.table.add(
@@ -165,7 +163,7 @@ class ApplicationPdfCardService:
                     submitter.phone,
                     font=self.font_regular,
                 ),
-                column_span=3,
+                column_span=8,
             )
         )
 
