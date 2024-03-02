@@ -23,6 +23,7 @@ def company_non_request_context():
         "COMPANY_OFFICE_EMAIL": settings.COMPANY_OFFICE_EMAIL,
         "COMPANY_OFFICE_PHONE": settings.COMPANY_OFFICE_PHONE,
         "COMPANY_WWW": settings.COMPANY_WWW,
+        "COMPANY_ENABLE_KRS": settings.COMPANY_ENABLE_KRS,
     }
 
 
