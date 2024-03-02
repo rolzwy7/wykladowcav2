@@ -183,6 +183,18 @@
                       Polecaj i Zarabiaj
                     </a>
                   </li>
+                  {% if COMPANY_ENABLE_KRS %}
+                  <li class="nav-item">
+                    <a
+                      class="nav-link"
+                      href="{% url 'core:krajowy_fundusz_szkoleniowy_page' %}"
+                      role="tab"
+                      target="_blank"
+                    >
+                      <b>Dofinansowanie</b>
+                    </a>
+                  </li>
+                  {% endif %}
                 </ul>
               </div>
             </div>
@@ -198,7 +210,9 @@
         >
 
           {% comment %} Lecturer's card {% endcomment %}
-          {% include './components/lecturer_card.html' with lecturer=webinar.lecturer %}
+          {% if webinar.show_lecturer %}
+            {% include './components/lecturer_card.html' with lecturer=webinar.lecturer %}
+          {% endif %}
           
           {% comment %} Related webinars {% endcomment %}
           {% include './components/related_webinars.html' with related_webinars=related_webinars %}

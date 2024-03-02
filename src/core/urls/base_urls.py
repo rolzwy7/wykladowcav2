@@ -17,6 +17,7 @@ from core.views import (
 )
 from core.views.custom_error_pages import custom404_page, custom500_page
 from core.views.custom_html_site_page import custom_html_site_page
+from core.views.krajowy_fundusz_szkoleniowy_page import krajowy_fundusz_szkoleniowy_page
 from core.views.lecturer import lecturer_list_page
 from core.views.mailing_resignation import (
     mailing_resignation_by_code_page,
@@ -101,5 +102,10 @@ urlpatterns = [
     path("500/", custom500_page, name="custom500_page"),
     #
     path("szkolenia-cykliczne/", include(conference_urlpatterns)),
+    path(
+        "krajowy-fundusz-szkoleniowy/",
+        krajowy_fundusz_szkoleniowy_page,
+        name="krajowy_fundusz_szkoleniowy_page",
+    ),
     path("", home_page, name="homepage"),
 ]

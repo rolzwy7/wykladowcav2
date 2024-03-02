@@ -57,11 +57,12 @@ class WebinarModelAdmin(ModelAdmin):
             None,
             {
                 "fields": [
+                    "show_lecturer",
                     "is_hidden",
                     "is_confirmed",
-                    "remaining_places",
                     "recording_allowed",
                     "is_fake",
+                    "remaining_places",
                     "facebook_post_image",
                     ("status", "slug"),
                     ("date", "duration"),

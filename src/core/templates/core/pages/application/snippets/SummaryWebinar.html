@@ -29,12 +29,14 @@
                         {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}
                     </td>
                 </tr>
+                {% if webinar.show_lecturer %}
                 <tr>
                     <td class="text-gray-400 min-w-175px w-175px">Wykładowca</td>
                     <td class="text-gray-800 min-w-200px">
                         {{webinar.lecturer.fullname}}
                     </td>
                 </tr>
+                {% endif %}
                 <!--end::Row-->
             </tbody></table>
             <!--end::Details-->

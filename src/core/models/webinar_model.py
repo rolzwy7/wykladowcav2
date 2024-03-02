@@ -169,7 +169,11 @@ class Webinar(Model):
 
     is_fake = BooleanField("Fake'owy termin", default=False)
 
-    is_hidden = BooleanField("Ukryj termin szkolenia", default=False)
+    show_lecturer = BooleanField("Pokaż wykładowce na stronie szkolenia", default=True)
+
+    is_hidden = BooleanField(
+        "Ukryj termin szkolenia na stronie szkolenia", default=False
+    )
 
     recording_allowed = BooleanField(
         "Nagrania dostępne",

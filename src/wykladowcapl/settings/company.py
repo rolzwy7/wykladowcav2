@@ -1,5 +1,12 @@
+"""
+COMPANY settings
+"""
+
 COMPANY_NAME = "Wykładowca.pl"
 COMPANY_NAME_FULL = "Wykładowca.pl Tomasz Howaniec"
+
+# Krajowy Fundusz Szkoleniowy
+COMPANY_ENABLE_KRS = True
 
 COMPANY_NIP = "6443562697"
 
@@ -16,9 +23,7 @@ COMPANY_BANK_NAME = "ING Bank Śląski Spółka Akcyjna"
 
 COMPANY_OWNER_SIGNATURE = "Tomasz Howaniec"
 
-COMPANY_REGISTER_TYPE = (
-    "Centralna Ewidencja i Informacja o Działalności Gospodarczej"
-)
+COMPANY_REGISTER_TYPE = "Centralna Ewidencja i Informacja o Działalności Gospodarczej"
 COMPANY_REGISTER_UNIT = "Minister Rozwoju, Pracy i Technologii"
 
 COMPANY_FAX = "32 720 24 24"
