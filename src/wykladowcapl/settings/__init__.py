@@ -2,6 +2,7 @@
 from .base_profile import *
 from .cache import CACHES
 from .celery import *
+from .celery_flower import *
 from .clickmeeting import *
 from .company import *
 from .database import *

@@ -76,6 +76,7 @@
         <div class="card-body pt-9 pb-0">
             <!--begin::Details-->
             <div class="d-flex flex-wrap flex-sm-nowrap">
+                {% if webinar.lecturer.avatar %}
                 <!--begin: Pic-->
                 <div class="me-7 mb-4">
                     <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
@@ -84,6 +85,7 @@
                     </div>
                 </div>
                 <!--end::Pic-->
+                {% endif %}
                 <!--begin::Info-->
                 <div class="flex-grow-1">
                     <!--begin::Title-->

@@ -4,6 +4,7 @@ from django.urls import reverse
 
 from core.consts import POST
 from core.models import Webinar
+from core.models.enums.webinar_enums import WebinarStatus
 from core.services.webinar import WebinarService
 
 
@@ -17,14 +18,13 @@ def crm_webinar_duplicate(request, pk: int):
         temp_categories = [_ for _ in webinar.categories.all()]
         webinar.id = None  # type: ignore
         webinar.slug = ""
+        webinar.status = WebinarStatus.INIT
         webinar.save()
         webinar_id: int = webinar.id  # type: ignore
         for cat in temp_categories:
             webinar.categories.add(cat)
         return redirect(
-            reverse(
-                "admin:core_webinar_change", kwargs={"object_id": webinar_id}
-            )
+            reverse("admin:core_webinar_change", kwargs={"object_id": webinar_id})
         )
 
     return TemplateResponse(
