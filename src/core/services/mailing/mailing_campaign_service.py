@@ -1,3 +1,7 @@
+"""Mailing Campaign Service"""
+
+# flake8: noqa=E501
+
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from core.models import MailingCampaign, MailingPool, MailingPoolManager
@@ -45,14 +49,23 @@ class MailingCampaignService:
         """Delete all emails from campaign"""
         mailing_campaign_id: int = self.mailing_campaign.id  # type: ignore
         pool_manager = MailingPoolManager()
-        pool_manager.collection.delete_many(
-            {"campaign_id": mailing_campaign_id}
+        pool_manager.collection.delete_many({"campaign_id": mailing_campaign_id})
+        pool_manager.close()
+
+    def reset_all_emails(self) -> None:
+        """Reset all emails statuses from campaign"""
+        mailing_campaign_id: int = self.mailing_campaign.id  # type: ignore
+        pool_manager = MailingPoolManager()
+        pool_manager.collection.update_many(
+            {
+                "campaign_id": mailing_campaign_id,
+                "status": {"$ne": MailingPoolStatus.SENT},
+            },
+            {"$set": {"status": MailingPoolStatus.BEING_PROCESSED}},
         )
         pool_manager.close()
 
-    def load_emails_from_file_into_campaign(
-        self, file: InMemoryUploadedFile
-    ) -> None:
+    def load_emails_from_file_into_campaign(self, file: InMemoryUploadedFile) -> None:
         """Load emails from file into campaign"""
 
         pool_manager = MailingPoolManager()

@@ -9,6 +9,7 @@ from core.views.crm.mailing import (
     crm_mailing_campaign_list,
     crm_mailing_campaign_preview_html,
     crm_mailing_campaign_preview_text,
+    crm_mailing_campaign_reset_emails,
     crm_mailing_campaign_send_test_email,
 )
 
@@ -32,6 +33,11 @@ urlpatterns = [
         "<int:pk>/usun-emaile/",
         crm_mailing_campaign_delete_emails,
         name="crm_mailing_campaign_delete_emails",
+    ),
+    path(
+        "<int:pk>/resetuj-emaile/",
+        crm_mailing_campaign_reset_emails,
+        name="crm_mailing_campaign_reset_emails",
     ),
     path(
         "<int:pk>/testowy-email/",

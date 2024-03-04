@@ -9,5 +9,6 @@ from .mailing_campaign import (
     crm_mailing_campaign_list,
     crm_mailing_campaign_preview_html,
     crm_mailing_campaign_preview_text,
+    crm_mailing_campaign_reset_emails,
     crm_mailing_campaign_send_test_email,
 )

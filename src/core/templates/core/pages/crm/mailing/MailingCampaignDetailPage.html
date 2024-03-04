@@ -74,9 +74,17 @@
         <!--begin::Button-->
         <a
             href="{% url 'core:crm_mailing_campaign_delete_emails' pk=mailing_campaign.pk %}"
-            class="btn btn-flex btn-sm btn-danger fw-bold border-0 fs-6 h-40px"
+            class="btn btn-flex btn-sm btn-danger fw-bold border-0 fs-6 h-40px me-2"
         >
             Usun adresy e-mail
+        </a>
+        <!--end::Button-->
+        <!--begin::Button-->
+        <a
+            href="{% url 'core:crm_mailing_campaign_reset_emails' pk=mailing_campaign.pk %}"
+            class="btn btn-flex btn-sm btn-secondary fw-bold border-0 fs-6 h-40px"
+        >
+            Resetuj adresy e-mail
         </a>
         <!--end::Button-->
     </div>
@@ -86,6 +94,9 @@
 
     <p class="fs-4 mb-1">
         <b>Konto wysyłkowe:</b> {{mailing_campaign.smtp_sender}}
+    </p>
+    <p class="fs-4 mb-1">
+        <b>Lista rezygnacji:</b> {{mailing_campaign.resignation_list}}
     </p>
     <p class="fs-4 mb-1">
         <b>Alias:</b> {{mailing_campaign.alias}}

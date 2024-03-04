@@ -1,3 +1,7 @@
+"""Mailing campaign model"""
+
+# flake8: noqa=E501
+
 from datetime import time
 from random import choices
 
@@ -77,18 +81,20 @@ class MailingCampaign(Model):
         (MailingCampaignStatus.DONE, "Zakończono"),
     )
 
+    resignation_list = CharField("Lista rezygnacji", max_length=32, default="default")
+
     status = CharField(
         max_length=32, choices=STATUS, default=MailingCampaignStatus.PAUSED
     )
 
     # Allowed to send times
     allowed_to_send_after = TimeField(
-        "Wysyłaj po", default=default_allowed_to_send_after
+        "Wysyłaj po godzinie", default=default_allowed_to_send_after
     )
     allowed_to_send_before = TimeField(
-        "Wysyłaj do", default=default_allowed_to_send_before
+        "Wysyłaj do godziny", default=default_allowed_to_send_before
     )
-    send_after = DateTimeField("Wysyłaj po", default=now)
+    send_after = DateTimeField("Wysyłaj od dnia i godziny", default=now)
 
     # Subject
     subjects = TextField("Tytuły wiadomości e-mail")

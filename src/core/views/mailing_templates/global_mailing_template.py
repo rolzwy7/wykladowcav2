@@ -12,7 +12,6 @@ from django.template.response import TemplateResponse
 from django.urls import reverse
 from markdown import markdown
 
-from core.consts.spamphrases_consts import SPAM_PHRASES
 from core.models import Lecturer, Webinar, WebinarCategory
 
 BASE_URL = settings.BASE_URL
@@ -47,16 +46,6 @@ def global_mailing_editor_page(request):
 
 def global_mailing_template_page(request):
     """Mailing template for webinar category"""
-
-    # TODO:
-    # webinar_for = request.GET.get("webinar_for")
-    # patron_section = request.GET.get("patron_section")
-    # promo_code = request.GET.get("promo_code")
-    # promo_text = request.GET.get("promo_text")
-    # promo_value = request.GET.get("promo_value")
-    # show_last_spots = request.GET.get("show_last_spots")
-    # show_price = request.GET.get("show_price")
-    # show_logo = request.GET.get("show_logo")
 
     controls = {
         "promo_code": request.GET.get("promo_code"),
@@ -100,10 +89,6 @@ def global_mailing_template_page(request):
         _program = markdown(main_webinar.program_markdown)
 
         program: str = _program
-        for original, replacement in SPAM_PHRASES.items():
-            program = program.replace(original, replacement)
-            program = program.replace(original.upper(), replacement)
-            program = program.replace(original.capitalize(), replacement)
 
     # Category webinars
     category_slug = request.GET.get("category_slug")

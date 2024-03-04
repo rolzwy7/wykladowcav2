@@ -1,15 +1,14 @@
+"""Sender SMTP service"""
+
+# flake8: noqa=E501
+
 from poplib import POP3_SSL, error_proto
 from typing import Iterable
 
-from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.core.mail.backends.smtp import EmailBackend
-from django.urls import reverse
 
 from core.models.mailing import SmtpSender
-from core.services.mailing import MailingResignationService
-
-BASE_URL = settings.BASE_URL
 
 
 class SenderSmtpService:
@@ -65,6 +64,7 @@ class SenderSmtpService:
         subject: str,
         html: str,
         text: str,
+        resignation_url: str,
     ):
         """Send email message"""
 
@@ -75,33 +75,17 @@ class SenderSmtpService:
         list_unsubscribe = f"<mailto:{from_email}?subject=Rezygnacja {email}>"
         reply_to = self.smtp_sender.reply_to
 
-        # TODO: temporary solution
-        resignation_code = (
-            MailingResignationService.get_or_create_inactive_resignation(email)
-        )
-        resignation_url = BASE_URL + reverse(
-            "core:mailing_resignation_page",
-            kwargs={"resignation_code": resignation_code},
-        )
-
-        # TODO: temporary solution
         html_content = html_content.replace("{ODBIORCA#ADRES}", "{TO_EMAIL}")
         text_content = text_content.replace("{ODBIORCA#ADRES}", "{TO_EMAIL}")
 
         html_content = html_content.replace("{TO_EMAIL}", to_email)
         text_content = text_content.replace("{TO_EMAIL}", to_email)
 
-        # TODO: temporary solution
         html_content = html_content.replace("{SUB_URL}", to_email)
         text_content = text_content.replace("{SUB_URL}", to_email)
 
-        # TODO: temporary solution
-        html_content = html_content.replace(
-            "{RESIGNATION_URL}", resignation_url
-        )
-        text_content = text_content.replace(
-            "{RESIGNATION_URL}", resignation_url
-        )
+        html_content = html_content.replace("{RESIGNATION_URL}", resignation_url)
+        text_content = text_content.replace("{RESIGNATION_URL}", resignation_url)
 
         msg = EmailMultiAlternatives(
             subject=subject,
