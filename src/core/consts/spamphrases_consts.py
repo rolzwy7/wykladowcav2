@@ -39,13 +39,16 @@ FORBIDDEN_PHRASES = {
     "zarabia": True,
 }
 
+# ONLY SINGLE WORDS !
 SPAM_PHRASES = {
     # A
     # B
     # C
-    "w celu": "w ce;lu",
+    "celu": "ce;lu",
     # D
     "dyrektyw": "dyre;ktyw",
+    "osobowe": "oso;bowe",
+    "osobowych": "oso;bowych",
     # E
     # F
     "finans": "fina;ns",
@@ -58,17 +61,19 @@ SPAM_PHRASES = {
     "kurs": "ku;rs",
     # L
     # M
-    "musisz się": "mus;isz się",
+    "musisz": "mus;isz",
     # N
     "nabyć": "na;być",
     "nabycia": "na;bycia",
     "nabycie": "na;bycie",
+    "podstawie": "pods;tawie",
     # O
     "osobow": "oso;bow",
     # P
     "publicz": "pub;licz",
     "propozycj": "pro;pozycj",
     "przedsiębior": "przed;siębior",
+    "pobrany": "pob;rany",
     # R
     # S
     "szkolen": "szko;len",

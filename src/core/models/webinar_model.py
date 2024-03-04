@@ -1,5 +1,5 @@
 # flake8: noqa=E501
-# pylint: disable=line-too-long
+
 
 import uuid
 
@@ -358,6 +358,12 @@ class Webinar(Model):
         return _date(self.date, "j E Y - H:i")
 
     def clean(self):
+
+        try:
+            self.lecturer
+        except Exception as e:
+            raise ValidationError("Nie podano wykładowcy")
+
         # Make sure that discount price is >= than normal price
         if all(
             [

@@ -8,6 +8,7 @@ from .category_service import CategoryService
 from .certificate_service import CertificateService
 from .crm_webinar_service import CrmWebinarService
 from .discount_service import DiscountService
+from .healthcheck_service import HealthcheckService
 from .homepage_service import HomepageService
 from .ip_address_service import IpAddressService
 from .lead_service import LeadService

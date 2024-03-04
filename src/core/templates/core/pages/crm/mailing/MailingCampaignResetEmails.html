@@ -1,0 +1,29 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+    <h1>Resetuj statusy adresów e-mail w kolejce</h1>
+    <p>
+        Wszystkie statusy adresów e-mail, które nie zostały wysłane w tej kampanii, zostaną oznaczone jako `BEING_PROCESSED`.
+        <br><br>
+        Mówiąc prościej <b>zostanie ponowiona próba wysłania wiadomości e-mail do adresów, do których nie udało się z jakiegoś powodu wysłać</b>
+    </p>
+    <hr>
+    <form method="post" action="{% url 'core:crm_mailing_campaign_reset_emails' pk=mailing_campaign.pk %}">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{form}}
+        </div>
+        <div class="mb-3">
+            <input type="submit" class="btn btn-primary" value="Submit">
+        </div>
+    </form>
+{% endblock crm_content %}
+
+{% block body_scripts %}
+
+{% endblock body_scripts %}

@@ -18,7 +18,7 @@ from .login_form import LoginForm
 from .loyalty_forms import LoyaltyPayoutRequestForm
 from .mailing_forms import (
     MailingAddEmailsForm,
-    MailingDeleteEmailsAreYouSureForm,
+    MailingAreYouSureForm,
     MailingSendTestEmailForm,
 )
 from .registration_form import RegistrationForm

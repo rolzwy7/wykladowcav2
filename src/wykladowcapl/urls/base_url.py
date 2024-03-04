@@ -10,6 +10,7 @@ from .sitemap_urls import sitemap_xml_path
 urlpatterns = [
     path("cms/", admin.site.urls),
     path("api/", include("api.urls", namespace="api")),
+    path("api-auth/", include("rest_framework.urls")),
     path("htmx/", include("htmx.urls", namespace="htmx")),
     path("tinymce/", include("tinymce.urls")),
     path("r/", meta_redirect_page, name="meta_redirect_page"),

@@ -235,6 +235,8 @@ def process_blacklist(
 
         email = document["email"]
         campaign_id = document["campaign_id"]
+        campaign: MailingCampaign = MailingCampaign.manager.get(id=campaign_id)
+
         document_id = f"{campaign_id}:{email}"
         prefix, domain = email.split("@")
 
@@ -257,7 +259,9 @@ def process_blacklist(
         elif BlacklistService.is_email_phrase_blacklisted(email):
             new_status = MailingPoolStatus.BLACKLISTED_PHRASE
 
-        elif MailingResignationService.is_email_confirmed_resignation(email):
+        elif MailingResignationService.is_email_confirmed_resignation(
+            email, campaign.resignation_list
+        ):
             new_status = MailingPoolStatus.RESIGNATION
 
         else:

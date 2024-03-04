@@ -36,13 +36,26 @@
               onsubmit="actionSubmit.disabled = true; return true;"
           >
               {% csrf_token %}
-              <select name="smpt_sender_id">
-                {% for smtp_sender in smtp_senders %}
-                    <option value="{{smtp_sender.id}}">{{smtp_sender}}</option>
-                {% endfor %}
-              </select>
-              <input type="text" name="content_url" placeholder="Content URL">
-              <input type="submit" value="Duplikuj termin" name="actionSubmit">
+              <div class="mb-3">
+                <label for="id-sender" class="form-label">Konto wysyłkowe</label>
+                <select id="id-sender" name="smpt_sender_id" class="form-select">
+                  {% for smtp_sender in smtp_senders %}
+                  <option value="{{smtp_sender.id}}">{{smtp_sender}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="id-content-url" class="form-label">Adres URL do pobrania szablonu</label>
+                <input id="id-content-url" type="text" class="form-control" name="content_url">
+              </div>
+              <div class="mb-3">
+                <label for="id-resignation-list" class="form-label">Lista rezygnacji</label>
+                <input id="id-resignation-list" type="text" class="form-control" name="resignation_list" value="default">
+              </div>
+              <div class="mb-3">
+                <input type="submit" value="Duplikuj termin" name="actionSubmit" class="btn btn-primary">
+              </div>
           </form>
   
         </div>

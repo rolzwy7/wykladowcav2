@@ -22,6 +22,7 @@ from core.views.lecturer import lecturer_list_page
 from core.views.mailing_resignation import (
     mailing_resignation_by_code_page,
     mailing_resignation_by_form_page,
+    mailing_resignation_page_with_list,
 )
 from core.views.webinar.webinar_redirects import webinar_redirect_to_program
 from core.views.webinar_category import webinar_category_page
@@ -77,6 +78,11 @@ urlpatterns = [
         "rezyg/<str:resignation_code>/",
         mailing_resignation_by_code_page,
         name="mailing_resignation_page",
+    ),
+    path(
+        "rezyg/<str:resignation_list>/<str:resignation_code>/",
+        mailing_resignation_page_with_list,
+        name="mailing_resignation_page_with_list",
     ),
     path("szablony-mailingowe/", include(mailing_templates_urlpatterns)),
     path("moje-konto/", include(user_account_urlpatterns)),

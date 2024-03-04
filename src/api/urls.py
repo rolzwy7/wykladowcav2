@@ -1,9 +1,14 @@
-from django.urls import path
+"""API urls"""
 
-from api.base.views import regon_autocomplete
+from django.urls import include, path
 
-app_name = "api"
+from api.base.routers import router
+from api.base.views import health_check, regon_autocomplete
+
+app_name = "api"  # pylint: disable=invalid-name
 
 urlpatterns = [
-    path("regon-autocomplete/", regon_autocomplete, name="regon-autocomplete")
+    path("regon-autocomplete/", regon_autocomplete, name="regon-autocomplete"),
+    path("health-check/", health_check, name="health-check"),
+    path("", include(router.urls)),
 ]
