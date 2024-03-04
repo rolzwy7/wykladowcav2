@@ -49,7 +49,9 @@ class MailingResignationManager:
         self, email: str, resignation_list: Optional[str] = None
     ):
         """Get or create unconfirmed resignation for given email"""
-        document = self.collection.find_one({"email": email})
+        document = self.collection.find_one(
+            {"email": email, "resignation_list": resignation_list}
+        )
 
         # If exists, return
         if document:
