@@ -118,7 +118,7 @@
                         <div class="fw-semibold fs-8 text-gray-700">Godziny wysyłki</div>
                         <!--end::Label-->
                     </div>
-                    <!--end::Stat-->    
+                    <!--end::Stat--> 
                     <!--begin::Stat-->
                     <div class="border border-gray-300 border-dashed rounded py-3 px-4 me-6 mb-3">
                         <!--begin::Number-->
@@ -132,18 +132,22 @@
                         <div class="fw-semibold fs-8 text-gray-700">Wysyłaj po</div>
                         <!--end::Label-->
                     </div>
-                    <!--end::Stat-->    
+                    <!--end::Stat-->       
+                </div>
+                <!--end::Stats-->
+                <!--begin::Stats-->
+                <div class="d-flex align-items-start flex-wrap">
                     <!--begin::Stat-->
                     <div class="border border-gray-300 border-dashed rounded py-3 px-4 me-6 mb-3">
                         <!--begin::Number-->
                         <div class="d-flex align-items-center">
                             <div class="fs-5 fw-bold counted">
-                                {{campaign.stat_sent}} / {{campaign.stat_procesed}} ( {{campaign.send_processed_percent}} )
+                                {{campaign.stat_sent}}
                             </div>
                         </div>
                         <!--end::Number-->
                         <!--begin::Label-->
-                        <div class="fw-semibold fs-8 text-gray-700">Wysłano / Przetworzono</div>
+                        <div class="fw-semibold fs-8 text-gray-700">Wysłano</div>
                         <!--end::Label-->
                     </div>
                     <!--end::Stat-->    
@@ -161,10 +165,12 @@
                         </div>
                         <!--end::Number-->
                         <!--begin::Label-->
-                        <div class="fw-semibold fs-8 text-gray-700">Limit dzienny (reset {{campaign.limit_timestamp}} + 24h)</div>
+                        <div class="fw-semibold fs-8 text-gray-700">
+                            Limit dzienny
+                        </div>
                         <!--end::Label-->
                     </div>
-                    <!--end::Stat-->    
+                    <!--end::Stat-->
                 </div>
                 <!--end::Stats-->
             </div>

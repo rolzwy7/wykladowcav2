@@ -1,3 +1,7 @@
+"""HTMX lecturer price panel"""
+
+# flake8: noqa=E501
+
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string

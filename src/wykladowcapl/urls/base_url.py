@@ -1,3 +1,7 @@
+"""Base URLs"""
+
+# flake8: noqa=E501
+
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -11,7 +15,7 @@ urlpatterns = [
     path("cms/", admin.site.urls),
     path("api/", include("api.urls", namespace="api")),
     path("api-auth/", include("rest_framework.urls")),
-    path("htmx/", include("htmx.urls", namespace="htmx")),
+    path("htmx/", include("htmx.htmx_urls", namespace="htmx")),
     path("tinymce/", include("tinymce.urls")),
     path("r/", meta_redirect_page, name="meta_redirect_page"),
     # SEO

@@ -51,7 +51,7 @@
     {% block navbar %}
       {% include 'geeks/components/navbar.html' %}
     {% endblock navbar %}
-    
+
     {% block root %}{% endblock root %}
     
     {% block footer %}
@@ -82,6 +82,4 @@
       observer.observe();
     </script>
   </body>
-  <script src="{% static "js/angular-client/browser/polyfills.js" %}" type="module"></script>
-  <script src="{% static "js/angular-client/browser/main.js" %}" type="module"></script>
 </html>

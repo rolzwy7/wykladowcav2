@@ -28,7 +28,7 @@ def webinar_assets_page(request: HttpRequest, uuid: str):
             "webinar": webinar,
             "webinar_assets": webinar_assets,
             "webinar_metadata": webinar_metadata,
-            "assets_expired": now() > webinar.date + timedelta(days=21),
+            "assets_expired": now() > webinar.date + timedelta(days=90),
         },
     )
 
