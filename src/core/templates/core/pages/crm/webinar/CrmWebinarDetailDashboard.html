@@ -30,7 +30,7 @@
                     <!--end::Info-->
                     <!--begin::Subtitle-->
                     <span class="text-dark pt-1 fw-semibold fs-6">
-                        Wartość <b><u>BRUTTO</u></b> szkolenia
+                        Wartość <b><u>NETTO</u></b> szkolenia
                     </span>
                     <!--end::Subtitle-->
                 </div>
@@ -76,8 +76,10 @@
     <div class="col-md-6 col-xl-6">
         <div class="card shadow-sm card-flush h-md-100 mb-xl-10">
             <div
-                hx-get="{% url 'htmx:htmx_crm_lecturer_price_card' webinar_pk=webinar.pk mode='result' %}"
-                hx-trigger="load">
+                hx-get="{% url 'htmx:lecturer-price:panel' webinar_pk=webinar.pk mode='result' %}"
+                hx-trigger="load"
+            >
+                <img class="htmx-indicator" width="25" src="{% static "media/loading/bars.svg" %}"/>
             </div>
         </div>
     </div>

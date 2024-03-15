@@ -20,7 +20,6 @@ def health_check(request: Request) -> Response:
 
     return Response(
         {
-            "celery_workers_status": all([worker["status"] for worker in workers]),
             "celery_workers": workers,
         }
     )

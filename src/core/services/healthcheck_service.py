@@ -29,3 +29,8 @@ class HealthcheckService:
             return []
 
         return response.json()["data"]
+
+    def is_healthy(self) -> bool:
+        """Check if everything is healthy"""
+        celery_workers = self.fetch_celery_workers()
+        return all([worker["status"] for worker in celery_workers])

@@ -1,0 +1,81 @@
+<!--begin::Timeline item-->
+<div class="timeline-item">
+   <!--begin::Timeline line-->
+   <div class="timeline-line w-40px"></div>
+   <!--end::Timeline line-->
+   <!--begin::Timeline icon-->
+   <div class="timeline-icon symbol symbol-circle symbol-40px me-4">
+      <div class="symbol-label bg-light">
+         <i class="ki-duotone ki-gear fs-2 text-gray-500">
+            <i class="path1"></i>
+            <i class="path2"></i>
+         </i>
+      </div>
+   </div>
+   <!--end::Timeline icon-->
+   <!--begin::Timeline content-->
+   <div class="timeline-content mb-10 mt-n1">
+      <!--begin::Timeline heading-->
+      <div class="pe-3 mb-5">
+         <!--begin::Title-->
+         <div class="fs-5 fw-semibold mb-2">
+            Ilość instancji Celery: {{workers|length}}
+            |
+            <a class="text-primary-800 text-hover-primary"
+            href="http://wykladowca.pl:5567">Przejdź do Flower</a>
+         </div>
+         <!--end::Title-->
+         <!--begin::Description-->
+         <div class="d-flex align-items-center mt-1 fs-6">
+            <!--begin::Info-->
+            <div class="text-muted me-2 fs-7">
+               Sprawdzono o godzinie
+               {{checked_at|date:"H:i:s"}}
+               dnia
+               {{checked_at|date:"j E Y"}}
+            </div>
+            <!--end::Info-->
+         </div>
+         <!--end::Description-->
+      </div>
+      <!--end::Timeline heading-->
+      <!--begin::Timeline details-->
+      <div class="overflow-auto pb-5">
+         {% for worker in workers %}
+         <!--begin::Record-->
+         <div class="d-flex align-items-center border border-dashed border-gray-300 rounded min-w-750px px-7 py-3 mb-5">
+            <!--begin::Title-->
+            <h5 class="fs-5 text-dark text-hover-primary fw-semibold w-250px min-w-100px">
+               {{worker.hostname}}
+            </h5>
+            <!--end::Title-->
+            <!--begin::Label-->
+            <div class="min-w-175px pe-2">
+               <span class="badge badge-light text-muted">
+                  {{worker.sw_sys}} {{worker.sw_ver}} | {{worker.sw_ident}}
+               </span>
+            </div>
+            <!--end::Label-->
+            <!--begin::Progress-->
+            <div class="min-w-125px pe-2">
+               {% if worker.status %}
+               <span class="badge badge-light-success">Uruchomiony</span>
+               {% else %}
+               <span class="badge badge-light-danger">Wyłączony</span>
+               {% endif %}
+            </div>
+            <!--end::Progress-->
+            {% comment %} <!--begin::Action-->
+            <a href="http://wykladowca.pl:5567" class="btn btn-sm btn-light btn-active-light-primary">
+               Przejdź do Flower
+            </a>
+            <!--end::Action--> {% endcomment %}
+         </div>
+         <!--end::Record-->
+         {% endfor %}
+      </div>
+      <!--end::Timeline details-->
+   </div>
+   <!--end::Timeline content-->
+</div>
+<!--end::Timeline item-->

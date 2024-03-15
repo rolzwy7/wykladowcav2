@@ -4,6 +4,8 @@ Consts context processor
 
 # flake8: noqa=E501
 
+from random import randint
+
 from django.conf import settings
 
 from core.consts import (
@@ -25,6 +27,11 @@ def consts(request):
     return {
         "VERSION_NUMBER": settings.VERSION_NUMBER,
         "VERSION_DATE": settings.VERSION_DATE,
+        "APP_START_TIMESTAMP": (
+            settings.APP_START_TIMESTAMP
+            if settings.APP_ENV != "develop"
+            else randint(int(1e3), int(1e9))
+        ),
         # Price and Tax
         "PRICE_ADNOTATION": PRICE_ADNOTATION,
         "WE_ARE_TAX_EXEMPT": WE_ARE_TAX_EXEMPT,

@@ -36,7 +36,7 @@
   {% endblock body_tag %}
     {% include '../includes/ThemeModeSetup.html' %}
     {% block root %}{% endblock root %}
-    {% comment %} {% include './drawers.html' %} {% endcomment %}
+    {% include './drawers.html' %}
     {% include '../includes/ScrollTop.html' %}
     {% comment %} {% include './modals.html' %} {% endcomment %}
     <!--begin::Javascript-->
@@ -48,6 +48,8 @@
     <!-- Body scripts placeholder (for this page only) -->
     {% endblock body_scripts %}
     <!--end::Javascript-->
+    <script src="{% static "js/angular-client/browser/polyfills.js" %}?ts={{APP_START_TIMESTAMP}}" type="module"></script>
+    <script src="{% static "js/angular-client/browser/main.js" %}?ts={{APP_START_TIMESTAMP}}" type="module"></script>
   </body>
   <!--end::Body-->
 </html>

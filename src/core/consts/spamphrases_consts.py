@@ -43,6 +43,8 @@ FORBIDDEN_PHRASES = {
 SPAM_PHRASES = {
     # A
     # B
+    "bezpłatna": "bezpł;atna",
+    "bezpłatny": "bezpł;atny",
     # C
     "celu": "ce;lu",
     # D
@@ -75,16 +77,25 @@ SPAM_PHRASES = {
     "przedsiębior": "przed;siębior",
     "pobrany": "pob;rany",
     # R
+    "rezygnacja": "rezyg;nacja",
+    "rezygnacji": "rezyg;nacji",
     # S
     "szkolen": "szko;len",
     "szczegółow": "szcze;gółow",
     # T
     # U
     # W
+    "wyrażenie": "wyra;żenie",
     # X
     # Y
     # Z
+    "związku": "zwią;zku",
     "zgoda": "zgo;da",
+    "zgody": "zgo;dy",
+    # !@#
+    "!!!!": "!",
+    "!!!": "!",
+    "!!": "!",
 }
 
 

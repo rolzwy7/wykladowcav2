@@ -3,6 +3,7 @@
 
 import mimetypes
 import os
+import time
 from pathlib import Path
 
 from django.forms.renderers import TemplatesSetting
@@ -13,6 +14,8 @@ load_dotenv(override=True)
 VERSION_NUMBER = "1.7.0"
 VERSION_DATE = "2023/12/15"
 
+APP_START_TIMESTAMP = int(time.time())
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,7 +24,6 @@ mimetypes.add_type("text/css", ".css", True)
 mimetypes.add_type("text/css", ".min.css", True)
 mimetypes.add_type("application/javascript", ".js", True)
 mimetypes.add_type("application/javascript", ".min.js", True)
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
