@@ -49,8 +49,7 @@ SPAM_PHRASES = {
     "celu": "ce;lu",
     # D
     "dyrektyw": "dyre;ktyw",
-    "osobowe": "oso;bowe",
-    "osobowych": "oso;bowych",
+    "dan;ych": "danych",
     # E
     # F
     "finans": "fina;ns",
@@ -71,6 +70,7 @@ SPAM_PHRASES = {
     "podstawie": "pods;tawie",
     # O
     "osobow": "oso;bow",
+    "osobowych": "oso;bowych",
     # P
     "publicz": "pub;licz",
     "propozycj": "pro;pozycj",
@@ -86,11 +86,13 @@ SPAM_PHRASES = {
     # U
     # W
     "wyrażenie": "wyra;żenie",
+    "warsztat": "warsz;tat",
     # X
     # Y
     # Z
     "związku": "zwią;zku",
     "zgoda": "zgo;da",
+    "Zgoda": "Zgo;da",
     "zgody": "zgo;dy",
     # !@#
     "!!!!": "!",

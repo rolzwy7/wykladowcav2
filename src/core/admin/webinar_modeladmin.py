@@ -51,6 +51,20 @@ class WebinarModelAdmin(ModelAdmin):
     # prepopulated_fields = {"slug": ("title",)}
     filter_horizontal = ("categories",)
     list_display = ["title", "date", "status", "lecturer", "price_netto"]
+    search_fields = [
+        "title_original",
+        "title",
+        "slug",
+    ]
+    date_hierarchy = "date"
+    list_filter = [
+        "status",
+        "is_confirmed",
+        "is_fake",
+        "show_lecturer",
+        "is_hidden",
+        "recording_allowed",
+    ]
 
     fieldsets = (
         (
