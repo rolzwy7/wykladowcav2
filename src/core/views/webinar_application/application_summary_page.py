@@ -1,7 +1,11 @@
+"""Application form summary"""
+
 # flake8: noqa:E501
+
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
+from django.utils.timezone import now
 
 from core.consts import POST
 from core.forms import ApplicationSummarySubmitForm
@@ -32,6 +36,10 @@ def application_summary_page(request, uuid):
     # Mark `got_to_summary` as True
     if not application.got_to_summary and not request.user.is_staff:
         application.got_to_summary = True
+        application.save()
+
+    if not application.step_dt_summary_start and not request.user.is_staff:
+        application.step_dt_summary_start = now()
         application.save()
 
     if request.method == POST and application.status == ApplicationStatus.INIT:
@@ -75,6 +83,9 @@ def application_summary_page(request, uuid):
                 application, request.user, webinar
             )
             summary_service.send_application(dispatch=not request.user.is_staff)
+
+            application.step_dt_summary_end = now()
+            application.save()
 
             return redirect(reverse("core:application_success_page"))
     else:

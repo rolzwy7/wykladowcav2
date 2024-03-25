@@ -1,6 +1,6 @@
 {% load static %}
 {% load custom_templatetags %}
-<table id="{{table_name}}" class="table table-striped border rounded gy-5 gs-7">
+{% comment %} <table id="{{table_name}}" class="table table-striped border rounded gy-5 gs-7">
     <thead>
         <tr class="fw-semibold fs-6 text-gray-800">
             <th class="min-w-150px" data-priority="1">Nabywca <br> szkolenia</th>
@@ -96,4 +96,187 @@
         </tr>
         {% endfor %}
     </tbody>
-</table>
+</table> {% endcomment %}
+
+{% for application in applications %}
+<div class="card mb-5 mb-xxl-8">
+
+    <!--begin::Body-->
+    <div class="card-body pt-5">
+
+
+        <div class="row">
+            <div class="col-5">
+                <div class="pb-5 fs-6">
+                    <!--begin::Details item-->
+                    <div class="fw-bold">Typ zgłoszenia</div>
+                    {% if application.application_type == "JSFP" %}<div class="text-danger">{% endif %}
+                    {% if application.application_type == "COMPANY" %}<div class="text-primary">{% endif %}
+                    {% if application.application_type == "PRIVATE_PERSON" %}<div class="text-success">{% endif %}
+                        <b class="fs-3">{{application.get_application_type_display}}</b>
+                        {% if application.got_to_summary %}
+                        <br>
+                        <b class="fs-3 text-info">[Gotowe do wysyłki]</b>
+                        {% endif %}
+                    </div>
+                    <!--begin::Details item-->
+                    <!--begin::Details item-->
+                    <div class="fw-bold mt-5">Identyfikator zgłoszenia</div>
+                    <div class="text-gray-600">{{application.uuid}}</div>
+                    <!--begin::Details item-->
+                    {% if application.refcode %}
+                    <!--begin::Details item-->
+                    <div class="fw-bold mt-5 text-danger">Program partnerski</div>
+                    <div class="text-gray-600">
+                        {{application.refcode}}
+                    </div>
+                    <!--begin::Details item-->
+                    {% endif %}
+                    <!--begin::Details item-->
+                    <div class="fw-bold mt-5">Cena NETTO za osobę</div>
+                    <div class="text-gray-600">
+                        {{application.price_netto}}zł
+                    </div>
+                    <!--begin::Details item-->
+                    <!--begin::Details item-->
+                    <div class="fw-bold mt-5">Kod śledzący</div>
+                    <div class="text-gray-600">
+                        {{application.tracking_code}}
+                    </div>
+                    <!--begin::Details item-->
+                 </div>
+            </div>
+            <div class="col-7">
+                <!--begin::Timeline-->
+                <div class="timeline-label">
+                    <!--begin::Item-->
+                    <div class="timeline-item">
+                        <div class="timeline-label fw-bold text-gray-800 fs-6">
+                            {{application.created_at|date:"H:i"}}
+                        </div>
+                        <div class="timeline-badge">
+                            <i class="fa fa-genderless text-success fs-1"></i>
+                        </div>
+                        <div class="fw-mormal timeline-content text-muted ps-3">
+                            [{{application.created_at|date:"j E Y H:i:s"}}] <br>
+                            Stworzono zgłoszenie ({{application.get_application_type_display}}) <br>
+                            Rozpoczęto wypełnianie formularza
+                        </div>
+                    </div>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <div class="timeline-item">
+                        <div class="timeline-label fw-bold text-gray-800 fs-6">
+                            {{application.step_dt_buyer_end|date:"H:i"|default:"-"}}
+                        </div>
+                        <div class="timeline-badge">
+                            <i class="fa fa-genderless {% if application.step_buyer_finished %}text-success{% else %}text-danger{% endif %} fs-1"></i>
+                        </div>
+                        <div class="fw-mormal timeline-content text-muted ps-3">
+                            {% if application.step_buyer_finished %}
+                            Wypełniono nabywcę [{{application.step_dt_buyer_end|date:"j E Y H:i:s"}}] <br>
+                                {% if application.buyer %}
+                                    ({{application.buyer.nip}}) {{application.buyer.name}}
+                                    <br>
+                                {% endif %}
+                                {% if application.submitter %}
+                                    <b>Dane kontaktowe ogólne:</b> <br>
+                                    {{application.submitter.phone|default:"brak telefonu"}}
+                                    /
+                                    {{application.submitter.email|default:"brak email"}}
+                                {% endif %}
+                            {% else %}
+                            Nie wypełniono nabywcy
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!--end::Item-->
+                    {% if application.application_type == "JSFP" %}
+                    <!--begin::Item-->
+                    <div class="timeline-item">
+                        <div class="timeline-label fw-bold text-gray-800 fs-6">
+                            {{application.step_dt_recipient_end|date:"H:i"|default:"-"}}
+                        </div>
+                        <div class="timeline-badge">
+                            <i class="fa fa-genderless {% if application.step_recipient_finished %}text-success{% else %}text-danger{% endif %} fs-1"></i>
+                        </div>
+                        <div class="fw-mormal timeline-content text-muted ps-3">
+                            {% if application.step_recipient_finished %}
+                            Wypełniono odbiorcę [{{application.step_dt_recipient_end|date:"j E Y H:i:s"}}] <br>
+                            {% if application.recipient %}
+                            ({{application.recipient.nip}}) {{application.recipient.name}}
+                            {% endif %}
+                            {% else %}
+                            Nie wypełniono odbiorcy
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!--end::Item-->
+                    {% endif %}
+                    <!--begin::Item-->
+                    <div class="timeline-item">
+                        <div class="timeline-label fw-bold text-gray-800 fs-6">
+                            {{application.step_dt_participants_end|date:"H:i"|default:"-"}}
+                        </div>
+                        <div class="timeline-badge">
+                            <i class="fa fa-genderless {% if application.step_participants_finished %}text-success{% else %}text-danger{% endif %} fs-1"></i>
+                        </div>
+                        <div class="fw-mormal timeline-content text-muted ps-3">
+                            {% if application.step_participants_finished %}
+                            Podano uczestników
+                            {% else %}
+                            Nie podano uczestników
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <div class="timeline-item">
+                        <div class="timeline-label fw-bold text-gray-800 fs-6">
+                            {{application.step_dt_invoice_end|date:"H:i"|default:"-"}}
+                        </div>
+                        <div class="timeline-badge">
+                            <i class="fa fa-genderless {% if application.step_invoice_finished %}text-success{% else %}text-danger{% endif %} fs-1"></i>
+                        </div>
+                        <div class="fw-mormal timeline-content text-muted ps-3">
+                            {% if application.step_invoice_finished %}
+                            Wypełniono fakturę
+                            {% else %}
+                            Nie wypełniono faktury
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!--end::Item-->
+                    {% if application.step_dt_summary_start %}
+                    <!--begin::Item-->
+                    <div class="timeline-item">
+                        <div class="timeline-label fw-bold text-gray-800 fs-6">
+                            {{application.step_dt_summary_start|date:"H:i"|default:"-"}}
+                        </div>
+                        <div class="timeline-badge">
+                            <i class="fa fa-genderless text-danger fs-1"></i>
+                        </div>
+                        <div class="fw-mormal timeline-content text-muted ps-3">
+                            Otwarto stronę podsumowania, ale <b>nie wysłano zgłoszenia</b>
+                        </div>
+                    </div>
+                    <!--end::Item-->
+                    {% endif %}
+                </div>
+                <!--end::Timeline-->
+            </div>
+        </div>
+
+
+    </div>
+    <!--end: Card Body-->
+    <div class="card-footer flex-wrap pt-0">
+        <a href="{% url 'admin:core_webinarapplication_change' object_id=application.id %}" class="btn btn-light btn-active-primary my-1 me-2">
+            Zobacz w CMS
+        </a>
+        <a href="{% url 'core:application_summary_page' uuid=application.uuid %}" class="btn btn-light btn-active-primary my-1 me-2">
+            Przejdź do Podsumowania
+        </a>
+     </div>
+ </div>
+ {% endfor %}

@@ -22,7 +22,7 @@ from core.consts import TelegramChats
 from core.models import MailingCampaign, MailingPoolManager, MailingTemplate, SmtpSender
 from core.models.enums import MailingCampaignStatus, MailingPoolStatus
 from core.services import SenderSmtpService, TelegramService
-from core.services.mailing import MailingResignationService
+from core.services.mailing import MailingResignationService, MailingTrackingService
 
 BASE_URL = settings.BASE_URL
 
@@ -76,6 +76,7 @@ def process_sending(campaign_id: int, /, *, limit: int = 100) -> str:
         resignation_code = MailingResignationService.get_or_create_inactive_resignation(
             email, campaign.resignation_list
         )
+        tracking_code = MailingTrackingService.get_or_create_tracking(email)
         resignation_url = BASE_URL + reverse(
             "core:mailing_resignation_page_with_list",
             kwargs={
@@ -96,6 +97,7 @@ def process_sending(campaign_id: int, /, *, limit: int = 100) -> str:
                 html=html_content,
                 text=text_content,
                 resignation_url=resignation_url,
+                tracking_code=tracking_code,
             )
         except TimeoutError as exception:
             print(f"[-] Timeout for `{email}`: {exception}")

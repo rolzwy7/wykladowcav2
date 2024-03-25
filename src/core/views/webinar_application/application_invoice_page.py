@@ -1,12 +1,14 @@
+"""Application form invoice"""
+
+# flake8: noqa=E501
+
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
+from django.utils.timezone import now
 
 from core.consts.requests_consts import POST
-from core.forms import (
-    ApplicationAdditionalInformationForm,
-    ApplicationInvoiceForm,
-)
+from core.forms import ApplicationAdditionalInformationForm, ApplicationInvoiceForm
 from core.models import WebinarApplication
 from core.models.enums import WebinarApplicationStep
 from core.services import ApplicationFormService
@@ -33,6 +35,8 @@ def application_invoice_page(request, uuid: str):
                 application = form_additional_info.save()
                 invoice = form_invoice.save()
                 application.invoice = invoice
+                application.step_invoice_finished = True
+                application.step_dt_invoice_end = now()
                 application.save()
 
             return service.get_next_step_redirect()
@@ -42,6 +46,9 @@ def application_invoice_page(request, uuid: str):
         form_additional_info = ApplicationAdditionalInformationForm(
             instance=application
         )
+        if not application.step_dt_invoice_start:
+            application.step_dt_invoice_start = now()
+            application.save()
 
     return TemplateResponse(
         request,

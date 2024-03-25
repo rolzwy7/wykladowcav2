@@ -13,11 +13,18 @@ class WebinarApplicationModelAdmin(ModelAdmin):
     """WebinarApplicationModelAdmin"""
 
     list_display = ["uuid", "status", "application_type", "buyer_htmlfield"]
-    list_filter = ["status", "application_type", "got_to_summary"]
+    list_filter = [
+        "status",
+        "application_type",
+        "webinar__lecturer",
+        "got_to_summary",
+        "webinar__status",
+    ]
     date_hierarchy = "created_at"
 
     search_fields = [
         "uuid",
+        "webinar__title",
         "recipient__nip",
         "recipient__name",
         "recipient__address",
@@ -34,13 +41,17 @@ class WebinarApplicationModelAdmin(ModelAdmin):
     def buyer_htmlfield(self, application):
         """Buyer HTML field"""
         html = ""
+
+        if application.webinar:
+            html += f"<p><b>Webinar:</b> {application.webinar.title}"
+
         if application.recipient:
-            html += f"<p>Nabywca: ({application.recipient.nip}) {application.recipient.name}</p>"
+            html += f"<p><b>Nabywca:</b> ({application.recipient.nip}) {application.recipient.name}</p>"
         if application.buyer:
-            html += (
-                f"<p>Odbiorca: ({application.buyer.nip}) {application.buyer.name}</p>"
-            )
+            html += f"<p><b>Odbiorca:</b> ({application.buyer.nip}) {application.buyer.name}</p>"
         if application.private_person:
             pp = application.private_person
-            html += f"<p>Osoba prywatna: {pp.first_name} {pp.last_name} {pp.email} {pp.phone}</p>"
+            html += f"<p><b>Osoba prywatna:</b> {pp.first_name} {pp.last_name} {pp.email} {pp.phone}</p>"
         return format_html(html)  # noqa
+
+    buyer_htmlfield.short_description = "Szczegóły"

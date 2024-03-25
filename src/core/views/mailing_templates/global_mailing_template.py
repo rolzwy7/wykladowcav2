@@ -80,10 +80,8 @@ def global_mailing_template_page(request):
     if webinar_id:
         main_webinar = get_object_or_404(Webinar, pk=int(webinar_id))
         lecturer = main_webinar.lecturer
-        webpath = reverse(
-            "core:webinar_redirect_to_program_safe", kwargs={"pk": int(webinar_id)}
-        )
-        cta_href = f"{BASE_URL}{webpath}"
+        cta_href = f"{BASE_URL}/szkl/{main_webinar.id}"
+        cta_href += "/{TRACKING_CODE}/"
         cta_text = "Zapisz się teraz!"
 
         _program = markdown(main_webinar.program_markdown)

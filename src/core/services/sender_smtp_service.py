@@ -65,6 +65,7 @@ class SenderSmtpService:
         html: str,
         text: str,
         resignation_url: str,
+        tracking_code: str,
     ):
         """Send email message"""
 
@@ -86,6 +87,9 @@ class SenderSmtpService:
 
         html_content = html_content.replace("{RESIGNATION_URL}", resignation_url)
         text_content = text_content.replace("{RESIGNATION_URL}", resignation_url)
+
+        html_content = html_content.replace("{TRACKING_CODE}", tracking_code)
+        text_content = text_content.replace("{TRACKING_CODE}", tracking_code)
 
         msg = EmailMultiAlternatives(
             subject=subject,

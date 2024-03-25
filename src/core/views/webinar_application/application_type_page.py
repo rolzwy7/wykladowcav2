@@ -1,5 +1,8 @@
+"""Application form type"""
+
 # flake8: noqa:E501
 # pylint: disable=line-too-long
+
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
@@ -35,6 +38,11 @@ def application_type_page(request, pk: int):
                     webinar=webinar,
                 )
 
+                # Set tracking code
+                application.tracking_code = request.session.get(
+                    "tracking_code", "no_code"
+                )
+
                 # Set reflink
                 if reflink_service.is_refcode_valid():
                     refcode = reflink_service.get_ref_code()
@@ -47,9 +55,7 @@ def application_type_page(request, pk: int):
                 discount_service = DiscountService(application)
                 discount_service.maybe_apply_initial_application_discount()
 
-            metadata = WebinarApplicationMetadata.objects.get(
-                application=application
-            )
+            metadata = WebinarApplicationMetadata.objects.get(application=application)
             metadata.ip_address = IpAddressService.get_client_ip(request)
             metadata.save()
 
