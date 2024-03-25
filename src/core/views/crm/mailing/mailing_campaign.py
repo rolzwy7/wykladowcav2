@@ -16,10 +16,14 @@ from core.forms import (
     MailingSendTestEmailForm,
 )
 from core.models import MailingCampaign, MailingTemplate
-from core.models.enums import MailingPoolStatus, mailing_pool_status_display_map
+from core.models.enums import mailing_pool_status_display_map
 from core.models.mailing import MailingPoolManager
 from core.services import SenderSmtpService
-from core.services.mailing import MailingCampaignService, MailingResignationService
+from core.services.mailing import (
+    MailingCampaignService,
+    MailingResignationService,
+    MailingTrackingService,
+)
 
 BASE_URL = settings.BASE_URL
 
@@ -118,6 +122,7 @@ def crm_mailing_campaign_send_test_email(request, pk: int):
                     "resignation_list": mailing_campaign.resignation_list,
                 },
             )
+            tracking_code = MailingTrackingService.get_or_create_tracking(email)
 
             with service.get_smtp_connection() as connection:
                 service.send_email(
@@ -128,6 +133,7 @@ def crm_mailing_campaign_send_test_email(request, pk: int):
                     html=template.html,
                     text=template.text,
                     resignation_url=resignation_url,
+                    tracking_code=tracking_code,
                 )
 
             return redirect(
