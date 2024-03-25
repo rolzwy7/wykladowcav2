@@ -96,6 +96,7 @@
     </div>
 
 
+    {% if lecturer.biography_email %}
     <p class="m-0">
       <div id="id_lecturer_short_desc">{{lecturer.biography_email|truncatechars:150}}</div>
       <div id="id_lecturer_long_desc" class="d-none">{{lecturer.biography_email}}</div>
@@ -106,13 +107,8 @@
         Schowaj pełny opis
       </a>
     </p>
-    {% comment %}
-    <div class="text-center">
-      <a href="instructor-profile.html" class="btn btn-outline-primary btn-sm">
-        Zobacz pełny opis
-      </a>
-    </div>
-    {% endcomment %}
+    {% endif %}
+
   </div>
 </div>
 <!-- Card -->
