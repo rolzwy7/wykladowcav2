@@ -141,7 +141,12 @@
                     <!--begin::Details item-->
                     <div class="fw-bold mt-5">Kod śledzący</div>
                     <div class="text-gray-600">
-                        {{application.tracking_code}}
+                        {{application.tracking_code|default:"Brak"}}
+                        {% if application.tracking_code %}
+                        <div hx-get="{% url 'htmx:tracking_mailing' tracking_code=application.tracking_code %}" hx-trigger="load">
+                            Ładowanie ...
+                        </div>
+                        {% endif %}
                     </div>
                     <!--begin::Details item-->
                  </div>
