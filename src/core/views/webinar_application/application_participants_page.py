@@ -1,12 +1,14 @@
 """
 Applications participants form step
 """
+
 # flake8: noqa=E501
 
 from django.db import transaction
 from django.forms import formset_factory
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
+from django.utils.timezone import now
 
 from core.consts.requests_consts import POST
 from core.forms import ApplicationParticipantForm
@@ -59,10 +61,17 @@ def application_participants_page(request, uuid: str):
                     participant = form.save(commit=False)
                     participant.application = application
                     participant.save()
+                # Mark application's participants step as finished
+                application.step_participants_finished = True
+                application.step_dt_participants_end = now()
+                application.save()
 
             return service.get_next_step_redirect()
     else:
         formset = ApplicationParticipantsFormSet(initial=data)
+        if not application.step_dt_participants_start:
+            application.step_dt_participants_start = now()
+            application.save()
 
     return TemplateResponse(
         request,

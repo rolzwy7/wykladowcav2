@@ -1,4 +1,5 @@
 # flake8: noqa
 from .mailing_campaign_service import MailingCampaignService
 from .mailing_resignation_service import MailingResignationService
+from .mailing_tracking_service import MailingTrackingService
 from .mailing_webinar_template_service import MailingWebinarTemplateService

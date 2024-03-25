@@ -18,6 +18,20 @@ def webinar_redirect_to_program(request: HttpRequest, pk: int):
     )
 
 
+def webinar_redirect_to_program_tracking(
+    request: HttpRequest, pk: int, tracking_code: str
+):
+    """Redirect to webinar program by webinar ID"""
+    webinar: Webinar = get_object_or_404(Webinar, pk=pk)
+
+    if len(tracking_code) <= 32:
+        request.session["tracking_code"] = tracking_code
+
+    return redirect(
+        reverse("core:webinar_redirect_to_program_safe", kwargs={"pk": webinar.id})
+    )
+
+
 def webinar_redirect_to_program_onesignal(request: HttpRequest, pk: int):
     """Redirect to webinar program by webinar ID"""
     webinar: Webinar = get_object_or_404(Webinar, pk=pk)
@@ -46,6 +60,4 @@ def webinar_redirect_to_program_facebook(request: HttpRequest, pk: int):
 def webinar_redirect_to_application(request: HttpRequest, pk: int):
     """Redirect to application by webinar ID"""
     webinar: Webinar = get_object_or_404(Webinar, pk=pk)
-    return redirect(
-        reverse("core:application_type_page", kwargs={"pk": webinar.pk})
-    )
+    return redirect(reverse("core:application_type_page", kwargs={"pk": webinar.pk}))

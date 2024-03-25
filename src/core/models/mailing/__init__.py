@@ -7,4 +7,5 @@ from .mailing_processing_cache_model import MailingProcessingCacheManager
 from .mailing_reply_message_model import MailingReplyMessage
 from .mailing_resignation_model import MailingResignation, MailingResignationManager
 from .mailing_template_model import MailingTemplate
+from .mailing_tracking_model import MailingTracking, MailingTrackingManager
 from .smtp_sender_model import SmtpSender

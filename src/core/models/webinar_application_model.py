@@ -196,6 +196,7 @@ class WebinarApplication(Model):
     uuid = UUIDField("Identyfikator zgłoszenia", default=uuid.uuid4, unique=True)
 
     refcode = CharField("Kod referencyjny", max_length=32, blank=True)
+    tracking_code = CharField("Kod śledzący", max_length=32, blank=True)
 
     # Price
     price_netto = PositiveSmallIntegerField("Cena NETTO")
@@ -272,11 +273,51 @@ class WebinarApplication(Model):
         verbose_name="Użytkownik",
     )
 
+    step_buyer_finished = BooleanField(
+        "Krok Nabywca zrealizowany",
+        default=False,
+        help_text="Czy zgłaszający wysłał formularz z nabywcą?",
+    )
+
+    step_recipient_finished = BooleanField(
+        "Krok Odbiorca zrealizowany",
+        default=False,
+        help_text="Czy zgłaszający wysłał formularz z odbiorcą?",
+    )
+
+    step_participants_finished = BooleanField(
+        "Krok Uczestnicy zrealizowany",
+        default=False,
+        help_text="Czy zgłaszający wysłał formularz z uczestnikami?",
+    )
+
+    step_invoice_finished = BooleanField(
+        "Krok Faktura zrealizowany",
+        default=False,
+        help_text="Czy zgłaszający wysłał formularz z fakturą?",
+    )
+
     got_to_summary = BooleanField(
         "Dotarł do podsumowania",
         default=False,
         help_text="Czy zgłaszający dotarł do strony podsumowania?",
     )
+
+    step_dt_buyer_end = DateTimeField("buyer_end", blank=True, null=True)
+
+    step_dt_recipient_start = DateTimeField("recipient_start", blank=True, null=True)
+    step_dt_recipient_end = DateTimeField("recipient_end", blank=True, null=True)
+
+    step_dt_participants_start = DateTimeField(
+        "participants_start", blank=True, null=True
+    )
+    step_dt_participants_end = DateTimeField("participants_end", blank=True, null=True)
+
+    step_dt_invoice_start = DateTimeField("invoice_start", blank=True, null=True)
+    step_dt_invoice_end = DateTimeField("invoice_end", blank=True, null=True)
+
+    step_dt_summary_start = DateTimeField("summary_start", blank=True, null=True)
+    step_dt_summary_end = DateTimeField("summary_end", blank=True, null=True)
 
     class Meta:
         verbose_name = "Zgłoszenie"
@@ -313,4 +354,4 @@ class WebinarApplicationMetadata(Model):
     ip_address = CharField(max_length=64, blank=True)
 
     def __str__(self) -> str:
-        return f"Zgłoszenie {self.application.id} metadata"
+        return f"Zgłoszenie {self.application.id} metadata"  # pylint: disable=no-member

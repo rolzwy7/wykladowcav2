@@ -1,7 +1,12 @@
+"""Application form buyer"""
+
+# flake8: noqa=E501
+
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 from django.urls import reverse
+from django.utils.timezone import now
 
 from core.consts import POST
 from core.forms import ApplicationBuyerForm
@@ -16,15 +21,11 @@ def application_buyer_page(request, uuid: str):
     application = get_object_or_404(WebinarApplication, uuid=uuid)
     webinar = application.webinar
     buyer = application.buyer
-    service = ApplicationFormService(
-        webinar, application, WebinarApplicationStep.BUYER
-    )
+    service = ApplicationFormService(webinar, application, WebinarApplicationStep.BUYER)
     service.redirect_on_application_error()
 
     if request.method == POST:
-        form = ApplicationBuyerForm(
-            request.POST, prefix="buyer", instance=buyer
-        )
+        form = ApplicationBuyerForm(request.POST, prefix="buyer", instance=buyer)
         if form.is_valid():
             with transaction.atomic():
                 buyer = form.save()
@@ -32,6 +33,8 @@ def application_buyer_page(request, uuid: str):
                 ApplicationFormService.create_submitter(
                     application, buyer.phone_number, buyer.email
                 )
+                application.step_buyer_finished = True
+                application.step_dt_buyer_end = now()
                 application.save()
             return service.get_next_step_redirect()
     else:

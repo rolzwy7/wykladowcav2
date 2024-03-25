@@ -24,7 +24,10 @@ from core.views.mailing_resignation import (
     mailing_resignation_by_form_page,
     mailing_resignation_page_with_list,
 )
-from core.views.webinar.webinar_redirects import webinar_redirect_to_program
+from core.views.webinar.webinar_redirects import (
+    webinar_redirect_to_program,
+    webinar_redirect_to_program_tracking,
+)
 from core.views.webinar_category import webinar_category_page
 
 from .application_urls import urlpatterns as application_urlpatterns
@@ -97,6 +100,11 @@ urlpatterns = [
         "szkl/<int:pk>/",
         webinar_redirect_to_program,
         name="webinar_redirect_to_program_safe",
+    ),
+    path(
+        "szkl/<int:pk>/<str:tracking_code>/",
+        webinar_redirect_to_program_tracking,
+        name="webinar_redirect_to_program_tracking",
     ),
     path(
         "kat/<slug:slug>/",

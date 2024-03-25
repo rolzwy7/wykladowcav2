@@ -1,6 +1,11 @@
+"""Application buyer-recipient form"""
+
+# flake8: noqa=E501
+
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
+from django.utils.timezone import now
 
 from core.consts import POST
 from core.forms import ApplicationBuyerForm, ApplicationRecipientForm
@@ -25,9 +30,7 @@ def application_buyer_recipient_page(request, uuid: str):
     application_form_service.redirect_on_application_error()
 
     if request.method == POST:
-        form_buyer = ApplicationBuyerForm(
-            request.POST, prefix="buyer", instance=buyer
-        )
+        form_buyer = ApplicationBuyerForm(request.POST, prefix="buyer", instance=buyer)
         form_recipient = ApplicationRecipientForm(
             request.POST, prefix="recipient", instance=recipient
         )
@@ -41,6 +44,10 @@ def application_buyer_recipient_page(request, uuid: str):
                 ApplicationFormService.create_submitter(
                     application, buyer.phone_number, buyer.email
                 )
+                application.step_buyer_finished = True
+                application.step_recipient_finished = True
+                application.step_dt_buyer_end = now()
+                application.step_dt_recipient_end = now()
                 application.save()
             return application_form_service.get_next_step_redirect()
     else:
@@ -48,6 +55,9 @@ def application_buyer_recipient_page(request, uuid: str):
         form_recipient = ApplicationRecipientForm(
             prefix="recipient", instance=recipient
         )
+        if not application.step_dt_recipient_start:
+            application.step_dt_recipient_start = now()
+            application.save()
 
     return TemplateResponse(
         request,

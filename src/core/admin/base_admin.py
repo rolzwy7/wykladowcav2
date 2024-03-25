@@ -1,6 +1,7 @@
 """
 Base admin
 """
+
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin, register
 
@@ -21,7 +22,6 @@ from core.models import (
     MailingTemplate,
     SmtpSender,
     User,
-    WebinarApplication,
     WebinarApplicationCancellation,
     WebinarApplicationCompany,
     WebinarApplicationInvoice,
@@ -94,7 +94,6 @@ admin.site.register(LecturerOpinion)
 admin.site.register(WebinarApplicationMetadata)
 admin.site.register(WebinarParticipant)
 admin.site.register(WebinarParticipantMetadata)
-admin.site.register(WebinarApplication)
 admin.site.register(WebinarApplicationSubmitter)
 admin.site.register(WebinarRecording)
 admin.site.register(WebinarRecordingToken)
