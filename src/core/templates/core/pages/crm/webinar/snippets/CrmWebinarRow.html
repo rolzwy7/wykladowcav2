@@ -139,6 +139,9 @@
         {% endif %}
         
         <span style="font-size: 0.9rem;">
+        {% if webinar_ctx.unfinished_applications_count %}
+            <span>NZ={{webinar_ctx.unfinished_applications_count}}</span>
+        {% endif %}
         {% if webinar_ctx.click_count_mailing %}
             <span>M={{webinar_ctx.click_count_mailing}}</span>
         {% endif %}

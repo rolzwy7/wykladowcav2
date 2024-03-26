@@ -6,6 +6,7 @@ from core.views.crm import (
     crm_blacklist_paste,
     crm_contact_messages,
     crm_eventlogs,
+    crm_invoices_list,
     crm_resignations_plaintext,
     crm_take_over_account,
     crm_todos_done_list,
@@ -173,6 +174,11 @@ urlpatterns = [
         "zadania/wykonane/",
         crm_todos_done_list,
         name="crm_todos_done_list",
+    ),
+    path(
+        "faktury/",
+        crm_invoices_list,
+        name="crm_invoices_list",
     ),
     path(
         "zadania/",

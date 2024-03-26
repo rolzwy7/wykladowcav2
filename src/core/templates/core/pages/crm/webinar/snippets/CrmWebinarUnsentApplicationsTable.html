@@ -121,17 +121,14 @@
                     </div>
                     <!--begin::Details item-->
                     <!--begin::Details item-->
-                    <div class="fw-bold mt-5">Identyfikator zgłoszenia</div>
-                    <div class="text-gray-600">{{application.uuid}}</div>
-                    <!--begin::Details item-->
-                    {% if application.refcode %}
-                    <!--begin::Details item-->
-                    <div class="fw-bold mt-5 text-danger">Program partnerski</div>
-                    <div class="text-gray-600">
-                        {{application.refcode}}
-                    </div>
-                    <!--begin::Details item-->
+                    <div class="fw-bold mt-5">Nabywca</div>
+                    {% if application.buyer %}
+                        <div class="text-gray-600">({{application.buyer.nip}}) {{application.buyer.name}}</div>
                     {% endif %}
+                    {% if application.private_person %}
+                        <div class="text-gray-600">{{application.private_person.fullname}}</div>
+                    {% endif %}
+                    <!--begin::Details item-->
                     <!--begin::Details item-->
                     <div class="fw-bold mt-5">Cena NETTO za osobę</div>
                     <div class="text-gray-600">
@@ -148,6 +145,18 @@
                         </div>
                         {% endif %}
                     </div>
+                    <!--begin::Details item-->
+                    {% if application.refcode %}
+                    <!--begin::Details item-->
+                    <div class="fw-bold mt-5 text-danger">Program partnerski</div>
+                    <div class="text-gray-600">
+                        {{application.refcode}}
+                    </div>
+                    <!--begin::Details item-->
+                    {% endif %}
+                    <!--begin::Details item-->
+                    <div class="fw-bold mt-5">Identyfikator zgłoszenia</div>
+                    <div class="text-gray-600">{{application.uuid}}</div>
                     <!--begin::Details item-->
                  </div>
             </div>
