@@ -14,9 +14,9 @@
         <!--begin::Title-->
         <h1 class="align-items-center my-1">
             {{webinar.title_original}}
-            <a href="{% url 'admin:core_webinar_change' object_id=webinar.id %}" class="menu-link">
+            {% comment %} <a href="{% url 'admin:core_webinar_change' object_id=webinar.id %}" class="menu-link">
                 ( Edytuj w CMS )
-            </a>
+            </a> {% endcomment %}
         </h1>
         <!--end::Title-->
     </div>
