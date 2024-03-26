@@ -1,0 +1,45 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+
+{% block crm_content %}
+
+<div class="table-responsive">
+	<table class="table">
+		<thead>
+			<tr class="fw-bold fs-6 text-gray-800">
+				<th>Data szkolenia</th>
+				<th>Numer faktury</th>
+				<th>Zgłoszenie</th>
+				<th>Szkolenie</th>
+			</tr>
+		</thead>
+		<tbody>
+            {% for meta in meta_applications %}
+			<tr>
+				<td>{{meta.application.webinar.date}}</td>
+				<td>
+                    <a href="{{meta.invoice_url}}">
+                        <b>{{meta.invoice_number}}</b>
+                    </a>
+                </td>
+				<td>
+                    <a href="{% url 'admin:core_webinarapplication_change' object_id=meta.application.id %}">
+                        <b>Zobacz w CMS (id={{meta.application.id}})</b>
+                    </a>
+                </td>
+				<td>
+                    <a href="{% url "core:crm_webinar_detail_dashboard" pk=meta.application.webinar.id %}">
+                        <b>{{meta.application.webinar.title}}</b>
+                    </a>
+                </td>
+			</tr>
+            {% endfor %}
+		</tbody>
+	</table>
+</div>
+
+{% endblock crm_content %}
+
+{% block body_scripts %}{% endblock body_scripts %}

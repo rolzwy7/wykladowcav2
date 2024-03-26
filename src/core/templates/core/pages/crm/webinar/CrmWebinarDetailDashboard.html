@@ -342,7 +342,13 @@
             </div>
             <div id="kt_card_participants" class="collapse show">
                 <div class="card-body">
+                {% if gathered_participants_count == 0 %}
+                <p class="text-center fs-1 fw-bold">
+                    Brak uczestników
+                </p>
+                {% else %}
                     {% include './snippets/CrmWebinarParticipantsTable.html' with gathered_participants=gathered_participants %}
+                {% endif %}
                 </div>
             </div>
         </div>
@@ -389,6 +395,11 @@
             </div>
             <div id="kt_card_applications" class="collapse show">
                 <div class="card-body">
+                    {% if sent_applications_count == 0 %}
+                    <p class="text-center fs-1 fw-bold">
+                        Brak zgłoszeń
+                    </p>
+                    {% else %}
                     <div class="table-responsive">
                         <table class="table table-bordered table-row-gray-900" style="border: 1px solid black;">
                             <thead>
@@ -587,6 +598,7 @@
                             </tbody>
                         </table>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -594,6 +606,23 @@
     </div>
     <!--end::Col-->
 
+    <!--start::Col-->
+    <div class="col-md-12">
+        <div class="card shadow-sm mt-4">
+            <div class="card-header">
+                <h3 class="card-title">
+                    Niewysłane Zgłoszenia ( {{unfinished_applications_count}} )
+                </h3>
+            </div>
+            {% if unfinished_applications_count != 0 %}
+            <div class="card-body">
+                {% include './snippets/CrmWebinarUnsentApplicationsTable.html' with applications=unfinished_applications table_name='unfinished_applications' %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <!--end::Col-->
+    
     <!--start::Col-->
     <div class="col-md-12">
         <div class="card shadow-sm mt-4">
@@ -611,23 +640,6 @@
     </div>
     <!--end::Col-->
 
-    <!--start::Col-->
-    <div class="col-md-12">
-        <div class="card shadow-sm mt-4">
-            <div class="card-header">
-                <h3 class="card-title">
-                    NIEWYSŁANE ZGŁOSZENIA ( {{unfinished_applications_count}} )
-                </h3>
-            </div>
-            {% if unfinished_applications_count != 0 %}
-            <div class="card-body">
-                {% include './snippets/CrmWebinarUnsentApplicationsTable.html' with applications=unfinished_applications table_name='unfinished_applications' %}
-            </div>
-            {% endif %}
-        </div>
-    </div>
-    <!--end::Col-->
-    
 </div>
 <!--end::Row-->
 {% endblock crm_webinar_content %}

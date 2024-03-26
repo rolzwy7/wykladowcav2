@@ -40,9 +40,10 @@ data-kt-sticky-zindex="95"
   <div class="menu-item">
     <div class="menu-content pb-2">
       <span
-        class="menu-section text-muted text-uppercase fs-7 fw-bold"
-        >
-          CRM v{{VERSION_NUMBER}} - ({{VERSION_DATE}})
+        class="menu-section text-muted text-uppercase fs-7 fw-bold">
+          <a href="{% url "changelog_page" %}">
+            CRM v{{VERSION_NUMBER}} - ({{VERSION_DATE}})
+          </a>
         </span
       >
     </div>
@@ -104,6 +105,21 @@ data-kt-sticky-zindex="95"
         </span>
       </span>
 
+    </a>
+  </div>
+  <!--end::Menu item-->
+  <!--begin::Menu item-->
+  <div class="menu-item">
+    <a
+      href="{% url 'core:crm_invoices_list' %}"
+      class="menu-link {% if request.path|startswith:'/crm/faktury/' %}active{% endif %}"
+    >
+    <span class="menu-icon">
+      <i class="ki-duotone ki-dollar fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+    </span>
+    <span class="menu-title">
+      Faktury
+    </span>
     </a>
   </div>
   <!--end::Menu item-->
