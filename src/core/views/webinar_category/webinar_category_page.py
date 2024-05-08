@@ -27,6 +27,7 @@ def webinar_category_page(request, slug: str):
         archived_webinars = Webinar.manager.get_archived_webinars()
         parent = None
         trusted_us = []
+        page_title = "Wszystkie szkolenia"
     else:
         category = get_object_or_404(WebinarCategory, slug=slug)
         category_name = category.name

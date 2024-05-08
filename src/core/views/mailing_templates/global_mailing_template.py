@@ -48,6 +48,7 @@ def global_mailing_template_page(request):
     """Mailing template for webinar category"""
 
     controls = {
+        "hide_head_tag": True,
         "promo_code": request.GET.get("promo_code"),
         "promo_value": request.GET.get("promo_value"),
         "for_whom": request.GET.get("for_whom"),
@@ -59,6 +60,7 @@ def global_mailing_template_page(request):
         "section_loyalty": request.GET.get("section_loyalty"),
         "lecturer_section": request.GET.get("lecturer_section"),
         "patron_section": request.GET.get("patron_section"),
+        "other_cat_section": request.GET.get("other_cat_section"),
         "background_color": "#f1f4fa",
         "max_width": "640px",
     }

@@ -107,7 +107,7 @@
     </td>
   </tr>
 
-
+  {% if other_cat_section %}
   <tr>
     <td align="center" valign="top" style="border-collapse:collapse;">
       <div>
@@ -123,6 +123,7 @@
       </div>
     </td>
   </tr>
+  {% endif %}
 
   {% if section_loyalty %}
     {% include "./sections/SectionLoyalty.html" %}

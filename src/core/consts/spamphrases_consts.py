@@ -43,20 +43,26 @@ FORBIDDEN_PHRASES = {
 SPAM_PHRASES = {
     # A
     # B
+    "bonus": "bon,us",
     "bezpłatna": "bezpł;atna",
     "bezpłatny": "bezpł;atny",
     # C
     "celu": "ce;lu",
     # D
     "dyrektyw": "dyre;ktyw",
-    "dan;ych": "danych",
+    "danych": "dany;ch",
     # E
     # F
-    "finans": "fina;ns",
+    "finanse": "fin;anse",
+    "finansowanych": "finan;sowanych",
+    "finansowane": "finan;sowane",
+    "finansów": "finan;sów",
     # G
     # H
     # I
     "informac": "inf;ormac",
+    "inter;netowej": "inter;netowej",
+    "inter;netowa": "inter;netowa",
     # J
     # K
     "kurs": "ku;rs",
@@ -69,12 +75,18 @@ SPAM_PHRASES = {
     "nabycie": "na;bycie",
     "podstawie": "pods;tawie",
     # O
-    "osobow": "oso;bow",
-    "osobowych": "oso;bowych",
+    "osobow": "osob;ow",
+    "osobowych": "osob;owych",
+    "osobowych,": "osob;owych,",
+    "osobowe": "osob;owe",
+    "osobowe,": "osob;owe,",
     # P
     "publicz": "pub;licz",
+    "publicznych": "pub;licznych,",
+    "publicznych,": "pub;licznych,",
     "propozycj": "pro;pozycj",
     "przedsiębior": "przed;siębior",
+    "przedsiębiorstw": "przed;siębiorstw",
     "pobrany": "pob;rany",
     # R
     "rezygnacja": "rezyg;nacja",
@@ -82,6 +94,9 @@ SPAM_PHRASES = {
     # S
     "szkolen": "szko;len",
     "szczegółow": "szcze;gółow",
+    "szkolenia": "szko;lenia",
+    "szkoleniach": "szko;leniach",
+    "szkoleniu": "szko;leniu",
     # T
     # U
     # W
