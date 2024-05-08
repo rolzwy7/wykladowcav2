@@ -39,6 +39,7 @@ def webinar_category_page(request, slug: str):
         webinars = Webinar.manager.get_active_webinars()
         parent = None
         trusted_us = []
+        page_title = "Wszystkie szkolenia"
     else:
         category = get_object_or_404(WebinarCategory, slug=slug)
         category_name = category.name
