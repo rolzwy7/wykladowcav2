@@ -57,9 +57,7 @@ class ApplicationFormService:
             PRIVATE_PERSON: "application_person_details_page",
         }
         return redirect(
-            reverse(
-                f"core:{url_names[application_type]}", kwargs={"uuid": uuid}
-            )
+            reverse(f"core:{url_names[application_type]}", kwargs={"uuid": uuid})
         )
 
     def get_step_number(self):
@@ -180,16 +178,12 @@ class ApplicationFormService:
                 SUMMARY: (None, ""),
             },
         }
-        url_name, title = previous_step_map[self.application_type][
-            self.current_step
-        ]
+        url_name, title = previous_step_map[self.application_type][self.current_step]
         if url_name is None:
             return ("", title)
         else:
             return (
-                reverse(
-                    f"core:{url_name}", kwargs={"uuid": self.application.uuid}
-                ),
+                reverse(f"core:{url_name}", kwargs={"uuid": self.application.uuid}),
                 title,
             )
 
@@ -222,9 +216,7 @@ class ApplicationFormService:
             },
         }
         url_name = url_names[self.application_type][self.current_step]
-        return reverse(
-            f"core:{url_name}", kwargs={"uuid": self.application.uuid}
-        )
+        return reverse(f"core:{url_name}", kwargs={"uuid": self.application.uuid})
 
     def get_next_step_redirect(self):
         """Returns redirect for application's next step"""
@@ -295,11 +287,16 @@ class ApplicationFormService:
         """
         transformed_post_keys = {}
         post_keys_to_delete = []
+        success = True
+        msg = ""
 
         # TODO: Potentially insecure, add some key checking with RegExp
         for post_key, post_value in request.POST.items():
             if not post_key.startswith("kt_participants_repeater"):
                 continue
+            if not post_value:
+                success = False
+                msg = "Dane uczestnika nie mogą być puste. Uzupełnij dane lub usuń uczestnika."
             post_keys_to_delete.append(post_key)
             key_index = post_key.split("][")[0].split("[")[1]
             field_name = post_key.split("-")[-1].strip("]")
@@ -320,7 +317,7 @@ class ApplicationFormService:
         # Yes I know this is kinda hacky but it works
         request.POST._mutable = False  # pylint: disable=protected-access
 
-        return request
+        return success, msg, request
 
     @staticmethod
     def populate_private_person_data(

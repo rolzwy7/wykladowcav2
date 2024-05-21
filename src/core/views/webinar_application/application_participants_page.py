@@ -44,14 +44,26 @@ def application_participants_page(request, uuid: str):
         ApplicationParticipantForm,
         min_num=1,
         validate_min=True,
-        max_num=10,
+        max_num=20,
         validate_max=True,
         extra=0,
     )
 
     if request.method == POST:
-        request = ApplicationFormService.transform_post_data(request)
+        success, msg, request = ApplicationFormService.transform_post_data(request)
         formset = ApplicationParticipantsFormSet(request.POST, initial=data)
+
+        if not success:
+            return TemplateResponse(
+                request,
+                template_name,
+                {
+                    "formset": formset,
+                    **service.get_context(),
+                    "transform_error_msg": msg,
+                },
+            )
+
         if formset.is_valid():
             with transaction.atomic():
                 # Delete all current participants

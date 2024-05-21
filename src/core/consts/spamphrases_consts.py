@@ -51,9 +51,11 @@ SPAM_PHRASES = {
     # D
     "dyrektyw": "dyre;ktyw",
     "danych": "dany;ch",
+    "dofinansowania": "dofinan;sowania",
     # E
     # F
     "finanse": "fin;anse",
+    "finansowych": "fina;nsowych",
     "finansowanych": "finan;sowanych",
     "finansowane": "finan;sowane",
     "finansów": "finan;sów",

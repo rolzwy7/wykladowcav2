@@ -533,7 +533,7 @@
                                         <b>Uczestnicy:</b> <br>
                                         {% for participant in gathered_participants %}
                                         {% if participant.application.id == application.id %}
-                                            <a href="{% url 'admin:core_webinarparticipant_change' object_id=participant.id %}">
+                                            {{forloop.counter}}.) <a href="{% url 'admin:core_webinarparticipant_change' object_id=participant.id %}">
                                                 <b>{{participant.fullname}}</b>
                                             </a>
                                             - {{participant.email}}
