@@ -19,6 +19,7 @@ from .crm_take_over_account import crm_take_over_account
 from .crm_todos_list import crm_todos_done_list, crm_todos_list
 from .webinar import (
     crm_upcoming_webinars,
+    crm_webinar_analysis,
     crm_webinar_assets,
     crm_webinar_certificates,
     crm_webinar_detail_dashboard,

@@ -1,0 +1,58 @@
+{% extends './CrmWebinarBase.html' %}
+{% load static %}
+
+{% block head_stylesheets %} {% endblock head_stylesheets %}
+
+{% block crm_webinar_content %}
+<!--begin::Row-->
+<div class="row g-6 g-xl-9 mb-10">
+  <!--begin::Col-->
+  <div class="col-md-12 col-xl-12">
+    <div class="card shadow-sm">
+      <div class="card-header">
+        <h3 class="card-title">Analiza</h3>
+      </div>
+      <div class="card-body">
+
+
+        {% comment %} PKD Analysis {% endcomment %}
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr class="fw-bold fs-6 text-gray-800">
+                <th>Typ</th>
+                <th>NIP</th>
+                <th>PKD</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for nip, nip_type, pkds in pkd_analysis %}
+              <tr>
+                <td>{{nip_type}}</td>
+                <td>{{nip}}</td>
+                <td>
+                  {% for is_main, pkd, pkd_desc in pkds %}
+                    <b {% if is_main %}class="text-danger"{% endif %}>
+                      {{pkd}}
+                    </b> - <i>{{pkd_desc}}</i> <br>
+                  {% empty %}
+                  Brak danych
+                  {% endfor %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+      <div class="card-footer">
+      </div>
+    </div>
+  </div>
+  <!--end::Col-->
+</div>
+<!--end::Row-->
+{% endblock crm_webinar_content %}
+
+{% block body_scripts %} {% endblock body_scripts %}

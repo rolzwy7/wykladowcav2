@@ -76,8 +76,14 @@
                 </ul>
             </ol>
 
+            {% elif action_name == "SEND_OPINION_REQUESTS" %}
+            <ol>
+                <li>Prośby o opinię zostaną wysłane w wiadomości e-mail do wszystkich uczestników</li>
+            </ol>
+
             {% else %}
                 [DEFAULT_DESCRIPTION]
+                Brak opisu.
             {% endif %}
 
             <div class="separator my-5"></div>

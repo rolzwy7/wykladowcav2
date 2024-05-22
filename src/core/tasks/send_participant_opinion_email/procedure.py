@@ -1,4 +1,9 @@
+"""send_participant_opinion_email procedure"""
+
+# flake8: noqa=E501
+
 import json
+from random import choice
 
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
 
@@ -32,13 +37,21 @@ def send_participant_opinion_email(
 ):
     """Send participant opinion email"""
     template_name = "email/EmailParticipantOpinion.html"
+    email_context = email_get_application_context(procedure_params.application_id)
     email_template = EmailTemplate(
         template_name,
-        {**email_get_application_context(procedure_params.application_id)},
+        {**email_context},
     )
+    lecturer_fullname = email_context["lecturer"].fullname
     email_message = EmailMessage(
         email_template,
-        "Prośba o przesłanie opinii o wykładowcy",
+        choice(
+            [
+                f"Prośba o przesłanie opinii o wykładowcy - {lecturer_fullname}",
+                f"Przekaż nam swoją opinię o wykładowcy - {lecturer_fullname}",
+                f"Prosimy o przesłanie opinii o wykładowcy - {lecturer_fullname}",
+            ]
+        ),
         procedure_params.email,
     )
     email_message.send()
