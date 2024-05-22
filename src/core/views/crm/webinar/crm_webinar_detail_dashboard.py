@@ -10,6 +10,7 @@ def crm_webinar_detail_dashboard(request, pk: int):
     webinar = get_object_or_404(Webinar, pk=pk)
     service = CrmWebinarService(webinar)
     sent_applications_metadata = service.get_sent_applications_metadata()
+
     return TemplateResponse(
         request,
         "core/pages/crm/webinar/CrmWebinarDetailDashboard.html",

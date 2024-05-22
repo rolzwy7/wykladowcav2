@@ -1,3 +1,7 @@
+"""CRM action abstract"""
+
+# flake8: noqa=E501
+
 from abc import ABC, abstractmethod
 
 from django.http import HttpRequest, HttpResponse
@@ -13,6 +17,15 @@ from core.models import Webinar, WebinarAsset
 def get_meta_redirect_url(path: str):
     """Get meta redirect url"""
     return f"{reverse('meta_redirect_page')}?path={path}"
+
+
+def get_not_allowed_code_msg(status: str, allowed_statuses: list[str]):
+    """get_not_allowed_code_msg"""
+    ret = "Ochrona przed wielokrotnym wykonaniem akcji włączona.\n\n"
+    ret += "Nie można wykonać akcji.\n"
+    ret += f"Aby wykonać akcję webinar musi być {allowed_statuses}.\n"
+    ret += f"Obecny status webinaru {status}.\n"
+    return ret
 
 
 class CrmWebinarAction(ABC, View):
@@ -68,7 +81,10 @@ class CrmWebinarAction(ABC, View):
         webinar = self.get_webinar(pk)
 
         if webinar.status not in self.get_allowed_statuses():
-            return HttpResponse("Multiple submit protection triggered")
+            return HttpResponse(
+                get_not_allowed_code_msg(webinar.status, self.get_allowed_statuses()),
+                content_type="text/plain; charset=utf8",
+            )
 
         form = self.get_form_class()()
         return TemplateResponse(
@@ -89,7 +105,10 @@ class CrmWebinarAction(ABC, View):
         webinar = self.get_webinar(pk)
 
         if webinar.status not in self.get_allowed_statuses():
-            return HttpResponse("Multiple submit protection triggered")
+            return HttpResponse(
+                get_not_allowed_code_msg(webinar.status, self.get_allowed_statuses()),
+                content_type="text/plain; charset=utf8",
+            )
 
         form = self.get_form_class()(request.POST)
         if form.is_valid():

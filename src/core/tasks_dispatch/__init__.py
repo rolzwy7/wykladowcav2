@@ -9,6 +9,7 @@ from .after_webinar_moved_dispatch import after_webinar_moved_dispatch
 from .dispatch_certificates_for_webinar import dispatch_certificates_for_webinar
 from .dispatch_invoice_for_application import dispatch_invoice_for_application
 from .dispatch_invoices_for_webinar import dispatch_invoices_for_webinar
+from .dispatch_opinion_requests import dispatch_opinion_requests
 from .dispatch_recording_download_for_webinar import (
     dispatch_recording_download_for_webinar,
 )

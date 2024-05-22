@@ -54,7 +54,7 @@ v1.4.0
 
 v1.3.1
 - uczestnicy w panelu CRM szkolenia są teraz posortowani w kolejności alfabetycznej, według imienia.
-- po wysłaniu dostępu do nagrania do uczesnitków szkolenia wysyłana jest także wiadomość na Telegramie
+- po wysłaniu dostępu do nagrania do uczestników szkolenia wysyłana jest także wiadomość na Telegramie
 - dodano "Moje nagrania"
 
 

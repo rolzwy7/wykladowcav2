@@ -1,5 +1,6 @@
 # flake8: noqa
 from .crm_upcoming_webinars import crm_upcoming_webinars
+from .crm_webinar_analysis import crm_webinar_analysis
 from .crm_webinar_assets import crm_webinar_assets
 from .crm_webinar_certificates import crm_webinar_certificates
 from .crm_webinar_detail_dashboard import crm_webinar_detail_dashboard

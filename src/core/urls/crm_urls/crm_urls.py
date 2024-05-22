@@ -12,6 +12,7 @@ from core.views.crm import (
     crm_todos_done_list,
     crm_todos_list,
     crm_upcoming_webinars,
+    crm_webinar_analysis,
     crm_webinar_assets,
     crm_webinar_certificates,
     crm_webinar_detail_dashboard,
@@ -34,6 +35,7 @@ from core.views.crm.statistics import crm_statistics_dashboard
 from core.views.crm.webinar.actions import (
     CancelWebinarAction,
     ConfirmWebinarAction,
+    WebinarSendOpinionRequestsAction,
     crm_webinar_done_action_page,
     move_webinar_action,
 )
@@ -53,6 +55,11 @@ urlpatterns = [
         "webinar/<int:pk>/logi/",
         crm_webinar_eventlogs,
         name="crm_webinar_eventlogs",
+    ),
+    path(
+        "webinar/<int:pk>/analiza/",
+        crm_webinar_analysis,
+        name="crm_webinar_analysis",
     ),
     path(
         "webinar/<int:pk>/eksportuj-uczestnikow/",
@@ -91,6 +98,11 @@ urlpatterns = [
         name="crm_application_send_invoice_action",
     ),
     # CRM Webinar Actions
+    path(
+        "webinar/<int:pk>/przeslij-prosby-o-opinie/",
+        WebinarSendOpinionRequestsAction.as_view(),
+        name="crm_webinar_send_opinion_request_action",
+    ),
     path(
         "webinar/<int:pk>/potwierdz-termin/",
         ConfirmWebinarAction.as_view(),

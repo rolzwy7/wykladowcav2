@@ -196,6 +196,13 @@
                                         </a>
                                     </div>
                                     <!--end::Menu item-->
+                                    <!--begin::Menu item-->
+                                    <div class="menu-item px-3">
+                                        <a href="{% url "core:crm_webinar_send_opinion_request_action" pk=webinar.pk %}" class="menu-link px-3">
+                                            Prześlij prośbę o opinię do uczestników
+                                        </a>
+                                    </div>
+                                    <!--end::Menu item-->
                                 </div>
                                 <!--end::Menu 3-->
                             </div>
@@ -383,6 +390,22 @@
                     >
                     <i class="ki-duotone ki-abstract-26 fs-2 me-2"><i class="path1"></i><i class="path2"></i></i>
                         Logi
+                    </a>
+                </li>
+                <!--end::Nav item-->
+
+                <!--begin::Nav item-->
+                <li class="nav-item mt-2">
+                    <a
+                        class="
+                        {% if request.path == '/crm/webinar/'|add:webinar_pk_str|add:'/analiza/' %}
+                        active
+                        {% endif %}
+                        nav-link text-active-primary ms-0 me-10 py-5"
+                        href="{% url 'core:crm_webinar_analysis' pk=webinar.pk %}"
+                    >
+                    <i class="ki-duotone ki-graph-3 fs-2 me-2"><i class="path1"></i><i class="path2"></i></i>
+                        Analiza
                     </a>
                 </li>
                 <!--end::Nav item-->
