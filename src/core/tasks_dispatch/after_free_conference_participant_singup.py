@@ -8,7 +8,7 @@ from celery import chain
 from django.urls import reverse
 
 from core.consts import TelegramChats
-from core.models import ConferenceCycle, ConferenceEdition, ConferenceFreeParticipant
+from core.models import ConferenceEdition, ConferenceFreeParticipant
 from core.tasks import (
     params_send_free_participant_conference_email,
     task_send_clickmeeting_invitation_participant,
@@ -18,7 +18,6 @@ from core.tasks import (
 
 
 def after_free_conference_participant_singup(
-    cycle: ConferenceCycle,
     edition: ConferenceEdition,
     participant: ConferenceFreeParticipant,
 ):
@@ -36,8 +35,6 @@ def after_free_conference_participant_singup(
                 reverse(
                     "core:conference_edition_redirect_page",
                     kwargs={
-                        "slug_cycle": edition.cycle.slug,
-                        "slug_edition": edition.slug,
                         "uuid": edition.redirect_token,
                     },
                 ),
@@ -45,7 +42,7 @@ def after_free_conference_participant_singup(
         ),
         # Send telegram notification
         task_send_telegram_notification.si(
-            f"Darmowy uczestnik zapisał się na szkolenie cykliczne: {cycle.name}",
+            f"Darmowy uczestnik zapisał się na szkolenie: {edition.webinar.title}",
             TelegramChats.OTHER,
         ),
     ).apply_async()

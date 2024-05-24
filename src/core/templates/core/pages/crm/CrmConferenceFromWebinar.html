@@ -1,0 +1,74 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+
+<!--begin::Row-->
+<div class="row g-6 g-xl-9 mb-10">
+
+    <!--begin::Col-->
+    <div class="col-md-12 col-xl-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">
+            Stwórz konferencje z webinaru
+          </h3>
+        </div>
+        <div class="card-body">
+          <p><b>Szkolenie</b>: {{webinar.title_original}}</p>
+          <p><b>Data</b>: {{webinar.date|date:"j E Y"}}, godz. {{webinar.date|date:"H:i"}}</p>
+          <p><b>Wykładowca</b>: {{webinar.lecturer.fullname}}</p>
+
+          <p class="text-danger fw-bold">
+            Uwaga! Pamiętaj, żeby ustawić kategorie dla tego webinaru.
+            W przeciwnym razie LEAD'Y BĘDĄ ZAPISYWANE BEZ KATEGORII !!!
+          </p>
+
+          <p>
+            <b>Obecne kategorie:</b>
+          </p>
+
+          <ol>
+            {% for category in webinar.categories.all %}
+            <li>{{category}}</li>
+            {% empty %}
+            <p>
+              UWAGA! TO SZKOLENIE NIE MA POWIĄZANYCH KATEGORII. <br>
+              POŁĄCZ KATEGORIE Z TYM WEBINAREM ZANIM UTWORZYSZ NA JEGO PODSTAWIE KONFERENCJE.
+            </p>
+            {% endfor %}
+          </ol>
+
+          {% comment %} <div class="separator my-5"></div>
+
+          <h2>Co się stanie?</h2>
+
+          <div class="separator my-5"></div>
+
+          <ol>
+            <li>Zostanie stworzona konferencja dla tego terminu szkolenia</li>
+            <li>Termin szkolenia zostanie oznaczony jako połączony z konferencją</li>
+          </ol> {% endcomment %}
+
+          <div class="separator my-5"></div>
+
+            <form action="{% url "core:conference_from_webinar" pk=webinar.pk %}" method="post">
+              {% csrf_token %}
+              {{form}}
+              <input type="submit" class="btn btn-primary mt-3" value="Stwórz konferencje">
+            </form>
+        </div>
+      </div>
+    </div>
+    <!--end::Col-->
+
+  </div>
+  <!--end::Row-->
+
+  {% endblock crm_content %}
+
+{% block body_scripts %}
+{% endblock body_scripts %}

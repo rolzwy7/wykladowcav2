@@ -3,7 +3,12 @@
 <li>
     {% url opts|admin_urlname:'history' original.pk|admin_urlquote as history_url %}
 
-
+    {% with original_pk=original.pk|stringformat:"i" %}
+    {% if request.path == '/cms/core/webinar/'|add:original_pk|add:'/change/' %}
+    <a href="{% url "core:conference_from_webinar" pk=original.pk %}" class="historylink" style="margin-right:10px;">Stwórz konferencje</a>
+    {% endif %}
+    {% endwith %}
+    
     {% with original_pk=original.pk|stringformat:"i" %}
     {% if request.path == '/cms/core/webinar/'|add:original_pk|add:'/change/' %}
     <a href="{% url "core:crm_webinar_duplicate" pk=original.pk %}" class="historylink" style="margin-right:10px;">Duplikuj szkolenie</a>

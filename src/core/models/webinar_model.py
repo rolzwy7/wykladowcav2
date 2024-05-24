@@ -171,8 +171,12 @@ class Webinar(Model):
 
     show_lecturer = BooleanField("Pokaż wykładowce na stronie szkolenia", default=True)
 
-    is_hidden = BooleanField(
-        "Ukryj termin szkolenia na stronie szkolenia", default=False
+    is_hidden = BooleanField("Ukryj termin szkolenia na stronie", default=False)
+
+    is_connected_to_conference = BooleanField(
+        "Połączony z konferencją",
+        default=False,
+        help_text="Czy ten webinar jest połączony z konferencją?",  # noqa
     )
 
     recording_allowed = BooleanField(
@@ -224,6 +228,8 @@ class Webinar(Model):
     )
 
     DURATION = [
+        (WebinarDuration.H0_M30, "30 minut"),
+        (WebinarDuration.H0_M45, "45 minut"),
         (WebinarDuration.H1_M00, "1 godzina"),
         (WebinarDuration.H1_M30, "1,5 godziny"),
         (WebinarDuration.H2_M00, "2 godziny"),

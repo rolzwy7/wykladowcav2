@@ -21,21 +21,21 @@
         </a>
       </div>
       {% endif %}
-      {% if show_image and webinar.lecturer.avatar %}
-      <div class="ms-3">
-      {% else %}
-      <div>
-      {% endif %}
-        {% if webinar.description %}
+      <div {% if show_image and webinar.lecturer.avatar %}class="ms-3"{% endif %}>
+        
         <h4 class="mb-1 h4">
           <a
             href="{% url 'core:webinar_program_page' slug=webinar.slug %}"
             class="text-inherit"
             style="text-wrap: wrap"
           >
+            {% if webinar.is_connected_to_conference %}
+              <span class="text-danger">[DARMOWY WEBINAR]</span>
+            {% endif %}
             {{webinar.title}}
           </a>
         </h4>
+        {% if webinar.description %}
         <h5>
           <a
           href="{% url 'core:webinar_program_page' slug=webinar.slug %}"
@@ -45,17 +45,8 @@
             {{webinar.description}}
           </a>
         </h5>
-        {% else %}
-        <h4 class="mb-1 h4">
-          <a
-            href="{% url 'core:webinar_program_page' slug=webinar.slug %}"
-            class="text-inherit"
-            style="text-wrap: wrap"
-          >
-            {{webinar.title_original}}
-          </a>
-        </h4>
         {% endif %}
+        
         <ul class="list-inline fs-5 mb-0">
           <li class="list-inline-item">
             <a
@@ -80,14 +71,21 @@
     {{webinar.date|date:"j E Y"}}
     <br />
     <br />
-    <b>CENA</b> <br />
-    {% if webinar.is_discounted %}
-    <span class="text-decoration-line-through fw-bolder text-danger">
-      {{webinar.price_netto}}zł
-    </span>
-    <span>{{webinar.price}}zł</span>
-    {% else %} {{webinar.price}}zł {% endif %} {{PRICE_ADNOTATION}}
-    <br />
+
+    {% if not webinar.is_connected_to_conference %}
+      <b>CENA</b> <br />
+      {% if webinar.is_discounted %}
+        <span class="text-decoration-line-through fw-bolder text-danger">
+          {{webinar.price_netto}}zł
+        </span>
+        <span>{{webinar.price}}zł</span>
+      {% else %}
+        {{webinar.price}}zł
+      {% endif %}
+      {{PRICE_ADNOTATION}}
+      <br />
+    {% endif %}
+
     {% if webinar.is_discounted %}
     <span class="text-success fw-bold">
       (promocja do {{webinar.discount_until|date:"j E Y"}}

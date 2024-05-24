@@ -9,18 +9,14 @@ import uuid
 from django.db.models import (
     RESTRICT,
     CharField,
-    DateTimeField,
     ForeignKey,
     Manager,
-    ManyToManyField,
     Model,
+    OneToOneField,
     QuerySet,
     SlugField,
-    TextField,
     UUIDField,
 )
-
-from core.utils.text import slugify
 
 from .conference_cycle_model import ConferenceCycle
 
@@ -40,10 +36,6 @@ class ConferenceEdition(Model):
 
     manager = ConferenceEditionManager()
 
-    name = CharField("Nazwa edycji", max_length=230)
-
-    title = CharField("Tytuł edycji", max_length=230, blank=True)
-
     slug = SlugField(
         "Skrót URL",
         max_length=230,
@@ -53,38 +45,46 @@ class ConferenceEdition(Model):
     )
 
     cycle = ForeignKey(
-        "ConferenceCycle", on_delete=RESTRICT, verbose_name="Konferencja (cykl)"
+        "ConferenceCycle",
+        blank=True,
+        null=True,
+        on_delete=RESTRICT,
+        verbose_name="Konferencja (cykl)",
     )
 
-    webinar = ForeignKey(
+    webinar = OneToOneField(
         "Webinar",
         on_delete=RESTRICT,
-        verbose_name="Webinar (płatny dostęp)",
-        null=True,
-        blank=True,
+        verbose_name="Webinar",
     )
 
-    categories = ManyToManyField("WebinarCategory", verbose_name="Kategorie")
-
-    date_from = DateTimeField("Data i Godzina (start)")
-    date_to = DateTimeField("Data i Godzina (stop)")
-
-    html = TextField("Treść HTML", blank=True)
-
-    clickmeeting_id = CharField("ClickMeeting ID", blank=True, max_length=100)
-
-    youtube_live_url = TextField("YouTube Livestream Embed", blank=True)
+    clickmeeting_id = CharField("ClickMeeting ID", max_length=200)
+    clickmeeting_url = CharField("ClickMeeting URL", max_length=200)
 
     redirect_token = UUIDField(default=uuid.uuid4, editable=True)
 
+    STREAM_TYPE = [
+        ("FACEBOOK", "Facebook"),
+        ("YOUTUBE", "YouTube"),
+    ]
+
+    stream_url = CharField("Adres URL strumienia", blank=True, max_length=200)
+
+    stream_type = CharField(
+        "Gdzie stream?",
+        max_length=16,
+        choices=STREAM_TYPE,
+        default="YOUTUBE",
+    )
+
+    stream_url_address = CharField("Adres URL serwera", blank=True, max_length=200)
+    stream_transmission_key = CharField("Klucz strumienia", blank=True, max_length=200)
+
     class Meta:
+        """meta"""
+
         verbose_name = "Konferencja (edycja)"
         verbose_name_plural = "Konferencje (edycja)"
 
-    def __str__(self):
-        return f"{self.name}"
-
     def save(self, *args, **kwargs) -> None:
-        if not self.slug:
-            self.slug = slugify(self.name)
         return super().save(*args, **kwargs)

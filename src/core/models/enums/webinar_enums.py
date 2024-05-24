@@ -24,6 +24,8 @@ class WebinarStatus:
 
 
 class WebinarDuration:
+    H0_M30 = "30"
+    H0_M45 = "45"
     H1_M00 = "60"
     H1_M30 = "90"
     H2_M00 = "120"

@@ -115,7 +115,7 @@ urlpatterns = [
     path("404/", custom404_page, name="custom404_page"),
     path("500/", custom500_page, name="custom500_page"),
     #
-    path("szkolenia-cykliczne/", include(conference_urlpatterns)),
+    path("bezplatne-webinary/", include(conference_urlpatterns)),
     path(
         "krajowy-fundusz-szkoleniowy/",
         krajowy_fundusz_szkoleniowy_page,

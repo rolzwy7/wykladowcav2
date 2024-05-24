@@ -9,14 +9,12 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
-from django.utils.timezone import now
 
 from core.consts.requests_consts import POST
 from core.models import (
     ConferenceCycle,
     ConferenceEdition,
     ConferenceFreeParticipant,
-    ConferenceSchedule,
     Webinar,
 )
 from core.models.enums import LeadSource
@@ -28,6 +26,8 @@ class ConferenceFreeParticipantModelForm(ModelForm):
     """ConferenceFreeParticipantModelForm"""
 
     class Meta:
+        """meta"""
+
         model = ConferenceFreeParticipant
         fields = [
             "first_name",
@@ -52,62 +52,45 @@ class ConferenceFreeParticipantModelForm(ModelForm):
         }
 
 
-def conference_edition_page(request: HttpRequest, slug_cycle: str, slug_edition: str):
+def conference_edition_page(request: HttpRequest, slug_edition: str):
     """Conference cycle page"""
     template_name = "geeks/pages/conference/ConferenceEditionPage.html"
-    cycle = get_object_or_404(ConferenceCycle, slug=slug_cycle)
     edition = get_object_or_404(ConferenceEdition, slug=slug_edition)
-    schedule = ConferenceSchedule.manager.filter(edition=edition).order_by("hour_from")
-
-    has_started = now() > edition.date_from
-
-    # Determine status
-    if now() < edition.date_from:
-        status = "INIT"
-    elif now() >= edition.date_from and now() <= edition.date_to:
-        status = "IN_PROGRESS"
-    else:
-        status = "DONE"
-
-    # Return error if schedule not set
-    if not schedule.exists():
-        return HttpResponse("Harmonogram nie został dodany")
-
-    # Prepare data
-    first_schedule: ConferenceSchedule = schedule.first()  # type: ignore
-    lecturers = [sch.lecturer for sch in schedule if sch.lecturer]
+    webinar: Webinar = edition.webinar
 
     # Handle form submission
     if request.method == POST:
+
+        # TODO: move this
         form = ConferenceFreeParticipantModelForm(request.POST)
         if form.is_valid():
+
+            # TODO Transaction ?
+
             # Save free participant with form
             participant: ConferenceFreeParticipant = form.save(commit=False)
             participant.edition = edition
             participant.save()
+
             # Save lead
             lead = LeadService.get_or_create_lead(
                 participant.email,
                 LeadSource.CONFERENCE_FREE,
                 request=request,
-                categories=[
-                    *[_ for _ in cycle.categories.all()],
-                    *[_ for _ in edition.categories.all()],
-                ],
+                categories=list(webinar.categories.all()),
             )
             LeadService.apply_basic_data(
                 lead, participant.first_name, participant.last_name, participant.phone
             )
 
             # Perform tasks
-            after_free_conference_participant_singup(cycle, edition, participant)
+            # after_free_conference_participant_singup(edition, participant)
 
             # Redirect to `thank you` page
             return redirect(
                 reverse(
                     "core:conference_edition_thanks_page",
                     kwargs={
-                        "slug_cycle": cycle.slug,
                         "slug_edition": edition.slug,
                     },
                 )
@@ -119,40 +102,27 @@ def conference_edition_page(request: HttpRequest, slug_cycle: str, slug_edition:
         request,
         template_name,
         {
-            "status": status,
-            "main_title": edition.title if edition.title else first_schedule.title,
-            "cycle": cycle,
+            "webinar": webinar,
             "edition": edition,
-            "schedule": schedule,
             "form": form,
-            # "is_complex_schedule": is_complex_schedule,
-            "lecturers": lecturers,
-            "has_started": has_started,
-            "first_schedule": first_schedule,
         },
     )
 
 
-def conference_edition_thanks_page(
-    request: HttpRequest, slug_cycle: str, slug_edition: str
-):
+def conference_edition_thanks_page(request: HttpRequest, slug_edition: str):
     """Conference edition thanks page"""
     template_name = "geeks/pages/conference/ConferenceEditionThanksPage.html"
-    cycle = get_object_or_404(ConferenceCycle, slug=slug_cycle)
     edition = get_object_or_404(ConferenceEdition, slug=slug_edition)
+    webinar: Webinar = edition.webinar
 
     webinars = Webinar.manager.get_active_webinars_for_category_slugs(
-        [
-            *[_.slug for _ in edition.categories.all()],
-            *[_.slug for _ in cycle.categories.all()],
-        ]
+        list(webinar.categories.all())
     )
 
     return TemplateResponse(
         request,
         template_name,
         {
-            "cycle": cycle,
             "edition": edition,
             "webinars": webinars,
         },
@@ -165,12 +135,12 @@ def conference_edition_redirect_page(request: HttpRequest, uuid: str):
     try:
         edition = ConferenceEdition.manager.get(uuid=uuid)
     except ConferenceEdition.DoesNotExist:  # pylint: disable=no-member
-        return HttpResponse("UUID not found")
+        return HttpResponse("UUID not found")  # TODO: not acceptable
 
     template_name = "geeks/pages/conference/ConferenceEditionRedirectPage.html"
 
     return TemplateResponse(
         request,
         template_name,
-        {"edition": edition, "youtube_live_url": edition.youtube_live_url},
+        {"edition": edition},
     )

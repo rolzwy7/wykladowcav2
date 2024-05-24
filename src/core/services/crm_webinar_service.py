@@ -1,9 +1,13 @@
+"""CRM webinar service"""
+
 # flake8: noqa:E501
 # pylint: disable=line-too-long
 
 from django.db.models import Count, QuerySet
 
 from core.models import (
+    ConferenceEdition,
+    ConferenceFreeParticipant,
     MailingCampaign,
     Webinar,
     WebinarApplication,
@@ -33,8 +37,10 @@ class CrmWebinarService:
 
     def get_applications_cancellations(self):
         """Get cancellations for applications of this webinar"""
-        return WebinarApplicationCancellation.objects.filter(
-            application__webinar=self.webinar
+        return (
+            WebinarApplicationCancellation.objects.filter(  # pylint: disable=no-member
+                application__webinar=self.webinar
+            )
         )
 
     def get_sent_applications(self):
@@ -54,7 +60,7 @@ class CrmWebinarService:
     def get_sent_applications_metadata(self):
         """Returns metadatas from sent applications metadata"""
         application_ids = [_.id for _ in self.get_sent_applications()]  # type: ignore
-        return WebinarApplicationMetadata.objects.filter(
+        return WebinarApplicationMetadata.objects.filter(  # pylint: disable=no-member
             application__in=application_ids
         )
 
@@ -84,7 +90,7 @@ class CrmWebinarService:
 
     def get_certificates(self):
         """Get certificates for gathered participants"""
-        return WebinarCertificate.objects.filter(
+        return WebinarCertificate.objects.filter(  # pylint: disable=no-member
             participant__in=self.get_gathered_participants()
         )
 
@@ -98,7 +104,11 @@ class CrmWebinarService:
 
     def lecturer_price_netto(self) -> int:
         """Get lecturer's NETTO price for this webinar"""
-        metatada, _ = WebinarMetadata.objects.get_or_create(webinar=self.webinar)
+        metatada, _ = (
+            WebinarMetadata.objects.get_or_create(  # pylint: disable=no-member
+                webinar=self.webinar
+            )
+        )
         return metatada.lecturer_price_netto
 
     def get_percent_goal(self) -> int:
@@ -229,6 +239,20 @@ class CrmWebinarService:
 
         return score_sum
 
+    def get_free_participants(self) -> list[ConferenceFreeParticipant]:
+        """_summary_"""
+
+        ret: list[ConferenceFreeParticipant] = []
+
+        try:
+            edition: ConferenceEdition = ConferenceEdition.manager.get(
+                webinar=self.webinar
+            )
+        except ConferenceEdition.DoesNotExist:  # pylint: disable=no-member
+            return ret
+
+        return list(ConferenceFreeParticipant.manager.filter(edition=edition))
+
     def get_context(self):
         """Number of gathered participants"""
         gathered_participants = self.get_gathered_participants().order_by("first_name")
@@ -242,7 +266,9 @@ class CrmWebinarService:
         resigned_applications = self.get_resigned_applications()
         recordings = self.get_recordings()
         certificates = self.get_certificates()
-        webinar_metadata = WebinarMetadata.objects.get(webinar=self.webinar)
+        webinar_metadata = WebinarMetadata.objects.get(  # pylint: disable=no-member
+            webinar=self.webinar
+        )
         additional_infos_applications = self.get_applications_with_additional_infos(
             sent_applications
         )
@@ -251,6 +277,12 @@ class CrmWebinarService:
             sent_applications
         )
         participant_email_dups = self.get_participant_duplicates(gathered_participants)
+        free_participants = self.get_free_participants()
+
+        try:
+            conference_edition = ConferenceEdition.manager.get(webinar=self.webinar)
+        except ConferenceEdition.DoesNotExist:  # pylint: disable=no-member
+            conference_edition = None
 
         return {
             "webinar": self.webinar,
@@ -258,6 +290,9 @@ class CrmWebinarService:
             "is_confirmed": self.webinar.is_confirmed,
             "is_hidden": self.webinar.is_hidden,
             "grouping_token": self.webinar.grouping_token,
+            "free_participants": free_participants,
+            # Conference
+            "conference_edition": conference_edition,
             # Sent applications
             "sent_applications": sent_applications,
             "sent_applications_count": sent_applications.count(),
