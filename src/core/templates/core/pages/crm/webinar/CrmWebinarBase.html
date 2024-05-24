@@ -1,5 +1,6 @@
 {% extends 'core/pages/crm/extends/CrmBase.html' %}
 {% load static %}
+{% load humanize %}
 
 {% block head_stylesheets %}
 
@@ -13,21 +14,87 @@
     <div class="page-title d-flex flex-column py-1">
         <!--begin::Title-->
         <h1 class="align-items-center my-1">
+            {% if webinar.is_connected_to_conference %}
+                <span class="text-info">
+                    Konferencja
+                </span>
+                {% url 'admin:core_conferenceedition_change' object_id=conference_edition.id as link %}
+                {% include "include/crm/EditWithCmsButton.html" with link=link %}
+                {% url "core:conference_edition_page" slug_edition=conference_edition.slug as link %}
+                {% include "include/crm/ShowOnPageButton.html" with link=link %}
+            {% endif %}
             {{webinar.title_original}}
-            {% comment %} <a href="{% url 'admin:core_webinar_change' object_id=webinar.id %}" class="menu-link">
-                ( Edytuj w CMS )
-            </a> {% endcomment %}
+            {% url 'admin:core_webinar_change' object_id=webinar.id as link %}
+            {% include "include/crm/EditWithCmsButton.html" with link=link %}
+            {% url 'core:webinar_program_page' slug=webinar.slug as link %}
+            {% include "include/crm/ShowOnPageButton.html" with link=link %}
         </h1>
         <!--end::Title-->
     </div>
     <!--end::Page title-->
 </div>
 <!--end::Toolbar-->
+
+{% if webinar.is_connected_to_conference %}
+<div class="card card-flush mb-3">
+    <div class="card-header">
+        <div class="card-title">
+            <h2>WAŻNE: Pamiętaj, aby uzupełnić dane do transmisji na żywo!</h2>
+        </div>
+    </div>
+    <div class="card-body pt-1">
+        <div class="fw-bold text-gray-600 mb-2">
+
+        </div>
+        <div class="d-flex flex-column text-gray-600">
+            <div class="d-flex align-items-center py-2">
+                <span class="bullet bg-primary me-3"></span>
+                Typ transmisji: <b class="ms-1">{{conference_edition.get_stream_type_display}}</b>
+            </div>
+            <div class="d-flex align-items-center py-2">
+                <span class="bullet {% if conference_edition.stream_url %}bg-primary{% else %}bg-danger{% endif %} me-3"></span>
+                {% if conference_edition.stream_url %}
+                    Adres URL transmisji: {{conference_edition.stream_url}}
+                {% else %}
+                    <b class="text-danger">Brak podanego adresu URL transmisji</b>
+                {% endif %}
+            </div>
+            <div class="d-flex align-items-center py-2">
+                <span class="bullet {% if conference_edition.stream_url_address %}bg-primary{% else %}bg-danger{% endif %} me-3"></span>
+                {% if conference_edition.stream_url_address %}
+                    Nazwa transmisji: {{conference_edition.stream_url_address}}
+                {% else %}
+                    <b class="text-danger">Brak podanej nazwy transmisji</b>
+                {% endif %}
+            </div>
+            <div class="d-flex align-items-center py-2">
+                <span class="bullet {% if conference_edition.stream_transmission_key %}bg-primary{% else %}bg-danger{% endif %} me-3"></span>
+                {% if conference_edition.stream_transmission_key %}
+                    Klucz transmisji: {{conference_edition.stream_transmission_key}}
+                {% else %}
+                    <b class="text-danger">Brak podanego klucza transmisji</b>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="card-footer flex-wrap pt-0">
+        <a href="#" class="btn btn-secondary btn-active-primary my-1 me-2">
+            Uzupełnij w CMS
+        </a>
+    </div>
+</div>
+{% endif %}
+
 <!--begin::Toolbar-->
 <div class="toolbar d-flex flex-stack flex-wrap mb-5 mb-lg-7" id="kt_toolbar">
     <!--begin::Page title-->
     <div class="page-title d-flex flex-column py-1">
         {% include './snippets/WebinarStatusTitle.html' with webinar=webinar count=gathered_participants_count %}
+        {% if webinar.is_connected_to_conference %}
+        <h2 class="ms-2">
+            Zebrano {{free_participants|length}} darmowych uczestników
+        </h2>
+        {% endif %}
     </div>
     <!--end::Page title-->
     <!--begin::Actions-->
@@ -69,6 +136,24 @@
 </div>
 {% endif %}
 
+{% comment %} <div class="row mb-5">
+    <div class="col-md-4">
+        <a href="#" class="card hover-elevate-up shadow-sm parent-hover">
+            <div class="card-body d-flex align-items">
+                <i class="ki-duotone ki-message-programming fs-1">
+                    <i class="path1"></i>
+                    <i class="path2"></i>
+                    <i class="path3"></i>
+                    <i class="path4"></i>
+                </i>
+                <span class="ms-3 text-gray-700 parent-hover-primary fs-6 fw-bold">
+                    Dodaj opinie (ChatGPT)
+                </span>
+            </div>
+        </a>
+    </div>
+</div> {% endcomment %}
+
 <!--begin::Post-->
 <div class="post" id="kt_post">
     <!--begin::Navbar-->
@@ -96,9 +181,10 @@
                             <div class="d-flex align-items-center mb-2">
                                 <a href="#" class="text-gray-900 text-hover-primary fs-2 fw-bold me-1">
                                     {{webinar.lecturer.fullname}}
-                                    <a href="{% url 'admin:core_lecturer_change' object_id=webinar.lecturer.id %}">
-                                        <b>( edytuj w CMS )</b>
-                                    </a>
+                                    {% url 'admin:core_lecturer_change' object_id=webinar.lecturer.id as link %}
+                                    {% include "include/crm/EditWithCmsButton.html" with link=link class="me-1" %}
+                                    {% url 'core:lecturer_experience_page' slug=webinar.lecturer.slug as link %}
+                                    {% include "include/crm/ShowOnPageButton.html" with link=link %}
                                 </a>
                             </div>
                             <!--end::Name-->
@@ -136,9 +222,36 @@
                         <!--end::User-->
                         <!--begin::Actions-->
                         <div class="d-flex my-4">
+                            {% if mailing_campaigns %}
+                            <div class="me-2">
+                                <button
+                                    class="btn btn-sm btn-secondary"
+                                    data-bs-placement="left"
+                                    data-bs-toggle="popover"
+                                    data-bs-html="true"
+                                    title="<span><b>Wysłane mailingi</b><br /><i><small>Według dnia przygotowania kampanii mailingowej</small></i></span>"
+                                    {% if mailing_campaigns %}
+                                    data-bs-content="{% for mailing_campaign in mailing_campaigns %}<span>{{mailing_campaign.created_at|date:"j E Y"}} {% if mailing_campaign.is_allowed_to_send %}(wysyła teraz){% endif %} - {{mailing_campaign.stat_sent|intcomma}}</span> <br>{% endfor %}"
+                                    {% else %}
+                                    data-bs-content="Brak wysłanych mailingów"
+                                    {% endif %}
+                                >
+                                    <i class="ki-duotone ki-calendar-tick fs-2">
+                                        <i class="path1"></i>
+                                        <i class="path2"></i>
+                                        <i class="path3"></i>
+                                        <i class="path4"></i>
+                                        <i class="path5"></i>
+                                        <i class="path6"></i>
+                                        <i class="path7"></i>
+                                    </i>
+                                    Mailingi
+                                </button>
+                            </div>
+                            {% endif %}
                             <!--begin::Menu-->
                             <div class="me-0">
-                                <button class="btn btn-sm btn-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                <button class="btn btn-sm {% if webinar.is_connected_to_conference %}btn-info{% else %}btn-primary{% endif %}" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                     <i class="ki-duotone ki-setting-2 fs-2"><i class="path1"></i><i class="path2"></i></i>
                                     Administracja
                                 </button>
@@ -150,7 +263,7 @@
                                     <!--begin::Heading-->
                                     <div class="menu-item px-3">
                                         <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">
-                                            Administracja
+                                            Administracja webinarem
                                         </div>
                                     </div>
                                     <!--end::Heading-->
@@ -189,6 +302,15 @@
                                         </a>
                                     </div>
                                     <!--end::Menu item-->
+                                    {% if not webinar.is_connected_to_conference %}
+                                    <!--begin::Menu item-->
+                                    <div class="menu-item px-3">
+                                        <a href="{% url "core:conference_from_webinar" pk=webinar.pk %}" class="menu-link px-3">
+                                            Stwórz <span class="text-info px-1">konferencje</span> z tego szkolenia
+                                        </a>
+                                    </div>
+                                    <!--end::Menu item-->
+                                    {% endif %}
                                     <!--begin::Menu item-->
                                     <div class="menu-item px-3">
                                         <a href="{% url "core:create_mailing_campaign_from_webinar" pk=webinar.pk %}" class="menu-link px-3">
@@ -300,10 +422,33 @@
                         href="{% url 'core:crm_webinar_detail_dashboard' pk=webinar.pk %}"
                     >
                         <i class="ki-duotone ki-element-8 fs-2 me-2"><i class="path1"></i><i class="path2"></i></i>
+                        {% if webinar.is_connected_to_conference %}
+                        Płatni uczestnicy
+                        {% else %}
                         Panel główny
+                        {% endif %}
                     </a>
                 </li>
                 <!--end::Nav item-->
+
+                {% if webinar.is_connected_to_conference %}
+                <!--begin::Nav item-->
+                <li class="nav-item mt-2">
+                    <a
+                        class="
+                            nav-link text-active-primary ms-0 me-10 py-5
+                            {% if request.path == '/crm/webinar/'|add:webinar_pk_str|add:'/darmowi-uczestnicy/' %}
+                            active
+                            {% endif %}
+                        "
+                        href="{% url 'core:crm_webinar_free_participants' pk=webinar.pk %}"
+                    >
+                        <i class="ki-duotone ki-element-8 fs-2 me-2"><i class="path1"></i><i class="path2"></i></i>
+                        Darmowi uczestnicy ({{free_participants|length}})
+                    </a>
+                </li>
+                <!--end::Nav item-->
+                {% endif %}
                 
                 <!--begin::Nav item-->
                 <li class="nav-item mt-2">

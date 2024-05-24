@@ -11,23 +11,23 @@ from core.views.conference import (
 
 urlpatterns = [
     path(
-        "<slug:slug_cycle>/",
+        "cykl-szkolen/<slug:slug_cycle>/",
         conference_cycle_page,
         name="conference_cycle_page",
-    ),
-    path(
-        "<slug:slug_cycle>/<slug:slug_edition>/",
-        conference_edition_page,
-        name="conference_edition_page",
-    ),
-    path(
-        "<slug:slug_cycle>/<slug:slug_edition>/dziekujemy/",
-        conference_edition_thanks_page,
-        name="conference_edition_thanks_page",
     ),
     path(
         "p/<uuid:uuid>/",
         conference_edition_redirect_page,
         name="conference_edition_redirect_page",
+    ),
+    path(
+        "<slug:slug_edition>/dziekujemy/",
+        conference_edition_thanks_page,
+        name="conference_edition_thanks_page",
+    ),
+    path(
+        "<slug:slug_edition>/",
+        conference_edition_page,
+        name="conference_edition_page",
     ),
 ]

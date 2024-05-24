@@ -3,6 +3,7 @@
 from django.urls import include, path
 
 from core.views.crm import (
+    conference_from_webinar,
     crm_blacklist_paste,
     crm_contact_messages,
     crm_eventlogs,
@@ -19,6 +20,7 @@ from core.views.crm import (
     crm_webinar_duplicate,
     crm_webinar_eventlogs,
     crm_webinar_export_participants,
+    crm_webinar_free_participants,
     crm_webinar_invoices,
     crm_webinar_recordings,
 )
@@ -55,6 +57,11 @@ urlpatterns = [
         "webinar/<int:pk>/logi/",
         crm_webinar_eventlogs,
         name="crm_webinar_eventlogs",
+    ),
+    path(
+        "webinar/<int:pk>/darmowi-uczestnicy/",
+        crm_webinar_free_participants,
+        name="crm_webinar_free_participants",
     ),
     path(
         "webinar/<int:pk>/analiza/",
@@ -122,6 +129,11 @@ urlpatterns = [
         "webinar/<int:pk>/przenies/",
         move_webinar_action,
         name="crm_webinar_move",
+    ),
+    path(
+        "webinar/<int:pk>/stworz-konferencje-z-webinaru/",
+        conference_from_webinar,
+        name="conference_from_webinar",
     ),
     # CRM company
     path(

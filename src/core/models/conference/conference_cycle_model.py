@@ -7,6 +7,7 @@ Conference cycle model
 # pylint: disable=missing-class-docstring
 
 from django.db.models import (
+    BooleanField,
     CharField,
     Manager,
     ManyToManyField,
@@ -29,8 +30,7 @@ class ConferenceCycle(Model):
 
     manager = ConferenceCycleManager()
 
-    # TODO: add `visible_on_page`
-    # visible_on_page = BooleanField("Widoczne na stronie", default=True)
+    visible_on_page = BooleanField("Widoczne na stronie", default=True)
 
     name = CharField("Nazwa cyklu", max_length=230)
 

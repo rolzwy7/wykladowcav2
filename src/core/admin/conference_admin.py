@@ -5,16 +5,10 @@ Conference admin
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin, register
 
-from core.models import (
-    ConferenceCycle,
-    ConferenceEdition,
-    ConferenceFreeParticipant,
-    ConferenceSchedule,
-)
+from core.models import ConferenceCycle, ConferenceEdition, ConferenceFreeParticipant
 
 admin.site.register(ConferenceEdition)
 admin.site.register(ConferenceCycle)
-admin.site.register(ConferenceSchedule)
 
 
 @register(ConferenceFreeParticipant)

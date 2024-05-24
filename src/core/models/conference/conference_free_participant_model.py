@@ -1,16 +1,18 @@
 # flake8: noqa
 
+import uuid
+
 from django.db.models import (
     RESTRICT,
     BooleanField,
     CharField,
+    DateTimeField,
     EmailField,
     ForeignKey,
     Manager,
     Model,
+    UUIDField,
 )
-
-# TODO: finish this
 
 
 class ConferenceFreeParticipantManager(Manager):
@@ -22,6 +24,9 @@ class ConferenceFreeParticipantManager(Manager):
 class ConferenceFreeParticipant(Model):
     """Represents CRM Company"""
 
+    created_at = DateTimeField(auto_now_add=True)
+    updated_at = DateTimeField(auto_now=True)
+
     manager = ConferenceFreeParticipantManager()
 
     edition = ForeignKey("ConferenceEdition", on_delete=RESTRICT, verbose_name="Edycja")
@@ -29,6 +34,8 @@ class ConferenceFreeParticipant(Model):
     first_name = CharField("Imię", max_length=64)
 
     last_name = CharField("Nazwisko", max_length=64)
+
+    watch_token = UUIDField("Token wypisu", default=uuid.uuid4)
 
     VOIVODESHIPS = [
         ("DOLNOŚLĄSKIE", "Dolnośląskie"),

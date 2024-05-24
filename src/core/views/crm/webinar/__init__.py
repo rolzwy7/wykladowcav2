@@ -7,5 +7,6 @@ from .crm_webinar_detail_dashboard import crm_webinar_detail_dashboard
 from .crm_webinar_duplicate import crm_webinar_duplicate
 from .crm_webinar_eventlogs import crm_webinar_eventlogs
 from .crm_webinar_export_participants import crm_webinar_export_participants
+from .crm_webinar_free_participants import crm_webinar_free_participants
 from .crm_webinar_invoices import crm_webinar_invoices
 from .crm_webinar_recordings import crm_webinar_recordings
