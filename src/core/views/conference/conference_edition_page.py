@@ -11,12 +11,7 @@ from django.template.response import TemplateResponse
 from django.urls import reverse
 
 from core.consts.requests_consts import POST
-from core.models import (
-    ConferenceCycle,
-    ConferenceEdition,
-    ConferenceFreeParticipant,
-    Webinar,
-)
+from core.models import ConferenceEdition, ConferenceFreeParticipant, Webinar
 from core.models.enums import LeadSource
 from core.services.lead_service import LeadService
 from core.tasks_dispatch import after_free_conference_participant_singup
@@ -84,7 +79,7 @@ def conference_edition_page(request: HttpRequest, slug_edition: str):
             )
 
             # Perform tasks
-            # after_free_conference_participant_singup(edition, participant)
+            after_free_conference_participant_singup(edition, participant)
 
             # Redirect to `thank you` page
             return redirect(

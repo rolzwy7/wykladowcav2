@@ -165,7 +165,12 @@
                   Wypełnij poniższy formularz, aby dołączyć do wydarzenia
                </h4>
 
-               <form class="row" method="post" action="{% url "core:conference_edition_page" slug_edition=edition.slug %}">
+               <form
+                  class="row"
+                  method="post"
+                  action="{% url "core:conference_edition_page" slug_edition=edition.slug %}"
+                  onsubmit="actionSubmit.disabled = true; return true;"
+               >
                   {% csrf_token %}
                   <div class="mb-3 col-12 col-md-6">
                   <label class="form-label" for="id_first_name">
@@ -230,7 +235,13 @@
                   </div>
                   <div class="d-flex justify-content-center">
                      <div>
-                        <input disabled id="submit-btn" type="submit" class="btn btn-lg btn-primary mt-2" value="Zaakceptuj najpierw zgody marketingowe, aby przesłać zgłoszenie">
+                        <input
+                           disabled
+                           name="actionSubmit"
+                           id="submit-btn"
+                           type="submit"
+                           class="btn btn-lg btn-primary mt-2" value="Zaakceptuj najpierw zgody marketingowe, aby przesłać zgłoszenie"
+                        >
                      </div>
                   </div>
                </form>

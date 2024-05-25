@@ -135,4 +135,13 @@ class WebinarModelAdmin(ModelAdmin):
                 ],
             },
         ),
+        (
+            "Konferencja",
+            {
+                "classes": ["collapse"],
+                "fields": [
+                    "is_connected_to_conference",
+                ],
+            },
+        ),
     )

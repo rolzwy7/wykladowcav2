@@ -8,6 +8,7 @@ import uuid
 
 from django.db.models import (
     RESTRICT,
+    BooleanField,
     CharField,
     ForeignKey,
     Manager,
@@ -68,7 +69,9 @@ class ConferenceEdition(Model):
         ("YOUTUBE", "YouTube"),
     ]
 
-    stream_url = CharField("Adres URL strumienia", blank=True, max_length=200)
+    clickmeeting_pasted = BooleanField("Dane strumienia przeklejone?", default=False)
+
+    stream_url_page = CharField("Adres URL strony", blank=True, max_length=200)
 
     stream_type = CharField(
         "Gdzie stream?",
@@ -77,7 +80,7 @@ class ConferenceEdition(Model):
         default="YOUTUBE",
     )
 
-    stream_url_address = CharField("Adres URL serwera", blank=True, max_length=200)
+    stream_server_url = CharField("Adres URL serwera", blank=True, max_length=200)
     stream_transmission_key = CharField("Klucz strumienia", blank=True, max_length=200)
 
     class Meta:

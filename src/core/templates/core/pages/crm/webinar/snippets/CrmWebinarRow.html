@@ -28,65 +28,79 @@
     {% comment %} Details {% endcomment %}
     <td style="max-width: 350px;">
         
-        <div class="mb-3">
-            <a href="{% url 'core:crm_webinar_detail_dashboard' pk=webinar.pk %}" class="{% if webinar.is_connected_to_conference %}text-white bg-info{% else %}text-primary{% endif %} text-hover-primary fw-bold">
-                {{webinar.title_original}}
+        <div class="mb-1">
+            <a href="{% url 'core:crm_webinar_detail_dashboard' pk=webinar.pk %}" class="{% if webinar.is_connected_to_conference %}text-white bg-info{% else %}text-primary{% endif %} text-hover-primary fw-bold me-1">
+                <span class="fs-5">{{webinar.title_original}}</span>
             </a>
+            {% if webinar_ctx.conference_edition and not webinar_ctx.conference_edition.clickmeeting_pasted %}
+            <br>
+            <b class="text-danger">Uzupełnij transmisję w ClickMeeting !</b>
+            {% endif %}
             <br>
             <b>{{webinar.date|date:"j E (l)"}}</b> <b>{{webinar.date|date:"H:i"}}</b> - {{webinar.date_end|date:"H:i"}}
+            {% url 'admin:core_webinar_change' object_id=webinar.id as link %}
+            {% include "include/crm/EditWithCmsButton.html" with link=link fs="fs-5" %}
+            {% url 'core:webinar_program_page' slug=webinar.slug as link %}
+            {% include "include/crm/ShowOnPageButton.html" with link=link fs="fs-5" %}
             <br>
             {{webinar.lecturer.fullname}}
+            {% url 'admin:core_lecturer_change' object_id=webinar.lecturer.id as link %}
+            {% include "include/crm/EditWithCmsButton.html" with link=link fs="fs-5" %}
+            {% url 'core:lecturer_experience_page' slug=webinar.lecturer.slug as link %}
+            {% include "include/crm/ShowOnPageButton.html" with link=link fs="fs-5" %}
         </div>
 
-        {% if webinar_ctx.is_confirmed %}
-        <span class="fw-bold text-warning mb-1">[ Pewny termin ]</span> <br>
-        {% endif %}
-        {% if webinar_ctx.is_fake %}
-        <span class="fw-bold text-danger mb-1">[ Fake'owy termin ]</span> <br>
-        {% endif %}
-        {% if webinar_ctx.is_hidden %}
-        <span class="fw-bold text-info mb-1">[ Ukryty termin ]</span> <br>
-        {% endif %}
-
-        <div class="d-flex">
-            <!--begin::Menu-->
-            <div class="me-3">
-                <a href="#" class="mt-4" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                    Zarządzaj
-                </a>
-                <!--begin::Menu 3-->
-                <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-300px py-3" data-kt-menu="true">
-                    <!--begin::Menu item-->
-                    <div class="menu-item px-3">
-
-                        {% if webinar.status == "INIT" %}
-                        <a href="{% url 'core:crm_webinar_confirm' pk=webinar.pk %}" class="menu-link px-3 text-warning">
-                            [CRM] Potwierdź termin
-                        </a>
-                        {% elif webinar.status == "CONFIRMED" %}
-                        <a href="{% url 'core:crm_webinar_done_action' pk=webinar.pk %}" class="menu-link px-3 text-success">
-                            [CRM] Zakończ szkolenie
-                        </a>
-                        {% endif %}
-                        <a href="{% url 'core:webinar_program_page' slug=webinar.slug %}" class="menu-link px-3">
-                            [Strona] Zobacz na stronie
-                        </a>
-                        <a href="{% url 'admin:core_webinar_change' object_id=webinar.id %}" class="menu-link px-3">
-                            [CMS] Edytuj termin
-                        </a>
-                        <a href="{% url 'admin:core_lecturer_change' object_id=webinar.lecturer.id %}" class="menu-link px-3">
-                            [CMS] Edytuj wykładowce
-                        </a>
-                        <a target="_blank" href="https://trends.google.com/trends/explore?q={{webinar.title}}&date=now%201-d&geo=PL&hl=pl" class="menu-link px-3">
-                            Google Trends
-                        </a>
-                    
-                    </div>
-                </div>
-                <!--end::Menu 3-->
-            </div>
-            <!--end::Menu-->
+        <div class="d-flex flex-column">
+            <li class="d-flex align-items-center">
+                <span class="bullet bullet-vertical bg-dark me-5"></span>
+                <span>
+                    Wolne miejsca: {{webinar.remaining_places}}
+                </span>
+            </li>
+            {% if webinar_ctx.is_confirmed %}
+            <li class="d-flex align-items-center">
+                <span class="bullet bullet-vertical bg-warning me-5"></span>
+                <span
+                    style="cursor: pointer;"
+                    data-bs-dismiss="true"
+                    data-bs-toggle="popover"
+                    data-bs-placement="right"
+                    title="Co to 'Pewny termin'?"
+                    data-bs-content="Szkolenia oznaczone jako 'Pewny termin' posiadają oznaczenie na stronie szkolenia oraz w mailingu, że szkolenie na pewno się odbędzie.">
+                    Pewny termin
+                </span>
+            </li>
+            {% endif %}
+            {% if webinar_ctx.is_fake %}
+            <li class="d-flex align-items-center">
+                <span class="bullet bullet-vertical bg-danger me-5"></span>
+                <span
+                    style="cursor: pointer;"
+                    data-bs-dismiss="true"
+                    data-bs-toggle="popover"
+                    data-bs-placement="right"
+                    title="Co to 'Fake'owy termin'?"
+                    data-bs-content="Szkolenie oznaczone jako 'Fake'owe' posiada widoczny tylko dla pracowników czerowny napis koło tytułu szkolenia (na stronie szkolenia), komunikujący, że to szkolenie jest wystawione bez zamiaru jego realizacji.">
+                    Fake'owy termin
+                </span>
+            </li>
+            {% endif %}
+            {% if webinar_ctx.is_hidden %}
+            <li class="d-flex align-items-center">
+                <span class="bullet bullet-vertical bg-info me-5"></span>
+                <span
+                    style="cursor: pointer;"
+                    data-bs-dismiss="true"
+                    data-bs-toggle="popover"
+                    data-bs-placement="right"
+                    title="Co to 'Ukryty termin'?"
+                    data-bs-content="Ukryty termin jest jedynie niewidoczny w liście szkoleń, jednak nadal można wejść na stronę szkolenia jeśli posiada się bezpośredni link.">
+                    Ukryty termin
+                </span>
+            </li>
+            {% endif %}
         </div>
+
     </td>
     {% comment %} Sales {% endcomment %}
     <td>
@@ -168,7 +182,7 @@
     {% comment %} Time left {% endcomment %}
     <td>
         {% if webinar.time_to_webinar %}
-        <b>Pozostało: {{webinar.time_to_webinar}}</b>
+        <b>{{webinar.time_to_webinar}}</b>
         {% else %}
             {% if webinar.status == "INIT" %}
             <b class="text-danger">Nie odbył się</b>

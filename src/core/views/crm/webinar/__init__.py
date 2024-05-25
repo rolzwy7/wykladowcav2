@@ -1,4 +1,5 @@
 # flake8: noqa
+from .crm_clickmeeting_paste_stream import crm_clickmeeting_paste_stream
 from .crm_upcoming_webinars import crm_upcoming_webinars
 from .crm_webinar_analysis import crm_webinar_analysis
 from .crm_webinar_assets import crm_webinar_assets
