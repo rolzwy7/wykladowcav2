@@ -36,51 +36,86 @@
 <!--end::Toolbar-->
 
 {% if webinar.is_connected_to_conference %}
-<div class="card card-flush mb-3">
+<div class="card shadow-sm mb-4">
     <div class="card-header">
-        <div class="card-title">
-            <h2>WAŻNE: Pamiętaj, aby uzupełnić dane do transmisji na żywo!</h2>
-        </div>
+        <h3 class="card-title">Szczegóły transmisij</h3>
     </div>
-    <div class="card-body pt-1">
-        <div class="fw-bold text-gray-600 mb-2">
-
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td><b>Typ strumienia</b></td>
+                        <td>{{conference_edition.get_stream_type_display}}</td>
+                        <td><b>Adres URL strony</b></td>
+                        <td>
+                            {% if conference_edition.stream_url_page %}
+                                <a href="{{conference_edition.stream_url_page}}">
+                                    <b>{{conference_edition.stream_url_page}}</b>
+                                </a>
+                            {% else %}
+                                <span class="bg-danger text-white px-2">
+                                    BRAK ADRESU STRONY
+                                </span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>URL Serwera</b></td>
+                        <td>
+                            {% if conference_edition.stream_server_url %}
+                                {{conference_edition.stream_server_url}}
+                            {% else %}
+                                <span class="bg-danger text-white px-2">
+                                    BRAK ADRESU SERWERA
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td><b>Klucz strumienia</b></td>
+                        <td>
+                            {% if conference_edition.stream_transmission_key %}
+                                {{conference_edition.stream_transmission_key}}
+                            {% else %}
+                                <span class="bg-danger text-white px-2">
+                                    BRAK KLUCZA
+                                </span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            {% if not conference_edition.clickmeeting_pasted %}
+                                <span class="text-danger fw-bold">
+                                    Po kliknięciu w 'Przeklej teraz' system automatycznie zapamięta, że adres serwera i klucz zostały przeklejone do ClickMeeting NAWET JEŚLI TEGO NIE ZROBISZ.
+                                    <br><br>
+                                    Upewnij się, że na pewno dokończysz przeklejanie do ClickMeeting.
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td><b>Przeklejono do ClickMeeting</b></td>
+                        <td>
+                            {% if conference_edition.clickmeeting_pasted %}
+                                <span class="bg-success text-white px-2">
+                                    Przeklejono
+                                </span>
+                                <br>
+                                <a href="https://account-panel.clickmeeting.com/{{conference_edition.clickmeeting_id}}/edit#settings" target="_blank">
+                                    <b>Zobacz ustawienia</b>
+                                </a>
+                            {% else %}
+                                <span class="bg-danger text-white px-2">
+                                    NIE PRZEKLEJONO
+                                </span>
+                                <br>
+                                <a href="{% url "core:crm_clickmeeting_paste_stream" pk=webinar.pk %}" target="_blank">
+                                    <b>Przeklej teraz</b>
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="d-flex flex-column text-gray-600">
-            <div class="d-flex align-items-center py-2">
-                <span class="bullet bg-primary me-3"></span>
-                Typ transmisji: <b class="ms-1">{{conference_edition.get_stream_type_display}}</b>
-            </div>
-            <div class="d-flex align-items-center py-2">
-                <span class="bullet {% if conference_edition.stream_url %}bg-primary{% else %}bg-danger{% endif %} me-3"></span>
-                {% if conference_edition.stream_url %}
-                    Adres URL transmisji: {{conference_edition.stream_url}}
-                {% else %}
-                    <b class="text-danger">Brak podanego adresu URL transmisji</b>
-                {% endif %}
-            </div>
-            <div class="d-flex align-items-center py-2">
-                <span class="bullet {% if conference_edition.stream_url_address %}bg-primary{% else %}bg-danger{% endif %} me-3"></span>
-                {% if conference_edition.stream_url_address %}
-                    Nazwa transmisji: {{conference_edition.stream_url_address}}
-                {% else %}
-                    <b class="text-danger">Brak podanej nazwy transmisji</b>
-                {% endif %}
-            </div>
-            <div class="d-flex align-items-center py-2">
-                <span class="bullet {% if conference_edition.stream_transmission_key %}bg-primary{% else %}bg-danger{% endif %} me-3"></span>
-                {% if conference_edition.stream_transmission_key %}
-                    Klucz transmisji: {{conference_edition.stream_transmission_key}}
-                {% else %}
-                    <b class="text-danger">Brak podanego klucza transmisji</b>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-    <div class="card-footer flex-wrap pt-0">
-        <a href="#" class="btn btn-secondary btn-active-primary my-1 me-2">
-            Uzupełnij w CMS
-        </a>
     </div>
 </div>
 {% endif %}
@@ -226,6 +261,7 @@
                             <div class="me-2">
                                 <button
                                     class="btn btn-sm btn-secondary"
+                                    data-bs-dismiss="true"
                                     data-bs-placement="left"
                                     data-bs-toggle="popover"
                                     data-bs-html="true"

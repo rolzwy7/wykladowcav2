@@ -55,10 +55,19 @@
 
           <div class="separator my-5"></div>
 
-            <form action="{% url "core:conference_from_webinar" pk=webinar.pk %}" method="post">
+            <form
+              action="{% url "core:conference_from_webinar" pk=webinar.pk %}"
+              method="post"
+              onsubmit="actionSubmit.disabled = true; return true;"
+            >
               {% csrf_token %}
               {{form}}
-              <input type="submit" class="btn btn-primary mt-3" value="Stwórz konferencje">
+              <input
+                name="actionSubmit"
+                type="submit"
+                class="btn btn-primary mt-3"
+                value="Stwórz konferencje"
+              >
             </form>
         </div>
       </div>

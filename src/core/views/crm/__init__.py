@@ -19,6 +19,7 @@ from .crm_resignations_plaintext import crm_resignations_plaintext
 from .crm_take_over_account import crm_take_over_account
 from .crm_todos_list import crm_todos_done_list, crm_todos_list
 from .webinar import (
+    crm_clickmeeting_paste_stream,
     crm_upcoming_webinars,
     crm_webinar_analysis,
     crm_webinar_assets,

@@ -24,19 +24,21 @@ class ConferenceEditionModelForm(ModelForm):
         model = ConferenceEdition
         fields = [
             "cycle",
+            "stream_type",
+            "stream_url_page",
+            "stream_server_url",
+            "stream_transmission_key",
             "slug",
             "webinar",
-            # "stream_type",
-            # "stream_url_address",
-            # "stream_transmission_key",
         ]
         widgets = {
             "cycle": Select(attrs={"class": "form-control"}),
+            "stream_type": Select(attrs={"class": "form-control"}),
+            "stream_url_page": TextInput(attrs={"class": "form-control"}),
+            "stream_server_url": TextInput(attrs={"class": "form-control"}),
+            "stream_transmission_key": TextInput(attrs={"class": "form-control"}),
             "slug": TextInput(attrs={"class": "form-control"}),
             "webinar": Select(attrs={"class": "form-control"}),
-            # "stream_type": Select(attrs={"class": "form-control"}),
-            # "stream_url_address": TextInput(attrs={"class": "form-control"}),
-            # "stream_transmission_key": TextInput(attrs={"class": "form-control"}),
         }
 
 

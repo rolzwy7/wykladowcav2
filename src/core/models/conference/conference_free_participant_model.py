@@ -35,7 +35,7 @@ class ConferenceFreeParticipant(Model):
 
     last_name = CharField("Nazwisko", max_length=64)
 
-    watch_token = UUIDField("Token wypisu", default=uuid.uuid4)
+    watch_token = UUIDField("Token panelu oglądania", default=uuid.uuid4)
 
     VOIVODESHIPS = [
         ("DOLNOŚLĄSKIE", "Dolnośląskie"),

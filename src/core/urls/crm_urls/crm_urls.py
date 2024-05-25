@@ -5,6 +5,7 @@ from django.urls import include, path
 from core.views.crm import (
     conference_from_webinar,
     crm_blacklist_paste,
+    crm_clickmeeting_paste_stream,
     crm_contact_messages,
     crm_eventlogs,
     crm_invoices_list,
@@ -97,6 +98,11 @@ urlpatterns = [
         "webinar/<int:pk>/certyfikaty/",
         crm_webinar_certificates,
         name="crm_webinar_certificates",
+    ),
+    path(
+        "webinar/<int:pk>/clickmeeting-paste-stream-redirect/",
+        crm_clickmeeting_paste_stream,
+        name="crm_clickmeeting_paste_stream",
     ),
     # CRM Webinar Actions
     path(

@@ -23,6 +23,7 @@
           <a href="{{cta_href}}">
             {{webinar.date|date:"j E Y"}} godzina {{webinar.date|date:"H:i"}}
           </a>
+          {% if pewny_termin %} - <b>Pewny termin</b>{% endif %}
         </li>
         {% for related_webinar in related_webinars %}
         <li style="margin-top:5px;">

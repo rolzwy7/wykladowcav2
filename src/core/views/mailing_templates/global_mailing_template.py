@@ -9,7 +9,6 @@ from random import shuffle
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
-from django.urls import reverse
 from markdown import markdown
 
 from core.models import Lecturer, Webinar, WebinarCategory
@@ -32,11 +31,14 @@ def global_mailing_editor_page(request):
     category_slug = request.GET.get("for_category_slug")
     lecturer_slug = request.GET.get("for_lecturer_slug")
 
+    webinar = get_object_or_404(Webinar, pk=webinar_id)
+
     template_name = "mailing_templates/GlobalMailingEditor.html"
     return TemplateResponse(
         request,
         template_name,
         {
+            "webinar": webinar,
             "webinar_id": webinar_id,
             "lecturer_slug": lecturer_slug,
             "category_slug": category_slug,
@@ -55,6 +57,7 @@ def global_mailing_template_page(request):
         "show_logo": request.GET.get("show_logo"),
         "show_last_spots": request.GET.get("show_last_spots"),
         "show_price": request.GET.get("show_price"),
+        "pewny_termin": request.GET.get("pewny_termin"),
         "show_hello_text": request.GET.get("show_hello_text"),
         "section_fb_group": request.GET.get("section_fb_group"),
         "section_loyalty": request.GET.get("section_loyalty"),
@@ -82,7 +85,7 @@ def global_mailing_template_page(request):
     if webinar_id:
         main_webinar = get_object_or_404(Webinar, pk=int(webinar_id))
         lecturer = main_webinar.lecturer
-        cta_href = f"{BASE_URL}/szkl/{main_webinar.id}"
+        cta_href = f"{BASE_URL}/szkl/{main_webinar.id}"  # type: ignore
         cta_href += "/{TRACKING_CODE}/"
         cta_text = "Zapisz się teraz!"
 
