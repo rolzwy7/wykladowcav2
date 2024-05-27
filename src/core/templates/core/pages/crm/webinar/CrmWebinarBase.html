@@ -46,18 +46,21 @@
                 <tbody>
                     <tr>
                         <td><b>Typ strumienia</b></td>
-                        <td>{{conference_edition.get_stream_type_display}}</td>
-                        <td><b>Adres URL strony</b></td>
                         <td>
-                            {% if conference_edition.stream_url_page %}
-                                <a href="{{conference_edition.stream_url_page}}">
-                                    <b>{{conference_edition.stream_url_page}}</b>
-                                </a>
-                            {% else %}
-                                <span class="bg-danger text-white px-2">
-                                    BRAK ADRESU STRONY
-                                </span>
-                            {% endif %}
+                            <span class="fw-bold text-white px-2 bg-info">
+                                {{conference_edition.get_stream_type_display}}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Adres URL strony</b></td>
+                        <td colspan="3">
+                            <div
+                                hx-get="{% url 'htmx:htmx_conference_url_form' pk=conference_edition.pk mode="result" %}"
+                                hx-swap="outerHTML"
+                                hx-trigger="load delay:{{delay_ms|default:"100"}}ms">
+                                Ładuję...
+                            </div>
                         </td>
                     </tr>
                     <tr>

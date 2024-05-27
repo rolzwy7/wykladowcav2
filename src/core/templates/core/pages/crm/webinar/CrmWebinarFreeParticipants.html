@@ -24,6 +24,7 @@
                         <th>Województwo</th>
                         <th>Skąd się dowiedział?</th>
                         <th>Szkolenia zamknięte?</th>
+                        <th>Link</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,6 +37,11 @@
                         <td>{{participant.get_know_from_display}}</td>
                         <td>
                             {{participant.get_using_closed_webinars_display}}
+                        </td>
+                        <td>
+                          <a href="{% url "core:conference_waiting_room_page" watch_token=participant.watch_token %}">
+                            {{participant.watch_token}}
+                          </a>
                         </td>
                     </tr>
                     {% endfor %}

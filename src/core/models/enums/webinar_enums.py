@@ -1,10 +1,19 @@
+"""Webinar enums"""
+
+# flake8: noqa=E501
+
+
 class WebinarApplicationType:
+    """Webinar type enum"""
+
     JSFP = "JSFP"
     COMPANY = "COMPANY"
     PRIVATE_PERSON = "PRIVATE_PERSON"
 
 
 class WebinarApplicationStep:
+    """Webinar application step enum"""
+
     APPLICATION_TYPE = "APPLICATION_TYPE"
     PERSON_DETAILS = "PERSON_DETAILS"
     BUYER = "BUYER"
@@ -17,13 +26,19 @@ class WebinarApplicationStep:
 
 
 class WebinarStatus:
+    """Webinar status enum"""
+
     INIT = "INIT"
     CONFIRMED = "CONFIRMED"
     CANCELED = "CANCELED"
     DONE = "DONE"
 
 
+# When you add durations here remember to add them to `WEBINAR_CLICKMEETING_DURATION` too
+# TODO: ^ make test for that
 class WebinarDuration:
+    """Webinar duration enum"""
+
     H0_M30 = "30"
     H0_M45 = "45"
     H1_M00 = "60"
@@ -46,6 +61,8 @@ class WebinarDuration:
 
 
 WEBINAR_CLICKMEETING_DURATION = {
+    WebinarDuration.H0_M30: "0:30",
+    WebinarDuration.H0_M45: "0:45",
     WebinarDuration.H1_M00: "1:00",
     WebinarDuration.H1_M30: "1:30",
     WebinarDuration.H2_M00: "2:00",

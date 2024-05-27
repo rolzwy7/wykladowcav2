@@ -100,6 +100,7 @@ def conference_edition_page(request: HttpRequest, slug_edition: str):
             "webinar": webinar,
             "edition": edition,
             "form": form,
+            "hide_footer_newsletter_singup": True,
         },
     )
 
@@ -120,22 +121,29 @@ def conference_edition_thanks_page(request: HttpRequest, slug_edition: str):
         {
             "edition": edition,
             "webinars": webinars,
+            "hide_footer_newsletter_singup": True,
         },
     )
 
 
-def conference_edition_redirect_page(request: HttpRequest, uuid: str):
-    """Conference edition redirect page"""
+def conference_edition_waiting_room_page(request: HttpRequest, watch_token: str):
+    """conference_waiting_room_page"""
+    template_name = "geeks/pages/conference/ConferenceEditionWaitingRoom.html"
+    free_participant = get_object_or_404(
+        ConferenceFreeParticipant, watch_token=watch_token
+    )
+    edition: ConferenceEdition = free_participant.edition
+    webinar: Webinar = edition.webinar
 
-    try:
-        edition = ConferenceEdition.manager.get(uuid=uuid)
-    except ConferenceEdition.DoesNotExist:  # pylint: disable=no-member
-        return HttpResponse("UUID not found")  # TODO: not acceptable
-
-    template_name = "geeks/pages/conference/ConferenceEditionRedirectPage.html"
+    # TODO: Adres IP ?
 
     return TemplateResponse(
         request,
         template_name,
-        {"edition": edition},
+        {
+            "free_participant": free_participant,
+            "edition": edition,
+            "webinar": webinar,
+            "hide_footer_newsletter_singup": True,
+        },
     )
