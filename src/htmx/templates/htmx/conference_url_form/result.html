@@ -1,0 +1,18 @@
+<div
+    hx-swap="outerHTML"
+    hx-target="this"
+>
+    {% if edition.stream_url_page %}
+        <span class="bg-success text-white px-2 me-2">OK</span>
+        <a target="_blank" href="{{edition.stream_url_page}}"><b>{{edition.stream_url_page}}</b></a>
+    {% else %}
+        <span class="bg-danger text-white px-2">BRAK ADRESU STRONY</span>
+    {% endif %}
+    <br>
+    <button
+        hx-get="{% url 'htmx:htmx_conference_url_form' pk=edition.pk mode="form" %}"
+        class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2"
+    >
+        Edytuj adres URL
+    </button>
+</div>

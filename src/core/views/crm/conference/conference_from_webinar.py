@@ -25,7 +25,7 @@ class ConferenceEditionModelForm(ModelForm):
         fields = [
             "cycle",
             "stream_type",
-            "stream_url_page",
+            # "stream_url_page",
             "stream_server_url",
             "stream_transmission_key",
             "slug",
@@ -34,7 +34,7 @@ class ConferenceEditionModelForm(ModelForm):
         widgets = {
             "cycle": Select(attrs={"class": "form-control"}),
             "stream_type": Select(attrs={"class": "form-control"}),
-            "stream_url_page": TextInput(attrs={"class": "form-control"}),
+            # "stream_url_page": TextInput(attrs={"class": "form-control"}),
             "stream_server_url": TextInput(attrs={"class": "form-control"}),
             "stream_transmission_key": TextInput(attrs={"class": "form-control"}),
             "slug": TextInput(attrs={"class": "form-control"}),
@@ -63,15 +63,21 @@ def conference_from_webinar(request, pk: int):
                 edition: ConferenceEdition = form.save()
 
             # Create room in clickmeeting
-            room_id, clickmeeting_url = create_free_clickmeeting_room(
-                room_name=webinar.title,
-                lobby_description=webinar.program,
-                date=webinar.date,
-                duration=WEBINAR_CLICKMEETING_DURATION[webinar.duration],
-            )
-            edition.clickmeeting_id = str(room_id)
-            edition.clickmeeting_url = clickmeeting_url
-            edition.save()
+            try:
+                room_id, clickmeeting_url = create_free_clickmeeting_room(
+                    room_name=webinar.title,
+                    lobby_description=webinar.program,
+                    date=webinar.date,
+                    duration=WEBINAR_CLICKMEETING_DURATION[webinar.duration],
+                )
+                edition.clickmeeting_id = str(room_id)
+                edition.clickmeeting_url = clickmeeting_url
+                edition.save()
+            except Exception as e:  # pylint: disable=broad-exception-caught
+                return HttpResponse(
+                    f"Coś się zepsuło przy tworzeniu pokoju. Prześlij mi to:\n `{e}`",
+                    content_type="text/plain; charset=utf8",
+                )
 
             # Redirect to CRM dashboard
             return redirect(

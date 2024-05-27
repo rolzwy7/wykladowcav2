@@ -59,8 +59,8 @@ class ConferenceEdition(Model):
         verbose_name="Webinar",
     )
 
-    clickmeeting_id = CharField("ClickMeeting ID", max_length=200)
-    clickmeeting_url = CharField("ClickMeeting URL", max_length=200)
+    clickmeeting_id = CharField("ClickMeeting ID", blank=True, max_length=200)
+    clickmeeting_url = CharField("ClickMeeting URL", blank=True, max_length=200)
 
     redirect_token = UUIDField(default=uuid.uuid4, editable=True)
 

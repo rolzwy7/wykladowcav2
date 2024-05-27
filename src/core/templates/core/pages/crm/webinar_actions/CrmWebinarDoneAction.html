@@ -17,18 +17,6 @@
             <p><b>Data</b>: {{webinar.date|date:"j E Y"}}, godz. {{webinar.date|date:"H:i"}}</p>
             <p><b>Wykładowca</b>: {{webinar.lecturer.fullname}}</p>
 
-            <h2>Co się stanie?</h2>
-
-            <div class="separator my-5"></div>
-
-            <ol>
-                <li>
-                    Jeśli zaznaczono opcję <b>Faktury</b> zostaną wysłane na adresy e-mail do faktur podane w zgłoszeniach
-                </li>
-                <li><b>Certyfikaty</b> zostaną wysłane na adresy e-mail uczestników</li>
-                <li>Zostanie uruchomione zadanie próbujące pobrać <b>nagranie</b> (jeśli istnieje w ClickMeeting) w okresie 24 godzin (próba co ~30 minut)</li>
-            </ol>
-
             <div class="separator my-5"></div>
 
             <form
@@ -38,7 +26,12 @@
             >
                 {% csrf_token %}
                 {{form.i_am_sure}}
-                {{form.send_invoices}}
+                <div class="separator my-5"></div>
+                <p>Dodatkowe opcje:</p>
+                {{form.fakturownia_create_invoices}}
+                {{form.send_invoices_via_email}}
+                {{form.send_certificates}}
+                {{form.start_recording_download_procedure}}
                 <div class="separator my-5"></div>
                 <input
                     id="submit-btn"

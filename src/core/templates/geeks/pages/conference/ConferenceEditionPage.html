@@ -48,102 +48,68 @@
 
 {% block root %}
 <main>
-   <section class="pb-lg-10 pb-3 pt-10">
+   <section class="py-6 bg-light-primary">
       <div class="container">
-         <div class="row justify-content-center">
+         <div class="row">
+            <div class="offset-lg-2 col-lg-8 col-md-12 col-12 text-center">
+               <span class="fs-4 fw-bold text-primary ls-md">
+                  BEZPŁATNE SZKOLENIE — Zapisz się już dziś!
+               </span>
+               <p class="mt-4 mb-1 fw-bold">
+                  Temat szkolenia
+               </p>
+               <h1 class="display-3 mt-2 mb-3 fw-bold">
+                  {{webinar.title}}
+               </h1>
+               <!-- para  -->
+               <p class="lead px-lg- 8 mb-6">
+                  <b>{{webinar.date|date:"j E Y"}}</b> godzina 
+                  <b>{{webinar.date|date:"H:i"}} — {{webinar.date_end|date:"H:i"}}</b>
+                  <br>
+                  Wykładowca: <b>{{webinar.lecturer}}</b>
+               </p>
 
-
-            {% comment %} <div class="col-lg-10 col-md-12 col-12">
-               <div class="mb-8 text-center">
-                  <h2 class="mb-2 display-2 fw-bold">
-                     Bezpłatne szkolenie
-                     {% if request.user.is_staff %}
-                        <a href="{% url "admin:core_conferenceedition_change"	object_id=edition.id %}">
-                           <i class="bi bi-pencil-square"></i>
-                        </a>
-                     {% endif %}
-                  </h2>
-                  <h1 class="mb-2 display-4 fw-bold">
-                     {{webinar.title}}
-                  </h1>
-               </div>
-            </div> {% endcomment %}
-
-            <div class="col-lg-12 col-md-12 col-12">
-               {% comment %} <div class="py-lg-10 py-7 bg-gray-200" style="background: url({% static "geeks/assets/images/background/course-graphics.svg" %})no-repeat; background-size: cover; background-position: top center"> {% endcomment %}
-               <div class="py-lg-10 py-7 rounded">
-                  <div class="container">
-                     <!-- row -->
-                     <div class="row justify-content-center text-center">
-                        <div class="col-md-9 col-12">
-                           <!-- heading -->
-                           {% if status == "INIT" %}
-                              <h2 class="display-4 fw-bold text-dark">Zapisz się teraz!</h2>
-                           {% elif status == "IN_PROGRESS" %}
-                              <h2 class="display-4 fw-bold text-dark">Szkolenie trwa w tej chwili</h2>
-                           {% elif status == "DONE" %}
-                              <h2 class="display-4 fw-bold text-dark">Nie zdążyłeś na szkolenie? Nic straconego!</h2>
-                              <p class="lead px-lg-4 fw-bold text-dark">
-                                 Szkolenia organizowane są przez nas każdego miesiąca. <br>
-                                 <a href="{% url "core:conference_cycle_page" slug_cycle=cycle.slug %}">
-                                    <u>kliknij tutaj i przejdź do strony cyklu szkoleń</u>
-                                 </a>
-                              </p>
-                           {% endif %}
-                           <p class="lead px-lg-4 fs-2 fw-bold text-dark">Bezpłatne szkolenie</p>
-                           <h2 class="display-4 mb-6 fw-bold text-primary">{{webinar.title}}</h2>
-                           <p class="text-dark">
-                               <i class="bi bi-calendar3"></i> {{webinar.date|date:"j E Y"}}
-                               <i class="bi bi-stopwatch"></i> Godzina od {{webinar.date|date:"H:i"}} do {{webinar.date_end|date:"H:i"}}
-                              <br>
-                              <i class="bi bi-person"></i> {{webinar.lecturer}}
-                           </p>
-
-                           <div class="d-flex justify-content-center text-dark">
-                              <div class="bg-white rounded me-4" style="width:110px;height:110px;">
-                                 <div class="d-flex flex-column text-center pt-2">
-                                    <div id="pageTimerDays" class="fw-bold" style="font-size:35px;"></div>
-                                    <div class="fw-bold">Dni</div>
-                                 </div>
-                              </div>
-                              <div class="bg-white rounded me-4" style="width:110px;height:110px;">
-                                 <div class="d-flex flex-column text-center pt-2">
-                                    <div id="pageTimerHours" class="fw-bold" style="font-size:35px;"></div>
-                                    <div class="fw-bold">Godzin</div>
-                                 </div>
-                              </div>
-                              <div class="bg-white rounded me-4" style="width:110px;height:110px;">
-                                 <div class="d-flex flex-column text-center pt-2">
-                                    <div id="pageTimerMinutes" class="fw-bold" style="font-size:35px;"></div>
-                                    <div class="fw-bold">Minut</div>
-                                 </div>
-                              </div>
-                              <div class="bg-white rounded me-4" style="width:110px;height:110px;">
-                                 <div class="d-flex flex-column text-center pt-2">
-                                    <div id="pageTimerSeconds" class="fw-bold" style="font-size:35px;"></div>
-                                    <div class="fw-bold">Sekund</div>
-                                 </div>
-                              </div>
-                           </div>
-
-                           
-                           {% comment %} <div class="d-grid d-md-block">
-                              <a href="#" class="btn btn-primary mb-2 mb-md-0">Zapisz się już dziś</a>
-                              <a href="#" class="btn btn-info">Geeks for Business</a>
-                           </div> {% endcomment %}
-
-                        </div>
+               <div class="d-flex justify-content-center text-dark">
+                  <div class="bg-white rounded me-4" style="width:110px;height:110px;">
+                     <div class="d-flex flex-column text-center pt-2">
+                        <div id="pageTimerDays" class="fw-bold" style="font-size:35px;"></div>
+                        <div class="fw-bold">Dni</div>
+                     </div>
+                  </div>
+                  <div class="bg-white rounded me-4" style="width:110px;height:110px;">
+                     <div class="d-flex flex-column text-center pt-2">
+                        <div id="pageTimerHours" class="fw-bold" style="font-size:35px;"></div>
+                        <div class="fw-bold">Godzin</div>
+                     </div>
+                  </div>
+                  <div class="bg-white rounded me-4" style="width:110px;height:110px;">
+                     <div class="d-flex flex-column text-center pt-2">
+                        <div id="pageTimerMinutes" class="fw-bold" style="font-size:35px;"></div>
+                        <div class="fw-bold">Minut</div>
+                     </div>
+                  </div>
+                  <div class="bg-white rounded me-4" style="width:110px;height:110px;">
+                     <div class="d-flex flex-column text-center pt-2">
+                        <div id="pageTimerSeconds" class="fw-bold" style="font-size:35px;"></div>
+                        <div class="fw-bold">Sekund</div>
                      </div>
                   </div>
                </div>
             </div>
+         </div>
+      </div>
+   </section>
+   <section class="pb-lg-10 pb-3 pt-5">
+      <div class="container">
+         <div class="row justify-content-center">
 
-            <div class="col-12 mt-5">
-               <div class="card border mb-4">
+
+            <div class="col-lg-6 col-md-12 col-12">
+               <div class="card border">
                   <!-- card body  -->
                   <div class="card-body p-5">
                      <div class="mb-5">
-                        <h2 class="fw-semibold">Program szkolenia</h2>
+                        <h2 class="fw-semibold">Program <span class="text-primary">bezpłatnego</span> szkolenia</h2>
                      </div>
 
                      <div
@@ -160,91 +126,96 @@
                </div>
             </div>
 
-            <div class="col-lg-12 col-md-12 col-12 mt-5">
-               <h4 class="mt-4 mb-6 fw-bold display-4 text-center">
-                  Wypełnij poniższy formularz, aby dołączyć do wydarzenia
-               </h4>
+            <div class="col-lg-6 col-md-12 col-12">
+               <div class="js-sticky-widget">
 
-               <form
-                  class="row"
-                  method="post"
-                  action="{% url "core:conference_edition_page" slug_edition=edition.slug %}"
-                  onsubmit="actionSubmit.disabled = true; return true;"
-               >
-                  {% csrf_token %}
-                  <div class="mb-3 col-12 col-md-6">
-                  <label class="form-label" for="id_first_name">
-                     Imię
-                     <span class="text-danger">*</span>
-                  </label>
-                     {{form.first_name}}
-                  </div>
-                  <div class="mb-3 col-12 col-md-6">
-                  <label class="form-label" for="id_last_name">
-                     Nazwisko
-                     <span class="text-danger">*</span>
-                  </label>
-                  {{form.last_name}}
-                  </div>
-                  <div class="mb-3 col-12 col-md-6">
-                  <label class="form-label" for="id_email">
-                     Adres E-mail
-                     <span class="text-danger">*</span>
-                  </label>
-                  {{form.email}}
-                  </div>
-         
-                  <div class="mb-3 col-12 col-md-6">
-                  <label class="form-label" for="id_phone">
-                     Numer telefonu
-                     <span class="text-danger">*</span>
-                  </label>
-                  {{form.phone}}
-                  </div>
-                  <div class="mb-3 col-12 col-md-6">
-                  <label class="form-label" for="id_voivodeship">
-                     Województwo
-                     <span class="text-danger">*</span>
-                  </label>
-                  {{form.voivodeship}}
-                  </div>
-                  <div class="mb-3 col-12 col-md-6">
-                  <label class="form-label" for="id_know_from">
-                     Skąd dowiedziałeś się o szkoleniu?
-                     <span class="text-danger">*</span>
-                  </label>
-                  {{form.know_from}}
-                  </div>
-                  <div class="mb-3 col-12 col-md-12">
-                     <label class="form-label" for="id_using_closed_webinars">
-                        Czy korzystasz ze szkoleń zamkniętych w swojej firmie lub jednostce?
-                        <span class="text-danger">*</span>
-                     </label>
-                     {{form.using_closed_webinars}}
-                  </div>
-                  <div class="mb-3 col-12 col-md-12">
-                     <div class="form-check">
-                        {{form.consent}}
-                        <label class="form-check-label" for="id_consent">
-                           <b>
-                              <b class="text-danger">[Zgody marketingowe]</b>
-                              Chcę zapisać się na bezpłatny webinar oraz do newslettera, wyrażam też zgodę na otrzymywanie na podany adres e-mail wiadomości z informacją o nowościach, promocjach, produktach i usługach Wykładowca.pl.
-                           </b>
-                        </label>
-                        </div>
-                  </div>
-                  <div class="d-flex justify-content-center">
-                     <div>
-                        <input
-                           disabled
-                           name="actionSubmit"
-                           id="submit-btn"
-                           type="submit"
-                           class="btn btn-lg btn-primary mt-2" value="Zaakceptuj najpierw zgody marketingowe, aby przesłać zgłoszenie"
+                  <div class="card border mb-4">
+                     <!-- card body  -->
+                     <div class="card-body p-3">
+                        
+                        <h4 class="mt-4 mb-6 fw-bold display-6 text-center">
+                           Wypełnij poniższy formularz, aby dołączyć do <span class="text-primary">bezpłatnego</span> wydarzenia
+                        </h4>
+      
+                        <form
+                           class="row"
+                           method="post"
+                           action="{% url "core:conference_edition_page" slug_edition=edition.slug %}"
+                           onsubmit="actionSubmit.disabled = true; return true;"
                         >
+                           {% csrf_token %}
+                           <div class="mb-3 col-12 col-md-6">
+                           <label class="form-label" for="id_first_name">
+                              Imię
+                              <span class="text-danger">*</span>
+                           </label>
+                              {{form.first_name}}
+                           </div>
+                           <div class="mb-3 col-12 col-md-6">
+                           <label class="form-label" for="id_last_name">
+                              Nazwisko
+                              <span class="text-danger">*</span>
+                           </label>
+                           {{form.last_name}}
+                           </div>
+                           <div class="mb-3 col-12 col-md-6">
+                           <label class="form-label" for="id_email">
+                              Adres E-mail
+                              <span class="text-danger">*</span>
+                           </label>
+                           {{form.email}}
+                           </div>
+                  
+                           <div class="mb-3 col-12 col-md-6">
+                           <label class="form-label" for="id_phone">
+                              Numer telefonu
+                              <span class="text-danger">*</span>
+                           </label>
+                           {{form.phone}}
+                           </div>
+                           <div class="mb-3 col-12 col-md-6">
+                           <label class="form-label" for="id_voivodeship">
+                              Województwo
+                              <span class="text-danger">*</span>
+                           </label>
+                           {{form.voivodeship}}
+                           </div>
+                           <div class="mb-3 col-12 col-md-6">
+                           <label class="form-label" for="id_know_from">
+                              Skąd dowiedziałeś się o szkoleniu?
+                              <span class="text-danger">*</span>
+                           </label>
+                           {{form.know_from}}
+                           </div>
+                           <div class="mb-3 col-12 col-md-12">
+                              <label class="form-label" for="id_using_closed_webinars">
+                                 Czy korzystasz ze szkoleń zamkniętych w swojej firmie lub jednostce?
+                                 <span class="text-danger">*</span>
+                              </label>
+                              {{form.using_closed_webinars}}
+                           </div>
+                           <p>
+                              <small>
+                                 Zgłaszając się na bezpłatny webinar, wyrażam zgodę na otrzymywanie informacji o nowościach, promocjach, produktach i usługach {{COMPANY_NAME}} na podany przeze mnie adres e-mail.
+                              </small>
+                           </p>
+                           <div class="d-flex justify-content-center">
+                              <div>
+                                 <input
+                                    name="actionSubmit"
+                                    id="submit-btn"
+                                    type="submit"
+                                    class="btn btn-primary mt-2"
+                                    value="Prześlij zgłoszenie"
+                                 >
+                              </div>
+                           </div>
+                        </form>
+   
                      </div>
                   </div>
-               </form>
+
+               </div>
                
             </div>
 
@@ -256,21 +227,17 @@
 
 
 {% block body_scripts %}
+<script src="{% static 'js/sticksy.min.js' %}"></script>
 <script>
-   var checkInput = document.querySelector("#id_consent");
-   checkInput.addEventListener("click", function(e) {
-       let btn = document.querySelector("#submit-btn");
-       if(btn.disabled) {
-           btn.disabled = false;
-           btn.value = "Prześlij zgłoszenie";
+   var stickyElement = new Sticksy('.js-sticky-widget', {topSpacing: 10});
+   stickyElement.onStateChanged = function (state) {
+       if(state === 'fixed') {
+         stickyElement.nodeRef.classList.add('widget--sticky')
        } else {
-           btn.disabled = true;
-           btn.value = "Zaakceptuj najpierw zgody marketingowe, aby przesłać zgłoszenie";
+         stickyElement.nodeRef.classList.remove('widget--sticky')
        }
-   })
-</script>
-
-<script src="{% static 'js/countdown.min.js' %}"></script>
+   }
+</script><script src="{% static 'js/countdown.min.js' %}"></script>
 <script>
    (function() {
       countdown(

@@ -3,6 +3,6 @@
 from .conference_cycle_page import conference_cycle_page
 from .conference_edition_page import (
     conference_edition_page,
-    conference_edition_redirect_page,
     conference_edition_thanks_page,
+    conference_edition_waiting_room_page,
 )

@@ -1,4 +1,5 @@
 # flake8: noqa
+from .htmx_conference_url_form import htmx_conference_url_form
 from .htmx_crm_application_cancellation import htmx_crm_application_cancellation_toggle
 from .htmx_crm_check_nip import htmx_crm_check_nip
 from .htmx_crm_email_tagging import (

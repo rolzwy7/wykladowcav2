@@ -1,0 +1,18 @@
+<div
+    hx-swap="outerHTML"
+    hx-target="this"
+>
+    <form
+        hx-post="{% url 'htmx:htmx_conference_url_form' pk=edition.pk mode="form" %}"
+    >
+        {% csrf_token %}
+        <div class="input-group input-group-sm mb-5">
+            <span class="input-group-text" id="inputGroup-sizing-sm">Adres URL</span>
+            {{form.stream_url_page}}
+            <button class="btn btn-primary mt-1">
+                Zapisz
+            </button>
+        </div>
+    </form>
+</div>
+

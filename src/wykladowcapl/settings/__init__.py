@@ -24,6 +24,7 @@ from .logging import *
 from .loyalty_program import *
 from .mailchimp import *
 from .mongo import *
+from .niebieski import *
 from .redis import *
 from .regon import *
 from .rest_framework import *
