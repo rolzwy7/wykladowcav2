@@ -10,7 +10,7 @@ from core.models import Webinar
 
 class WebinarViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    A simple ViewSet for viewing accounts.
+    WebinarViewSet
     """
 
     authentication_classes = [SessionAuthentication]

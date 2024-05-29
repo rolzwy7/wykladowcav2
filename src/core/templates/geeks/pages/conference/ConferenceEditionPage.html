@@ -56,7 +56,10 @@
                   BEZPŁATNE SZKOLENIE — Zapisz się już dziś!
                </span>
                <p class="mt-4 mb-1 fw-bold">
-                  Temat szkolenia
+                  Temat darmowego szkolenia
+                  {% if request.user.is_staff %}
+                  <a href="{% url 'admin:core_conferenceedition_change' object_id=edition.id %}">Edytuj / {{status}}</a>
+                  {% endif %}
                </p>
                <h1 class="display-3 mt-2 mb-3 fw-bold">
                   {{webinar.title}}
@@ -69,7 +72,20 @@
                   Wykładowca: <b>{{webinar.lecturer}}</b>
                </p>
 
-               <div class="d-flex justify-content-center text-dark">
+               <div
+                  id="startAlert"
+                  class="alert alert-success d-flex align-items-center {% if status != "IN_PROGRESS" %}d-none{% endif %}"
+                  role="alert"
+               >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-check-circle-fill me-2" viewBox="0 0 16 16">
+                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                  </svg>
+                  <div>
+                     Szkolenie już się rozpoczęło, ale nie martw się, <b>nadal możesz dołączyć, wypełniając formularz poniżej!</b>
+                  </div>
+               </div>
+
+               <div class="d-flex justify-content-center text-dark" id="pageTimerContainer">
                   <div class="bg-white rounded me-4" style="width:110px;height:110px;">
                      <div class="d-flex flex-column text-center pt-2">
                         <div id="pageTimerDays" class="fw-bold" style="font-size:35px;"></div>
@@ -95,6 +111,7 @@
                      </div>
                   </div>
                </div>
+
             </div>
          </div>
       </div>
@@ -239,15 +256,22 @@
    }
 </script><script src="{% static 'js/countdown.min.js' %}"></script>
 <script>
+   function addLeadingZero(number) {
+      return number < 10 ? '0' + number : number.toString();
+   }
    (function() {
       countdown(
-    new Date("{{webinar.date|date:"c"}}"),
+    new Date('{{webinar.date|date:"c"}}'),
     function(ts) {
-      {% comment %} document.getElementById('pageTimer').innerHTML = ts.toHTML("strong"); {% endcomment %}
-      document.getElementById('pageTimerDays').innerHTML = ts.days;
-      document.getElementById('pageTimerHours').innerHTML = ts.hours;
-      document.getElementById('pageTimerMinutes').innerHTML = ts.minutes;
-      document.getElementById('pageTimerSeconds').innerHTML = ts.seconds;
+      if(ts.value > 0) {
+         $("#pageTimerContainer").addClass("d-none");
+         $("#startAlert").removeClass("d-none");
+      } else {
+         document.getElementById('pageTimerDays').innerHTML = addLeadingZero(ts.days);
+         document.getElementById('pageTimerHours').innerHTML = addLeadingZero(ts.hours);
+         document.getElementById('pageTimerMinutes').innerHTML = addLeadingZero(ts.minutes);
+         document.getElementById('pageTimerSeconds').innerHTML = addLeadingZero(ts.seconds);
+      }
     },
     countdown.DAYS|countdown.HOURS|countdown.MINUTES|countdown.SECONDS);
    })();

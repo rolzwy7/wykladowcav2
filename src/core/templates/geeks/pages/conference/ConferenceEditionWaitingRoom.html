@@ -14,36 +14,73 @@
        <div class="row align-items-center justify-content-center g-0 py-lg-8 py-8">
           <!-- Docs -->
           <div class="offset-xl-1 col-xl-5 col-lg-6 col-md-12 col-12 text-center text-lg-start">
-             <h1 class="display-3 mb-2 fw-bold">Wkrótce zaczynamy!</h1>
-             <p class="mb-4 fs-4">
-                Tutaj obejrzysz webinar na żywo: <br>
-                <b>{{webinar.title}}</b> <br>
-                Zaczynamy dnia 
-                <b>{{webinar.date|date:"j E Y"}}</b>
-                godzina
-                <b>{{webinar.date|date:"H:i"}}</b>
-             </p>
-             <div class="countdown">
-                <ul class="list-inline">
-                   <li class="list-inline-item me-md-5">
-                      <span class="days display-4 fw-bold  text-primary">00</span>
-                      <p class="fs-4 mb-0">Dni</p>
-                   </li>
-                   <li class="list-inline-item me-md-5">
-                      <span class="hours display-4 fw-bold text-primary">00</span>
-                      <p class="fs-4 mb-0">Godzin</p>
-                   </li>
-                   <li class="list-inline-item me-md-5">
-                      <span class="minutes display-4 fw-bold text-primary ">00</span>
-                      <p class="fs-4 mb-0">Minut</p>
-                   </li>
-                   <li class="list-inline-item me-md-5">
-                      <span class="seconds display-4 fw-bold text-primary ">00</span>
-                      <p class="fs-4 mb-0">Sekund</p>
-                   </li>
-                </ul>
-             </div>
-             <hr class="my-4">
+             
+             {% if status == "WAITING" %}
+               <h1 class="display-3 mb-2 fw-bold">Wkrótce zaczynamy!</h1>
+               <p class="mb-4 fs-4">
+                  Tutaj obejrzysz webinar na żywo: <br>
+                  <b>{{webinar.title}}</b> <br>
+                  Zaczynamy dnia 
+                  <b>{{webinar.date|date:"j E Y"}}</b>
+                  godzina
+                  <b>{{webinar.date|date:"H:i"}}</b>
+                  </p>
+                  <div class="d-none" id="failoverButton">
+                     <p class="fw-bold text-danger fs-3">
+                        Jeśli przekierowanie nie nastąpiło automatycznie:
+                     </p>
+                     <a href="." class="btn btn-warning mb-2">
+                        Kliknij tutaj, aby odświeżyć stronę
+                     </a>
+                  </div>
+                  <div class="countdown" id="counterContainer">
+                     <ul class="list-inline">
+                        <li class="list-inline-item me-md-5">
+                           <span class="days display-4 fw-bold text-primary" id="pageTimerDays">00</span>
+                           <p class="fs-4 mb-0">Dni</p>
+                        </li>
+                        <li class="list-inline-item me-md-5">
+                           <span class="hours display-4 fw-bold text-primary" id="pageTimerHours">00</span>
+                           <p class="fs-4 mb-0">Godzin</p>
+                        </li>
+                        <li class="list-inline-item me-md-5">
+                           <span class="minutes display-4 fw-bold text-primary" id="pageTimerMinutes">00</span>
+                           <p class="fs-4 mb-0">Minut</p>
+                        </li>
+                        <li class="list-inline-item me-md-5">
+                           <span class="seconds display-4 fw-bold text-primary" id="pageTimerSeconds">00</span>
+                           <p class="fs-4 mb-0">Sekund</p>
+                        </li>
+                     </ul>
+                  </div>
+                  <hr class="my-4">
+             {% endif %}
+             
+             {% if status == "IN_PROGRESS" %}
+
+               <h1 class="display-3 mb-2 fw-bold">Za chwilę zaczynamy!</h1>
+               
+               <p class="mb-4 fs-4 mt-4">
+                  Niedługo rozpoczniemy webinar na żywo:<br>
+                  <b>{{webinar.title}}</b> <br>
+                  <b>{{webinar.date|date:"j E Y"}}</b> godzina <b>{{webinar.date|date:"H:i"}}</b>
+               </p>
+               
+               <p class="mb-4 fs-4 mt-4">
+                  <div class="spinner-border text-primary spinner-border-sm" role="status">
+                     <span class="visually-hidden">Ładowanie...</span>
+                  </div>
+                  Pozostań na tej stronie do momentu załadowania się transmisij na żywo na platformie <b>{{edition.get_stream_type_display}}</b>.
+               </p>
+               
+               <p class="mb-4 fs-4 mt-4">
+                  Jeśli po paru minutach transmisja nie rozpocznie się, spróbuj odświeżyć tę stronę
+                  <a href=".">
+                     <b>klikając tutaj</b>
+                  </a>
+               </p>
+
+             {% endif %}
 
           </div>
           <!-- img -->
@@ -56,7 +93,7 @@
 {% endblock root %}
 
 {% block body_scripts %}
-<script src="{% static "geeks/assets/js/vendors/jquery.downCount.min.js" %}"></script>
+{% comment %} <script src="{% static "geeks/assets/js/vendors/jquery.downCount.min.js" %}"></script>
 <script>
     (function(){var t,e;
         
@@ -66,5 +103,71 @@
         })
     
     })();
+</script> {% endcomment %}
+
+{% if status == "IN_PROGRESS" %}
+<script>
+// URL to check
+const apiUrl = '{% url "api:conference-watch-url" uuid=watch_token %}';
+
+// Function to check the URL
+function checkWatchUrl() {
+  fetch(apiUrl)
+    .then(response => {
+      if (!response.ok) {
+        console.error('Network response was not ok:', response.statusText);
+        return;
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data && data.watch_url) {
+        location.href = data.watch_url;
+      } else {
+        console.log('Watch URL is still empty.');
+      }
+    })
+    .catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
+    });
+}
+
+setInterval(checkWatchUrl, 7000);
+checkWatchUrl();
+
 </script>
+{% endif %}
+{% if status == "WAITING" %}
+</script><script src="{% static 'js/countdown.min.js' %}"></script>
+<script>
+   var startCounter = 0;
+   function addLeadingZero(number) {
+      return number < 10 ? '0' + number : number.toString();
+   }
+   (function() {
+      countdown(
+    new Date('{{webinar.date|date:"c"}}'),
+    function(ts) {
+      if(ts.value > 0) {
+         if(startCounter === 0) {
+            location.reload(true);
+            $("#counterContainer").addClass("d-none");
+         }
+         if(startCounter >= 5) {
+            $("#failoverButton").removeClass("d-none");
+         }
+         startCounter += 1;
+         console.log("startCounter:", startCounter);
+      } else {
+         document.getElementById('pageTimerDays').innerHTML = addLeadingZero(ts.days);
+         document.getElementById('pageTimerHours').innerHTML = addLeadingZero(ts.hours);
+         document.getElementById('pageTimerMinutes').innerHTML = addLeadingZero(ts.minutes);
+         document.getElementById('pageTimerSeconds').innerHTML = addLeadingZero(ts.seconds);
+      }
+    },
+    countdown.DAYS|countdown.HOURS|countdown.MINUTES|countdown.SECONDS);
+   })();
+</script>
+{% endif %}
+
 {% endblock body_scripts %}
