@@ -125,10 +125,17 @@
 
             {% comment %} Płatni uczestnicy {% endcomment %}
             {% if webinar_ctx.sent_applications_count != 0 %}
-            {% include './WebinarStatusText.html' with webinar=webinar count=webinar_ctx.gathered_participants_count %}
-            <span class="text-dark">( {{webinar_ctx.sent_applications_count}} zgł. )</span>
+                {% include './WebinarStatusText.html' with webinar=webinar count=webinar_ctx.gathered_participants_count %}
+                <span class="text-dark">( {{webinar_ctx.sent_applications_count}} zgł. )</span>
             {% else %}
-            <span class="fw-light">Brak płatnych uczestników</span>
+                <span class="fw-light">Brak płatnych uczestników</span>
+            {% endif %}
+            <br>
+
+            {% if webinar_ctx.uncertain_participants_count %}
+                <span class="px-2 bg-warning fw-bold">
+                    Niepewnych: {{webinar_ctx.uncertain_participants_count}}
+                </span>
             {% endif %}
             
         </span>
