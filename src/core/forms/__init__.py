@@ -11,6 +11,7 @@ from .application_forms import (
     ApplicationSummarySubmitForm,
     ApplicationTypeForm,
 )
+from .conference_forms import ConferenceFreeParticipantModelForm
 from .contact_message_form import ContactMessageForm
 from .discount_forms import DiscountCodeForm
 from .lecturer_forms import LecturerOpinionForm

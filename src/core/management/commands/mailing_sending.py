@@ -14,9 +14,8 @@ from smtplib import SMTPRecipientsRefused, SMTPServerDisconnected
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from django.db.models import F, Q
+from django.db.models import F
 from django.urls import reverse
-from django.utils.timezone import now, timedelta
 
 from core.consts import TelegramChats
 from core.models import MailingCampaign, MailingPoolManager, MailingTemplate, SmtpSender
@@ -39,6 +38,10 @@ def process_sending(campaign_id: int, /, *, limit: int = 100) -> str:
     """Mailing sending process"""
 
     print("[*] Processing campaign", campaign_id)
+
+    # Flags for this batch
+    smtp_server_disconnected = False
+    connection_refused = False
 
     # Get campaign
     campaign: MailingCampaign = MailingCampaign.manager.get(id=campaign_id)
@@ -106,16 +109,19 @@ def process_sending(campaign_id: int, /, *, limit: int = 100) -> str:
             print(f"[*] Marking `{email}` as `BEING_PROCESSED`")
             pool_manager.change_status(document_id, MailingPoolStatus.BEING_PROCESSED)
         except SMTPServerDisconnected as exception:
+            smtp_server_disconnected = True
             pool_manager.change_status(
                 document_id, MailingPoolStatus.SMTP_SERVER_DISCONNECTED
             )
             print(f"[-] SMTPServerDisconnected: {exception}")
         except ConnectionRefusedError as exception:
+            connection_refused = True
             pool_manager.change_status(
                 document_id, MailingPoolStatus.CONNECTION_REFUSED
             )
             print(f"[-] ConnectionRefusedError: {exception}")
         except SMTPRecipientsRefused as exception:
+            connection_refused = True
             pool_manager.change_status(
                 document_id, MailingPoolStatus.CONNECTION_REFUSED
             )
@@ -144,6 +150,20 @@ def process_sending(campaign_id: int, /, *, limit: int = 100) -> str:
 
     if send_attempt_counter == 0:
         return_value = ProcessSendingStatus.NO_EMAILS_SENT
+
+    # Mark campaign: smtp_server_disconnected
+    if smtp_server_disconnected:
+        MailingCampaign.manager.filter(id=campaign_id).update(
+            smtp_server_disconnected=True
+        )
+
+    # Mark campaign: connection_refused
+    if connection_refused:
+        MailingCampaign.manager.filter(id=campaign_id).update(connection_refused=True)
+
+    # Mark campaign: any_error_occured
+    if any([smtp_server_disconnected, connection_refused]):
+        MailingCampaign.manager.filter(id=campaign_id).update(any_error_occured=True)
 
     return return_value
 

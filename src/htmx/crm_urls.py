@@ -12,6 +12,7 @@ from htmx.views.crm import (
     htmx_crm_email_tagging_toggle,
     htmx_crm_participant_indicators,
     htmx_crm_participant_toggle_phoned,
+    htmx_crm_participant_toggle_uncertain,
     htmx_crm_toggle_todo,
 )
 
@@ -35,6 +36,11 @@ urlpatterns = [
         "participant-toggle-phoned/<int:pk>",
         htmx_crm_participant_toggle_phoned,
         name="htmx_crm_participant_toggle_phoned",
+    ),
+    path(
+        "participant-toggle-uncertain/<int:pk>",
+        htmx_crm_participant_toggle_uncertain,
+        name="htmx_crm_participant_toggle_uncertain",
     ),
     path(
         "delete-webinar-asset/<int:pk>",

@@ -27,8 +27,8 @@
         </li>
         {% for related_webinar in related_webinars %}
         <li style="margin-top:5px;">
-          <a href="{{cta_href}}">
-            {{related_webinar.date|date:"j E Y"}} godzina {{related_webinar.date|date:"H:i"}}
+          <a href="{{related_webinar.1}}">
+            {{related_webinar.0.date|date:"j E Y"}} godzina {{related_webinar.0.date|date:"H:i"}}
           </a>
         </li>
         {% endfor %}

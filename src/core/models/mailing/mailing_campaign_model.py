@@ -128,6 +128,11 @@ class MailingCampaign(Model):
     stat_sent = PositiveIntegerField("Wysłano (stat)", default=0)
     stat_procesed = PositiveIntegerField("Przetworzono (stat)", default=0)
 
+    # Errors
+    any_error_occured = BooleanField(default=False)
+    smtp_server_disconnected = BooleanField(default=False)
+    connection_refused = BooleanField(default=False)
+
     class Meta:
         verbose_name = "Mailing Kampania"
         verbose_name_plural = "Mailing Kampanie"

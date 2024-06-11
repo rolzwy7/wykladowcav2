@@ -1,8 +1,12 @@
-from django.shortcuts import get_object_or_404
+"""Webinar program page"""
+
+# flake8: noqa=E501
+
+from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
 
-from core.models import Webinar
+from core.models import ConferenceEdition, Webinar
 from core.services.lecturer import LecturerService
 from core.services.webinar import WebinarService
 
@@ -13,6 +17,19 @@ def webinar_program_page(request, slug: str):
     webinar = get_object_or_404(Webinar, slug=slug)
     webinar_service = WebinarService(webinar)
     lecturer_service = LecturerService(webinar.lecturer)
+
+    if webinar.is_connected_to_conference:
+        try:
+            edition: ConferenceEdition = ConferenceEdition.manager.get(webinar=webinar)
+        except ConferenceEdition.DoesNotExist:  # pylint: disable=no-member
+            return redirect("/")
+        else:
+            return redirect(
+                reverse(
+                    "core:conference_edition_page",
+                    kwargs={"slug_edition": edition.slug},
+                )
+            )
 
     return TemplateResponse(
         request,

@@ -1,3 +1,7 @@
+"""HTMX CRM Participant"""
+
+# flake8: noqa=E501
+
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
@@ -12,9 +16,7 @@ def htmx_crm_participant_toggle_phoned(request: HttpRequest, pk: int):
     """Toggle CRM participant phoned"""
     template_path = "htmx/participant_toggle_phoned.html"
     participant = get_object_or_404(WebinarParticipant, pk=pk)
-    metadata = get_object_or_404(
-        WebinarParticipantMetadata, participant=participant
-    )
+    metadata = get_object_or_404(WebinarParticipantMetadata, participant=participant)
 
     if request.method == POST:
         metadata.phoned = not metadata.phoned
@@ -27,14 +29,29 @@ def htmx_crm_participant_toggle_phoned(request: HttpRequest, pk: int):
     )
 
 
+def htmx_crm_participant_toggle_uncertain(request: HttpRequest, pk: int):
+    """Toggle CRM participant uncertain"""
+    template_path = "htmx/participant_toggle_uncertain.html"
+    participant = get_object_or_404(WebinarParticipant, pk=pk)
+    metadata = get_object_or_404(WebinarParticipantMetadata, participant=participant)
+
+    if request.method == POST:
+        metadata.uncertain = not metadata.uncertain
+        metadata.save()
+
+    return TemplateResponse(
+        request,
+        template_path,
+        {"participant": participant, "uncertain": metadata.uncertain},
+    )
+
+
 @cache_page(15 * 60)
 def htmx_crm_participant_indicators(request: HttpRequest, pk: int):
     """Toggle CRM participant phoned"""
     template_path = "htmx/participant_indicators.html"
     participant = get_object_or_404(WebinarParticipant, pk=pk)
-    metadata = get_object_or_404(
-        WebinarParticipantMetadata, participant=participant
-    )
+    metadata = get_object_or_404(WebinarParticipantMetadata, participant=participant)
     mx_service = MxService()
 
     status = participant.application.webinar.status

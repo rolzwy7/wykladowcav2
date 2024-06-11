@@ -31,6 +31,11 @@
                     <!--begin::Subtitle-->
                     <span class="text-dark pt-1 fw-semibold fs-6">
                         Wartość <b><u>NETTO</u></b> szkolenia
+                        {% if uncertain_participants_count %}
+                        <span class="bg-warning px-2 fw-bold">
+                            ({{uncertain_participants_count}} niepewnych)
+                        </span>
+                        {% endif %}
                     </span>
                     <!--end::Subtitle-->
                 </div>

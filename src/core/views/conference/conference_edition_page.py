@@ -4,82 +4,35 @@ Conference edition pages
 
 # flake8: noqa=E501
 
-from django.forms import CheckboxInput, ModelForm, Select, TextInput
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
 
 from core.consts.requests_consts import POST
+from core.forms import ConferenceFreeParticipantModelForm
 from core.models import ConferenceEdition, ConferenceFreeParticipant, Webinar
-from core.models.enums import LeadSource
-from core.services.lead_service import LeadService
+from core.services import ConferenceService
 from core.tasks_dispatch import after_free_conference_participant_singup
-
-
-class ConferenceFreeParticipantModelForm(ModelForm):
-    """ConferenceFreeParticipantModelForm"""
-
-    class Meta:
-        """meta"""
-
-        model = ConferenceFreeParticipant
-        fields = [
-            "first_name",
-            "last_name",
-            "voivodeship",
-            "phone",
-            "email",
-            "know_from",
-            "using_closed_webinars",
-            "consent",
-        ]
-
-        widgets = {
-            "first_name": TextInput(attrs={"class": "form-control"}),
-            "last_name": TextInput(attrs={"class": "form-control"}),
-            "voivodeship": Select(attrs={"class": "form-control"}),
-            "phone": TextInput(attrs={"class": "form-control"}),
-            "email": TextInput(attrs={"class": "form-control"}),
-            "know_from": Select(attrs={"class": "form-control"}),
-            "using_closed_webinars": Select(attrs={"class": "form-control"}),
-            "consent": CheckboxInput(attrs={"class": "form-check-input"}),
-        }
 
 
 def conference_edition_page(request: HttpRequest, slug_edition: str):
     """Conference cycle page"""
     template_name = "geeks/pages/conference/ConferenceEditionPage.html"
-    edition = get_object_or_404(ConferenceEdition, slug=slug_edition)
-    webinar: Webinar = edition.webinar
+    edition = ConferenceService.get_edition_or_404_by_slug(slug_edition)
+    service = ConferenceService(edition)
 
     # Handle form submission
     if request.method == POST:
 
-        # TODO: move this
         form = ConferenceFreeParticipantModelForm(request.POST)
         if form.is_valid():
 
-            # TODO Transaction ?
-
-            # Save free participant with form
-            participant: ConferenceFreeParticipant = form.save(commit=False)
-            participant.edition = edition
-            participant.save()
-
-            # Save lead
-            lead = LeadService.get_or_create_lead(
-                participant.email,
-                LeadSource.CONFERENCE_FREE,
-                request=request,
-                categories=list(webinar.categories.all()),
-            )
-            LeadService.apply_basic_data(
-                lead, participant.first_name, participant.last_name, participant.phone
-            )
+            # Perform actions on free participant submit
+            participant = service.on_free_participant_submit(request, form)
 
             # Perform tasks
-            after_free_conference_participant_singup(edition, participant)
+            after_free_conference_participant_singup(service.edition, participant)
 
             # Redirect to `thank you` page
             return redirect(
@@ -97,8 +50,9 @@ def conference_edition_page(request: HttpRequest, slug_edition: str):
         request,
         template_name,
         {
-            "webinar": webinar,
+            "webinar": service.webinar,
             "edition": edition,
+            "status": service.get_edition_status(),
             "form": form,
             "hide_footer_newsletter_singup": True,
         },
@@ -133,9 +87,10 @@ def conference_edition_waiting_room_page(request: HttpRequest, watch_token: str)
         ConferenceFreeParticipant, watch_token=watch_token
     )
     edition: ConferenceEdition = free_participant.edition
-    webinar: Webinar = edition.webinar
+    service = ConferenceService(edition)
 
-    # TODO: Adres IP ?
+    if edition.stream_url_page:
+        return redirect(edition.stream_url_page)
 
     return TemplateResponse(
         request,
@@ -143,7 +98,9 @@ def conference_edition_waiting_room_page(request: HttpRequest, watch_token: str)
         {
             "free_participant": free_participant,
             "edition": edition,
-            "webinar": webinar,
+            "webinar": service.webinar,
+            "status": service.get_edition_status(),
+            "watch_token": watch_token,
             "hide_footer_newsletter_singup": True,
         },
     )

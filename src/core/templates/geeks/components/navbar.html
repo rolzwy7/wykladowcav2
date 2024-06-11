@@ -1,22 +1,33 @@
 {% load static %}
-{% if 0 %}
-<div class="bg-white nav-tabs">
-<div class="container px-3">
-<ul class="nav nav-tabs border-bottom-0">
-   <li class="nav-item">
-     <a class="nav-link active" href="{{BASE_URL}}">{{COMPANY_NAME}}</a>
-   </li>
-   <li class="nav-item">
-     <a class="nav-link" href="#">Link</a>
-   </li>
-   <li class="nav-item">
-     <a class="nav-link" href="#">Link</a>
-   </li>
- </ul>
-</div>
-</div>
+{% if 1 %}
+<div class="bg-white nav-tabs d-none d-lg-block">
+   <div class="container px-3">
+     <ul class="nav nav-tabs border-bottom-0">
+       <li class="nav-item">
+         <a class="nav-link active" href="{{BASE_URL}}">{{COMPANY_NAME}}</a>
+       </li>
+       {% comment %} <li class="nav-item">
+         <a class="nav-link" href="#">Link</a>
+       </li>
+       <li class="nav-item">
+         <a class="nav-link" href="#">Link</a>
+       </li> {% endcomment %}
+       <li class="nav-item ms-auto">
+         <a class="nav-link" href="mailto:{{COMPANY_OFFICE_EMAIL}}">
+            <i class="fe fe-mail nav-icon"></i> {{COMPANY_OFFICE_EMAIL}}
+         </a>
+       </li>
+       <li class="nav-item">
+         <a class="nav-link" href="tel:{{COMPANY_OFFICE_PHONE}}">
+            <i class="fe fe-phone nav-icon"></i> {{COMPANY_OFFICE_PHONE}}
+         </a>
+       </li>
+     </ul>
+   </div>
+ </div>
+ 
 {% endif %}
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar sticky-top navbar-expand-lg">
   <div class="container px-3">
      <div class="d-flex">
         <a class="navbar-brand" href="{% url 'core:homepage' %}">

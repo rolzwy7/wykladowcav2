@@ -6,6 +6,7 @@ from .application_summary_service import ApplicationSummaryService
 from .blacklist_service import BlacklistService
 from .category_service import CategoryService
 from .certificate_service import CertificateService
+from .conference_service import ConferenceService
 from .crm_webinar_service import CrmWebinarService
 from .discount_service import DiscountService
 from .healthcheck_service import HealthcheckService
