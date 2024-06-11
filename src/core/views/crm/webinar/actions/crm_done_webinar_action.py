@@ -1,6 +1,8 @@
 """CRM done action"""
 
 # flake8: noqa=E501
+# pylint: disable=line-too-long
+
 from django.forms import CharField, Form
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect
@@ -109,7 +111,7 @@ def crm_webinar_done_action_page(request: HttpRequest, pk: int):
             if lecturer.agrees_to_recording:
                 create_crm_todo(
                     f"Opinie o wykładowcy - {lecturer.fullname}",
-                    f"Wyślij prośby o opinie do wykładowcy do uczestników szkolenia <i>{webinar.title}</i>",
+                    f"Wyślij prośby o opinie do wykładowcy do uczestników szkolenia {webinar.title}",
                     "sms",
                     "success",
                     reverse(

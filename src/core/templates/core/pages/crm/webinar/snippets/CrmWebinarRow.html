@@ -57,6 +57,14 @@
                     Wolne miejsca: {{webinar.remaining_places}}
                 </span>
             </li>
+            {% if webinar.grouping_token %}
+            <li class="d-flex align-items-center">
+                <span class="bullet bullet-vertical bg-dark me-5"></span>
+                <span>
+                    Token grupujący: <b>{{webinar.grouping_token}}</b>
+                </span>
+            </li>
+            {% endif %}
             {% if webinar_ctx.is_confirmed %}
             <li class="d-flex align-items-center">
                 <span class="bullet bullet-vertical bg-warning me-5"></span>
@@ -167,7 +175,7 @@
         {% if webinar_ctx.unfinished_applications_count %}
             <span>NZ={{webinar_ctx.unfinished_applications_count}}</span>
         {% endif %}
-        {% if webinar_ctx.click_count_mailing %}
+        {% if webinar_ctx.click_count_mailing and webinar_ctx.mailing_campaigns %}
             <span>M={{webinar_ctx.click_count_mailing}}</span>
         {% endif %}
         {% if webinar_ctx.click_count_facebook %}

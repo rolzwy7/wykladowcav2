@@ -18,3 +18,4 @@ from .webinar_category_modeladmin import WebinarCategoryModelAdmin
 from .webinar_certificate_modeladmin import WebinarCertificateModelAdmin
 from .webinar_metadata_modeladmin import WebinarMetadataModelAdmin
 from .webinar_modeladmin import WebinarModelAdmin
+from .webinar_participant_modeladmin import WebinarParticipantModelAdmin

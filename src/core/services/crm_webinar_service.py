@@ -3,7 +3,7 @@
 # flake8: noqa:E501
 # pylint: disable=line-too-long
 
-from django.db.models import Count, QuerySet
+from django.db.models import Count, Q, QuerySet
 
 from core.models import (
     ConferenceEdition,
@@ -18,6 +18,7 @@ from core.models import (
     WebinarMetadata,
     WebinarMoveRegister,
     WebinarParticipant,
+    WebinarParticipantMetadata,
     WebinarRecording,
     WebinarRecordingToken,
 )
@@ -87,6 +88,12 @@ class CrmWebinarService:
         return WebinarParticipant.manager.get_valid_participants_for_webinar(
             self.webinar
         )
+
+    def get_uncertain_participants_count(self):
+        """Get uncertain participant count"""
+        return WebinarParticipantMetadata.objects.filter(
+            Q(participant__application__webinar=self.webinar) & Q(uncertain=True)
+        ).count()
 
     def get_certificates(self):
         """Get certificates for gathered participants"""
@@ -291,6 +298,7 @@ class CrmWebinarService:
             "is_hidden": self.webinar.is_hidden,
             "grouping_token": self.webinar.grouping_token,
             "free_participants": free_participants,
+            "uncertain_participants_count": self.get_uncertain_participants_count(),
             # Conference
             "conference_edition": conference_edition,
             # Sent applications

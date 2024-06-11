@@ -22,16 +22,22 @@
                    <!-- Form -->
                    <form class="row" method="get" action="{% url "core:global_mailing_template" %}">
                      {% if webinar_id %}
-                     <h3>Termin ID={{webinar_id}}</h3>
-                     <input type="hidden" name="webinar_id" value="{{webinar_id}}">
+                        <h3>Termin ID={{webinar_id}}</h3>
+                        <input type="hidden" name="webinar_id" value="{{webinar_id}}">
+                     {% else %}
+                        <h3>Brak Termin ID</h3>
                      {% endif %}
                      {% if lecturer_slug %}
-                     <h3>Wykładowca Slug={{lecturer_slug}}</h3>
-                     <input type="hidden" name="lecturer_slug" value="{{lecturer_slug}}">
+                        <h3>Wykładowca Slug={{lecturer_slug}}</h3>
+                        <input type="hidden" name="lecturer_slug" value="{{lecturer_slug}}">
+                     {% else %}
+                        <h3>Brak Wykładowca</h3>
                      {% endif %}
                      {% if category_slug %}
-                     <h3>Kategoria Slug={{category_slug}}</h3>
-                     <input type="hidden" name="category_slug" value="{{category_slug}}">
+                        <h3>Kategoria Slug={{category_slug}}</h3>
+                        <input type="hidden" name="category_slug" value="{{category_slug}}">
+                     {% else %}
+                        <h3>Brak Kategoria</h3>
                      {% endif %}
                       <div class="mb-3 col-12 col-md-3">
                         <label class="form-label" for="id_for_whom">Dla kogo?</label>
@@ -62,12 +68,14 @@
                             Pokaż cenę
                             </label>
                          </div>
+                         {% if webinar %}
                          <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="id_pewny_termin" name="pewny_termin" {% if webinar.is_confirmed %}checked{% endif %}>
                             <label class="form-check-label" for="id_pewny_termin">
                             Pokaż 'Pewny Termin'
                             </label>
                          </div>
+                         {% endif %}
                          <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="id_other_cat_section" name="other_cat_section">
                             <label class="form-check-label" for="id_other_cat_section">

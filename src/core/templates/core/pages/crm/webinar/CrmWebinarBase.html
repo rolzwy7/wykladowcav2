@@ -128,6 +128,11 @@
     <!--begin::Page title-->
     <div class="page-title d-flex flex-column py-1">
         {% include './snippets/WebinarStatusTitle.html' with webinar=webinar count=gathered_participants_count %}
+        {% if uncertain_participants_count %}
+        <h2 class="ms-2 bg-warning">
+            Wśród uczestników jest {{uncertain_participants_count}} niepewnych
+        </h2>
+        {% endif %}
         {% if webinar.is_connected_to_conference %}
         <h2 class="ms-2">
             Zebrano {{free_participants|length}} darmowych uczestników
@@ -270,7 +275,7 @@
                                     data-bs-html="true"
                                     title="<span><b>Wysłane mailingi</b><br /><i><small>Według dnia przygotowania kampanii mailingowej</small></i></span>"
                                     {% if mailing_campaigns %}
-                                    data-bs-content="{% for mailing_campaign in mailing_campaigns %}<span>{{mailing_campaign.created_at|date:"j E Y"}} {% if mailing_campaign.is_allowed_to_send %}(wysyła teraz){% endif %} - {{mailing_campaign.stat_sent|intcomma}}</span> <br>{% endfor %}"
+                                    data-bs-content="Globalne kliknięcia: <b>{{click_count_mailing}}</b><br />{% for mailing_campaign in mailing_campaigns %}<span>{{mailing_campaign.created_at|date:"j E Y"}} {% if mailing_campaign.is_allowed_to_send %}(wysyła teraz){% endif %} - {{mailing_campaign.stat_sent|intcomma}}</span> <br>{% endfor %}"
                                     {% else %}
                                     data-bs-content="Brak wysłanych mailingów"
                                     {% endif %}

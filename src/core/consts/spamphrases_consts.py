@@ -95,9 +95,11 @@ SPAM_PHRASES = {
     "rezygnacji": "rezyg;nacji",
     # S
     "szkolen": "szko;len",
+    "szkoleń": "szko;leń",
     "szczegółow": "szcze;gółow",
     "szkolenia": "szko;lenia",
     "szkoleniach": "szko;leniach",
+    "szkoleniowych": "szko;leniowych",
     "szkoleniu": "szko;leniu",
     # T
     # U

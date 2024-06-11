@@ -55,8 +55,8 @@
             </div>
             <!--end::Toolbar-->
 
-    {% for campaign in mailing_campaigns %}
-        {% include './MailingCampaignCard.html' %}
+    {% for pack in tuple_list %}
+        {% include './MailingCampaignCard.html' with campaign=pack.0 metadata=pack.1 %}
     {% endfor %}
 
 {% endblock crm_content %}

@@ -12,6 +12,7 @@ from django.template.response import TemplateResponse
 from markdown import markdown
 
 from core.models import Lecturer, Webinar, WebinarCategory
+from core.services.webinar import WebinarService
 
 BASE_URL = settings.BASE_URL
 
@@ -27,11 +28,16 @@ def split_pairs(seq):
 def global_mailing_editor_page(request):
     """Email editor page"""
 
-    webinar_id = request.GET.get("for_webinar_id")
+    for_webinar_id = request.GET.get("for_webinar_id")
     category_slug = request.GET.get("for_category_slug")
     lecturer_slug = request.GET.get("for_lecturer_slug")
 
-    webinar = get_object_or_404(Webinar, pk=webinar_id)
+    try:
+        webinar = Webinar.manager.get(pk=for_webinar_id)
+        webinar_id = webinar.id
+    except Webinar.DoesNotExist:  # pylint: disable=no-member
+        webinar = None
+        webinar_id = None
 
     template_name = "mailing_templates/GlobalMailingEditor.html"
     return TemplateResponse(
@@ -74,6 +80,7 @@ def global_mailing_template_page(request):
     lecturer_webinars = []
     subcategories_pairs = []
     main_webinar = None
+    related_webinars = []
     lecturer = None
     webinars_map = {}
     cta_href = ""
@@ -92,6 +99,15 @@ def global_mailing_template_page(request):
         _program = markdown(main_webinar.program_markdown)
 
         program: str = _program
+
+        # Related webinars
+        for related_webinar in WebinarService(main_webinar).get_related_webinars():
+            related_webinars.append(
+                (
+                    related_webinar,
+                    f"{BASE_URL}/szkl/{related_webinar.id}" + "/{TRACKING_CODE}/",
+                )
+            )
 
     # Category webinars
     category_slug = request.GET.get("category_slug")
@@ -147,6 +163,7 @@ def global_mailing_template_page(request):
         template_name,
         {
             "main_webinar": main_webinar,
+            "related_webinars": related_webinars,
             "lecturer": lecturer,
             "webinars_map": webinars_map,
             "subcategories_pairs": subcategories_pairs,

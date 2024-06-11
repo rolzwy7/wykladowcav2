@@ -15,7 +15,7 @@ from core.forms import (
     MailingAreYouSureForm,
     MailingSendTestEmailForm,
 )
-from core.models import MailingCampaign, MailingTemplate
+from core.models import MailingCampaign, MailingTemplate, WebinarMetadata
 from core.models.enums import mailing_pool_status_display_map
 from core.models.mailing import MailingPoolManager
 from core.services import SenderSmtpService
@@ -34,17 +34,28 @@ def crm_mailing_campaign_list(request):
 
     show_all = request.GET.get("show_all", "")
     if show_all:
-        qs = MailingCampaign.manager.all()
+        qs = MailingCampaign.manager.all().order_by("-created_at")[:75]
     else:
-        qs = MailingCampaign.manager.not_done()
+        qs = MailingCampaign.manager.not_done().order_by("-created_at")
 
-    fqdn = DNS_NAME.get_fqdn()
+    try:
+        fqdn = DNS_NAME.get_fqdn()
+    except Exception as e:
+        fqdn = "FQDN Błąd"
+
+    mailing_campaigns = [
+        (
+            campaign,
+            WebinarMetadata.objects.filter(webinar=campaign.webinar).first(),
+        )
+        for campaign in qs
+    ]
 
     return TemplateResponse(
         request,
         template_name,
         {
-            "mailing_campaigns": qs.order_by("-created_at"),
+            "tuple_list": mailing_campaigns,
             "fqdn": fqdn,
             "show_all": show_all,
         },
@@ -74,6 +85,7 @@ def crm_mailing_campaign_add_emails(request, pk: int):
     """CRM mailing add emails"""
     template_name = "core/pages/crm/mailing/MailingCampaignAddEmailsPage.html"
     mailing_campaign = get_object_or_404(MailingCampaign, pk=pk)
+    mailing_campaign_id: int = mailing_campaign.id  # type: ignore
     service = MailingCampaignService(mailing_campaign)
 
     if request.method == POST:
@@ -93,7 +105,11 @@ def crm_mailing_campaign_add_emails(request, pk: int):
     return TemplateResponse(
         request,
         template_name,
-        {"form": form, "mailing_campaign": mailing_campaign},
+        {
+            "form": form,
+            "mailing_campaign": mailing_campaign,
+            "emails_count": service.get_email_count_for_campaign(mailing_campaign_id),
+        },
     )
 
 

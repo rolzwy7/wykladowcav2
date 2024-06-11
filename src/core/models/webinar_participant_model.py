@@ -1,3 +1,7 @@
+"""Webinar Participant Model Admin"""
+
+# flake8: noqa=E501
+
 from django.db.models import (
     CASCADE,
     BooleanField,
@@ -87,6 +91,8 @@ class WebinarParticipant(Model):
     phone = CharField("Numer telefonu", max_length=100, blank=True)
 
     class Meta:
+        """Meta"""
+
         verbose_name = "Uczestnik"
         verbose_name_plural = "Uczestnicy"
 
@@ -110,6 +116,7 @@ class WebinarParticipantMetadata(Model):
         "WebinarParticipant", on_delete=CASCADE, verbose_name="Uczestnik"
     )
 
+    uncertain = BooleanField("Niepewny?", default=False)
     phoned = BooleanField("Czy zadzwoniono przed szkoleniem?", default=False)
     clickmeeting_invitation_send = BooleanField(
         "Czy wysłano zaproszenie do clickmeeting?", default=False
@@ -128,4 +135,6 @@ class WebinarParticipantMetadata(Model):
     )
 
     def __str__(self) -> str:
-        return f"Metadata for webinar participant {self.id}"  # type: ignore
+        return (
+            f"Metadata for webinar participant {self.id}"  # pylint: disable=no-member
+        )

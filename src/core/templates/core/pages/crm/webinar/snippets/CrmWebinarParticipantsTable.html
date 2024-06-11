@@ -5,8 +5,9 @@
         <tr class="fw-semibold fs-6 text-gray-800">
             <th>Imię i Nazwisko</th>
             {% comment %} <th>Osoba zgłaszająca</th> {% endcomment %}
-            <th>Telefon & E-mail</th>
-            <th>Zadzwoniono</th>
+            <th>Telefon &amp; E-mail</th>
+            <th>Zadzwoniono?</th>
+            <th>Pewny?</th>
             <th>Info</th>
         </tr>
     </thead>
@@ -41,6 +42,13 @@
             <td>
                 <div
                     hx-get="{% url 'htmx:htmx_crm_participant_toggle_phoned' pk=participant.pk %}"
+                    hx-trigger="revealed">
+                    <img class="htmx-indicator" width="25" src="{% static "media/loading/bars.svg" %}"/>
+                </div>
+            </td>
+            <td>
+                <div
+                    hx-get="{% url 'htmx:htmx_crm_participant_toggle_uncertain' pk=participant.pk %}"
                     hx-trigger="revealed">
                     <img class="htmx-indicator" width="25" src="{% static "media/loading/bars.svg" %}"/>
                 </div>
