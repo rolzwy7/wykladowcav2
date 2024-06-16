@@ -42,6 +42,7 @@ from .webinar_application_model import (
     WebinarApplicationMetadata,
     WebinarApplicationPrivatePerson,
     WebinarApplicationSubmitter,
+    WebinarApplicationTracking,
 )
 from .webinar_asset_model import WebinarAsset
 from .webinar_cancellation_model import WebinarApplicationCancellation

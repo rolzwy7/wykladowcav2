@@ -9,7 +9,12 @@ from django.template.response import TemplateResponse
 
 from core.consts import POST
 from core.forms import ApplicationTypeForm
-from core.models import Webinar, WebinarApplication, WebinarApplicationMetadata
+from core.models import (
+    Webinar,
+    WebinarApplication,
+    WebinarApplicationMetadata,
+    WebinarApplicationTracking,
+)
 from core.services import (
     ApplicationFormService,
     DiscountService,
@@ -23,6 +28,11 @@ def application_type_page(request, pk: int):
     template_name = "geeks/pages/application/ApplicationTypePage.html"
     webinar = get_object_or_404(Webinar, pk=pk)
     reflink_service = ReflinkService(request)
+    tracking_code = request.session.get("tracking_code", "no_code")
+
+    # Create application tracking if set
+    if tracking_code != "no_code":
+        WebinarApplicationTracking(webinar=webinar, tracking_code=tracking_code).save()
 
     if request.method == POST:
         form = ApplicationTypeForm(request.POST)
@@ -39,9 +49,7 @@ def application_type_page(request, pk: int):
                 )
 
                 # Set tracking code
-                application.tracking_code = request.session.get(
-                    "tracking_code", "no_code"
-                )
+                application.tracking_code = tracking_code
 
                 # Set reflink
                 if reflink_service.is_refcode_valid():

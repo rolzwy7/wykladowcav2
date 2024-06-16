@@ -36,6 +36,15 @@
   </td>
 </tr>
 
+{% if access_to_recordings %}
+<tr>
+  <td style="{{td_classes|safe}}padding-top:5px;padding-bottom:15px;">
+    <strong style="font-weight: bold; color: #f1416c;">
+      Jeśli nie odpowiada Państwu żaden termin szkolenia nadal możecie Państwo się zapisać, a my prześlemy Wam dostęp do nagrania ze szkolenia na 48 godzin, po zrealizowanym szkoleniu.
+    </strong> 
+  </td>
+</tr>
+{% endif %}
 
 {% if show_last_spots %}
 <tr>
