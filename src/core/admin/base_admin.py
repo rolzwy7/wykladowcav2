@@ -28,6 +28,7 @@ from core.models import (
     WebinarApplicationMetadata,
     WebinarApplicationPrivatePerson,
     WebinarApplicationSubmitter,
+    WebinarApplicationTracking,
     WebinarAsset,
     WebinarMoveRegister,
     WebinarMoveRegisterItem,
@@ -35,6 +36,7 @@ from core.models import (
     WebinarRecordingToken,
 )
 
+admin.site.register(WebinarApplicationTracking)
 admin.site.register(CustomHtmlSite)
 
 

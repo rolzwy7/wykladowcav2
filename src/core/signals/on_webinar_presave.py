@@ -8,7 +8,9 @@ Webinar presave
 # pylint: disable=unused-variable
 # pylint: disable=broad-exception-caught
 
-from random import randint
+from random import choice, randint, shuffle
+from string import ascii_uppercase, digits
+from typing import Optional
 
 from bs4 import BeautifulSoup
 from django.db.models.signals import pre_save
@@ -40,6 +42,18 @@ def on_webinar_presave(sender, **kwargs):
         return
 
     webinar: Webinar = kwargs["instance"]
+
+    # Generate grouping token if doesn't exist
+    if not webinar.grouping_token:
+        random_base = list(f"{ascii_uppercase}{digits}")
+        shuffle(random_base)
+
+        for _ in range(1_000):
+            code_candid = "".join([choice(random_base) for _ in range(8)])
+            if Webinar.manager.filter(grouping_token=code_candid).exists():
+                continue
+            webinar.grouping_token = code_candid
+            break
 
     # Remove special characters from titles
     for _ in ["\r", "\n", "\t"]:

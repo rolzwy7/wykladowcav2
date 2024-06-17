@@ -57,6 +57,7 @@ def global_mailing_template_page(request):
 
     controls = {
         "hide_head_tag": True,
+        "access_to_recordings": request.GET.get("access_to_recordings"),
         "promo_code": request.GET.get("promo_code"),
         "promo_value": request.GET.get("promo_value"),
         "for_whom": request.GET.get("for_whom"),

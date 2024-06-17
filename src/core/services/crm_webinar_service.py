@@ -13,6 +13,7 @@ from core.models import (
     WebinarApplication,
     WebinarApplicationCancellation,
     WebinarApplicationMetadata,
+    WebinarApplicationTracking,
     WebinarAsset,
     WebinarCertificate,
     WebinarMetadata,
@@ -260,6 +261,11 @@ class CrmWebinarService:
 
         return list(ConferenceFreeParticipant.manager.filter(edition=edition))
 
+    def get_application_tracking(self) -> QuerySet[WebinarApplicationTracking]:
+        """_summary_"""
+
+        return WebinarApplicationTracking.objects.filter(webinar=self.webinar)
+
     def get_context(self):
         """Number of gathered participants"""
         gathered_participants = self.get_gathered_participants().order_by("first_name")
@@ -299,6 +305,7 @@ class CrmWebinarService:
             "grouping_token": self.webinar.grouping_token,
             "free_participants": free_participants,
             "uncertain_participants_count": self.get_uncertain_participants_count(),
+            "application_tracking_codes": self.get_application_tracking(),
             # Conference
             "conference_edition": conference_edition,
             # Sent applications

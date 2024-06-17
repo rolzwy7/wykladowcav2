@@ -172,6 +172,16 @@ class WebinarApplicationInvoice(Model):
         return f"{self.invoice_email}"
 
 
+class WebinarApplicationTracking(Model):
+    """WebinarApplicationTracking"""
+
+    created_at = DateTimeField("Stworzono", auto_now_add=True)
+
+    webinar = ForeignKey("Webinar", on_delete=CASCADE, verbose_name="Webinar")
+
+    tracking_code = CharField("Kod śledzący", max_length=64)
+
+
 class WebinarApplication(Model):
     """Webinar Application Model"""
 

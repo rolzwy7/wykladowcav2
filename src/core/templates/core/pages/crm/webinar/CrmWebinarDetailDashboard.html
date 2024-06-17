@@ -616,6 +616,55 @@
         <div class="card shadow-sm mt-4">
             <div class="card-header">
                 <h3 class="card-title">
+                    Wejścia na formularz zgłoszeniowy
+                </h3>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm table-striped">
+                    <tr>
+                        <th>Data</th>
+                        <th>Kod</th>
+                        <th>E-mail</th>
+                        <th>Rozpoczęto zgłoszenie</th>
+                    </tr>
+                    {% for tracking in application_tracking_codes %}
+                    <tr>
+                        <td>{{tracking.created_at}}</td>
+                        <td>
+                            <b>{{tracking.tracking_code}}</b>
+                        </td>
+                        <td>
+                            <div
+                                hx-get="{% url 'htmx:tracking_mailing' tracking_code=tracking.tracking_code %}"
+                                hx-trigger="load"
+                            >
+                                Ładowanie ...
+                            </div>
+                        </td>
+                        <td>
+                            {% for application in unfinished_applications %}
+                                {% if application.tracking_code == tracking.tracking_code %}
+                                Tak
+                                {% else %}
+                                <span class="text-white bg-success fw-bold px-2">
+                                    Nie
+                                </span>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--end::Col-->
+
+    <!--start::Col-->
+    <div class="col-md-12">
+        <div class="card shadow-sm mt-4">
+            <div class="card-header">
+                <h3 class="card-title">
                     Niewysłane Zgłoszenia ( {{unfinished_applications_count}} )
                 </h3>
             </div>
