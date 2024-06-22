@@ -644,11 +644,9 @@
                         <td>
                             {% for application in unfinished_applications %}
                                 {% if application.tracking_code == tracking.tracking_code %}
-                                Tak
-                                {% else %}
-                                <span class="text-white bg-success fw-bold px-2">
-                                    Nie
-                                </span>
+                                    <span class="text-white bg-danger fw-bold px-2">
+                                        Tak
+                                    </span>
                                 {% endif %}
                             {% endfor %}
                         </td>

@@ -1,6 +1,7 @@
 """
 Create invoice for application in Fakturownia
 """
+
 # flake8: noqa=E501
 # pylint: disable=line-too-long
 # pylint: disable=import-outside-toplevel
@@ -136,12 +137,14 @@ def create_invoice_for_application(
             **buyer_data,
             # Recipient
             **recipient_data,
+            "gtu_codes": ["GTU_12"],
             "positions": [
                 {
                     "name": webinar.title_original,
                     "quantity": valid_participants_count,
                     "quantity_unit": "os.",
                     "code": f"webinar{webinar_id}",
+                    "gtu_code": "GTU_12",
                     "tax": "zw" if invoice.is_vat_exempt else VAT_VALUE_PERCENT,
                     "total_price_gross": round(
                         application.price_brutto * valid_participants_count, 2
