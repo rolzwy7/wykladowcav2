@@ -141,7 +141,9 @@
         </span>
         <br>
         <div style="font-weight: bold;">
-            {{webinar_ctx.total_netto_value_of_webinar_display}}zł
+            <span style="cursor: pointer;" onclick="javascript: navigator.clipboard.writeText('{{webinar_ctx.total_netto_value_of_webinar}}'); ShowClipboardMsg();">
+                {{webinar_ctx.total_netto_value_of_webinar_display}}zł
+            </span>
             /
             {% if webinar_ctx.lecturer_netto_price != 0 %}
             {{webinar_ctx.lecturer_netto_price_display}}zł

@@ -181,7 +181,8 @@
                                 <a href="{% url "core:crm_webinar_detail_dashboard" pk=campaign.webinar.pk %}">
                                 {{campaign.webinar.date|date:"j E Y"}}
                                 godz. {{campaign.webinar.date|date:"H:i"}} - {{campaign.webinar.date_end|date:"H:i"}}
-                                </a>
+                                </a>,
+                                ID={{campaign.webinar.id}}
                             </div>
                         </div>
                         <!--end::Number-->

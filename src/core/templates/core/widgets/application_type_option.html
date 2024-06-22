@@ -15,9 +15,9 @@
     />
     <label class="form-check-label" style="cursor: pointer;" for="{{widget.attrs.id}}-{{option.value}}">
     {% if option.value == "COMPANY" %}
-        <b>Firma</b> <br> (Nabywca)
+        <b>Firma</b> <br> (Tylko <b>Nabywca</b> na fakturze)
     {% elif option.value == "JSFP" %}
-        <b>Jednostka Sektora Finansów Publicznych</b> <br> (Nabywca / Odbiorca)
+        <b>Jednostka Sektora Finansów Publicznych</b> <br> (<b>Nabywca</b> i <b>Odbiorca</b> na fakturze)
     {% elif option.value == "PRIVATE_PERSON" %}
         <b>Osoba prywatna</b>
     {% endif %}
