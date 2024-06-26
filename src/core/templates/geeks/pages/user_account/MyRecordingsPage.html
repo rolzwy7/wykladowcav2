@@ -43,7 +43,7 @@
                                   </h3>
                                   <div>
                                      <span>
-                                        {{recording_token.recording.webinar.lecturer}}
+                                        Wykładowca: {{recording_token.recording.webinar.lecturer}}
                                      </span>
                                   </div>
                                </div>
@@ -53,14 +53,24 @@
                                   <span class="me-2">
                                   <i class="fe fe-clock"></i>
                                   <span class="ms-1">
+                                    {% if recording_token.expires_at %}
                                     Nagranie wygasa {{recording_token.expires_at|date:"j E Y"}} godz. {{recording_token.expires_at|date:"H:i:s"}}
+                                    {% else %}
+                                    Nagranie nigdy nie wygasa
+                                    {% endif %}
                                   </span>
                                   </span>
                                   <span class="me-2">
                                   <i class="fe fe-user"></i>
+                                  {% if request.user.contributor %}
+                                  <span class="ms-1">
+                                    Udostępniono dla: {{request.user.first_name}} {{request.user.last_name}}
+                                  </span>
+                                  {% else %}
                                   <span class="ms-1">
                                     Udostępniono dla: {{recording_token.participant.first_name}} {{recording_token.participant.last_name}}
                                   </span>
+                                  {% endif %}
                                   </span>
                                </div>
                                <div>

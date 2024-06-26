@@ -28,6 +28,7 @@ class StreamingService:
     def __init__(self, recording_token: WebinarRecordingToken) -> None:
         self.recording_token = recording_token
         self.recording: WebinarRecording = recording_token.recording
+        self.is_contributor = False
 
     def get_recording_filepath(self) -> Path:
         """Get recording `Path` object"""
@@ -37,12 +38,20 @@ class StreamingService:
             f"{self.recording.recording_id}.mp4",
         )
 
+    def set_is_contributor(self, flag: bool):
+        """Set service for contributor"""
+        self.is_contributor = flag
+
     def is_token_valid(self) -> bool:
         """Check if streaming token is valid
 
         Returns:
             bool: True if is valid, False otherwise
         """
+
+        #  Always valid for contributor
+        if self.is_contributor:
+            return True
 
         # Deny access if denied manually by checkbox
         if self.is_access_denied():
@@ -63,6 +72,10 @@ class StreamingService:
         """
         expires_at = self.recording_token.expires_at
 
+        #  Never expired for contributor
+        if self.is_contributor:
+            return False
+
         if expires_at and now() > expires_at:
             return True
 
@@ -74,6 +87,11 @@ class StreamingService:
         Returns:
             bool: True if is denied, False otherwise
         """
+
+        #  Never denied for contributor
+        if self.is_contributor:
+            return False
+
         return self.recording_token.deny_access
 
     def is_free_access(self) -> bool:
@@ -114,6 +132,11 @@ class StreamingService:
         Returns:
             bool: True if it is, False otherwise
         """
+
+        # Always correct for participant
+        if self.is_contributor:
+            return True
+
         participant_email: str = self.recording_token.participant.email  # type: ignore
         return participant_email == email
 

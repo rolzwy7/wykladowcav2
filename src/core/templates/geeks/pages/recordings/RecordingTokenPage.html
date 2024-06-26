@@ -43,8 +43,12 @@
               <div class="d-flex align-items-center justify-content-between mb-2">
                 <div>
                   <h3 class="mb-0 text-truncate-line-2">
+                    {% if request.user.contributor %}
+                    Dostęp do nagrania <span class="badge bg-primary ms-1">PRO</span>
+                    {% else %}
                     Udzielono dostępu dla uczestnika:
                     {{participant.first_name}} {{participant.last_name}}
+                    {% endif %}
                   </h3>
                 </div>
               </div>
