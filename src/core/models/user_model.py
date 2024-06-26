@@ -1,7 +1,7 @@
 import uuid
 
 from django.contrib.auth.models import AbstractUser, UserManager
-from django.db.models import EmailField, UUIDField
+from django.db.models import BooleanField, EmailField, UUIDField
 from django.utils.translation import gettext_lazy as _
 
 
@@ -17,6 +17,8 @@ class User(AbstractUser):
     )
 
     activation_token = UUIDField("Token aktywacyjny", default=uuid.uuid4)
+
+    contributor = BooleanField("Udzielający się", default=False)
 
     objects = UserManager()
 

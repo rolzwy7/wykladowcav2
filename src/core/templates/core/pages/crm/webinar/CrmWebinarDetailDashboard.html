@@ -536,16 +536,19 @@
                                         </div>
                                         {% endif %}
                                         <b>Uczestnicy:</b> <br>
+                                        <ol>
                                         {% for participant in gathered_participants %}
                                         {% if participant.application.id == application.id %}
-                                            {{forloop.counter}}.) <a href="{% url 'admin:core_webinarparticipant_change' object_id=participant.id %}">
+                                            <li>
+                                            <a href="{% url 'admin:core_webinarparticipant_change' object_id=participant.id %}">
                                                 <b>{{participant.fullname}}</b>
                                             </a>
                                             - {{participant.email}}
                                             - {{participant.phone|default:"Brak telefonu"}}
-                                            <br>
+                                            </li>
                                         {% endif %}
                                         {% endfor %}
+                                        </ol>
 
                                         <br>
                                         <b>Cena netto za uczestnika:</b> {{application.price_netto}}zł

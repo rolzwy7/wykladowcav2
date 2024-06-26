@@ -135,7 +135,12 @@
                     </li>
                     <li>
                        <a class="dropdown-item" href="{% url 'core:my_recordings_page' %}">
-                       <i class="fe fe-video me-2"></i>Moje nagrania
+                        {% if request.user.contributor %}
+                        <i class="fe fe-video me-2"></i>Moje nagrania
+                        <span class="badge bg-primary ms-1">PRO</span>
+                        {% else %}
+                        <i class="fe fe-video me-2"></i>Moje nagrania
+                        {% endif %}
                        </a>
                     </li>
                  </ul>

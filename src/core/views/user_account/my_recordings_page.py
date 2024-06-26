@@ -1,3 +1,8 @@
+"""my Recordings Page"""
+
+# flake8: noqa
+
+
 from django.contrib.auth.decorators import login_required
 from django.template.response import TemplateResponse
 
@@ -8,12 +13,23 @@ from core.models import WebinarRecordingToken
 def my_recordings_page(request):
     """Page with user's recorings"""
 
-    recording_tokens = WebinarRecordingToken.manager.filter(
-        participant__email=request.user.email
-    )
+    template_name = "geeks/pages/user_account/MyRecordingsPage.html"
 
-    return TemplateResponse(
-        request,
-        "geeks/pages/user_account/MyRecordingsPage.html",
-        {"recording_tokens": recording_tokens},
-    )
+    if request.user.contributor:
+        return TemplateResponse(
+            request,
+            template_name,
+            {
+                "recording_tokens": WebinarRecordingToken.manager.get_tokens_for_unique_recordings()
+            },
+        )
+    else:
+        return TemplateResponse(
+            request,
+            template_name,
+            {
+                "recording_tokens": WebinarRecordingToken.manager.get_tokens_by_participant_email(
+                    request.user.email
+                )
+            },
+        )

@@ -1,3 +1,7 @@
+"""Webinar Recording Model"""
+
+# flake8: noqa
+
 import uuid
 
 from django.db.models import (
@@ -9,6 +13,7 @@ from django.db.models import (
     Manager,
     Model,
     PositiveIntegerField,
+    QuerySet,
     URLField,
     UUIDField,
 )
@@ -72,7 +77,25 @@ class WebinarRecording(Model):
 class WebinarRecordingTokenManager(Manager):
     """WebinarRecordingManager query Manager"""
 
-    ...
+    def get_tokens_by_participant_email(
+        self, email: str
+    ) -> QuerySet["WebinarRecordingToken"]:
+        """Gets tokens by participant e-mail"""
+        return self.get_queryset().filter(participant__email=email)
+
+    def get_tokens_for_unique_recordings(self) -> list["WebinarRecordingToken"]:
+        """Gets tokens for unique recordings"""
+
+        all_tokens = self.get_queryset().all()
+        ids = {}
+        unique_tokens: list[WebinarRecordingToken] = []
+        for rec_token in all_tokens:
+            recording_id = rec_token.recording.recording_id
+            if recording_id not in ids:
+                unique_tokens.append(rec_token)
+            ids[recording_id] = True
+
+        return unique_tokens
 
 
 class WebinarRecordingToken(Model):
