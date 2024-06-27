@@ -15,7 +15,7 @@ def my_recordings_page(request):
 
     template_name = "geeks/pages/user_account/MyRecordingsPage.html"
 
-    if request.user.contributor:
+    if request.user.is_authenticated and request.user.contributor:
         return TemplateResponse(
             request,
             template_name,

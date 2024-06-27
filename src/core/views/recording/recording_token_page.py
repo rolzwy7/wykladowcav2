@@ -21,7 +21,7 @@ def recording_token_page(request: HttpRequest, uuid: str):
     """Recording token page"""
     recording_token = get_object_or_404(WebinarRecordingToken, token=uuid)
     streaming_service = StreamingService(recording_token)
-    if request.user.contributor:  # type: ignore
+    if request.user.is_authenticated and request.user.contributor:  # type: ignore
         streaming_service.set_is_contributor(True)
 
     # Recording expired
