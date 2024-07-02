@@ -4,6 +4,7 @@
 
 from django.conf import settings
 from django.core.mail.utils import DNS_NAME
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
@@ -51,10 +52,18 @@ def crm_mailing_campaign_list(request):
         for campaign in qs
     ]
 
+    # Get campaings where error occured
+    mailing_errors = MailingCampaign.manager.filter(
+        Q(any_error_occured=True)
+        | Q(smtp_server_disconnected=True)
+        | Q(connection_refused=True)
+    )
+
     return TemplateResponse(
         request,
         template_name,
         {
+            "mailing_errors": mailing_errors,
             "tuple_list": mailing_campaigns,
             "fqdn": fqdn,
             "show_all": show_all,

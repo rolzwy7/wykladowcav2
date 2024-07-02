@@ -55,6 +55,55 @@
             </div>
             <!--end::Toolbar-->
 
+    <div class="card shadow-sm mb-6">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr class="fw-bold fs-6 text-gray-800">
+                            <th>Kampania mailingowa</th>
+                            <th>any_error_occured</th>
+                            <th>smtp_server_disconnected</th>
+                            <th>connection_refused</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for campaign in mailing_errors %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'core:crm_mailing_campaign_detail' pk=campaign.pk %}">
+                                    <b>{{campaign}}</b>
+                                </a>
+                            </td>
+                            <td>
+                                {% if campaign.any_error_occured %}
+                                <i class="ki-duotone ki-check-square text-danger fs-1"><i class="path1"></i><i class="path2"></i></i>
+                                {% else %}
+                                <i class="ki-duotone ki-cross-square text-success fs-1"><i class="path1"></i><i class="path2"></i></i>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if campaign.smtp_server_disconnected %}
+                                <i class="ki-duotone ki-check-square text-danger fs-1"><i class="path1"></i><i class="path2"></i></i>
+                                {% else %}
+                                <i class="ki-duotone ki-cross-square text-success fs-1"><i class="path1"></i><i class="path2"></i></i>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if campaign.connection_refused %}
+                                <i class="ki-duotone ki-check-square text-danger fs-1"><i class="path1"></i><i class="path2"></i></i>
+                                {% else %}
+                                <i class="ki-duotone ki-cross-square text-success fs-1"><i class="path1"></i><i class="path2"></i></i>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
     {% for pack in tuple_list %}
         {% include './MailingCampaignCard.html' with campaign=pack.0 metadata=pack.1 %}
     {% endfor %}
