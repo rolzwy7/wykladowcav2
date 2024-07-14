@@ -8,11 +8,14 @@ class SmtpSender(Model):
     password = CharField("Hasło", max_length=255)
 
     # Incoming
-    incoming_server_hostname = CharField(
-        "Serwer przychodzący Host", max_length=255
-    )
+    incoming_server_hostname = CharField("Serwer przychodzący Host", max_length=255)
 
-    INCOMING_PORTS = [("995", "995")]
+    INCOMING_PORTS = [
+        ("110", "110"),
+        ("143", "143"),
+        ("993", "993"),
+        ("995", "995"),
+    ]
     incoming_server_port = CharField(
         "Serwer przychodzący Port",
         max_length=5,
@@ -20,11 +23,13 @@ class SmtpSender(Model):
     )
 
     # Outgoing
-    outgoing_server_hostname = CharField(
-        "Serwer wychodzący Host", max_length=255
-    )
+    outgoing_server_hostname = CharField("Serwer wychodzący Host", max_length=255)
 
-    OUTGOING_PORTS = [("465", "465")]
+    OUTGOING_PORTS = [
+        ("25", "25"),
+        ("465", "465"),
+        ("587", "587"),
+    ]
     outgoing_server_port = CharField(
         "Serwer wychodzący Port",
         max_length=5,
