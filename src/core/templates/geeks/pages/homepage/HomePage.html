@@ -22,33 +22,35 @@
   {% comment %} <script src="{% static 'geeks/assets/libs/tiny-slider/dist/tiny-slider.js' %}"></script> {% endcomment %}
   <script src="{% static 'geeks/assets/js/vendors/tnsSlider.js' %}"></script>
   <script src="{% static 'geeks/assets/libs/glightbox/dist/js/glightbox.min.js' %}"></script>
+  {% comment %} <script src="{% static "geeks/assets/js/vendors/typed.js" %}"></script> {% endcomment %}
+  <script src="{% static "geeks/assets/js/vendors/glight.js" %}"></script>
   <script>
     if($(".headingTyped2").length) {
       new Typed(
         ".headingTyped2",
         {
-          strings: ["Księgowych", "Kadrowych", "Spółdzielni", "Oświaty", "Budżetówki", "Budownlanki", "JST"],
+          strings: ["Kadrowych", "Księgowych", "Spółdzielni", "Wspólnot", "Oświaty", "Budżetówki", "Budownlanki", "JST"],
           typeSpeed:80,
           backSpeed:40,
           backDelay:1500,
-          loop:!0
+          loop: true
         });
       }
  </script>
 {% endblock body_scripts %}
 
-
 {% block root %}
 <!-- section -->
 <main>
-  {% include './homepage_sections/hero1.html' %}
+  {% comment %} {% include './homepage_sections/hero1.html' %} {% endcomment %}
+  {% include './homepage_sections/hero2.html' with lecturers=homepage_lecturers %}
   {% comment %} {% include './homepage_sections/trusted_us.html' %} {% endcomment %}
-  {% include './homepage_sections/homepage_categories.html' with categories=categories %}
-  {% include './homepage_sections/homepage_lecturers.html' with lecturers=homepage_lecturers %}
+  {% include './homepage_sections/homepage_categories2.html' with categories=categories %}
+  {% comment %} {% include './homepage_sections/homepage_lecturers.html' with lecturers=homepage_lecturers %} {% endcomment %}
   {% comment %} {% include './homepage_sections/homepage_loyalty_program.html' %} {% endcomment %}
 
-  {% include "geeks/components/loyalty/LoyaltyProgramVideoSection.html" with section_class="pb-lg-14 pb-6" show_button=True %}
-
+  {% include "geeks/components/loyalty/LoyaltyProgramVideoSection.html" with show_button=True %}
   {% include './homepage_sections/homepage_certificate.html' %}
+
 </main>
 {% endblock root %}

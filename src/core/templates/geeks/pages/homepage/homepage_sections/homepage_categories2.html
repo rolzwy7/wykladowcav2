@@ -1,0 +1,106 @@
+<section class="py-lg-8 pb-6">
+    <div class="container pb-lg-6">
+       <!--row-->
+       <div class="row">
+          <div class="col-12">
+             <div class="text-center mb-6">
+                <!--heading-->
+                <h2 class="mb-0 h1">Odkryj naszą ofertę szkoleniową</h2>
+                <p class="mb-0 fs-4">
+                    Wybierz kategorię, a pokażemy Ci interesujące Cię szkolenia!
+                </p>
+             </div>
+          </div>
+       </div>
+       <!--row-->
+       <div class="row gy-4">
+        
+        <div class="col-xxl-4 col-md-4 col-12">
+            <!--card-->
+            <a href="{% url 'core:webinar_category_page' slug="wszystkie-szkolenia" %}" class="card card-border-primary rounded-4">
+                <!--card body-->
+                <div class="card-body d-flex flex-column gap-4 text-center">
+                <div>
+                    <!--icon-->
+                    <div class="icon-shape icon-xxl bg-light-primary rounded-circle">
+                    <i class="bi bi-house-door" style="font-size:1.2rem;"></i>
+                    </div>
+                </div>
+                <!--content-->
+                <div>
+                    <h3 class="mb-0">Wszystkie szkolenia</h3>
+                    <span>
+                        {% if CACHED_ACTIVE_WEBINARS_COUNT == 0 %}
+                        Brak szkoleń
+                        {% else %}
+                        <span class="text-dark fw-medium">{{CACHED_ACTIVE_WEBINARS_COUNT}}</span>
+                        {% if CACHED_ACTIVE_WEBINARS_COUNT == 1 %}
+                        szkolenie
+                        {% elif CACHED_ACTIVE_WEBINARS_COUNT <= 4 %}
+                        szkolenia
+                        {% elif CACHED_ACTIVE_WEBINARS_COUNT <= 21 %}
+                        szkoleń
+                        {% elif CACHED_ACTIVE_WEBINARS_COUNT <= 24 %}
+                        szkolenia
+                        {% elif CACHED_ACTIVE_WEBINARS_COUNT <= 25 %}
+                        szkoleń
+                        {% elif CACHED_ACTIVE_WEBINARS_COUNT <= 33 %}
+                        szkolenia
+                        {% endif %}
+                      {% endif %}
+                    </span>
+                </div>
+                </div>
+            </a>
+        </div>
+
+        {% for category, count, _ in CACHED_MAIN_CATEGORIES %}
+        {% if count %}
+          <div class="col-xxl-4 col-md-4 col-12">
+             <!--card-->
+             <a href="{% url 'core:webinar_category_page' slug=category.slug %}" class="card card-border-primary rounded-4">
+                <!--card body-->
+                <div class="card-body d-flex flex-column gap-4 text-center">
+                   <div>
+                      <!--icon-->
+                      <div class="icon-shape icon-xxl bg-light-primary rounded-circle">
+                        {% if icon_html %}
+                        {{icon_html|safe}}
+                      {% else %}
+                      <i class="bi bi-house-door" style="font-size:1.2rem;"></i>
+                      {% endif %}
+                      </div>
+                   </div>
+                   <!--content-->
+                   <div>
+                      <h3 class="mb-0">{{category.name}}</h3>
+                      <span>
+                      {% if count == 0 %}
+                        Brak szkoleń
+                        {% else %}
+                        <span class="text-dark fw-medium">{{count}}</span>
+                        {% if count == 1 %}
+                        szkolenie
+                        {% elif count <= 4 %}
+                        szkolenia
+                        {% elif count <= 21 %}
+                        szkoleń
+                        {% elif count <= 24 %}
+                        szkolenia
+                        {% elif count <= 25 %}
+                        szkoleń
+                        {% elif count <= 33 %}
+                        szkolenia
+                        {% endif %}
+                      {% endif %}
+                      </span>
+                   </div>
+                </div>
+             </a>
+          </div>
+          {% endif %}
+          {% endfor %}
+
+       </div>
+    </div>
+ </section>
