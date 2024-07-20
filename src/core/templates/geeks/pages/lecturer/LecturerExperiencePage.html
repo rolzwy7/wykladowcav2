@@ -1,7 +1,8 @@
-{% extends 'geeks/extends/foundation.html' %}
-
+{% extends './LecturerBase.html' %}
+{% comment %} {% extends 'geeks/extends/foundation.html' %} {% endcomment %}
 {% load static %}
 
+{% comment %} 
 {% block root %}
 
 <main>
@@ -907,11 +908,11 @@
 	</section>
 </main>
 
-{% endblock root %}
+{% endblock root %} {% endcomment %}
 
 
 
-{% comment %}
+
 {% block content %}
 {% if nearest_webinar %}
 <div class="alert alert-primary mb-4" role="alert">
@@ -945,4 +946,3 @@
     </div>
 </div>
 {% endblock content %}
-{% endcomment %}
