@@ -10,5 +10,8 @@ def home_page(request):
     return TemplateResponse(
         request,
         template_name,
-        homepage_service.get_context(),
+        {
+            "hide_footer_newsletter_singup": True,
+            **homepage_service.get_context(),
+        },
     )

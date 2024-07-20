@@ -113,6 +113,12 @@ class Lecturer(Model):
     fake_stat_webinars = PositiveIntegerField(
         "Przeprowadzonych szkoleń (baza)", default=0
     )
+    years_experience = CharField(
+        "Lata doświadczenia",
+        max_length=40,
+        blank=True,
+        help_text="np. `5 lat`",
+    )
 
     class Meta:
         verbose_name = "Wykładowca"

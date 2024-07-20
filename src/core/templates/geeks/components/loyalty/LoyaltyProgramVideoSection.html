@@ -1,9 +1,10 @@
 {% load static %}
 
-<section class="{{section_class}}">
+<section class="pb-lg-8 pb-6">
     <div class="container">
        <div class="row">
-          <div class="col-xl-10 offset-xl-1 col-md-12 col-12">
+          {% comment %} <div class="col-xl-10 offset-xl-1 col-md-12 col-12"> {% endcomment %}
+          <div class="col-xl-12 col-md-12 col-12">
              <div class="row align-items-start">
                 <div class="col-lg-5 col-md-12 col-12">
                    <div class="mb-5 mb-lg-0">
@@ -26,16 +27,15 @@
                      {% endif %}
                    </div>
                 </div>
+
                 <div class="col-lg-6 offset-lg-1 col-md-12 col-12">
-                   <div
-                     class="d-flex justify-content-center position-relative rounded py-17 border-gray-100 border border-4 rounded-3 bg-cover"
-                     style="background-image: url({% static "geeks/assets/images/education/videothumb-v2-600x336.jpg" %});"
-                   >
-                      <a class="popup-youtube icon-shape rounded-circle btn-play icon-xl text-decoration-none" href="https://www.youtube.com/watch?v=WQg_HnpS-jE">
-                      <i class="fe fe-play"></i>
+                  <div class="d-flex justify-content-center align-items-center position-relative rounded border-gray-100 border border-4 rounded-3 bg-cover" style="background-image: url({% static "/media/images/videothumb-v2-600x336.jpg" %}); height: 300px">
+                      <a class="glightbox icon-shape rounded-circle btn-play icon-xl" href="https://www.youtube.com/watch?v=WQg_HnpS-jE">
+                          <i class="fe fe-play"></i>
                       </a>
-                   </div>
-                </div>
+                  </div>
+              </div>
+
              </div>
           </div>
        </div>

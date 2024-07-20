@@ -1,0 +1,58 @@
+{% load static %}
+<section class="py-md-8 py-6" style="background-image: url({% static "geeks/assets/images/mentor/mentor-glow.svg" %}); background-repeat: no-repeat; background-size: contain">
+    <div class="container py-lg-6">
+       <!--row-->
+       <div class="row align-items-center gy-4 justify-content-center">
+          <div class="col-xxl-5 col-xl-6 col-md-10">
+             <div class="d-flex flex-column gap-5 text-center">
+                <div class="d-flex flex-column gap-2">
+                   <span class="text-dark fs-5">
+                     Praktycy dla praktyków - Gwarantujemy minimum teorii - Maksimum praktyki
+                  </span>
+                   <h1 class="mb-0 display-2 fw-bold">
+                      <div>Szkolenia dla</div>
+                      {% comment %} <span class="headingTyped text-primary" data-strings="Javascript, Startup, React, Marketing, Branding">React</span><span class="typed-cursor typed-cursor--blink" aria-hidden="true">|</span> {% endcomment %}
+                      <span class="headingTyped2 text-primary"></span>
+                     </h1>
+                </div>
+                <div class="d-flex flex-column gap-3">
+                   <!--form-->
+                   <form action="{% url 'core:webinar_category_page' slug="wszystkie-szkolenia" %}" method="get">
+                      <div class="input-group mb-3">
+                         <input type="text" class="form-control form-control-lg" placeholder="Szukaj" aria-label="Szukaj szkolenia" aria-describedby="Szukaj szkolenia">
+                         <button class="btn btn-primary btn-lg" id="basic-addon2">Znajdź szkolenia</button>
+                      </div>
+                   </form>
+                  <div class="gap-2 d-flex flex-wrap justify-content-center">
+                     <a href="{% url 'core:webinar_category_page' slug="wszystkie-szkolenia" %}" class="btn btn-tag btn-sm">Wszystkie szkolenia</a>
+                     {% for category, count, _ in CACHED_MAIN_CATEGORIES %}
+                        {% if count %}
+                           <a href="{% url 'core:webinar_category_page' slug=category.slug %}" class="btn btn-tag btn-sm">{{category.name}}</a>
+                        {% endif %}
+                     {% endfor %}
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+    <div>
+       <div class="position-relative d-flex overflow-x-hidden py-lg-4 pt-4">
+          <div class="animate-marquee d-flex gap-3">
+            {% for lecturer in lecturers %}
+             <a href="{% url 'core:lecturer_experience_page' slug=lecturer.slug %}" class="bg-white text-center shadow-sm text-wrap rounded-4 w-100 border card-lift border" style="width: 200px !important">
+                <!--img-->
+                <div class="p-3">
+                   <img src="{% get_media_prefix %}uploads/lecturers/{{lecturer.slug}}_80x80.webp" alt="{{lecturer.fullname}}" class="avatar avatar-xl rounded-circle">
+                   <!--content-->
+                   <div class="mt-3">
+                      <h3 class="mb-0 h4">{{lecturer.fullname}}</h3>
+                      <span class="text-gray-800">{{lecturer.profession}}</span>
+                   </div>
+                </div>
+             </a>
+             {% endfor %}
+          </div>
+       </div>
+    </div>
+ </section>

@@ -65,8 +65,6 @@ class MailingReplyMessageModelAdmin(ModelAdmin):
     ]
 
 
-admin.site.register(User)
-
 admin.site.register(ContactMessage)
 
 admin.site.register(CategoryTrustedUs)
