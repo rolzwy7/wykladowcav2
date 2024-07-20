@@ -50,6 +50,7 @@
   {% include './homepage_sections/hero2.html' with lecturers=homepage_lecturers %}
   {% comment %} {% include './homepage_sections/trusted_us.html' %} {% endcomment %}
 
+  {% comment %}
   <section class="py-lg-8 py-6">
     <div class="container py-lg-6">
        <!--row-->
@@ -57,7 +58,7 @@
           <div class="col-md-12">
              <!--text-->
              <div class="d-flex justify-content-center text-center mb-6">
-                <h4 class="mb-0">Learn from founders/operators of top brands.</h4>
+                <h4 class="mb-0">Przez kilka ostatnich lat zaufało nam wiele firm i instytucji. Wśród nich znajdują się, między innymi:</h4>
              </div>
           </div>
        </div>
@@ -94,6 +95,7 @@
        </div>
     </div>
  </section>
+ {% endcomment %}
 
  {% include './homepage_sections/homepage_categories2.html' with categories=categories %}
 
@@ -104,14 +106,15 @@
          <div class="col-xl-6 offset-xl-3 col-lg-8 offset-lg-2">
             <div class="text-center mb-6 d-flex flex-column gap-2">
                <!--heading-->
-               <h2 class="mb-0 mx-xl-8 h1">1,600+ mentors are just a Free Trial Session away</h2>
+               <h2 class="mb-0 mx-xl-8 h1">100+ wykładowców, którzy są najlepszymi ekspertami w swojej branży</h2>
                <!--para-->
-               <p class="mb-0">Choose your ideal mentor and get started with a FREE trial session</p>
+               <p class="mb-0">W naszej firmie stawiamy na najwyższą jakość edukacji, którą zapewnia zespół ponad 100 wybitnych wykładowców. Są to prawdziwi specjaliści w swoich dziedzinach, którzy swoją ekspercką wiedzą i wieloletnim doświadczeniem gwarantują najwyższy poziom szkoleń. Dzięki nim nasi klienci mają dostęp do najbardziej aktualnych i praktycznych informacji, co pozwala im na skuteczny rozwój zawodowy i osobisty.</p>
             </div>
          </div>
       </div>
       <!--row-->
       <div class="row g-4">
+         {% comment %}
          <div class="col-12">
             <div class="d-flex flex-md-row gap-2 flex-column justify-content-between">
                <!--form-->
@@ -124,13 +127,15 @@
                </div>
             </div>
          </div>
+         {% endcomment %}
+         {% for lecturer in homepage_lecturers %}
          <div class="col-xxl-3 col-xl-4 col-md-6 col-12">
             <!--card-->
             <div class="card rounded-4 card-bordered card-lift">
                <div class="p-3 d-flex flex-column gap-3">
                   <!--img-->
-                  <a href="../mentor/mentor-single.html">
-                  <img src="{% static "geeks/assets/images/mentor/mentor-img-1.jpg" %}" alt="mentor 1" class="img-fluid w-100 rounded-4">
+                  <a href="{% url 'core:lecturer_experience_page' slug=lecturer.slug %}">
+                  <img src="{% get_media_prefix %}uploads/lecturers/{{lecturer.slug}}_300x300.webp" alt="{{lecturer.fullname}}" class="img-fluid w-100 rounded-4">
                   </a>
                   <!--content-->
                   <div class="d-flex flex-column gap-4">
@@ -138,7 +143,9 @@
                         <div>
                            <div class="d-flex align-items-center gap-2">
                               <h3 class="mb-0">
-                                 <a href="../mentor/mentor-single.html" class="text-reset">Akshay Sharma</a>
+                                 <a href="{% url 'core:lecturer_experience_page' slug=lecturer.slug %}" class="text-reset">
+                                    {{lecturer.fullname}}
+                                 </a>
                               </h3>
                               <span>
                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-check-fill text-success" viewBox="0 0 16 16">
@@ -146,20 +153,20 @@
                                  </svg>
                               </span>
                            </div>
-                           <span class="text-gray-800">Software Engineer</span>
+                           <span class="text-gray-800">{{lecturer.profession}}</span>
                         </div>
                         <div class="d-flex align-items-center justify-content-between fs-6">
                            <div>
-                              <span>@ Microsoft</span>
+                              <span>{{lecturer.fake_stat_participants}}+ uczniów</span>
                               <div class="vr mx-2 text-gray-200"></div>
-                              <span>5yrs Exp.</span>
+                              <span>{{lecturer.years_experience}} doś.</span>
                            </div>
                            <div class="d-flex gap-1 align-items-center lh-1">
                               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
                                  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
                               </svg>
-                              <span class="fw-bold text-dark">5.0</span>
-                              <span>(12 Reviews)</span>
+                              <span class="fw-bold text-dark">{% cycle '5.0' '5.0' '5.0' '5.0'%}</span>
+                              <span>({% cycle '56' '71' '35' '25' %} opinii)</span>
                            </div>
                         </div>
                      </div>
@@ -172,392 +179,113 @@
                            </div>
                         </div>
                         <div>
-                           <a href="#!" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#signupModal">Book a Free Trial</a>
+                           <a href="{% url 'core:lecturer_experience_page' slug=lecturer.slug %}" class="btn btn-outline-primary">
+                              Czytaj więcej
+                           </a>
                         </div>
                      </div>
                   </div>
                </div>
             </div>
          </div>
-         <div class="col-xxl-3 col-xl-4 col-md-6 col-12">
-            <!--card-->
-            <div class="card rounded-4 card-bordered card-lift">
-               <div class="p-3 d-flex flex-column gap-3">
-                  <div class="position-relative">
-                     <!--img-->
-                     <a href="../mentor/mentor-single.html">
-                     <img src="{% static "geeks/assets/images/mentor/mentor-img-2.jpg" %}" alt="mentor 2" class="img-fluid w-100 rounded-4">
-                     </a>
-                     <div class="position-absolute bottom-0 left-0 p-3">
-                        <span class="badge text-bg-success">New Mentor</span>
+         {% endfor %}
+      </div>
+   </div>
+</section>
+
+<section class="py-8">
+   <div class="container">
+
+      <div class="row py-lg-8">
+         <!-- col -->
+         <div class="col-lg-6 col-md-12 col-12">
+            <!-- content -->
+            <div class="pe-lg-6 ps-lg-6">
+               <h2 class="display-4 mb-3 fw-bold">Nie tylko szkolenie, ale również wiele innych dodatków</h3>
+               <div class="mt-6">
+                  <!-- icon with para -->
+                  <div class="d-flex mb-4">
+                     <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-star-fill text-primary mt-1" viewBox="0 0 16 16">
+                           <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
+                           </path>
+                        </svg>
+                     </div>
+                     <div class="ms-3">
+                        <!-- content -->
+                        <h3 class="mb-2">Płatność do 14 dni po szkoleniu</h3>
+                        <p class="mb-0 fs-4">Faktura wystawiana jest w dniu szkolenia. Opłaty za szkolenie dokonywane jest do 14 dni po szkoleniu.</p>
                      </div>
                   </div>
-                  <!--content-->
-                  <div class="d-flex flex-column gap-4">
-                     <div class="d-flex flex-column gap-2">
-                        <div>
-                           <div class="d-flex align-items-center gap-2">
-                              <h3 class="mb-0"><a href="../mentor/mentor-single.html" class="text-reset">Andrew Lupien</a></h3>
-                              <span>
-                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-check-fill text-success" viewBox="0 0 16 16">
-                                    <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708"></path>
-                                 </svg>
-                              </span>
-                           </div>
-                           <span class="text-gray-800">Quality Assurance Eng</span>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between fs-6">
-                           <div>
-                              <span>@ Amazon</span>
-                              <div class="vr mx-2 text-gray-200"></div>
-                              <span>3 yrs Exp.</span>
-                           </div>
-                           <div class="d-flex gap-1 align-items-center lh-1">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                 <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                              </svg>
-                              <span class="fw-bold text-dark">0</span>
-                              <span>(0 Reviews)</span>
-                           </div>
-                        </div>
+                  <!-- icon with para -->
+                  <div class="d-flex mb-4">
+                     <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-life-preserver mt-1 text-primary" viewBox="0 0 16 16">
+                           <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm6.43-5.228a7.025 7.025 0 0 1-3.658 3.658l-1.115-2.788a4.015 4.015 0 0 0 1.985-1.985l2.788 1.115zM5.228 14.43a7.025 7.025 0 0 1-3.658-3.658l2.788-1.115a4.015 4.015 0 0 0 1.985 1.985L5.228 14.43zm9.202-9.202-2.788 1.115a4.015 4.015 0 0 0-1.985-1.985l1.115-2.788a7.025 7.025 0 0 1 3.658 3.658zm-8.087-.87a4.015 4.015 0 0 0-1.985 1.985L1.57 5.228A7.025 7.025 0 0 1 5.228 1.57l1.115 2.788zM8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z">
+                           </path>
+                        </svg>
                      </div>
-                     <div class="d-flex flex-row justify-content-between align-items-center">
-                        <div>
-                           <span>Starting from</span>
-                           <div class="d-flex flex-row gap-1 align-items-center">
-                              <h4 class="mb-0">$15.00</h4>
-                              <span class="fs-6">/ Month</span>
-                           </div>
-                        </div>
-                        <div>
-                           <a href="#!" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#signupModal">Book Sessions</a>
-                        </div>
+                     <!-- content -->
+                     <div class="ms-3">
+                        <h3 class="mb-2">Imienne certyfikaty dla uczestników</h3>
+                        <p class="mb-0 fs-4">Certyfikat uczestnictwa zawiera ilość godzin szkolenia, imię i nazwisko uczestnika, datę oraz temat szkolenia</p>
                      </div>
                   </div>
-               </div>
-            </div>
-         </div>
-         <div class="col-xxl-3 col-xl-4 col-md-6 col-12">
-            <!--card-->
-            <div class="card rounded-4 card-bordered card-lift">
-               <div class="p-3 d-flex flex-column gap-3">
-                  <!--img-->
-                  <a href="../mentor/mentor-single.html">
-                  <img src="{% static "geeks/assets/images/mentor/mentor-img-3.jpg" %}" alt="mentor 3" class="img-fluid w-100 rounded-4">
-                  </a>
-                  <!--content-->
-                  <div class="d-flex flex-column gap-4">
-                     <div class="d-flex flex-column gap-2">
-                        <div>
-                           <div class="d-flex align-items-center gap-2">
-                              <h3 class="mb-0"><a href="../mentor/mentor-single.html" class="text-reset">Bernice Perry</a></h3>
-                              <span>
-                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-check-fill text-success" viewBox="0 0 16 16">
-                                    <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708"></path>
-                                 </svg>
-                              </span>
-                           </div>
-                           <span class="text-gray-800">Senior Business Analyst</span>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between fs-6">
-                           <div>
-                              <span>@ InstaCart</span>
-                              <div class="vr mx-2 text-gray-200"></div>
-                              <span>3 yrs Exp.</span>
-                           </div>
-                           <div class="d-flex gap-1 align-items-center lh-1">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                 <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                              </svg>
-                              <span class="fw-bold text-dark">5.0</span>
-                              <span>(12 Reviews)</span>
-                           </div>
-                        </div>
+                  <!-- icon with para -->
+                  <div class="d-flex mb-4">
+                     <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill text-primary mt-1" viewBox="0 0 16 16">
+                           <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z">
+                           </path>
+                        </svg>
                      </div>
-                     <div class="d-flex flex-row justify-content-between align-items-center">
-                        <div>
-                           <span>Starting from</span>
-                           <div class="d-flex flex-row gap-1 align-items-center">
-                              <h4 class="mb-0">$85.00</h4>
-                              <span class="fs-6">/ Month</span>
-                           </div>
-                        </div>
-                        <div>
-                           <a href="#!" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#signupModal">Book Sessions</a>
-                        </div>
+                     <!-- content -->
+                     <div class="ms-3">
+                        <h3 class="mb-2 lh-1">
+                           Materiały szkoleniowe
+                        </h3>
+                        <p class="mb-0 fs-4">Wzory dokumentów, regulaminy, oświadczenia, instrukcje krop po kroku - jednym słowem wszystko to co potrzebne do wygodnego i skutecznego wdrożenia nadchodzących zmian!</p>
+                     </div>
+                  </div>
+                  <!-- icon with para -->
+                  <div class="d-flex mb-4">
+                     <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill text-primary mt-1" viewBox="0 0 16 16">
+                           <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z">
+                           </path>
+                        </svg>
+                     </div>
+                     <!-- content -->
+                     <div class="ms-3">
+                        <h3 class="mb-2 lh-1">
+                           48-godzinny dostęp do nagrania.
+                        </h3>
+                        <p class="mb-0 fs-4">Dostęp jest przyznawany zaraz po szkoleniu lub w wybrany przez Państwa dzień.</p>
+                     </div>
+                  </div>
+                  <!-- icon with para -->
+                  <div class="d-flex">
+                     <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill text-primary mt-1" viewBox="0 0 16 16">
+                           <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z">
+                           </path>
+                        </svg>
+                     </div>
+                     <!-- content -->
+                     <div class="ms-3">
+                        <h3 class="mb-2 lh-1">
+                           Pytania w trakcie szkolenia i po szkoleniu.
+                        </h3>
+                        <p class="mb-0 fs-4">Nasi wykładowcy są tu po to, by Państwu pomóc w najtrudniejszych zagadnieniach, ale są również dla Państwa dostępni po szkoleniu w ramach opieki pozaszkoleniowej.</p>
                      </div>
                   </div>
                </div>
             </div>
          </div>
-         <div class="col-xxl-3 col-xl-4 col-md-6 col-12">
-            <!--card-->
-            <div class="card rounded-4 card-bordered card-lift">
-               <div class="p-3 d-flex flex-column gap-3">
-                  <!--img-->
-                  <a href="../mentor/mentor-single.html">
-                  <img src="{% static "geeks/assets/images/mentor/mentor-img-4.jpg" %}" alt="mentor 4" class="img-fluid w-100 rounded-4">
-                  </a>
-                  <!--content-->
-                  <div class="d-flex flex-column gap-4">
-                     <div class="d-flex flex-column gap-2">
-                        <div>
-                           <div class="d-flex align-items-center gap-2">
-                              <h3 class="mb-0"><a href="../mentor/mentor-single.html" class="text-reset">Patrice Long</a></h3>
-                              <span>
-                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-check-fill text-success" viewBox="0 0 16 16">
-                                    <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708"></path>
-                                 </svg>
-                              </span>
-                           </div>
-                           <span class="text-gray-800">Senior Data Engineer</span>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between fs-6">
-                           <div>
-                              <span>@ Zoom</span>
-                              <div class="vr mx-2 text-gray-200"></div>
-                              <span>7 yrs Exp.</span>
-                           </div>
-                           <div class="d-flex gap-1 align-items-center lh-1">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                 <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                              </svg>
-                              <span class="fw-bold text-dark">5.0</span>
-                              <span>(22 Reviews)</span>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="d-flex flex-row justify-content-between align-items-center">
-                        <div>
-                           <span>Starting from</span>
-                           <div class="d-flex flex-row gap-1 align-items-center">
-                              <h4 class="mb-0">$75.00</h4>
-                              <span class="fs-6">/ Month</span>
-                           </div>
-                        </div>
-                        <div>
-                           <a href="#!" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#signupModal">Book Sessions</a>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <div class="col-xxl-3 col-xl-4 col-md-6 col-12">
-            <!--card-->
-            <div class="card rounded-4 card-bordered card-lift">
-               <div class="p-3 d-flex flex-column gap-3">
-                  <!--img-->
-                  <a href="../mentor/mentor-single.html">
-                  <img src="{% static "geeks/assets/images/mentor/mentor-img-5.jpg" %}" alt="mentor 5" class="img-fluid w-100 rounded-4">
-                  </a>
-                  <!--content-->
-                  <div class="d-flex flex-column gap-4">
-                     <div class="d-flex flex-column gap-2">
-                        <div>
-                           <div class="d-flex align-items-center gap-2">
-                              <h3 class="mb-0"><a href="../mentor/mentor-single.html" class="text-reset">Cathy Diehl</a></h3>
-                              <span>
-                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-check-fill text-success" viewBox="0 0 16 16">
-                                    <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708"></path>
-                                 </svg>
-                              </span>
-                           </div>
-                           <span class="text-gray-800">Frontend Engineer</span>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between fs-6">
-                           <div>
-                              <span>@ Target</span>
-                              <div class="vr mx-2 text-gray-200"></div>
-                              <span>2 yrs Exp.</span>
-                           </div>
-                           <div class="d-flex gap-1 align-items-center lh-1">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                 <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                              </svg>
-                              <span class="fw-bold text-dark">5.0</span>
-                              <span>(34 Reviews)</span>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="d-flex flex-row justify-content-between align-items-center">
-                        <div>
-                           <span>Starting from</span>
-                           <div class="d-flex flex-row gap-1 align-items-center">
-                              <h4 class="mb-0">$65.00</h4>
-                              <span class="fs-6">/ Month</span>
-                           </div>
-                        </div>
-                        <div>
-                           <a href="#!" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#signupModal">Book a Free Trial</a>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <div class="col-xxl-3 col-xl-4 col-md-6 col-12">
-            <!--card-->
-            <div class="card rounded-4 card-bordered card-lift">
-               <div class="p-3 d-flex flex-column gap-3">
-                  <div class="position-relative">
-                     <!--img-->
-                     <a href="../mentor/mentor-single.html">
-                     <img src="{% static "geeks/assets/images/mentor/mentor-img-6.jpg" %}" alt="mentor 6" class="img-fluid w-100 rounded-4">
-                     </a>
-                     <div class="position-absolute bottom-0 left-0 p-3">
-                        <span class="badge text-bg-success">New Mentor</span>
-                     </div>
-                  </div>
-                  <!--content-->
-                  <div class="d-flex flex-column gap-4">
-                     <div class="d-flex flex-column gap-2">
-                        <div>
-                           <div class="d-flex align-items-center gap-2">
-                              <h3 class="mb-0"><a href="../mentor/mentor-single.html" class="text-reset">James Anderson</a></h3>
-                              <span>
-                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-check-fill text-success" viewBox="0 0 16 16">
-                                    <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708"></path>
-                                 </svg>
-                              </span>
-                           </div>
-                           <span class="text-gray-800">UI/UX Designer</span>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between fs-6">
-                           <div>
-                              <span>@ Figma</span>
-                              <div class="vr mx-2 text-gray-200"></div>
-                              <span>3 yrs Exp.</span>
-                           </div>
-                           <div class="d-flex gap-1 align-items-center lh-1">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                 <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                              </svg>
-                              <span class="fw-bold text-dark">4.5</span>
-                              <span>(3 Reviews)</span>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="d-flex flex-row justify-content-between align-items-center">
-                        <div>
-                           <span>Starting from</span>
-                           <div class="d-flex flex-row gap-1 align-items-center">
-                              <h4 class="mb-0">$35.00</h4>
-                              <span class="fs-6">/ Month</span>
-                           </div>
-                        </div>
-                        <div>
-                           <a href="#!" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#signupModal">Book Sessions</a>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <div class="col-xxl-3 col-xl-4 col-md-6 col-12">
-            <!--card-->
-            <div class="card rounded-4 card-bordered card-lift">
-               <div class="p-3 d-flex flex-column gap-3">
-                  <!--img-->
-                  <a href="../mentor/mentor-single.html">
-                  <img src="{% static "geeks/assets/images/mentor/mentor-img-7.jpg" %}" alt="mentor 7" class="img-fluid w-100 rounded-4">
-                  </a>
-                  <!--content-->
-                  <div class="d-flex flex-column gap-4">
-                     <div class="d-flex flex-column gap-2">
-                        <div>
-                           <div class="d-flex align-items-center gap-2">
-                              <h3 class="mb-0"><a href="../mentor/mentor-single.html" class="text-reset">Cathy Diehl</a></h3>
-                              <span>
-                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-check-fill text-success" viewBox="0 0 16 16">
-                                    <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708"></path>
-                                 </svg>
-                              </span>
-                           </div>
-                           <span class="text-gray-800">Software Engineer</span>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between fs-6">
-                           <div>
-                              <span>@ Microsoft</span>
-                              <div class="vr mx-2 text-gray-200"></div>
-                              <span>5 yrs Exp.</span>
-                           </div>
-                           <div class="d-flex gap-1 align-items-center lh-1">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                 <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                              </svg>
-                              <span class="fw-bold text-dark">5.0</span>
-                              <span>(112 Reviews)</span>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="d-flex flex-row justify-content-between align-items-center">
-                        <div>
-                           <span>Starting from</span>
-                           <div class="d-flex flex-row gap-1 align-items-center">
-                              <h4 class="mb-0">$215.00</h4>
-                              <span class="fs-6">/ Month</span>
-                           </div>
-                        </div>
-                        <div>
-                           <a href="#!" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#signupModal">Book Sessions</a>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <div class="col-xxl-3 col-xl-4 col-md-6 col-12">
-            <!--card-->
-            <div class="card rounded-4 card-bordered card-lift">
-               <div class="p-3 d-flex flex-column gap-3">
-                  <!--img-->
-                  <a href="../mentor/mentor-single.html">
-                  <img src="{% static "geeks/assets/images/mentor/mentor-img-8.jpg" %}" alt="mentor 8" class="img-fluid w-100 rounded-4">
-                  </a>
-                  <!--content-->
-                  <div class="d-flex flex-column gap-4">
-                     <div class="d-flex flex-column gap-2">
-                        <div>
-                           <div class="d-flex align-items-center gap-2">
-                              <h3 class="mb-0"><a href="../mentor/mentor-single.html" class="text-reset">Patrice Long</a></h3>
-                              <span>
-                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-check-fill text-success" viewBox="0 0 16 16">
-                                    <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708"></path>
-                                 </svg>
-                              </span>
-                           </div>
-                           <span class="text-gray-800">Software Engineer</span>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between fs-6">
-                           <div>
-                              <span>@ Microsoft</span>
-                              <div class="vr mx-2 text-gray-200"></div>
-                              <span>5 yrs Exp.</span>
-                           </div>
-                           <div class="d-flex gap-1 align-items-center lh-1">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                 <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                              </svg>
-                              <span class="fw-bold text-dark">5.0</span>
-                              <span>(434 Reviews)</span>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="d-flex flex-row justify-content-between align-items-center">
-                        <div>
-                           <span>Starting from</span>
-                           <div class="d-flex flex-row gap-1 align-items-center">
-                              <h4 class="mb-0">$25.00</h4>
-                              <span class="fs-6">/ Month</span>
-                           </div>
-                        </div>
-                        <div>
-                           <a href="#!" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#signupModal">Book Sessions</a>
-                        </div>
-                     </div>
-                  </div>
-               </div>
+         <div class="col-lg-6 col-md-12 col-12">
+            <!-- image -->
+            <div class="mt-4 mt-lg-0 bg-gray-200 rounded-4">
+               <img src="{% static "geeks/assets/images/svg/featured-img-2.svg" %}" alt="featured" class="img-fluid w-100">
             </div>
          </div>
       </div>
@@ -571,9 +299,11 @@
         <div class="col-12">
            <div class="text-center d-flex flex-column gap-2">
               <!--heading-->
-              <h2 class="mb-0 h1">Lets&nbsp;Get Started&nbsp;in 3 Easy Steps</h2>
+              <h2 class="mb-0 h1">Polecaj nasze szkolenia i zarabiaj!</h2>
               <!--para-->
-              <p class="mb-0">Follow these three simple steps to get started with Long Term Mentorship</p>
+              <p class="mb-0">
+               Oferujemy 10% prowizji od wartości netto, a polecanym -5% zniżki na szkolenia.
+              </p>
            </div>
         </div>
      </div>
@@ -586,12 +316,12 @@
                     <div class="border border-2 border-primary rounded-circle icon-shape icon-xl fs-3 text-primary">1</div>
                     <div class="d-flex flex-column gap-2">
                        <!--heading-->
-                       <h3 class="mb-0 h2">Find Your Ideal Mentor</h3>
+                       <h3 class="mb-0 h2">Załóż konto</h3>
                        <!--para-->
-                       <p class="mb-0 fs-3">Browse from 600+ vested mentors and choose your ideal mentor according to your preferences</p>
+                       <p class="mb-0 fs-3">Załóż u nas konto poprzez stronę rejestracji.</p>
                     </div>
                     <div>
-                       <a href="#!" class="btn btn-outline-secondary">Shortlist Mentor</a>
+                       <a target="_blank" href="{% url 'core:register_page' %}" class="btn btn-outline-secondary">Zarejestruj się</a>
                     </div>
                  </div>
               </div>
@@ -614,12 +344,14 @@
                     <div class="border border-2 border-primary rounded-circle icon-shape icon-xl fs-3 text-primary">2</div>
                     <div class="d-flex flex-column gap-2">
                        <!--heading-->
-                       <h3 class="mb-0 h2">Book a FREE Trial Session</h3>
+                       <h3 class="mb-0 h2">Zapisz się do programu</h3>
                        <!--para-->
-                       <p class="mb-0 fs-3">Connect with mentor and see how mentor will help you achieve your goal faster, avoid asking referrals etc.</p>
+                       <p class="mb-0 fs-3">Jeśli jesteś już zalogowany
+                          zaakceptuj regulamin uczestnictwa w programie partnerskim
+                        </p>
                     </div>
                     <div>
-                       <a href="#!" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#signupModal">Book a Free Trial</a>
+                     <a target="_blank" href="{% url 'core:loyalty_program_terms_of_service_accept_page' %}" class="btn btn-outline-secondary">Zaakceptuj regulamin</a>
                     </div>
                  </div>
               </div>
@@ -630,12 +362,12 @@
                     <div class="border border-2 border-primary rounded-circle icon-shape icon-xl fs-3 text-primary">3</div>
                     <div class="d-flex flex-column gap-2">
                        <!--heading-->
-                       <h3 class="mb-0 h2">Learn, chat, and have fun</h3>
+                       <h3 class="mb-0 h2">Wyślij kod do znajomych lub współpracowników i zarabiaj!</h3>
                        <!--para-->
-                       <p class="mb-0 fs-3">Bravo!! Get started with your personalised mentorship in the right direction with a mentor of your choice.</p>
+                       <p class="mb-0 fs-3">Jeśli twój kod zostanie wpisany jako kod promocyjny przy wysyłaniu zgłoszenia, otrzymasz prowizję po zrealizowanym szkoleniu!</p>
                     </div>
                     <div>
-                       <a href="#!" class="btn btn-outline-secondary">Meet the Mentor</a>
+                       <a target="_blank" href="{% url 'core:loyalty_program_page' %}" class="btn btn-outline-secondary">Wyślij kod i zarabiaj!</a>
                     </div>
                  </div>
               </div>
@@ -651,6 +383,8 @@
   </div>
 </section>
 
+
+{% comment %}
 <section class="bg-dark-primary py-lg-8 py-6">
   <div class="container py-lg-6">
      <!--row-->
@@ -658,10 +392,10 @@
         <div class="col-xxl-6 offset-xxl-3 col-lg-8 offset-lg-2 col-12">
            <div class="text-center mb-6 d-flex flex-column gap-2">
               <!--heading-->
-              <h2 class="mb-0 text-white h1">Love &amp; Praise&nbsp;By The Mentees</h2>
+              <h2 class="mb-0 text-white h1">Setki zadowolonych klientów, wyrażone w licznych opiniach</h2>
               <!--para-->
               <p class="mb-0 text-white">
-                 We’ve already delivered 1-on-1 mentorship to thousands of students, professionals, managers and executives. Even better, they’ve left an rating of 4.9 out of 5 for our mentors.
+               Już ponad 1700 klientów indywidualnych i 1300 firm skorzystało z naszych szkoleń. Jesteśmy dumni z wysokich ocen, jakie nasi wykładowcy otrzymują w ankietach ewaluacyjnych. Przeczytaj opinie naszych zadowolonych uczestników poniżej.
               </p>
            </div>
         </div>
@@ -865,6 +599,7 @@
      </div>
   </div>
 </section>
+{% endcomment %}
   
 <section class="py-lg-8 py-6">
   <div class="container py-lg-8">
@@ -883,9 +618,9 @@
            <div class="d-flex flex-column gap-6">
               <div class="d-flex flex-column gap-2">
                  <!--heading-->
-                 <h2 class="mb-0 h1">Sign Up To Share Your Knowledge</h2>
+                 <h2 class="mb-0 h1">Chcesz nawiązać z nami współpracę jako wykładowca?</h2>
                  <!--para-->
-                 <p class="mb-0 fs-5">Follow these three simple steps to get started with Long Term Mentorship</p>
+                 <p class="mb-0 fs-5">Wykonaj te trzy proste kroki, aby rozpocząć z Nami współpracę</p>
               </div>
               <div class="d-flex flex-column gap-8">
                  <div class="d-flex flex-column gap-5">
@@ -903,7 +638,7 @@
                        </div>
                        <!--text-->
                        <div class="col-md-6 col-lg-10 col-xxl-6 col-10">
-                          <h4 class="mb-0">You've invested a lot of time to learn your skill, craft, or expertise</h4>
+                          <h4 class="mb-0">Wskaż swoje referencje, prześlij notę biograficzną</h4>
                        </div>
                     </div>
                     <div class="row gap-xxl-3">
@@ -918,7 +653,7 @@
                        </div>
                        <!--text-->
                        <div class="col-md-6 col-lg-10 col-xxl-6 col-10">
-                          <h4 class="mb-0">Get paid for talking about the things you already know and love</h4>
+                          <h4 class="mb-0">Prześlij przykładowy zakres materiałów oraz realizowanych tematów szkoleń</h4>
                        </div>
                     </div>
                     <div class="row gap-xxl-3">
@@ -933,12 +668,12 @@
                        </div>
                        <!--text-->
                        <div class="col-md-6 col-lg-10 col-xxl-6 col-10">
-                          <h4 class="mb-0">Set your own availability and meet on your time</h4>
+                          <h4 class="mb-0">Umówmy się na spotkanie i omówmy wspólną strategię działania</h4>
                        </div>
                     </div>
                  </div>
                  <div>
-                    <a href="#!" class="btn btn-primary">Become a mentor</a>
+                    <a href="#!" class="btn btn-primary">Napisz do nas!</a>
                  </div>
               </div>
            </div>
