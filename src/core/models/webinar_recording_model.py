@@ -113,8 +113,15 @@ class WebinarRecordingToken(Model):
         help_text="Zaznacz aby odmówić dostępu do nagrania przez ten token",
     )
 
+    starts_at = DateTimeField(
+        "Ważny od",
+        null=True,
+        blank=True,
+        help_text="Puste pole oznacza, że token jest ważny od momentu stworzenia",
+    )
+
     expires_at = DateTimeField(
-        "Token wygasa",
+        "Ważny do",
         null=True,
         blank=True,
         help_text="Puste pole oznacza, że token nie wygasa nigdy",

@@ -425,18 +425,26 @@ class ApplicationPdfCardService:
         self.table.add(
             TableCell(
                 Paragraph(
-                    "Cena NETTO:",
+                    "Cena BRUTTO:",
                     font=self.font_bold,
                 ),
                 column_span=3,
                 background_color=HexColor("D3D3D3"),
             )
         )
-        price_per_participant = self.application.webinar.price
+        price_per_participant = self.application.price_netto
+
+        if self.application.invoice.vat_exemption == "VAT_EXEMPTION_0":  # type: ignore
+            price_adnotation = "+ 23% VAT"
+            adnot = ""
+        else:
+            price_adnotation = ""
+            adnot = " (zwolnienie z VAT)"
+
         self.table.add(
             TableCell(
                 Paragraph(
-                    f"{price_per_participant} zł {PRICE_ADNOTATION} za uczestnika",
+                    f"{price_per_participant} zł {price_adnotation} za uczestnika{adnot}",
                     font=self.font_regular,
                 ),
                 column_span=3,

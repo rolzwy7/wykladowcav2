@@ -9,7 +9,7 @@ from core.services import ApplicationPdfCardService
 COMPANY_NAME = settings.COMPANY_NAME
 
 
-@cache_page(10 * 60)  # 10m
+@cache_page(5)  # 5s
 def application_pdf_card(request, uuid: str):
     """Controller for application PDF card rendering"""
     application = get_object_or_404(WebinarApplication, uuid=uuid)
@@ -18,8 +18,6 @@ def application_pdf_card(request, uuid: str):
 
     pdf_bytes = pdf_card_service.create_pdf().to_bytes()
     response = HttpResponse(pdf_bytes, content_type="application/pdf")
-    filename = (
-        f"Karta Zgłoszeniowa - {COMPANY_NAME}"  # TODO: Why it's not working ?
-    )
+    filename = f"Karta Zgłoszeniowa - {COMPANY_NAME}"  # TODO: Why it's not working ?
     response["Content-Disposition"] = f'inline; filename="{filename}.pdf"'
     return response
