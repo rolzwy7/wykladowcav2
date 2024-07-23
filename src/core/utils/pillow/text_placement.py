@@ -27,7 +27,8 @@ def draw_centered_text(
         y (int): offset for Y axis
         fill (tuple): RGBA color fill
     """
-    ts_w, ts_h = draw.textsize(text, font=font)  # type: ignore
+    ts_w = draw.textlength(text, font=font)  # type: ignore
+    ts_h = font.size
 
     draw.text(
         (
@@ -98,7 +99,7 @@ def draw_multiline_centered_text(
             line_seq.append(word)
 
         line_str = " ".join(line_seq)
-        ts_w, _ = draw.textsize(line_str, font=font)  # type: ignore
+        ts_w = draw.textlength(line_str, font=font)  # type: ignore
 
         if ts_w > max_width_px:
             # Calculate max line ratio for this line candidate
@@ -110,7 +111,7 @@ def draw_multiline_centered_text(
                 corrected_word = line_seq.pop()
                 line_str = " ".join(line_seq)  # update line str
                 # update text width
-                ts_w, _ = draw.textsize(line_str, font=font)  # type: ignore
+                ts_w = draw.textlength(line_str, font=font)  # type: ignore
             else:
                 corrected_word = None
 
