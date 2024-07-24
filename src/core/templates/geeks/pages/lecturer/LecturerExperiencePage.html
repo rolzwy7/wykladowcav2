@@ -1,8 +1,7 @@
-{% extends './LecturerBase.html' %}
-{% comment %} {% extends 'geeks/extends/foundation.html' %} {% endcomment %}
+{% extends 'geeks/extends/foundation.html' %}
+{% comment %} {% extends './LecturerBase.html' %} {% endcomment %}
 {% load static %}
-
-{% comment %} 
+ 
 {% block root %}
 
 <main>
@@ -165,7 +164,7 @@
                         <div class="d-flex flex-row gap-3 align-items-center">
                           <!--img-->
                           <div>
-                            <img src="../assets/images/avatar/avatar-1.jpg" alt="avatar 1" class="avatar avatar-lg rounded-circle">
+                            <img src="{% static "geeks/assets/images/avatar/avatar-1.jpg" %}" alt="avatar 1" class="avatar avatar-lg rounded-circle">
                           </div>
                           <div>
                             <!--heading-->
@@ -216,7 +215,7 @@
                           <div class="d-flex flex-row gap-3 align-items-center">
                             <!--img-->
                             <div>
-                              <img src="../assets/images/avatar/avatar-2.jpg" alt="avatar 2" class="avatar avatar-lg rounded-circle">
+                              <img src="{% static "geeks/assets/images/avatar/avatar-2.jpg" %}" alt="avatar 2" class="avatar avatar-lg rounded-circle">
                             </div>
                             <div>
                               <!--heading-->
@@ -261,7 +260,7 @@
                         <div class="d-flex flex-row gap-3 align-items-center">
                           <!--img-->
                           <div>
-                            <img src="../assets/images/avatar/avatar-4.jpg" alt="avatar 4" class="avatar avatar-lg rounded-circle">
+                            <img src="{% static "geeks/assets/images/avatar/avatar-4.jpg" %}" alt="avatar 4" class="avatar avatar-lg rounded-circle">
                           </div>
                           <div class="d-flex flex-column gap-1">
                             <!--heading-->
@@ -282,7 +281,7 @@
                         <div class="d-flex flex-row gap-3 align-items-center">
                           <!--img-->
                           <div>
-                            <img src="../assets/images/avatar/avatar-3.jpg" alt="avatar 3" class="avatar avatar-lg rounded-circle">
+                            <img src="{% static "geeks/assets/images/avatar/avatar-3.jpg" %}" alt="avatar 3" class="avatar avatar-lg rounded-circle">
                           </div>
                           <div>
                             <!--heading-->
@@ -332,7 +331,7 @@
                             <div class="d-flex flex-row gap-3 align-items-center">
                               <!--img-->
                               <div>
-                                <img src="../assets/images/avatar/avatar-1.jpg" alt="avatar 1" class="avatar avatar-lg rounded-circle">
+                                <img src="{% static "geeks/assets/images/avatar/avatar-1.jpg" %}" alt="avatar 1" class="avatar avatar-lg rounded-circle">
                               </div>
                               <div>
                                 <!--heading-->
@@ -380,7 +379,7 @@
                           <div class="d-flex flex-row gap-3 align-items-center">
                             <!--img-->
                             <div>
-                              <img src="../assets/images/avatar/avatar-4.jpg" alt="avatar 4" class="avatar avatar-lg rounded-circle">
+                              <img src="{% static "geeks/assets/images/avatar/avatar-4.jpg" %}" alt="avatar 4" class="avatar avatar-lg rounded-circle">
                             </div>
                             <div class="d-flex flex-column gap-1">
                               <!--heading-->
@@ -574,7 +573,7 @@
               <div class="p-3 d-flex flex-column gap-3">
                 <!--img-->
                 <a href="#!">
-                <img src="../assets/images/mentor/mentor-img-2.jpg" alt="mentor 2" class="img-fluid w-100 rounded-4">
+                <img src="{% static "geeks/assets/images/mentor/mentor-img-2.jpg" %}" alt="mentor 2" class="img-fluid w-100 rounded-4">
                 </a>
                 <!--content-->
                 <div class="d-flex flex-column gap-4">
@@ -630,7 +629,7 @@
                 <div class="position-relative">
                   <!--img-->
                   <a href="#!">
-                  <img src="../assets/images/mentor/mentor-img-3.jpg" alt="mentor 3" class="img-fluid w-100 rounded-4">
+                  <img src="{% static "geeks/assets/images/mentor/mentor-img-3.jpg" %}" alt="mentor 3" class="img-fluid w-100 rounded-4">
                   </a>
                   <div class="position-absolute bottom-0 left-0 p-3">
                     <span class="badge text-bg-success">New Mentor</span>
@@ -687,7 +686,7 @@
               <div class="p-3 d-flex flex-column gap-3">
                 <!--img-->
                 <a href="#!">
-                <img src="../assets/images/mentor/mentor-img-4.jpg" alt="mentor 4" class="img-fluid w-100 rounded-4">
+                <img src="{% static "geeks/assets/images/mentor/mentor-img-4.jpg" %}" alt="mentor 4" class="img-fluid w-100 rounded-4">
                 </a>
                 <!--content-->
                 <div class="d-flex flex-column gap-4">
@@ -740,7 +739,7 @@
               <div class="p-3 d-flex flex-column gap-3">
                 <!--img-->
                 <a href="#!">
-                <img src="../assets/images/mentor/mentor-img-5.jpg" alt="mentor 5" class="img-fluid w-100 rounded-4">
+                <img src="{% static "geeks/assets/images/mentor/mentor-img-5.jpg" %}" alt="mentor 5" class="img-fluid w-100 rounded-4">
                 </a>
                 <!--content-->
                 <div class="d-flex flex-column gap-4">
@@ -793,6 +792,7 @@
     <!--mentor-->
   </main>
 
+{% comment %}
 <main>
 	<section class="pt-5 pb-5">
 		<div class="container">
@@ -907,13 +907,14 @@
 		</div>
 	</section>
 </main>
+{% endcomment %}
 
-{% endblock root %} {% endcomment %}
+{% endblock root %}
 
 
 
 
-{% block content %}
+{% comment %} {% block content %}
 {% if nearest_webinar %}
 <div class="alert alert-primary mb-4" role="alert">
     <h4 class="alert-heading">
@@ -945,4 +946,4 @@
         {{lecturer.biography|safe}}
     </div>
 </div>
-{% endblock content %}
+{% endblock content %} {% endcomment %}
