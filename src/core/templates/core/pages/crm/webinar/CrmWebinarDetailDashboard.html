@@ -492,6 +492,22 @@
 
                                             <!--begin::Menu item-->
                                             <div class="menu-item">
+                                                <a href="{% url 'core:crm_application_resend_confirmation_action' pk=application.pk %}" class="menu-link py-3 ps-0">
+                                                    <span class="menu-icon">
+                                                        <i class="ki-duotone ki-send fs-3">
+                                                            <span class="path1"></span>
+                                                            <span class="path2"></span>
+                                                        </i>
+                                                    </span>
+                                                    <span class="menu-title">
+                                                        Prześlij ponownie potwierdzenie zgłoszenia
+                                                    </span>
+                                                </a>
+                                            </div>
+                                            <!--end::Menu item-->
+
+                                            <!--begin::Menu item-->
+                                            <div class="menu-item">
                                                 <a href="{% url 'core:crm_application_send_invoice_action' pk=application.pk %}" class="menu-link py-3 ps-0">
                                                     <span class="menu-icon">
                                                         <i class="ki-duotone ki-send fs-3">
@@ -499,7 +515,9 @@
                                                             <span class="path2"></span>
                                                         </i>
                                                     </span>
-                                                    <span class="menu-title">Stwórz i prześlij fakture</span>
+                                                    <span class="menu-title">
+                                                        Prześlij do fakturowni
+                                                    </span>
                                                 </a>
                                             </div>
                                             <!--end::Menu item-->

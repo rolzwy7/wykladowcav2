@@ -18,5 +18,6 @@ def lecturer_experience_page(request, slug: str):
             "lecturer": lecturer,
             "tabs": service.get_lecturer_tabs(0),
             "nearest_webinar": service.get_lecturer_nearest_webinar(),
+            "hide_footer_newsletter_singup": True,
         },
     )

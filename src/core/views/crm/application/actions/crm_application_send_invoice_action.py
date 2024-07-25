@@ -22,12 +22,12 @@ class CrmApplicationSendInvoiceActionForm(Form):
 
     send_invoice = CharField(
         widget=CheckboxWidget(
-            attrs={"label": "Wyślij fakturę na adres e-mail", "checked": True}
+            attrs={"label": "Wyślij fakturę na adres e-mail", "checked": False}
         )
     )
 
     i_am_sure = CharField(
-        widget=CheckboxWidget(attrs={"label": "Chcę przesłać fakturę"})
+        widget=CheckboxWidget(attrs={"label": "Chcę wykonać operację"})
     )
 
 

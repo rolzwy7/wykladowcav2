@@ -25,7 +25,10 @@ from core.views.crm import (
     crm_webinar_invoices,
     crm_webinar_recordings,
 )
-from core.views.crm.application.actions import crm_application_send_invoice_action_page
+from core.views.crm.application.actions import (
+    crm_application_resend_confirmation,
+    crm_application_send_invoice_action_page,
+)
 from core.views.crm.company import CrmCompanyDetail, CrmCompanyList
 from core.views.crm.contact import CrmContactDetail, CrmContactList
 from core.views.crm.crm_archived_webinars import (
@@ -109,6 +112,11 @@ urlpatterns = [
         "zgloszenie/<int:pk>/przeslij-fakture/",
         crm_application_send_invoice_action_page,
         name="crm_application_send_invoice_action",
+    ),
+    path(
+        "zgloszenie/<int:pk>/przeslij-ponownie-potwierdzenie/",
+        crm_application_resend_confirmation,
+        name="crm_application_resend_confirmation_action",
     ),
     # CRM Webinar Actions
     path(

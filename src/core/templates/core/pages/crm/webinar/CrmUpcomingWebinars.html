@@ -7,6 +7,10 @@
 
 {% block crm_content %}
 
+<div hx-get="{% url 'htmx:static-files-disc-space' %}" hx-trigger="load">
+  <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
+</div>
+
 <!--begin::Toolbar-->
 <div class="toolbar d-flex flex-stack flex-wrap mb-5 mt-5 mb-lg-7" id="kt_toolbar">
   <!--begin::Page title-->

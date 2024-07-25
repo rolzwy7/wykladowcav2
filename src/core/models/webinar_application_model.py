@@ -329,19 +329,23 @@ class WebinarApplication(Model):
     step_dt_summary_start = DateTimeField("summary_start", blank=True, null=True)
     step_dt_summary_end = DateTimeField("summary_end", blank=True, null=True)
 
+    recording_dt = DateTimeField("Początek dostępu do nagrania", blank=True, null=True)
+
     class Meta:
+        """meta"""
+
         verbose_name = "Zgłoszenie"
         verbose_name_plural = "Zgłoszenia"
 
     def __str__(self) -> str:
-        return f"Zgłoszenie {self.id}"  # type: ignore
+        return f"Zgłoszenie {self.id}"  # type: ignore # pylint: disable=no-member
 
     @property
     def price_brutto(self):
         """Calculate BRUTTO price for one participant"""
 
         # If not VAT exempt apply `VAT_VALUE_PERCENT` value of VAT
-        if not self.invoice.is_vat_exempt:
+        if not self.invoice.is_vat_exempt:  # type: ignore # pylint: disable=no-member
             multiplier = round((100 + VAT_VALUE_PERCENT) / 100, 2)
             return round(self.price_netto * multiplier, 2)
 
