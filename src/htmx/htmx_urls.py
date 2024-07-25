@@ -5,6 +5,7 @@
 from django.urls import include, path
 
 from htmx.views.contact_message import htmx_contact_message
+from htmx.views.static_files import disc_space
 from htmx.views.tracking.tracking_mailing import tracking_mailing
 from htmx.views.webinar_mailings import htmx_webinar_mailing_modal
 
@@ -23,6 +24,11 @@ urlpatterns = [
         "contact_message",
         htmx_contact_message,
         name="htmx_contact_message",
+    ),
+    path(
+        "static-files/disc-space/",
+        disc_space,
+        name="static-files-disc-space",
     ),
     path(
         "tracking_mailing/<str:tracking_code>/",
