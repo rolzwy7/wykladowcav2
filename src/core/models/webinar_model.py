@@ -365,6 +365,11 @@ class Webinar(Model):
 
     def clean(self):
 
+        if self.status in [WebinarStatus.DONE, WebinarStatus.CANCELED]:
+            raise ValidationError(
+                "Nie można edytować tego terminu w CMS, ponieważ jest Zrealizowany albo Odwołany"
+            )
+
         try:
             self.lecturer
         except Exception as e:
