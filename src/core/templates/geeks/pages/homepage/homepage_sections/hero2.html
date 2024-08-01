@@ -3,15 +3,16 @@
     <div class="container py-lg-6">
        <!--row-->
        <div class="row align-items-center gy-4 justify-content-center">
-          <div class="col-xxl-5 col-xl-6 col-md-10">
+          <div class="col-xxl-6 col-xl-6 col-md-10">
              <div class="d-flex flex-column gap-5 text-center">
                 <div class="d-flex flex-column gap-2">
                    <span class="text-dark fs-5">
-                     Praktycy dla praktyków - Gwarantujemy minimum teorii - Maksimum praktyki
+                     Praktycy dla praktyków - Gwarantujemy <b>minimum teorii - Maksimum praktyki</b>
                   </span>
                    <h1 class="mb-0 display-2 fw-bold">
-                      <div>Szkolenia dla</div>
+                      <div>Szkolenia dla branży</div>
                       {% comment %} <span class="headingTyped text-primary" data-strings="Javascript, Startup, React, Marketing, Branding">React</span><span class="typed-cursor typed-cursor--blink" aria-hidden="true">|</span> {% endcomment %}
+                      {% comment %} <span class="text-primary">branży</span> {% endcomment %}
                       <span class="headingTyped2 text-primary"></span>
                      </h1>
                 </div>
@@ -24,10 +25,10 @@
                       </div>
                    </form>
                   <div class="gap-2 d-flex flex-wrap justify-content-center">
-                     <a href="{% url 'core:webinar_category_page' slug="wszystkie-szkolenia" %}" class="btn btn-tag btn-sm">Wszystkie szkolenia</a>
+                     <a href="{% url 'core:webinar_category_page' slug="wszystkie-szkolenia" %}" class="btn btn-tag btn-sm btn-light fs-4">Wszystkie szkolenia</a>
                      {% for category, count, _ in CACHED_MAIN_CATEGORIES %}
-                        {% if count %}
-                           <a href="{% url 'core:webinar_category_page' slug=category.slug %}" class="btn btn-tag btn-sm">{{category.name}}</a>
+                        {% if count or 1 %}
+                           <a href="{% url 'core:webinar_category_page' slug=category.slug %}" class="btn btn-tag btn-sm fs-4">{{category.name}}</a>
                         {% endif %}
                      {% endfor %}
                    </div>

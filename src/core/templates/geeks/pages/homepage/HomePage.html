@@ -32,8 +32,8 @@
     if($(".headingTyped2").length) {
       new Typed(
         ".headingTyped2",
-        {
-          strings: ["Kadrowych", "Księgowych", "Spółdzielni", "Wspólnot", "Oświaty", "Budżetówki", "Budownlanki", "JST"],
+        {Spółdzielczej, Kadrowej, Oświatowej, Budżetowej, Księgowej,
+          strings: ["Spółdzielczej", "Kadrowej", "Oświatowej", "Budżetowej", "Księgowej"],
           typeSpeed:80,
           backSpeed:40,
           backDelay:1500,
@@ -50,7 +50,6 @@
   {% include './homepage_sections/hero2.html' with lecturers=homepage_lecturers %}
   {% comment %} {% include './homepage_sections/trusted_us.html' %} {% endcomment %}
 
-  {% comment %}
   <section class="py-lg-8 py-6">
     <div class="container py-lg-6">
        <!--row-->
@@ -95,7 +94,6 @@
        </div>
     </div>
  </section>
- {% endcomment %}
 
  {% include './homepage_sections/homepage_categories2.html' with categories=categories %}
 
