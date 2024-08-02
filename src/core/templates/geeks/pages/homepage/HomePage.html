@@ -23,7 +23,7 @@
 
 {% block body_scripts %}
   <script src="{% static 'geeks/assets/libs/typed.js/dist/typed.umd.js' %}"></script>
-  {% comment %} <script src="{% static 'geeks/assets/libs/tiny-slider/dist/tiny-slider.js' %}"></script> {% endcomment %}
+  <script src="{% static 'geeks/assets/libs/tiny-slider/dist/min/tiny-slider.js' %}"></script>
   <script src="{% static 'geeks/assets/js/vendors/tnsSlider.js' %}"></script>
   <script src="{% static 'geeks/assets/libs/glightbox/dist/js/glightbox.min.js' %}"></script>
   {% comment %} <script src="{% static "geeks/assets/js/vendors/typed.js" %}"></script> {% endcomment %}
@@ -32,7 +32,7 @@
     if($(".headingTyped2").length) {
       new Typed(
         ".headingTyped2",
-        {Spółdzielczej, Kadrowej, Oświatowej, Budżetowej, Księgowej,
+        {
           strings: ["Spółdzielczej", "Kadrowej", "Oświatowej", "Budżetowej", "Księgowej"],
           typeSpeed:80,
           backSpeed:40,
@@ -50,6 +50,7 @@
   {% include './homepage_sections/hero2.html' with lecturers=homepage_lecturers %}
   {% comment %} {% include './homepage_sections/trusted_us.html' %} {% endcomment %}
 
+  {% comment %} Zaufali nam loga {% endcomment %}
   <section class="py-lg-8 py-6">
     <div class="container py-lg-6">
        <!--row-->
@@ -96,7 +97,10 @@
  </section>
 
  {% include './homepage_sections/homepage_categories2.html' with categories=categories %}
+ 
+ {% comment %} {% include './homepage_sections/testSlider.html' %} {% endcomment %}
 
+ {% comment %} Wykładowcy {% endcomment %}
  <section class="py-6 py-lg-8 bg-light">
    <div class="container py-lg-6">
       <!--row-->
@@ -104,9 +108,9 @@
          <div class="col-xl-10 offset-xl-1 col-lg-8 offset-lg-2">
             <div class="text-center mb-6 d-flex flex-column gap-2">
                <!--heading-->
-               <h2 class="mb-0 mx-xl-8 h1">100+ wykładowców, którzy są najlepszymi ekspertami w swojej branży</h2>
+               <h2 class="mb-0 mx-xl-8 h1">Ponad 100 najlepszych wykładowców w swoich dziedzinach</h2>
                <!--para-->
-               <p class="mb-0">W naszej firmie stawiamy na najwyższą jakość edukacji, którą zapewnia zespół ponad 100 wybitnych wykładowców. Są to prawdziwi specjaliści w swoich dziedzinach, którzy swoją ekspercką wiedzą i wieloletnim doświadczeniem gwarantują najwyższy poziom szkoleń. Dzięki nim nasi klienci mają dostęp do najbardziej aktualnych i praktycznych informacji, co pozwala im na skuteczny rozwój zawodowy i osobisty.</p>
+               <p class="mb-0">W naszej firmie oferujemy szkolenia najwyższej jakości, dzięki zespołowi ponad 100 ekspertów w swoich dziedzinach. Nasi wykładowcy, dzięki głębokiej wiedzy i doświadczeniu, zapewniają aktualne i praktyczne treści, wspierając skuteczny rozwój zawodowy i osobisty naszych klientów.</p>
             </div>
          </div>
       </div>
@@ -199,7 +203,9 @@
          <div class="col-lg-6 col-md-12 col-12">
             <!-- content -->
             <div class="pe-lg-6 ps-lg-6">
-               <h2 class="display-4 mb-3 fw-bold">Nie tylko szkolenie, ale również wiele innych dodatków</h3>
+               <h2 class="display-4 mb-3 fw-bold">
+                  Nie tylko szkolenie — wiele dodatkowych korzyści
+               </h3>
                <div class="mt-6">
                   <!-- icon with para -->
                   <div class="d-flex mb-4">
@@ -212,7 +218,9 @@
                      <div class="ms-3">
                         <!-- content -->
                         <h3 class="mb-2">Płatność do 14 dni po szkoleniu</h3>
-                        <p class="mb-0 fs-4">Faktura wystawiana jest w dniu szkolenia. Opłaty za szkolenie dokonywane jest do 14 dni po szkoleniu.</p>
+                        <p class="mb-0 fs-4">
+                           Faktura wystawiana jest w dniu szkolenia, a płatność można dokonać w ciągu 14 dni.
+                        </p>
                      </div>
                   </div>
                   <!-- icon with para -->
@@ -226,7 +234,9 @@
                      <!-- content -->
                      <div class="ms-3">
                         <h3 class="mb-2">Imienne certyfikaty dla uczestników</h3>
-                        <p class="mb-0 fs-4">Certyfikat uczestnictwa zawiera ilość godzin szkolenia, imię i nazwisko uczestnika, datę oraz temat szkolenia</p>
+                        <p class="mb-0 fs-4">
+                           Certyfikat uczestnictwa zawiera liczbę godzin szkolenia, imię i nazwisko, datę oraz temat.
+                        </p>
                      </div>
                   </div>
                   <!-- icon with para -->
@@ -242,7 +252,9 @@
                         <h3 class="mb-2 lh-1">
                            Materiały szkoleniowe
                         </h3>
-                        <p class="mb-0 fs-4">Wzory dokumentów, regulaminy, oświadczenia, instrukcje krop po kroku - jednym słowem wszystko to co potrzebne do wygodnego i skutecznego wdrożenia nadchodzących zmian!</p>
+                        <p class="mb-0 fs-4">
+                           Wzory dokumentów, regulaminy, oświadczenia i instrukcje krok po kroku — wszystko, co potrzebne do skutecznego wdrożenia zmian!
+                        </p>
                      </div>
                   </div>
                   <!-- icon with para -->
@@ -256,9 +268,11 @@
                      <!-- content -->
                      <div class="ms-3">
                         <h3 class="mb-2 lh-1">
-                           48-godzinny dostęp do nagrania.
+                           48 godzinny dostęp do nagrania.
                         </h3>
-                        <p class="mb-0 fs-4">Dostęp jest przyznawany zaraz po szkoleniu lub w wybrany przez Państwa dzień.</p>
+                        <p class="mb-0 fs-4">
+                           Dostęp do nagrania zaraz po szkoleniu lub w wybranym przez Ciebie dniu.
+                        </p>
                      </div>
                   </div>
                   <!-- icon with para -->
@@ -274,7 +288,9 @@
                         <h3 class="mb-2 lh-1">
                            Pytania w trakcie szkolenia i po szkoleniu.
                         </h3>
-                        <p class="mb-0 fs-4">Nasi wykładowcy są tu po to, by Państwu pomóc w najtrudniejszych zagadnieniach, ale są również dla Państwa dostępni po szkoleniu w ramach opieki pozaszkoleniowej.</p>
+                        <p class="mb-0 fs-4">
+                           Nasi wykładowcy są dostępni, aby pomóc w trudnych zagadnieniach zarówno podczas szkolenia, jak i po jego zakończeniu.
+                        </p>
                      </div>
                   </div>
                </div>
@@ -362,7 +378,9 @@
                        <!--heading-->
                        <h3 class="mb-0 h2">Wyślij kod do znajomych lub współpracowników i zarabiaj!</h3>
                        <!--para-->
-                       <p class="mb-0 fs-3">Jeśli twój kod zostanie wpisany jako kod promocyjny przy wysyłaniu zgłoszenia, otrzymasz prowizję po zrealizowanym szkoleniu!</p>
+                       <p class="mb-0 fs-3">
+                           Podziel się swoim kodem promocyjnym. Jeśli znajomi użyją Twojego kodu przy zgłoszeniu, otrzymasz prowizję po zrealizowanym szkoleniu.
+                       </p>
                     </div>
                     <div>
                        <a target="_blank" href="{% url 'core:loyalty_program_page' %}" class="btn btn-outline-secondary">Wyślij kod i zarabiaj!</a>
@@ -618,7 +636,7 @@
                  <!--heading-->
                  <h2 class="mb-0 h1">Chcesz nawiązać z nami współpracę jako wykładowca?</h2>
                  <!--para-->
-                 <p class="mb-0 fs-5">Wykonaj te trzy proste kroki, aby rozpocząć z Nami współpracę</p>
+                 <p class="mb-0 fs-4">Wykonaj te trzy proste kroki, aby rozpocząć z Nami współpracę</p>
               </div>
               <div class="d-flex flex-column gap-8">
                  <div class="d-flex flex-column gap-5">
@@ -636,7 +654,7 @@
                        </div>
                        <!--text-->
                        <div class="col-md-6 col-lg-10 col-xxl-6 col-10">
-                          <h4 class="mb-0">Wskaż swoje referencje, prześlij notę biograficzną</h4>
+                          <h4 class="mb-0">Podaj swoje referencje i prześlij krótki biogram</h4>
                        </div>
                     </div>
                     <div class="row gap-xxl-3">
@@ -651,7 +669,7 @@
                        </div>
                        <!--text-->
                        <div class="col-md-6 col-lg-10 col-xxl-6 col-10">
-                          <h4 class="mb-0">Prześlij przykładowy zakres materiałów oraz realizowanych tematów szkoleń</h4>
+                          <h4 class="mb-0">Prześlij przykładowe materiały oraz tematy szkoleń, które prowadzisz</h4>
                        </div>
                     </div>
                     <div class="row gap-xxl-3">
@@ -666,12 +684,17 @@
                        </div>
                        <!--text-->
                        <div class="col-md-6 col-lg-10 col-xxl-6 col-10">
-                          <h4 class="mb-0">Umówmy się na spotkanie i omówmy wspólną strategię działania</h4>
+                          <h4 class="mb-0">Umów się na spotkanie, aby omówić wspólną strategię działania</h4>
                        </div>
                     </div>
                  </div>
                  <div>
-                    <a href="#!" class="btn btn-primary">Napisz do nas!</a>
+                  <p class="mb-0 fs-4">
+                     Napisz do nas na adres <a href="mailto:wspolpraca@wykladowca.pl">
+                        <b>wspolpraca@wykladowca.pl</b>
+                     </a>
+                 </p>
+                    {% comment %} <a href="mailto:wspolpraca@wykladowca.pl" class="btn btn-primary">Napisz do nas!</a> {% endcomment %}
                  </div>
               </div>
            </div>
