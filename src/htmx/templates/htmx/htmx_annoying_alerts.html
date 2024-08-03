@@ -1,0 +1,22 @@
+{% load static %}
+
+{% if chomato_activated %}
+<hr>
+<h1 class="pt-3">@@ Chomąto aktywowane @@</h1>
+<img src="{% static "media/chomato.gif" %}" alt="Chamoto">
+{% endif %}
+
+{% for lecturer in lecturers_no_fake %}
+<div class="alert alert-danger d-flex align-items-center p-5">
+    <i class="ki-duotone ki-shield-tick fs-2hx text-danger me-4"><span class="path1"></span><span class="path2"></span></i>
+    <div class="d-flex flex-column">
+        <h4 class="mb-1 text-dark">{{lecturer.fullname}} brak danych w CMS: liczba skoleń i przeszkolonych</h4>
+        <span>
+            Uzupełnij pola: <br>
+            <i><b>fake_stat_participants</b></i> - liczba przeszkolonych uczesnitków / uczniów <br>
+            <i><b>fake_stat_webinars</b></i> - liczba zrealizowanych szkoleń <br> <br>
+            <a target="_blank" href="{% url 'admin:core_lecturer_change' object_id=lecturer.id %}"><b>Link - Przejdź do CMS wykładowcy</b></a>
+        </span>
+    </div>
+</div>
+{% endfor %}

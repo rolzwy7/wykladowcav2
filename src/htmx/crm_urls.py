@@ -4,6 +4,7 @@
 from django.urls import path
 
 from htmx.views.crm import (
+    htmx_annoying_alerts,
     htmx_conference_url_form,
     htmx_crm_application_cancellation_toggle,
     htmx_crm_check_nip,
@@ -17,6 +18,11 @@ from htmx.views.crm import (
 )
 
 urlpatterns = [
+    path(
+        "annoying-alerts/",
+        htmx_annoying_alerts,
+        name="htmx_annoying_alerts",
+    ),
     path(
         "conference-url-form/<int:pk>/<str:mode>/",
         htmx_conference_url_form,
