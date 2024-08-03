@@ -15,9 +15,16 @@ from django.urls import reverse
 from core.consts import TelegramChats
 from core.consts.requests_consts import POST
 from core.forms.widgets import CheckboxWidget
-from core.models import Webinar, WebinarApplication, WebinarApplicationSubmitter
+from core.models import (
+    Webinar,
+    WebinarApplication,
+    WebinarApplicationSubmitter,
+    WebinarParticipant,
+)
 from core.tasks import (
+    params_send_participant_confirmation_email,
     params_send_submitter_confirmation_email,
+    task_send_participant_confirmation_email,
     task_send_submitter_confirmation_email,
     task_send_telegram_notification,
 )
@@ -30,6 +37,15 @@ def get_meta_redirect_url(path: str):
 
 class CrmApplicationResendConfirmationActionForm(Form):
     """Form for confirming operations"""
+
+    send_to_participants = CharField(
+        widget=CheckboxWidget(
+            attrs={
+                "label": "Wyślij potwierdzenia także do uczestników",
+                "checked": True,
+            }
+        )
+    )
 
     i_am_sure = CharField(
         widget=CheckboxWidget(attrs={"label": "Chcę wykonać operację"})
@@ -44,27 +60,43 @@ def crm_application_resend_confirmation(request: HttpRequest, pk: int):
     webinar_id: int = webinar.id  # type: ignore
     application_id: int = application.id  # type: ignore
     submitter: WebinarApplicationSubmitter = application.submitter  # type: ignore
+    participants = WebinarParticipant.manager.filter(application=application)
 
     if request.method == POST:
         form = CrmApplicationResendConfirmationActionForm(request.POST)
         if form.is_valid():
             i_am_sure = form.cleaned_data["i_am_sure"] == "True"
+            send_to_participants = form.cleaned_data["send_to_participants"] == "True"
             if not i_am_sure:
                 return HttpResponse("`i_am_sure` must be `True`")
 
-            chain(
-                group(
-                    task_send_submitter_confirmation_email.si(
-                        params_send_submitter_confirmation_email(
-                            submitter.email,
-                            webinar_id,
-                            application_id,
+            group_tasks = [
+                task_send_submitter_confirmation_email.si(
+                    params_send_submitter_confirmation_email(
+                        submitter.email,
+                        webinar_id,
+                        application_id,
+                    )
+                )
+            ]
+
+            if send_to_participants:
+                for participant in participants:
+                    group_tasks.append(
+                        task_send_participant_confirmation_email.si(
+                            params_send_participant_confirmation_email(
+                                participant.email,
+                                webinar_id,
+                                application_id,
+                            )
                         )
-                    ),
-                ),
-                # TODO: Mozna tutaj dodac wysylanie warunkowe do uczestnikow jak w summary page
+                    )
+
+            chain(
+                group(*group_tasks),
                 task_send_telegram_notification.si(
-                    "Ponownie wysłano potiwerdzenie zgłoszenia\n"
+                    "PONOWNIE wysłano potiwerdzenie zgłoszenia\n"
+                    f"Do uczestników: {'Tak' if send_to_participants else 'Nie'}\n"
                     f"Wykładowca: {webinar.lecturer}\n"
                     f"Data: {_date(webinar.date, 'j E Y')} "
                     f"godz. {_date(webinar.date, 'H:i')}\n"

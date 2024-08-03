@@ -23,7 +23,7 @@
             <div class="separator my-5"></div>
 
             <p>
-                Potwierdzenie zgłoszenia zostanie ponownie wysłane na adres kontaktowy e-mail
+                Potwierdzenie zgłoszenia zostanie ponownie wysłane na adres kontaktowy e-mail podany w zgłoszeniu
             </p>
             
             <div class="separator my-5"></div>
@@ -34,6 +34,7 @@
                 action="{% url "core:crm_application_resend_confirmation_action" pk=application.pk %}"
             >
                 {% csrf_token %}
+                {{form.send_to_participants}}
                 {{form.i_am_sure}}
                 <div class="separator my-5"></div>
                 <input
@@ -58,7 +59,7 @@
         let btn = document.querySelector("#submit-btn");
         if(btn.disabled) {
             btn.disabled = false;
-            btn.value = "Prześlij fakturę";
+            btn.value = "Prześlij ponownie potwierdzenie zgłoszenia";
         } else {
             btn.disabled = true;
             btn.value = "Najpierw potwierdź operację";
