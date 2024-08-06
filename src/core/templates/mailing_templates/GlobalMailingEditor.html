@@ -38,6 +38,11 @@
                         <input type="hidden" name="category_slug" value="{{category_slug}}">
                      {% else %}
                         <h3>Brak Kategoria</h3>
+                        {% for category in categories %}
+                           <a href="./?for_webinar_id={{webinar.id}}&for_category_slug={{category.slug}}">
+                              {{category.name}}
+                           </a>
+                        {% endfor %}
                      {% endif %}
                       <div class="mb-3 col-12 col-md-3">
                         <label class="form-label" for="id_for_whom">Dla kogo?</label>

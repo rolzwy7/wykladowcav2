@@ -31,6 +31,7 @@ def global_mailing_editor_page(request):
     for_webinar_id = request.GET.get("for_webinar_id")
     category_slug = request.GET.get("for_category_slug")
     lecturer_slug = request.GET.get("for_lecturer_slug")
+    categories = WebinarCategory.manager.get_visible_categories()
 
     try:
         webinar = Webinar.manager.get(pk=for_webinar_id)
@@ -45,6 +46,7 @@ def global_mailing_editor_page(request):
         template_name,
         {
             "webinar": webinar,
+            "categories": categories,
             "webinar_id": webinar_id,
             "lecturer_slug": lecturer_slug,
             "category_slug": category_slug,
