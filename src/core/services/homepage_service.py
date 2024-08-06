@@ -15,9 +15,13 @@ class HomepageService:
 
     def get_our_clients(self):
         """Get `our clients` data (logo urls and company names)"""
-        return CrmCompany.objects.filter(
-            Q(avatar__isnull=False) & Q(logo_visible_on_page=True)
-        ).exclude(avatar="")
+        return (
+            CrmCompany.objects.filter(
+                Q(avatar__isnull=False) & Q(logo_visible_on_page=True)
+            )
+            .exclude(avatar="")
+            .order_by("page_ordering")
+        )
 
     def get_homepage_lecturers(self):
         """Get lecturers for homepage"""
