@@ -1,6 +1,10 @@
-import random
+"""Homepage service"""
 
-from core.models import Lecturer, Webinar
+# flake8: noqa
+
+from django.db.models import Q
+
+from core.models import CrmCompany, Lecturer, Webinar
 
 
 class HomepageService:
@@ -11,22 +15,9 @@ class HomepageService:
 
     def get_our_clients(self):
         """Get `our clients` data (logo urls and company names)"""
-        logos_base = "media/our-clients-logos"
-        return random.sample(
-            [
-                (f"{logos_base}/allegro.svg", "Allegro"),
-                (f"{logos_base}/cinema_city.svg", "Cinema City"),
-                (f"{logos_base}/comarch.svg", "Comarch"),
-                (f"{logos_base}/kghm.svg", "KGHM"),
-                (f"{logos_base}/pge.svg", "PGE"),
-                (f"{logos_base}/pocztapolska.svg", "Poczta Polska"),
-                # (f"{logos_base}/deutsche_bahn.svg", "Deutsche Bahn"),
-                # (f"{logos_base}/hydro_vacuum.svg", "Hydro Vacuum"),
-                # (f"{logos_base}/jsw_sa.svg", "JSW SA"),
-                (f"{logos_base}/orbis_sa.svg", "Orbis SA"),
-            ],
-            k=5,
-        )
+        return CrmCompany.objects.filter(
+            Q(avatar__isnull=False) & Q(logo_visible_on_page=True)
+        ).exclude(avatar="")
 
     def get_homepage_lecturers(self):
         """Get lecturers for homepage"""

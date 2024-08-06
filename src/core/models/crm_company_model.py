@@ -1,8 +1,14 @@
+"""CRM Company Model"""
+
+# flake8: noqa
+
 from django.db.models import (
     BooleanField,
     CharField,
     DateTimeField,
+    ImageField,
     Model,
+    PositiveIntegerField,
     TextField,
 )
 
@@ -26,6 +32,14 @@ class CrmCompany(Model):
         default=False,
         help_text="Ten klient nie zapłacił za fakturę w przeszłości",
     )
+    logo_visible_on_page = BooleanField(
+        "Logo widoczne",
+        default=False,
+        help_text="Czy logo jest widoczne na stronie",
+    )
+    page_ordering = PositiveIntegerField("Sortowanie", default=100)
+
+    avatar = ImageField("Logo firmy", blank=True, upload_to="uploads/company_logos")
 
     notes = TextField("Notatki", blank=True)
 
