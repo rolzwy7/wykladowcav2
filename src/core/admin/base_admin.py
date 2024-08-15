@@ -21,7 +21,6 @@ from core.models import (
     MailingReplyMessage,
     MailingTemplate,
     SmtpSender,
-    User,
     WebinarApplicationCancellation,
     WebinarApplicationCompany,
     WebinarApplicationInvoice,
@@ -88,7 +87,6 @@ admin.site.register(CrmCompany)
 admin.site.register(CrmContact)
 admin.site.register(WebinarAsset)
 admin.site.register(Eventlog)
-admin.site.register(LecturerOpinion)
 admin.site.register(WebinarApplicationMetadata)
 admin.site.register(WebinarApplicationSubmitter)
 admin.site.register(WebinarRecording)

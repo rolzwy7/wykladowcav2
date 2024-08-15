@@ -28,6 +28,12 @@ class LecturerService:
         """Get opinions about lecturer"""
         return LecturerOpinion.manager.get_visible_opinions_for_lecturer(self.lecturer)
 
+    def get_lecturer_main_opinions(self):
+        """Get main opinions about lecturer"""
+        return LecturerOpinion.manager.get_visible_opinions_for_lecturer(
+            self.lecturer
+        ).filter(flagship_opinion=True)
+
     def get_lecturer_opinions_count(self):
         """Get count for opinions about lecturer"""
         return self.get_lecturer_opinions().count()

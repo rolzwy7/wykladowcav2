@@ -30,7 +30,7 @@
             <hr class="my-5">
             
             {% for opinion in opinions_page %}
-                {% include 'geeks/components/opinion.html' with opinion=opinion %}
+                {% include 'geeks/components/opinion.html' with opinion=opinion lecturer=lecturer lecturer_reply="Test 123" %}
             {% endfor %}
 
             {% include 'geeks/components/pagination.html' with page_obj=opinions_page %}
