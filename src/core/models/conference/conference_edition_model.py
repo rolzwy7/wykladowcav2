@@ -72,6 +72,7 @@ class ConferenceEdition(Model):
     clickmeeting_pasted = BooleanField("Dane strumienia przeklejone?", default=False)
 
     stream_url_page = CharField("Adres URL strony", blank=True, max_length=200)
+    stream_url_embed = CharField("Adres Embed", blank=True, max_length=200)
 
     stream_type = CharField(
         "Gdzie stream?",

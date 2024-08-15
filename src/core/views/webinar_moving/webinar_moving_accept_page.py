@@ -4,14 +4,8 @@ from django.template.response import TemplateResponse
 from django.urls import reverse
 
 from core.consts import POST
-from core.models import (
-    WebinarApplication,
-    WebinarMoveRegister,
-    WebinarMoveRegisterItem,
-)
-from core.models.enums import ApplicationMoveStatus, ApplicationStatus
-
-# TODO: DRY
+from core.models import WebinarApplication, WebinarMoveRegister, WebinarMoveRegisterItem
+from core.models.enums import ApplicationMoveStatus
 
 
 def webinar_moving_accept_page(request: HttpRequest, token: str):

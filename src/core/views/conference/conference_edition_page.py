@@ -89,18 +89,23 @@ def conference_edition_waiting_room_page(request: HttpRequest, watch_token: str)
     edition: ConferenceEdition = free_participant.edition
     service = ConferenceService(edition)
 
-    if edition.stream_url_page:
-        return redirect(edition.stream_url_page)
+    context = {
+        "free_participant": free_participant,
+        "edition": edition,
+        "webinar": service.webinar,
+        "status": service.get_edition_status(),
+        "watch_token": watch_token,
+        "hide_footer_newsletter_singup": True,
+    }
 
-    return TemplateResponse(
-        request,
-        template_name,
-        {
-            "free_participant": free_participant,
-            "edition": edition,
-            "webinar": service.webinar,
-            "status": service.get_edition_status(),
-            "watch_token": watch_token,
-            "hide_footer_newsletter_singup": True,
-        },
-    )
+    if edition.stream_url_page:
+        template_name = "geeks/pages/conference/ConferenceEmbedPlayer.html"
+        return TemplateResponse(
+            request, template_name, {**context, "hide_upper_navbar": True}
+        )
+
+    # TODO: ?
+    # if edition.stream_url_page:
+    #     return redirect(edition.stream_url_page)
+
+    return TemplateResponse(request, template_name, context)

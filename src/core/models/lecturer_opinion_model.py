@@ -39,6 +39,8 @@ class LecturerOpinion(Model):
 
     manager = LecturerOpinionManager()
 
+    flagship_opinion = BooleanField("Widoczna w panelu wykładowcy", default=False)
+
     created_at = DateTimeField(auto_now_add=True)
 
     visible_on_page = BooleanField("Widoczna na stronie (Zatwierdzona)", default=False)
@@ -54,6 +56,8 @@ class LecturerOpinion(Model):
     job_title = CharField("Stanowisko", max_length=100, blank=True)
 
     opinion_text = TextField("Treść opinii")
+
+    lecturer_reply = TextField("Odpowiedź wykładowcy", blank=True)
 
     RATING = [
         (LecturerOpinionRating.STARS_1, "1 gwiazdka"),

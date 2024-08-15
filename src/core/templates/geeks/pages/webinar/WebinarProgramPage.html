@@ -2,66 +2,7 @@
 
 {% block _head_stylesheets %}
 <style>
-    {% comment %} Markers inside li {% endcomment %}
-    .program-enriched ul,
-    .program-enriched ol {
-        list-style-position: inside;
-    }
-    .program-enriched > ul,
-    .program-enriched > ol {
-        padding: 0;
-    }
-    {% comment %} Apply border on first level li-s {% endcomment %}
-    .program-enriched > ol > li,
-    .program-enriched > ul > li {
-        border: 1px solid #F4F4F4;
-        border-radius: 0.625rem;
-        margin-bottom: 1rem;
-        padding: 1rem;
-        background-color: #f1f5f9;
-    }
-    {% comment %} Delete list styling for inner lists {% endcomment %}
-    .program-enriched > ul > li > ul,
-    .program-enriched > ol > li > ul
-    {
-        list-style-type: none;
-    }
-    .program-enriched > ul > li > ol,
-    .program-enriched > ol > li > ol
-    {
-        list-style-type: lower-alpha;
-    }
-    {% comment %} .program-enriched > ol > li > ol,
-    .program-enriched > ul > li > ul,
-    .program-enriched > ol > li > ul,
-    .program-enriched > ul > li > ol{
-        list-style-type: none;
-    } {% endcomment %}
-    
-    {% comment %} Apply custom list style for inner lists {% endcomment %}
-    .program-enriched > ul > li > ul > li:before,
-    .program-enriched > ol > li > ul > li:before
-    {
-        content: '\2714';
-        margin-left: -20px;
-        margin-right: 10px;
-        color: lightgreen;
-    }
-    .program-enriched > ul > li > ol > li:before,
-    .program-enriched > ol > li > ol > li:before
-    {
-        margin-left: -20px;
-        margin-right: 10px;
-    }
-    {% comment %} .program-enriched > ol > li > ol > li:before,
-    .program-enriched > ul > li > ul > li:before,
-    .program-enriched > ol > li > ul > li:before,
-    .program-enriched > ul > li > ol > li:before {
-        content: '\2714';
-        margin-left: -20px;
-        margin-right: 10px;
-        color: lightgreen;
-    } {% endcomment %}
+    {% include "core/includes/WebinarProgramStyles.html" %}
 </style>
 {% endblock _head_stylesheets %}
 
