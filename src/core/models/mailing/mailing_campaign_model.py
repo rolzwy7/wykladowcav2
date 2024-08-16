@@ -206,3 +206,12 @@ class MailingCampaign(Model):
         if self.stat_procesed == 0:
             return "?%"
         return f"{self.stat_sent/self.stat_procesed:.2%}"
+
+    @property
+    def status_color(self):
+        """Get status color"""
+        return {
+            MailingCampaignStatus.PAUSED: "warning",
+            MailingCampaignStatus.SENDING: "success",
+            MailingCampaignStatus.DONE: "danger",
+        }[self.status]

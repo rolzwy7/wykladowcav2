@@ -10,6 +10,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
+from django.utils.timezone import now
 
 from core.consts import POST
 from core.forms import (
@@ -68,6 +69,7 @@ def crm_mailing_campaign_list(request):
             "tuple_list": mailing_campaigns,
             "fqdn": fqdn,
             "show_all": show_all,
+            "now": now(),
         },
     )
 

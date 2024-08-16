@@ -6,12 +6,14 @@
 {% endblock head_stylesheets %}
 
 {% block crm_content %}
-    <h1>Resetuj statusy adresów e-mail w kolejce</h1>
-    <p>
-        Wszystkie statusy adresów e-mail, które nie zostały wysłane w tej kampanii, zostaną oznaczone jako `BEING_PROCESSED`.
-        <br><br>
-        Mówiąc prościej <b>zostanie ponowiona próba wysłania wiadomości e-mail do adresów, do których nie udało się z jakiegoś powodu wysłać</b>
-    </p>
+    <h1>Resetuj kampanie mailingową</h1>
+    <p>Co się stanie?</p>
+    <ol>
+        <li>Zostanie ponowiona próba wysłania wiadomości e-mail do adresów, do których nie udało się z jakiegoś powodu wysłać</li>
+        <li>Status kampanii mailingowej zostanie zmieniony na 'Wysyłanie'</li>
+        <li>Kampania mailingowa będzie wysyłana od rano w dniu jutrzejszym</li>
+        <li>Licznik resetów zostanie zwiększony o jeden</li>
+    </ol>
     <hr>
     <form method="post" action="{% url 'core:crm_mailing_campaign_reset_emails' pk=mailing_campaign.pk %}">
         {% csrf_token %}

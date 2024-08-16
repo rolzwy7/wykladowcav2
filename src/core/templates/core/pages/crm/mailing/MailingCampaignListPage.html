@@ -6,54 +6,56 @@
 {% endblock head_stylesheets %}
 
 {% block crm_content %}
-        <!--begin::Toolbar-->
-        <div class="toolbar d-flex flex-stack flex-wrap mb-5 mb-lg-7" id="kt_toolbar">
-            <!--begin::Page title-->
-            <div class="page-title d-flex flex-column py-1">
-                <!--begin::Title-->
-                <h1 class="d-flex align-items-center my-1">
-                    <span class="text-dark fw-bold fs-1">Kampanie mailingowe</span>
-                    <!--begin::Description-->
-                    <small class="text-muted fs-6 fw-semibold ms-1">
-                        ({{fqdn}})
-                    </small>
-                    <!--end::Description-->
-                </h1>
-                <!--end::Title-->
-            </div>
-            <!--end::Page title-->
-            <!--begin::Actions-->
-            <div class="d-flex align-items-center py-1">
-                <a 
-
-                href="{% url 'admin:core_mailingcampaign_add' %}"
-                class="btn btn-flex btn-sm btn-primary fw-bold border-0 fs-6 h-40px me-2"
-                >
-                    Dodaj kampanie
-                </a>
-                <!--begin::Button-->
-                {% if show_all %}
-                <a 
-
-                    href="{% url 'core:crm_mailing_campaigns_list' %}"
-                    class="btn btn-flex btn-sm btn-secondary fw-bold border-0 fs-6 h-40px me-2"
-                >
-                    Ukryj zakończone
-                </a>
-                {% else %}
-                <a 
-
-                    href="{% url 'core:crm_mailing_campaigns_list' %}?show_all=1"
-                    class="btn btn-flex btn-sm btn-secondary fw-bold border-0 fs-6 h-40px me-2"
-                >
-                    Pokaż wszystkie
-                </a>
-                {% endif %}
-                <!--end::Button-->
-            </div>
-            <!--end::Actions-->
-            </div>
-            <!--end::Toolbar-->
+        {% comment %}
+            <!--begin::Toolbar-->
+            <div class="toolbar d-flex flex-stack flex-wrap mb-5 mb-lg-7" id="kt_toolbar">
+                <!--begin::Page title-->
+                <div class="page-title d-flex flex-column py-1">
+                    <!--begin::Title-->
+                    <h1 class="d-flex align-items-center my-1">
+                        <span class="text-dark fw-bold fs-1">Kampanie mailingowe</span>
+                        <!--begin::Description-->
+                        <small class="text-muted fs-6 fw-semibold ms-1">
+                            ({{fqdn}})
+                        </small>
+                        <!--end::Description-->
+                    </h1>
+                    <!--end::Title-->
+                </div>
+                <!--end::Page title-->
+                <!--begin::Actions-->
+                <div class="d-flex align-items-center py-1">
+                    <a 
+    
+                    href="{% url 'admin:core_mailingcampaign_add' %}"
+                    class="btn btn-flex btn-sm btn-primary fw-bold border-0 fs-6 h-40px me-2"
+                    >
+                        Dodaj kampanie
+                    </a>
+                    <!--begin::Button-->
+                    {% if show_all %}
+                    <a 
+    
+                        href="{% url 'core:crm_mailing_campaigns_list' %}"
+                        class="btn btn-flex btn-sm btn-secondary fw-bold border-0 fs-6 h-40px me-2"
+                    >
+                        Ukryj zakończone
+                    </a>
+                    {% else %}
+                    <a 
+    
+                        href="{% url 'core:crm_mailing_campaigns_list' %}?show_all=1"
+                        class="btn btn-flex btn-sm btn-secondary fw-bold border-0 fs-6 h-40px me-2"
+                    >
+                        Pokaż wszystkie
+                    </a>
+                    {% endif %}
+                    <!--end::Button-->
+                </div>
+                <!--end::Actions-->
+                </div>
+                <!--end::Toolbar-->
+        {% endcomment %}
 
     {% if mailing_errors %}
     <div class="card shadow-sm mb-6">
@@ -106,9 +108,11 @@
     </div>
     {% endif %}
 
-    {% for pack in tuple_list %}
-        {% include './MailingCampaignCard.html' with campaign=pack.0 metadata=pack.1 %}
-    {% endfor %}
+    {% comment %}
+        {% for pack in tuple_list %}
+            {% include './MailingCampaignCard.html' with campaign=pack.0 metadata=pack.1 %}
+        {% endfor %}
+    {% endcomment %}
 
 
     <div class="card shadow-sm">
@@ -140,39 +144,71 @@
                 <table class="table table-bordered fs-5" style="border-color:black;">
                   <tbody>
                     <tr>
-                      <td class="fw-bold text-gray-800 bg-secondary">Nazwa kampanii</td>
+                      <td class="fw-bold text-gray-800 bg-secondary">
+                        Nazwa kampanii <br>
+                        <span class="{% if campaign.resets_counter != 0 %}text-info{% endif %}">
+                            Ilość resetów: {{campaign.resets_counter}}
+                        </span>
+                      </td>
                       <td>
-                        <a href="{% url 'core:crm_mailing_campaign_detail' pk=campaign.pk %}" class="text-primary text-hover-primary fw-bold">
-                            {{campaign}}
+                        {% url 'core:crm_mailing_campaign_detail' pk=campaign.pk as link %}
+                        {% include "include/crm/EditWithCrmButton.html" with link=link %}
+                        {% url 'admin:core_mailingcampaign_change' object_id=campaign.id as link %}
+                        {% include "include/crm/EditWithCmsButton.html" with link=link %}
+                        <b>{{campaign}}</b>
+                        <br>
+                        {% if campaign.template %}
+                        <a href="{% url 'admin:core_mailingtemplate_change' object_id=campaign.template.id %}">
+                            SZABLON
                         </a>
+                        /
+                        <a href="{% url 'core:crm_mailing_campaign_preview_html' pk=campaign.pk %}">
+                            HTML
+                        </a>
+                        /
+                        <a href="{% url 'core:crm_mailing_campaign_preview_text' pk=campaign.pk %}">
+                            TEXT
+                        </a>
+                        {% endif %}
                       </td>
                       <td class="fw-bold text-gray-800 bg-secondary">Konto wysyłkowe</td>
                       <td colspan="3" class="text-gray-900 fw-bold">{{campaign.smtp_sender}}</td>
                     </tr>
                     {% if campaign.webinar %}
                     <tr>
-                      <td class="fw-bold text-gray-800 bg-secondary">Powiązane szkolenie</td>
+                      <td class="fw-bold text-gray-800 bg-primary">
+                        Powiązane szkolenie
+                        </td>
+                      {% with webinar=campaign.webinar %}
                       <td colspan="5">
-                        {{campaign.webinar.date|date:"j E Y"}} godz. {{campaign.webinar.date|date:"H:i"}} - {{campaign.webinar.date_end|date:"H:i"}} <br>
-                        <a href="{% url "core:crm_webinar_detail_dashboard" pk=campaign.webinar.pk %}">
-                            <b>{{campaign.webinar.title}}</b>
-                        </a> <br>
-                        ID={{campaign.webinar.id}}
-                        Wykładowca {{campaign.webinar.lecturer}}
+                        {% url "core:crm_webinar_detail_dashboard" pk=webinar.pk as link %}
+                        {% include "include/crm/EditWithCrmButton.html" with link=link %}
+                        {% url 'admin:core_webinar_change' object_id=webinar.id as link %}
+                        {% include "include/crm/EditWithCmsButton.html" with link=link %}
+                        {% url 'core:webinar_program_page' slug=webinar.slug as link %}
+                        {% include "include/crm/ShowOnPageButton.html" with link=link %}
+                        <b>{{webinar.title}}</b> (ID={{webinar.id}})
+                        <br>
+                        {{webinar.date|date:"j E Y"}} godz. {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}
+                        <br>
+                        Wykładowca {{webinar.lecturer}}
                       </td>
+                      {% endwith %}
                     </tr>
                     {% endif %}
                     <tr>
-                      <td class="fw-bold text-gray-800 bg-secondary">Wysyłaj po</td>
+                      <td class="fw-bold text-gray-800 {% if campaign.is_send_after_correct %}bg-success{% else %}bg-danger{% endif %}">Wysyłaj po</td>
                       <td>{{campaign.send_after}}</td>
-                      <td class="fw-bold text-gray-800 bg-secondary">Godziny wysyłki</td>
+                      <td class="fw-bold text-gray-800 {% if campaign.is_allowed_to_send_correct %}bg-success{% else %}bg-danger{% endif %}">
+                        Godziny wysyłki
+                      </td>
                       <td colspan="3">
                         {{campaign.allowed_to_send_after}} - {{campaign.allowed_to_send_before}} <br>
-                        Obecna godzina: [Tutaj]
+                        Obecna godzina: {{now|date:"H:i:s"}}
                     </td>
                     </tr>
                     <tr>
-                      <td class="fw-bold text-gray-800 bg-secondary">Czy wysyła?</td>
+                      <td class="fw-bold text-gray-800 {% if campaign.why_not_sending %}bg-danger{% else %}bg-success{% endif %}">Czy wysyła?</td>
                       <td>
                         {% if campaign.why_not_sending %}
                         <b class="text-danger">{{campaign.why_not_sending}}</b>
@@ -180,7 +216,7 @@
                         <b class="text-success">Powinno wysyłać</b>
                         {% endif %}
                       </td>
-                      <td class="fw-bold text-gray-800 bg-secondary">Status</td>
+                      <td class="fw-bold text-gray-800 bg-{{campaign.status_color}}">Status</td>
                       <td colspan="3">{{campaign.get_status_display}}</td>
                     </tr>
                     <tr>
@@ -191,7 +227,6 @@
                         {{campaign.limit_sent_so_far}} / {{campaign.limit_per_day}}
                         {% endif %} <br>
 
-                        Ilość resetów: {{campaign.resets_counter}} <br>
                         Kliknięcia globalne: {{metadata.click_count_mailing}} <br>
 
 
@@ -207,7 +242,7 @@
 
         </div>
         <div class="card-footer">
-          Footer
+          
         </div>
       </div>
 
