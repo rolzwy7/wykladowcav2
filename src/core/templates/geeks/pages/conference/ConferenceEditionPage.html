@@ -148,11 +148,10 @@
 
                   <div class="card border mb-4">
                      <!-- card body  -->
-                     <div class="card-body p-3">
-                        
-                        <h4 class="mt-4 mb-6 fw-bold display-6 text-center">
+                     <div class="card-body p-5">
+                        <h2 class="fw-semibold text-center">
                            Wypełnij poniższy formularz, aby dołączyć do <span class="text-primary">bezpłatnego</span> wydarzenia
-                        </h4>
+                        </h2>
       
                         <form
                            class="row"
@@ -246,7 +245,7 @@
 {% block body_scripts %}
 <script src="{% static 'js/sticksy.min.js' %}"></script>
 <script>
-   var stickyElement = new Sticksy('.js-sticky-widget', {topSpacing: 10});
+   var stickyElement = new Sticksy('.js-sticky-widget', {topSpacing: 70});
    stickyElement.onStateChanged = function (state) {
        if(state === 'fixed') {
          stickyElement.nodeRef.classList.add('widget--sticky')

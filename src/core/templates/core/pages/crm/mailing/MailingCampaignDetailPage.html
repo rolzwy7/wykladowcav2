@@ -95,8 +95,33 @@
     <p class="fs-4 mb-1">
         <b>Konto wysyłkowe:</b> {{mailing_campaign.smtp_sender}}
     </p>
+    {% if mailing_campaign.webinar %}
+    {% with webinar=mailing_campaign.webinar %}
+    <p class="fs-4 mb-1">
+        <b>Powiązany webinar:</b>
+        <a href="{% url 'core:webinar_program_page' slug=webinar.slug %}">
+            <b>{{webinar.title}}</b>
+        </a> - {{webinar.date|date:"j E Y"}} godz. {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}
+    </p>
+    {% endwith %}
+    {% endif %}
     <p class="fs-4 mb-1">
         <b>Lista rezygnacji:</b> {{mailing_campaign.resignation_list}}
+        {% if mailing_campaign.resignation_list != "default" %}
+        <b class="text-danger">[ UWAGA - Lista rezygnacji inna niż domyślna! ]</b>
+        {% endif %}
+    </p>
+    <p class="fs-4 mb-1">
+        <b>Status:</b> {{mailing_campaign.get_status_display}}
+    </p>
+    {% if mailing_campaign.why_not_sending %}
+    <p class="fs-4 mb-1">
+        <b>Czemu nie wysyła?:</b> <b class="text-danger">{{mailing_campaign.why_not_sending}}</b>
+    </p>
+    {% endif %}
+    <p class="fs-4 mb-1">
+        <b>Pozwalaj na wysyłkę po</b> <b class="text-primary">{{mailing_campaign.send_after}}</b> między godziną
+        <b class="text-primary">{{mailing_campaign.allowed_to_send_after}}</b> i <b class="text-primary">{{mailing_campaign.allowed_to_send_before}}</b>
     </p>
     <p class="fs-4 mb-1">
         <b>Alias:</b> {{mailing_campaign.alias}}

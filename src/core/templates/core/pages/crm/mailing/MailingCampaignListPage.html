@@ -110,6 +110,108 @@
         {% include './MailingCampaignCard.html' with campaign=pack.0 metadata=pack.1 %}
     {% endfor %}
 
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+          <h3 class="card-title">Kampanie mailingowe ({{fqdn}})</h3>
+          <div class="card-toolbar">
+            <a href="{% url 'admin:core_mailingcampaign_add' %}" type="button" class="btn btn-sm btn-primary me-2">
+                Dodaj kampanie
+            </a>
+            {% if show_all %}
+            <a href="{% url 'core:crm_mailing_campaigns_list' %}" type="button" class="btn btn-sm btn-dark">
+                Ukryj zakończone
+            </a>
+            {% else %}
+            <a href="{% url 'core:crm_mailing_campaigns_list' %}?show_all=1" type="button" class="btn btn-sm btn-secondary">
+                Pokaż wszystkie
+            </a>
+            {% endif %}
+          </div>
+        </div>
+        <div class="card-body">
+          
+            
+            {% for pack in tuple_list %}
+            {% with campaign=pack.0 %}
+            {% with metadata=pack.1 %}
+
+            <div class="table-responsive">
+                <table class="table table-bordered fs-5" style="border-color:black;">
+                  <tbody>
+                    <tr>
+                      <td class="fw-bold text-gray-800 bg-secondary">Nazwa kampanii</td>
+                      <td>
+                        <a href="{% url 'core:crm_mailing_campaign_detail' pk=campaign.pk %}" class="text-primary text-hover-primary fw-bold">
+                            {{campaign}}
+                        </a>
+                      </td>
+                      <td class="fw-bold text-gray-800 bg-secondary">Konto wysyłkowe</td>
+                      <td colspan="3" class="text-gray-900 fw-bold">{{campaign.smtp_sender}}</td>
+                    </tr>
+                    {% if campaign.webinar %}
+                    <tr>
+                      <td class="fw-bold text-gray-800 bg-secondary">Powiązane szkolenie</td>
+                      <td colspan="5">
+                        {{campaign.webinar.date|date:"j E Y"}} godz. {{campaign.webinar.date|date:"H:i"}} - {{campaign.webinar.date_end|date:"H:i"}} <br>
+                        <a href="{% url "core:crm_webinar_detail_dashboard" pk=campaign.webinar.pk %}">
+                            <b>{{campaign.webinar.title}}</b>
+                        </a> <br>
+                        ID={{campaign.webinar.id}}
+                        Wykładowca {{campaign.webinar.lecturer}}
+                      </td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                      <td class="fw-bold text-gray-800 bg-secondary">Wysyłaj po</td>
+                      <td>{{campaign.send_after}}</td>
+                      <td class="fw-bold text-gray-800 bg-secondary">Godziny wysyłki</td>
+                      <td colspan="3">
+                        {{campaign.allowed_to_send_after}} - {{campaign.allowed_to_send_before}} <br>
+                        Obecna godzina: [Tutaj]
+                    </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold text-gray-800 bg-secondary">Czy wysyła?</td>
+                      <td>
+                        {% if campaign.why_not_sending %}
+                        <b class="text-danger">{{campaign.why_not_sending}}</b>
+                        {% else %}
+                        <b class="text-success">Powinno wysyłać</b>
+                        {% endif %}
+                      </td>
+                      <td class="fw-bold text-gray-800 bg-secondary">Status</td>
+                      <td colspan="3">{{campaign.get_status_display}}</td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold text-gray-800 bg-secondary"></td>
+                      <td colspan="5">
+                        Limit dzienny:
+                        {% if campaign.limit_per_day == 0 %}Brak limitu{% else %}
+                        {{campaign.limit_sent_so_far}} / {{campaign.limit_per_day}}
+                        {% endif %} <br>
+
+                        Ilość resetów: {{campaign.resets_counter}} <br>
+                        Kliknięcia globalne: {{metadata.click_count_mailing}} <br>
+
+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+              {% endwith %}
+              {% endwith %}
+              {% endfor %}
+
+        </div>
+        <div class="card-footer">
+          Footer
+        </div>
+      </div>
+
+
 {% endblock crm_content %}
 
 
