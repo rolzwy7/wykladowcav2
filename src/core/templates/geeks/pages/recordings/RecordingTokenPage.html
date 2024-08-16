@@ -26,117 +26,192 @@
             width: 100%;
         }
     }
+    {% include "core/includes/WebinarProgramStyles.html" %}
 </style>
 {% endblock head_stylesheets %}
 
 {% block root %}
-<main>
-    <section class="mt-6 course-container" style="position: static !important;">
-      <div class="container-fluid">
+  <main>
+    <section class="p-lg-5 py-7">
+      <div class="container">
         <div class="row">
-          <div class="col-12">
-            <!-- Tab content -->
-            <div class="tab-content content" id="course-tabContent">
-              
-              {% if recording.participant %}
-              {% with participant=recording.participant %}
-              <div class="d-flex align-items-center justify-content-between mb-2">
-                <div>
-                  <h3 class="mb-0 text-truncate-line-2">
-                    {% if request.user.contributor %}
-                    Dostęp do nagrania <span class="badge bg-primary ms-1">PRO</span>
-                    {% else %}
-                    Udzielono dostępu dla uczestnika:
-                    {{participant.first_name}} {{participant.last_name}}
-                    {% endif %}
-                  </h3>
+          <div class="col-lg-12 col-md-12 col-12">
+
+            <h5 class="mb-0">
+              Twój adres IP: {{ip_address}}
+            </h5>
+
+            {% if recording.participant %}
+            {% with participant=recording.participant %}
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <div>
+                <h3 class="mb-0 text-truncate-line-2">
+                  {% if request.user.contributor %}
+                  Dostęp do nagrania <span class="badge bg-primary ms-1">PRO</span>
+                  {% else %}
+                  Udzielono dostępu dla uczestnika:
+                  {{participant.first_name}} {{participant.last_name}}
+                  {% endif %}
+                </h3>
+              </div>
+            </div>
+            {% endwith %}
+            {% endif %}
+
+          </div>
+        
+        </div>
+      </div>
+
+      <div class="container-fluid mb-4" style="background-color: black;">
+        <div class="row">
+          <div class="col-lg-8 offset-lg-2 col-12">
+            
+            <div id="video-container" class="rounded-3 position-relative w-100 d-block p-0" style="height: 600px">
+                <video id="recording_video" class="video-js position-absolute top-0 end-0 start-0 end-0 bottom-0 h-100 w-100">
+                  <source src="/nagrania/stream/{{uuid}}/" type="video/mp4" />
+                  <p class="vjs-no-js">
+                    Aby obejrzeć to video włącz obsługę JavaScript lub zaktualizuj swoją przeglądarke:
+                  <a href="https://videojs.com/html5-video-support/" target="_blank">HTML5 support</a>
+                  </p>
+                </video>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <!-- Content -->
+        <div class="row">
+          <div class="col-xl-8 col-lg-12 col-md-12 col-12 mb-4 mb-xl-0">
+            <!-- Card -->
+            <div class="card mb-5">
+              <!-- Card body -->
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                  <h2 class="fw-semibold mb-2">{{webinar.title}}</h2>
+                  {% comment %} <a href="#" data-bs-toggle="tooltip" data-placement="top" aria-label="Add to Bookmarks" data-bs-original-title="Add to Bookmarks">
+                  <i class="fe fe-bookmark fs-4 fs-3 text-inherit"></i>
+                  </a> {% endcomment %}
+                </div>
+                <div class="d-flex mb-5 lh-1">
+                  <span class="fs-6 align-top me-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
+                      <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
+                      <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
+                      <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
+                      <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-half text-warning" viewBox="0 0 16 16">
+                      <path d="M5.354 5.119 7.538.792A.516.516 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.537.537 0 0 1 16 6.32a.548.548 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.52.52 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.58.58 0 0 1 .085-.302.513.513 0 0 1 .37-.245l4.898-.696zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.565.565 0 0 1 .162-.505l2.907-2.77-4.052-.576a.525.525 0 0 1-.393-.288L8.001 2.223 8 2.226v9.8z">
+                      </path>
+                    </svg>
+                  </span>
+                  <span class="fw-medium">(140)</span>
+                  <span class="ms-4 d-none d-md-block">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="3" y="8" width="2" height="6" rx="1" fill="#754FFE"></rect>
+                      <rect x="7" y="5" width="2" height="9" rx="1" fill="#754FFE"></rect>
+                      <rect x="11" y="2" width="2" height="12" rx="1" fill="#DBD8E9"></rect>
+                    </svg>
+                    <span>~{{webinar.get_duration_display}}</span>
+                  </span>
+                  {% if recording.participant %}
+                  <span class="ms-4 d-none d-md-block">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
+                      <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z">
+                      </path>
+                    </svg>
+                    <span>Udostępniono dla: <b>{{recording.participant.fullname}}</b></span>
+                  </span>
+                  {% endif %}
+                </div>
+                <div class="d-flex justify-content-between">
+                  <div class="d-flex align-items-center">
+                    <img src="{% get_media_prefix %}uploads/lecturers/{{webinar.lecturer.slug}}_50x50.webp" class="rounded-circle avatar-md" alt="{{webinar.lecturer.fullname}}">
+                    <div class="ms-2 lh-1">
+                      <h4 class="mb-1">{{webinar.lecturer.fullname}}</h4>
+                      <p class="fs-6 mb-0">{{webinar.lecturer.profession}}</p>
+                    </div>
+                  </div>
+                  {% comment %} <div>
+                    <a href="#" class="btn btn-outline-secondary btn-sm">Follow</a>
+                  </div> {% endcomment %}
                 </div>
               </div>
-              {% endwith %}
-              {% endif %}
-
-              <div class="tab-pane fade show active" id="course-intro" role="tabpanel" aria-labelledby="course-intro-tab">
-                <!-- Video -->
-                <div class="position-relative w-100 d-block overflow-hidden p-0" style="height: 600px">
-
-                    <div id="video-container">
-                        <video
-                            id="recording_video"
-                            class="video-js"
-                          >
-                          <source src="/nagrania/stream/{{uuid}}/" type="video/mp4" />
-                          <p class="vjs-no-js">
-                            Aby obejrzeć to video włącz obsługę JavaScript lub zaktualizuj swoją przeglądarke:
-                          <a href="https://videojs.com/html5-video-support/" target="_blank">HTML5 support</a>
-                          </p>
-                        </video>
-                      </div>
-
+              <!-- Nav tabs -->
+              <ul class="nav nav-lt-tab" id="tab" role="tablist">
+                <!-- Nav item -->
+                <li class="nav-item" role="presentation">
+                  <a class="nav-link active" id="description-tab" data-bs-toggle="pill" href="#description" role="tab" aria-controls="description" aria-selected="true">
+                  Program szkolenia
+                  </a>
+                </li>
+                {% comment %}
+                  <!-- Nav item -->
+                  <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="review-tab" data-bs-toggle="pill" href="#review" role="tab" aria-controls="review" aria-selected="false" tabindex="-1">
+                      Opinie</a>
+                  </li>
+                  <!-- Nav item -->
+                  <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="transcript-tab" data-bs-toggle="pill" href="#transcript" role="tab" aria-controls="transcript" aria-selected="false" tabindex="-1">
+                      Transcript</a>
+                  </li>
+                  <!-- Nav item -->
+                  <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="faq-tab" data-bs-toggle="pill" href="#faq" role="tab" aria-controls="faq" aria-selected="false" tabindex="-1">
+                      FAQ</a>
+                  </li>
+                {% endcomment %}
+              </ul>
+            </div>
+            <!-- Card -->
+            <div class="card rounded-3">
+              <!-- Card body -->
+              <div class="card-body">
+                <div class="tab-content" id="tabContent">
+                  <!-- Tab pane -->
+                  <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                    <div class="mb-4">
+                      <h3 class="mb-2">Program szkolenia</h3>
+                    </div>
+                    <div class="program-enriched fw-semibold lh-base">
+                      {{webinar.program_pretty|safe}}
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+                    Opinie TODO
+                  </div>
+                  <div class="tab-pane fade" id="transcript" role="tabpanel" aria-labelledby="transcript-tab">
+                    Transcript TODO
+                  </div>
+                  <div class="tab-pane fade" id="faq" role="tabpanel" aria-labelledby="faq-tab">
+                    FAQ TODO
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-    <!-- Card -->
-    <section class="card course-sidebar" id="courseAccordion">
-      <!-- List group -->
-      <ul class="list-group list-group-flush" style="height: 850px" data-simplebar="init">
-        <div class="simplebar-wrapper" style="margin: 0px;">
-          <div class="simplebar-height-auto-observer-wrapper">
-            <div class="simplebar-height-auto-observer"></div>
-          </div>
-          <div class="simplebar-mask">
-            <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
-              <div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: 100%; overflow: hidden;">
-                <div class="simplebar-content" style="padding: 0px;">
-                  <li class="list-group-item">
-                    <h5 class="mb-0">
-                        {% if recording.expires_at %}
-                        Nagranie wygasa: {{recording.expires_at|date:"j E Y"}} {{recording.expires_at|date:"H:i"}}
-                        {% else %}
-                        Nagranie wygasa: dostęp bezterminowy 
-                        {% endif %}
-                    </h5>
-                  </li>
-                  <li class="list-group-item">
-                    <h5 class="mb-0">
-                        Twój adres IP: {{ip_address}}
-                    </h5>
-                  </li>
-                  <!-- List group item -->
-                  <li class="list-group-item">
-                        <!-- Toggle -->
-                        <a class="d-flex align-items-center h4 mb-0" data-bs-toggle="collapse" href="#courseEleven" role="button" aria-expanded="false" aria-controls="courseEleven">
-                            <div class="me-auto">
-                            <!-- Title -->
-                            Nota prawna
-                            </div>
-                            <!-- Chevron -->
-                            <span class="chevron-arrow ms-4">
-                            <i class="fe fe-chevron-down fs-4"></i>
-                            </span>
-                        </a>
-                        <!-- / .row -->
-                        <!-- Collapse -->
-                        <div class="collapse" id="courseEleven" data-bs-parent="#courseAccordion">
-                            <div class="py-4">
-                            <p>
-                                Nagranie szkolenia wraz z materiałami szkoleniowymi podlega ochronie prawnej na podstawie przepisów Ustawy z dnia 4 lutego 1994 r. o prawie autorskim i prawach pokrewnych (tekst jednolity z 2006 r., Dz.U. nr 90, poz. 631 z późn. zm.). Bez zgody autora zabronione jest m.in. powielanie treści, ich kopiowanie, przedruk, przechowywanie i przetwarzanie z zastosowaniem jakichkolwiek środków elektronicznych, zarówno w całości, jak i w części.
-                            </p>
-                            
-                            <p>
-                                Zabronione jest dalsze rozpowszechnianie, o którym mowa w art. 25 ust. 1 pkt b Ustawy z dnia 4 lutego 1994 r. o prawie autorskim i prawach pokrewnych. Kopiowanie, przetwarzanie, rozpowszechnianie tych materiałów w całości lub w części bez zgody autora jest zabronione.
-                            </p>
-                            </div>
-                        </div>
-                        </li>
-                  <!-- List group item -->
-                  <li class="list-group-item">
+          <div class="col-xl-4 col-lg-12 col-md-12 col-12">
+            <div class="card" id="courseAccordion">
+              <div>
+                <!-- List group -->
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item p-0 bg-transparent">
                     <!-- Toggle -->
-                    <a class="d-flex align-items-center h4 mb-0" data-bs-toggle="collapse" href="#courseTwo" role="button" aria-expanded="false" aria-controls="courseTwo">
-                      <div class="me-auto">Materiały szkoleniowa</div>
+                    <a class="h4 mb-0 d-flex align-items-center py-3 px-4" data-bs-toggle="collapse" href="#courseTwo" role="button" aria-expanded="false" aria-controls="courseTwo">
+                      <div class="me-auto">
+                        Materiały szkoleniowe
+                        <p class="mb-0 fs-6 mt-1 fw-normal">{{webinar_assets_count}} plików</p>
+                      </div>
                       <!-- Chevron -->
                       <span class="chevron-arrow ms-4">
                       <i class="fe fe-chevron-down fs-4"></i>
@@ -145,36 +220,100 @@
                     <!-- Row -->
                     <!-- Collapse -->
                     <div class="collapse show" id="courseTwo" data-bs-parent="#courseAccordion">
-                      <div class="py-4 nav" id="course-tabOne" role="tablist" aria-orientation="vertical" style="display: inherit">
+                      <!-- List group item -->
+                      <ul class="list-group list-group-flush">
                         {% for asset in webinar_assets %}
-                        <a target="_blank" href="{% url 'core:webinar_asset_download' uuid=asset.token %}" class="mb-2 d-flex justify-content-between align-items-center text-inherit" id="course-development-tab" role="tab">
+                        <!-- List group item -->
+                        <li class="list-group-item">
+                          <a target="_blank" href="{% url 'core:webinar_asset_download' uuid=asset.token %}" class="d-flex justify-content-between align-items-center text-inherit">
                             <div class="text-truncate">
-                                <span class="icon-shape bg-light text-primary icon-sm rounded-circle me-2">
-                                    <i class="fe fe-paperclip fs-6"></i>
-                                </span>
-                                <span>{{asset.filename}}</span>
+                              <span class="icon-shape bg-success text-white icon-sm rounded-circle me-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                              </span>
+                              <span>{{asset.filename}}</span>
                             </div>
-                        </a>
+                            <div class="text-truncate">
+                              <span>{{asset.filesize_human}}</span>
+                            </div>
+                          </a>
+                        </li>
                         {% endfor %}
-                      </div>
+                      </ul>
                     </div>
                   </li>
-
-                </div>
+                  <li class="list-group-item p-0">
+                    <!-- Toggle -->
+                    <a class="h4 mb-0 d-flex align-items-center py-3 px-4" data-bs-toggle="collapse" href="#courseThree" role="button" aria-expanded="false" aria-controls="courseThree">
+                      <div class="me-auto">
+                        <!-- Title -->
+                        Inne szkolenia wykładowcy
+                        {% comment %} <p class="mb-0 fs-6 mt-1 fw-normal">6 videos (34 minutes)</p> {% endcomment %}
+                      </div>
+                      <!-- Chevron -->
+                      <span class="chevron-arrow ms-4">
+                      <i class="fe fe-chevron-down fs-4"></i>
+                      </span>
+                    </a>
+                    <!-- Row -->
+                    <!-- Collapse -->
+                    <div class="collapse show" id="courseThree" data-bs-parent="#courseAccordion">
+                      <!-- List group item -->
+                      <ul class="list-group list-group-flush">
+                        {% for webinar in lecturer_webinars %}
+                        <li class="list-group-item">
+                          <a target="_blank" href="{% url 'core:webinar_program_page' slug=webinar.slug %}" class="d-flex justify-content-between align-items-center text-inherit">
+                            <div class="abc">
+                              <span class="icon-shape bg-info text-white icon-sm rounded-circle me-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                              </span>
+                              <span>{{webinar.title}}</span>
+                            </div>
+                            <div class="abc">
+                              <span>{{webinar.date|date:"j E Y"}}
+                                godz. {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}</span>
+                            </div>
+                          </a>
+                        </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
-          {% comment %} <div class="simplebar-placeholder" style="width: 380px; height: 689px;"></div> {% endcomment %}
         </div>
-        {% comment %} <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
-          <div class="simplebar-scrollbar" style="width: 0px; display: none;"></div>
-        </div>
-        <div class="simplebar-track simplebar-vertical" style="visibility: hidden;">
-          <div class="simplebar-scrollbar" style="height: 0px; display: none;"></div>
-        </div> {% endcomment %}
-      </ul>
+      </div>
     </section>
   </main>
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal-2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Nota prawna</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>
+            <b>Nagranie szkolenia wraz z materiałami szkoleniowymi podlega ochronie prawnej</b> na podstawie przepisów Ustawy z dnia 4 lutego 1994 r. o prawie autorskim i prawach pokrewnych (tekst jednolity z 2006 r., Dz.U. nr 90, poz. 631 z późn. zm.). Bez zgody autora zabronione jest m.in. powielanie treści, ich kopiowanie, przedruk, przechowywanie i przetwarzanie z zastosowaniem jakichkolwiek środków elektronicznych, zarówno w całości, jak i w części.
+        </p>
+        <p>
+            <b>Zabronione jest dalsze rozpowszechnianie</b>, o którym mowa w art. 25 ust. 1 pkt b Ustawy z dnia 4 lutego 1994 r. o prawie autorskim i prawach pokrewnych. Kopiowanie, przetwarzanie, rozpowszechnianie tych materiałów w całości lub w części bez zgody autora jest zabronione.
+        </p>
+        </div>
+        <div class="modal-footer">
+          
+          <div class="d-flex justify-content-between w-100">
+            <div>Twój adres IP: <b class="text-danger">{{ip_address}}</b></div>
+            <div><button type="button" class="btn btn-primary" data-bs-dismiss="modal">Rozumiem</button></div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock root %}
 
 
@@ -192,6 +331,14 @@
     preload: 'auto',
     playbackRates: [1, 1.5, 2],
     // poster: "MY_VIDEO_POSTER.jpg", <!-- TODO: Poster can be automatically generated -->
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Initialize the modal
+    var myModal = new bootstrap.Modal(document.getElementById('exampleModal-2'));
+    // Show the modal
+    myModal.show();
   });
 </script>
 {% endblock body_scripts %}

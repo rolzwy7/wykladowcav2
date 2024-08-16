@@ -14,7 +14,8 @@ from core.models import (
     WebinarRecording,
     WebinarRecordingToken,
 )
-from core.services import IpAddressService, StreamingService
+from core.services import IpAddressService, OpinionsService, StreamingService
+from core.services.lecturer import LecturerService
 
 
 def recording_token_page(request: HttpRequest, uuid: str):
@@ -43,6 +44,11 @@ def recording_token_page(request: HttpRequest, uuid: str):
     webinar: Webinar = recording.webinar
     lecturer: Lecturer = webinar.lecturer
     webinar_assets = WebinarAsset.manager.filter(webinar=webinar).order_by("filename")
+
+    lecturer_service = LecturerService(lecturer)
+    lecturer_opinions = lecturer_service.get_lecturer_opinions()
+    opinions_service = OpinionsService(lecturer_opinions)
+
     context = {
         "uuid": uuid,
         "recording": recording_token,
@@ -50,6 +56,10 @@ def recording_token_page(request: HttpRequest, uuid: str):
         "ip_address": IpAddressService.get_client_ip(request),
         "lecturer": lecturer,
         "webinar_assets": webinar_assets,
+        "webinar_assets_count": webinar_assets.count(),
+        "hide_upper_navbar": False,
+        "lecturer_webinars": lecturer_service.get_lecturer_webinars(),
+        "nearest_webinar": lecturer_service.get_lecturer_nearest_webinar(),
     }
 
     if streaming_service.is_free_access():
