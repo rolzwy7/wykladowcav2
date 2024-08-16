@@ -1,7 +1,7 @@
 from django.urls import path
 
 from core.views.crm.mailing import (
-    create_mailing_campaign_from_webinar,
+    create_mailing_campaign,
     crm_mailing_campaign_add_emails,
     crm_mailing_campaign_delete_emails,
     crm_mailing_campaign_detail,
@@ -55,9 +55,9 @@ urlpatterns = [
         name="crm_mailing_campaign_preview_text",
     ),
     path(
-        "<int:pk>/stworz-kampanie-mailingowa-z-webinaru/",
-        create_mailing_campaign_from_webinar,
-        name="create_mailing_campaign_from_webinar",
+        "stworz-kampanie-mailingowa/",
+        create_mailing_campaign,
+        name="create_mailing_campaign",
     ),
     path(
         "",

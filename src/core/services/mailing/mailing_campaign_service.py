@@ -2,10 +2,17 @@
 
 # flake8: noqa=E501
 
+from datetime import time
+
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.utils.timezone import now, timedelta
 
 from core.models import MailingCampaign, MailingPool, MailingPoolManager
-from core.models.enums import MailingPoolStatus, mailing_pool_status_display_map
+from core.models.enums import (
+    MailingCampaignStatus,
+    MailingPoolStatus,
+    mailing_pool_status_display_map,
+)
 
 
 class MailingCampaignService:
@@ -64,6 +71,23 @@ class MailingCampaignService:
             {"$set": {"status": MailingPoolStatus.BEING_PROCESSED}},
         )
         pool_manager.close()
+
+        # Start sending tomorrow as 02:00
+        send_after = now()
+        send_after = send_after + timedelta(days=1)
+        send_after = send_after.replace(hour=2, minute=0, second=0)
+
+        self.mailing_campaign.status = MailingCampaignStatus.SENDING
+        self.mailing_campaign.allowed_to_send_after = time(5, 0, 0, 0)
+        self.mailing_campaign.allowed_to_send_before = time(20, 0, 0, 0)
+        self.mailing_campaign.send_after = send_after
+
+        self.mailing_campaign.resets_counter = self.mailing_campaign.resets_counter + 1
+
+        self.mailing_campaign.any_error_occured = False
+        self.mailing_campaign.smtp_server_disconnected = False
+        self.mailing_campaign.connection_refused = False
+        self.mailing_campaign.save()
 
     def load_emails_from_file_into_campaign(self, file: InMemoryUploadedFile) -> None:
         """Load emails from file into campaign"""

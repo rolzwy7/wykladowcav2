@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 load_dotenv(override=True)
 
 VERSION_NUMBER = "1.7.0"
-VERSION_DATE = "2023/12/15"
+VERSION_DATE = "2024/08/16"
 
 APP_START_TIMESTAMP = int(time.time())
 

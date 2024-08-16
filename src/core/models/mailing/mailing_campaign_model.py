@@ -1,6 +1,8 @@
 """Mailing campaign model"""
 
 # flake8: noqa=E501
+# pylint: disable=unnecessary-negation
+# pylint: disable=superfluous-parens
 
 from datetime import time
 from random import choices
@@ -21,6 +23,7 @@ from django.db.models import (
     TextField,
     TimeField,
 )
+from django.template.defaultfilters import date as _date
 from django.utils.timezone import now
 
 from core.models.enums import MailingCampaignStatus
@@ -128,12 +131,16 @@ class MailingCampaign(Model):
     stat_sent = PositiveIntegerField("Wysłano (stat)", default=0)
     stat_procesed = PositiveIntegerField("Przetworzono (stat)", default=0)
 
+    resets_counter = PositiveIntegerField("Ilość resetów", default=0)
+
     # Errors
     any_error_occured = BooleanField(default=False)
     smtp_server_disconnected = BooleanField(default=False)
     connection_refused = BooleanField(default=False)
 
     class Meta:
+        """meta"""
+
         verbose_name = "Mailing Kampania"
         verbose_name_plural = "Mailing Kampanie"
 
@@ -155,11 +162,28 @@ class MailingCampaign(Model):
         return all(
             [
                 self.status == MailingCampaignStatus.SENDING,
+                self.send_after < now(),
                 self.allowed_to_send_after < now().time(),
                 self.allowed_to_send_before > now().time(),
-                self.send_after < now(),
             ]
         )
+
+    @property
+    def why_not_sending(self):
+        """Explain why campaign is not sending"""
+        if not (self.status == MailingCampaignStatus.SENDING):
+            return "Kampania ma inny status niż 'Wysyłanie'"
+
+        if not (self.allowed_to_send_after < now().time()):
+            return f"Obecny czas jest mniejszy niż {self.allowed_to_send_after}"
+
+        if not (self.allowed_to_send_before > now().time()):
+            return f"Obecny czas jest większy niż {self.allowed_to_send_before}"
+
+        if not (self.send_after < now()):
+            return f"Wysyłka może się rozpocząć dopiero po {_date(self.send_after, 'j E Y - H:i')}"
+
+        return ""
 
     @property
     def is_send_after_correct(self):
@@ -182,3 +206,12 @@ class MailingCampaign(Model):
         if self.stat_procesed == 0:
             return "?%"
         return f"{self.stat_sent/self.stat_procesed:.2%}"
+
+    @property
+    def status_color(self):
+        """Get status color"""
+        return {
+            MailingCampaignStatus.PAUSED: "warning",
+            MailingCampaignStatus.SENDING: "success",
+            MailingCampaignStatus.DONE: "danger",
+        }[self.status]

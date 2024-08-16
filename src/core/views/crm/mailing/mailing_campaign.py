@@ -1,6 +1,7 @@
 """Mailing campaign pages"""
 
 # flake8: noqa=E501
+# pylint: disable=broad-exception-caught
 
 from django.conf import settings
 from django.core.mail.utils import DNS_NAME
@@ -9,6 +10,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
+from django.utils.timezone import now
 
 from core.consts import POST
 from core.forms import (
@@ -42,7 +44,7 @@ def crm_mailing_campaign_list(request):
     try:
         fqdn = DNS_NAME.get_fqdn()
     except Exception as e:
-        fqdn = "FQDN Błąd"
+        fqdn = f"FQDN Błąd {e}"
 
     mailing_campaigns = [
         (
@@ -67,6 +69,7 @@ def crm_mailing_campaign_list(request):
             "tuple_list": mailing_campaigns,
             "fqdn": fqdn,
             "show_all": show_all,
+            "now": now(),
         },
     )
 
