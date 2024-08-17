@@ -49,7 +49,7 @@ class MailingCampaignManager(Manager):
             & Q(allowed_to_send_after__lt=now())
             & Q(allowed_to_send_before__gt=now())
             & Q(send_after__lt=now())
-            & Q(limit_sent_so_far__lte=F("limit_per_day"))
+            # & Q(limit_sent_so_far__lte=F("limit_per_day")) # TODO
         )
 
     def not_done(self) -> QuerySet["MailingCampaign"]:
@@ -129,14 +129,16 @@ class MailingCampaign(Model):
 
     # Sending stats
     stat_sent = PositiveIntegerField("Wysłano (stat)", default=0)
-    stat_procesed = PositiveIntegerField("Przetworzono (stat)", default=0)
 
+    # Counters
     resets_counter = PositiveIntegerField("Ilość resetów", default=0)
+    failure_counter = PositiveIntegerField(default=0)
 
     # Errors
     any_error_occured = BooleanField(default=False)
     smtp_server_disconnected = BooleanField(default=False)
     connection_refused = BooleanField(default=False)
+    smtp_recipients_refused = BooleanField(default=False)
 
     class Meta:
         """meta"""
@@ -201,11 +203,11 @@ class MailingCampaign(Model):
         )
 
     @property
-    def send_processed_percent(self):
-        """What is a percentage of sent / processed emails"""
-        if self.stat_procesed == 0:
-            return "?%"
-        return f"{self.stat_sent/self.stat_procesed:.2%}"
+    def is_daily_sending_limit_reached(self):
+        """Is daily sending limit reached"""
+        return all(
+            [self.limit_per_day != 0, self.limit_sent_so_far >= self.limit_per_day]
+        )
 
     @property
     def status_color(self):

@@ -59,8 +59,8 @@ class MailingCampaignService:
         pool_manager.collection.delete_many({"campaign_id": mailing_campaign_id})
         pool_manager.close()
 
-    def reset_all_emails(self) -> None:
-        """Reset all emails statuses from campaign"""
+    def reset_campaign(self) -> None:
+        """Reset campaign"""
         mailing_campaign_id: int = self.mailing_campaign.id  # type: ignore
         pool_manager = MailingPoolManager()
         pool_manager.collection.update_many(
@@ -83,6 +83,7 @@ class MailingCampaignService:
         self.mailing_campaign.send_after = send_after
 
         self.mailing_campaign.resets_counter = self.mailing_campaign.resets_counter + 1
+        self.mailing_campaign.failure_counter = 0
 
         self.mailing_campaign.any_error_occured = False
         self.mailing_campaign.smtp_server_disconnected = False

@@ -216,11 +216,43 @@ def crm_mailing_campaign_reset_emails(request, pk: int):
     if request.method == POST:
         form = MailingAreYouSureForm(request.POST)
         if form.is_valid():
-            service.reset_all_emails()
+            service.reset_campaign()
             return redirect(
                 reverse(
                     "core:crm_mailing_campaign_detail",
                     kwargs={"pk": mailing_campaign.pk},
+                )
+            )
+    else:
+        form = MailingAreYouSureForm()
+
+    mailing_campaign = get_object_or_404(MailingCampaign, pk=pk)
+    return TemplateResponse(
+        request,
+        template_name,
+        {"form": form, "mailing_campaign": mailing_campaign},
+    )
+
+
+def crm_mailing_campaign_duplicate(request, pk: int):
+    """CRM mailing reset emails"""
+    template_name = "core/pages/crm/mailing/MailingCampaignDuplicate.html"
+    mailing_campaign = get_object_or_404(MailingCampaign, pk=pk)
+
+    if request.method == POST:
+        form = MailingAreYouSureForm(request.POST)
+        if form.is_valid():
+
+            mailing_campaign.id = None  # type: ignore
+            mailing_campaign.title = f"COPY_{mailing_campaign.title}"
+            mailing_campaign.save()
+            service = MailingCampaignService(mailing_campaign)
+            service.reset_campaign()
+
+            return redirect(
+                reverse(
+                    "core:crm_mailing_campaign_detail",
+                    kwargs={"pk": mailing_campaign.id},  # type: ignore
                 )
             )
     else:

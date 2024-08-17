@@ -82,9 +82,17 @@
         <!--begin::Button-->
         <a
             href="{% url 'core:crm_mailing_campaign_reset_emails' pk=mailing_campaign.pk %}"
-            class="btn btn-flex btn-sm btn-secondary fw-bold border-0 fs-6 h-40px"
+            class="btn btn-flex btn-sm btn-secondary fw-bold border-0 fs-6 h-40px me-2"
         >
             Resetuj kampanie mailingową
+        </a>
+        <!--end::Button-->
+        <!--begin::Button-->
+        <a
+            href="{% url 'core:crm_mailing_campaign_duplicate' pk=mailing_campaign.pk %}"
+            class="btn btn-flex btn-sm btn-secondary fw-bold border-0 fs-6 h-40px"
+        >
+            Duplikuj kampanie
         </a>
         <!--end::Button-->
     </div>

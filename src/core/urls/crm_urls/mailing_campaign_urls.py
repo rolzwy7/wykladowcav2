@@ -5,6 +5,7 @@ from core.views.crm.mailing import (
     crm_mailing_campaign_add_emails,
     crm_mailing_campaign_delete_emails,
     crm_mailing_campaign_detail,
+    crm_mailing_campaign_duplicate,
     crm_mailing_campaign_email_search_page,
     crm_mailing_campaign_list,
     crm_mailing_campaign_preview_html,
@@ -28,6 +29,11 @@ urlpatterns = [
         "<int:pk>/dodaj-emaile/",
         crm_mailing_campaign_add_emails,
         name="crm_mailing_campaign_add_emails",
+    ),
+    path(
+        "<int:pk>/duplikuj-kampanie/",
+        crm_mailing_campaign_duplicate,
+        name="crm_mailing_campaign_duplicate",
     ),
     path(
         "<int:pk>/usun-emaile/",
