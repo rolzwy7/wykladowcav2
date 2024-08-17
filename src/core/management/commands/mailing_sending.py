@@ -18,8 +18,18 @@ from django.db.models import F
 from django.urls import reverse
 
 from core.consts import TelegramChats
+from core.libs.mailing.handlers import (
+    handle_any_error_occured,
+    handle_connection_refused_error,
+    handle_daily_sending_limit_reached,
+    handle_smtp_recipients_refused_error,
+    handle_smtp_server_disconnected_error,
+    handle_timeout_error,
+    handle_too_much_failures,
+    try_to_finish_campaign,
+)
 from core.models import MailingCampaign, MailingPoolManager, MailingTemplate, SmtpSender
-from core.models.enums import MailingCampaignStatus, MailingPoolStatus
+from core.models.enums import MailingPoolStatus
 from core.services import SenderSmtpService, TelegramService
 from core.services.mailing import MailingResignationService, MailingTrackingService
 
@@ -36,12 +46,6 @@ class ProcessSendingStatus:
 
 def process_sending(campaign_id: int, /, *, limit: int = 100) -> str:
     """Mailing sending process"""
-
-    print("[*] Processing campaign", campaign_id)
-
-    # Flags for this batch
-    smtp_server_disconnected = False
-    connection_refused = False
 
     # Get campaign
     campaign: MailingCampaign = MailingCampaign.manager.get(id=campaign_id)
@@ -103,29 +107,16 @@ def process_sending(campaign_id: int, /, *, limit: int = 100) -> str:
                 tracking_code=tracking_code,
             )
         except TimeoutError as exception:
-            print(f"[-] Timeout for `{email}`: {exception}")
-            print("[*] Sleeping 10s ...")
-            time.sleep(10)
-            print(f"[*] Marking `{email}` as `BEING_PROCESSED`")
-            pool_manager.change_status(document_id, MailingPoolStatus.BEING_PROCESSED)
+            handle_timeout_error(document_id, pool_manager)
         except SMTPServerDisconnected as exception:
-            smtp_server_disconnected = True
-            pool_manager.change_status(
-                document_id, MailingPoolStatus.SMTP_SERVER_DISCONNECTED
-            )
-            print(f"[-] SMTPServerDisconnected: {exception}")
+            handle_any_error_occured(campaign_id)
+            handle_smtp_server_disconnected_error(campaign_id)
         except ConnectionRefusedError as exception:
-            connection_refused = True
-            pool_manager.change_status(
-                document_id, MailingPoolStatus.CONNECTION_REFUSED
-            )
-            print(f"[-] ConnectionRefusedError: {exception}")
+            handle_any_error_occured(campaign_id)
+            handle_connection_refused_error(campaign_id)
         except SMTPRecipientsRefused as exception:
-            connection_refused = True
-            pool_manager.change_status(
-                document_id, MailingPoolStatus.CONNECTION_REFUSED
-            )
-            print(f"[-] SMTPRecipientsRefused: {exception}")
+            handle_any_error_occured(campaign_id)
+            handle_smtp_recipients_refused_error(campaign_id)
         else:
             pool_manager.change_status(document_id, MailingPoolStatus.SENT)
             print(f"[+] Sent to `{email}`")
@@ -135,7 +126,7 @@ def process_sending(campaign_id: int, /, *, limit: int = 100) -> str:
                 stat_sent=F("stat_sent") + 1
             )
 
-            # Increment sent so far counter if limit per day set
+            # Increment sent so far counter if limit per day is set
             if campaign.limit_per_day != 0:
                 MailingCampaign.manager.filter(id=campaign_id).update(
                     limit_sent_so_far=F("limit_sent_so_far") + 1
@@ -151,41 +142,7 @@ def process_sending(campaign_id: int, /, *, limit: int = 100) -> str:
     if send_attempt_counter == 0:
         return_value = ProcessSendingStatus.NO_EMAILS_SENT
 
-    # Mark campaign: smtp_server_disconnected
-    if smtp_server_disconnected:
-        MailingCampaign.manager.filter(id=campaign_id).update(
-            smtp_server_disconnected=True
-        )
-
-    # Mark campaign: connection_refused
-    if connection_refused:
-        MailingCampaign.manager.filter(id=campaign_id).update(connection_refused=True)
-
-    # Mark campaign: any_error_occured
-    if any([smtp_server_disconnected, connection_refused]):
-        MailingCampaign.manager.filter(id=campaign_id).update(any_error_occured=True)
-
     return return_value
-
-
-def try_to_finish_campaign(campaign_id: int):
-    """Try to finish campaign if there are no init-like emails left"""
-    pool_manager = MailingPoolManager()
-    campaign_is_finished = pool_manager.is_campaign_finished(campaign_id)
-    if campaign_is_finished:
-        print("[*] No init emails left, closing campaign:", campaign_id)
-
-        MailingCampaign.manager.filter(id=campaign_id).update(
-            status=MailingCampaignStatus.DONE
-        )
-
-        telegram_service = TelegramService()
-        telegram_service.send_chat_message(
-            f"Kampania mailingowa ID={campaign_id} zakończona",
-            TelegramChats.OTHER,
-        )
-
-    pool_manager.close()
 
 
 class Command(BaseCommand):
@@ -214,6 +171,7 @@ class Command(BaseCommand):
                 print("[*] No active campaigns, sleeping 20s ...")
                 time.sleep(20)
                 continue
+
             #
             # Iterate over active campaigns and start sending process
             for campaign in active_campaigns:
@@ -221,29 +179,19 @@ class Command(BaseCommand):
                 print("\n[*] Processing campaign:", campaign)
 
                 # Check if limit per day was reached:
-                if (
-                    campaign.limit_per_day != 0
-                    and campaign.limit_sent_so_far >= campaign.limit_per_day
-                ):
-                    campaign.status = MailingCampaignStatus.PAUSED
-                    campaign.limit_sent_so_far = 0
-                    campaign.save()
-                    telegram_service = TelegramService()
-                    try:
-                        telegram_service.send_chat_message(
-                            f"Kampania #{campaign_id}: osiągnięto limit, wstrzymano wysyłkę.",
-                            TelegramChats.OTHER,
-                        )
-                    except Exception as e:
-                        pass  # don't care
-                    continue
-
-                result = process_sending(campaign_id, limit=100)
-                #
-                # Try to finish campaign
-                if result == ProcessSendingStatus.NO_EMAILS_SENT:
-                    print("[*] No email sent with campaign:", campaign)
-                    try_to_finish_campaign(campaign_id)
+                if campaign.is_daily_sending_limit_reached:
+                    handle_daily_sending_limit_reached(campaign)
+                # Check if too much failures counted
+                elif campaign.failure_counter >= 250:
+                    handle_too_much_failures(campaign_id, campaign.title)
+                # If everything OK try to send emails batch
+                else:
+                    print("[*] Processing campaign", campaign_id)
+                    result = process_sending(campaign_id, limit=100)
+                    # Try to finish campaign
+                    if result == ProcessSendingStatus.NO_EMAILS_SENT:
+                        print("[*] No email sent with campaign:", campaign)
+                        try_to_finish_campaign(campaign_id, campaign.title)
 
             print("[*] Sleeping 3s between sending ...")
             time.sleep(3)
@@ -257,7 +205,7 @@ class Command(BaseCommand):
                 self.start_loop()
             except Exception as e:
                 formatted_lines = "\n".join(traceback.format_exc().splitlines())
-                telegram_service.send_chat_message(
+                telegram_service.try_send_chat_message(
                     f"retry={retry+1}, {e}:\n{formatted_lines}",
                     TelegramChats.OTHER,
                 )

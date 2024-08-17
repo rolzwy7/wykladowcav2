@@ -1,3 +1,7 @@
+"""Telegram service"""
+
+# flake8: noqa
+
 import requests
 from django.conf import settings
 from requests import Response
@@ -35,3 +39,10 @@ class TelegramService:
         )
         response.raise_for_status()
         return response
+
+    def try_send_chat_message(self, message: str, chat_id: str) -> None:
+        """Try to send telegram chat message, ignore any failure"""
+        try:
+            self.send_chat_message(message, chat_id)
+        except Exception as e:  # pylint: disable=broad-exception-caught unused-variable
+            pass  # don't care

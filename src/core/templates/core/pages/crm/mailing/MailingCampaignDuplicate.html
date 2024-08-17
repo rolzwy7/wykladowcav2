@@ -1,0 +1,24 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+    <h1>Duplikuj kampanie</h1>
+    <hr>
+    <form method="post" action="{% url 'core:crm_mailing_campaign_duplicate' pk=mailing_campaign.pk %}">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{form}}
+        </div>
+        <div class="mb-3">
+            <input type="submit" class="btn btn-primary" value="Submit">
+        </div>
+    </form>
+{% endblock crm_content %}
+
+{% block body_scripts %}
+
+{% endblock body_scripts %}

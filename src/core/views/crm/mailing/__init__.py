@@ -5,6 +5,7 @@ from .mailing_campaign import (
     crm_mailing_campaign_add_emails,
     crm_mailing_campaign_delete_emails,
     crm_mailing_campaign_detail,
+    crm_mailing_campaign_duplicate,
     crm_mailing_campaign_email_search_page,
     crm_mailing_campaign_list,
     crm_mailing_campaign_preview_html,

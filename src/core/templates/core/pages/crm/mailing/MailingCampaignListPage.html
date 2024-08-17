@@ -149,17 +149,23 @@
                         <span class="{% if campaign.resets_counter != 0 %}text-info{% endif %}">
                             Ilość resetów: {{campaign.resets_counter}}
                         </span>
+                        <br>
+                        <span class="{% if campaign.resignation_list != "default" %}text-danger{% endif %}">
+                            Rezyg.: {{campaign.resignation_list}}
+                        </span>
                       </td>
                       <td>
                         {% url 'core:crm_mailing_campaign_detail' pk=campaign.pk as link %}
                         {% include "include/crm/EditWithCrmButton.html" with link=link %}
                         {% url 'admin:core_mailingcampaign_change' object_id=campaign.id as link %}
                         {% include "include/crm/EditWithCmsButton.html" with link=link %}
-                        <b>{{campaign}}</b>
+                        <a href="{% url 'core:crm_mailing_campaign_detail' pk=campaign.pk %}">
+                            <b>{{campaign}}</b>
+                        </a>
                         <br>
                         {% if campaign.template %}
                         <a href="{% url 'admin:core_mailingtemplate_change' object_id=campaign.template.id %}">
-                            SZABLON
+                            SZABLON (ID={{campaign.template.id}})
                         </a>
                         /
                         <a href="{% url 'core:crm_mailing_campaign_preview_html' pk=campaign.pk %}">
@@ -174,6 +180,19 @@
                       <td class="fw-bold text-gray-800 bg-secondary">Konto wysyłkowe</td>
                       <td colspan="3" class="text-gray-900 fw-bold">{{campaign.smtp_sender}}</td>
                     </tr>
+                    <tr>
+                        <td class="fw-bold text-gray-800 bg-secondary">
+                            Tematy i alias
+                        </td>
+                        <td colspan="5">
+                            <p>Alias: {{campaign.alias}}</p>
+                            <ol>
+                                {% for subject in campaign.get_subjects %}
+                                  <li>{{subject}}</li>
+                                {% endfor %}
+                            </ol>
+                        </td>
+                      </tr>
                     {% if campaign.webinar %}
                     <tr>
                       <td class="fw-bold text-gray-800 bg-primary">
@@ -228,6 +247,7 @@
                         {% endif %} <br>
 
                         Kliknięcia globalne: {{metadata.click_count_mailing}} <br>
+                        Licznik błędów: {{campaign.failure_counter}} <br>
 
 
                       </td>
