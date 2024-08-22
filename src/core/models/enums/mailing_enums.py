@@ -59,6 +59,7 @@ class MailingPoolStatus:
     # Connection error
     SMTP_SERVER_DISCONNECTED = "SMTP_SERVER_DISCONNECTED"
     CONNECTION_REFUSED = "CONNECTION_REFUSED"
+    RECIPIENT_REFUSED = "RECIPIENT_REFUSED"
 
     # Success status
     SENT = "SENT"
@@ -83,6 +84,7 @@ mailing_pool_status_display_map = {
     MailingPoolStatus.INVALID_EMAIL_FORMAT: "Niepoprawny format e-mail",
     MailingPoolStatus.UNEXPECTED_ERROR: "UNEXPECTED_ERROR",
     MailingPoolStatus.SENT: "Wysłano",
-    MailingPoolStatus.SMTP_SERVER_DISCONNECTED: "Smtp błąd połączenia",
-    MailingPoolStatus.CONNECTION_REFUSED: "Odmówiono połączenia",
+    MailingPoolStatus.SMTP_SERVER_DISCONNECTED: "ERROR SMTP_SERVER_DISCONNECTED",
+    MailingPoolStatus.CONNECTION_REFUSED: "ERROR CONNECTION_REFUSED",
+    MailingPoolStatus.RECIPIENT_REFUSED: "ERROR RECIPIENT_REFUSED",
 }

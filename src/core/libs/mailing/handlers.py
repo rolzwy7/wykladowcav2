@@ -53,18 +53,27 @@ def handle_timeout_error(document_id: str, pool_manager: MailingPoolManager):
     time.sleep(30)
 
 
-def handle_smtp_server_disconnected_error(campaign_id: int):
+def handle_smtp_server_disconnected_error(
+    campaign_id: int, document_id: str, pool_manager: MailingPoolManager
+):
     """Handle smtp server disconnected error"""
+    pool_manager.change_status(document_id, MailingPoolStatus.SMTP_SERVER_DISCONNECTED)
     MailingCampaign.manager.filter(id=campaign_id).update(smtp_server_disconnected=True)
 
 
-def handle_smtp_recipients_refused_error(campaign_id: int):
+def handle_smtp_recipients_refused_error(
+    campaign_id: int, document_id: str, pool_manager: MailingPoolManager
+):
     """Handle smtp recipients refused error"""
+    pool_manager.change_status(document_id, MailingPoolStatus.RECIPIENT_REFUSED)
     MailingCampaign.manager.filter(id=campaign_id).update(smtp_recipients_refused=True)
 
 
-def handle_connection_refused_error(campaign_id: int):
+def handle_connection_refused_error(
+    campaign_id: int, document_id: str, pool_manager: MailingPoolManager
+):
     """Handle connection refused error"""
+    pool_manager.change_status(document_id, MailingPoolStatus.CONNECTION_REFUSED)
     MailingCampaign.manager.filter(id=campaign_id).update(connection_refused=True)
 
 

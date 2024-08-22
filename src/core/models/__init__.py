@@ -33,6 +33,7 @@ from .mailing import (
     MailingTemplate,
     SmtpSender,
 )
+from .offer_contact_model import OfferContact
 from .redirects import RedirectManual
 from .user_model import User
 from .webinar_application_model import (
