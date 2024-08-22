@@ -44,6 +44,7 @@ from .mailing_template_urls import urlpatterns as mailing_templates_urlpatterns
 from .previews_urls import urlpatterns as previews_urlpatterns
 from .recording_urls import urlpatterns as recording_urlpatterns
 from .registration_urls import urlpatterns as registration_urlpatterns
+from .service_offer_urls import urlpatterns as service_offer_urlpatterns
 from .terms_and_conditions_urls import urlpatterns as terms_and_conditions_urlpatterns
 from .user_account_urls import urlpatterns as user_account_urlpatterns
 from .webinar_urls import urlpatterns as webinar_urlpatterns
@@ -116,6 +117,7 @@ urlpatterns = [
     path("500/", custom500_page, name="custom500_page"),
     #
     path("bezplatne-webinary/", include(conference_urlpatterns)),
+    path("oferta-uslugi/", include(service_offer_urlpatterns)),
     path(
         "krajowy-fundusz-szkoleniowy/",
         krajowy_fundusz_szkoleniowy_page,

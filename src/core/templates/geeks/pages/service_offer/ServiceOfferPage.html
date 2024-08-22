@@ -1,0 +1,140 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+
+{% block root %}
+<main>
+    <section class="py-8 bg-primary">
+       <div class="container">
+          <div class="row">
+             <div class="offset-md-2 col-md-8 col-12">
+                <!-- caption-->
+                <h1 class="fw-bold mb-0 display-4 lh-1 text-white">
+                    {{service_offer.offer_title}}
+                </h1>
+             </div>
+          </div>
+       </div>
+    </section>
+    <!-- container  -->
+    <div class="pt-3">
+       <div class="container">
+          <div class="row">
+             <div class="offset-md-2 col-md-8 col-12">
+                <div>
+                   <!-- breadcrumb  -->
+                   <nav aria-label="breadcrumb">
+                      <ol class="breadcrumb">
+                         <li class="breadcrumb-item"><a href="#">Oferty usług</a></li>
+                         <li class="breadcrumb-item active" aria-current="page">
+                            {{service_offer.short_name}}
+                         </li>
+                      </ol>
+                   </nav>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+    <!-- container  -->
+    <section class="py-4">
+       <div class="container my-lg-4">
+          <div class="row">
+             <div class="offset-md-2 col-md-8 col-12">
+
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        {{service_offer.description_primary_html|safe}}
+                    </div>
+                </div>
+
+{% comment %}
+                    <div class="card mb-4">
+                        <div class="card-body text-center">
+                            <button type="button" class="btn btn-primary btn-lg">
+                                Kliknij tutaj, aby wykonać
+                                <u class="text-warning"><span class="text-white">Bezpłatną Wycenę</span></u>
+                            </button>
+                            <p class="fs-3 mt-4 mb-0 fw-semibold">
+                                Zajmie Ci to tylko 3 minuty !
+                            </p>
+                        </div>
+                    </div>
+{% endcomment %}
+                
+                <div class="card mb-4">
+                    <div class="card-body">
+                        {{service_offer.steps_html|safe}}
+                    </div>
+                </div>
+
+                <div class="card mb-4 fs-3">
+                    <div class="card-body">
+                        <p class="mb-0 fw-semibold text-center">
+                            Kontakt w przypadku pytań
+                        </p>
+                        <p class="text-center fw-semibold m-0">
+                            <a href="mailto:{{COMPANY_OFFICE_EMAIL}}">
+                                <b>{{COMPANY_OFFICE_EMAIL}}</b>
+                            </a> <br>
+                            Telefon: <b>{{COMPANY_OFFICE_PHONE}}</b>
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="card border">
+                    <!-- card body  -->
+                    <div class="card-body p-5">
+                        <h2 class="mb-0 fw-semibold text-center">
+                            <u class="text-warning"><span class="text-primary">Bezpłatna Wycena</span></u> - Formularz Zgłoszeniowy
+                        </h2>
+                        <p class="fs-3 text-center fw-semibold mb-4">
+                            Zajmie Ci to tylko 3 minuty !
+                        </p>
+
+                        <form
+                            action="{% url "core:service_offer_page" slug=slug %}"
+                            method="post"
+                            class="row"
+                        >
+                            {% csrf_token %}
+                            <div class="col-md-6">
+                                {% include './snippets/FieldWithErrors.html' with field=form.nip %}
+                            </div>
+                            {% include './snippets/FieldWithErrors.html' with field=form.name %}
+                            {% include './snippets/FieldWithErrors.html' with field=form.address %}
+                            <div class="col-md-6">
+                                {% include './snippets/FieldWithErrors.html' with field=form.postal_code %}
+                            </div>
+                            <div class="col-md-6">
+                                {% include './snippets/FieldWithErrors.html' with field=form.city %}
+                            </div>
+                            <div class="col-md-6">
+                                {% include './snippets/FieldWithErrors.html' with field=form.first_name %}
+                            </div>
+                            <div class="col-md-6">
+                                {% include './snippets/FieldWithErrors.html' with field=form.last_name %}
+                            </div>
+                            {% include './snippets/FieldWithErrors.html' with field=form.email_contact %}
+                            {% include './snippets/FieldWithErrors.html' with field=form.email_confirmation %}
+                            {% include './snippets/FieldWithErrors.html' with field=form.phone %}
+                            {% include './snippets/FieldWithErrors.html' with field=form.file %}
+                            {% include './snippets/FieldWithErrors.html' with field=form.additional_info %}
+                            <div class="d-flex justify-content-between my-2">
+                                <button class="btn btn-primary" type="submit">
+                                    Wyślij zgłoszenie
+                                </button>
+                            </div>
+                            
+                        </form>
+                        
+                    </div>
+                </div>
+
+             </div>
+          </div>
+       </div>
+    </section>
+ </main>
+{% endblock root %}

@@ -80,7 +80,7 @@ def handle_connection_refused_error(
 def handle_any_error_occured(campaign_id: int):
     """Handle any error occured event"""
     MailingCampaign.manager.filter(id=campaign_id).update(
-        any_error_occured=True, stat_sent=F("failure_counter") + 1
+        any_error_occured=True, failure_counter=F("failure_counter") + 1
     )
 
 

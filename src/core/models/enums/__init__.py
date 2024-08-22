@@ -16,6 +16,7 @@ from .mailing_enums import (
 )
 from .opinion_enums import LecturerOpinionRating
 from .participant_enums import WebinarParticipantIsMxValidType, WebinarParticipantStatus
+from .service_offer_enums import ServiceOfferApplicationStatus
 from .webinar_enums import (
     WEBINAR_CLICKMEETING_DURATION,
     WebinarApplicationStep,

@@ -1,7 +1,6 @@
 # flake8: noqa:DJ07
 
 from django import forms
-from django.contrib import admin
 from django.contrib.admin import ModelAdmin, StackedInline, register
 from django.forms import ModelForm
 from tinymce.widgets import TinyMCE

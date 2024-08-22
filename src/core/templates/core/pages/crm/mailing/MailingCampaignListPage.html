@@ -59,6 +59,9 @@
 
     {% if mailing_errors %}
     <div class="card shadow-sm mb-6">
+        <div class="card-header">
+            <h3 class="card-title">Kampanie mailingowe - Błędy</h3>
+        </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table">
@@ -68,6 +71,7 @@
                             <th>any_error_occured</th>
                             <th>smtp_server_disconnected</th>
                             <th>connection_refused</th>
+                            <th>smtp_recipients_refused</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -94,6 +98,13 @@
                             </td>
                             <td>
                                 {% if campaign.connection_refused %}
+                                <i class="ki-duotone ki-check-square text-danger fs-1"><i class="path1"></i><i class="path2"></i></i>
+                                {% else %}
+                                <i class="ki-duotone ki-cross-square text-success fs-1"><i class="path1"></i><i class="path2"></i></i>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if campaign.smtp_recipients_refused %}
                                 <i class="ki-duotone ki-check-square text-danger fs-1"><i class="path1"></i><i class="path2"></i></i>
                                 {% else %}
                                 <i class="ki-duotone ki-cross-square text-success fs-1"><i class="path1"></i><i class="path2"></i></i>
@@ -178,7 +189,17 @@
                         {% endif %}
                       </td>
                       <td class="fw-bold text-gray-800 bg-secondary">Konto wysyłkowe</td>
-                      <td colspan="3" class="text-gray-900 fw-bold">{{campaign.smtp_sender}}</td>
+                      <td colspan="3" class="text-gray-900">
+                        <b>{{campaign.smtp_sender}}</b> <br>
+                        
+                        Limit dzienny:
+                        {% if campaign.limit_per_day == 0 %}Brak limitu{% else %}
+                        {{campaign.limit_sent_so_far}} / {{campaign.limit_per_day}}
+                        {% endif %} <br>
+
+                        Kliknięcia globalne: {{metadata.click_count_mailing}} <br>
+                        Licznik błędów: {{campaign.failure_counter}}
+                        </td>
                     </tr>
                     <tr>
                         <td class="fw-bold text-gray-800 bg-secondary">
@@ -237,20 +258,6 @@
                       </td>
                       <td class="fw-bold text-gray-800 bg-{{campaign.status_color}}">Status</td>
                       <td colspan="3">{{campaign.get_status_display}}</td>
-                    </tr>
-                    <tr>
-                      <td class="fw-bold text-gray-800 bg-secondary"></td>
-                      <td colspan="5">
-                        Limit dzienny:
-                        {% if campaign.limit_per_day == 0 %}Brak limitu{% else %}
-                        {{campaign.limit_sent_so_far}} / {{campaign.limit_per_day}}
-                        {% endif %} <br>
-
-                        Kliknięcia globalne: {{metadata.click_count_mailing}} <br>
-                        Licznik błędów: {{campaign.failure_counter}} <br>
-
-
-                      </td>
                     </tr>
                   </tbody>
                 </table>
