@@ -110,13 +110,15 @@ def process_sending(campaign_id: int, /, *, limit: int = 100) -> str:
             handle_timeout_error(document_id, pool_manager)
         except SMTPServerDisconnected as exception:
             handle_any_error_occured(campaign_id)
-            handle_smtp_server_disconnected_error(campaign_id)
+            handle_smtp_server_disconnected_error(
+                campaign_id, document_id, pool_manager
+            )
         except ConnectionRefusedError as exception:
             handle_any_error_occured(campaign_id)
-            handle_connection_refused_error(campaign_id)
+            handle_connection_refused_error(campaign_id, document_id, pool_manager)
         except SMTPRecipientsRefused as exception:
             handle_any_error_occured(campaign_id)
-            handle_smtp_recipients_refused_error(campaign_id)
+            handle_smtp_recipients_refused_error(campaign_id, document_id, pool_manager)
         else:
             pool_manager.change_status(document_id, MailingPoolStatus.SENT)
             print(f"[+] Sent to `{email}`")
