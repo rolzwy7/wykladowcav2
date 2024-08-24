@@ -88,6 +88,7 @@ class MailingCampaignService:
         self.mailing_campaign.any_error_occured = False
         self.mailing_campaign.smtp_server_disconnected = False
         self.mailing_campaign.connection_refused = False
+        self.mailing_campaign.smtp_recipients_refused = False
         self.mailing_campaign.save()
 
     def load_emails_from_file_into_campaign(self, file: InMemoryUploadedFile) -> None:

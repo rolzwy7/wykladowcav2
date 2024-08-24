@@ -20,6 +20,9 @@ from core.models import (
     MailingCampaign,
     MailingReplyMessage,
     MailingTemplate,
+    ServiceOffer,
+    ServiceOfferApplication,
+    ServiceOfferLead,
     SmtpSender,
     WebinarApplicationCancellation,
     WebinarApplicationCompany,
@@ -37,6 +40,10 @@ from core.models import (
 
 admin.site.register(WebinarApplicationTracking)
 admin.site.register(CustomHtmlSite)
+
+admin.site.register(ServiceOffer)
+admin.site.register(ServiceOfferApplication)
+admin.site.register(ServiceOfferLead)
 
 
 @register(MailingReplyMessage)

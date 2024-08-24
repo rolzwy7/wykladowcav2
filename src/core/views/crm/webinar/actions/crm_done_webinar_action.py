@@ -39,7 +39,6 @@ class CrmWebinarDoneActionForm(Form):
         widget=CheckboxWidget(
             attrs={
                 "label": "Wyślij faktury poprzez e-mail (jeśli zostały stworzone)",
-                "checked": True,
             }
         )
     )
@@ -48,7 +47,6 @@ class CrmWebinarDoneActionForm(Form):
         widget=CheckboxWidget(
             attrs={
                 "label": "Stwórz faktury w Fakturowni",
-                "checked": True,
             }
         )
     )
@@ -57,7 +55,6 @@ class CrmWebinarDoneActionForm(Form):
         widget=CheckboxWidget(
             attrs={
                 "label": "Stwórz i wyślij certyfikaty na adresy e-mail uczestników",
-                "checked": True,
             }
         )
     )
@@ -65,8 +62,7 @@ class CrmWebinarDoneActionForm(Form):
     start_recording_download_procedure = CharField(
         widget=CheckboxWidget(
             attrs={
-                "label": "Rozpocznij pobieranie nagrania w celu udostępnienia uczesnitkom",
-                "checked": True,
+                "label": "Rozpocznij pobieranie nagrania w celu udostępnienia uczestnikom",
             }
         )
     )
@@ -107,19 +103,17 @@ def crm_webinar_done_action_page(request: HttpRequest, pk: int):
             # Mark this webinar as done
             Webinar.manager.filter(pk=pk).update(status=WebinarStatus.DONE)
 
-            # Create task for opinion requests
-            if lecturer.agrees_to_recording:
-                create_crm_todo(
-                    f"Opinie o wykładowcy - {lecturer.fullname}",
-                    f"Wyślij prośby o opinie do wykładowcy do uczestników szkolenia {webinar.title}",
-                    "sms",
-                    "success",
-                    reverse(
-                        "core:crm_webinar_send_opinion_request_action",
-                        kwargs={"pk": webinar_id},
-                    ),
-                    webinar_id=webinar_id,
-                )
+            create_crm_todo(
+                f"Opinie o wykładowcy - {lecturer.fullname}",
+                f"Wyślij prośby o opinie do wykładowcy do uczestników szkolenia {webinar.title}",
+                "sms",
+                "success",
+                reverse(
+                    "core:crm_webinar_send_opinion_request_action",
+                    kwargs={"pk": webinar_id},
+                ),
+                webinar_id=webinar_id,
+            )
 
             # Send invoices via email (if selected)
             if flag_fakturownia_create_invoices:
@@ -168,10 +162,17 @@ def crm_webinar_done_action_page(request: HttpRequest, pk: int):
                 )
             )
     else:
-        form = CrmWebinarDoneActionForm()
+        form = CrmWebinarDoneActionForm(
+            initial={
+                "send_invoices_via_email": True,
+                "fakturownia_create_invoices": True,
+                "send_certificates": True,
+                "start_recording_download_procedure": lecturer.agrees_to_recording,
+            }
+        )
 
     return TemplateResponse(
         request,
         "core/pages/crm/webinar_actions/CrmWebinarDoneAction.html",
-        {"form": form, "webinar": webinar},
+        {"form": form, "webinar": webinar, "lecturer": lecturer},
     )

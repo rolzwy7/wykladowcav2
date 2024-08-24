@@ -33,8 +33,8 @@ from .mailing import (
     MailingTemplate,
     SmtpSender,
 )
-from .offer_contact_model import OfferContact
 from .redirects import RedirectManual
+from .service_offer_model import ServiceOffer, ServiceOfferApplication, ServiceOfferLead
 from .user_model import User
 from .webinar_application_model import (
     WebinarApplication,
