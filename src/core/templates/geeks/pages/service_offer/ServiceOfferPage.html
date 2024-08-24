@@ -42,93 +42,159 @@
           <div class="row">
              <div class="offset-md-2 col-md-8 col-12">
 
-
-                <div class="card mb-4">
-                    <div class="card-body">
-                        {{service_offer.description_primary_html|safe}}
-                    </div>
-                </div>
-
-{% comment %}
+                {% if not hide_intro %}
                     <div class="card mb-4">
-                        <div class="card-body text-center">
-                            <button type="button" class="btn btn-primary btn-lg">
-                                Kliknij tutaj, aby wykonać
-                                <u class="text-warning"><span class="text-white">Bezpłatną Wycenę</span></u>
-                            </button>
-                            <p class="fs-3 mt-4 mb-0 fw-semibold">
-                                Zajmie Ci to tylko 3 minuty !
+                        <div class="card-body">
+                            {{service_offer.description_primary_html|safe}}
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            {{service_offer.steps_html|safe}}
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4 fs-3">
+                        <div class="card-body">
+                            <p class="mb-0 fw-semibold text-center">
+                                Kontakt w przypadku pytań
+                            </p>
+                            <p class="text-center fw-semibold m-0">
+                                <a href="mailto:{{COMPANY_OFFICE_EMAIL}}">
+                                    <b>{{COMPANY_OFFICE_EMAIL}}</b>
+                                </a> <br>
+                                Telefon: <b>{{COMPANY_OFFICE_PHONE}}</b>
                             </p>
                         </div>
                     </div>
-{% endcomment %}
-                
-                <div class="card mb-4">
-                    <div class="card-body">
-                        {{service_offer.steps_html|safe}}
-                    </div>
-                </div>
 
-                <div class="card mb-4 fs-3">
-                    <div class="card-body">
-                        <p class="mb-0 fw-semibold text-center">
-                            Kontakt w przypadku pytań
-                        </p>
-                        <p class="text-center fw-semibold m-0">
-                            <a href="mailto:{{COMPANY_OFFICE_EMAIL}}">
-                                <b>{{COMPANY_OFFICE_EMAIL}}</b>
-                            </a> <br>
-                            Telefon: <b>{{COMPANY_OFFICE_PHONE}}</b>
-                        </p>
-                    </div>
-                </div>
+                {% endif %}
                 
                 <div class="card border">
                     <!-- card body  -->
                     <div class="card-body p-5">
                         <h2 class="mb-0 fw-semibold text-center">
-                            <u class="text-warning"><span class="text-primary">Bezpłatna Wycena</span></u> - Formularz Zgłoszeniowy
+                            <u class="text-warning"><span class="text-primary">Bezpłatna Wycena</span></u> - Formularz
                         </h2>
+
+                        {% if form.accepted_terms.errors and not form.accepted_terms.errors and not form.accepted_rodo.errors %}
+                            <p class="fs-3 text-center text-danger fw-bold mb-4">
+                                Formularz zawiera błędy - popraw je, aby wysłać zapytanie!
+                            </p>
+                        {% endif %}
+                            
+                        {% if form.accepted_terms.errors or form.accepted_rodo.errors %}
+                            <p class="fs-3 text-center text-danger fw-bold mb-4">
+                                Zaakceptuj oświadczenia, aby wysłać zapytanie!
+                            </p>
+                        {% endif %}
+
+                        {% if form.errors %}
+                            <p class="fs-3 text-center fw-bold mb-4">
+                                W razie trudności z wysłaniem zapytania poprzez formularz,
+                                prosimy o przesłanie nam wiadomości e-mail na adres
+                                <a href="mailto:{{COMPANY_OFFICE_EMAIL}}">
+                                    <span class="text-primary fw-bold">{{COMPANY_OFFICE_EMAIL}}</span>
+                                </a>
+                                podając takie dane jakie wpisali Państwo do formularza.
+                            </p>
+                        {% endif %}
+
+                        {% if not form.errors %}
                         <p class="fs-3 text-center fw-semibold mb-4">
                             Zajmie Ci to tylko 3 minuty !
                         </p>
+                        {% endif %}
 
                         <form
-                            action="{% url "core:service_offer_page" slug=slug %}"
+                            action="{% url "core:service_offer_page" slug=slug %}?h=1"
                             method="post"
                             class="row"
                         >
                             {% csrf_token %}
-                            <div class="col-md-6">
-                                {% include './snippets/FieldWithErrors.html' with field=form.nip %}
+                            <div class="col-lg-6 col-12">
+                                <div class="mb-3">
+                                    <label class="form-label" for="name">
+                                        {{service_offer.nip_place_text}}
+                                        <span class="text-danger">*</span>
+                                        <span class="text-success d-none" id="regon_success">
+                                            <i class="bi bi-check2-circle"></i>
+                                            Znaleziono w rejestrze REGON
+                                        </span>
+                                        <span class="text-primary d-none" id="regon_loading">
+                                            <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+                                            Ładuję dane z rejestru REGON
+                                        </span>
+                                        <span class="text-danger d-none" id="regon_not_found">
+                                            <i class="bi bi-x-circle"></i>
+                                            NIP jest niepoprawny
+                                        </span>
+                                        <span class="text-danger d-none" id="regon_is_down">
+                                            <i class="bi bi-x-circle"></i>
+                                            Rejestr REGON jest czasowo niedostępny. Wypełnij dane ręcznie.
+                                        </span>
+                                    </label>
+                                    {{form.nip}}
+                                    {% for error in form.nip.errors %}
+                                        <div class="text-danger">{{error}}</div>
+                                    {% endfor %}
+                                </div>
                             </div>
-                            {% include './snippets/FieldWithErrors.html' with field=form.name %}
-                            {% include './snippets/FieldWithErrors.html' with field=form.address %}
+                            {% include './snippets/FieldWithErrors.html' with field=form.name label=service_offer.name_place_text %}
                             <div class="col-md-6">
                                 {% include './snippets/FieldWithErrors.html' with field=form.postal_code %}
                             </div>
                             <div class="col-md-6">
                                 {% include './snippets/FieldWithErrors.html' with field=form.city %}
                             </div>
+                            {% include './snippets/FieldWithErrors.html' with field=form.address label="Ulica i numer lokalu" %}
                             <div class="col-md-6">
-                                {% include './snippets/FieldWithErrors.html' with field=form.first_name %}
+                                {% include './snippets/FieldWithErrors.html' with field=form.first_name label="Imię osoby kontaktowej" %}
                             </div>
                             <div class="col-md-6">
-                                {% include './snippets/FieldWithErrors.html' with field=form.last_name %}
+                                {% include './snippets/FieldWithErrors.html' with field=form.last_name label="Nazwisko osoby kontaktowej" %}
                             </div>
-                            {% include './snippets/FieldWithErrors.html' with field=form.email_contact %}
-                            {% include './snippets/FieldWithErrors.html' with field=form.email_confirmation %}
-                            {% include './snippets/FieldWithErrors.html' with field=form.phone %}
-                            {% include './snippets/FieldWithErrors.html' with field=form.file %}
-                            {% include './snippets/FieldWithErrors.html' with field=form.additional_info %}
+                            <div class="col-md-6">
+                                {% include './snippets/FieldWithErrors.html' with field=form.email_contact label="E-mail osoby kontaktowej" %}
+                            </div>
+                            {% comment %} {% include './snippets/FieldWithErrors.html' with field=form.email_confirmation label="E-mail, na który ma przyjść potwierdzenie przyjęcia zgłoszenia" %} {% endcomment %}
+                            <div class="col-md-6">
+                                {% include './snippets/FieldWithErrors.html' with field=form.phone label="Telefon osoby kontaktowej" %}
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-check mb-4 {% if form.accepted_rodo.errors %}text-danger{% endif %}">
+                                    {{form.accepted_rodo}}
+                                    <label class="form-check-label" for="id_accepted_rodo">
+                                        <b>Oświadczenie o przetwarzaniu danych</b> <span class="text-danger">*</span> <br>
+                                        oświadczam, że zgodnie z ustawą z art. 6 ust 1 lit. a RODO, wyrażam zgodę na przetwarzanie danych osobowych przez
+                                        {{COMPANY_NAME_FULL}}, {{COMPANY_ADDRESS}}, NIP {{COMPANY_NIP}},
+                                         w celu przeprowadzenia rejestracji oraz obsługi zgłoszenia.
+                                    </label>
+                                    {% for error in form.accepted_rodo.errors %}
+                                    <div class="text-danger"><b>{{error}}</b></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="form-check mb-4 {% if form.accepted_terms.errors %}text-danger{% endif %}">
+                                    {{form.accepted_terms}}
+                                    <label class="form-check-label" for="id_accepted_terms">
+                                        <b>Oświadczenie o regulaminie</b> <span class="text-danger">*</span> <br>
+                                        oświadczam, że zapoznałem się z <a href="{% url "core:terms_and_conditions_webinars" %}"><b>regulaminem</b></a> i akceptuję jego postanowienia.
+                                    </label>
+                                    {% for error in form.accepted_terms.errors %}
+                                        <div class="text-danger"><b>{{error}}</b></div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% include './snippets/FieldWithErrors.html' with field=form.file label=service_offer.file_text %}
+                            {% include './snippets/FieldWithErrors.html' with field=form.additional_info label="Dodatkowe uwagi (opcjonalnie)" %}
                             <div class="d-flex justify-content-between my-2">
                                 <button class="btn btn-primary" type="submit">
-                                    Wyślij zgłoszenie
+                                    Wyślij zapytanie
                                 </button>
                             </div>
                             
                         </form>
-                        
                     </div>
                 </div>
 
@@ -138,3 +204,88 @@
     </section>
  </main>
 {% endblock root %}
+
+
+{% block body_scripts %}
+<script>
+    var csrf = "{{ csrf_token }}";
+    var regon_is_down = false;
+    var already_feteched = false;
+
+    function populateFieldById(fieldId, value) {
+        let input = document.querySelector(`#id_${fieldId}`);
+        input.value = value;
+    }
+
+    function populateCompany(nip) {
+        const url = '/api/regon-autocomplete/';
+        const data = {
+            nip: nip
+        };
+
+        const request = new Request(
+            url,
+            {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrf,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+                mode: 'same-origin'
+            }
+        );
+
+        $('#regon_success').addClass("d-none");
+        $('#regon_is_down').addClass("d-none");
+        $('#regon_not_found').addClass("d-none");
+        $('#regon_loading').removeClass("d-none");
+        
+        fetch(request)
+        .then(response => response.json())
+        .then(result => {
+            console.log('REGON:', result);
+            const success = result.success;
+            if(!success) {
+                $('#regon_success').addClass("d-none");
+                $('#regon_is_down').addClass("d-none");
+                $('#regon_not_found').removeClass("d-none");
+                $('#regon_loading').addClass("d-none");
+                return;
+            };
+            const data = result.company;
+            populateFieldById("name", data.name)
+            populateFieldById("address", data.address)
+            populateFieldById("postal_code", data.postal_code)
+            populateFieldById("city", data.city)
+            already_feteched = true
+            $('#regon_success').removeClass("d-none");
+            $('#regon_is_down').addClass("d-none");
+            $('#regon_not_found').addClass("d-none");
+            $('#regon_loading').addClass("d-none");
+        })
+        .catch(error => {
+            regon_is_down = true;
+            $('#regon_success').addClass("d-none");
+            $('#regon_is_down').removeClass("d-none");
+            $('#regon_not_found').addClass("d-none");
+            $('#regon_loading').addClass("d-none");
+        });
+
+    }
+
+    function performSearch() {
+        if(regon_is_down || already_feteched) return;
+        let nip = document.querySelector('#id_nip');
+        let nip_value = nip.value.replaceAll("-", "");
+        nip_value = nip_value.replaceAll("_", "");
+        nip_value = nip_value.replaceAll(" ", "");
+        if(/[0-9]{10}/.exec(nip_value) !== null) populateCompany(nip_value);
+    }
+
+    document.querySelector("#id_nip").addEventListener("input", function() {
+        performSearch();
+    })
+
+</script>
+{% endblock body_scripts %}

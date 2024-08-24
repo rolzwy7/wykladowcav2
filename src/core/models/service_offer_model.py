@@ -47,9 +47,16 @@ class ServiceOffer(Model):
     description_primary_html = TextField(
         "DESCRIPTION PRIMARY", default="[DESCRIPTION_PRIMARY]"
     )
-    steps_html = TextField("STEPS", default="[STEPS]")
-    call_to_action_html = TextField("CTA HTML", default="[CTA]")
-    button_html = TextField("BUTTON HTML", default="[BUTTON]")
+    steps_html = TextField("STEPS_HTML", default="[STEPS_HTML]")
+    call_to_action_html = TextField("CTA_HTML", default="[CALL_TO_ACTION_HTML]")
+    button_html = TextField("BUTTON_HTML", default="[BUTTON_HTML]")
+
+    nip_place_text = TextField("NIP_PLACE_TEXT", default="[NIP_PLACE_TEXT]")
+    name_place_text = TextField("NAME_PLACE_TEXT", default="[NAME_PLACE_TEXT]")
+    file_text = TextField("FILE_TEXT", default="[FILE_TEXT]")
+
+    thanks_title_text = TextField("THANKS_TITLE_TEXT", default="[THANKS_TITLE_TEXT]")
+    thanks_html = TextField("THANKS_HTML", default="[THANKS_HTML]")
 
     class Meta:
         verbose_name = "Oferta Usługi"

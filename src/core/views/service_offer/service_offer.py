@@ -2,15 +2,46 @@
 
 # flake8: noqa=E501
 
-from django.forms import EmailInput, FileInput, ModelForm, Textarea, TextInput
-from django.shortcuts import get_object_or_404
+from django.core.exceptions import ValidationError
+from django.forms import (
+    CheckboxInput,
+    EmailInput,
+    FileField,
+    FileInput,
+    ModelForm,
+    Textarea,
+    TextInput,
+)
+from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
+from django.urls import reverse
 
+from core.consts import TelegramChats
+from core.consts.requests_consts import POST
 from core.models import ServiceOffer, ServiceOfferApplication
+from core.tasks_dispatch import dispatch_telegram_message
 
 
 class ServiceOfferApplicationForm(ModelForm):
     """ServiceOfferApplicationForm"""
+
+    def clean_accepted_rodo(self):
+        data = self.cleaned_data["accepted_rodo"]
+        if data is not True:
+            raise ValidationError("Zaakceptuj oświadczenie o przetwarzaniu danych")
+        return data
+
+    def clean_accepted_terms(self):
+        data = self.cleaned_data["accepted_terms"]
+        if data is not True:
+            raise ValidationError("Zaakceptuj oświadczenie o regulaminie")
+        return data
+
+    def clean_file(self):
+        data = self.cleaned_data["file"]
+        if data is None:
+            raise ValidationError("Prześlij załącznik w swoim zapytaniu")
+        return data
 
     class Meta:
         model = ServiceOfferApplication
@@ -27,22 +58,45 @@ class ServiceOfferApplicationForm(ModelForm):
             "phone",
             "file",
             "additional_info",
+            "accepted_rodo",
+            "accepted_terms",
         ]
         widgets = {
-            "nip": TextInput(attrs={"class": "form-control"}),
-            "name": TextInput(attrs={"class": "form-control"}),
-            "address": TextInput(attrs={"class": "form-control"}),
-            "postal_code": TextInput(attrs={"class": "form-control"}),
-            "city": TextInput(attrs={"class": "form-control"}),
+            "nip": TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Numer NIP, np. 774-00-01-454",
+                }
+            ),
+            "name": TextInput(
+                attrs={"class": "form-control", "placeholder": "Nazwa placówki / firmy"}
+            ),
+            "address": TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Ulica i numer lokalu, np. Przemysłowa 10A",
+                }
+            ),
+            "postal_code": TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Kod pocztowy, np. 45-573",
+                }
+            ),
+            "city": TextInput(
+                attrs={"class": "form-control", "placeholder": "Miasto, np. Warszawa"}
+            ),
             "first_name": TextInput(attrs={"class": "form-control"}),
             "last_name": TextInput(attrs={"class": "form-control"}),
             "email_contact": EmailInput(attrs={"class": "form-control"}),
-            "email_confirmation": EmailInput(attrs={"class": "form-control"}),
-            "phone": TextInput(attrs={"class": "form-control"}),
+            # "email_confirmation": EmailInput(attrs={"class": "form-control"}),
             "file": FileInput(attrs={"class": "form-control"}),
+            "phone": TextInput(attrs={"class": "form-control"}),
             "additional_info": Textarea(
                 attrs={"class": "form-control", "cols": "40", "rows": "3"}
             ),
+            "accepted_rodo": CheckboxInput(attrs={"class": "form-check-input"}),
+            "accepted_terms": CheckboxInput(attrs={"class": "form-check-input"}),
         }
 
 
@@ -50,7 +104,42 @@ def service_offer_page(request, slug: str):
     """Service offer page"""
     template_name = "geeks/pages/service_offer/ServiceOfferPage.html"
     service_offer = get_object_or_404(ServiceOffer, slug=slug)
-    form = ServiceOfferApplicationForm()
+    hide_intro = request.GET.get("h")
+
+    if request.method == POST:
+        form = ServiceOfferApplicationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            dispatch_telegram_message(
+                "MVP: WYSŁANO ZAPYTANIE OFERTOWE",
+                TelegramChats.OTHER,
+            )
+            return redirect(
+                reverse(
+                    "core:service_offer_thanks_page",
+                    kwargs={"slug": service_offer.slug},
+                )
+            )
+    else:
+        form = ServiceOfferApplicationForm()
+
+    return TemplateResponse(
+        request,
+        template_name,
+        {
+            "hide_footer_newsletter_singup": True,
+            "hide_intro": hide_intro,
+            "service_offer": service_offer,
+            "form": form,
+            "slug": slug,
+        },
+    )
+
+
+def service_offer_thanks_page(request, slug: str):
+    """Service offer page"""
+    template_name = "geeks/pages/service_offer/ServiceOfferThanksPage.html"
+    service_offer = get_object_or_404(ServiceOffer, slug=slug)
 
     return TemplateResponse(
         request,
@@ -58,7 +147,5 @@ def service_offer_page(request, slug: str):
         {
             "hide_footer_newsletter_singup": True,
             "service_offer": service_offer,
-            "form": form,
-            "slug": slug,
         },
     )

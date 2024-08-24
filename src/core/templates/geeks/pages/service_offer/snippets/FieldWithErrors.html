@@ -1,7 +1,12 @@
 <div class="mb-3">
-    <label class="form-label" for="name">{{field.label}}</label>
+    <label class="form-label" for="name">
+        <span {% if field.errors %}class="text-danger fw-bold"{% endif %}>
+            {% if label %}{{label}}{% else %}{{field.label}}{% endif %}
+        </span>
+        {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+    </label>
     {{field}}
     {% for error in field.errors %}
-        <div class="text-danger">{{error}}</div>
+        <div class="text-danger fw-bold">{{error}}</div>
     {% endfor %}
 </div>
