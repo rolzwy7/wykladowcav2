@@ -6,7 +6,6 @@ from django.core.exceptions import ValidationError
 from django.forms import (
     CheckboxInput,
     EmailInput,
-    FileField,
     FileInput,
     ModelForm,
     Textarea,
@@ -107,9 +106,11 @@ def service_offer_page(request, slug: str):
     hide_intro = request.GET.get("h")
 
     if request.method == POST:
-        form = ServiceOfferApplicationForm(request.POST)
+        form = ServiceOfferApplicationForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            application = form.save(commit=False)
+            application.service_offer = service_offer
+            application.save()
             dispatch_telegram_message(
                 "MVP: WYSŁANO ZAPYTANIE OFERTOWE",
                 TelegramChats.OTHER,

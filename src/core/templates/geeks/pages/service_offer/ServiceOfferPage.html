@@ -109,6 +109,7 @@
 
                         <form
                             action="{% url "core:service_offer_page" slug=slug %}?h=1"
+                            enctype="multipart/form-data"
                             method="post"
                             class="row"
                         >
@@ -163,6 +164,10 @@
                                 {% include './snippets/FieldWithErrors.html' with field=form.phone label="Telefon osoby kontaktowej" %}
                             </div>
                             <div class="col-md-12">
+                                {% include './snippets/FieldWithErrors.html' with field=form.file label=service_offer.file_text %}
+                                {% include './snippets/FieldWithErrors.html' with field=form.additional_info label="Dodatkowe uwagi (opcjonalnie)" %}
+                            </div>
+                            <div class="col-md-12">
                                 <div class="form-check mb-4 {% if form.accepted_rodo.errors %}text-danger{% endif %}">
                                     {{form.accepted_rodo}}
                                     <label class="form-check-label" for="id_accepted_rodo">
@@ -186,8 +191,6 @@
                                     {% endfor %}
                                 </div>
                             </div>
-                            {% include './snippets/FieldWithErrors.html' with field=form.file label=service_offer.file_text %}
-                            {% include './snippets/FieldWithErrors.html' with field=form.additional_info label="Dodatkowe uwagi (opcjonalnie)" %}
                             <div class="d-flex justify-content-between my-2">
                                 <button class="btn btn-primary" type="submit">
                                     Wyślij zapytanie
