@@ -3,6 +3,7 @@ from .after_application_sent_dispatch import after_application_sent_dispatch
 from .after_free_conference_participant_singup import (
     after_free_conference_participant_singup,
 )
+from .after_service_offer_sent import after_service_offer_sent
 from .after_webinar_cancel_dispatch import after_webinar_cancel_dispatch
 from .after_webinar_confirm_dispatch import after_webinar_confirm_dispatch
 from .after_webinar_moved_dispatch import after_webinar_moved_dispatch

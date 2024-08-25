@@ -13,7 +13,6 @@ from core.models import (
     CustomHtmlSite,
     DiscountApplicationApplied,
     Eventlog,
-    LecturerOpinion,
     LoyaltyProgram,
     LoyaltyProgramIncome,
     LoyaltyProgramPayout,

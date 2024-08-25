@@ -58,6 +58,8 @@ class ServiceOffer(Model):
     thanks_title_text = TextField("THANKS_TITLE_TEXT", default="[THANKS_TITLE_TEXT]")
     thanks_html = TextField("THANKS_HTML", default="[THANKS_HTML]")
 
+    mailing_html = TextField("MAILING_HTML", default="[MAILING_HTML]")
+
     class Meta:
         verbose_name = "Oferta Usługi"
         verbose_name_plural = "Oferty Usług"
