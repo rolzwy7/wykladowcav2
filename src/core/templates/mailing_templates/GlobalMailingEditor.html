@@ -27,6 +27,12 @@
                      {% else %}
                         <h3>Brak Termin ID</h3>
                      {% endif %}
+                     {% if service_offer_id %}
+                        <h3>Usługa ID={{service_offer_id}}: {{service_offer.offer_title}}</h3>
+                        <input type="hidden" name="service_offer_id" value="{{service_offer_id}}">
+                     {% else %}
+                        <h3>Brak Usługa ID</h3>
+                     {% endif %}
                      {% if lecturer_slug %}
                         <h3>Wykładowca Slug={{lecturer_slug}}</h3>
                         <input type="hidden" name="lecturer_slug" value="{{lecturer_slug}}">

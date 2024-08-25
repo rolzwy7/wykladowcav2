@@ -47,6 +47,10 @@
                   {% include "./sections/SectionHelloTopText.html" %}
                 {% endif %}
 
+                {% if service_offer %}
+                  {{service_offer.mailing_html|safe}}
+                {% endif %}
+
                 {% if promo_code %}
                 <tr>
                   <td style="{{td_classes|safe}}padding-top:15px;">

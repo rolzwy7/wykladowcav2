@@ -15,10 +15,9 @@ from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
 
-from core.consts import TelegramChats
 from core.consts.requests_consts import POST
 from core.models import ServiceOffer, ServiceOfferApplication
-from core.tasks_dispatch import dispatch_telegram_message
+from core.tasks_dispatch import after_service_offer_sent
 
 
 class ServiceOfferApplicationForm(ModelForm):
@@ -108,13 +107,10 @@ def service_offer_page(request, slug: str):
     if request.method == POST:
         form = ServiceOfferApplicationForm(request.POST, request.FILES)
         if form.is_valid():
-            application = form.save(commit=False)
+            application: ServiceOfferApplication = form.save(commit=False)
             application.service_offer = service_offer
             application.save()
-            dispatch_telegram_message(
-                "MVP: WYSŁANO ZAPYTANIE OFERTOWE",
-                TelegramChats.OTHER,
-            )
+            after_service_offer_sent(service_offer, application)
             return redirect(
                 reverse(
                     "core:service_offer_thanks_page",

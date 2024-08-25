@@ -11,7 +11,7 @@ from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 from markdown import markdown
 
-from core.models import Lecturer, Webinar, WebinarCategory
+from core.models import Lecturer, ServiceOffer, Webinar, WebinarCategory
 from core.services.webinar import WebinarService
 
 BASE_URL = settings.BASE_URL
@@ -31,6 +31,7 @@ def global_mailing_editor_page(request):
     for_webinar_id = request.GET.get("for_webinar_id")
     category_slug = request.GET.get("for_category_slug")
     lecturer_slug = request.GET.get("for_lecturer_slug")
+    for_service_offer_id = request.GET.get("for_service_offer_id")
     categories = WebinarCategory.manager.get_visible_categories()
 
     try:
@@ -39,6 +40,13 @@ def global_mailing_editor_page(request):
     except Webinar.DoesNotExist:  # pylint: disable=no-member
         webinar = None
         webinar_id = None
+
+    try:
+        service_offer = ServiceOffer.manager.get(pk=for_service_offer_id)
+        service_offer_id = service_offer.id
+    except ServiceOffer.DoesNotExist:  # pylint: disable=no-member
+        service_offer = None
+        service_offer_id = None
 
     template_name = "mailing_templates/GlobalMailingEditor.html"
     return TemplateResponse(
@@ -50,6 +58,8 @@ def global_mailing_editor_page(request):
             "webinar_id": webinar_id,
             "lecturer_slug": lecturer_slug,
             "category_slug": category_slug,
+            "service_offer": service_offer,
+            "service_offer_id": service_offer_id,
         },
     )
 
@@ -108,9 +118,16 @@ def global_mailing_template_page(request):
             related_webinars.append(
                 (
                     related_webinar,
-                    f"{BASE_URL}/szkl/{related_webinar.id}" + "/{TRACKING_CODE}/",
+                    f"{BASE_URL}/szkl/{related_webinar.id}" + "/{TRACKING_CODE}/",  # type: ignore
                 )
             )
+
+    # Service offer
+    service_offer_id = request.GET.get("service_offer_id")
+    if service_offer_id:
+        service_offer = get_object_or_404(ServiceOffer, pk=int(service_offer_id))
+    else:
+        service_offer = None
 
     # Category webinars
     category_slug = request.GET.get("category_slug")
@@ -175,6 +192,7 @@ def global_mailing_template_page(request):
             "cta_href": cta_href,
             "cta_text": cta_text,
             "program": program,
+            "service_offer": service_offer,
             **controls,
         },
     )
