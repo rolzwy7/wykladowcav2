@@ -160,7 +160,7 @@
      <!-- Collapse -->
      <div class="collapse navbar-collapse" id="navbar-default">
         <ul class="navbar-nav">
-           {% if 0 %}
+           {% if 1 %}
            <li class="nav-item dropdown dropdown-fullwidth">
               <a class="nav-link dropdown-toggle" href="{% url 'core:webinar_all_categries_page' %}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Szkolenia Online
@@ -168,156 +168,33 @@
               <div class="dropdown-menu dropdown-menu-md" style="max-width:2000px;">
                  <div class="px-4 pt-2 pb-2">
                     <div class="row">
-                       <div class="col-lg-4 col-12">
+                       {% for category, count, subcategories in CACHED_MAIN_CATEGORIES|slice:":6" %}
+                       <div class="col-lg-2 col-12">
                           <div class="border-bottom pb-2 mb-3">
                              <h5 class="mb-0">
-                              <a class="link-dark" href="{% url 'core:webinar_category_page' slug="wszystkie-kategorie" %}">
-                                Kategorie szkoleń
+                              <a class="link-primary" href="{% url 'core:webinar_category_page' slug=category.slug %}">
+                                {{category.name}}
                               </a>
                               </h5>
                           </div>
                           <div class="">
-                           {% for category, count, subcategories in CACHED_MAIN_CATEGORIES %}
-                             <a href="home-academy.html#">
+                           {% for subcategory in subcategories|slice:":4" %}
+                             <a href="{% url 'core:webinar_category_page' slug=subcategory.slug %}">
                                 <div class="d-flex mb-3 align-items-center">
-                                  <div class="icon-shape icon-lg rounded-circle bg-light text-muted card-icon">
-                                    <i class="bi bi-5-circle" style="font-size:1.2rem;"></i>
-                                  </div>
                                    <div class="ms-2">
-                                      <h6 class="mb-0">{{category.name}}</h6>
-                                      <small class="text-body">
-                                       {{count}} szkoleń
-                                       </small>
+                                      <h5 class="mb-0">{{subcategory.name}}</h5>
+                                      {% comment %}
+                                       <small class="text-body">
+                                        X szkoleń
+                                        </small>
+                                      {% endcomment %}
                                    </div>
                                 </div>
                              </a>
                              {% endfor %}
-                             <div class="mt-4">
-                                <a
-                                href="{% url 'core:webinar_category_page' slug="wszystkie-kategorie" %}"
-                                class="btn btn-outline-primary btn-sm"
-                                >Wszystkie kategorie</a>
-                             </div>
                           </div>
                        </div>
-                       <div class="col-lg-4 col-12 mt-4 mt-lg-0">
-                          <div class="border-bottom pb-2 mb-3">
-                             <h5 class="mb-0">
-                                <a class="link-dark" href="{% url "core:all_lecturers_list_page" %}">
-                                Nasi wykładowcy
-                                </a>
-                             </h5>
-                          </div>
-                          <div class="">
-                             <a href="home-academy.html#">
-                                <div class="d-flex mb-3">
-                                   <img src="{% static 'geeks/assets/images/png/google.png' %}" alt="" />
-                                   <div class="ms-2">
-                                      <small class="text-body">No Prerequisites</small>
-                                      <h6 class="mb-0">Google Data Analytics</h6>
-                                   </div>
-                                </div>
-                             </a>
-                             <a href="home-academy.html#">
-                                <div class="d-flex mb-3">
-                                   <img src="{% static 'geeks/assets/images/png/IBM.png' %}" alt="" />
-                                   <div class="ms-2">
-                                      <small class="text-body">No Prerequisites</small>
-                                      <h6 class="mb-0">IBM Data Science</h6>
-                                   </div>
-                                </div>
-                             </a>
-                             <a href="home-academy.html#">
-                                <div class="d-flex mb-3">
-                                   <img
-                                      src="{% static 'geeks/assets/images/png/microsoft.png' %}"
-                                      alt=""
-                                      />
-                                   <div class="ms-2">
-                                      <small class="text-body">Expert Feedback</small>
-                                      <h6 class="mb-0">Machine Leaning for Analytics</h6>
-                                   </div>
-                                </div>
-                             </a>
-                             <a href="home-academy.html#">
-                                <div class="d-flex mb-3">
-                                   <img
-                                      src="{% static 'geeks/assets/images/png/tensorflow.png' %}"
-                                      alt=""
-                                      />
-                                   <div class="ms-2">
-                                      <small class="text-body"
-                                         >Certification Prerequisites</small
-                                         >
-                                      <h6 class="mb-0">TensorFlow Developer Certificate</h6>
-                                   </div>
-                                </div>
-                             </a>
-                             <div class="mt-4">
-                                <a
-                                   href="home-academy.html#"
-                                   class="btn btn-outline-primary btn-sm"
-                                   >View all Certificates</a
-                                   >
-                             </div>
-                          </div>
-                       </div>
-                       <div class="col-lg-4 col-12 mt-4 mt-lg-0">
-                          <div class="border-bottom pb-2 mb-3">
-                             <h5 class="mb-0">
-                                <a href="{% url "core:webinar_all_categries_page" %}">
-                                Terminy szkoleń
-                                </a>
-                             </h5>
-                          </div>
-                          <div class="">
-                             <ul class="nav flex-column">
-                                <li class="nav-item">
-                                   <a href="home-academy.html#" class="nav-link">Python</a>
-                                </li>
-                                <li class="nav-item">
-                                   <a href="home-academy.html#" class="nav-link">SQL</a>
-                                </li>
-                                <li class="nav-item">
-                                   <a href="home-academy.html#" class="nav-link"
-                                      >Microsoft Excel</a
-                                      >
-                                </li>
-                                <li class="nav-item">
-                                   <a href="home-academy.html#" class="nav-link"
-                                      >Machine Learning</a
-                                      >
-                                </li>
-                                <li class="nav-item">
-                                   <a href="home-academy.html#" class="nav-link"
-                                      >Data Science</a
-                                      >
-                                </li>
-                                <li class="nav-item">
-                                   <a href="home-academy.html#" class="nav-link"
-                                      >Data Analytics</a
-                                      >
-                                </li>
-                                <li class="nav-item">
-                                   <a href="home-academy.html#" class="nav-link"
-                                      >Power BI</a
-                                      >
-                                </li>
-                                <li class="nav-item">
-                                   <a href="home-academy.html#" class="nav-link"
-                                      >Artificial Intelligence</a
-                                      >
-                                </li>
-                             </ul>
-                             <div class="mt-4">
-                                <a
-                                   href="home-academy.html#"
-                                   class="btn btn-outline-primary btn-sm"
-                                   >View all Skills</a
-                                   >
-                             </div>
-                          </div>
-                       </div>
+                       {% endfor %}
                        <div class="col-12 border-top border-light mt-3">
                           <div class="lh-1 mt-3">
                              <h3 class="mb-1">Polecaj i Zarabiaj (10% prowizij dla Ciebie!)</h3>
@@ -339,6 +216,186 @@
                  </div>
               </div>
            </li>
+           {% comment %}
+            <li class="nav-item dropdown dropdown-fullwidth">
+               <a class="nav-link dropdown-toggle" href="{% url 'core:webinar_all_categries_page' %}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               Szkolenia Online
+               </a>
+               <div class="dropdown-menu dropdown-menu-md" style="max-width:2000px;">
+                  <div class="px-4 pt-2 pb-2">
+                     <div class="row">
+                        <div class="col-lg-4 col-12">
+                           <div class="border-bottom pb-2 mb-3">
+                              <h5 class="mb-0">
+                               <a class="link-dark" href="{% url 'core:webinar_category_page' slug="wszystkie-kategorie" %}">
+                                 Kategorie szkoleń
+                               </a>
+                               </h5>
+                           </div>
+                           <div class="">
+                            {% for category, count, subcategories in CACHED_MAIN_CATEGORIES %}
+                              <a href="home-academy.html#">
+                                 <div class="d-flex mb-3 align-items-center">
+                                   <div class="icon-shape icon-lg rounded-circle bg-light text-muted card-icon">
+                                     <i class="bi bi-5-circle" style="font-size:1.2rem;"></i>
+                                   </div>
+                                    <div class="ms-2">
+                                       <h6 class="mb-0">{{category.name}}</h6>
+                                       <small class="text-body">
+                                        {{count}} szkoleń
+                                        </small>
+                                    </div>
+                                 </div>
+                              </a>
+                              {% endfor %}
+                              <div class="mt-4">
+                                 <a
+                                 href="{% url 'core:webinar_category_page' slug="wszystkie-kategorie" %}"
+                                 class="btn btn-outline-primary btn-sm"
+                                 >Wszystkie kategorie</a>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="col-lg-4 col-12 mt-4 mt-lg-0">
+                           <div class="border-bottom pb-2 mb-3">
+                              <h5 class="mb-0">
+                                 <a class="link-dark" href="{% url "core:all_lecturers_list_page" %}">
+                                 Nasi wykładowcy
+                                 </a>
+                              </h5>
+                           </div>
+                           <div class="">
+                              <a href="home-academy.html#">
+                                 <div class="d-flex mb-3">
+                                    <img src="{% static 'geeks/assets/images/png/google.png' %}" alt="" />
+                                    <div class="ms-2">
+                                       <small class="text-body">No Prerequisites</small>
+                                       <h6 class="mb-0">Google Data Analytics</h6>
+                                    </div>
+                                 </div>
+                              </a>
+                              <a href="home-academy.html#">
+                                 <div class="d-flex mb-3">
+                                    <img src="{% static 'geeks/assets/images/png/IBM.png' %}" alt="" />
+                                    <div class="ms-2">
+                                       <small class="text-body">No Prerequisites</small>
+                                       <h6 class="mb-0">IBM Data Science</h6>
+                                    </div>
+                                 </div>
+                              </a>
+                              <a href="home-academy.html#">
+                                 <div class="d-flex mb-3">
+                                    <img
+                                       src="{% static 'geeks/assets/images/png/microsoft.png' %}"
+                                       alt=""
+                                       />
+                                    <div class="ms-2">
+                                       <small class="text-body">Expert Feedback</small>
+                                       <h6 class="mb-0">Machine Leaning for Analytics</h6>
+                                    </div>
+                                 </div>
+                              </a>
+                              <a href="home-academy.html#">
+                                 <div class="d-flex mb-3">
+                                    <img
+                                       src="{% static 'geeks/assets/images/png/tensorflow.png' %}"
+                                       alt=""
+                                       />
+                                    <div class="ms-2">
+                                       <small class="text-body"
+                                          >Certification Prerequisites</small
+                                          >
+                                       <h6 class="mb-0">TensorFlow Developer Certificate</h6>
+                                    </div>
+                                 </div>
+                              </a>
+                              <div class="mt-4">
+                                 <a
+                                    href="home-academy.html#"
+                                    class="btn btn-outline-primary btn-sm"
+                                    >View all Certificates</a
+                                    >
+                              </div>
+                           </div>
+                        </div>
+                        <div class="col-lg-4 col-12 mt-4 mt-lg-0">
+                           <div class="border-bottom pb-2 mb-3">
+                              <h5 class="mb-0">
+                                 <a href="{% url "core:webinar_all_categries_page" %}">
+                                 Terminy szkoleń
+                                 </a>
+                              </h5>
+                           </div>
+                           <div class="">
+                              <ul class="nav flex-column">
+                                 <li class="nav-item">
+                                    <a href="home-academy.html#" class="nav-link">Python</a>
+                                 </li>
+                                 <li class="nav-item">
+                                    <a href="home-academy.html#" class="nav-link">SQL</a>
+                                 </li>
+                                 <li class="nav-item">
+                                    <a href="home-academy.html#" class="nav-link"
+                                       >Microsoft Excel</a
+                                       >
+                                 </li>
+                                 <li class="nav-item">
+                                    <a href="home-academy.html#" class="nav-link"
+                                       >Machine Learning</a
+                                       >
+                                 </li>
+                                 <li class="nav-item">
+                                    <a href="home-academy.html#" class="nav-link"
+                                       >Data Science</a
+                                       >
+                                 </li>
+                                 <li class="nav-item">
+                                    <a href="home-academy.html#" class="nav-link"
+                                       >Data Analytics</a
+                                       >
+                                 </li>
+                                 <li class="nav-item">
+                                    <a href="home-academy.html#" class="nav-link"
+                                       >Power BI</a
+                                       >
+                                 </li>
+                                 <li class="nav-item">
+                                    <a href="home-academy.html#" class="nav-link"
+                                       >Artificial Intelligence</a
+                                       >
+                                 </li>
+                              </ul>
+                              <div class="mt-4">
+                                 <a
+                                    href="home-academy.html#"
+                                    class="btn btn-outline-primary btn-sm"
+                                    >View all Skills</a
+                                    >
+                              </div>
+                           </div>
+                        </div>
+                        <div class="col-12 border-top border-light mt-3">
+                           <div class="lh-1 mt-3">
+                              <h3 class="mb-1">Polecaj i Zarabiaj (10% prowizij dla Ciebie!)</h3>
+                              <p>
+                                 <span class="mb-2">
+                                 Jesteś księgową, kadrową lub innym specjalistą korzystającym z naszej ofert szkoleniowej?
+                                 </span>
+                                 <br>
+                                 <span>
+                                 Weź udział w naszym programie partnerskim i zarabiaj prowizję za każde polecenie! - 
+                                 <a class="fw-bold" href="{% url "core:loyalty_program_info_page" %}">
+                                 Sprawdź szczegóły
+                                 </a>
+                                 </span>
+                              </p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </li>
+           {% endcomment %}
            {% else %}
            {% comment %} <li class="nav-item active">
               <a class="nav-link" href="{% url 'core:webinar_all_categries_page' %}">
@@ -384,11 +441,16 @@
                {% endfor %}
             </ul>
          </li>
-           {% endif %}
-           {% if 0 %}
+         {% endif %}
+         <li class="nav-item active">
+            <a class="nav-link" href="{% url 'core:webinar_category_page' slug="darmowe-webinary" %}">
+            Bezpłatne Webinary
+            </a>
+         </li>
+         {% if 0 %}
            <li class="nav-item dropdown dropdown-fullwidth">
               <a class="nav-link dropdown-toggle" href="{% url 'core:webinar_all_categries_page' %}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Bezpłatne szkolenia
+              Bezpłatne Webinary
               </a>
               {% comment %} <a
                  class="btn btn-light-primary text-primary"

@@ -32,7 +32,7 @@ class WebinarCategoryManager(Manager):
 
     def get_main_categories(self) -> QuerySet["WebinarCategory"]:
         """Get main categories (visible categories without parents)"""
-        return self.get_visible_categories().filter(parent=None)
+        return self.get_visible_categories().filter(parent=None).order_by("order")
 
     def get_subcategories(
         self, category: "WebinarCategory"

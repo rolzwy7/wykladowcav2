@@ -152,6 +152,14 @@ class WebinarManager(Manager):
         """
         return self.get_active_webinars().filter(lecturer__id=lecturer_id)
 
+    def get_active_conferences(self) -> QuerySet["Webinar"]:
+        """Get active conferences
+
+        Returns:
+            QuerySet['Webinar']: queryset of conferences
+        """
+        return self.get_active_webinars().filter(is_connected_to_conference=True)
+
 
 class Webinar(Model):
     """Represents webinar"""
