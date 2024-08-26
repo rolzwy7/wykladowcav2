@@ -195,7 +195,11 @@
                                         <tbody>
                                           <tr>
                                              <td>
+                                                {% if slug == "darmowe-webinary" %}
+                                                <h3>Bezpłatne webinary</h3>
+                                                {% else %}
                                                 <h3>Szkolenia aktualne</h3>
+                                                {% endif %}
                                              </td>
                                           </tr>
                                            {% for webinar in webinars %}

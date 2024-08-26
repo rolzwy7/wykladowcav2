@@ -98,7 +98,16 @@ class InboxMessage:
         """Detect if email is aggressor"""
 
         # Check if subject contains words indicating vacation
-        phrases = ["kurw", "pierdol", "chuj"]
+        phrases = [
+            "kurw",
+            "pierdol",
+            "chuj",
+            "skąd mają",
+            "skąd macie",
+            " zaprzesta",
+            "moje dane",
+            " spam",
+        ]
         for phrase in phrases:
             if any(
                 [

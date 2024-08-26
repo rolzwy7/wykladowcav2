@@ -30,7 +30,7 @@
             style="text-wrap: wrap"
           >
             {% if webinar.is_connected_to_conference %}
-              <span class="text-danger">[DARMOWY WEBINAR]</span>
+            <span class="text-primary">Bezpłatny webinar:</span>
             {% endif %}
             {{webinar.title}}
           </a>
@@ -49,6 +49,7 @@
         
         <ul class="list-inline fs-5 mb-0">
           <li class="list-inline-item">
+            <i class="fe fe-user me-1"></i>
             <a
               href="{% url 'core:lecturer_experience_page' slug=webinar.lecturer.slug %}"
             >
@@ -59,8 +60,13 @@
                    <i class="mdi mdi-clock-time-four-outline text-muted me-1"></i>28 sierpnia 2023 r.
                    </li> -->
           <li class="list-inline-item">
-            <i class="mdi mdi-clock-time-four-outline text-muted me-1"></i
-            >{{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}
+              <i class="fe fe-clock me-1"></i>
+            {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}
+          </li>
+          <li class="list-inline-item">
+            {% if webinar.is_connected_to_conference %}
+              <span class="badge bg-primary">BEZPŁATNY WEBINAR</span>
+            {% endif %}
           </li>
         </ul>
       </div>
@@ -72,7 +78,10 @@
     <br />
     <br />
 
-    {% if not webinar.is_connected_to_conference %}
+    {% if webinar.is_connected_to_conference %}
+      <b>CENA</b> <br />
+      Za darmo
+    {% else %}
       <b>CENA</b> <br />
       {% if webinar.is_discounted %}
         <span class="text-decoration-line-through fw-bolder text-danger">

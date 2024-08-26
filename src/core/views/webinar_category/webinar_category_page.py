@@ -28,6 +28,15 @@ def webinar_category_page(request, slug: str):
         parent = None
         trusted_us = []
         page_title = "Wszystkie szkolenia"
+
+    elif slug == "darmowe-webinary":
+        category_name = "Bezpłatne webinary"
+        menu_categories = WebinarCategory.manager.get_main_categories()
+        webinars = Webinar.manager.get_active_conferences()
+        archived_webinars = None
+        parent = None
+        trusted_us = []
+        page_title = "Bezpłatne webinary"
     else:
         category = get_object_or_404(WebinarCategory, slug=slug)
         category_name = category.name

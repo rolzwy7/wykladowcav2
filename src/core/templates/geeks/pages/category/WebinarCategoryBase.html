@@ -27,6 +27,8 @@
                 <h1 class="mb-0 fw-bold me-3">
                   {% if slug == 'wszystkie-szkolenia' %}
                   Wszystkie szkolenia
+                  {% elif slug == 'darmowe-webinary' %}
+                  Bezpłatne Webinary
                   {% else %}
                     {% if parent %}
                       Szkolenia {{parent.name}}
@@ -43,7 +45,7 @@
                 {% if parent %}
                 <h2>{{category_name}}</h2>
                 {% endif %}
-                {% if not parent and slug != 'wszystkie-szkolenia' %}
+                {% if not parent and slug != 'wszystkie-szkolenia' and slug != 'darmowe-webinary' %}
                 <p class="m-0">
                   <a href="{% url "core:webinar_category_page" slug="wszystkie-szkolenia" %}">
                     <i class="bi bi-arrow-left-short"></i>
