@@ -89,8 +89,8 @@ def create_mailing_campaign(request):
             template=template,
             resignation_list=resignation_list,
             status=MailingCampaignStatus.SENDING,
-            allowed_to_send_after=time(5, 0, 0, 0),
-            allowed_to_send_before=time(20, 0, 0, 0),
+            allowed_to_send_after=time(4, 0, 0, 0),
+            allowed_to_send_before=time(21, 0, 0, 0),
             send_after=send_after,
         )
         campaign.save()
