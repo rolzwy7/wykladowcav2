@@ -1,0 +1,9 @@
+<button
+    class="btn btn-danger py-0 px-1 fs-6"
+    hx-confirm="Czy na pewno chcesz oznaczyć termin jako odwołany?"
+    hx-swap="outerHTML"
+    hx-target="closest tr"
+    hx-post="{% url 'htmx:htmx_crm_cancel_webinar' pk=webinar.pk %}"
+>
+    Oznacz jako Odwołany
+</button>

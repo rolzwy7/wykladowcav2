@@ -13,7 +13,6 @@ from django.db.models import (
     BooleanField,
     CharField,
     DateTimeField,
-    F,
     ForeignKey,
     Manager,
     Model,
@@ -31,12 +30,12 @@ from core.models.enums import MailingCampaignStatus
 
 def default_allowed_to_send_after():
     """Default `allowed to send after` time"""
-    return time(7, 30, 0, 0)
+    return time(4, 0, 0, 0)
 
 
 def default_allowed_to_send_before():
     """Default `allowed to send before` time"""
-    return time(16, 0, 0, 0)
+    return time(21, 0, 0, 0)
 
 
 class MailingCampaignManager(Manager):

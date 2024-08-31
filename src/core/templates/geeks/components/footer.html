@@ -53,9 +53,15 @@
             alt="{{COMPANY_NAME}}"
           />
           <div class="mt-4">
-            <p>
-              Pamiętajcie, że jesteśmy tu dla Was. Jeśli potrzebujecie wsparcia, szkoleń dopasowanych do Waszych potrzeb lub jakiejkolwiek innej pomocy, dajcie nam znać!
+            <p class="mb-4">
+              <b>{{COMPANY_NAME_FULL}}</b> <br>
+              NIP: <b>{{COMPANY_NIP}}</b> <br>
+              REGON: <b>{{COMPANY_REGON}}</b> <br>
+              Wpisany do {{COMPANY_REGISTER_TYPE}} przez {{COMPANY_REGISTER_UNIT}} <br>
+              Numer wpisu do Rejestru Instytucji Szkoleniowych: <b>2.24/00108/2023</b>
             </p>
+          </div>
+          <div class="mt-4">
             {% comment %} <!-- social media -->
             <div class="fs-4 mt-4">
               <a href="{{LINK_KADRY_PLACE_GRUPA_WSPARCIA}}" class="mdi mdi-facebook fs-4 text-muted me-2"></a>
@@ -119,15 +125,15 @@
       <div class="col-lg-3 col-md-12">
         <div class="mb-4">
           <h3 class="fw-bold mb-3">Dane kontaktowe</h3>
-          <p>
-            {{COMPANY_ADDRESS}}
-          </p>
-          <p class="mb-1">Email: <a href="mailto:{{COMPANY_OFFICE_EMAIL}}">
+          <p class="mb-1">Email: <a href="mailto:{{COMPANY_OFFICE_EMAIL}}" class="fw-semibold">
             {{COMPANY_OFFICE_EMAIL}}
           </a>
           </p>
           <p>
-            Phone: <span class="text-dark fw-semibold">{{COMPANY_OFFICE_PHONE}}</span>
+            Telefon: <span class="text-dark fw-semibold">{{COMPANY_OFFICE_PHONE}}</span>
+          </p>
+          <p>
+            Adres: <span>{{COMPANY_ADDRESS}}</span>
           </p>
         </div>
       </div>

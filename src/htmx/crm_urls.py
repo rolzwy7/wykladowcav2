@@ -7,6 +7,7 @@ from htmx.views.crm import (
     htmx_annoying_alerts,
     htmx_conference_url_form,
     htmx_crm_application_cancellation_toggle,
+    htmx_crm_cancel_webinar,
     htmx_crm_check_nip,
     htmx_crm_delete_webinar_asset,
     htmx_crm_email_tagging_init,
@@ -72,5 +73,10 @@ urlpatterns = [
         "crm-check-nip/<str:nip>/",
         htmx_crm_check_nip,
         name="htmx_crm_check_nip",
+    ),
+    path(
+        "crm-cancel-webinar/<int:pk>/",
+        htmx_crm_cancel_webinar,
+        name="htmx_crm_cancel_webinar",
     ),
 ]

@@ -476,7 +476,7 @@
     </script>
     <script src="{% static 'js/sticksy.min.js' %}"></script>
     <script>
-        var stickyElement = new Sticksy('.js-sticky-widget', {topSpacing: 10});
+        var stickyElement = new Sticksy('.js-sticky-widget', {topSpacing: 70});
         stickyElement.onStateChanged = function (state) {
             if(state === 'fixed') {
               stickyElement.nodeRef.classList.add('widget--sticky')
