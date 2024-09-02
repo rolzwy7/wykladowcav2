@@ -1,0 +1,54 @@
+<!--begin::Timeline item-->
+<div class="timeline-item">
+    <!--begin::Timeline line-->
+    <div class="timeline-line w-40px"></div>
+    <!--end::Timeline line-->
+    <!--begin::Timeline icon-->
+    <div class="timeline-icon symbol symbol-circle symbol-40px me-4">
+       <div class="symbol-label bg-light">
+          <i class="ki-duotone ki-gear fs-2 text-gray-500">
+             <i class="path1"></i>
+             <i class="path2"></i>
+          </i>
+       </div>
+    </div>
+    <!--end::Timeline icon-->
+    <!--begin::Timeline content-->
+    <div class="timeline-content mb-10 mt-n1">
+       <!--begin::Timeline heading-->
+       <div class="pe-3 mb-5">
+          <!--begin::Title-->
+          <div class="fs-5 fw-semibold mb-2">
+             Procesy Tmux: {{processes|length}}
+          </div>
+          <!--end::Title-->
+          <!--begin::Description-->
+          <div class="d-flex align-items-center mt-1 fs-6">
+             <!--begin::Info-->
+             <div class="text-muted me-2 fs-7">
+                Sprawdzono {{checked_at}}
+             </div>
+             <!--end::Info-->
+          </div>
+          <!--end::Description-->
+       </div>
+       <!--end::Timeline heading-->
+       <!--begin::Timeline details-->
+       <div class="overflow-auto pb-5">
+          {% for process in processes %}
+          <!--begin::Record-->
+          <div class="d-flex align-items-center border border-dashed border-gray-300 rounded min-w-750px px-7 py-3 mb-5">
+             <!--begin::Title-->
+             <h5 class="fs-5 text-dark text-hover-primary fw-semibold">
+                {{process}}
+             </h5>
+             <!--end::Title-->
+          </div>
+          <!--end::Record-->
+          {% endfor %}
+       </div>
+       <!--end::Timeline details-->
+    </div>
+    <!--end::Timeline content-->
+ </div>
+ <!--end::Timeline item-->

@@ -21,6 +21,7 @@ from .reflink_service import ReflinkService
 from .registration_service import RegistrationService
 from .regon_service import RegonService
 from .sender_smtp_service import SenderSmtpService
+from .static_files_indicators_service import StaticFilesIndicatorsService
 from .streaming_service import StreamingService
 from .tagging_service import TaggingService
 from .telegram_service import TelegramService
