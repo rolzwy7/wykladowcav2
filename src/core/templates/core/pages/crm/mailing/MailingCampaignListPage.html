@@ -64,56 +64,65 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table">
+
+
+                <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+                    <!--begin::Table head-->
                     <thead>
-                        <tr class="fw-bold fs-6 text-gray-800">
-                            <th>Kampania mailingowa</th>
-                            <th>any_error_occured</th>
-                            <th>smtp_server_disconnected</th>
-                            <th>connection_refused</th>
-                            <th>smtp_recipients_refused</th>
-                        </tr>
+                      <tr class="fw-bold fs-6 text-gray-800 text-center border-0 bg-light">
+                        <th class="min-w-200px rounded-start">Kampania</th>
+                        <th class="min-w-140px">any_error_occured</th>
+                        <th class="min-w-120px">smtp_server_disconnected</th>
+                        <th class="min-w-100px">connection_refused</th>
+                        <th class="min-w-100px">smtp_recipients_refused</th>
+                      </tr>
                     </thead>
-                    <tbody>
-                        {% for campaign in mailing_errors %}
-                        <tr>
-                            <td>
-                                <a href="{% url 'core:crm_mailing_campaign_detail' pk=campaign.pk %}">
-                                    <b>{{campaign}}</b>
-                                </a>
-                            </td>
-                            <td>
-                                {% if campaign.any_error_occured %}
-                                <i class="ki-duotone ki-check-square text-danger fs-1"><i class="path1"></i><i class="path2"></i></i>
-                                {% else %}
-                                <i class="ki-duotone ki-cross-square text-success fs-1"><i class="path1"></i><i class="path2"></i></i>
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% if campaign.smtp_server_disconnected %}
-                                <i class="ki-duotone ki-check-square text-danger fs-1"><i class="path1"></i><i class="path2"></i></i>
-                                {% else %}
-                                <i class="ki-duotone ki-cross-square text-success fs-1"><i class="path1"></i><i class="path2"></i></i>
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% if campaign.connection_refused %}
-                                <i class="ki-duotone ki-check-square text-danger fs-1"><i class="path1"></i><i class="path2"></i></i>
-                                {% else %}
-                                <i class="ki-duotone ki-cross-square text-success fs-1"><i class="path1"></i><i class="path2"></i></i>
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% if campaign.smtp_recipients_refused %}
-                                <i class="ki-duotone ki-check-square text-danger fs-1"><i class="path1"></i><i class="path2"></i></i>
-                                {% else %}
-                                <i class="ki-duotone ki-cross-square text-success fs-1"><i class="path1"></i><i class="path2"></i></i>
-                                {% endif %}
-                            </td>
-                        </tr>
-                        {% endfor %}
+                    <!--end::Table head-->
+                    <!--begin::Table body-->
+                    <tbody class="border-bottom border-dashed">
+
+                    {% for campaign in mailing_errors %}
+                      <tr class="text-center">
+                        <td class="text-start ps-6">
+                          <div class="fw-semibold fs-4 text-gray-800">
+                            <a href="{% url 'core:crm_mailing_campaign_detail' pk=campaign.pk %}">
+                                <b>{{campaign}}</b>
+                            </a>
+                          </div>
+                        </td>
+                        <td>
+                            {% if campaign.any_error_occured %}
+                                <i class="ki-duotone ki-0 fs-2x text-success"></i><i class="ki-duotone ki-cross fs-2x text-success"><span class="path1"></span><span class="path2"></span></i>
+                            {% else %}
+                                <i class="ki-duotone ki-check fs-2x text-danger"></i><i class="ki-duotone ki-0 fs-2x text-danger"></i>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if campaign.smtp_server_disconnected %}
+                                <i class="ki-duotone ki-0 fs-2x text-success"></i><i class="ki-duotone ki-cross fs-2x text-success"><span class="path1"></span><span class="path2"></span></i>
+                            {% else %}
+                                <i class="ki-duotone ki-check fs-2x text-danger"></i><i class="ki-duotone ki-0 fs-2x text-danger"></i>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if campaign.connection_refused %}
+                                <i class="ki-duotone ki-0 fs-2x text-success"></i><i class="ki-duotone ki-cross fs-2x text-success"><span class="path1"></span><span class="path2"></span></i>
+                            {% else %}
+                                <i class="ki-duotone ki-check fs-2x text-danger"></i><i class="ki-duotone ki-0 fs-2x text-danger"></i>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if campaign.smtp_recipients_refused %}
+                                <i class="ki-duotone ki-0 fs-2x text-success"></i><i class="ki-duotone ki-cross fs-2x text-success"><span class="path1"></span><span class="path2"></span></i>
+                            {% else %}
+                                <i class="ki-duotone ki-check fs-2x text-danger"></i><i class="ki-duotone ki-0 fs-2x text-danger"></i>
+                            {% endif %}
+                        </td>
+                      </tr>
+                    {% endfor %}
                     </tbody>
-                </table>
+                    <!--end::Table body-->
+                  </table>
             </div>
         </div>
     </div>

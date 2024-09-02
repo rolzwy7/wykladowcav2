@@ -36,9 +36,16 @@
           <div class="timeline">
               <div
                 hx-get="{% url "htmx:system-health:celery-workers" %}"
-                hx-trigger="load, every 15s"
+                hx-swap="outerHTML"
+                hx-trigger="load"
               >
               </div>
+              <div
+                 hx-get="{% url "htmx:system-health:tmux-processes" %}"
+                 hx-swap="outerHTML"
+                 hx-trigger="load"
+               >
+               </div>
           </div>
           <!--end::Timeline items-->
        </div>

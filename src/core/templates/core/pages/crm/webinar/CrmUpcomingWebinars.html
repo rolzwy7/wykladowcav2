@@ -11,6 +11,30 @@
   <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
 </div>
 
+<b>REGON</b>
+<div
+  hx-get="{% url "htmx:dwpldb:regon-queue-count" %}"
+  hx-swap="outerHTML"
+  hx-trigger="load">
+  <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
+</div>
+
+<b>VERIFY</b>
+<div
+  hx-get="{% url "htmx:dwpldb:email-verify-queue-count" %}"
+  hx-swap="outerHTML"
+  hx-trigger="load">
+  <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
+</div>
+
+<b>SCRAPER</b>
+<div
+  hx-get="{% url "htmx:dwpldb:scraper-queue-static-count" %}"
+  hx-swap="outerHTML"
+  hx-trigger="load">
+  <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
+</div>
+
 <div hx-get="{% url "htmx:htmx_annoying_alerts" %}" hx-trigger="load">
   <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
 </div>

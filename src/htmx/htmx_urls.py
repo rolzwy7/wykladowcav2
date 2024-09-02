@@ -43,6 +43,10 @@ urlpatterns = [
         "system-health/",
         include("htmx.views.system_health.urls", namespace="system-health"),
     ),
+    path(
+        "dwpldb/",
+        include("htmx.views.dwpldb.urls", namespace="dwpldb"),
+    ),
     path("application/", include(application_urlpatterns)),
     path("crm/", include(crm_urlpatterns)),
 ]
