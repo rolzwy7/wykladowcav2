@@ -96,6 +96,7 @@ class MailingCampaignService:
 
         pool_manager = MailingPoolManager()
         batch = []
+        mailing_campaign_id: int = self.mailing_campaign.id  # type: ignore
 
         for line in file:
             if isinstance(line, str):
@@ -103,10 +104,8 @@ class MailingCampaignService:
             else:
                 email = str(line, "utf8").strip().lower()
 
-            mailing_campaign_id: int = self.mailing_campaign.id  # type: ignore
-
             batch.append(
-                pool_manager.create_upsert_object(
+                pool_manager.create_insert_object(
                     MailingPool(
                         campaign_id=mailing_campaign_id,
                         email=email,
@@ -117,10 +116,11 @@ class MailingCampaignService:
             )
 
             if len(batch) >= 100:
-                pool_manager.collection.bulk_write(batch)
+                pool_manager.bulk_write_ignore_errors(batch)
+
                 batch = []
 
         if batch:
-            pool_manager.collection.bulk_write(batch)
+            pool_manager.bulk_write_ignore_errors(batch)
 
         pool_manager.close()

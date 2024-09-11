@@ -6,7 +6,7 @@ Mailing pool manager
 
 from django.conf import settings
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
-from pymongo import UpdateOne
+from pymongo import InsertOne, UpdateOne, errors
 
 from core.libs.mongo.db import get_mongo_connection
 from core.models.enums import MailingPoolStatus
@@ -48,6 +48,18 @@ class MailingPoolManager:
             {"$set": {"_id": new_id, **pool_object.dict()}},
             upsert=True,
         )
+
+    def create_insert_object(self, pool_object: MailingPool) -> InsertOne:
+        """Insert pool object into collection"""
+        new_id = f"{pool_object.campaign_id}:{pool_object.email}"
+        return InsertOne({"_id": new_id, **pool_object.dict()})
+
+    def bulk_write_ignore_errors(self, batch):
+        """Bulk write ignoring errors"""
+        try:
+            self.collection.bulk_write(batch, ordered=False)
+        except errors.BulkWriteError as e:
+            pass
 
     def get_email_count_for_campaign(self, campaign_id: int) -> int:
         """Get count of all emails that are in given campaign"""

@@ -1,5 +1,6 @@
 """Lecturers opinions list page"""
 
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 
@@ -12,6 +13,9 @@ def lecturer_opinions_page(request, slug: str):
     """List of lecturers"""
     template_name = "geeks/pages/lecturer/LecturerOpinionsPage.html"
     lecturer = get_object_or_404(Lecturer, slug=slug)
+    if lecturer.finished_coop:
+        raise Http404("Zakończono współpracę")
+
     lecturer_service = LecturerService(lecturer)
 
     opinions_service = OpinionsService(lecturer_service.get_lecturer_opinions())
