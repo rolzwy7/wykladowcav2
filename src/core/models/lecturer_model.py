@@ -66,6 +66,12 @@ class Lecturer(Model):
         help_text="Czy wykładowca zgadza się na nagrania",
     )
 
+    finished_coop = BooleanField(
+        "Zakończono współpracę",
+        default=False,
+        help_text="Wykładowca nie chce mieć z nami nic wspólnego",
+    )
+
     order_value = PositiveIntegerField("Wartość sortująca", default=100)
 
     fullname = CharField("Imie i Nazwisko", max_length=100)

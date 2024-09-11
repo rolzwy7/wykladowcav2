@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
@@ -13,6 +14,9 @@ def lecturer_opinion_form_page(request, slug: str):
     """Lecturer opinion form page"""
     template_name = "geeks/pages/lecturer/LecturerOpinionFormPage.html"
     lecturer = get_object_or_404(Lecturer, slug=slug)
+    if lecturer.finished_coop:
+        raise Http404("Zakończono współpracę")
+
     service = LecturerService(lecturer)
 
     if request.method == POST:

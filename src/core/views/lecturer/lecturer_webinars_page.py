@@ -1,5 +1,6 @@
 # flake8: noqa=E501
 
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 
@@ -11,6 +12,9 @@ def lecturer_webinars_page(request, slug: str):
     """List of lecturer's webinars"""
     template_name = "geeks/pages/lecturer/LecturerWebinarsPage.html"
     lecturer = get_object_or_404(Lecturer, slug=slug)
+    if lecturer.finished_coop:
+        raise Http404("Zakończono współpracę")
+
     lecturer_service = LecturerService(lecturer)
 
     return TemplateResponse(
