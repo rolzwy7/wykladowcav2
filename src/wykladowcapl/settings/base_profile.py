@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     "django_celery_beat",
     "tinymce",
     "debug_toolbar",
+    "csp",
     # Django
     "django.contrib.admin",
     "django.contrib.auth",
@@ -92,10 +93,13 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # XFrameOptionsMiddleware commented to avoid conflicts with django-csp
+    # "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # Custom middleware
     "core.middleware.CoreMiddleware",
     "core.middleware.LoyaltyProgramMiddleware",
+    # 3rd party
+    "csp.middleware.CSPMiddleware",
 ]
 
 ROOT_URLCONF = "wykladowcapl.urls"
@@ -194,3 +198,14 @@ FORM_RENDERER = "wykladowcapl.settings.CustomFormRenderer"
 #         "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
 #     },
 # }
+
+
+# Allow iframe embedding for the wykladowca.pl page
+CSP_FRAME_ANCESTORS = ("'self'", "https://wykladowca.pl")
+
+# General CSP rules (optional for forms or other external content)
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "https://wykladowca.pl")
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "https://wykladowca.pl")
+CSP_IMG_SRC = ("'self'", "https://wykladowca.pl")
+CSP_FORM_ACTION = ("'self'", "https://wykladowca.pl")
