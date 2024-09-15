@@ -20,3 +20,26 @@ class LecturerModelAdmin(ModelAdmin):
     prepopulated_fields = {"slug": ("fullname",)}
     filter_horizontal = ("categories",)
     readonly_fields = ["avatar_image_preview"]
+
+    date_hierarchy = "created_at"
+    search_fields = [
+        "fullname",
+        "slug",
+        "biography",
+        "email",
+    ]
+    list_filter = [
+        "visible_on_page",
+        "visible_on_homepage",
+        "agrees_to_recording",
+        "finished_coop",
+    ]
+    list_display = [
+        "fullname",
+        "slug",
+        "email",
+        "profession",
+        "fake_stat_participants",
+        "fake_stat_webinars",
+        "years_experience",
+    ]
