@@ -200,12 +200,12 @@ FORM_RENDERER = "wykladowcapl.settings.CustomFormRenderer"
 # }
 
 
-# Allow iframe embedding for the wykladowca.pl page
-CSP_FRAME_ANCESTORS = ("'self'", "http://rankingtest.wykladowca.pl/")
+# # Allow iframe embedding for the wykladowca.pl page
+# CSP_FRAME_ANCESTORS = ("'self'", "http://rankingtest.wykladowca.pl/")
 
-# General CSP rules (optional for forms or other external content)
-CSP_DEFAULT_SRC = ("'self'",)
-CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "http://rankingtest.wykladowca.pl/")
-CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "http://rankingtest.wykladowca.pl/")
-CSP_IMG_SRC = ("'self'", "http://rankingtest.wykladowca.pl/")
-CSP_FORM_ACTION = ("'self'", "http://rankingtest.wykladowca.pl/")
+# # General CSP rules (optional for forms or other external content)
+# CSP_DEFAULT_SRC = ("'self'",)
+# CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "http://rankingtest.wykladowca.pl/")
+# CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "http://rankingtest.wykladowca.pl/")
+# CSP_IMG_SRC = ("'self'", "http://rankingtest.wykladowca.pl/")
+# CSP_FORM_ACTION = ("'self'", "http://rankingtest.wykladowca.pl/")
