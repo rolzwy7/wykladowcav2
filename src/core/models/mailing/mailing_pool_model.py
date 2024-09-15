@@ -6,7 +6,7 @@ Mailing pool manager
 
 from django.conf import settings
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
-from pymongo import InsertOne, UpdateOne, errors
+from pymongo import DESCENDING, InsertOne, UpdateOne, errors
 
 from core.libs.mongo.db import get_mongo_connection
 from core.models.enums import MailingPoolStatus
@@ -86,16 +86,20 @@ class MailingPoolManager:
         """Find all by status"""
         return self.collection.find(
             {"status": status, "campaign_id": {"$in": campaign_ids}}
-        )
+        ).sort("priority", DESCENDING)
 
     def get_ready_to_send_for_campaign(self, campaign_id: int, limit: int = 100):
         """Get ready to send emails for campaign"""
-        return self.collection.find(
-            {
-                "status": MailingPoolStatus.READY_TO_SEND,
-                "campaign_id": campaign_id,
-            }
-        ).limit(limit)
+        return (
+            self.collection.find(
+                {
+                    "status": MailingPoolStatus.READY_TO_SEND,
+                    "campaign_id": campaign_id,
+                }
+            )
+            .sort("priority", DESCENDING)
+            .limit(limit)
+        )
 
     def is_campaign_finished(self, campaign_id: int) -> bool:
         """Check if campaign is finished
