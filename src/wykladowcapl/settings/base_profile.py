@@ -93,13 +93,12 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
-    # XFrameOptionsMiddleware commented to avoid conflicts with django-csp
-    # "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # Custom middleware
     "core.middleware.CoreMiddleware",
     "core.middleware.LoyaltyProgramMiddleware",
     # 3rd party
-    "csp.middleware.CSPMiddleware",
+    # "csp.middleware.CSPMiddleware",
 ]
 
 ROOT_URLCONF = "wykladowcapl.urls"
