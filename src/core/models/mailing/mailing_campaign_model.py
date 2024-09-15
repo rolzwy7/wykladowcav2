@@ -17,6 +17,7 @@ from django.db.models import (
     Manager,
     Model,
     PositiveIntegerField,
+    PositiveSmallIntegerField,
     Q,
     QuerySet,
     TextField,
@@ -138,6 +139,12 @@ class MailingCampaign(Model):
     smtp_server_disconnected = BooleanField(default=False)
     connection_refused = BooleanField(default=False)
     smtp_recipients_refused = BooleanField(default=False)
+
+    # Priority
+    base_priority = PositiveSmallIntegerField(default=100)
+    random_priority = BooleanField(default=True)
+    random_priority_min = PositiveSmallIntegerField(default=0)
+    random_priority_max = PositiveSmallIntegerField(default=100)
 
     class Meta:
         """meta"""

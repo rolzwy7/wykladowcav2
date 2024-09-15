@@ -3,7 +3,9 @@
 # flake8: noqa=E501
 
 from datetime import time
+from random import randint
 
+from django.conf import settings
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.utils.timezone import now, timedelta
 
@@ -99,18 +101,35 @@ class MailingCampaignService:
         mailing_campaign_id: int = self.mailing_campaign.id  # type: ignore
 
         for line in file:
-            if isinstance(line, str):
-                email = line.strip().lower()
-            else:
-                email = str(line, "utf8").strip().lower()
+            email = (
+                line.strip().lower()
+                if isinstance(line, str)
+                else str(line, "utf8").strip().lower()
+            )
 
+            # Decide priority
+            if self.mailing_campaign.random_priority:
+                # If random priority then priority = base + random
+                priority = self.mailing_campaign.base_priority + randint(
+                    self.mailing_campaign.random_priority_min,
+                    self.mailing_campaign.random_priority_max,
+                )
+            else:
+                # If not random priority then priority = base
+                priority = self.mailing_campaign.base_priority
+
+            # If e-mail is in comapny domain set highest priority
+            if settings.COMPANY_DOMAIN in email:
+                priority = 999
+
+            # Append to pool
             batch.append(
                 pool_manager.create_insert_object(
                     MailingPool(
                         campaign_id=mailing_campaign_id,
                         email=email,
                         status=MailingPoolStatus.BEING_PROCESSED,
-                        priority=100,
+                        priority=priority,
                     )
                 )
             )

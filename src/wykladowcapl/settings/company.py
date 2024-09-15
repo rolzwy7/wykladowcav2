@@ -2,6 +2,8 @@
 COMPANY settings
 """
 
+# flake8: noqa
+
 COMPANY_NAME = "Wykładowca.pl"
 COMPANY_NAME_FULL = "Wykładowca.pl Tomasz Howaniec"
 
@@ -30,3 +32,4 @@ COMPANY_FAX = "32 720 24 24"
 COMPANY_OFFICE_EMAIL = "biuro@wykladowca.pl"
 COMPANY_OFFICE_PHONE = "531 244 871"
 COMPANY_WWW = "https://wykladowca.pl"
+COMPANY_DOMAIN = "wykladowca.pl"
