@@ -1,7 +1,10 @@
-User-agent: facebookexternalhit/1.1
+facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)
 Allow: /
 
-User-agent: facebookexternalhit
+facebookexternalhit/1.1
+Allow: /
+
+facebookcatalog/1.0
 Allow: /
 
 User-agent: *

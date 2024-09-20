@@ -105,7 +105,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for webinar_ctx in webinars_ctxs %}
+      {% for webinar_ctx in webinars_ctxs_upcoming_webinar_row %}
         {% include './snippets/CrmWebinarRow.html' with webinar_ctx=webinar_ctx forloop_counter=forloop.counter0 %}
       {% endfor %}
     </tbody>
