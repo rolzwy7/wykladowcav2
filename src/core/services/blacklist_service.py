@@ -63,10 +63,10 @@ class BlacklistService:
         ).exists()
 
     @staticmethod
-    def blacklist_email_temporarily(email: str) -> None:
+    def blacklist_email_temporarily(email: str, days: int = 10) -> None:
         """Blacklist email temporarily"""
         obj, _ = BlacklistedEmailTemporary.manager.get_or_create(email=email.lower())
-        obj.expires_at = now() + timedelta(days=10)
+        obj.expires_at = now() + timedelta(days=days)
         obj.save()
 
     @staticmethod

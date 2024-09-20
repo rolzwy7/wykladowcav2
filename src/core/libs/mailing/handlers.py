@@ -95,3 +95,17 @@ def handle_too_much_failures(campaign_id: int, campaign_title: str):
         f"Zbyt dużo błędów: {campaign_title}",
         TelegramChats.OTHER,
     )
+
+
+def handle_on_processing_loop_failure(
+    retry: int, exception_str: str, traceback_str: str
+):
+    """handle_on_processing_loop_failure"""
+    telegram_service = TelegramService()
+    telegram_service.send_chat_message(
+        f"retry={retry+1}, {exception_str}:\n{traceback_str}",
+        TelegramChats.OTHER,
+    )
+    wait_time_seconds = (retry + 1) * (3 * 60)
+    print(f"[*] Waiting after failure: {wait_time_seconds}")
+    time.sleep(wait_time_seconds)

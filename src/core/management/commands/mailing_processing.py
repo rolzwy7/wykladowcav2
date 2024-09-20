@@ -2,42 +2,26 @@
 Mailing processing procedure
 """
 
-# flake8: noqa:E501
-# pylint: disable=global-variable-not-assigned
+# flake8: noqa=E501
 # pylint: disable=broad-exception-caught
-# pylint: disable=invalid-name
 
 import logging
 import time
 import traceback
 
-from django.core.exceptions import ValidationError
 from django.core.management.base import BaseCommand
-from django.core.validators import validate_email
 from django.utils.timezone import now, timedelta
 
-from core.consts import TelegramChats
-from core.libs.inbox import InboxMessage
-from core.models import (
-    MailingBounce,
-    MailingBounceManager,
-    MailingPoolManager,
-    MailingReplyMessage,
-    SmtpSender,
+from core.libs.mailing.handlers import handle_on_processing_loop_failure
+from core.libs.mailing.processes import (
+    process_blacklist,
+    process_bounces,
+    process_check_mx,
+    process_load_cache,
+    process_scan_inbox,
 )
-from core.models.enums import MailingBounceStatus, MailingPoolStatus
-from core.models.mailing import (
-    MailingCampaign,
-    MailingProcessingCacheManager,
-    MailingResignationManager,
-)
-from core.services import (
-    BlacklistService,
-    MxService,
-    SenderSmtpService,
-    TelegramService,
-)
-from core.services.mailing import MailingResignationService
+from core.models import MailingBounceManager, MailingPoolManager, SmtpSender
+from core.models.mailing import MailingCampaign
 
 logging.getLogger("flufl.bounce").setLevel(logging.WARNING)
 
@@ -48,285 +32,6 @@ SLEEP_BETWEEN_LOOPS_SECONDS = 5
 SLEEP_ON_NO_ACTIVE_CAMPAIGNS = 15
 
 
-def process_scan_inbox(smtp_sender: SmtpSender):
-    """Scan inboxes process"""
-    global INBOX_SCAN_CACHE
-
-    smtp_service = SenderSmtpService(smtp_sender)
-    pop3 = smtp_service.get_pop3_instance()
-    bounce_manager = MailingBounceManager()
-    cache_manager = MailingProcessingCacheManager()
-
-    # Iterate over inbox messages
-    for message in smtp_service.get_inbox_messages(pop3):
-        _, _, message_bytes = message
-        inbox_message = InboxMessage(message_bytes)
-        bounces_list = []
-
-        print("\n# MESSAGE:", inbox_message.subject_header)
-
-        # Skip cached messages
-        if INBOX_SCAN_CACHE.get(inbox_message.unique_hash):
-            print("# CACHED:", inbox_message.subject_header)
-            continue
-        else:
-            # Cache message ID if not already in cache
-            print("[*] Adding to cache:", inbox_message.unique_hash)
-            # Add to local cache
-            INBOX_SCAN_CACHE[inbox_message.unique_hash] = True
-            # Add to remote cache
-            cache_manager.insert_message_id_into_cache(inbox_message.unique_hash)
-
-        # Detect permanent failures
-        permanent_failures = inbox_message.get_emails_permanent_failure()
-        for email in permanent_failures:
-            print("Permanent failure:", email)
-            bounces_list.append(
-                (
-                    email,
-                    MailingBounceStatus.PERMANENT,
-                    inbox_message.get_content(),
-                )
-            )
-
-        # Detect temporary failures
-        temporary_failures = inbox_message.get_emails_temporary_failure()
-        for email in temporary_failures:
-            print("Temporary failure:", email)
-            bounces_list.append(
-                (
-                    email,
-                    MailingBounceStatus.PERMANENT,
-                    inbox_message.get_content(),
-                )
-            )
-
-        # Save detected failures
-        bounce_manager.upsert_documents(
-            [
-                MailingBounce(
-                    id=inbox_message.unique_hash,
-                    email=email,
-                    bounce_type=bounce_type,
-                    content=content,
-                )
-                for email, bounce_type, content in bounces_list
-            ]
-        )
-
-        # Detect vacation messages and temporarily blacklist emails:
-        # - from email
-        # - emails in subject
-        if inbox_message.is_vacation():
-            print(
-                "Is vacation (temporarily blacklisted):",
-                inbox_message.subject_header,
-            )
-            from_email = inbox_message.from_email
-            subject_emails = inbox_message.get_subject_emails()
-            for tb_email in [from_email, *subject_emails]:
-                BlacklistService.blacklist_email_temporarily(tb_email)
-                print(f"- temporarily blacklisted: {tb_email}")
-
-        # Check if subject is resignation
-        # if message is subject resignation then mark from email
-        # and all email in the subject as resignations
-        if inbox_message.is_subject_resignation():
-            resignation_manager = MailingResignationManager()
-            from_email = inbox_message.from_email
-            print("Resigntion (from e-mail):", from_email)
-            resignation_manager.get_or_create_resignation(from_email)
-            resignation_manager.mark_confirmed_by_email(from_email)
-            subject_emails = inbox_message.get_subject_emails()
-            for subject_email in subject_emails:
-                print("Resigntion (subject e-mail):", subject_email)
-                resignation_manager.get_or_create_resignation(subject_email)
-                resignation_manager.mark_confirmed_by_email(subject_email)
-            resignation_manager.close()
-
-        if all(
-            [
-                not MailingReplyMessage.manager.filter(
-                    email_id=inbox_message.unique_hash
-                ).exists(),
-                len(permanent_failures) == 0,
-                len(temporary_failures) == 0,
-                not inbox_message.is_bounce_by_subject(),
-            ]
-        ):
-            print("MailingReplyMessage:", inbox_message.subject_header)
-            MailingReplyMessage(
-                email_id=inbox_message.unique_hash,
-                from_email=inbox_message.from_email,
-                to_email=inbox_message.from_email,
-                is_aggressor=inbox_message.is_aggressor(),
-                is_vacation=inbox_message.is_vacation(),
-                is_email_change=inbox_message.is_new_email(),
-                subject=inbox_message.subject_header,
-                message_content=inbox_message.get_content(),
-            ).save()
-
-    try:
-        pop3.quit()
-    except Exception as e:
-        print("[-] pop3.quit():", str(e))
-
-    bounce_manager.close()
-    cache_manager.close()
-
-
-def process_check_mx(
-    pool_manager: MailingPoolManager,
-    campaigns_ids: list[int],
-    /,
-    *,
-    process_count: int = 100,
-):
-    """Check MX process"""
-
-    # MX check process
-    pool_being_processed = pool_manager.find_all_by_status_and_campaign_ids(
-        MailingPoolStatus.BEING_PROCESSED, campaigns_ids
-    )
-
-    for idx, document in enumerate(pool_being_processed):
-        if idx >= process_count:
-            break
-
-        campaign_id, email = document["campaign_id"], document["email"]
-        document_id = f"{campaign_id}:{email}"
-
-        # Check email format
-        try:
-            validate_email(email)
-        except ValidationError:
-            pool_manager.change_status(
-                document_id, MailingPoolStatus.INVALID_EMAIL_FORMAT
-            )
-        else:
-            # Check MX status
-            new_status = {
-                True: MailingPoolStatus.MX_VALID,
-                False: MailingPoolStatus.MX_INVALID,
-            }[MxService().has_email_mx_record(email)]
-
-            # Change status
-            pool_manager.change_status(f"{campaign_id}:{email}", new_status)
-            print(idx + 1, email, "->", new_status)
-
-
-def process_blacklist(
-    pool_manager: MailingPoolManager,
-    campaigns_ids: list[int],
-    /,
-    *,
-    process_count: int = 100,
-):
-    """Blacklist process"""
-
-    # Pool blacklist process
-    pool_mx_valid = pool_manager.find_all_by_status_and_campaign_ids(
-        MailingPoolStatus.MX_VALID, campaigns_ids
-    )
-
-    for idx, document in enumerate(pool_mx_valid):
-        if idx >= process_count:
-            break
-
-        email = document["email"]
-        campaign_id = document["campaign_id"]
-        campaign: MailingCampaign = MailingCampaign.manager.get(id=campaign_id)
-
-        document_id = f"{campaign_id}:{email}"
-        prefix, domain = email.split("@")
-
-        # Blacklist
-        if BlacklistService.is_email_dangerous_to_send(email):
-            new_status = MailingPoolStatus.DANGEROUS_TO_SEND
-
-        elif BlacklistService.is_domain_blacklisted(domain):
-            new_status = MailingPoolStatus.BLACKLISTED_DOMAIN
-
-        elif BlacklistService.is_email_blacklisted(email):
-            new_status = MailingPoolStatus.BLACKLISTED_EMAIL
-
-        elif BlacklistService.is_prefix_blacklisted(prefix):
-            new_status = MailingPoolStatus.BLACKLISTED_PREFIX
-
-        elif BlacklistService.is_email_temporarily_blacklisted(email):
-            new_status = MailingPoolStatus.BLACKLISTED_EMAIL_TEMPORARY
-
-        elif BlacklistService.is_email_phrase_blacklisted(email):
-            new_status = MailingPoolStatus.BLACKLISTED_PHRASE
-
-        elif MailingResignationService.is_email_confirmed_resignation(
-            email, campaign.resignation_list
-        ):
-            new_status = MailingPoolStatus.RESIGNATION
-
-        else:
-            new_status = MailingPoolStatus.READY_TO_SEND
-
-        pool_manager.change_status(document_id, new_status)
-        print(idx + 1, document_id, "->", new_status)
-
-
-def process_bounces(
-    pool_manager: MailingPoolManager,
-    bounce_manager: MailingBounceManager,
-    campaigns_ids: list[int],
-    /,
-    *,
-    process_count: int = 100,
-):
-    """Blacklist process"""
-
-    # Pool blacklist process
-    pool_mx_valid = pool_manager.find_all_by_status_and_campaign_ids(
-        MailingPoolStatus.MX_VALID, campaigns_ids
-    )
-
-    for idx, document in enumerate(pool_mx_valid):
-        if idx >= process_count:
-            break
-        email = document["email"]
-        campaign_id = document["campaign_id"]
-        document_id = f"{campaign_id}:{email}"
-
-        bounce = bounce_manager.is_email_bounced(email)
-
-        if not bounce:
-            print(f"[*] Not a bounce: `{email}`")
-            continue
-
-        new_bounce_type = {
-            MailingBounceStatus.PERMANENT: MailingPoolStatus.BOUNCE_PERMANENT,
-            MailingBounceStatus.TEMPORARY: MailingPoolStatus.BOUNCE_TEMPORARY,
-        }.get(bounce["bounce_type"], MailingPoolStatus.BOUNCE_UNKNOWN)
-
-        pool_manager.change_status(document_id, new_bounce_type)
-        print(idx, document_id, "->", new_bounce_type)
-
-
-def load_cache():
-    """Load cache from mongo"""
-    global INBOX_SCAN_CACHE
-
-    print("[*] Loading cache ...")
-
-    cache_manager = MailingProcessingCacheManager()
-
-    counter = 0
-
-    for message_id in cache_manager.get_all_cached_message_ids():
-        counter += 1
-        INBOX_SCAN_CACHE[message_id] = True
-
-    cache_manager.close()
-
-    print(f"[*] Loaded {counter:,} elements from cache")
-
-
 class Command(BaseCommand):
     """Mailing processing command"""
 
@@ -335,7 +40,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         pass
 
-    def start_loop(self):
+    def start_loop(self, cache: dict):
         """Start infinite loop"""
         next_inbox_scan_at = now() - timedelta(days=999)
 
@@ -345,7 +50,10 @@ class Command(BaseCommand):
             if now() > next_inbox_scan_at:
                 next_inbox_scan_at = now() + timedelta(hours=1)
                 for sender in SmtpSender.objects.all():  # pylint: disable=no-member
-                    process_scan_inbox(sender)
+                    if sender.exclude_from_processing:
+                        print(f"Skipping sender {sender} from processing (inbox scan)")
+                        continue
+                    process_scan_inbox(sender, cache)
             #
             # Get active campaigns
             active_campaigns = MailingCampaign.manager.active_campaigns()
@@ -380,22 +88,20 @@ class Command(BaseCommand):
             print(f"[*] Waiting {SLEEP_BETWEEN_LOOPS_SECONDS} seconds ...")
             time.sleep(SLEEP_BETWEEN_LOOPS_SECONDS)
 
+    def main(self, retry: int, cache: dict):
+        """main"""
+        try:
+            # Start infinite loop
+            self.start_loop(cache)
+        except Exception as e:
+            handle_on_processing_loop_failure(
+                retry, str(e), "\n".join(traceback.format_exc().splitlines())
+            )
+
     def handle(self, *args, **options):
         # Load cache once at the start of program
-        load_cache()
+        cache = process_load_cache()
         print(f"\n[*] Cache has {len(INBOX_SCAN_CACHE):,} elements")
 
-        telegram_service = TelegramService()
-
-        for retry in range(3):
-            try:
-                # Start infinite loop
-                self.start_loop()
-            except Exception as e:
-                formatted_lines = "\n".join(traceback.format_exc().splitlines())
-                telegram_service.send_chat_message(
-                    f"retry={retry+1}, {e}:\n{formatted_lines}",
-                    TelegramChats.OTHER,
-                )
-                print("[*] Waiting after failure")
-                time.sleep((retry + 1) * (5 * 60))
+        for retry in range(5):
+            self.main(retry, cache)

@@ -1,3 +1,9 @@
+"""
+SMTP Sender Model
+"""
+
+# flake8: noqa=E501
+
 from django.db.models import BooleanField, CharField, EmailField, Model
 
 
@@ -42,7 +48,11 @@ class SmtpSender(Model):
 
     reply_to = EmailField("Reply-To")
 
+    exclude_from_processing = BooleanField("Exclude from processing", default=False)
+
     class Meta:
+        """meta"""
+
         verbose_name = "Konto wysyłkowe"
         verbose_name_plural = "Konta wysyłkowe"
 

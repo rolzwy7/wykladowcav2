@@ -30,6 +30,6 @@ COMPANY_REGISTER_UNIT = "Minister Rozwoju, Pracy i Technologii"
 
 COMPANY_FAX = "32 720 24 24"
 COMPANY_OFFICE_EMAIL = "biuro@wykladowca.pl"
-COMPANY_OFFICE_PHONE = "531 244 871"
+COMPANY_OFFICE_PHONE = "531 304 098"
 COMPANY_WWW = "https://wykladowca.pl"
 COMPANY_DOMAIN = "wykladowca.pl"

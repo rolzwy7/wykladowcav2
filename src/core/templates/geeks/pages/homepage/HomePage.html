@@ -139,9 +139,13 @@
                         </div>
                         <div class="d-flex align-items-center justify-content-between fs-6">
                            <div>
+                              {% if lecturer.fake_stat_participants %}
                               <span>{{lecturer.fake_stat_participants}}+ uczniów</span>
+                              {% endif %}
+                              {% if lecturer.years_experience %}
                               <div class="vr mx-2 text-gray-200"></div>
                               <span>{{lecturer.years_experience}} doś.</span>
+                              {% endif %}
                            </div>
                            <div class="d-flex gap-1 align-items-center lh-1">
                               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
@@ -153,6 +157,7 @@
                         </div>
                      </div>
                      <div class="d-flex flex-row justify-content-between align-items-center">
+                        {% if lecturer.fake_stat_webinars %}
                         <div>
                            <span>Zrealizowanych</span>
                            <div class="d-flex flex-row gap-1 align-items-center">
@@ -160,6 +165,9 @@
                               <span class="fs-6">szkoleń</span>
                            </div>
                         </div>
+                        {% else %}
+                        <div></div>
+                        {% endif %}
                         <div>
                            <a href="{% url 'core:lecturer_experience_page' slug=lecturer.slug %}" class="btn btn-outline-primary">
                               Czytaj więcej
