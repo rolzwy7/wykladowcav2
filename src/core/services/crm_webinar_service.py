@@ -357,3 +357,53 @@ class CrmWebinarService:
             # Mailing campaign
             "mailing_campaigns": MailingCampaign.manager.filter(webinar=self.webinar),
         }
+
+    def get_upcoming_webinar_row_context(self):
+        """Number of gathered participants"""
+        gathered_participants = self.get_gathered_participants().order_by("first_name")
+        gathered_participants_count = gathered_participants.count()
+        total_netto_value_of_webinar = self.total_netto_value_of_webinar()
+        webinar_assets_count = self.get_webinar_assets().count()
+        lecturer_price_netto = self.lecturer_price_netto()
+        sent_applications = self.get_sent_applications().order_by("-created_at")
+        unfinished_applications = self.get_unfinished_applications()
+        webinar_metadata = WebinarMetadata.objects.get(  # pylint: disable=no-member
+            webinar=self.webinar
+        )
+        free_participants = self.get_free_participants()
+
+        try:
+            conference_edition = ConferenceEdition.manager.get(webinar=self.webinar)
+        except ConferenceEdition.DoesNotExist:  # pylint: disable=no-member
+            conference_edition = None
+
+        return {
+            "webinar": self.webinar,
+            "is_fake": self.webinar.is_fake,
+            "is_confirmed": self.webinar.is_confirmed,
+            "is_hidden": self.webinar.is_hidden,
+            "conference_edition": conference_edition,
+            "free_participants": free_participants,
+            "sent_applications_count": sent_applications.count(),
+            "gathered_participants_count": gathered_participants_count,
+            "uncertain_participants_count": self.get_uncertain_participants_count(),
+            "total_netto_value_of_webinar": total_netto_value_of_webinar,
+            "total_netto_value_of_webinar_display": f"{total_netto_value_of_webinar:,}",
+            "lecturer_netto_price": lecturer_price_netto,
+            "lecturer_netto_price_display": f"{lecturer_price_netto:,}",
+            "webinar_rating": self.get_webinar_rating(
+                gathered_participants_count,
+                webinar_metadata.click_count_mailing,
+                webinar_metadata.click_count_facebook,
+                lecturer_price_netto,
+                total_netto_value_of_webinar,
+            ),
+            "unfinished_applications_count": unfinished_applications.count(),
+            # Clicks
+            "click_count_mailing": webinar_metadata.click_count_mailing,
+            "click_count_facebook": webinar_metadata.click_count_facebook,
+            "click_count_onesignal": webinar_metadata.click_count_onesignal,
+            # Mailing campaign
+            "mailing_campaigns": MailingCampaign.manager.filter(webinar=self.webinar),
+            "webinar_assets_count": webinar_assets_count,
+        }

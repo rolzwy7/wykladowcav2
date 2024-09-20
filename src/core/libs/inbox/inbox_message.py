@@ -13,6 +13,7 @@ from typing import Optional
 
 from flufl.bounce import all_failures
 
+from core.consts.aggressor_phrases import AGGRESSOR_PHRASES_ICONTAINS
 from core.libs.normalizers import normalize_polish
 
 from .decode_header import decode_header
@@ -98,17 +99,7 @@ class InboxMessage:
         """Detect if email is aggressor"""
 
         # Check if subject contains words indicating vacation
-        phrases = [
-            "kurw",
-            "pierdol",
-            "chuj",
-            "skąd mają",
-            "skąd macie",
-            " zaprzesta",
-            "moje dane",
-            " spam",
-        ]
-        for phrase in phrases:
+        for phrase in AGGRESSOR_PHRASES_ICONTAINS:
             if any(
                 [
                     phrase.lower() in self.subject_header.lower(),
@@ -117,6 +108,16 @@ class InboxMessage:
             ):
                 return True
         return False
+
+    def which_aggressor_phrases(self) -> list[str]:
+        """Which aggressor phrases are contained in message"""
+        ret: set[str] = set()
+        for phrase in AGGRESSOR_PHRASES_ICONTAINS:
+            if phrase.lower() in self.subject_header.lower():
+                ret.add(f"subject: {phrase.lower()}")
+            if phrase.lower() in self.get_content().lower():
+                ret.add(f"content:{phrase.lower()}")
+        return list(ret)
 
     def is_new_email(self) -> bool:
         """Detect if email is a info about new email"""
@@ -209,13 +210,13 @@ class InboxMessage:
                     # If content charset is set then try to decode it with it
                     if content_charset:
                         try:
-                            return decoded.decode(content_charset)
+                            return decoded.decode(content_charset)  # type: ignore
                         except UnicodeDecodeError:
                             pass
 
                     # If given content charset is not correct fallback to utf8
                     try:
-                        decoded = decoded.decode("utf8")
+                        decoded = decoded.decode("utf8")  # type: ignore
                     except UnicodeDecodeError as exception:
                         fallback_content = f"Exception: {str(exception)}"
                     else:

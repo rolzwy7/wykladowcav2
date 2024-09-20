@@ -26,8 +26,12 @@ def crm_upcoming_webinars(request):
         {
             "upcoming_webinars_count": webinars.count(),
             "param_search": param_search or "",
-            "webinars_ctxs": [
-                CrmWebinarService(webinar).get_context() for webinar in webinars
+            # "webinars_ctxs": [
+            #     CrmWebinarService(webinar).get_context() for webinar in webinars
+            # ],
+            "webinars_ctxs_upcoming_webinar_row": [
+                CrmWebinarService(webinar).get_upcoming_webinar_row_context()
+                for webinar in webinars
             ],
         },
     )

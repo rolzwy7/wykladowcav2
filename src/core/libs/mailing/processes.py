@@ -132,9 +132,18 @@ def process_scan_inbox(smtp_sender: SmtpSender, cache: dict):
             for tb_email in [from_email, *subject_emails]:
                 BlacklistService.blacklist_email_temporarily(tb_email, days=14)
 
+            which_phrases = inbox_message.which_aggressor_phrases()
+
             telegram_service = TelegramService()
             telegram_service.try_send_chat_message(
-                "test",
+                "\n".join(
+                    [
+                        "[AGGRESSOR DETECTION] Tymczasowo (14 dni) zablokowano:",
+                        " ".join([from_email, *subject_emails]),
+                        "\nPonieważ wykryto:",
+                        " ".join(which_phrases),
+                    ]
+                ),
                 TelegramChats.OTHER,
             )
 
