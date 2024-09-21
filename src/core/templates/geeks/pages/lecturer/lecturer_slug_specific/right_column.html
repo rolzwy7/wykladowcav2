@@ -1,0 +1,54 @@
+{% load static %}
+
+{% if lecturer.slug == "dariusz-wocior" or META__APP_ENV == "develop" %}
+<!--card-->
+<div class="card mb-3">
+    <!--card body-->
+    <div class="card-body px-md-5 pt-2">
+        <div class="d-flex flex-column gap-4">
+        <!--heading-->
+        <h3 class="mb-0">
+            <span class="text-success">Bestseller:</span>
+            Funkcjonowanie spółdzielni mieszkaniowych. Interpretacje przepisów na podstawie orzecznictwa sądowego
+        </h3>
+        <div class="d-flex justify-content-center gap-3">
+            <div>
+            <a href="/dariusz-wocior-ksiazka-funkcjonowanie-spoldzielni-mieszkaniowych/">
+            <img style="width:200px;height:auto;" src="{% static "media/books/funkcjonowanie-spoldzielni-mieszkaniowych-dariusz-wocior.png" %}" alt="">
+            </a>
+            </div>
+        </div>
+        <div class="d-flex flex-column gap-3">
+            <a href="/dariusz-wocior-ksiazka-funkcjonowanie-spoldzielni-mieszkaniowych/" class="btn btn-primary d-grid">
+            Przejdź do księgarni
+            </a>
+        </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if lecturer.slug == "justyna-swider" or META__APP_ENV == "develop" %}
+<!--card-->
+<div class="card mb-3">
+    <!--card body-->
+    <div class="card-body px-md-5 pt-2">
+        <div class="d-flex flex-column gap-4">
+        <!--heading-->
+        <h3 class="mb-0">
+            <b>
+            <span class="text-primary">Usługa:
+            Przegląd statutu szkoły / placówki</b>
+        </span> - weryfikacja, analiza i nowelizacja zgodnie z aktualnymi przepisami prawa.
+        </h3>
+        <div class="d-flex flex-column gap-3">
+            <a href="/oferta-uslugi/weryfikacja-statutu/" class="btn btn-primary d-grid">
+            Przejdź do darmowego formularza wyceny
+            </a>
+        </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+
