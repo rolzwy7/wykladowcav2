@@ -22,13 +22,15 @@
           <p><b>Data</b>: {{webinar.date|date:"j E Y"}}, godz. {{webinar.date|date:"H:i"}}</p>
           <p><b>Wykładowca</b>: {{webinar.lecturer.fullname}}</p>
 
+
+          {% if not webinar.categories.all %}
           <p class="text-danger fw-bold">
-            Uwaga! Pamiętaj, żeby ustawić kategorie dla tego webinaru.
-            W przeciwnym razie LEAD'Y BĘDĄ ZAPISYWANE BEZ KATEGORII !!!
+            KURŁAAAA CZYTAJ TO! Ten webinar nie ma ustawionych kategorii w CMS.
           </p>
+          {% endif %}
 
           <p>
-            <b>Obecne kategorie:</b>
+            <b>Obecne kategorie: <span class="text-success">(jest git)</span></b>
           </p>
 
           <ol>

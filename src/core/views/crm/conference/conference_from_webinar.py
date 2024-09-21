@@ -9,6 +9,7 @@ from django.template.response import TemplateResponse
 from django.urls import reverse
 
 from core.consts.requests_consts import POST
+from core.consts.youtube_streaming_consts import YTSTREAM_KEY, YTSTREAM_SERVER_URL
 from core.libs.clickmeeting import create_free_clickmeeting_room
 from core.models.conference import ConferenceEdition
 from core.models.enums import WEBINAR_CLICKMEETING_DURATION
@@ -40,6 +41,12 @@ class ConferenceEditionModelForm(ModelForm):
             "slug": TextInput(attrs={"class": "form-control"}),
             "webinar": Select(attrs={"class": "form-control"}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Set default values for stream_server_url and stream_transmission_key
+        self.fields["stream_server_url"].initial = YTSTREAM_SERVER_URL
+        self.fields["stream_transmission_key"].initial = YTSTREAM_KEY
 
 
 def conference_from_webinar(request, pk: int):
