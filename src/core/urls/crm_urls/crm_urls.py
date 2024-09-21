@@ -28,6 +28,7 @@ from core.views.crm import (
 from core.views.crm.application.actions import (
     crm_application_resend_confirmation,
     crm_application_send_invoice_action_page,
+    crm_free_participant_resend_confirmation,
 )
 from core.views.crm.company import CrmCompanyDetail, CrmCompanyList
 from core.views.crm.contact import CrmContactDetail, CrmContactList
@@ -255,6 +256,12 @@ urlpatterns = [
         "statystyki/",
         crm_statistics_dashboard,
         name="crm_statistics_dashboard",
+    ),
+    # Konferencje
+    path(
+        "konferencja/darmowi-uczestnicy/<int:pk>/przeslij-ponownie-potwierdzenie/",
+        crm_free_participant_resend_confirmation,
+        name="crm_free_participant_resend_confirmation",
     ),
     # Upcoming webinars
     path(

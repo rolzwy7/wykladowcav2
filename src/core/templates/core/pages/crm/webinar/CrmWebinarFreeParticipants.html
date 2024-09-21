@@ -24,7 +24,8 @@
                         <th>Województwo</th>
                         <th>Skąd się dowiedział?</th>
                         <th>Szkolenia zamknięte?</th>
-                        <th>Link</th>
+                        <th>Link do oglądania</th>
+                        <th>Akcje</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,6 +42,11 @@
                         <td>
                           <a href="{% url "core:conference_waiting_room_page" watch_token=participant.watch_token %}">
                             {{participant.watch_token}}
+                          </a>
+                        </td>
+                        <td>
+                          <a href="{% url "core:crm_free_participant_resend_confirmation" pk=participant.pk %}">
+                            Prześlij ponownie potwierdzenie
                           </a>
                         </td>
                     </tr>
