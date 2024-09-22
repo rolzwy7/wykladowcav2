@@ -1,7 +1,9 @@
 """Aggressor phrases"""
 
 AGGRESSOR_PHRASES_ICONTAINS = [
-    "kurw",
+    "kurwa",
+    "kurwo",
+    "kurwy",
     "pierdol",
     "chuj",
     "gówno",
@@ -12,5 +14,8 @@ AGGRESSOR_PHRASES_ICONTAINS = [
     " zaprzestanie wysyłania",
     " zaprzestać wysyłania",
     " zaprzestać przesyłania",
-    " spam",
+    " spamerzy",
+    " spamerskie",
+    "wysyłać spam",
+    "wysyłają spam",
 ]
