@@ -35,6 +35,14 @@
   <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
 </div>
 
+<b>BISNODE</b>
+<div
+  hx-get="{% url "htmx:dwpldb:bisnode-2024-download-progress" %}"
+  hx-swap="outerHTML"
+  hx-trigger="load">
+  <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
+</div>
+
 {% if 0 %}
 <div hx-get="{% url "htmx:htmx_annoying_alerts" %}" hx-trigger="load">
   <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
