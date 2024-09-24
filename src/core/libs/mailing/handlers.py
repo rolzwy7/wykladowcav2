@@ -106,6 +106,6 @@ def handle_on_processing_loop_failure(
         f"retry={retry+1}, {exception_str}:\n{traceback_str}",
         TelegramChats.OTHER,
     )
-    wait_time_seconds = (retry + 1) * (3 * 60)
+    wait_time_seconds = (retry + 1) * (1 * 60)
     print(f"[*] Waiting after failure: {wait_time_seconds}")
     time.sleep(wait_time_seconds)
