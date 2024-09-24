@@ -101,7 +101,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         # Load cache once at the start of program
 
-        for retry in range(5):
+        for retry in range(10):
             cache = process_load_cache()
             print(f"\n[*] Cache has {len(INBOX_SCAN_CACHE):,} elements")
             self.main(retry, cache)
