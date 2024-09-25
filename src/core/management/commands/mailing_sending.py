@@ -219,6 +219,12 @@ class Command(BaseCommand):
         mod: int = options["mod"]
         reminder: int = options["reminder"]
 
+        print("Mod:", mod)
+        print("Reminder:", reminder)
+
+        for test_idx in range(10):
+            print(test_idx, can_process_campaing(test_idx, mod, reminder))
+
         # Infinite loop
         while True:
 
