@@ -180,16 +180,16 @@ class MailingCampaign(Model):
     def why_not_sending(self):
         """Explain why campaign is not sending"""
         if not (self.status == MailingCampaignStatus.SENDING):
-            return "Kampania ma inny status niż 'Wysyłanie'"
+            return "status != 'Wysyłanie'"
 
         if not (self.allowed_to_send_after < now().time()):
-            return f"Obecny czas jest mniejszy niż {self.allowed_to_send_after}"
+            return f"Obecny czas <  {self.allowed_to_send_after}"
 
         if not (self.allowed_to_send_before > now().time()):
-            return f"Obecny czas jest większy niż {self.allowed_to_send_before}"
+            return f"Obecny czas > {self.allowed_to_send_before}"
 
         if not (self.send_after < now()):
-            return f"Wysyłka może się rozpocząć dopiero po {_date(self.send_after, 'j E Y - H:i')}"
+            return f"Rozpocznie po {_date(self.send_after, 'j E Y - H:i')}"
 
         return ""
 

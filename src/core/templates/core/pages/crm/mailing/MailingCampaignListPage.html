@@ -155,126 +155,234 @@
         </div>
         <div class="card-body">
           
-            
-            {% for pack in tuple_list %}
-            {% with campaign=pack.0 %}
-            {% with metadata=pack.1 %}
 
-            <div class="table-responsive">
-                <table class="table table-bordered fs-5" style="border-color:black;">
-                  <tbody>
-                    <tr>
-                      <td class="fw-bold text-gray-800 bg-secondary">
-                        Nazwa kampanii <br>
-                        <span class="{% if campaign.resets_counter != 0 %}text-info{% endif %}">
-                            Ilość resetów: {{campaign.resets_counter}}
-                        </span>
-                        <br>
-                        <span class="{% if campaign.resignation_list != "default" %}text-danger{% endif %}">
-                            Rezyg.: {{campaign.resignation_list}}
-                        </span>
-                      </td>
-                      <td>
-                        {% url 'core:crm_mailing_campaign_detail' pk=campaign.pk as link %}
-                        {% include "include/crm/EditWithCrmButton.html" with link=link %}
-                        {% url 'admin:core_mailingcampaign_change' object_id=campaign.id as link %}
-                        {% include "include/crm/EditWithCmsButton.html" with link=link %}
-                        <a href="{% url 'core:crm_mailing_campaign_detail' pk=campaign.pk %}">
-                            <b>{{campaign}}</b>
-                        </a>
-                        <br>
-                        {% if campaign.template %}
-                        <a href="{% url 'admin:core_mailingtemplate_change' object_id=campaign.template.id %}">
-                            SZABLON (ID={{campaign.template.id}})
-                        </a>
-                        /
-                        <a href="{% url 'core:crm_mailing_campaign_preview_html' pk=campaign.pk %}">
-                            HTML
-                        </a>
-                        /
-                        <a href="{% url 'core:crm_mailing_campaign_preview_text' pk=campaign.pk %}">
-                            TEXT
-                        </a>
-                        {% endif %}
-                      </td>
-                      <td class="fw-bold text-gray-800 bg-secondary">Konto wysyłkowe</td>
-                      <td colspan="3" class="text-gray-900">
-                        <b>{{campaign.smtp_sender}}</b> <br>
-                        
-                        Limit dzienny:
-                        {% if campaign.limit_per_day == 0 %}Brak limitu{% else %}
-                        {{campaign.limit_sent_so_far}} / {{campaign.limit_per_day}}
-                        {% endif %} <br>
 
-                        Kliknięcia globalne: {{metadata.click_count_mailing}} <br>
-                        Licznik błędów: {{campaign.failure_counter}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="fw-bold text-gray-800 bg-secondary">
-                            Tematy i alias
-                        </td>
-                        <td colspan="5">
-                            <p>Alias: {{campaign.alias}}</p>
-                            <ol>
-                                {% for subject in campaign.get_subjects %}
-                                  <li>{{subject}}</li>
-                                {% endfor %}
-                            </ol>
-                        </td>
-                      </tr>
-                    {% if campaign.webinar %}
-                    <tr>
-                      <td class="fw-bold text-gray-800 bg-primary">
-                        Powiązane szkolenie
-                        </td>
-                      {% with webinar=campaign.webinar %}
-                      <td colspan="5">
-                        {% url "core:crm_webinar_detail_dashboard" pk=webinar.pk as link %}
-                        {% include "include/crm/EditWithCrmButton.html" with link=link %}
-                        {% url 'admin:core_webinar_change' object_id=webinar.id as link %}
-                        {% include "include/crm/EditWithCmsButton.html" with link=link %}
-                        {% url 'core:webinar_program_page' slug=webinar.slug as link %}
-                        {% include "include/crm/ShowOnPageButton.html" with link=link %}
-                        <b>{{webinar.title}}</b> (ID={{webinar.id}})
-                        <br>
-                        {{webinar.date|date:"j E Y"}} godz. {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}
-                        <br>
-                        Wykładowca {{webinar.lecturer}}
-                      </td>
-                      {% endwith %}
-                    </tr>
+          <div class="table-responsive">
+            <table class="table">
+              <tbody>
+
+                {% for pack in tuple_list %}
+                {% with campaign=pack.0 %}
+                {% with metadata=pack.1 %}
+
+
+                <tr>
+                  <td>
+                    <b class="text-{{campaign.status_color}}">( {{campaign.get_status_display}} )</b>
+                    <b>( {{campaign.alias}} )</b>
+                    <a href="{% url 'core:crm_mailing_campaign_detail' pk=campaign.pk %}">
+                      <b>{{campaign}}</b>
+                    </a>
+                    <br>
+
+                    <small>Rezyg.: <i>{{campaign.resignation_list}}</i></small>
+                    /
+                    <a href="{% url 'admin:core_mailingcampaign_change' object_id=campaign.id %}">
+                      <small>cms</small>
+                    </a>
+                    /
+                    {% if campaign.template %}
+                    <a href="{% url 'admin:core_mailingtemplate_change' object_id=campaign.template.id %}">
+                      <small>szablon cms</small>
+                    </a>
+                    /
                     {% endif %}
-                    <tr>
-                      <td class="fw-bold text-gray-800 {% if campaign.is_send_after_correct %}bg-success{% else %}bg-danger{% endif %}">Wysyłaj po</td>
-                      <td>{{campaign.send_after}}</td>
-                      <td class="fw-bold text-gray-800 {% if campaign.is_allowed_to_send_correct %}bg-success{% else %}bg-danger{% endif %}">
-                        Godziny wysyłki
-                      </td>
-                      <td colspan="3">
-                        {{campaign.allowed_to_send_after}} - {{campaign.allowed_to_send_before}} <br>
-                        Obecna godzina: {{now|date:"H:i:s"}}
-                    </td>
-                    </tr>
-                    <tr>
-                      <td class="fw-bold text-gray-800 {% if campaign.why_not_sending %}bg-danger{% else %}bg-success{% endif %}">Czy wysyła?</td>
-                      <td>
-                        {% if campaign.why_not_sending %}
-                        <b class="text-danger">{{campaign.why_not_sending}}</b>
-                        {% else %}
-                        <b class="text-success">Powinno wysyłać</b>
-                        {% endif %}
-                      </td>
-                      <td class="fw-bold text-gray-800 bg-{{campaign.status_color}}">Status</td>
-                      <td colspan="3">{{campaign.get_status_display}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                    <a href="{% url 'core:crm_mailing_campaign_preview_html' pk=campaign.pk %}">
+                      <small>html preview</small>
+                    </a>
+                    /
+                    <a href="{% url 'core:crm_mailing_campaign_preview_text' pk=campaign.pk %}">
+                      <small>text preview</small>
+                    </a>
+                    <br>
+                    {% if campaign.smtp_sender.exclude_from_processing %}
+                      <small class="text-danger">{{campaign.smtp_sender}}</small>
+                      {% else %}
+                      <small>{{campaign.smtp_sender}}</small>
+                    {% endif %}
+                    <br>
+                    {% if campaign.webinar %}
+                    {% with webinar=campaign.webinar %}
+                    <small><b class="text-primary">
+                      Powiązane szkolenie
+                    </b></small>
+                    <small>
+                      {% url "core:crm_webinar_detail_dashboard" pk=webinar.pk as link %}
+                      {% include "include/crm/EditWithCrmButton.html" with link=link %}
+                      {% url 'admin:core_webinar_change' object_id=webinar.id as link %}
+                      {% include "include/crm/EditWithCmsButton.html" with link=link %}
+                      {% url 'core:webinar_program_page' slug=webinar.slug as link %}
+                      {% include "include/crm/ShowOnPageButton.html" with link=link %}
+                    </small>
+                    <br>
+                    <small>( {{webinar.lecturer}} )</small>
+                    <small>[ ID={{webinar.id}} ]</small>
+                    <small>
+                      <b>{{webinar.title}} - {{webinar.date|date:"j E Y"}} godz. {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}</b>
+                    </small>
+                    {% endwith %}
+                    {% endif %}
+
+                  </td>
+                  <td>
+                    <small>Limit:
+                      {% if campaign.limit_per_day == 0 %}
+                      Brak{% else %}
+                      {{campaign.limit_sent_so_far}} / {{campaign.limit_per_day}}{% endif %}</small>
+                    <br>
+                    <small {% if campaign.failure_counter > 200 %}class="text-danger"{% endif %}>
+                      Licznik błędów:{{campaign.failure_counter}}
+                    </small>
+                    <br>
+                    <small class="text-{% if campaign.is_send_after_correct %}success{% else %}danger{% endif %}">
+                      <b>{{campaign.send_after}}</b>
+                    </small>
+                    <br>
+                    <small class="text-{% if campaign.is_allowed_to_send_correct %}success{% else %}danger{% endif %}">
+                      <b>{{campaign.allowed_to_send_after}} - {{campaign.allowed_to_send_before}}</b>
+                    </small>
+                    <br>
+                    <small>
+                      {% if campaign.why_not_sending %}
+                      <b class="text-danger">{{campaign.why_not_sending}}</b>
+                      {% else %}
+                      <b class="text-success">Powinno wysyłać</b>
+                      {% endif %}
+                    </small>
+                  </td>
+                </tr>
+
+
+                {% endwith %}
+                {% endwith %}
+                {% endfor %}
+
+              </tbody>
+            </table>
+          </div>
+
+            {% comment %}
               
-              {% endwith %}
-              {% endwith %}
-              {% endfor %}
+              {% for pack in tuple_list %}
+              {% with campaign=pack.0 %}
+              {% with metadata=pack.1 %}
+  
+              <div class="table-responsive">
+                  <table class="table table-bordered fs-5" style="border-color:black;">
+                    <tbody>
+                      <tr>
+                        <td class="fw-bold text-gray-800 bg-secondary">
+                          Nazwa kampanii <br>
+                          <span class="{% if campaign.resets_counter != 0 %}text-info{% endif %}">
+                              Ilość resetów: {{campaign.resets_counter}}
+                          </span>
+                          <br>
+                          <span class="{% if campaign.resignation_list != "default" %}text-danger{% endif %}">
+                              Rezyg.: {{campaign.resignation_list}}
+                          </span>
+                        </td>
+                        <td>
+                          {% url 'core:crm_mailing_campaign_detail' pk=campaign.pk as link %}
+                          {% include "include/crm/EditWithCrmButton.html" with link=link %}
+                          {% url 'admin:core_mailingcampaign_change' object_id=campaign.id as link %}
+                          {% include "include/crm/EditWithCmsButton.html" with link=link %}
+                          <a href="{% url 'core:crm_mailing_campaign_detail' pk=campaign.pk %}">
+                              <b>{{campaign}}</b>
+                          </a>
+                          <br>
+                          {% if campaign.template %}
+                          <a href="{% url 'admin:core_mailingtemplate_change' object_id=campaign.template.id %}">
+                              SZABLON (ID={{campaign.template.id}})
+                          </a>
+                          /
+                          <a href="{% url 'core:crm_mailing_campaign_preview_html' pk=campaign.pk %}">
+                              HTML
+                          </a>
+                          /
+                          <a href="{% url 'core:crm_mailing_campaign_preview_text' pk=campaign.pk %}">
+                              TEXT
+                          </a>
+                          {% endif %}
+                        </td>
+                        <td class="fw-bold text-gray-800 bg-secondary">Konto wysyłkowe</td>
+                        <td colspan="3" class="text-gray-900">
+                          <b>{{campaign.smtp_sender}}</b> <br>
+                          
+                          Limit dzienny:
+                          {% if campaign.limit_per_day == 0 %}Brak limitu{% else %}
+                          {{campaign.limit_sent_so_far}} / {{campaign.limit_per_day}}
+                          {% endif %} <br>
+  
+                          Kliknięcia globalne: {{metadata.click_count_mailing}} <br>
+                          Licznik błędów: {{campaign.failure_counter}}
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="fw-bold text-gray-800 bg-secondary">
+                              Tematy i alias
+                          </td>
+                          <td colspan="5">
+                              <p>Alias: {{campaign.alias}}</p>
+                              <ol>
+                                  {% for subject in campaign.get_subjects %}
+                                    <li>{{subject}}</li>
+                                  {% endfor %}
+                              </ol>
+                          </td>
+                        </tr>
+                      {% if campaign.webinar %}
+                      <tr>
+                        <td class="fw-bold text-gray-800 bg-primary">
+                          Powiązane szkolenie
+                          </td>
+                        {% with webinar=campaign.webinar %}
+                        <td colspan="5">
+                          {% url "core:crm_webinar_detail_dashboard" pk=webinar.pk as link %}
+                          {% include "include/crm/EditWithCrmButton.html" with link=link %}
+                          {% url 'admin:core_webinar_change' object_id=webinar.id as link %}
+                          {% include "include/crm/EditWithCmsButton.html" with link=link %}
+                          {% url 'core:webinar_program_page' slug=webinar.slug as link %}
+                          {% include "include/crm/ShowOnPageButton.html" with link=link %}
+                          <b>{{webinar.title}}</b> (ID={{webinar.id}})
+                          <br>
+                          {{webinar.date|date:"j E Y"}} godz. {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}
+                          <br>
+                          Wykładowca {{webinar.lecturer}}
+                        </td>
+                        {% endwith %}
+                      </tr>
+                      {% endif %}
+                      <tr>
+                        <td class="fw-bold text-gray-800 {% if campaign.is_send_after_correct %}bg-success{% else %}bg-danger{% endif %}">Wysyłaj po</td>
+                        <td>{{campaign.send_after}}</td>
+                        <td class="fw-bold text-gray-800 {% if campaign.is_allowed_to_send_correct %}bg-success{% else %}bg-danger{% endif %}">
+                          Godziny wysyłki
+                        </td>
+                        <td colspan="3">
+                          {{campaign.allowed_to_send_after}} - {{campaign.allowed_to_send_before}} <br>
+                          Obecna godzina: {{now|date:"H:i:s"}}
+                      </td>
+                      </tr>
+                      <tr>
+                        <td class="fw-bold text-gray-800 {% if campaign.why_not_sending %}bg-danger{% else %}bg-success{% endif %}">Czy wysyła?</td>
+                        <td>
+                          {% if campaign.why_not_sending %}
+                          <b class="text-danger">{{campaign.why_not_sending}}</b>
+                          {% else %}
+                          <b class="text-success">Powinno wysyłać</b>
+                          {% endif %}
+                        </td>
+                        <td class="fw-bold text-gray-800 bg-{{campaign.status_color}}">Status</td>
+                        <td colspan="3">{{campaign.get_status_display}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                
+                {% endwith %}
+                {% endwith %}
+                {% endfor %}
+            {% endcomment %}
 
         </div>
         <div class="card-footer">
