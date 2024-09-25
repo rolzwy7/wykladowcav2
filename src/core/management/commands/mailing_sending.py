@@ -35,6 +35,9 @@ from core.services.mailing import MailingResignationService, MailingTrackingServ
 
 BASE_URL = settings.BASE_URL
 
+MINUTE = 60
+HOUR = 60 * 60
+
 
 class ProcessSendingStatus:
     """Process sending status"""
@@ -147,6 +150,11 @@ def process_sending(campaign_id: int, /, *, limit: int = 100) -> str:
     return return_value
 
 
+def can_process_campaing(campaign_id: int, mod: int, reminder: int) -> bool:
+    """can_process_campaing"""
+    return campaign_id % mod == reminder
+
+
 class Command(BaseCommand):
     """Mailing sending command
 
@@ -157,9 +165,10 @@ class Command(BaseCommand):
     help = "Mailing sending"
 
     def add_arguments(self, parser):
-        pass
+        parser.add_argument("mod", type=int)
+        parser.add_argument("reminder", type=int)
 
-    def start_loop(self):
+    def start_loop(self, mod: int, reminder: int):
         """Start infinite loop"""
 
         while True:
@@ -177,6 +186,12 @@ class Command(BaseCommand):
             #
             # Iterate over active campaigns and start sending process
             for campaign in active_campaigns:
+                campaign_id: int = campaign.id  # type: ignore
+
+                if not can_process_campaing(campaign_id, mod, reminder):
+                    print("[-] Can't process this campaign (not my reminder)")
+                    continue
+
                 campaign_id: int = campaign.id  # type: ignore
                 print("\n[*] Processing campaign:", campaign)
 
@@ -201,15 +216,33 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         telegram_service = TelegramService()
 
-        for retry in range(3):
-            try:
-                # Start infinite loop
-                self.start_loop()
-            except Exception as e:
-                formatted_lines = "\n".join(traceback.format_exc().splitlines())
-                telegram_service.try_send_chat_message(
-                    f"retry={retry+1}, {e}:\n{formatted_lines}",
-                    TelegramChats.OTHER,
-                )
-                print("[*] Waiting after failure")
-                time.sleep((retry + 1) * (5 * 60))
+        mod: int = options["mod"]
+        reminder: int = options["reminder"]
+
+        # Infinite loop
+        while True:
+
+            # Retry loop
+            retry = 0
+            while retry <= 5:
+                try:
+                    self.start_loop(mod, reminder)
+                except Exception as e:
+                    retry += 1
+                    formatted_lines = "\n".join(traceback.format_exc().splitlines())
+                    telegram_service.try_send_chat_message(
+                        f"retry={retry}, {e}:\n{formatted_lines}",
+                        TelegramChats.OTHER,
+                    )
+                    print("[*] Waiting after failure")
+                    time.sleep(retry * (3 * MINUTE))
+                else:
+                    retry = 0
+
+            # When something went completely wrong send telegram message
+            telegram_service.try_send_chat_message(
+                "MAILING PROCESSING KOMPLETNIE SIĘ WYJEBAŁ",
+                TelegramChats.OTHER,
+            )
+            print("Complete failure")
+            time.sleep(HOUR)
