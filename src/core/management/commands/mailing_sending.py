@@ -97,7 +97,7 @@ def process_sending(campaign_id: int, /, *, limit: int = 100) -> str:
             },
         )
 
-        print(f"[*] Processing email: {email} (resignation: {resignation_code})")
+        print(f"\n[*] Processing email: {email} (resignation: {resignation_code})")
 
         try:
             send_attempt_counter += 1
@@ -113,17 +113,21 @@ def process_sending(campaign_id: int, /, *, limit: int = 100) -> str:
             )
         except TimeoutError as exception:
             handle_timeout_error(document_id, pool_manager)
+            print(f"[-] TimeoutError `{email}`")
         except SMTPServerDisconnected as exception:
             handle_any_error_occured(campaign_id)
             handle_smtp_server_disconnected_error(
                 campaign_id, document_id, pool_manager
             )
+            print(f"[-] SMTPServerDisconnected `{email}`")
         except ConnectionRefusedError as exception:
             handle_any_error_occured(campaign_id)
             handle_connection_refused_error(campaign_id, document_id, pool_manager)
+            print(f"[-] ConnectionRefusedError `{email}`")
         except SMTPRecipientsRefused as exception:
             handle_any_error_occured(campaign_id)
             handle_smtp_recipients_refused_error(campaign_id, document_id, pool_manager)
+            print(f"[-] SMTPRecipientsRefused `{email}`")
         else:
             pool_manager.change_status(document_id, MailingPoolStatus.SENT)
             print(f"[+] Sent to `{email}`")
@@ -207,15 +211,14 @@ class Command(BaseCommand):
                     handle_too_much_failures(campaign_id, campaign.title)
                 # If everything OK try to send emails batch
                 else:
-                    print("[*] Processing campaign", campaign_id)
                     result = process_sending(campaign_id, limit=100)
                     # Try to finish campaign
                     if result == ProcessSendingStatus.NO_EMAILS_SENT:
                         print("[*] No email sent with campaign:", campaign)
                         try_to_finish_campaign(campaign_id, campaign.title)
 
-            print("[*] Sleeping random 5-15s between sending ...")
-            time.sleep(5 + randint(5, 10))
+                    print("[*] Sleeping random 5-15s between camapings sending ...")
+                    time.sleep(5 + randint(5, 10))
 
     def handle(self, *args, **options):
         telegram_service = TelegramService()
