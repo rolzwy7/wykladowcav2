@@ -31,7 +31,7 @@ from core.models.enums import MailingCampaignStatus
 
 def default_allowed_to_send_after():
     """Default `allowed to send after` time"""
-    return time(4, 0, 0, 0)
+    return time(5, 0, 0, 0)
 
 
 def default_allowed_to_send_before():
@@ -145,6 +145,9 @@ class MailingCampaign(Model):
     random_priority = BooleanField(default=True)
     random_priority_min = PositiveSmallIntegerField(default=0)
     random_priority_max = PositiveSmallIntegerField(default=100)
+
+    # Modulo value
+    mod_value = PositiveSmallIntegerField(default=10)
 
     class Meta:
         """meta"""

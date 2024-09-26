@@ -154,8 +154,6 @@
           </div>
         </div>
         <div class="card-body">
-          
-
 
           <div class="table-responsive">
             <table class="table">
@@ -166,16 +164,19 @@
                 {% with metadata=pack.1 %}
 
 
-                <tr>
+                <tr class="{% cycle 'bg-light' 'bg-white' %}">
                   <td>
-                    <b class="text-{{campaign.status_color}}">( {{campaign.get_status_display}} )</b>
+                    <b>[ ID={{campaign.id}} ]</b>
+                    <b class="text-{% if campaign.why_not_sending %}danger{% else %}{{campaign.status_color}}{% endif %}">
+                      ( {{campaign.get_status_display}} )
+                    </b>
                     <b>( {{campaign.alias}} )</b>
                     <a href="{% url 'core:crm_mailing_campaign_detail' pk=campaign.pk %}">
                       <b>{{campaign}}</b>
                     </a>
                     <br>
 
-                    <small>Rezyg.: <i>{{campaign.resignation_list}}</i></small>
+                    <small>Rezyg.: <i class="text-info fw-bold">{{campaign.resignation_list}}</i></small>
                     /
                     <a href="{% url 'admin:core_mailingcampaign_change' object_id=campaign.id %}">
                       <small>cms</small>
@@ -227,19 +228,27 @@
                   <td>
                     <small>Limit:
                       {% if campaign.limit_per_day == 0 %}
-                      Brak{% else %}
+                      –{% else %}
                       {{campaign.limit_sent_so_far}} / {{campaign.limit_per_day}}{% endif %}</small>
                     <br>
-                    <small {% if campaign.failure_counter > 200 %}class="text-danger"{% endif %}>
-                      Licznik błędów:{{campaign.failure_counter}}
-                    </small>
+                    
+                    {% if campaign.failure_counter > 1000 %}
+                    <small class="bg-danger p-1 text-white fw-bold">
+                    {% elif campaign.failure_counter > 0 %}
+                    <small class="text-danger">
+                    {% else %}
+                    <small>
+                    {% endif %}
+                    Błędy:{{campaign.failure_counter}}</small>
+
+                    <br>
                     <br>
                     <small class="text-{% if campaign.is_send_after_correct %}success{% else %}danger{% endif %}">
-                      <b>{{campaign.send_after}}</b>
+                      <b>{{campaign.send_after|date:"j E"}} od {{campaign.send_after|date:"H:i"}}</b>
                     </small>
                     <br>
                     <small class="text-{% if campaign.is_allowed_to_send_correct %}success{% else %}danger{% endif %}">
-                      <b>{{campaign.allowed_to_send_after}} - {{campaign.allowed_to_send_before}}</b>
+                      <b>{{campaign.allowed_to_send_after}} - {{campaign.allowed_to_send_before}} ( jest {{now|date:"H:i"}} )</b>
                     </small>
                     <br>
                     <small>

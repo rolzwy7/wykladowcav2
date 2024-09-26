@@ -12,7 +12,7 @@ import traceback
 from django.core.management.base import BaseCommand
 from django.utils.timezone import now, timedelta
 
-from core.libs.mailing.handlers import handle_on_processing_loop_failure
+from core.libs.mailing.handlers import handle_complete_failure, handle_on_loop_failure
 from core.libs.mailing.processes import (
     process_blacklist,
     process_bounces,
@@ -30,6 +30,9 @@ INBOX_SCAN_CACHE = {}
 
 SLEEP_BETWEEN_LOOPS_SECONDS = 5
 SLEEP_ON_NO_ACTIVE_CAMPAIGNS = 15
+
+MINUTE = 60
+HOUR = 60 * 60
 
 
 class Command(BaseCommand):
@@ -88,20 +91,37 @@ class Command(BaseCommand):
             print(f"[*] Waiting {SLEEP_BETWEEN_LOOPS_SECONDS} seconds ...")
             time.sleep(SLEEP_BETWEEN_LOOPS_SECONDS)
 
-    def main(self, retry: int, cache: dict):
+    def main(self, cache: dict):
         """main"""
-        try:
-            # Start infinite loop
-            self.start_loop(cache)
-        except Exception as e:
-            handle_on_processing_loop_failure(
-                retry, str(e), "\n".join(traceback.format_exc().splitlines())
-            )
+
+        # Infinite loop
+        while True:
+            # Retry loop
+            retry = 0
+            while retry <= 5:
+                try:
+                    # Start infinite loop
+                    self.start_loop(cache)
+                except Exception as e:
+                    retry += 1
+                    handle_on_loop_failure(
+                        retry,
+                        str(e),
+                        "\n".join(traceback.format_exc().splitlines()),
+                        "mailing_processing.py",
+                    )
+                else:
+                    retry = 0
+
+            # Complete failure occurs here
+            handle_complete_failure("MAILING PROCESSING KOMPLETNIE SIĘ WYJEBAŁ")
 
     def handle(self, *args, **options):
-        # Load cache once at the start of program
+        """handle"""
 
-        for retry in range(10):
-            cache = process_load_cache()
-            print(f"\n[*] Cache has {len(INBOX_SCAN_CACHE):,} elements")
-            self.main(retry, cache)
+        # Load cache once at the start of program
+        cache = process_load_cache()
+        print(f"\n[*] Cache has {len(INBOX_SCAN_CACHE):,} elements")
+
+        # Execute main
+        self.main(cache)

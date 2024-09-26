@@ -97,15 +97,26 @@ def handle_too_much_failures(campaign_id: int, campaign_title: str):
     )
 
 
-def handle_on_processing_loop_failure(
-    retry: int, exception_str: str, traceback_str: str
+def handle_on_loop_failure(
+    retry: int, exception_str: str, traceback_str: str, program_name: str
 ):
     """handle_on_processing_loop_failure"""
     telegram_service = TelegramService()
     telegram_service.send_chat_message(
-        f"retry={retry+1}, {exception_str}:\n{traceback_str}",
+        f"{program_name} retry={retry}, {exception_str}:\n{traceback_str}",
         TelegramChats.OTHER,
     )
     wait_time_seconds = (retry + 1) * (1 * 60)
     print(f"[*] Waiting after failure: {wait_time_seconds}")
     time.sleep(wait_time_seconds)
+
+
+def handle_complete_failure(message: str):
+    """handle_complete_failure"""
+    telegram_service = TelegramService()
+    telegram_service.send_chat_message(
+        message,
+        TelegramChats.OTHER,
+    )
+    print("[*] Sleeping 8 hours on complete failure")
+    time.sleep(8 * (60 * 60))

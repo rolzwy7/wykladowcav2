@@ -10,6 +10,7 @@ Mailing sending procedure
 
 import time
 import traceback
+from random import randint
 from smtplib import SMTPRecipientsRefused, SMTPServerDisconnected
 
 from django.conf import settings
@@ -17,11 +18,12 @@ from django.core.management.base import BaseCommand
 from django.db.models import F
 from django.urls import reverse
 
-from core.consts import TelegramChats
 from core.libs.mailing.handlers import (
     handle_any_error_occured,
+    handle_complete_failure,
     handle_connection_refused_error,
     handle_daily_sending_limit_reached,
+    handle_on_loop_failure,
     handle_smtp_recipients_refused_error,
     handle_smtp_server_disconnected_error,
     handle_timeout_error,
@@ -95,7 +97,7 @@ def process_sending(campaign_id: int, /, *, limit: int = 100) -> str:
             },
         )
 
-        print("[*] Processing email:", email, resignation_url)
+        print(f"[*] Processing email: {email} (resignation: {resignation_code})")
 
         try:
             send_attempt_counter += 1
@@ -189,7 +191,9 @@ class Command(BaseCommand):
                 campaign_id: int = campaign.id  # type: ignore
 
                 if not can_process_campaing(campaign_id, mod, reminder):
-                    print("[-] Can't process this campaign (not my reminder)")
+                    print(
+                        f"[-] Not my reminder for campaign_id:{campaign_id} % {mod} != {reminder}"
+                    )
                     continue
 
                 campaign_id: int = campaign.id  # type: ignore
@@ -199,7 +203,7 @@ class Command(BaseCommand):
                 if campaign.is_daily_sending_limit_reached:
                     handle_daily_sending_limit_reached(campaign)
                 # Check if too much failures counted
-                elif campaign.failure_counter >= 250:
+                elif campaign.failure_counter >= 1_000:
                     handle_too_much_failures(campaign_id, campaign.title)
                 # If everything OK try to send emails batch
                 else:
@@ -210,8 +214,8 @@ class Command(BaseCommand):
                         print("[*] No email sent with campaign:", campaign)
                         try_to_finish_campaign(campaign_id, campaign.title)
 
-            print("[*] Sleeping 3s between sending ...")
-            time.sleep(3)
+            print("[*] Sleeping random 5-15s between sending ...")
+            time.sleep(5 + randint(5, 10))
 
     def handle(self, *args, **options):
         telegram_service = TelegramService()
@@ -235,20 +239,14 @@ class Command(BaseCommand):
                     self.start_loop(mod, reminder)
                 except Exception as e:
                     retry += 1
-                    formatted_lines = "\n".join(traceback.format_exc().splitlines())
-                    telegram_service.try_send_chat_message(
-                        f"retry={retry}, {e}:\n{formatted_lines}",
-                        TelegramChats.OTHER,
+                    handle_on_loop_failure(
+                        retry,
+                        str(e),
+                        "\n".join(traceback.format_exc().splitlines()),
+                        "mailing_sending.py",
                     )
-                    print("[*] Waiting after failure")
-                    time.sleep(retry * (3 * MINUTE))
                 else:
                     retry = 0
 
             # When something went completely wrong send telegram message
-            telegram_service.try_send_chat_message(
-                "MAILING PROCESSING KOMPLETNIE SIĘ WYJEBAŁ",
-                TelegramChats.OTHER,
-            )
-            print("Complete failure")
-            time.sleep(HOUR)
+            handle_complete_failure("MAILING SENDING KOMPLETNIE SIĘ WYJEBAŁ")
