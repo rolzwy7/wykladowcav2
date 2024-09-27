@@ -52,6 +52,14 @@ class MailingCampaignManager(Manager):
             # & Q(limit_sent_so_far__lte=F("limit_per_day")) # TODO
         )
 
+    def sending_status_campaigns(self) -> QuerySet["MailingCampaign"]:
+        """Returns mailing campaigns with SENDING status"""
+        return self.get_queryset().filter(status=MailingCampaignStatus.SENDING)
+
+    def paused_status_campaigns(self) -> QuerySet["MailingCampaign"]:
+        """Returns mailing campaigns with PAUSED status"""
+        return self.get_queryset().filter(status=MailingCampaignStatus.PAUSED)
+
     def not_done(self) -> QuerySet["MailingCampaign"]:
         """Returns mailing campaigns that are not done"""
         return self.get_queryset().filter(~Q(status=MailingCampaignStatus.DONE))

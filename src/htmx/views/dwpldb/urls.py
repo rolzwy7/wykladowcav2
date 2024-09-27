@@ -4,8 +4,9 @@
 
 from django.urls import path
 
+from .bisnode_2024 import bisnode_2024_download_progress
+from .mailing_pool_counters import mailing_pool_counters
 from .queue_counts import (
-    bisnode_2024_download_progress,
     email_verify_queue_count,
     regon_queue_count,
     scraper_queue_static_count,
@@ -33,5 +34,10 @@ urlpatterns = [
         "bisnode-2024-download-progress/",
         bisnode_2024_download_progress,
         name="bisnode-2024-download-progress",
+    ),
+    path(
+        "mailing-pool-counters/<str:campaign_status>/<str:pool_status>/",
+        mailing_pool_counters,
+        name="mailing-pool-counters",
     ),
 ]

@@ -156,9 +156,9 @@ def process_sending(campaign_id: int, /, *, limit: int = 100) -> str:
     return return_value
 
 
-def can_process_campaing(campaign_id: int, mod: int, reminder: int) -> bool:
+def can_process_campaing(campaign_mod_value: int, mod: int, reminder: int) -> bool:
     """can_process_campaing"""
-    return campaign_id % mod == reminder
+    return campaign_mod_value % mod == reminder
 
 
 class Command(BaseCommand):
@@ -191,23 +191,24 @@ class Command(BaseCommand):
 
             #
             # Iterate over active campaigns and start sending process
+            all_not_my_reminder = True
             for campaign in active_campaigns:
                 campaign_id: int = campaign.id  # type: ignore
 
                 if not can_process_campaing(campaign_id, mod, reminder):
                     print(
-                        f"[-] Not my reminder for campaign_id:{campaign_id} % {mod} != {reminder}"
+                        f"[-] Not my reminder for campaign.id:{campaign_id} % {mod} != {reminder}"
                     )
                     continue
 
-                campaign_id: int = campaign.id  # type: ignore
                 print("\n[*] Processing campaign:", campaign)
+                all_not_my_reminder = False
 
                 # Check if limit per day was reached:
                 if campaign.is_daily_sending_limit_reached:
                     handle_daily_sending_limit_reached(campaign)
                 # Check if too much failures counted
-                elif campaign.failure_counter >= 1_000:
+                elif campaign.failure_counter >= 300:
                     handle_too_much_failures(campaign_id, campaign.title)
                 # If everything OK try to send emails batch
                 else:
@@ -217,8 +218,13 @@ class Command(BaseCommand):
                         print("[*] No email sent with campaign:", campaign)
                         try_to_finish_campaign(campaign_id, campaign.title)
 
-                    print("[*] Sleeping random 5-15s between camapings sending ...")
-                    time.sleep(5 + randint(5, 10))
+                    print("[*] Sleeping random 4-8s between camapings sending ...")
+                    time.sleep(5 + randint(4, 8))
+
+            # If all camapings are not my reminder wait
+            if all_not_my_reminder:
+                print("[*] All active campaigns are not my reminder, waiting 15s ...")
+                time.sleep(15)
 
     def handle(self, *args, **options):
         telegram_service = TelegramService()

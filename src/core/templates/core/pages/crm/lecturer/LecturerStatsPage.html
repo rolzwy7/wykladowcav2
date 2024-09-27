@@ -39,7 +39,39 @@
                         <i class="path4"></i>
                     </i>
                     <span class="ms-3 text-gray-700 parent-hover-primary fs-6 fw-bold">
-                        Dodaj opinie (ChatGPT)
+                        Dodaj opinie <br> (ChatGPT)
+                    </span>
+                </div>
+            </a>
+        </div>
+        
+        <div class="col-md-4">
+            <a href="{% url 'core:lecturer_participants_emails_page' pk=lecturer.pk participants_type="paid-participants" %}" class="card hover-elevate-up shadow-sm parent-hover">
+                <div class="card-body d-flex align-items">
+                    <i class="ki-duotone ki-message-programming fs-1">
+                        <i class="path1"></i>
+                        <i class="path2"></i>
+                        <i class="path3"></i>
+                        <i class="path4"></i>
+                    </i>
+                    <span class="ms-3 text-gray-700 parent-hover-primary fs-6 fw-bold">
+                        Adresy e-mail <br> płatnych uczestników <br> (zrealizowane szkolenia)
+                    </span>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="{% url 'core:lecturer_participants_emails_page' pk=lecturer.pk participants_type="paid-participants" %}?include_all_webinars=1" class="card hover-elevate-up shadow-sm parent-hover">
+                <div class="card-body d-flex align-items">
+                    <i class="ki-duotone ki-message-programming fs-1">
+                        <i class="path1"></i>
+                        <i class="path2"></i>
+                        <i class="path3"></i>
+                        <i class="path4"></i>
+                    </i>
+                    <span class="ms-3 text-gray-700 parent-hover-primary fs-6 fw-bold">
+                        Adresy e-mail <br> płatnych uczestników <br> (wszystkie szkolenia)
                     </span>
                 </div>
             </a>

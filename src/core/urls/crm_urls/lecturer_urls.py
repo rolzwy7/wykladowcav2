@@ -3,6 +3,7 @@ from django.urls import path
 from core.views.crm.lecturer import (
     lecturer_add_opinions_page,
     lecturer_list_page,
+    lecturer_participants_emails_page,
     lecturer_stats_page,
 )
 
@@ -11,6 +12,11 @@ urlpatterns = [
         "<int:pk>/dodaj-opinie/",
         lecturer_add_opinions_page,
         name="lecturer_add_opinions_page",
+    ),
+    path(
+        "<int:pk>/uczestnicy-maile/<str:participants_type>/",
+        lecturer_participants_emails_page,
+        name="lecturer_participants_emails_page",
     ),
     path(
         "<int:pk>/",
