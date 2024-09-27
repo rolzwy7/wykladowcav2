@@ -4,13 +4,20 @@
 
 from django.core.cache import cache
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 
-from core.models.enums import MailingCampaignStatus, MailingPoolStatus
+from core.models.enums import MailingPoolStatus
 from core.models.mailing import MailingCampaign, MailingPoolManager
 
 
-def mailing_pool_counters(request, campaign_status: str, pool_status: str):
-    """mailing_pool_counters"""
+def mailing_campaign_counters(request, campaign_id: int, pool_status: str):
+    """mailing_campaign_counters"""
+
+    if pool_status == "failure_counter":
+        campaign = get_object_or_404(MailingCampaign, id=campaign_id)
+        return HttpResponse(
+            f"{campaign.failure_counter:,}", content_type="text/plain; charset=utf8"
+        )
 
     # Get pool status
     pool_item_status = {
@@ -20,23 +27,17 @@ def mailing_pool_counters(request, campaign_status: str, pool_status: str):
     }[pool_status]
 
     # Check cache
-    cache_key = f"CACHED-POOL-COUNT-{campaign_status}-{pool_item_status}"
-    cache_seconds = 5 * 60  # 5 minutes
+    cache_key = f"CACHED-CAMPAIGN-COUNT-{campaign_id}-{pool_item_status}"
+    cache_seconds = 15  # 15 seconds
     if cache.get(cache_key):
         count = cache.get(cache_key)
         return HttpResponse(f"{count:,}", content_type="text/plain; charset=utf8")
 
-    # Get campaign ids
-    camapigns_func = {
-        MailingCampaignStatus.SENDING: MailingCampaign.manager.sending_status_campaigns,
-        MailingCampaignStatus.PAUSED: MailingCampaign.manager.paused_status_campaigns,
-        "ACTIVE": MailingCampaign.manager.active_campaigns,
-    }[campaign_status]
-    ids: list[int] = [_.id for _ in camapigns_func()]  # type: ignore
-
     # Calculate count
     mailing_manager = MailingPoolManager()
-    count = mailing_manager.count_all_by_status_and_campaign_ids(pool_item_status, ids)
+    count = mailing_manager.count_all_by_status_and_campaign_ids(
+        pool_item_status, [campaign_id]
+    )
     mailing_manager.close()
 
     # Set cache

@@ -66,8 +66,7 @@
                 <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1">
                   <div
                     hx-get="{% url "htmx:dwpldb:mailing-pool-counters" campaign_status="SENDING" pool_status="BEING_PROCESSED" %}"
-                    hx-swap="outerHTML"
-                    hx-trigger="load">
+                    hx-trigger="load, every 60s">
                     <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
                   </div>
                 </span>
@@ -87,8 +86,7 @@
                 <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1">
                   <div
                   hx-get="{% url "htmx:dwpldb:mailing-pool-counters" campaign_status="SENDING" pool_status="READY_TO_SEND" %}"
-                  hx-swap="outerHTML"
-                  hx-trigger="load">
+                  hx-trigger="load, every 60s">
                   <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
                 </div>                  
                 </span>
@@ -108,8 +106,7 @@
                 <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1">
                   <div
                   hx-get="{% url "htmx:dwpldb:mailing-pool-counters" campaign_status="SENDING" pool_status="SENT" %}"
-                  hx-swap="outerHTML"
-                  hx-trigger="load">
+                  hx-trigger="load, every 60s">
                   <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
                  </div>
                 </span>
@@ -133,8 +130,7 @@
                 <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1">
                   <div
                     hx-get="{% url "htmx:dwpldb:mailing-pool-counters" campaign_status="ACTIVE" pool_status="BEING_PROCESSED" %}"
-                    hx-swap="outerHTML"
-                    hx-trigger="load">
+                    hx-trigger="load, every 60s">
                     <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
                   </div>
                 </span>
@@ -154,8 +150,7 @@
                 <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1">
                   <div
                   hx-get="{% url "htmx:dwpldb:mailing-pool-counters" campaign_status="ACTIVE" pool_status="READY_TO_SEND" %}"
-                  hx-swap="outerHTML"
-                  hx-trigger="load">
+                  hx-trigger="load, every 60s">
                   <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
                 </div>                  
                 </span>
@@ -175,8 +170,7 @@
                 <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1">
                   <div
                   hx-get="{% url "htmx:dwpldb:mailing-pool-counters" campaign_status="ACTIVE" pool_status="SENT" %}"
-                  hx-swap="outerHTML"
-                  hx-trigger="load">
+                  hx-trigger="load, every 60s">
                   <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
                  </div>
                 </span>
@@ -184,6 +178,70 @@
               <span class="fs-6 fw-semibold text-gray-400">
                 <span class="text-dark">„Wysłano”</span> <br>
                 <span class="text-success">Aktywne kampanie</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="col-md-4">
+          <div class="card shadow-sm mb-6 p-3 pt-5">
+            <div class="mb-4 px-9">
+              <div class="d-flex align-items-center mb-2">
+                <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1">
+                  <div
+                    hx-get="{% url "htmx:dwpldb:mailing-pool-counters" campaign_status="PAUSED" pool_status="BEING_PROCESSED" %}"
+                    hx-trigger="load, every 60s">
+                    <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
+                  </div>
+                </span>
+              </div>
+              <span class="fs-6 fw-semibold text-gray-400">
+                <span class="text-dark">„W trakcie przetwarzania”</span> <br/>
+                <span class="text-warning">Zatrzymane kampanie</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card shadow-sm mb-6 p-3 pt-5">
+            <div class="mb-4 px-9">
+              <div class="d-flex align-items-center mb-2">
+                <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1">
+                  <div
+                  hx-get="{% url "htmx:dwpldb:mailing-pool-counters" campaign_status="PAUSED" pool_status="READY_TO_SEND" %}"
+                  hx-trigger="load, every 60s">
+                  <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
+                </div>                  
+                </span>
+              </div>
+              <span class="fs-6 fw-semibold text-gray-400">
+                <span class="text-dark">„Gotowe do wysyłki”</span> <br/>
+                <span class="text-warning">Zatrzymane kampanie</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card shadow-sm mb-6 p-3 pt-5">
+            <div class="mb-4 px-9">
+              <div class="d-flex align-items-center mb-2">
+                <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1">
+                  <div
+                  hx-get="{% url "htmx:dwpldb:mailing-pool-counters" campaign_status="PAUSED" pool_status="SENT" %}"
+                  hx-trigger="load, every 60s">
+                  <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
+                 </div>
+                </span>
+              </div>
+              <span class="fs-6 fw-semibold text-gray-400">
+                <span class="text-dark">„Wysłano”</span> <br>
+                <span class="text-warning">Zatrzymane kampanie</span>
               </span>
             </div>
           </div>
@@ -302,7 +360,9 @@
                 <tr class="{% cycle 'bg-light' 'bg-white' %}">
                   <td>
                     <b>[ ID={{campaign.id}} ] [ MOD={{campaign.mod_value}} ]</b>
-                    <b class="text-{% if campaign.why_not_sending %}danger{% else %}{{campaign.status_color}}{% endif %}">
+                    <b
+                      class="text-{{campaign.status_color}}"
+                    >
                       ( {{campaign.get_status_display}} )
                     </b>
                     <b>( {{campaign.alias}} )</b>
@@ -374,7 +434,33 @@
                     {% else %}
                     <small>
                     {% endif %}
-                    Błędy:{{campaign.failure_counter}}</small>
+                    Błędy:
+                    <span
+                      hx-get="{% url "htmx:dwpldb:mailing-campaign-counters" campaign_id=campaign.id pool_status="failure_counter" %}"
+                      hx-trigger="load, every 30s">
+                      x
+                    </span>
+                  </small>
+                    <br>
+                    <span
+                      hx-get="{% url "htmx:dwpldb:mailing-campaign-counters" campaign_id=campaign.id pool_status="BEING_PROCESSED" %}"
+                      hx-trigger="load, every 33s">
+                      x
+                    </span>
+                    /
+                    <span
+                      hx-get="{% url "htmx:dwpldb:mailing-campaign-counters" campaign_id=campaign.id pool_status="READY_TO_SEND" %}"
+                      hx-trigger="load, every 36s">
+                      x
+                    </span>
+                    /
+                    <span
+                      hx-get="{% url "htmx:dwpldb:mailing-campaign-counters" campaign_id=campaign.id pool_status="SENT" %}"
+                      hx-trigger="load, every 39s">
+                      x
+                    </span>
+
+       
 
                     <br>
                     <br>
