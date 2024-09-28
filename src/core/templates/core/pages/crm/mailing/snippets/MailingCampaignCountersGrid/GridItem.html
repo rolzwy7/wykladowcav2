@@ -1,0 +1,40 @@
+{% load static %}
+
+
+<div class="card shadow-sm mb-6 p-3 pt-5">
+    <div class="mb-4 px-9">
+        <div class="d-flex align-items-center mb-2">
+            <span
+                class="fs-2hx fw-bold text-gray-800 me-2 lh-1"
+                hx-get="{% url "htmx:dwpldb:mailing-pool-counters" campaign_status=campaign_status pool_status=pool_status %}"
+                hx-swap="innerHTML"
+                hx-trigger="{{hx_trigger}}"
+            >
+                <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
+            </span>
+        </div>
+    </div>
+    <span class="fs-6 fw-semibold text-gray-400">
+        {% if pool_status == "BEING_PROCESSED" %}
+            <span class="text-dark">„W trakcie przetwarzania”</span>
+        {% elif pool_status == "READY_TO_SEND" %}
+            <span class="text-dark">„Gotowe do wysyłki”</span>
+        {% elif pool_status == "SENT" %}
+            <span class="text-dark">„Wysłano”</span>
+        {% else %}
+            <span class="text-dark">INVALID_POOL_STATUS</span>
+        {% endif %}
+
+        <br>
+
+        {% if campaign_status == "SENDING" %}
+            <span class="text-success">Wysyłanie</span>
+        {% elif campaign_status == "ACTIVE" %}
+            <span class="text-success">Aktywne kampanie</span>
+        {% elif campaign_status == "PAUSED" %}
+            <span class="text-warning">Zatrzymane kampanie</span>
+        {% else %}
+            <span class="text-dark">INVALID_CAMPAIGN_STATUS</span>
+        {% endif %}
+    </span>
+</div>

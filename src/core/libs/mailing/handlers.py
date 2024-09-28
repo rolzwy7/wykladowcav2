@@ -42,6 +42,8 @@ def try_to_finish_campaign(campaign_id: int, campaign_title: str):
             f"Kampania mailingowa zakończona: {campaign_title}",
             TelegramChats.OTHER,
         )
+    else:
+        print("[*] Campaign not yet to be finished:", campaign_id)
 
     pool_manager.close()
 

@@ -1,0 +1,36 @@
+<div class="row">
+    <div class="col-md-4">
+        {% include "./GridItem.html" with campaign_status="SENDING" pool_status="BEING_PROCESSED" hx_trigger="load" %}
+    </div>
+    <div class="col-md-4">
+        {% include "./GridItem.html" with campaign_status="SENDING" pool_status="READY_TO_SEND" hx_trigger="load" %}
+    </div>
+    <div class="col-md-4">
+        {% include "./GridItem.html" with campaign_status="SENDING" pool_status="SENT" hx_trigger="load" %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        {% include "./GridItem.html" with campaign_status="ACTIVE" pool_status="BEING_PROCESSED" hx_trigger="load" %}
+    </div>
+    <div class="col-md-4">
+        {% include "./GridItem.html" with campaign_status="ACTIVE" pool_status="READY_TO_SEND" hx_trigger="load" %}
+    </div>
+    <div class="col-md-4">
+        {% include "./GridItem.html" with campaign_status="ACTIVE" pool_status="SENT" hx_trigger="load" %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        {% include "./GridItem.html" with campaign_status="PAUSED" pool_status="BEING_PROCESSED" hx_trigger="load" %}
+    </div>
+    <div class="col-md-4">
+        {% include "./GridItem.html" with campaign_status="PAUSED" pool_status="READY_TO_SEND" hx_trigger="load" %}
+    </div>
+    <div class="col-md-4">
+        {% include "./GridItem.html" with campaign_status="PAUSED" pool_status="SENT" hx_trigger="load" %}
+    </div>
+</div>
+

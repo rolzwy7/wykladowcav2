@@ -13,11 +13,18 @@ from core.models.mailing import MailingCampaign, MailingPoolManager
 def mailing_campaign_counters(request, campaign_id: int, pool_status: str):
     """mailing_campaign_counters"""
 
+    # Get failure count
     if pool_status == "failure_counter":
-        campaign = get_object_or_404(MailingCampaign, id=campaign_id)
-        return HttpResponse(
-            f"{campaign.failure_counter:,}", content_type="text/plain; charset=utf8"
-        )
+        cache_key = f"CACHED-CAMPAIGN-COUNT-{campaign_id}-{pool_status}"
+        cache_seconds = 15 * 60  # 15 minutes
+        if cache.get(cache_key):
+            count = cache.get(cache_key)
+            return HttpResponse(f"{count:,}", content_type="text/plain; charset=utf8")
+        else:
+            campaign = get_object_or_404(MailingCampaign, id=campaign_id)
+            return HttpResponse(
+                f"{campaign.failure_counter:,}", content_type="text/plain; charset=utf8"
+            )
 
     # Get pool status
     pool_item_status = {

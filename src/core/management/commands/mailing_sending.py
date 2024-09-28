@@ -32,7 +32,7 @@ from core.libs.mailing.handlers import (
 )
 from core.models import MailingCampaign, MailingPoolManager, MailingTemplate, SmtpSender
 from core.models.enums import MailingPoolStatus
-from core.services import SenderSmtpService, TelegramService
+from core.services import SenderSmtpService
 from core.services.mailing import MailingResignationService, MailingTrackingService
 
 BASE_URL = settings.BASE_URL
@@ -73,22 +73,26 @@ def process_sending(campaign_id: int, /, *, limit: int = 100) -> str:
     connection = smtp_service.get_smtp_connection()
     return_value: str = ProcessSendingStatus.LIMIT_NOT_REACHED
     send_attempt_counter: int = 0
+    sleep_between_each_send = 0
 
     for loop_idx, document in enumerate(documents):
+        # Break on limit reached
         if loop_idx >= limit:
             return_value = ProcessSendingStatus.LIMIT_REACHED
             break
 
+        # Prepare variables
         subject = campaign.get_random_subject()
         email = document["email"]
         document_id = f"{campaign_id}:{email}"
         text_content = text
         html_content = html
 
+        # Prepare codes and urls
+        tracking_code = MailingTrackingService.get_or_create_tracking(email)
         resignation_code = MailingResignationService.get_or_create_inactive_resignation(
             email, campaign.resignation_list
         )
-        tracking_code = MailingTrackingService.get_or_create_tracking(email)
         resignation_url = BASE_URL + reverse(
             "core:mailing_resignation_page_with_list",
             kwargs={
@@ -98,6 +102,10 @@ def process_sending(campaign_id: int, /, *, limit: int = 100) -> str:
         )
 
         print(f"\n[*] Processing email: {email} (resignation: {resignation_code})")
+
+        if sleep_between_each_send:
+            print(f"sleep_between_each_send: {sleep_between_each_send}")
+            time.sleep(sleep_between_each_send)
 
         try:
             send_attempt_counter += 1
@@ -130,7 +138,11 @@ def process_sending(campaign_id: int, /, *, limit: int = 100) -> str:
             print(f"[-] SMTPRecipientsRefused `{email}`")
         else:
             pool_manager.change_status(document_id, MailingPoolStatus.SENT)
-            print(f"[+] Sent to `{email}`")
+            print(f"[+] SUCCESSFULLY sent to: `{email}`")
+
+            # Increment daily counters
+            pool_manager.inc_todays_sent_counter_for_campaign(campaign_id)
+            pool_manager.inc_todays_sent_counter_for_sender(smtp_sender.username)
 
             # Increment sent counters
             MailingCampaign.manager.filter(id=campaign_id).update(
@@ -197,7 +209,7 @@ class Command(BaseCommand):
 
                 if not can_process_campaing(campaign_id, mod, reminder):
                     print(
-                        f"[-] Not my reminder for campaign.id:{campaign_id} % {mod} != {reminder}"
+                        f"[-] NOT MY REMINDER for campaign.id:{campaign_id} % {mod} != {reminder}"
                     )
                     continue
 
@@ -208,32 +220,35 @@ class Command(BaseCommand):
                 if campaign.is_daily_sending_limit_reached:
                     handle_daily_sending_limit_reached(campaign)
                 # Check if too much failures counted
-                elif campaign.failure_counter >= 300:
+                elif (
+                    campaign.pause_on_too_many_failures
+                    and campaign.failure_counter >= 1_000
+                ):
                     handle_too_much_failures(campaign_id, campaign.title)
                 # If everything OK try to send emails batch
                 else:
                     result = process_sending(campaign_id, limit=100)
                     # Try to finish campaign
                     if result == ProcessSendingStatus.NO_EMAILS_SENT:
-                        print("[*] No email sent with campaign:", campaign)
+                        print("[*] No emails sent with campaign:", campaign)
                         try_to_finish_campaign(campaign_id, campaign.title)
 
                     print("[*] Sleeping random 4-8s between camapings sending ...")
-                    time.sleep(5 + randint(4, 8))
+                    time.sleep(5 + randint(5, 10))
 
             # If all camapings are not my reminder wait
             if all_not_my_reminder:
-                print("[*] All active campaigns are not my reminder, waiting 15s ...")
-                time.sleep(15)
+                print("[*] All active campaigns are not my reminder, waiting 20s ...")
+                time.sleep(20)
 
     def handle(self, *args, **options):
-        telegram_service = TelegramService()
+        """handle"""
 
         mod: int = options["mod"]
         reminder: int = options["reminder"]
 
-        print("Mod:", mod)
-        print("Reminder:", reminder)
+        print("> Mod:", mod)
+        print("> Reminder:", reminder)
 
         for test_idx in range(10):
             print(test_idx, can_process_campaing(test_idx, mod, reminder))

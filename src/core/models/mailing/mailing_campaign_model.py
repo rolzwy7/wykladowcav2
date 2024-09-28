@@ -157,6 +157,9 @@ class MailingCampaign(Model):
     # Modulo value
     mod_value = PositiveSmallIntegerField(default=10)
 
+    # Flags
+    pause_on_too_many_failures = BooleanField(default=True)
+
     class Meta:
         """meta"""
 

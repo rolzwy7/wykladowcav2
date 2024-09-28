@@ -4,6 +4,8 @@ Mailing pool manager
 
 # flake8: noqa=E501
 
+from datetime import datetime
+
 from django.conf import settings
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
 from pymongo import DESCENDING, InsertOne, UpdateOne, errors
@@ -99,6 +101,62 @@ class MailingPoolManager:
         return self.collection.count_documents(
             {"status": status, "campaign_id": {"$in": campaign_ids}}
         )
+
+    def inc_todays_sent_counter_for_sender(self, sender: str):
+        """inc_todays_sent_counter_for_sender"""
+
+        collection = self.database[
+            f"wykladowcav2_mailing_daily_counter_{settings.APP_ENV}"
+        ]
+        current_date = datetime.now().strftime("%Y-%m-%d")
+
+        collection.update_one(
+            {"_id": f"{current_date}:{sender}"},
+            {
+                "$inc": {"counter": 1},
+                "$set": {
+                    "current_date": current_date,
+                    "sender": sender,
+                },
+            },
+            upsert=True,
+        )
+
+    def get_todays_sent_counter_for_sender(self, sender: str):
+        """get_todays_sent_counter_for_sender"""
+        collection = self.database[
+            f"wykladowcav2_mailing_daily_counter_{settings.APP_ENV}"
+        ]
+        current_date = datetime.now().strftime("%Y-%m-%d")
+        return collection.find_one({"_id": f"{current_date}:{sender}"})
+
+    def inc_todays_sent_counter_for_campaign(self, campaign_id: int):
+        """inc_todays_sent_counter_for_campaign"""
+
+        collection = self.database[
+            f"wykladowcav2_mailing_daily_counter_{settings.APP_ENV}"
+        ]
+        current_date = datetime.now().strftime("%Y-%m-%d")
+
+        collection.update_one(
+            {"_id": f"{current_date}:campaign-id-{campaign_id}"},
+            {
+                "$inc": {"counter": 1},
+                "$set": {
+                    "current_date": current_date,
+                    "campaign_id": campaign_id,
+                },
+            },
+            upsert=True,
+        )
+
+    def get_todays_sent_counter_for_campaign(self, campaign_id: int):
+        """get_todays_sent_counter_for_campaign"""
+        collection = self.database[
+            f"wykladowcav2_mailing_daily_counter_{settings.APP_ENV}"
+        ]
+        current_date = datetime.now().strftime("%Y-%m-%d")
+        return collection.find_one({"_id": f"{current_date}:campaign-id-{campaign_id}"})
 
     def get_ready_to_send_for_campaign(self, campaign_id: int, limit: int = 100):
         """Get ready to send emails for campaign"""
