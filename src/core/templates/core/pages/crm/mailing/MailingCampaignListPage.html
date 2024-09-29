@@ -343,7 +343,7 @@
                     <small>
                       Dziś: 
                       <span
-                        hx-get="{% url "htmx:dwpldb:mailing-campaign-daily-counters-campaign" campaign_id=10 %}"
+                        hx-get="{% url "htmx:dwpldb:mailing-campaign-daily-counters-campaign" campaign_id=campaign.id %}"
                         hx-swap="innerHTML"
                         hx-trigger="intersect once"
                       >
