@@ -70,7 +70,8 @@ INSTALLED_APPS = [
     "django_celery_beat",
     "tinymce",
     "debug_toolbar",
-    "csp",
+    # "csp",
+    "corsheaders",
     # Django
     "django.contrib.admin",
     "django.contrib.auth",
@@ -89,6 +90,7 @@ MIDDLEWARE = [
     # above all other middleware apart from Django’s SecurityMiddleware
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -208,3 +210,5 @@ FORM_RENDERER = "wykladowcapl.settings.CustomFormRenderer"
 # CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "http://rankingtest.wykladowca.pl/")
 # CSP_IMG_SRC = ("'self'", "http://rankingtest.wykladowca.pl/")
 # CSP_FORM_ACTION = ("'self'", "http://rankingtest.wykladowca.pl/")
+
+CORS_ALLOWED_ORIGINS = ["http://localhost:4200"]

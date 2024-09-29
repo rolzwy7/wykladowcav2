@@ -23,6 +23,9 @@ from core.models import (
     ServiceOfferApplication,
     ServiceOfferLead,
     SmtpSender,
+    Survey,
+    SurveyAnswer,
+    SurveyVote,
     WebinarApplicationCancellation,
     WebinarApplicationCompany,
     WebinarApplicationInvoice,
@@ -36,6 +39,10 @@ from core.models import (
     WebinarRecording,
     WebinarRecordingToken,
 )
+
+admin.site.register(SurveyAnswer)
+admin.site.register(Survey)
+admin.site.register(SurveyVote)
 
 admin.site.register(WebinarApplicationTracking)
 admin.site.register(CustomHtmlSite)

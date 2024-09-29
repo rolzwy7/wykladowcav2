@@ -1,3 +1,4 @@
 # flake8: noqa
 from .conference_edition_model_serializers import ConferenceEditionSerializer
+from .survey_serializer import SurveyAnswerSerializer, SurveySerializer
 from .webinar_model_serializers import WebinarModelSerializer

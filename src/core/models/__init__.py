@@ -35,6 +35,7 @@ from .mailing import (
 )
 from .redirects import RedirectManual
 from .service_offer_model import ServiceOffer, ServiceOfferApplication, ServiceOfferLead
+from .survey import Survey, SurveyAnswer, SurveyVote
 from .user_model import User
 from .webinar_application_model import (
     WebinarApplication,

@@ -161,7 +161,8 @@ def process_sending(campaign_id: int, /, *, limit: int = 100) -> str:
                 )
 
         # Increment loop sleep if any error occured
-        sleep_between_each_send = min(0.5, sleep_between_each_send + 0.01)
+        if any_error_occured:
+            sleep_between_each_send = min(0.5, sleep_between_each_send + 0.01)
 
     pool_manager.close()  # close mongo manager
 
@@ -241,8 +242,11 @@ class Command(BaseCommand):
                         print("[*] No emails sent with campaign:", campaign)
                         try_to_finish_campaign(campaign_id, campaign.title)
 
-                    print("[*] Sleeping random 4-8s between camapings sending ...")
-                    time.sleep(5 + randint(5, 10))
+                    print("[*] Sleeping random 2s")
+                    time.sleep(2)
+
+                    # print("[*] Sleeping random 4-8s between camapings sending ...")
+                    # time.sleep(5 + randint(5, 10))
 
             # If all camapings are not my reminder wait
             if all_not_my_reminder:
