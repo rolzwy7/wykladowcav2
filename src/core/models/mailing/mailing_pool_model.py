@@ -122,12 +122,15 @@ class MailingPoolManager:
             upsert=True,
         )
 
-    def get_todays_sent_counter_for_sender(self, sender: str):
+    def get_todays_sent_counter_for_sender(self, sender: str, date_str=None):
         """get_todays_sent_counter_for_sender"""
         collection = self.database[
             f"wykladowcav2_mailing_daily_counter_{settings.APP_ENV}"
         ]
-        current_date = datetime.now().strftime("%Y-%m-%d")
+        if not date_str:
+            current_date = datetime.now().strftime("%Y-%m-%d")
+        else:
+            current_date = date_str
         return collection.find_one({"_id": f"{current_date}:{sender}"})
 
     def inc_todays_sent_counter_for_campaign(self, campaign_id: int):
@@ -150,12 +153,15 @@ class MailingPoolManager:
             upsert=True,
         )
 
-    def get_todays_sent_counter_for_campaign(self, campaign_id: int):
+    def get_sent_counter_for_campaign(self, campaign_id: int, date_str=None):
         """get_todays_sent_counter_for_campaign"""
         collection = self.database[
             f"wykladowcav2_mailing_daily_counter_{settings.APP_ENV}"
         ]
-        current_date = datetime.now().strftime("%Y-%m-%d")
+        if not date_str:
+            current_date = datetime.now().strftime("%Y-%m-%d")
+        else:
+            current_date = date_str
         return collection.find_one({"_id": f"{current_date}:campaign-id-{campaign_id}"})
 
     def get_ready_to_send_for_campaign(self, campaign_id: int, limit: int = 100):

@@ -3,6 +3,8 @@
 # flake8: noqa=E501
 # pylint: disable=broad-exception-caught
 
+from datetime import datetime, timedelta
+
 from django.conf import settings
 from django.core.mail.utils import DNS_NAME
 from django.db.models import Q
@@ -18,7 +20,7 @@ from core.forms import (
     MailingAreYouSureForm,
     MailingSendTestEmailForm,
 )
-from core.models import MailingCampaign, MailingTemplate, WebinarMetadata
+from core.models import MailingCampaign, MailingTemplate, SmtpSender, WebinarMetadata
 from core.models.enums import mailing_pool_status_display_map
 from core.models.mailing import MailingPoolManager
 from core.services import SenderSmtpService
@@ -70,6 +72,9 @@ def crm_mailing_campaign_list(request):
             "fqdn": fqdn,
             "show_all": show_all,
             "now": now(),
+            "smpt_senders": SmtpSender.objects.filter(exclude_from_processing=False),
+            "today_datestr": datetime.now().strftime("%Y-%m-%d"),
+            "yesterday_datestr": (datetime.now() - timedelta(1)).strftime("%Y-%m-%d"),
         },
     )
 

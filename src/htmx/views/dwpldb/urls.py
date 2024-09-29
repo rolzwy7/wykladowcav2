@@ -6,6 +6,10 @@ from django.urls import path
 
 from .bisnode_2024 import bisnode_2024_download_progress
 from .mailing_campaign_counters import mailing_campaign_counters
+from .mailing_campaign_daily_counters import (
+    mailing_daily_counters_campaign,
+    mailing_daily_counters_sender,
+)
 from .mailing_pool_counters import mailing_pool_counters
 from .queue_counts import (
     email_verify_queue_count,
@@ -45,5 +49,15 @@ urlpatterns = [
         "mailing-campaign-counters/<int:campaign_id>/<str:pool_status>/",
         mailing_campaign_counters,
         name="mailing-campaign-counters",
+    ),
+    path(
+        "mailing-daily-counters-campaign/<int:campaign_id>/",
+        mailing_daily_counters_campaign,
+        name="mailing-campaign-daily-counters-campaign",
+    ),
+    path(
+        "mailing-daily-counters-sender/<str:sender_name>/<str:date_str>/",
+        mailing_daily_counters_sender,
+        name="mailing-campaign-daily-counters-sender",
     ),
 ]

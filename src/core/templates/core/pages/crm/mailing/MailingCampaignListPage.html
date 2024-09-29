@@ -56,6 +56,48 @@
                 </div>
                 <!--end::Toolbar-->
         {% endcomment %}
+        
+        <div class="card shadow-sm mb-6">
+          <div class="card-body">
+             <div class="table-responsive">
+                <table class="table">
+                   <thead>
+                      <tr class="fw-bold fs-6 text-gray-800">
+                         <th>Konto wysyłkowe</th>
+                         <th>Wysłano wczoraj</th>
+                         <th>Wysłano dzisiaj</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      {% for smpt_sender in smpt_senders %}
+                      <tr>
+                         <td>{{smpt_sender}}</td>
+                         <td>
+                          <span
+                            hx-get="{% url "htmx:dwpldb:mailing-campaign-daily-counters-sender" sender_name=smpt_sender date_str=today_datestr %}"
+                            hx-swap="innerHTML"
+                            hx-trigger="intersect once"
+                          >
+                            –
+                          </span>
+                         </td>
+                         <td>
+                          <span
+                            hx-get="{% url "htmx:dwpldb:mailing-campaign-daily-counters-sender" sender_name=smpt_sender date_str=yesterday_datestr %}"
+                            hx-swap="innerHTML"
+                            hx-trigger="intersect once"
+                          >
+                            –
+                          </span>
+                         </td>
+                      </tr>
+                      {% endfor %}
+                   </tbody>
+                </table>
+             </div>
+          </div>
+       </div>
+
 
     {% include "./snippets/MailingCampaignCountersGrid/Grid.html" %}
 
@@ -294,6 +336,17 @@
                       <span
                         hx-get="{% url "htmx:dwpldb:mailing-campaign-counters" campaign_id=campaign.id pool_status="SENT" %}"
                         hx-trigger="intersect once, every 120s">
+                        –
+                      </span>
+                    </small>
+                    <br>
+                    <small>
+                      Dziś: 
+                      <span
+                        hx-get="{% url "htmx:dwpldb:mailing-campaign-daily-counters-campaign" campaign_id=10 %}"
+                        hx-swap="innerHTML"
+                        hx-trigger="intersect once"
+                      >
                         –
                       </span>
                     </small>
