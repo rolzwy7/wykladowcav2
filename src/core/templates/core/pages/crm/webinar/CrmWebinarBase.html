@@ -281,7 +281,7 @@
                                     data-bs-html="true"
                                     title="<span><b>Wysłane mailingi</b><br /><i><small>Według dnia przygotowania kampanii mailingowej</small></i></span>"
                                     {% if mailing_campaigns %}
-                                    data-bs-content="Globalne kliknięcia: <b>{{click_count_mailing}}</b><br />{% for mailing_campaign in mailing_campaigns %}<span>{{mailing_campaign.created_at|date:"j E Y"}} {% if mailing_campaign.is_allowed_to_send %}(wysyła teraz){% endif %} - {{mailing_campaign.stat_sent|intcomma}}</span> <br>{% endfor %}"
+                                    data-bs-content="Globalne kliknięcia: <b>{{click_count_mailing}}</b><br />{% for mailing_campaign in mailing_campaigns %}<span>{{mailing_campaign.created_at|date:"j E"}} {% if mailing_campaign.is_allowed_to_send %}(wysyła teraz){% endif %} - {{mailing_campaign.stat_sent|intcomma}}</span> <br>{% endfor %}"
                                     {% else %}
                                     data-bs-content="Brak wysłanych mailingów"
                                     {% endif %}

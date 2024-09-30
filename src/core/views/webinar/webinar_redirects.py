@@ -1,8 +1,13 @@
+"""webinar redirects"""
+
+# flake8: noqa=E501
+
+from django.db.models import F
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 
-from core.models import Webinar, WebinarMetadata
+from core.models import MailingCampaign, Webinar, WebinarMetadata
 
 
 def webinar_redirect_to_program(request: HttpRequest, pk: int):
@@ -26,6 +31,25 @@ def webinar_redirect_to_program_tracking(
 
     if len(tracking_code) <= 32:
         request.session["tracking_code"] = tracking_code
+
+    return redirect(
+        reverse("core:webinar_redirect_to_program_safe", kwargs={"pk": webinar.id})
+    )
+
+
+def webinar_redirect_to_program_tracking_and_campaign_id(
+    request: HttpRequest, pk: int, tracking_code: str, campaign_id: int
+):
+    """Redirect to webinar program by webinar ID"""
+    webinar: Webinar = get_object_or_404(Webinar, pk=pk)
+    get_object_or_404(MailingCampaign, pk=campaign_id)
+
+    if len(tracking_code) <= 32:
+        request.session["tracking_code"] = tracking_code
+
+    MailingCampaign.manager.filter(id=campaign_id).update(
+        total_clicks=F("total_clicks") + 1
+    )
 
     return redirect(
         reverse("core:webinar_redirect_to_program_safe", kwargs={"pk": webinar.id})

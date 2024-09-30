@@ -64,8 +64,8 @@
                    <thead>
                       <tr class="fw-bold fs-6 text-gray-800">
                          <th>Konto wysyłkowe</th>
-                         <th>Wysłano wczoraj</th>
                          <th>Wysłano dzisiaj</th>
+                         <th>Wysłano wczoraj</th>
                       </tr>
                    </thead>
                    <tbody>
@@ -351,8 +351,11 @@
                       </span>
                     </small>
                     <br>
+                    <small>
+                      Clicks: {{campaign.total_clicks}}
+                    </small>
+                    <br>
                     {% endif %}
-
 
                     <br>
                     <small class="text-{% if campaign.is_send_after_correct %}success{% else %}danger{% endif %}">

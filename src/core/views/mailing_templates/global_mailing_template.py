@@ -106,7 +106,7 @@ def global_mailing_template_page(request):
         main_webinar = get_object_or_404(Webinar, pk=int(webinar_id))
         lecturer = main_webinar.lecturer
         cta_href = f"{BASE_URL}/szkl/{main_webinar.id}"  # type: ignore
-        cta_href += "/{TRACKING_CODE}/"
+        cta_href += "/{TRACKING_CODE}/{CAMPAIGN_ID}/"
         cta_text = "Zapisz się teraz!"
 
         _program = markdown(main_webinar.program_markdown)
@@ -118,7 +118,7 @@ def global_mailing_template_page(request):
             related_webinars.append(
                 (
                     related_webinar,
-                    f"{BASE_URL}/szkl/{related_webinar.id}" + "/{TRACKING_CODE}/",  # type: ignore
+                    f"{BASE_URL}/szkl/{related_webinar.id}" + "/{TRACKING_CODE}/{CAMPAIGN_ID}/",  # type: ignore
                 )
             )
 

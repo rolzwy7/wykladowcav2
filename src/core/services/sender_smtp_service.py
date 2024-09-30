@@ -3,7 +3,7 @@
 # flake8: noqa=E501
 
 from poplib import POP3_SSL, error_proto
-from typing import Iterable
+from typing import Iterable, Optional
 
 from django.core.mail import EmailMultiAlternatives
 from django.core.mail.backends.smtp import EmailBackend
@@ -66,6 +66,7 @@ class SenderSmtpService:
         text: str,
         resignation_url: str,
         tracking_code: str,
+        campaign_id: int,
     ):
         """Send email message"""
 
@@ -90,6 +91,9 @@ class SenderSmtpService:
 
         html_content = html_content.replace("{TRACKING_CODE}", tracking_code)
         text_content = text_content.replace("{TRACKING_CODE}", tracking_code)
+
+        html_content = html_content.replace("{CAMPAIGN_ID}", str(campaign_id))
+        text_content = text_content.replace("{CAMPAIGN_ID}", str(campaign_id))
 
         msg = EmailMultiAlternatives(
             subject=subject,

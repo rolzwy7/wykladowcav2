@@ -134,6 +134,7 @@ def crm_mailing_campaign_send_test_email(request, pk: int):
     """CRM mailing add emails"""
     template_name = "core/pages/crm/mailing/MailingCampaignSendTestEmailPage.html"
     mailing_campaign = get_object_or_404(MailingCampaign, pk=pk)
+    campaign_id: int = mailing_campaign.id  # type: ignore
 
     if request.method == POST:
         form = MailingSendTestEmailForm(request.POST)
@@ -167,6 +168,7 @@ def crm_mailing_campaign_send_test_email(request, pk: int):
                     text=template.text,
                     resignation_url=resignation_url,
                     tracking_code=tracking_code,
+                    campaign_id=campaign_id,
                 )
 
             return redirect(

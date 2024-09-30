@@ -16,6 +16,7 @@ from django.db.models import (
     ForeignKey,
     Manager,
     Model,
+    PositiveBigIntegerField,
     PositiveIntegerField,
     PositiveSmallIntegerField,
     Q,
@@ -36,7 +37,7 @@ def default_allowed_to_send_after():
 
 def default_allowed_to_send_before():
     """Default `allowed to send before` time"""
-    return time(21, 0, 0, 0)
+    return time(13, 0, 0, 0)
 
 
 class MailingCampaignManager(Manager):
@@ -49,7 +50,6 @@ class MailingCampaignManager(Manager):
             & Q(allowed_to_send_after__lt=now())
             & Q(allowed_to_send_before__gt=now())
             & Q(send_after__lt=now())
-            # & Q(limit_sent_so_far__lte=F("limit_per_day")) # TODO
         )
 
     def sending_status_campaigns(self) -> QuerySet["MailingCampaign"]:
@@ -159,6 +159,9 @@ class MailingCampaign(Model):
 
     # Flags
     pause_on_too_many_failures = BooleanField(default=True)
+
+    # Clicks
+    total_clicks = PositiveIntegerField(default=0)
 
     class Meta:
         """meta"""

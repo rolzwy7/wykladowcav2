@@ -119,6 +119,7 @@ def process_sending(campaign_id: int, /, *, limit: int = 100) -> str:
                 text=text_content,
                 resignation_url=resignation_url,
                 tracking_code=tracking_code,
+                campaign_id=campaign_id,
             )
         except TimeoutError as exception:
             handle_timeout_error(document_id, pool_manager)
