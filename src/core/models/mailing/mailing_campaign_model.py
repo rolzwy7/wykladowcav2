@@ -16,7 +16,6 @@ from django.db.models import (
     ForeignKey,
     Manager,
     Model,
-    PositiveBigIntegerField,
     PositiveIntegerField,
     PositiveSmallIntegerField,
     Q,
@@ -199,14 +198,14 @@ class MailingCampaign(Model):
         if not (self.status == MailingCampaignStatus.SENDING):
             return "status != 'Wysyłanie'"
 
+        if not (self.send_after < now()):
+            return f"Rozpocznie po {_date(self.send_after, 'j E Y - H:i')}"
+
         if not (self.allowed_to_send_after < now().time()):
             return f"Obecny czas <  {self.allowed_to_send_after}"
 
         if not (self.allowed_to_send_before > now().time()):
             return f"Obecny czas > {self.allowed_to_send_before}"
-
-        if not (self.send_after < now()):
-            return f"Rozpocznie po {_date(self.send_after, 'j E Y - H:i')}"
 
         return ""
 

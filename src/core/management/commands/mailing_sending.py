@@ -10,7 +10,6 @@ Mailing sending procedure
 
 import time
 import traceback
-from random import randint
 from smtplib import SMTPRecipientsRefused, SMTPServerDisconnected
 
 from django.conf import settings
@@ -123,24 +122,24 @@ def process_sending(campaign_id: int, /, *, limit: int = 100) -> str:
             )
         except TimeoutError as exception:
             handle_timeout_error(document_id, pool_manager)
-            print(f"[-] TimeoutError `{email}`")
+            print(f"[-] TimeoutError `{email}`: {exception}")
             any_error_occured = True
         except SMTPServerDisconnected as exception:
             handle_any_error_occured(campaign_id)
             handle_smtp_server_disconnected_error(
                 campaign_id, document_id, pool_manager
             )
-            print(f"[-] SMTPServerDisconnected `{email}`")
+            print(f"[-] SMTPServerDisconnected `{email}`: {exception}")
             any_error_occured = True
         except ConnectionRefusedError as exception:
             handle_any_error_occured(campaign_id)
             handle_connection_refused_error(campaign_id, document_id, pool_manager)
-            print(f"[-] ConnectionRefusedError `{email}`")
+            print(f"[-] ConnectionRefusedError `{email}`: {exception}")
             any_error_occured = True
         except SMTPRecipientsRefused as exception:
             handle_any_error_occured(campaign_id)
             handle_smtp_recipients_refused_error(campaign_id, document_id, pool_manager)
-            print(f"[-] SMTPRecipientsRefused `{email}`")
+            print(f"[-] SMTPRecipientsRefused `{email}`: {exception}")
             any_error_occured = True
         else:
             pool_manager.change_status(document_id, MailingPoolStatus.SENT)
@@ -163,6 +162,10 @@ def process_sending(campaign_id: int, /, *, limit: int = 100) -> str:
 
         # Increment loop sleep if any error occured
         if any_error_occured:
+            # TODO Stupid solution
+            print("[-] Any errpr occured, waiting 60 seconds ...")
+            time.sleep(60)
+            # TODO Stupid solution
             sleep_between_each_send = min(0.5, sleep_between_each_send + 0.01)
 
     pool_manager.close()  # close mongo manager
