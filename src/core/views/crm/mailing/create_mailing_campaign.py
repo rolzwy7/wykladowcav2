@@ -33,12 +33,17 @@ def create_mailing_campaign(request):
         form_data["mailing_title"] = f"{now().strftime('%Y%m%d')}_{webinar.title[:30]}"
         form_data["alias"] = webinar.lecturer.fullname
         form_data["webinar_id"] = request.GET.get("webinar_id")
+
         # Create subjects
         if webinar.is_connected_to_conference:
             form_data["mailing_title"] = "KONF_" + form_data["mailing_title"]
             form_data["subjects"] = f"Bezpłatny webinar - {webinar.title}"
         else:
             form_data["subjects"] = webinar.title
+
+        # Subject prefix
+        if webinar and now() > webinar.date - timedelta(days=7):
+            form_data["subjects"] = f'Ostatnia szansa: {form_data["subjects"]}'
     else:
         webinar = None
         form_data["mailing_title"] = f"{now().strftime('%Y%m%d')}_ZBIORCZY_"
@@ -75,7 +80,7 @@ def create_mailing_campaign(request):
         template = MailingTemplate(name=f"T_{mailing_title}", html=content)
         template.save()
 
-        # Start sending tomorrow as 02:00
+        # Start sending tomorrow
         send_after = now()
         send_after = send_after + timedelta(days=1)
         send_after = send_after.replace(hour=3, minute=0, second=0)

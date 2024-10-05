@@ -122,6 +122,49 @@ class MailingPoolManager:
             upsert=True,
         )
 
+    def inc_hourly_sent_counter_for_sender(self, sender: str):
+        """inc_hourly_sent_counter_for_sender"""
+
+        collection = self.database[
+            f"wykladowcav2_mailing_hourly_counter_{settings.APP_ENV}"
+        ]
+
+        now_time = datetime.now()
+        current_datehour = now_time.strftime("%Y-%m-%d %H")
+
+        collection.update_one(
+            {"_id": f"{current_datehour}:{sender}"},
+            {
+                "$inc": {"counter": 1},
+                "$set": {
+                    "datetime": now_time,
+                    "sender": sender,
+                },
+            },
+            upsert=True,
+        )
+
+    def inc_hourly_sent_counter_for_campaign(self, campaign_id: int):
+        """inc_hourly_sent_counter_for_campaign"""
+
+        collection = self.database[
+            f"wykladowcav2_mailing_hourly_counter_{settings.APP_ENV}"
+        ]
+        now_time = datetime.now()
+        current_datehour = now_time.strftime("%Y-%m-%d %H")
+
+        collection.update_one(
+            {"_id": f"{current_datehour}:campaign-id-{campaign_id}"},
+            {
+                "$inc": {"counter": 1},
+                "$set": {
+                    "datetime": now_time,
+                    "campaign_id": campaign_id,
+                },
+            },
+            upsert=True,
+        )
+
     def get_todays_sent_counter_for_sender(self, sender: str, date_str=None):
         """get_todays_sent_counter_for_sender"""
         collection = self.database[

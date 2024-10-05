@@ -44,6 +44,8 @@ def webinar_redirect_to_program_tracking_and_campaign_id(
     webinar: Webinar = get_object_or_404(Webinar, pk=pk)
     get_object_or_404(MailingCampaign, pk=campaign_id)
 
+    request.session["campaign_id"] = str(campaign_id)
+
     if len(tracking_code) <= 32:
         request.session["tracking_code"] = tracking_code
 

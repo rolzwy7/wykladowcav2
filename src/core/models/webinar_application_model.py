@@ -181,6 +181,8 @@ class WebinarApplicationTracking(Model):
 
     tracking_code = CharField("Kod śledzący", max_length=64)
 
+    campaign_id = CharField("ID kampanii mailingowej", max_length=32, blank=True)
+
 
 class WebinarApplication(Model):
     """Webinar Application Model"""
@@ -207,6 +209,7 @@ class WebinarApplication(Model):
 
     refcode = CharField("Kod referencyjny", max_length=32, blank=True)
     tracking_code = CharField("Kod śledzący", max_length=32, blank=True)
+    campaign_id = CharField("ID kampanii mailingowej", max_length=32, blank=True)
 
     # Price
     price_netto = PositiveSmallIntegerField("Cena NETTO")

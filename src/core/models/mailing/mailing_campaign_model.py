@@ -24,7 +24,7 @@ from django.db.models import (
     TimeField,
 )
 from django.template.defaultfilters import date as _date
-from django.utils.timezone import now
+from django.utils.timezone import now, timedelta
 
 from core.models.enums import MailingCampaignStatus
 
@@ -49,6 +49,15 @@ class MailingCampaignManager(Manager):
             & Q(allowed_to_send_after__lt=now())
             & Q(allowed_to_send_before__gt=now())
             & Q(send_after__lt=now())
+        )
+
+    def active_campaigns_for_processing(self) -> QuerySet["MailingCampaign"]:
+        """Returns active mailing campaigns for processing process"""
+        return self.get_queryset().filter(
+            Q(status=MailingCampaignStatus.SENDING)
+            & Q(allowed_to_send_after__lt=now() + timedelta(hours=1))
+            & Q(allowed_to_send_before__gt=now() + timedelta(hours=1))
+            & Q(send_after__lt=now() + timedelta(hours=1))
         )
 
     def sending_status_campaigns(self) -> QuerySet["MailingCampaign"]:
@@ -78,6 +87,11 @@ class MailingCampaign(Model):
     )
 
     created_at = DateTimeField(auto_now_add=True)
+
+    sent_start_at = DateTimeField(null=True, blank=True)
+
+    target_code = CharField("target_code", max_length=32, blank=True)
+
     title = CharField("Tytuł kampanii", max_length=100)
 
     # Sender
@@ -171,6 +185,11 @@ class MailingCampaign(Model):
     def __str__(self) -> str:
         return f"{self.title}"
 
+    def save(self, *args, **kwargs):
+        if not self.sent_start_at:
+            self.sent_start_at = now() + timedelta(days=1)
+        super().save(*args, **kwargs)
+
     def get_subjects(self):
         """Get subjects list"""
         # pylint: disable=no-member
@@ -195,6 +214,7 @@ class MailingCampaign(Model):
     @property
     def why_not_sending(self):
         """Explain why campaign is not sending"""
+
         if not (self.status == MailingCampaignStatus.SENDING):
             return "status != 'Wysyłanie'"
 
@@ -239,3 +259,8 @@ class MailingCampaign(Model):
             MailingCampaignStatus.SENDING: "success",
             MailingCampaignStatus.DONE: "danger",
         }[self.status]
+
+    @property
+    def created_at_plus_one_day(self):
+        """created_at_plus_one_day"""
+        return self.created_at + timedelta(days=1)

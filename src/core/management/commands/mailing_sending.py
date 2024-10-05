@@ -149,6 +149,9 @@ def process_sending(campaign_id: int, /, *, limit: int = 100) -> str:
             pool_manager.inc_todays_sent_counter_for_campaign(campaign_id)
             pool_manager.inc_todays_sent_counter_for_sender(smtp_sender.username)
 
+            pool_manager.inc_hourly_sent_counter_for_campaign(campaign_id)
+            pool_manager.inc_hourly_sent_counter_for_sender(smtp_sender.username)
+
             # Increment sent counters
             MailingCampaign.manager.filter(id=campaign_id).update(
                 stat_sent=F("stat_sent") + 1

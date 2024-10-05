@@ -209,7 +209,7 @@
                 {% with metadata=pack.1 %}
 
 
-                <tr class="{% cycle 'bg-light' 'bg-white' %}">
+                <tr style="background-color:{% cycle '#e6e6e6' '#ffffff' %};">
                   <td>
                     <b>[ ID={{campaign.id}} ] [ MOD={{campaign.mod_value}} ]</b>
                     <b
@@ -247,6 +247,10 @@
                       <small class="text-danger">{{campaign.smtp_sender}}</small>
                       {% else %}
                       <small>{{campaign.smtp_sender}}</small>
+                      
+                      <span class="badge badge-dark">
+                        {{campaign.smtp_sender.sender_alias}}
+                      </span>
                     {% endif %}
                     <br>
                     {% if campaign.webinar %}
@@ -356,14 +360,13 @@
                     </small>
                     <br>
                     {% endif %}
-
                     <br>
                     <small class="text-{% if campaign.is_send_after_correct %}success{% else %}danger{% endif %}">
-                      <b>{{campaign.send_after|date:"j E"}} od {{campaign.send_after|date:"H:i"}}</b>
+                      <b>Od {{campaign.send_after|date:"j b"}}</b>
                     </small>
                     <br>
                     <small class="text-{% if campaign.is_allowed_to_send_correct %}success{% else %}danger{% endif %}">
-                      <b>{{campaign.allowed_to_send_after}} - {{campaign.allowed_to_send_before}} ( jest {{now|date:"H:i"}} )</b>
+                      <b>Między {{campaign.allowed_to_send_after}} - {{campaign.allowed_to_send_before}} ( jest {{now|date:"H:i"}} )</b>
                     </small>
                     <br>
                     <small>

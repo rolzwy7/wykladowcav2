@@ -22,37 +22,59 @@
                    <!-- Form -->
                    <form class="row" method="get" action="{% url "core:global_mailing_template" %}">
                      {% if webinar_id %}
-                        <h3>Termin ID={{webinar_id}}</h3>
+                        <h3>
+                           &gt;&gt; Termin ID={{webinar_id}} ({{webinar.date|date:"j E Y"}} r. / {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}})
+                           {% if less_than_week_webinar %}
+                           <span class="text-danger">
+                              Został mniej niż tydzień do szkolenia !
+                           </span>
+                           {% endif %}
+                        </h3>
+                        <a href="{% url 'admin:core_webinar_change' object_id=webinar.id %}">
+                           Edytuj termin w CMS
+                       </a>
+                       <a href="{% url 'core:webinar_program_page' slug=webinar.slug %}">
+                           Zobacz termin na stronie
+                        </a>
+                        
                         <input type="hidden" name="webinar_id" value="{{webinar_id}}">
                      {% else %}
-                        <h3>Brak Termin ID</h3>
+                        <h3>&gt;&gt; Brak Termin ID</h3>
                      {% endif %}
                      {% if service_offer_id %}
-                        <h3>Usługa ID={{service_offer_id}}: {{service_offer.offer_title}}</h3>
+                        <h3>&gt;&gt; Usługa ID={{service_offer_id}}: {{service_offer.offer_title}}</h3>
                         <input type="hidden" name="service_offer_id" value="{{service_offer_id}}">
                      {% else %}
-                        <h3>Brak Usługa ID</h3>
+                        <h3>&gt;&gt; Brak Usługa ID</h3>
                      {% endif %}
                      {% if lecturer_slug %}
-                        <h3>Wykładowca Slug={{lecturer_slug}}</h3>
+                        <h3>&gt;&gt; Wykładowca Slug={{lecturer_slug}}</h3>
                         <input type="hidden" name="lecturer_slug" value="{{lecturer_slug}}">
                      {% else %}
-                        <h3>Brak Wykładowca</h3>
+                        <h3>&gt;&gt; Brak Wykładowca</h3>
                      {% endif %}
                      {% if category_slug %}
-                        <h3>Kategoria Slug={{category_slug}}</h3>
+                        <h3>&gt;&gt; Kategoria Slug={{category_slug}}</h3>
                         <input type="hidden" name="category_slug" value="{{category_slug}}">
                      {% else %}
-                        <h3>Brak Kategoria</h3>
+                        <h3>&gt;&gt; Brak Kategoria</h3>
                         {% for category in categories %}
                            <a href="./?for_webinar_id={{webinar.id}}&for_category_slug={{category.slug}}">
                               {{category.name}}
                            </a>
                         {% endfor %}
                      {% endif %}
+                     <div class="col-12 mb-3">
                       <div class="mb-3 col-12 col-md-3">
                         <label class="form-label" for="id_for_whom">Dla kogo?</label>
                         <input type="text" id="id_for_whom" name="for_whom" class="form-control" placeholder="np. Webinary dla księgowych">
+                     </div>
+                     </div>
+                     <div class="col-12 mb-3">
+                      <div class="mb-3 col-12 col-md-3">
+                        <label class="form-label" for="id_subject_override">subject_override:</label>
+                        <input type="text" id="id_subject_override" name="subject_override" class="form-control" placeholder="">
+                     </div>
                      </div>
                       <div class="col-12 mb-3">
                          <div class="form-check">
@@ -84,6 +106,7 @@
                            <label class="form-check-label" for="id_access_to_recordings">
                            Dodaj „Jeśli nie pasuje ci termin ... dostęp do nagrania”
                            {% if webinar.lecturer.agrees_to_recording %}
+                              <span class="text-danger">autocheck</span>
                               <b class="bg-success text-white px-2">[Zgadza się na nagrania]</b>
                            {% else %}
                               <b class="bg-danger text-white px-2">[NIE zgadza się na nagrania]</b>
@@ -95,6 +118,7 @@
                             <input type="checkbox" class="form-check-input" id="id_pewny_termin" name="pewny_termin" {% if webinar.is_confirmed %}checked{% endif %}>
                             <label class="form-check-label" for="id_pewny_termin">
                             Pokaż 'Pewny Termin'
+                            {% if webinar.is_confirmed %} <span class="text-danger">autocheck</span> {% endif %}
                             </label>
                          </div>
                          {% endif %}
@@ -117,9 +141,10 @@
                             </label>
                          </div>
                          <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="id_last_spots" name="show_last_spots">
+                            <input type="checkbox" class="form-check-input" id="id_last_spots" name="show_last_spots" {% if less_than_week_webinar %}checked{% endif %}>
                             <label class="form-check-label" for="id_last_spots">
-                            Wyświetl ostatnie miejsca
+                               <span class="fw-bold text-warning">( {{webinar.remaining_places}} miejsc/a )</span>
+                               Wyświetl ostatnie miejsca {% if less_than_week_webinar %} <span class="text-danger">autocheck</span> {% endif %}
                             </label>
                          </div>  
                          <div class="form-check">

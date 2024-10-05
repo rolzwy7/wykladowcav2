@@ -2,7 +2,11 @@
     <td style="{{td_classes|safe}}">
       <h1 style="margin: .67em 0; font-size:2em">
         {% if webinar.is_connected_to_conference %}[ Bezpłatny webinar ]{% endif %}
-        {{webinar.title}}
+        {% if subject_override %}
+          {{subject_override}}
+        {% else %}
+          {{webinar.title}}
+        {% endif %}
       </h1>
       {% if webinar.description %}
       <h2 style="margin: .83em 0; font-size:1.5em">{{webinar.description}}</h2>

@@ -9,6 +9,7 @@ from random import shuffle
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
+from django.utils.timezone import now, timedelta
 from markdown import markdown
 
 from core.models import Lecturer, ServiceOffer, Webinar, WebinarCategory
@@ -35,11 +36,13 @@ def global_mailing_editor_page(request):
     categories = WebinarCategory.manager.get_visible_categories()
 
     try:
-        webinar = Webinar.manager.get(pk=for_webinar_id)
-        webinar_id = webinar.id
+        webinar: Webinar = Webinar.manager.get(pk=for_webinar_id)
+        webinar_id = webinar.id  # type: ignore
+        less_than_week_webinar = now() > webinar.date - timedelta(days=7)
     except Webinar.DoesNotExist:  # pylint: disable=no-member
-        webinar = None
+        webinar = None  # type: ignore
         webinar_id = None
+        less_than_week_webinar = False
 
     try:
         service_offer = ServiceOffer.manager.get(pk=for_service_offer_id)
@@ -60,6 +63,7 @@ def global_mailing_editor_page(request):
             "category_slug": category_slug,
             "service_offer": service_offer,
             "service_offer_id": service_offer_id,
+            "less_than_week_webinar": less_than_week_webinar,
         },
     )
 
@@ -85,6 +89,7 @@ def global_mailing_template_page(request):
         "other_cat_section": request.GET.get("other_cat_section"),
         "background_color": "#f1f4fa",
         "max_width": "640px",
+        "subject_override": request.GET.get("subject_override"),
     }
 
     template_name = "mailing_templates/GlobalMailingTemplate.html"

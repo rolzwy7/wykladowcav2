@@ -239,19 +239,30 @@
 
         {% if webinar_ctx.mailing_campaigns %}
         <div class="mt-4">
-            <b>Mailingi:</b> <br>
+            <b><u>Mailingi:</u></b> <br>
             {% for mailing_campaign in webinar_ctx.mailing_campaigns %}
-                <span>{{mailing_campaign.created_at}}</span> <br>
+                <span>
+                    <a href="{% url 'core:crm_mailing_campaign_detail' pk=mailing_campaign.pk %}" target="_blank">
+                        <b>{{mailing_campaign.created_at_plus_one_day|date:"j b"}}</b>
+                    </a>
+                </span> 
+                <span>
+                    <b>{{mailing_campaign.target_code|default:"??"}}</b>
+                </span> 
+                <span>
+                    wysł. {{mailing_campaign.stat_sent}} klik. {{mailing_campaign.total_clicks}}
+                </span> 
+                <br>
             {% endfor %}
 
-            <a 
+            {% comment %} <a 
                 hx-get="{% url "htmx:htmx_webinar_mailing_modal" pk=webinar.pk %}" 
                 hx-target="#modals-here" 
                 hx-trigger="click" 
                 data-bs-toggle="modal" 
                 data-bs-target="#modals-here"
                 style="cursor: pointer;"
-                class="mt-4">Szczegóły mailingów</a>
+                class="mt-4">Szczegóły mailingów</a> {% endcomment %}
 
         </div>
         {% endif %}

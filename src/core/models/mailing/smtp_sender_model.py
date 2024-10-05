@@ -10,6 +10,8 @@ from django.db.models import BooleanField, CharField, EmailField, Model
 class SmtpSender(Model):
     """Represents SMTP sender"""
 
+    sender_alias = CharField("Alias konta wysyłkowego", max_length=32, blank=True)
+
     username = EmailField("Nazwa użytkownika")
     password = CharField("Hasło", max_length=255)
 

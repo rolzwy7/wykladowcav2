@@ -644,7 +644,8 @@
                 <table class="table table-sm table-striped">
                     <tr>
                         <th>Data</th>
-                        <th>Kod</th>
+                        <th>Kod śledzący</th>
+                        <th>ID kampanii mailingowej</th>
                         <th>E-mail</th>
                         <th>Rozpoczęto zgłoszenie</th>
                     </tr>
@@ -653,6 +654,9 @@
                         <td>{{tracking.created_at}}</td>
                         <td>
                             <b>{{tracking.tracking_code}}</b>
+                        </td>
+                        <td>
+                            <b>{{tracking.campaign_id}}</b>
                         </td>
                         <td>
                             <div

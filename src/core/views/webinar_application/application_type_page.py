@@ -29,10 +29,17 @@ def application_type_page(request, pk: int):
     webinar = get_object_or_404(Webinar, pk=pk)
     reflink_service = ReflinkService(request)
     tracking_code = request.session.get("tracking_code", "no_code")
+    campaign_id = request.session.get("campaign_id", "no_campaign_id")
 
     # Create application tracking if set
     if tracking_code != "no_code":
-        WebinarApplicationTracking(webinar=webinar, tracking_code=tracking_code).save()
+        tracking_obj = WebinarApplicationTracking(
+            webinar=webinar, tracking_code=tracking_code
+        )
+        # Save from which campaign the application was sent
+        if campaign_id != "no_campaign_id":
+            tracking_obj.campaign_id = campaign_id
+        tracking_obj.save()
 
     if request.method == POST:
         form = ApplicationTypeForm(request.POST)
@@ -50,6 +57,7 @@ def application_type_page(request, pk: int):
 
                 # Set tracking code
                 application.tracking_code = tracking_code
+                application.campaign_id = campaign_id
 
                 # Set reflink
                 if reflink_service.is_refcode_valid():

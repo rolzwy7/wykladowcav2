@@ -1,14 +1,15 @@
 # flake8: noqa:E501
 from django.db.models import Q
 from django.template.response import TemplateResponse
+from django.utils import timezone
 
-from core.models import Webinar
+from core.models import Webinar, WebinarApplication
+from core.models.enums import ApplicationStatus
 from core.services import CrmWebinarService
 
 
 def crm_upcoming_webinars(request):
     """CRM upcoming webinars"""
-    template_name = "core/pages/crm/webinar/CrmUpcomingWebinars.html"
 
     webinars = Webinar.manager.get_init_or_confirmed_webinars()
     param_search = request.GET.get("search")
@@ -20,11 +21,17 @@ def crm_upcoming_webinars(request):
             | Q(lecturer__fullname__icontains=param_search)
         )
 
+    sent_today_paid_applications = WebinarApplication.manager.filter(
+        status=ApplicationStatus.SENT, created_at__date=timezone.now().date()
+    )
+
     return TemplateResponse(
         request,
-        template_name,
+        "core/pages/crm/webinar/CrmUpcomingWebinars.html",
         {
             "upcoming_webinars_count": webinars.count(),
+            "sent_today_paid_applications": sent_today_paid_applications,
+            "sent_today_paid_applications_count": sent_today_paid_applications.count(),
             "param_search": param_search or "",
             # "webinars_ctxs": [
             #     CrmWebinarService(webinar).get_context() for webinar in webinars

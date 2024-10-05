@@ -59,7 +59,7 @@ class Command(BaseCommand):
                     process_scan_inbox(sender, cache)
             #
             # Get active campaigns
-            active_campaigns = MailingCampaign.manager.active_campaigns()
+            active_campaigns = MailingCampaign.manager.active_campaigns_for_processing()
             active_campaigns_ids = []
             if active_campaigns.count():
                 active_campaigns_ids = [_.id for _ in active_campaigns]  # type: ignore

@@ -355,7 +355,9 @@ class CrmWebinarService:
             "recipient_nip_duplicates": recipient_nip_dups,
             "participant_email_duplicates": participant_email_dups,
             # Mailing campaign
-            "mailing_campaigns": MailingCampaign.manager.filter(webinar=self.webinar),
+            "mailing_campaigns": MailingCampaign.manager.filter(
+                webinar=self.webinar
+            ).order_by("created_at"),
         }
 
     def get_upcoming_webinar_row_context(self):

@@ -4,12 +4,14 @@
 
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
+from django.views.decorators.cache import cache_page
 
 from core.models import Webinar, WebinarMetadata
 from core.services import CrmWebinarService
 from core.utils.analysis.pkd_analysis import analyse_pkd_for_applications
 
 
+@cache_page(15 * 60)
 def crm_webinar_analysis(request, pk: int):
     """Webinar analysis"""
     template_name = "core/pages/crm/webinar/CrmWebinarAnalysis.html"
