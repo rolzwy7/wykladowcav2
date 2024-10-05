@@ -406,6 +406,8 @@ class CrmWebinarService:
             "click_count_facebook": webinar_metadata.click_count_facebook,
             "click_count_onesignal": webinar_metadata.click_count_onesignal,
             # Mailing campaign
-            "mailing_campaigns": MailingCampaign.manager.filter(webinar=self.webinar),
+            "mailing_campaigns": MailingCampaign.manager.filter(
+                webinar=self.webinar
+            ).order_by("created_at"),
             "webinar_assets_count": webinar_assets_count,
         }
