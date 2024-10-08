@@ -264,3 +264,5 @@ class MailingCampaign(Model):
     def created_at_plus_one_day(self):
         """created_at_plus_one_day"""
         return self.created_at + timedelta(days=1)
+
+    # def is_day_before

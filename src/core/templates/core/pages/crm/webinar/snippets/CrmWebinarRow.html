@@ -29,7 +29,15 @@
     <td style="max-width: 350px;">
         
         <div class="mb-1">
-            <a href="{% url 'core:crm_webinar_detail_dashboard' pk=webinar.pk %}" class="{% if webinar.is_connected_to_conference %}text-white bg-info{% else %}text-primary{% endif %} text-hover-primary fw-bold me-1">
+            <a href="{% url 'core:crm_webinar_detail_dashboard' pk=webinar.pk %}"
+                {% if webinar.is_connected_to_conference %}
+                class="text-white bg-info text-hover-primary fw-bold me-1"
+                {% elif webinar_ctx.is_fake %}
+                class="text-white bg-danger text-hover-primary fw-bold me-1"
+                {% else %}
+                class="text-primary text-hover-primary fw-bold me-1"
+                {% endif %}
+            >
                 <span class="fs-5">{{webinar.title_original}}</span>
             </a>
             {% if webinar_ctx.conference_edition and not webinar_ctx.conference_edition.clickmeeting_pasted %}
@@ -199,7 +207,7 @@
     {% comment %} Time left {% endcomment %}
     <td>
         {% if webinar.time_to_webinar %}
-        <b>{{webinar.time_to_webinar}}</b>
+        <b>Pozostało: {{webinar.time_to_webinar}}</b>
         {% else %}
             {% if webinar.status == "INIT" %}
             <b class="text-danger">Nie odbył się</b>
@@ -247,10 +255,11 @@
                     </a>
                 </span> 
                 <span>
-                    <b>{{mailing_campaign.target_code|default:"??"}}</b>
+                    <b>{{mailing_campaign.target_code|default:"?"}}</b>
                 </span> 
                 <span>
-                    wysł. {{mailing_campaign.stat_sent}} klik. {{mailing_campaign.total_clicks}}
+                    wysł. {{mailing_campaign.stat_sent|floatformat:"-3g" }}
+                    klik. {{mailing_campaign.total_clicks|floatformat:"-3g" }}
                 </span> 
                 <br>
             {% endfor %}
