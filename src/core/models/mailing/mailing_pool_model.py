@@ -257,7 +257,7 @@ class MailingPoolManager:
                 {
                     "$set": {
                         "bucket_id": {
-                            "$floor": {"$multiply": [{"$rand": {}}, buckets_num + 1]}
+                            "$floor": {"$multiply": [{"$rand": {}}, buckets_num]}
                         }
                     }
                 }
