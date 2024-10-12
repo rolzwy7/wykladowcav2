@@ -23,6 +23,7 @@ from core.libs.mailing.handlers import (
 )
 from core.libs.mailing.sending import process_sending
 from core.models import MailingCampaign
+from core.models.enums import ProcessSendingStatus
 from core.models.mailing.mailing_pool_model import MailingPoolManager
 
 BASE_URL = settings.BASE_URL
@@ -83,6 +84,9 @@ class Command(BaseCommand):
                 result = process_sending(
                     pool_manager, campaign_id, bucket_id, limit=100
                 )
+                if result == ProcessSendingStatus.NO_EMAILS_SENT:
+                    print("No e-mails sent. Sleeping 10 seconds ...")
+                    time.sleep(10)
 
     def handle(self, *args, **options):
         """handle"""

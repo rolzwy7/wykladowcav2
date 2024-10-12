@@ -230,7 +230,7 @@ class MailingPoolManager:
         Campaign is considered `finished` if there are no emails of
         `init-like` status left: BEING_PROCESSED, MX_VALID, READY_TO_SEND
         """
-        document = self.collection.find_one(
+        document = self.collection.count_documents(
             {
                 "$or": [
                     {"status": MailingPoolStatus.BEING_PROCESSED},
@@ -241,7 +241,7 @@ class MailingPoolManager:
             }
         )
 
-        return document is None
+        return document == 0
 
     def randomize_buckets_ids(self, /, statuses: list[str], *, buckets_num: int = 4):
         """
