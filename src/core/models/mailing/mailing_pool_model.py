@@ -241,7 +241,7 @@ class MailingPoolManager:
             }
         )
 
-        return bool(document)
+        return document is None
 
     def randomize_buckets_ids(self, /, statuses: list[str], *, buckets_num: int = 4):
         """
