@@ -21,6 +21,7 @@ class MailingPool(BaseModel):
     email: str
     status: str
     priority: int
+    bucket_id: int
 
 
 class MailingPoolManager:

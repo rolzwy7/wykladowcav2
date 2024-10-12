@@ -211,4 +211,8 @@ FORM_RENDERER = "wykladowcapl.settings.CustomFormRenderer"
 # CSP_IMG_SRC = ("'self'", "http://rankingtest.wykladowca.pl/")
 # CSP_FORM_ACTION = ("'self'", "http://rankingtest.wykladowca.pl/")
 
-CORS_ALLOWED_ORIGINS = ["http://localhost:4200"]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:4200",
+    "http://ankiety.wykladowca.pl",
+    "https://ankiety.wykladowca.pl",
+]

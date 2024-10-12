@@ -3,6 +3,7 @@ from django.conf import settings
 from django.db.models import Q
 from django.template.response import TemplateResponse
 from django.utils import timezone
+from django.utils.timezone import now
 
 from core.models import Webinar, WebinarApplication
 from core.models.enums import ApplicationStatus
@@ -15,6 +16,12 @@ def crm_upcoming_webinars(request):
     webinars = Webinar.manager.get_init_or_confirmed_webinars()
 
     param_any = False
+
+    # Hide old webinars
+    param_hide_old = request.GET.get("hide_old")
+    if param_hide_old:
+        webinars = webinars.filter(date__gt=now())
+        param_any = True
 
     # Hide fake param
     param_hide_fake = request.GET.get("hide_fake")
@@ -46,6 +53,7 @@ def crm_upcoming_webinars(request):
             "sent_today_paid_applications_count": sent_today_paid_applications.count(),
             "mailing_processes_num": settings.MAILING_NUM_OF_PROCESSES,
             "param_any": param_any,
+            "param_hide_old": param_hide_old,
             "param_search": param_search or "",
             "param_hide_fake": param_hide_fake,
             # "webinars_ctxs": [

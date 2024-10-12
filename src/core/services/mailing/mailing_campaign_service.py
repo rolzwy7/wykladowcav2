@@ -130,6 +130,7 @@ class MailingCampaignService:
                         email=email,
                         status=MailingPoolStatus.BEING_PROCESSED,
                         priority=priority,
+                        bucket_id=randint(0, settings.MAILING_NUM_OF_PROCESSES - 1),
                     )
                 )
             )
