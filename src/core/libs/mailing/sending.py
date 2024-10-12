@@ -88,7 +88,13 @@ def process_sending(
             },
         )
 
-        print(f"\n[*] Processing email: {email} (resignation: {resignation_code})")
+        print(
+            f"\n[*] Processing email: {email} (resignation: {resignation_code})",
+            "campaign_id",
+            campaign_id,
+            "bucket_id",
+            bucket_id,
+        )
 
         if sleep_between_each_send:
             print(f"sleep_between_each_send: {sleep_between_each_send}")
