@@ -207,13 +207,16 @@ class MailingPoolManager:
             current_date = date_str
         return collection.find_one({"_id": f"{current_date}:campaign-id-{campaign_id}"})
 
-    def get_ready_to_send_for_campaign(self, campaign_id: int, limit: int = 100):
+    def get_ready_to_send_for_campaign(
+        self, campaign_id: int, bucket_id: int, limit: int = 100
+    ):
         """Get ready to send emails for campaign"""
         return (
             self.collection.find(
                 {
                     "status": MailingPoolStatus.READY_TO_SEND,
                     "campaign_id": campaign_id,
+                    "bucket_id": bucket_id,
                 }
             )
             .sort("priority", DESCENDING)
@@ -226,7 +229,7 @@ class MailingPoolManager:
         Campaign is considered `finished` if there are no emails of
         `init-like` status left: BEING_PROCESSED, MX_VALID, READY_TO_SEND
         """
-        documents_count = self.collection.count_documents(
+        document = self.collection.find_one(
             {
                 "$or": [
                     {"status": MailingPoolStatus.BEING_PROCESSED},
@@ -237,4 +240,39 @@ class MailingPoolManager:
             }
         )
 
-        return documents_count == 0
+        return bool(document)
+
+    def randomize_buckets_ids(self, /, statuses: list[str], *, buckets_num: int = 4):
+        """
+        Randomize `bucket_id` field for pool items with given statuses
+
+        Args:
+            statuses (list[str]): list of statuses to affect
+            buckets_num (int, optional): Number of buckets. Defaults to 4.
+        """
+        self.collection.update_many(
+            {"status": {"$in": statuses}},
+            [
+                {
+                    "$set": {
+                        "bucket_id": {
+                            "$floor": {"$multiply": [{"$rand": {}}, buckets_num + 1]}
+                        }
+                    }
+                }
+            ],
+        )
+
+    def delete_not_with_statuses(self, statuses: list[str]) -> int:
+        """
+        Delete pool items NOT with given statuses
+
+        Args:
+            statuses (list[str]): List of statuses to keep
+
+        Returns:
+            int: Number of deleted documents
+        """
+        return self.collection.delete_many(
+            {"status": {"$not": {"$in": statuses}}}
+        ).deleted_count

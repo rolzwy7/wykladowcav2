@@ -80,8 +80,8 @@ class MailingCampaignService:
         send_after = send_after.replace(hour=2, minute=0, second=0)
 
         self.mailing_campaign.status = MailingCampaignStatus.SENDING
-        self.mailing_campaign.allowed_to_send_after = time(5, 0, 0, 0)
-        self.mailing_campaign.allowed_to_send_before = time(20, 0, 0, 0)
+        self.mailing_campaign.allowed_to_send_after = time(4, 0, 0, 0)
+        self.mailing_campaign.allowed_to_send_before = time(13, 30, 0, 0)
         self.mailing_campaign.send_after = send_after
 
         self.mailing_campaign.resets_counter = self.mailing_campaign.resets_counter + 1

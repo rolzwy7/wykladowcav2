@@ -43,6 +43,9 @@
   <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
 </div>
 
+<b>MAILING_NUM_OF_PROCESSES</b>
+{{mailing_processes_num}}
+
 <b>DZISIAJ ZGŁOSZEŃ</b>
 {{sent_today_paid_applications_count}}
 
@@ -92,23 +95,59 @@
 <div class="toolbar d-flex flex-stack flex-wrap justify-content-end mb-5 mb-lg-7">
   <!--begin::Actions-->
   <div class="d-flex align-items-center py-1">
-    {% if param_search %}
-    <a href="{% url "core:crm_upcoming_webinars" %}" class="me-3 fw-bold text-danger">
-      Resetuj wyszukiwanie
-    </a>
-    {% endif %}
-    <form method="get" action="{% url "core:crm_upcoming_webinars" %}">
-      <div class="input-group mb-3">
-        <input value="{{param_search}}" type="text" name="search" class="form-control" placeholder="Szukaj...">
-        <button class="btn btn-secondary" type="submit">
-          <i class="bi bi-search"></i>
-        </button>
-      </div>
-    </form>
+
   </div>
   <!--end::Actions-->
 </div>
 <!--end::Toolbar-->
+
+<div>
+  <hr>
+  <form method="get" action="{% url "core:crm_upcoming_webinars" %}">
+    
+    <div class="row mb-3">
+      <div class="col-12">
+        <input value="{{param_search}}" type="text" name="search" class="form-control" placeholder="Szukaj frazy...">
+      </div>
+    </div>
+    
+    <div class="row mb-3">
+      <div class="col-4">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="1" name="hide_fake" id="param_hide_fake" {% if param_hide_fake %}checked{% endif %}>
+          <label class="form-check-label" for="param_hide_fake">
+            <b>Ukryj fake'owe terminy</b>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-4">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="1" name="mailing_mode" id="param_mailing_mode" {% if param_mailing_mode %}checked{% endif %}>
+          <label class="form-check-label" for="param_mailing_mode">
+            <b><u>Tryb mailingowy</u></b>
+          </label>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row mb-3">
+      <div class="col-6 align-self-end">
+        <button type="submit" class="btn btn-primary mb-3">Szukaj</button>
+        {% if param_any %}
+        <a href="{% url "core:crm_upcoming_webinars" %}" class="btn btn-danger mb-3">
+          Resetuj wyszukiwanie
+        </a>
+        {% endif %}
+      </div>
+    </div>
+
+  </form>
+
+  <hr>
+</div>
 
 <div class="table-responsive">
   <table class="table table-striped table-bordered">

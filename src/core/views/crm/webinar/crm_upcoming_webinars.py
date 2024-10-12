@@ -1,4 +1,5 @@
 # flake8: noqa:E501
+from django.conf import settings
 from django.db.models import Q
 from django.template.response import TemplateResponse
 from django.utils import timezone
@@ -12,6 +13,16 @@ def crm_upcoming_webinars(request):
     """CRM upcoming webinars"""
 
     webinars = Webinar.manager.get_init_or_confirmed_webinars()
+
+    param_any = False
+
+    # Hide fake param
+    param_hide_fake = request.GET.get("hide_fake")
+    if param_hide_fake:
+        webinars = webinars.filter(is_fake=False)
+        param_any = True
+
+    # Search param
     param_search = request.GET.get("search")
     if param_search:
         webinars = webinars.filter(
@@ -20,6 +31,7 @@ def crm_upcoming_webinars(request):
             | Q(grouping_token__icontains=param_search)
             | Q(lecturer__fullname__icontains=param_search)
         )
+        param_any = True
 
     sent_today_paid_applications = WebinarApplication.manager.filter(
         status=ApplicationStatus.SENT, created_at__date=timezone.now().date()
@@ -32,7 +44,10 @@ def crm_upcoming_webinars(request):
             "upcoming_webinars_count": webinars.count(),
             "sent_today_paid_applications": sent_today_paid_applications,
             "sent_today_paid_applications_count": sent_today_paid_applications.count(),
+            "mailing_processes_num": settings.MAILING_NUM_OF_PROCESSES,
+            "param_any": param_any,
             "param_search": param_search or "",
+            "param_hide_fake": param_hide_fake,
             # "webinars_ctxs": [
             #     CrmWebinarService(webinar).get_context() for webinar in webinars
             # ],

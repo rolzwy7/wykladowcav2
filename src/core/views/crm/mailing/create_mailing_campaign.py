@@ -21,6 +21,7 @@ def create_mailing_campaign(request):
     smtp_senders = SmtpSender.objects.all()  # pylint: disable=no-member
 
     form_data = {
+        "target_code": "",
         "mailing_title": "nie_ustawiono",
         "subjects": "nie_ustawiono",
         "alias": "nie_ustawiono",
@@ -30,7 +31,9 @@ def create_mailing_campaign(request):
     if request.GET.get("webinar_id"):
         webinar_id = int(request.GET.get("webinar_id"))
         webinar = get_object_or_404(Webinar, pk=webinar_id)
-        form_data["mailing_title"] = f"{now().strftime('%Y%m%d')}_{webinar.title[:30]}"
+        form_data["mailing_title"] = (
+            f"{now().strftime('%Y%m%d')}_[target_code]_{webinar.title[:30]}"
+        )
         form_data["alias"] = webinar.lecturer.fullname
         form_data["webinar_id"] = request.GET.get("webinar_id")
 
@@ -57,6 +60,9 @@ def create_mailing_campaign(request):
         mailing_title = request.POST.get("mailing_title")
         subjects = request.POST.get("subjects")
         alias = request.POST.get("alias")
+        target_code = request.POST.get("target_code")
+
+        mailing_title = mailing_title.replace("[target_code]", target_code)
 
         if webinar_id != "not_set":
             webinar = get_object_or_404(Webinar, pk=int(webinar_id))
@@ -90,6 +96,7 @@ def create_mailing_campaign(request):
             title=mailing_title,
             smtp_sender=smtp_sender,
             subjects=subjects,
+            target_code=target_code,
             alias=alias,
             template=template,
             resignation_list=resignation_list,

@@ -54,7 +54,7 @@ def after_application_sent_dispatch(
             ],
         ),
         task_send_telegram_notification.si(
-            "Wysłano zgłoszenie na szkolenie\n"
+            f"Wysłano zgłoszenie #{application_id} na szkolenie\n"
             f"Wykładowca: {webinar.lecturer}\n"
             f"Data: {_date(webinar.date, 'j E Y')} "
             f"godz. {_date(webinar.date, 'H:i')}\n"

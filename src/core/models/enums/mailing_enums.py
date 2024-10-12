@@ -88,3 +88,11 @@ mailing_pool_status_display_map = {
     MailingPoolStatus.CONNECTION_REFUSED: "ERROR CONNECTION_REFUSED",
     MailingPoolStatus.RECIPIENT_REFUSED: "ERROR RECIPIENT_REFUSED",
 }
+
+
+class ProcessSendingStatus:
+    """Process sending status"""
+
+    NO_EMAILS_SENT = "NO_EMAILS_SENT"
+    LIMIT_REACHED = "LIMIT_REACHED"
+    LIMIT_NOT_REACHED = "LIMIT_NOT_REACHED"

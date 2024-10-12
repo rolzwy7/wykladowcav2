@@ -14,24 +14,29 @@ from core.services import TelegramService
 
 def handle_daily_sending_limit_reached(campaign: MailingCampaign):
     """Handle daily sending limit reached event"""
-    telegram_service = TelegramService()
 
+    campaign_id: int = campaign.id  # type: ignore
+
+    MailingCampaign.manager.filter(id=campaign_id).update(
+        status=MailingCampaignStatus.PAUSED, limit_sent_so_far=0
+    )
+
+    telegram_service = TelegramService()
     telegram_service.try_send_chat_message(
-        f"Kampania mailingowa {campaign.title}: osiągnięto limit dzienny ({campaign.limit_per_day}/{campaign.limit_sent_so_far}) dla tej kampanii",
+        f"Kampania mailingowa {campaign.title}: osiągnięto limit dzienny "
+        f"({campaign.limit_per_day}/{campaign.limit_sent_so_far}) dla tej kampanii",
         TelegramChats.OTHER,
     )
 
-    campaign.status = MailingCampaignStatus.PAUSED
-    campaign.limit_sent_so_far = 0
-    campaign.save()
 
-
-def try_to_finish_campaign(campaign_id: int, campaign_title: str):
+def try_to_finish_campaign(
+    pool_manager: MailingPoolManager, campaign_id: int, campaign_title: str
+) -> bool:
     """Try to finish campaign if there are no init-like emails left"""
-    pool_manager = MailingPoolManager()
+
     campaign_is_finished = pool_manager.is_campaign_finished(campaign_id)
     if campaign_is_finished:
-        print("[*] No init emails left, closing campaign:", campaign_id)
+        print("[*] No init-like emails left, closing campaign:", campaign_id)
 
         MailingCampaign.manager.filter(id=campaign_id).update(
             status=MailingCampaignStatus.DONE
@@ -42,10 +47,10 @@ def try_to_finish_campaign(campaign_id: int, campaign_title: str):
             f"Kampania mailingowa zakończona: {campaign_title}",
             TelegramChats.OTHER,
         )
+        return True
     else:
         print("[*] Campaign not yet to be finished:", campaign_id)
-
-    pool_manager.close()
+        return False
 
 
 def handle_timeout_error(document_id: str, pool_manager: MailingPoolManager):

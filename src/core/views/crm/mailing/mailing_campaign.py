@@ -56,6 +56,14 @@ def crm_mailing_campaign_list(request):
         for campaign in qs
     ]
 
+    favourite_mailing_campaigns = [
+        (
+            campaign,
+            WebinarMetadata.objects.filter(webinar=campaign.webinar).first(),
+        )
+        for campaign in MailingCampaign.manager.favourite()
+    ]
+
     # Get campaings where error occured
     mailing_errors = MailingCampaign.manager.filter(
         Q(any_error_occured=True)
@@ -67,6 +75,7 @@ def crm_mailing_campaign_list(request):
         request,
         template_name,
         {
+            "favourite_mailings": favourite_mailing_campaigns,
             "mailing_errors": mailing_errors,
             "tuple_list": mailing_campaigns,
             "fqdn": fqdn,

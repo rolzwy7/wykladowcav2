@@ -23,6 +23,7 @@ from .invoice import *
 from .logging import *
 from .loyalty_program import *
 from .mailchimp import *
+from .mailing import *
 from .mongo import *
 from .niebieski import *
 from .redis import *

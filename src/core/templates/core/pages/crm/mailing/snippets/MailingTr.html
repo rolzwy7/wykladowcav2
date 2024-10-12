@@ -1,0 +1,168 @@
+
+    <td>
+      <b>[ ID={{campaign.id}} ] [ MOD={{campaign.mod_value}} ]</b>
+      <b
+        class="text-{{campaign.status_color}}"
+      >
+        ( {{campaign.get_status_display}} )
+      </b>
+      <b>( {{campaign.alias}} )</b>
+      <a href="{% url 'core:crm_mailing_campaign_detail' pk=campaign.pk %}">
+        <b>{{campaign}}</b>
+      </a>
+      <br>
+
+      <small>Rezyg.: <i class="text-info fw-bold">{{campaign.resignation_list}}</i></small>
+      /
+      <a href="{% url 'admin:core_mailingcampaign_change' object_id=campaign.id %}">
+        <small>cms</small>
+      </a>
+      /
+      {% if campaign.template %}
+      <a href="{% url 'admin:core_mailingtemplate_change' object_id=campaign.template.id %}">
+        <small>szablon cms</small>
+      </a>
+      /
+      {% endif %}
+      <a href="{% url 'core:crm_mailing_campaign_preview_html' pk=campaign.pk %}">
+        <small>html preview</small>
+      </a>
+      /
+      <a href="{% url 'core:crm_mailing_campaign_preview_text' pk=campaign.pk %}">
+        <small>text preview</small>
+      </a>
+      <br>
+      {% if campaign.smtp_sender.exclude_from_processing %}
+        <small class="text-danger">{{campaign.smtp_sender}}</small>
+        {% else %}
+        <small>{{campaign.smtp_sender}}</small>
+        
+        <span class="badge badge-dark">
+          {{campaign.smtp_sender.sender_alias}}
+        </span>
+      {% endif %}
+      <br>
+      {% if campaign.webinar %}
+      {% with webinar=campaign.webinar %}
+      <small><b class="text-primary">
+        Powiązane szkolenie
+      </b></small>
+      <small>
+        {% url "core:crm_webinar_detail_dashboard" pk=webinar.pk as link %}
+        {% include "include/crm/EditWithCrmButton.html" with link=link %}
+        {% url 'admin:core_webinar_change' object_id=webinar.id as link %}
+        {% include "include/crm/EditWithCmsButton.html" with link=link %}
+        {% url 'core:webinar_program_page' slug=webinar.slug as link %}
+        {% include "include/crm/ShowOnPageButton.html" with link=link %}
+      </small>
+      <br>
+      <small>( {{webinar.lecturer}} )</small>
+      <small>[ ID={{webinar.id}} ]</small>
+      <small>
+        <b>{{webinar.title}} - {{webinar.date|date:"j E Y"}} godz. {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}</b>
+      </small>
+      <br>
+      <small>
+        {% if campaign.pause_on_too_many_failures %}
+        <span class="text-warning fw-bold">
+          Pauza przy zbyt wielu ( 1 000 ) błędach włączona
+        </span>
+        {% else %}
+        <span class="fw-bold">
+          Pauza przy zbyt wielu błędach wyłączona
+        </span>
+        {% endif %}
+      </small>
+      {% endwith %}
+      {% endif %}
+
+    </td>
+    <td>
+      <small>Limit:
+        {% if campaign.limit_per_day == 0 %}
+        –
+        {% else %}
+        {{campaign.limit_sent_so_far}} / {{campaign.limit_per_day}}
+        {% endif %}
+      </small>
+      <br>
+      
+      {% if campaign.status != "DONE" %}
+      {% if campaign.failure_counter >= 900 %}
+      <small class="bg-danger p-1 text-white fw-bold">
+      {% elif campaign.failure_counter > 0 %}
+      <small class="text-danger">
+      {% else %}
+      <small>
+      {% endif %}
+        Błędy:
+        <span
+          hx-get="{% url "htmx:dwpldb:mailing-campaign-counters" campaign_id=campaign.id pool_status="failure_counter" %}"
+          hx-trigger="intersect once, every 120s">
+          –
+        </span>
+      </small>
+      <br>
+      {% endif %}
+
+      {% if campaign.status != "DONE" %}
+      <small>
+        Proc.:
+        <span
+          hx-get="{% url "htmx:dwpldb:mailing-campaign-counters" campaign_id=campaign.id pool_status="BEING_PROCESSED" %}"
+          hx-trigger="intersect once, every 120s">
+          –
+        </span>
+        /
+        <span
+          hx-get="{% url "htmx:dwpldb:mailing-campaign-counters" campaign_id=campaign.id pool_status="READY_TO_SEND" %}"
+          hx-trigger="intersect once, every 120s">
+          –
+        </span>
+      </small>
+      <br>
+      {% endif %}
+      
+      {% if campaign.status != "DONE" %}
+      <small>
+        Wysł.:
+        <span
+          hx-get="{% url "htmx:dwpldb:mailing-campaign-counters" campaign_id=campaign.id pool_status="SENT" %}"
+          hx-trigger="intersect once, every 120s">
+          –
+        </span>
+      </small>
+      <br>
+      <small>
+        Dziś: 
+        <span
+          hx-get="{% url "htmx:dwpldb:mailing-campaign-daily-counters-campaign" campaign_id=campaign.id %}"
+          hx-swap="innerHTML"
+          hx-trigger="intersect once"
+        >
+          –
+        </span>
+      </small>
+      <br>
+      <small>
+        Clicks: {{campaign.total_clicks}}
+      </small>
+      <br>
+      {% endif %}
+      <br>
+      <small class="text-{% if campaign.is_send_after_correct %}success{% else %}danger{% endif %}">
+        <b>Od {{campaign.send_after|date:"j b"}}</b>
+      </small>
+      <br>
+      <small class="text-{% if campaign.is_allowed_to_send_correct %}success{% else %}danger{% endif %}">
+        <b>Między {{campaign.allowed_to_send_after}} - {{campaign.allowed_to_send_before}} ( jest {{now|date:"H:i"}} )</b>
+      </small>
+      <br>
+      <small>
+        {% if campaign.why_not_sending %}
+        <b class="text-danger">{{campaign.why_not_sending}}</b>
+        {% else %}
+        <b class="text-success">Powinno wysyłać</b>
+        {% endif %}
+      </small>
+    </td>

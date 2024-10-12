@@ -51,6 +51,19 @@ class MailingCampaignManager(Manager):
             & Q(send_after__lt=now())
         )
 
+    def active_campaigns_random_order(self) -> QuerySet["MailingCampaign"]:
+        """Returns active mailing campaigns"""
+        return (
+            self.get_queryset()
+            .filter(
+                Q(status=MailingCampaignStatus.SENDING)
+                & Q(allowed_to_send_after__lt=now())
+                & Q(allowed_to_send_before__gt=now())
+                & Q(send_after__lt=now())
+            )
+            .order_by("?")
+        )
+
     def active_campaigns_for_processing(self) -> QuerySet["MailingCampaign"]:
         """Returns active mailing campaigns for processing process"""
         return self.get_queryset().filter(
@@ -72,6 +85,10 @@ class MailingCampaignManager(Manager):
         """Returns mailing campaigns that are not done"""
         return self.get_queryset().filter(~Q(status=MailingCampaignStatus.DONE))
 
+    def favourite(self) -> QuerySet["MailingCampaign"]:
+        """Returns favourite mailing campaigns"""
+        return self.get_queryset().filter(favourite=True)
+
 
 class MailingCampaign(Model):
     """Represents mailing campaign"""
@@ -87,6 +104,8 @@ class MailingCampaign(Model):
     )
 
     created_at = DateTimeField(auto_now_add=True)
+
+    favourite = BooleanField("Ulubiona kampania", default=False)
 
     sent_start_at = DateTimeField(null=True, blank=True)
 

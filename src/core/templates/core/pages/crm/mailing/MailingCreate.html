@@ -40,6 +40,9 @@ Oryginalny temat szkolenia: „{{webinar.title_original}}”
               <b>{{webinar.title_original}}</b>
           </p>
           <p>
+              Wykładowca: <b>{{webinar.lecturer}}</b>
+          </p>
+          <p>
               Data: <b>{{webinar.date|date:"j E Y"}} r.</b>
           </p>
           <p>
@@ -74,6 +77,10 @@ Oryginalny temat szkolenia: „{{webinar.title_original}}”
                   <b class="text-primary">Adres URL do pobrania szablonu</b>
                 </label>
                 <input id="id-content-url" type="text" class="form-control" name="content_url">
+              </div>
+              <div class="mb-3">
+                <label for="id-target_code" class="form-label">target_code</label>
+                <input value="{{target_code}}" id="id-target_code" type="text" class="form-control" name="target_code">
               </div>
               <div class="mb-3">
                 <label for="id-mailing_title" class="form-label">Tytuł kampanii mailingowej</label>

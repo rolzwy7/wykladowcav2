@@ -15,15 +15,14 @@ from requests.sessions import Session
 from core.consts.telegram_chats_consts import TelegramChats
 from core.tasks.send_telegram_notification.procedure import send_telegram_notification
 
+UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
+
 
 class Command(BaseCommand):
     """temp_cmd_fill_leads"""
 
-    def execute_command(self):
+    def execute_command(self, alias, base_url, login, password):
         """execute"""
-
-        # Variables
-        base_url = "https://webas5105.niebieski.net"
 
         # Get dates
         date_end = datetime.now()
@@ -36,11 +35,7 @@ class Command(BaseCommand):
 
         # Get session
         session = Session()
-        session.headers.update(
-            {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
-            }
-        )
+        session.headers.update({"User-Agent": UA})
 
         # Get on login page to fill cookies
         login_page_url = f"{base_url}/Login"
@@ -50,8 +45,8 @@ class Command(BaseCommand):
         response = session.post(
             auth_url,
             data={
-                "login": settings.NIEBIESKI_ZAPYTANIE_LOGIN,
-                "password": settings.NIEBIESKI_ZAPYTANIE_PASSWORD,
+                "login": login,
+                "password": password,
                 "stay_signed": 0,
             },
         )
@@ -91,7 +86,7 @@ class Command(BaseCommand):
 
         # Stworz wiadomosc telegram
         idxs = [1, 2, 3, 4, 5, 6]
-        msg = "# Zużycie Niebieski.net:\n\n"
+        msg = f"# Zużycie Niebieski.net [{alias}]:\n\n"
         for idx in idxs:
             base = "/html/body/div[1]/div[2]/div/div[2]/div[4]/div[1]/ul"
             kp = f"{base}/li[{idx}]/span/text()"
@@ -108,12 +103,29 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        try:
-            self.execute_command()
-            print("OK")
-        except Exception as e:  # pylint: disable=broad-exception-caught
-            print("KO")
-            send_telegram_notification(
-                f"Wystąpił błąd podczas próby pobrania zużycia (Niebieski): {e}",
-                TelegramChats.OTHER,
-            )
+
+        profiles = [
+            (
+                "ZAPYTANIE 111",
+                "https://webas5105.niebieski.net",
+                settings.NIEBIESKI_ZAPYTANIE_1_LOGIN,
+                settings.NIEBIESKI_ZAPYTANIE_1_PASSWORD,
+            ),
+            (
+                "ZAPYTANIE 222",
+                "https://webas5136.niebieski.net",
+                settings.NIEBIESKI_ZAPYTANIE_2_LOGIN,
+                settings.NIEBIESKI_ZAPYTANIE_2_PASSWORD,
+            ),
+        ]
+
+        for alias, base_url, login, password in profiles:
+            try:
+                self.execute_command(alias, base_url, login, password)
+                print("OK")
+            except Exception as e:  # pylint: disable=broad-exception-caught
+                print("KO")
+                send_telegram_notification(
+                    f"Wystąpił błąd podczas próby pobrania zużycia (Niebieski): {e}",
+                    TelegramChats.OTHER,
+                )

@@ -33,6 +33,9 @@
                         <a href="{% url 'admin:core_webinar_change' object_id=webinar.id %}">
                            Edytuj termin w CMS
                        </a>
+                        <a href="{% url 'core:crm_webinar_detail_dashboard' pk=webinar.id %}">
+                           Zobacz w CRM
+                       </a>
                        <a href="{% url 'core:webinar_program_page' slug=webinar.slug %}">
                            Zobacz termin na stronie
                         </a>
