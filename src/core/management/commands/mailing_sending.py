@@ -63,7 +63,14 @@ class Command(BaseCommand):
         )
         for campaign in active_campaigns:
             campaign_id: int = campaign.id  # type: ignore
-            print("\n[*] Processing campaign:", campaign)
+            print(
+                "\n[*] Processing campaign:",
+                campaign,
+                "bucket_id",
+                bucket_id,
+                "campaign_id",
+                campaign_id,
+            )
 
             # If first bucket try to finish this campaign
             if bucket_id == 0:

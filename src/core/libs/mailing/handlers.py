@@ -36,7 +36,11 @@ def try_to_finish_campaign(
 
     campaign_is_finished = pool_manager.is_campaign_finished(campaign_id)
     if campaign_is_finished:
-        print("[*] No init-like emails left, closing campaign:", campaign_id)
+        print(
+            "[*] No init-like emails left, closing campaign:",
+            campaign_id,
+            campaign_title,
+        )
 
         MailingCampaign.manager.filter(id=campaign_id).update(
             status=MailingCampaignStatus.DONE
