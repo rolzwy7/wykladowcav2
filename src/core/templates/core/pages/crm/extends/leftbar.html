@@ -111,6 +111,31 @@ data-kt-sticky-zindex="95"
     </a>
   </div>
   <!--end::Menu item-->
+  <!--begin::Menu item-->
+  <div class="menu-item">
+    <a
+      href="{% url 'core:service_offer_applications_list_page' %}"
+      class="
+        menu-link
+        {% if request.path|startswith:"/crm/service_offer_applications_list_page/" %}active{% endif %}
+        "
+    >
+      <span class="menu-icon">
+        <i class="ki-duotone ki-nexo fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+      </span>
+      <span class="menu-title">
+        Usługi
+      </span>
+
+      <span class="menu-badge">
+        <span class="badge badge-sm badge-square badge-success px-1">
+          {{CACHED_SERVICE_APPLICATIONS_SENT_TODAY}}
+        </span>
+      </span>
+
+    </a>
+  </div>
+  <!--end::Menu item-->
     <!--begin::Menu item-->
     <div class="menu-item" data-kt-menu-trigger="hover" data-kt-menu-placement="right-start">
       <a

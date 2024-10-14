@@ -39,6 +39,7 @@ from core.views.crm.crm_archived_webinars import (
 from core.views.crm.inbox import crm_inbox_message_page, crm_inbox_page
 from core.views.crm.mailing import download_emails_from_sender_page
 from core.views.crm.recording import crm_send_recording_to_all_participants
+from core.views.crm.service_offer import service_offer_applications_list_page
 from core.views.crm.statistics import crm_statistics_dashboard
 from core.views.crm.webinar.actions import (
     CancelWebinarAction,
@@ -53,6 +54,13 @@ from .mailing_campaign_urls import urlpatterns as mailing_campaign_urlpatterns
 from .tagging_url import urlpatterns as tagging_urlpatterns
 
 urlpatterns = [
+    # Service Offer
+    path(
+        "uslugi-zgloszenia/",
+        service_offer_applications_list_page,
+        name="service_offer_applications_list_page",
+    ),
+    #
     path(
         "skrzynka-odbiorcza/wiadomosc/<str:email_id>",
         crm_inbox_message_page,

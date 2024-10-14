@@ -5,8 +5,9 @@ Consts context processor
 # flake8: noqa=E501
 
 from django.core.cache import cache
+from django.utils.timezone import now
 
-from core.models import Webinar, WebinarCategory
+from core.models import ServiceOfferApplication, Webinar, WebinarCategory
 
 
 def cached(request):
@@ -42,6 +43,18 @@ def cached(request):
                 )
             )
         cached_dict[cache_key] = seq
+        cache.set(cache_key, cached_dict[cache_key], timeout=cache_seconds)
+
+    # Get service applications sent today
+    cache_key = "CACHED_SERVICE_APPLICATIONS_SENT_TODAY"
+    cache_seconds = 60 * 60  # 1 hour
+    if cache.get(cache_key):
+        cached_dict[cache_key] = cache.get(cache_key)
+    else:
+
+        cached_dict[cache_key] = ServiceOfferApplication.manager.filter(
+            created_at__date=now().date()
+        ).count()
         cache.set(cache_key, cached_dict[cache_key], timeout=cache_seconds)
 
     return cached_dict

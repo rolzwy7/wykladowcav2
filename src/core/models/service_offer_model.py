@@ -87,6 +87,7 @@ class ServiceOfferApplication(Model):
         (ServiceOfferApplicationStatus.REJECTED, "Klient odrzucił ofertę"),
         (ServiceOfferApplicationStatus.PAID, "Zapłacono za usługę"),
         (ServiceOfferApplicationStatus.UNPAID, "Nie zapłacono za usługę"),
+        (ServiceOfferApplicationStatus.TRASH, "Śmieciowe zgłoszenie"),
     )
     status = CharField(
         max_length=32, choices=STATUS, default=ServiceOfferApplicationStatus.SENT
@@ -117,11 +118,13 @@ class ServiceOfferApplication(Model):
 
     tracking_code = CharField("Kod śledzący", max_length=32, blank=True)
 
-    sent_at = DateTimeField(null=True)
+    sent_at = DateTimeField(null=True, blank=True)
     sent_ip_address = CharField(max_length=64, blank=True)
 
-    accepted_at = DateTimeField(null=True)
+    accepted_at = DateTimeField(null=True, blank=True)
     accepted_ip_address = CharField(max_length=64, blank=True)
+
+    uncertain = BooleanField("Niepewny?", default=False)
 
     class Meta:
         verbose_name = "Oferta Usługi - Zgłoszenie"

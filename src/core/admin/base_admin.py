@@ -20,7 +20,6 @@ from core.models import (
     MailingReplyMessage,
     MailingTemplate,
     ServiceOffer,
-    ServiceOfferApplication,
     ServiceOfferLead,
     SmtpSender,
     Survey,
@@ -48,7 +47,6 @@ admin.site.register(WebinarApplicationTracking)
 admin.site.register(CustomHtmlSite)
 
 admin.site.register(ServiceOffer)
-admin.site.register(ServiceOfferApplication)
 admin.site.register(ServiceOfferLead)
 
 

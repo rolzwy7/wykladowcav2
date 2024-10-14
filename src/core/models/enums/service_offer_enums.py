@@ -5,3 +5,4 @@ class ServiceOfferApplicationStatus:
     REJECTED = "REJECTED"
     PAID = "PAID"
     UNPAID = "UNPAID"
+    TRASH = "TRASH"

@@ -1,0 +1,74 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+
+{% block crm_content %}
+
+<div class="table-responsive">
+	<table class="table">
+		<thead>
+			<tr class="fw-bold fs-6 text-gray-800">
+				<th>ID</th>
+				<th>Usługa</th>
+				<th>Status</th>
+				<th>Firma</th>
+				<th>Niepewny?</th>
+				<th>Uwagi</th>
+				<th>Plik</th>
+			</tr>
+		</thead>
+		<tbody>
+            {% for service_offer in service_offers %}
+			<tr>
+                <td>
+                    <a href="{% url "admin:core_serviceofferapplication_change" object_id=service_offer.pk %}" class="fw-bold">
+                        Zgłoszenie {{service_offer.id}}
+                    </a> <br>
+                    <small>{{service_offer.created_at|date:"j E Y"}}</small>
+                </td>
+                <td>{{service_offer.service_offer.slug}}</td>
+                <td>
+                    {% if service_offer.status == "SENT" %}<span class="bg-success text-white">{% endif %}
+                    {% if service_offer.status == "OFFER" %}<span>{% endif %}
+                    {% if service_offer.status == "ACCEPTED" %}<span>{% endif %}
+                    {% if service_offer.status == "REJECTED" %}<span>{% endif %}
+                    {% if service_offer.status == "PAID" %}<span>{% endif %}
+                    {% if service_offer.status == "UNPAID" %}<span>{% endif %}
+                    {{service_offer.get_status_display}}
+                    </span>
+                </td>
+				<td>
+                    <b>{{service_offer.name}}</b>
+                </td>
+				<td>
+                    {% if service_offer.uncertain %}
+                        <span class="bg-warning text-black fw-bold px-2">TAK</span>
+                    {% else %}
+                        <span>-</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if service_offer.additional_info %}
+                    <span title="{{service_offer.additional_info}}" style="cursor: pointer;">
+                        Tak
+                        <i class="ki-duotone ki-information-5"><i class="path1"></i><i class="path2"></i><i class="path3"></i></i>
+                    </span>
+                    {% else %}
+                    -
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% get_media_prefix %}{{service_offer.file}}" class="fw-bold">
+                        Pobierz
+                    </a>
+                </td>
+			</tr>
+            {% endfor %}
+		</tbody>
+	</table>
+</div>
+
+{% endblock crm_content %}
+
+{% block body_scripts %}{% endblock body_scripts %}

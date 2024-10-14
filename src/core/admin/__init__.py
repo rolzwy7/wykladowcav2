@@ -14,6 +14,7 @@ from .leads_admin import LeadModelAdmin
 from .lecturer_modeladmin import LecturerModelAdmin
 from .lecturer_opinion_admin import LecturerOpinionModelAdmin
 from .redirects_admin import RedirectManualModelAdmin
+from .service_offer_admin import ServiceOfferApplicationModelAdmin
 from .user_modeladmin import UserModelAdmin
 from .webinar_application_modeladmin import WebinarApplicationModelAdmin
 from .webinar_category_modeladmin import WebinarCategoryModelAdmin
