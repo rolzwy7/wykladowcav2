@@ -127,11 +127,13 @@ data-kt-sticky-zindex="95"
         Usługi
       </span>
 
+      {% if CACHED_SERVICE_APPLICATIONS_SENT_TODAY %}
       <span class="menu-badge">
         <span class="badge badge-sm badge-square badge-success px-1">
           {{CACHED_SERVICE_APPLICATIONS_SENT_TODAY}}
         </span>
       </span>
+      {% endif %}
 
     </a>
   </div>
