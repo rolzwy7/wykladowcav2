@@ -13,6 +13,11 @@ from .htmx_crm_participant import (
     htmx_crm_participant_toggle_phoned,
     htmx_crm_participant_toggle_uncertain,
 )
-from .htmx_crm_service_offer import htmx_crm_service_offer_application_toggle_uncertain
+from .htmx_crm_service_offer import (
+    htmx_crm_service_offer_application_toggle_accepted_conditions,
+    htmx_crm_service_offer_application_toggle_no_answer,
+    htmx_crm_service_offer_application_toggle_resigned,
+    htmx_crm_service_offer_application_toggle_uncertain,
+)
 from .htmx_crm_todo import htmx_crm_toggle_todo
 from .htmx_crm_webinar_assets import htmx_crm_delete_webinar_asset

@@ -2,11 +2,11 @@
     <a
       style="cursor: pointer;"
       class="text-hover-primary fw-bold"
-      hx-post="{% url 'htmx:htmx_crm_service_offer_application_toggle_uncertain' pk=application_id %}"
+      hx-post="{% url 'htmx:htmx_crm_service_offer_application_toggle_no_answer' pk=application_id %}"
       hx-confirm="Na pewno?"
     >
-      {% if uncertain %}
-          <span class="badge badge-danger">Niepewny</span>
+      {% if no_answer %}
+          <span class="badge badge-danger">Brak odpowiedzi</span>
       {% else %}
           <span class="badge badge-secondary">Nie</span>
       {% endif %}

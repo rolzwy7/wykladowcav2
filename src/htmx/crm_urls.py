@@ -15,6 +15,9 @@ from htmx.views.crm import (
     htmx_crm_participant_indicators,
     htmx_crm_participant_toggle_phoned,
     htmx_crm_participant_toggle_uncertain,
+    htmx_crm_service_offer_application_toggle_accepted_conditions,
+    htmx_crm_service_offer_application_toggle_no_answer,
+    htmx_crm_service_offer_application_toggle_resigned,
     htmx_crm_service_offer_application_toggle_uncertain,
     htmx_crm_toggle_todo,
 )
@@ -84,5 +87,20 @@ urlpatterns = [
         "htmx_crm_participant_toggle_uncertain/<int:pk>/",
         htmx_crm_service_offer_application_toggle_uncertain,
         name="htmx_crm_service_offer_application_toggle_uncertain",
+    ),
+    path(
+        "htmx_crm_service_offer_application_toggle_accepted_conditions/<int:pk>/",
+        htmx_crm_service_offer_application_toggle_accepted_conditions,
+        name="htmx_crm_service_offer_application_toggle_accepted_conditions",
+    ),
+    path(
+        "htmx_crm_service_offer_application_toggle_no_answer/<int:pk>/",
+        htmx_crm_service_offer_application_toggle_no_answer,
+        name="htmx_crm_service_offer_application_toggle_no_answer",
+    ),
+    path(
+        "htmx_crm_service_offer_application_toggle_resigned/<int:pk>/",
+        htmx_crm_service_offer_application_toggle_resigned,
+        name="htmx_crm_service_offer_application_toggle_resigned",
     ),
 ]

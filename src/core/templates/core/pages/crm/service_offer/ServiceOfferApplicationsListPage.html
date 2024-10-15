@@ -17,9 +17,12 @@
 				<th>ID</th>
 				<th>Status</th>
 				<th>Firma</th>
-				<th>Niepewny?</th>
 				<th>Uwagi</th>
-				<th>Plik</th>
+				<th>Niepewny?</th>
+				<th>Zaakceptowano warunki?</th>
+				<th>Zrezygnowano?</th>
+				<th>Brak odpowiedzi?</th>
+				<th>Przesłany plik</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -44,9 +47,6 @@
 				<td>
                     <b>{{service_offer.name}}</b>
                 </td>
-				<td>
-                    {% include "htmx/service_offer_application_toggle_uncertain.html" with application_id=service_offer.id is_uncertain=service_offer.uncertain %}
-                </td>
                 <td>
                     {% if service_offer.additional_info %}
                     <span class="fw-bold" title="{{service_offer.additional_info}}" style="cursor: pointer;">
@@ -57,6 +57,12 @@
                     -
                     {% endif %}
                 </td>
+				<td>
+                    {% include "htmx/service_offer_application_toggle_uncertain.html" with application_id=service_offer.id uncertain=service_offer.uncertain  %}
+                </td>
+                <td>{% include "htmx/service_offer_application_toggle_accepted_conditions.html" with application_id=service_offer.id accepted_conditions=service_offer.accepted_conditions  %}</td>
+                <td>{% include "htmx/service_offer_application_toggle_resigned.html" with application_id=service_offer.id resigned=service_offer.resigned  %}</td>
+                <td>{% include "htmx/service_offer_application_toggle_no_answer.html" with application_id=service_offer.id no_answer=service_offer.no_answer  %}</td>
                 <td>
                     <a href="{% get_media_prefix %}{{service_offer.file}}" class="fw-bold">
                         Pobierz
