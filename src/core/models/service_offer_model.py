@@ -55,6 +55,10 @@ class ServiceOffer(Model):
     name_place_text = TextField("NAME_PLACE_TEXT", default="[NAME_PLACE_TEXT]")
     file_text = TextField("FILE_TEXT", default="[FILE_TEXT]")
 
+    additional_info_text = TextField(
+        "ADDITIONAL_INFO_TEXT", default="Dodatkowe uwagi (opcjonalnie)"
+    )
+
     thanks_title_text = TextField("THANKS_TITLE_TEXT", default="[THANKS_TITLE_TEXT]")
     thanks_html = TextField("THANKS_HTML", default="[THANKS_HTML]")
 
@@ -125,6 +129,9 @@ class ServiceOfferApplication(Model):
     accepted_ip_address = CharField(max_length=64, blank=True)
 
     uncertain = BooleanField("Niepewny?", default=False)
+    accepted_conditions = BooleanField("Zaakceptowali warunki?", default=False)
+    resigned = BooleanField("Zrezygnowali?", default=False)
+    no_answer = BooleanField("Brak odpowiedzi?", default=False)
 
     class Meta:
         verbose_name = "Oferta Usługi - Zgłoszenie"

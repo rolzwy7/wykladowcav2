@@ -1,4 +1,5 @@
-from django.contrib import admin
+"""service_offer_admin"""
+
 from django.contrib.admin import ModelAdmin, register
 
 from core.models import ServiceOfferApplication
@@ -8,22 +9,20 @@ from core.models import ServiceOfferApplication
 class ServiceOfferApplicationModelAdmin(ModelAdmin):
     """ServiceOfferApplicationModelAdmin"""
 
-    # filter_horizontal = ("categories",)
-    # list_display = ["title", "date", "status", "lecturer", "price_netto"]
-    # search_fields = [
-    #     "title_original",
-    #     "title",
-    #     "slug",
-    # ]
-    # date_hierarchy = "created_at"
-    # list_filter = [
-    #     "status",
-    #     "is_confirmed",
-    #     "is_fake",
-    #     "show_lecturer",
-    #     "is_hidden",
-    #     "recording_allowed",
-    # ]
+    list_display = ["id", "created_at", "name", "uncertain"]
+    search_fields = [
+        "name",
+        "nip",
+        "postal_code",
+        "city",
+    ]
+    date_hierarchy = "created_at"
+    list_filter = [
+        "uncertain",
+        "accepted_conditions",
+        "resigned",
+        "no_answer",
+    ]
 
     fieldsets = (
         (
@@ -32,6 +31,9 @@ class ServiceOfferApplicationModelAdmin(ModelAdmin):
                 "fields": [
                     "status",
                     "uncertain",
+                    "accepted_conditions",
+                    "resigned",
+                    "no_answer",
                     "additional_info",
                     "first_name",
                     "last_name",

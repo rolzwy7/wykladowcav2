@@ -1,0 +1,19 @@
+<div hx-target="this" hx-swap="outerHTML">
+    <a
+      style="cursor: pointer;"
+      class="text-hover-primary fw-bold"
+      hx-post="{% url 'htmx:htmx_crm_service_offer_application_toggle_uncertain' pk=application_id %}"
+      {% if is_uncertain %}
+      hx-confirm="Czy na pewno chcesz oznaczyć jako Pewny?"
+      {% else %}
+      hx-confirm="Czy na pewno chcesz oznaczyć jako Niepewny?"
+      {% endif %}
+    >
+      {% if is_uncertain %}
+          <span class="badge badge-danger">Niepewny</span>
+      {% else %}
+          <span class="badge badge-secondary">Pewny</span>
+      {% endif %}
+    </a>
+  </div>
+  

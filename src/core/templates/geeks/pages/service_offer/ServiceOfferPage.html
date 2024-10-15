@@ -54,17 +54,22 @@
              <div class="col-md-8 col-12">
 
                 {% if not hide_intro %}
+
+                    {% if description_primary_html != "ukryj" %}
                     <div class="card mb-4">
                         <div class="card-body">
                             {{service_offer.description_primary_html|safe}}
                         </div>
                     </div>
+                    {% endif %}
                     
+                    {% if service_offer.steps_html != "ukryj" %}
                     <div class="card mb-4">
                         <div class="card-body">
                             {{service_offer.steps_html|safe}}
                         </div>
                     </div>
+                    {% endif %}
                     
 {% comment %}
                         <div class="card mb-4 fs-3">
@@ -179,7 +184,7 @@
                             </div>
                             <div class="col-md-12">
                                 {% include './snippets/FieldWithErrors.html' with field=form.file label=service_offer.file_text %}
-                                {% include './snippets/FieldWithErrors.html' with field=form.additional_info label="Dodatkowe uwagi (opcjonalnie)" %}
+                                {% include './snippets/FieldWithErrors.html' with field=form.additional_info label=service_offer.additional_info_text %}
                             </div>
                             <div class="col-md-12">
                                 <div class="form-check mb-4 {% if form.accepted_rodo.errors %}text-danger{% endif %}">

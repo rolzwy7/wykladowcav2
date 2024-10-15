@@ -5,12 +5,16 @@
 
 {% block crm_content %}
 
+
+<h1>Usługa: {{service_slug}}</h1>
+
+<hr>
+
 <div class="table-responsive">
 	<table class="table">
 		<thead>
 			<tr class="fw-bold fs-6 text-gray-800">
 				<th>ID</th>
-				<th>Usługa</th>
 				<th>Status</th>
 				<th>Firma</th>
 				<th>Niepewny?</th>
@@ -27,7 +31,6 @@
                     </a> <br>
                     <small>{{service_offer.created_at|date:"j E Y"}}</small>
                 </td>
-                <td>{{service_offer.service_offer.slug}}</td>
                 <td>
                     {% if service_offer.status == "SENT" %}<span class="bg-success text-white">{% endif %}
                     {% if service_offer.status == "OFFER" %}<span>{% endif %}
@@ -42,15 +45,11 @@
                     <b>{{service_offer.name}}</b>
                 </td>
 				<td>
-                    {% if service_offer.uncertain %}
-                        <span class="bg-warning text-black fw-bold px-2">TAK</span>
-                    {% else %}
-                        <span>-</span>
-                    {% endif %}
+                    {% include "htmx/service_offer_application_toggle_uncertain.html" with application_id=service_offer.id is_uncertain=service_offer.uncertain %}
                 </td>
                 <td>
                     {% if service_offer.additional_info %}
-                    <span title="{{service_offer.additional_info}}" style="cursor: pointer;">
+                    <span class="fw-bold" title="{{service_offer.additional_info}}" style="cursor: pointer;">
                         Tak
                         <i class="ki-duotone ki-information-5"><i class="path1"></i><i class="path2"></i><i class="path3"></i></i>
                     </span>

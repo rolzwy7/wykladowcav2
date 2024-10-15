@@ -15,6 +15,7 @@ from htmx.views.crm import (
     htmx_crm_participant_indicators,
     htmx_crm_participant_toggle_phoned,
     htmx_crm_participant_toggle_uncertain,
+    htmx_crm_service_offer_application_toggle_uncertain,
     htmx_crm_toggle_todo,
 )
 
@@ -78,5 +79,10 @@ urlpatterns = [
         "crm-cancel-webinar/<int:pk>/",
         htmx_crm_cancel_webinar,
         name="htmx_crm_cancel_webinar",
+    ),
+    path(
+        "htmx_crm_participant_toggle_uncertain/<int:pk>/",
+        htmx_crm_service_offer_application_toggle_uncertain,
+        name="htmx_crm_service_offer_application_toggle_uncertain",
     ),
 ]
