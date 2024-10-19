@@ -102,6 +102,13 @@ class Survey(Model):
     title = CharField("Tytuł", max_length=250)
     description = TextField("Opis", blank=True)
 
+    add_placeholder = CharField(
+        "Placeholder add", max_length=128, default="[add_placeholder]"
+    )
+    search_placeholder = CharField(
+        "Placeholder search", max_length=128, default="[search_placeholder]"
+    )
+
     user_creation_enabled = BooleanField(
         "Dodawanie przez użytkownka aktywowane", default=False
     )
