@@ -2,6 +2,7 @@
 
 # flake8: noqa=E501
 
+from django.conf import settings
 from django.db.models import Q
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
@@ -27,12 +28,20 @@ class SurveyAnswerSerializer(ModelSerializer):
 
     vote_percent = SerializerMethodField()
     init_checked = SerializerMethodField()
+    image = SerializerMethodField()
 
     class Meta:
         """Meta"""
 
         model = SurveyAnswer
-        fields = ["id", "title", "user_created", "vote_percent", "init_checked"]
+        fields = [
+            "id",
+            "title",
+            "user_created",
+            "vote_percent",
+            "init_checked",
+            "image",
+        ]
 
     def __init__(self, *args, **kwargs):
         # Accept a custom parameter 'user_id' and make it available in the instance
@@ -56,3 +65,9 @@ class SurveyAnswerSerializer(ModelSerializer):
             return 0
 
         return int(100 * (this_answer_count / all_votes_count))
+
+    def get_image(self, answer: SurveyAnswer):
+        """Check image"""
+        if answer.lecturer:
+            return f"{settings.BASE_URL}{settings.MEDIA_URL}uploads/lecturers/{answer.lecturer.slug}_160x160.webp"
+        return "no_image"

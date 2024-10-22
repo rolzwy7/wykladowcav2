@@ -4,6 +4,7 @@
 
 from django.db.models import (
     CASCADE,
+    SET_NULL,
     BooleanField,
     CharField,
     DateTimeField,
@@ -67,6 +68,10 @@ class SurveyAnswer(Model):
     user_created = BooleanField("Dodana przez użytkownika", default=False)
 
     survey = ForeignKey("Survey", on_delete=CASCADE, verbose_name="Ankieta")
+
+    lecturer = ForeignKey(
+        "Lecturer", on_delete=SET_NULL, verbose_name="Wykładowca", null=True, blank=True
+    )
 
     class Meta:
         """meta"""
