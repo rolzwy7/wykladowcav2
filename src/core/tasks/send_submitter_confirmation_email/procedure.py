@@ -1,5 +1,4 @@
 import json
-from random import choice
 
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
 
@@ -39,13 +38,7 @@ def send_submitter_confirmation_email(
     )
     email_message = EmailMessage(
         email_template,
-        choice(
-            [
-                "Potwierdzamy otrzymanie zgłoszenia na szkolenie",
-                "Otrzymaliśmy Państwa zgłoszenie na szkolenie",
-                "Wysłane przez Państwa zgłoszenie zostało przez nas otrzymane",
-            ]
-        ),
+        "Potwierdzamy otrzymanie zgłoszenia na szkolenie",
         procedure_params.email,
     )
     email_message.send()
