@@ -179,7 +179,11 @@ class Webinar(Model):
 
     show_lecturer = BooleanField("Pokaż wykładowce na stronie szkolenia", default=True)
 
-    is_hidden = BooleanField("Ukryj termin szkolenia na stronie", default=False)
+    is_hidden = BooleanField(
+        "Ukryj termin szkolenia na stronie",
+        default=False,
+        help_text="Nie będzie można wyszukać terminu, ale będzie można wejść bezpośrednio",
+    )
 
     is_connected_to_conference = BooleanField(
         "Połączony z konferencją",
