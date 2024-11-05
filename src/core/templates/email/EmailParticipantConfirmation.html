@@ -26,11 +26,13 @@
                     Szkolenie planowane jest na dzień <b>{{webinar.date|date:"j E Y"}}</b> godz. <b>{{webinar.date|date:"H:i"}}</b>.
                   </td>
                 </tr>
+                {% if webinar.show_lecturer %}
                 <tr>
                   <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
                     Wykładowca <b>{{webinar.lecturer.fullname}}</b>
                   </td>
                 </tr>
+                {% endif %}
                 <tr>
                   <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
                     <b>Dzień przed planowanym terminem</b> szkolenia prześlemy każdemu z uczestników dodatkową wiadomość e-mail ze wszystkimi informacjami potrzebnymi do połączenia się do webinaru poprzez platformę ClickMeeting.
