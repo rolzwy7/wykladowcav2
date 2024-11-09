@@ -77,6 +77,10 @@ class WebinarCategory(Model):
 
     about_html = TextField("Opis kategorii", default="[Opis kategorii]")
 
+    fakturownia_category_id = CharField(
+        "ID Kategorii w Fakturowni", max_length=32, blank=True
+    )
+
     class Meta:
         verbose_name = "Kategoria"
         verbose_name_plural = "Kategorie"
