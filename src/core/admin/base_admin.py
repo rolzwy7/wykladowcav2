@@ -24,6 +24,7 @@ from core.models import (
     SmtpSender,
     Survey,
     SurveyAnswer,
+    SurveyOpinion,
     SurveyVote,
     WebinarApplicationCancellation,
     WebinarApplicationCompany,
@@ -42,6 +43,7 @@ from core.models import (
 admin.site.register(SurveyAnswer)
 admin.site.register(Survey)
 admin.site.register(SurveyVote)
+admin.site.register(SurveyOpinion)
 
 admin.site.register(WebinarApplicationTracking)
 admin.site.register(CustomHtmlSite)

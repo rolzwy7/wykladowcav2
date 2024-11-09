@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
 from api.base.serializers import SurveyAnswerSerializer, SurveySerializer
-from core.models.survey import Survey, SurveyAnswer, SurveyVote
+from core.models.survey import Survey, SurveyAnswer, SurveyOpinion, SurveyVote
 
 
 class SurveyViewSet(ViewSet):
@@ -77,5 +77,24 @@ class SurveyViewSet(ViewSet):
         answer = SurveyAnswer(title=answer_title, user_created=True, survey=survey)
         answer.save()
         SurveyVote(voter_id=voter_id, answer=answer).save()
+
+        return Response({"ok": True})
+
+    @action(url_path="send-opinion", detail=True, methods=["post"])
+    def send_opinion(self, request, pk=None):
+        """send_opinion"""
+
+        survey = get_object_or_404(self.queryset, pk=pk)
+        voter_id = request.query_params.get("voter_id")
+        lecturer_name: int = request.data["lecturer_name"]
+        opinion: int = request.data["opinion"]
+
+        survey_opinion = SurveyOpinion(
+            survey=survey,
+            voter_id=voter_id,
+            answer_title=lecturer_name,
+            opinion_text=opinion,
+        )
+        survey_opinion.save()
 
         return Response({"ok": True})

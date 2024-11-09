@@ -80,7 +80,38 @@ class SurveyAnswer(Model):
         verbose_name_plural = "Ankiety (odpowiedzi)"
 
     def __str__(self) -> str:
-        return f"{self.title}"
+        return f"Odp: {self.title}"
+
+
+class SurveyOpinionManager(Manager):
+    """SurveyOpinionManager"""
+
+    ...
+
+
+class SurveyOpinion(Model):
+    """SurveyOpinion"""
+
+    manager = SurveyOpinionManager()
+
+    created_at = DateTimeField(auto_now_add=True)
+
+    survey = ForeignKey("Survey", on_delete=CASCADE, verbose_name="Ankieta")
+
+    voter_id = CharField("ID głosującego", max_length=100)
+
+    answer_title = CharField("Nazwa odpowiedzi", max_length=150)
+
+    opinion_text = TextField("Treść opinii")
+
+    class Meta:
+        """meta"""
+
+        verbose_name = "Ankieta (Opinia)"
+        verbose_name_plural = "Ankiety (Opinie)"
+
+    def __str__(self) -> str:
+        return f"{self.voter_id}"
 
 
 class SurveyManager(Manager):
@@ -116,6 +147,14 @@ class Survey(Model):
 
     user_creation_enabled = BooleanField(
         "Dodawanie przez użytkownka aktywowane", default=False
+    )
+    avatar_placeholders_enabled = BooleanField(
+        "Wyświetlaj domyślny avatar jeśli wykładowca nie jest ustawiony w odpowiedzi",
+        default=False,
+    )
+    ask_about_opinion_enabled = BooleanField(
+        "Pytaj o opinie po wysłaniu głosu",
+        default=False,
     )
 
     class Meta:

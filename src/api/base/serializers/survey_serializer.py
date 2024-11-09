@@ -10,7 +10,11 @@ from core.models.survey import Survey, SurveyAnswer, SurveyVote
 
 
 class SurveySerializer(ModelSerializer):
+    """SurveySerializer"""
+
     class Meta:
+        """meta"""
+
         model = Survey
         fields = [
             "id",
@@ -30,6 +34,10 @@ class SurveyAnswerSerializer(ModelSerializer):
     init_checked = SerializerMethodField()
     image = SerializerMethodField()
 
+    user_creation_enabled = SerializerMethodField()
+    avatar_placeholders_enabled = SerializerMethodField()
+    ask_about_opinion_enabled = SerializerMethodField()
+
     class Meta:
         """Meta"""
 
@@ -41,6 +49,9 @@ class SurveyAnswerSerializer(ModelSerializer):
             "vote_percent",
             "init_checked",
             "image",
+            "user_creation_enabled",
+            "avatar_placeholders_enabled",
+            "ask_about_opinion_enabled",
         ]
 
     def __init__(self, *args, **kwargs):
@@ -68,6 +79,23 @@ class SurveyAnswerSerializer(ModelSerializer):
 
     def get_image(self, answer: SurveyAnswer):
         """Check image"""
+
         if answer.lecturer:
             return f"{settings.BASE_URL}{settings.MEDIA_URL}uploads/lecturers/{answer.lecturer.slug}_160x160.webp"
+        else:
+            if answer.survey.avatar_placeholders_enabled:
+                return f"{settings.BASE_URL}/static/media/images/avatar_160x160.jpg"
+
         return "no_image"
+
+    def get_user_creation_enabled(self, answer: SurveyAnswer):
+        """user_creation_enabled"""
+        return answer.survey.user_creation_enabled
+
+    def get_avatar_placeholders_enabled(self, answer: SurveyAnswer):
+        """avatar_placeholders_enabled"""
+        return answer.survey.avatar_placeholders_enabled
+
+    def get_ask_about_opinion_enabled(self, answer: SurveyAnswer):
+        """ask_about_opinion_enabled"""
+        return answer.survey.ask_about_opinion_enabled
