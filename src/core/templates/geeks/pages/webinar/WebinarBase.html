@@ -227,8 +227,6 @@
             {% include './components/lecturer_card.html' with lecturer=webinar.lecturer %}
           {% endif %}
           
-          {% comment %} Related webinars {% endcomment %}
-          {% include './components/related_webinars.html' with related_webinars=related_webinars %}
           
           {% if webinar.is_archival %}
           <!-- Card -->
@@ -262,6 +260,9 @@
 
           {% comment %} Date and hour card {% endcomment %}
           {% include './components/date_and_hour_card.html' with webinar=webinar %}
+
+          {% comment %} Related webinars {% endcomment %}
+          {% include './components/related_webinars.html' with related_webinars=related_webinars %}
 
           {% comment %} What we offer {% endcomment %}
           {% include './components/what_we_offer.html' with webinar=webinar %}

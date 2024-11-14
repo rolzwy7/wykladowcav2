@@ -15,6 +15,7 @@ from .crm_todo_model import CrmTodo
 from .custom_html_sites import CustomHtmlSite
 from .discount_model import DiscountApplicationApplied, DiscountCode
 from .eventlog_model import Eventlog
+from .fakturownia_category_model import FakturowniaCategory
 from .leads import LeadModel
 from .lecturer_model import Lecturer
 from .lecturer_opinion_model import LecturerOpinion
