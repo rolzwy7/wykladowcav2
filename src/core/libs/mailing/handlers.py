@@ -129,5 +129,5 @@ def handle_complete_failure(message: str):
         message,
         TelegramChats.OTHER,
     )
-    print("[*] Sleeping 8 hours on complete failure")
-    time.sleep(8 * (60 * 60))
+    print("[*] Sleeping 1 hour on complete failure")
+    time.sleep(1 * (60 * 60))
