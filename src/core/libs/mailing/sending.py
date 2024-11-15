@@ -158,8 +158,8 @@ def process_sending(
 
         # Increment loop sleep if any error occured
         if any_error_occured:
-            print("[-] Any error occured, waiting 60 seconds ...")
-            time.sleep(60)
+            print("[-] Any error occured, waiting 15 seconds ...")
+            time.sleep(15)
             sleep_between_each_send = min(0.5, sleep_between_each_send + 0.01)
 
     try:

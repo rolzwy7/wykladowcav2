@@ -3,6 +3,8 @@
 # flake8: noqa=E501
 # pylint: disable=broad-exception-caught
 
+import time
+
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 
@@ -211,6 +213,7 @@ def process_check_mx(
                 document_id, MailingPoolStatus.INVALID_EMAIL_FORMAT
             )
         else:
+            time.sleep(0.12)
             # Check MX status
             new_status = {
                 True: MailingPoolStatus.MX_VALID,
