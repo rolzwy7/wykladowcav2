@@ -7,6 +7,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db.models import (
     CASCADE,
+    SET_NULL,
     BooleanField,
     CharField,
     DateTimeField,
@@ -168,6 +169,14 @@ class Webinar(Model):
 
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
+
+    fakturownia_category = ForeignKey(
+        "FakturowniaCategory",
+        on_delete=SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Kategoria Fakturownia",
+    )
 
     is_confirmed = BooleanField(
         "Pewny termin",

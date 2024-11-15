@@ -7,9 +7,11 @@ import requests
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
+from core.consts import TelegramChats
 from core.models import WebinarApplicationMetadata
 from core.models.enums.webinar_enums import WebinarStatus
 from core.models.webinar_model import Webinar
+from core.services import TelegramService
 
 
 class Command(BaseCommand):
@@ -36,11 +38,16 @@ class Command(BaseCommand):
 
         for metadata in webinar_metadata_list:
             # Extract related webinar and invoice information
-            webinar = metadata.application.webinar
+            metadata_id: int = metadata.id  # type: ignore
+            webinar: Webinar = metadata.application.webinar
+            webinar_id: int = webinar.id  # type: ignore
             invoice_id = metadata.invoice_id
 
             print(
-                f"\nProcessing Metadata ID: {metadata.id}, Invoice ID: {invoice_id}, Webinar Status: {webinar.status}"
+                f"\nMetadata ID: {metadata_id},"
+                f" Webinar ID: {webinar_id},"
+                f" Invoice ID: {invoice_id},"
+                f" Webinar Status: {webinar.status}"
             )
 
             # Process only webinars that are marked as DONE
@@ -51,20 +58,19 @@ class Command(BaseCommand):
             # Check if an invoice ID is present
             if not invoice_id:
                 print("Skipping: Invoice ID is not set.")
+                telegram_service = TelegramService()
+                telegram_service.try_send_chat_message(
+                    f"Zrealizowany webinar ID={webinar_id} nie ma podłączonej faktury. Coś jest nie tak ?? Do sprawdzenia.",
+                    TelegramChats.OTHER,
+                )
                 continue
 
             # Find the first category with a Fakturownia category ID
-            category_id = None
-            for category in webinar.categories.all():
-                if category.fakturownia_category_id:
-                    category_id = category.fakturownia_category_id
-                    print("Selected Category:", category)
-                    break
-
-            # Skip if no valid category ID is found
-            if not category_id:
-                print("Skipping: No valid Fakturownia category ID found.")
+            if not webinar.fakturownia_category:
+                print("Skipping: webinar.fakturownia_category is not set.")
                 continue
+
+            category_id: str = webinar.fakturownia_category.fakturownia_id
 
             print("Using Fakturownia Category ID:", category_id)
 
