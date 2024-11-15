@@ -76,6 +76,7 @@ class WebinarModelAdmin(ModelAdmin):
                     "recording_allowed",
                     "is_fake",
                     "remaining_places",
+                    "fakturownia_category",
                     "facebook_post_image",
                     ("status", "slug"),
                     ("date", "duration"),

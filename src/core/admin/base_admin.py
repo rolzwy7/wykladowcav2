@@ -13,6 +13,7 @@ from core.models import (
     CustomHtmlSite,
     DiscountApplicationApplied,
     Eventlog,
+    FakturowniaCategory,
     LoyaltyProgram,
     LoyaltyProgramIncome,
     LoyaltyProgramPayout,
@@ -50,6 +51,8 @@ admin.site.register(CustomHtmlSite)
 
 admin.site.register(ServiceOffer)
 admin.site.register(ServiceOfferLead)
+
+admin.site.register(FakturowniaCategory)
 
 
 @register(MailingReplyMessage)
