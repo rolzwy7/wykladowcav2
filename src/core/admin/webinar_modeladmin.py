@@ -2,10 +2,12 @@
 
 from django import forms
 from django.contrib.admin import ModelAdmin, StackedInline, register
+from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 from tinymce.widgets import TinyMCE
 
 from core.models import Webinar, WebinarCategory, WebinarMetadata
+from core.models.enums.webinar_enums import WebinarStatus
 
 
 class WebinarModelAdminInline(StackedInline):
@@ -23,6 +25,24 @@ class WebinarModelAdminForm(ModelForm):
         model = Webinar
         fields = "__all__"
         widgets = {"program": TinyMCE(attrs={"cols": 80, "rows": 30})}
+
+    def clean_status(self):
+        """clean_status"""
+
+        new_status = self.cleaned_data.get("status")
+
+        if self.instance.pk:  # update
+            current_status = Webinar.manager.get(pk=self.instance.pk).status
+            if current_status == new_status:
+                return current_status
+            if current_status in [WebinarStatus.DONE, WebinarStatus.CANCELED]:
+                raise ValidationError(
+                    "Nie zmienić statusu w terminach Zrealizowanych/Odwołanych"
+                )
+        else:  # new instance
+            ...
+
+        return new_status
 
     def __init__(self, *args, **kwargs):
         forms.ModelForm.__init__(self, *args, **kwargs)
