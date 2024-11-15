@@ -8,9 +8,9 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from core.consts import TelegramChats
-from core.models import WebinarApplicationMetadata
+from core.models import Webinar, WebinarApplication, WebinarApplicationMetadata
+from core.models.enums import ApplicationStatus
 from core.models.enums.webinar_enums import WebinarStatus
-from core.models.webinar_model import Webinar
 from core.services import TelegramService
 
 
@@ -40,6 +40,7 @@ class Command(BaseCommand):
 
         for metadata in webinar_metadata_list:
             # Extract related webinar and invoice information
+            application: WebinarApplication = metadata.application
             metadata_id: int = metadata.id  # type: ignore
             webinar: Webinar = metadata.application.webinar
             webinar_id: int = webinar.id  # type: ignore
@@ -55,6 +56,11 @@ class Command(BaseCommand):
             # Process only webinars that are marked as DONE
             if webinar.status != WebinarStatus.DONE:
                 print("Skipping: Webinar status is not DONE.")
+                continue
+
+            # Process only if application is SENT
+            if application.status != ApplicationStatus.SENT:
+                print("Skipping: Application status is not SENT.")
                 continue
 
             # Check if an invoice ID is present
