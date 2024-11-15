@@ -30,6 +30,8 @@ class Command(BaseCommand):
         Main logic for the command execution.
         """
 
+        telegram_service = TelegramService()
+
         # Display Fakturownia API URL to confirm settings
         print("Fakturownia API URL:", settings.FAKTUROWNIA_API_URL)
 
@@ -58,11 +60,13 @@ class Command(BaseCommand):
             # Check if an invoice ID is present
             if not invoice_id:
                 print("Skipping: Invoice ID is not set.")
-                telegram_service = TelegramService()
-                telegram_service.try_send_chat_message(
-                    f"Zrealizowany webinar ID={webinar_id} nie ma podłączonej faktury. Coś jest nie tak ?? Do sprawdzenia.",
-                    TelegramChats.OTHER,
+                input(
+                    f"Zrealizowany webinar ID={webinar_id} nie ma podłączonej faktury"
                 )
+                # telegram_service.try_send_chat_message(
+                #     f"Zrealizowany webinar ID={webinar_id} nie ma podłączonej faktury. Coś jest nie tak? Do sprawdzenia.",
+                #     TelegramChats.OTHER,
+                # )
                 continue
 
             # Find the first category with a Fakturownia category ID
