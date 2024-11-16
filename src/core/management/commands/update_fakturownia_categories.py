@@ -126,9 +126,8 @@ class Command(BaseCommand):
             except requests.RequestException as e:
                 print(f"Error updating invoice: {e}")
 
-        telegram_service.try_send_chat_message(
-            "Brak ID faktury w metadanych wysłanego zgłoszenia.\nDo sprawdzenia:\n\n"
-            "https://wykladowca.pl/cms/core/webinarapplicationmetadata/<ID>/change/\n\n"
-            ", ".join(no_invoce_id_ids),
-            TelegramChats.OTHER,
-        )
+        # ids_str = ", ".join(no_invoce_id_ids)
+        # telegram_service.try_send_chat_message(
+        #     f"Brak ID faktury w metadanych wysłanego zgłoszenia. Do sprawdzenia: {ids_str}",
+        #     TelegramChats.OTHER,
+        # )
