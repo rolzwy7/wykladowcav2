@@ -47,7 +47,7 @@ class Command(BaseCommand):
             invoice_id = metadata.invoice_id
 
             print(
-                f"\nMetadata ID: {metadata_id},"
+                f"\nApplication Metadata ID: {metadata_id},"
                 f" Webinar ID: {webinar_id},"
                 f" Invoice ID: {invoice_id},"
                 f" Webinar Status: {webinar.status}"
@@ -63,11 +63,20 @@ class Command(BaseCommand):
                 print("Skipping: Application status is not SENT.")
                 continue
 
+            # Skip if Invoice ID purposefully set '0'
+            if invoice_id == "0":
+                print("Skipping: Invoice ID purposefully set '0'")
+                continue
+
             # Check if an invoice ID is present
             if not invoice_id:
                 print("Skipping: Invoice ID is not set.")
                 input(
-                    f"Zrealizowany webinar ID={webinar_id} nie ma podłączonej faktury"
+                    f"Brak podłączonej faktury\n"
+                    f"Application Metadata ID: {metadata_id}\n"
+                    f"Webinar ID: {webinar_id}\n"
+                    f"Invoice ID: {invoice_id}\n"
+                    f"Webinar Status: {webinar.status}"
                 )
                 # telegram_service.try_send_chat_message(
                 #     f"Zrealizowany webinar ID={webinar_id} nie ma podłączonej faktury. Coś jest nie tak? Do sprawdzenia.",
