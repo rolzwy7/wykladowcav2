@@ -32,6 +32,8 @@ class Command(BaseCommand):
 
         telegram_service = TelegramService()
 
+        no_invoce_id_ids = []
+
         # Display Fakturownia API URL to confirm settings
         print("Fakturownia API URL:", settings.FAKTUROWNIA_API_URL)
 
@@ -71,17 +73,7 @@ class Command(BaseCommand):
             # Check if an invoice ID is present
             if not invoice_id:
                 print("Skipping: Invoice ID is not set.")
-                input(
-                    f"Brak podłączonej faktury\n"
-                    f"Application Metadata ID: {metadata_id}\n"
-                    f"Webinar ID: {webinar_id}\n"
-                    f"Invoice ID: {invoice_id}\n"
-                    f"Webinar Status: {webinar.status}"
-                )
-                # telegram_service.try_send_chat_message(
-                #     f"Zrealizowany webinar ID={webinar_id} nie ma podłączonej faktury. Coś jest nie tak? Do sprawdzenia.",
-                #     TelegramChats.OTHER,
-                # )
+                no_invoce_id_ids.append(metadata_id)
                 continue
 
             # Find the first category with a Fakturownia category ID
@@ -133,3 +125,10 @@ class Command(BaseCommand):
                 print("Update successful:", update_response.json())
             except requests.RequestException as e:
                 print(f"Error updating invoice: {e}")
+
+        telegram_service.try_send_chat_message(
+            "Brak ID faktury w metadanych wysłanego zgłoszenia.\nDo sprawdzenia:\n\n"
+            "https://wykladowca.pl/cms/core/webinarapplicationmetadata/<ID>/change/\n\n"
+            ", ".join(no_invoce_id_ids),
+            TelegramChats.OTHER,
+        )
