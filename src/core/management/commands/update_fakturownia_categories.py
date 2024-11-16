@@ -73,7 +73,7 @@ class Command(BaseCommand):
             # Check if an invoice ID is present
             if not invoice_id:
                 print("Skipping: Invoice ID is not set.")
-                no_invoce_id_ids.append(metadata_id)
+                no_invoce_id_ids.append(str(metadata_id))
                 continue
 
             # Find the first category with a Fakturownia category ID
