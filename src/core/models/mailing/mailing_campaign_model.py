@@ -69,7 +69,7 @@ class MailingCampaignManager(Manager):
         return self.get_queryset().filter(
             Q(status=MailingCampaignStatus.SENDING)
             & Q(allowed_to_send_after__lt=now() + timedelta(hours=6))
-            & Q(allowed_to_send_before__gt=now() + timedelta(hours=6))
+            & Q(allowed_to_send_before__gt=now())
             & Q(send_after__lt=now() + timedelta(hours=6))
         )
 
