@@ -17,7 +17,7 @@
     background-color: #f1f5f9;
 }
 {% comment %} Delete list styling for inner lists {% endcomment %}
-.program-enriched > ul > li > ul,
+{% comment %} commented 2024-11-19 .program-enriched > ul > li > ul,
 .program-enriched > ol > li > ul
 {
     list-style-type: none;
@@ -26,7 +26,7 @@
 .program-enriched > ol > li > ol
 {
     list-style-type: lower-alpha;
-}
+} {% endcomment %}
 {% comment %} .program-enriched > ol > li > ol,
 .program-enriched > ul > li > ul,
 .program-enriched > ol > li > ul,
@@ -35,14 +35,14 @@
 } {% endcomment %}
 
 {% comment %} Apply custom list style for inner lists {% endcomment %}
-.program-enriched > ul > li > ul > li:before,
+{% comment %} .program-enriched > ul > li > ul > li:before,
 .program-enriched > ol > li > ul > li:before
 {
     content: '\2714';
     margin-left: -20px;
     margin-right: 10px;
     color: lightgreen;
-}
+} {% endcomment %}
 .program-enriched > ul > li > ol > li:before,
 .program-enriched > ol > li > ol > li:before
 {
