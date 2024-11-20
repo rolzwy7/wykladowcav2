@@ -191,9 +191,14 @@ class MailingCampaign(Model):
 
     # Flags
     pause_on_too_many_failures = BooleanField(default=True)
+    inherit_bucket_id_from_sender = BooleanField(default=True)
 
     # Clicks
     total_clicks = PositiveIntegerField(default=0)
+
+    # Batch size and wait between batch sends
+    sending_batch_size = PositiveIntegerField(default=100)
+    sleep_between_batches = PositiveIntegerField(default=10)
 
     class Meta:
         """meta"""

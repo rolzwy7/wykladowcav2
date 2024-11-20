@@ -43,6 +43,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument("bucket_id", type=int)
+        parser.add_argument("--sender", type=str)
 
     def start_loop(self, pool_manager: MailingPoolManager, bucket_id: int):
         """Start infinite loop"""
@@ -52,8 +53,8 @@ class Command(BaseCommand):
 
         # Sleep and continue loop if no active campaigns
         if active_campaigns.count() == 0:
-            print("[*] No active campaigns, sleeping 20s ...")
-            time.sleep(20)
+            print("[*] No active campaigns for sending, sleeping 10s ...")
+            time.sleep(10)
             return
 
         # Iterate over active campaigns and start sending process
@@ -89,11 +90,15 @@ class Command(BaseCommand):
             # If everything OK try to send emails batch
             else:
                 result = process_sending(
-                    pool_manager, campaign_id, bucket_id, limit=100
+                    pool_manager,
+                    campaign_id,
+                    bucket_id,
+                    limit=campaign.sending_batch_size,
                 )
+                time.sleep(campaign.sleep_between_batches)
                 if result == ProcessSendingStatus.NO_EMAILS_SENT:
-                    print("No e-mails sent. Sleeping 10 seconds ...")
-                    time.sleep(10)
+                    print("No e-mails sent. Sleeping 3 seconds ...")
+                    time.sleep(3)
 
     def handle(self, *args, **options):
         """handle"""

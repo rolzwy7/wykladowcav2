@@ -4,7 +4,13 @@ SMTP Sender Model
 
 # flake8: noqa=E501
 
-from django.db.models import BooleanField, CharField, EmailField, Model
+from django.db.models import (
+    BooleanField,
+    CharField,
+    EmailField,
+    Model,
+    PositiveSmallIntegerField,
+)
 
 
 class SmtpSender(Model):
@@ -51,6 +57,8 @@ class SmtpSender(Model):
     reply_to = EmailField("Reply-To")
 
     exclude_from_processing = BooleanField("Exclude from processing", default=False)
+
+    bucket_id = PositiveSmallIntegerField(default=0)
 
     class Meta:
         """meta"""

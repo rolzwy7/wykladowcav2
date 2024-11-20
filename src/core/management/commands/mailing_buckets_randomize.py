@@ -12,7 +12,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from core.models.enums import MailingPoolStatus
-from core.models.mailing import MailingPoolManager
+from core.models.mailing import MailingCampaign, MailingPoolManager
 
 
 class Command(BaseCommand):
