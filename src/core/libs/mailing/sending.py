@@ -56,10 +56,12 @@ def process_sending(
     documents = pool_manager.get_ready_to_send_for_campaign(campaign_id, bucket_id)
 
     # Open SMTP connection to sender
+    print("[+] Opened SMTP connection")
     connection = smtp_service.get_smtp_connection()
+
+    # Define variables
     return_value: str = ProcessSendingStatus.LIMIT_NOT_REACHED
     send_attempt_counter: int = 0
-    sleep_between_each_send = 0
 
     for loop_idx, document in enumerate(documents):
         # Break on limit reached
@@ -75,11 +77,21 @@ def process_sending(
         html_content = html
         any_error_occured = False
 
-        # Prepare codes and urls
+        # Tracking code, get or create
+        start_time = time.time()
         tracking_code = MailingTrackingService.get_or_create_tracking(email)
+        end_time = time.time()
+        time_get_or_create_tracking = (end_time - start_time) * 1000
+
+        # Resignation, get or create
+        start_time = time.time()
         resignation_code = MailingResignationService.get_or_create_inactive_resignation(
             email, campaign.resignation_list
         )
+        end_time = time.time()
+        time_get_or_create_inactive_resignation = (end_time - start_time) * 1000
+
+        # Create resignation URL
         resignation_url = BASE_URL + reverse(
             "core:mailing_resignation_page_with_list",
             kwargs={
@@ -89,19 +101,16 @@ def process_sending(
         )
 
         print(
-            f"\n[*] Processing email: {email} (resignation: {resignation_code})",
-            "campaign_id",
-            campaign_id,
-            "bucket_id",
-            bucket_id,
+            f"\n[*] Email: {email} (resignation: {resignation_code})",
         )
-
-        if sleep_between_each_send:
-            print(f"sleep_between_each_send: {sleep_between_each_send}")
-            time.sleep(sleep_between_each_send)
+        print(f"Campaign (ID={campaign_id})", campaign.title)
+        print("Bucket_id :=", bucket_id)
+        print(f"> Tracking: {time_get_or_create_tracking:.2f} ms")
+        print(f"> Resignation: {time_get_or_create_inactive_resignation:.2f} ms")
 
         try:
             send_attempt_counter += 1
+            start_time = time.time()
             smtp_service.send_email(
                 connection=connection,
                 email=email,
@@ -113,6 +122,9 @@ def process_sending(
                 tracking_code=tracking_code,
                 campaign_id=campaign_id,
             )
+            end_time = time.time()
+            time_send = (end_time - start_time) * 1000
+            print(f"> Send time: {time_send:.2f} ms")
         except TimeoutError as exception:
             handle_timeout_error(document_id, pool_manager)
             print(f"[-] TimeoutError `{email}`: {exception}")
@@ -158,9 +170,8 @@ def process_sending(
 
         # Increment loop sleep if any error occured
         if any_error_occured:
-            print("[-] Any error occured, waiting 15 seconds ...")
-            time.sleep(15)
-            sleep_between_each_send = min(0.5, sleep_between_each_send + 0.01)
+            print("[-] Any error occured, waiting 10 seconds ...")
+            time.sleep(10)
 
             # Refresh smtp connection
             print("[*] Re-establishing SMTP connection...")

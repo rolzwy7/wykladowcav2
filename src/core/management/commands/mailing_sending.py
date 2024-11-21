@@ -53,8 +53,8 @@ class Command(BaseCommand):
 
         # Sleep and continue loop if no active campaigns
         if active_campaigns.count() == 0:
-            print("[*] No active campaigns for sending, sleeping 10s ...")
-            time.sleep(10)
+            print("[*] No active campaigns for sending, sleeping 20s ...")
+            time.sleep(20)
             return
 
         # Iterate over active campaigns and start sending process
@@ -64,22 +64,18 @@ class Command(BaseCommand):
         )
         for campaign in active_campaigns:
             campaign_id: int = campaign.id  # type: ignore
-            print(
-                "\n[*] Processing campaign:",
-                campaign,
-                "bucket_id",
-                bucket_id,
-                "campaign_id",
-                campaign_id,
-            )
+            print(f"\n[*] Campaign (ID={campaign_id})", campaign.title)
+            print("Bucket_id :=", bucket_id)
 
             # If first bucket try to finish this campaign
             if bucket_id == 0:
+                print("[bucket 0 op] Trying to finish this campaign")
                 if try_to_finish_campaign(pool_manager, campaign_id, campaign.title):
                     continue
 
             # Check if limit per day was reached:
             if campaign.is_daily_sending_limit_reached:
+                print("[*] Daily limit reached")
                 handle_daily_sending_limit_reached(campaign)
             # Check if too much failures counted
             elif (
@@ -96,9 +92,10 @@ class Command(BaseCommand):
                     limit=campaign.sending_batch_size,
                 )
                 time.sleep(campaign.sleep_between_batches)
+
                 if result == ProcessSendingStatus.NO_EMAILS_SENT:
-                    print("No e-mails sent. Sleeping 3 seconds ...")
-                    time.sleep(3)
+                    print("No e-mails sent. Sleeping 1 second ...")
+                    time.sleep(1)
 
     def handle(self, *args, **options):
         """handle"""
