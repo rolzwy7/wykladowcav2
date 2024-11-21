@@ -162,6 +162,10 @@ def process_sending(
             time.sleep(15)
             sleep_between_each_send = min(0.5, sleep_between_each_send + 0.01)
 
+            # Refresh smtp connection
+            print("[*] Re-establishing SMTP connection...")
+            connection = smtp_service.get_smtp_connection()
+
     try:
         connection.close()  # close SMTP connection
     except Exception as e:
