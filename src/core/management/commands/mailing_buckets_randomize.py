@@ -27,6 +27,7 @@ class Command(BaseCommand):
 
         pool_manager = MailingPoolManager()
         print("[*] Randomizing ready to send bucket ids ...")
+        print(f"buckets_num={settings.MAILING_NUM_OF_PROCESSES}")
         pool_manager.randomize_buckets_ids(
             [
                 MailingPoolStatus.BEING_PROCESSED,
