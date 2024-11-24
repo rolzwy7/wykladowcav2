@@ -22,7 +22,6 @@ from core.libs.mailing.handlers import (
 )
 from core.models import MailingCampaign, MailingPoolManager, MailingTemplate, SmtpSender
 from core.models.enums import MailingPoolStatus
-from core.models.enums.mailing_enums import ProcessSendingStatus
 from core.services import SenderSmtpService
 from core.services.mailing import MailingResignationService, MailingTrackingService
 
@@ -36,7 +35,7 @@ def process_sending(
     /,
     *,
     limit: int = 100,
-) -> str:
+):
     """Mailing sending process"""
 
     # Get campaign
@@ -53,20 +52,28 @@ def process_sending(
     smtp_service = SenderSmtpService(smtp_sender)
 
     # Open pool manager and get ready to send messages
-    documents = pool_manager.get_ready_to_send_for_campaign(campaign_id, bucket_id)
+    documents = [
+        doc
+        for doc in pool_manager.get_ready_to_send_for_campaign(
+            campaign_id, bucket_id, limit=100
+        )
+    ]
+
+    if len(documents) == 0:
+        print(f"[*] No items in pool for bucket_id={bucket_id} -> exiting")
+        return 0
 
     # Open SMTP connection to sender
     print("[+] Opened SMTP connection")
     connection = smtp_service.get_smtp_connection()
 
     # Define variables
-    return_value: str = ProcessSendingStatus.LIMIT_NOT_REACHED
     send_attempt_counter: int = 0
 
     for loop_idx, document in enumerate(documents):
+
         # Break on limit reached
         if loop_idx >= limit:
-            return_value = ProcessSendingStatus.LIMIT_REACHED
             break
 
         # Prepare variables
@@ -101,12 +108,16 @@ def process_sending(
         )
 
         print(
-            f"\n[*] Email: {email} (resignation: {resignation_code})",
+            f"\n[{loop_idx} / max {limit}] Email: {email}",
+            "(resignation: {resignation_code})",
         )
         print(f"Campaign (ID={campaign_id})", campaign.title)
         print("Bucket_id :=", bucket_id)
         print(f"> Tracking: {time_get_or_create_tracking:.2f} ms")
         print(f"> Resignation: {time_get_or_create_inactive_resignation:.2f} ms")
+
+        print(f"Sleeping {campaign.sleep_every_send}s")
+        time.sleep(campaign.sleep_every_send)
 
         try:
             send_attempt_counter += 1
@@ -178,11 +189,9 @@ def process_sending(
             connection = smtp_service.get_smtp_connection()
 
     try:
+        print("[+] Trying to close connection")
         connection.close()  # close SMTP connection
     except Exception as e:
-        pass  # don't care
-
-    if send_attempt_counter == 0:
-        return_value = ProcessSendingStatus.NO_EMAILS_SENT
-
-    return return_value
+        print("- Exception while closing:", str(e))
+    else:
+        print("- Closed gracefully")

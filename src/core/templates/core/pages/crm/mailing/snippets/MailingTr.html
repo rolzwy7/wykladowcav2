@@ -64,14 +64,18 @@
       <br>
       <small>
         {% if campaign.pause_on_too_many_failures %}
-        <span class="text-warning fw-bold">
-          Pauza przy zbyt wielu ( 1 000 ) błędach włączona
+        <span>
+          Pauza przy zbyt wielu ( 1 000 ) błędach <b>włączona</b>
         </span>
         {% else %}
         <span class="fw-bold">
           Pauza przy zbyt wielu błędach wyłączona
         </span>
         {% endif %}
+      </small>
+      <br>
+      <small>
+        Pauza <b>{{campaign.sleep_between_batches}}</b> sekund co <b>{{campaign.sending_batch_size}}</b> wysłań
       </small>
       {% endwith %}
       {% endif %}

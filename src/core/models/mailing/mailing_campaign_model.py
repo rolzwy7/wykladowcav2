@@ -13,6 +13,7 @@ from django.db.models import (
     BooleanField,
     CharField,
     DateTimeField,
+    FloatField,
     ForeignKey,
     Manager,
     Model,
@@ -199,6 +200,7 @@ class MailingCampaign(Model):
     # Batch size and wait between batch sends
     sending_batch_size = PositiveIntegerField(default=100)
     sleep_between_batches = PositiveIntegerField(default=10)
+    sleep_every_send = FloatField(default=0.1)
 
     class Meta:
         """meta"""
