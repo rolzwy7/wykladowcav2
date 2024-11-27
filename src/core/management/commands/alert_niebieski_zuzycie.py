@@ -113,7 +113,7 @@ class Command(BaseCommand):
             ),
             (
                 "ZAPYTANIE 222",
-                "https://webas5136.niebieski.net",
+                "https://webas5222.niebieski.net",
                 settings.NIEBIESKI_ZAPYTANIE_2_LOGIN,
                 settings.NIEBIESKI_ZAPYTANIE_2_PASSWORD,
             ),
