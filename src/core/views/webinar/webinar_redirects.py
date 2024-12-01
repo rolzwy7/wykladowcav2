@@ -7,6 +7,7 @@ from django.http import HttpRequest
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 
+from core.libs.mongo.db import get_mongo_connection
 from core.models import MailingCampaign, Webinar, WebinarMetadata
 
 
@@ -52,6 +53,18 @@ def webinar_redirect_to_program_tracking_and_campaign_id(
     MailingCampaign.manager.filter(id=campaign_id).update(
         total_clicks=F("total_clicks") + 1
     )
+
+    try:
+        client, database = get_mongo_connection()
+        database["wykladowcav2_mailing_clicks"].insert_one(
+            {
+                "tracking_code": tracking_code,
+                "campaign_id": campaign_id,
+            }
+        )
+        client.close()
+    except Exception as e:
+        pass
 
     return redirect(
         reverse("core:webinar_redirect_to_program_safe", kwargs={"pk": webinar.id})

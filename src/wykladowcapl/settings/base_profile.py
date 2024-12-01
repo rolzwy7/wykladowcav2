@@ -215,4 +215,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
     "http://ankiety.wykladowca.pl",
     "https://ankiety.wykladowca.pl",
+    "http://fundacjaoswiatowa.pl",
+    "https://fundacjaoswiatowa.pl",
 ]
