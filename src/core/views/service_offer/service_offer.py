@@ -35,11 +35,11 @@ class ServiceOfferApplicationForm(ModelForm):
             raise ValidationError("Zaakceptuj oświadczenie o regulaminie")
         return data
 
-    def clean_file(self):
-        data = self.cleaned_data["file"]
-        if data is None:
-            raise ValidationError("Prześlij załącznik w swoim zapytaniu")
-        return data
+    # def clean_file(self):
+    #     data = self.cleaned_data["file"]
+    #     if data is None:
+    #         raise ValidationError("Prześlij załącznik w swoim zapytaniu")
+    #     return data
 
     class Meta:
         model = ServiceOfferApplication

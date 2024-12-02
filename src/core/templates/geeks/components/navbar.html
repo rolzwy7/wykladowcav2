@@ -41,7 +41,9 @@
  </div>
  
 {% endif %}
-<nav class="navbar sticky-top navbar-expand-lg">
+
+{% if 1 and not hide_navbar %}
+<nav class="navbar {% if not disable_navbar_sticky %}sticky-top{% endif %} navbar-expand-lg">
   <div class="container px-3">
      <div class="d-flex">
         <a class="navbar-brand" href="{% url 'core:homepage' %}">
@@ -710,3 +712,4 @@
      </div>
   </div>
 </nav>
+{% endif %}

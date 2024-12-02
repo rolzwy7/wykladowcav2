@@ -8,10 +8,17 @@ from django.http import HttpRequest
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
+from django.utils.timezone import get_default_timezone, now, timedelta
 
 from core.consts.requests_consts import POST
 from core.forms import ConferenceFreeParticipantModelForm
-from core.models import ConferenceEdition, ConferenceFreeParticipant, Webinar
+from core.models import (
+    ConferenceEdition,
+    ConferenceFreeParticipant,
+    Webinar,
+    WebinarAsset,
+    WebinarMetadata,
+)
 from core.services import ConferenceService
 from core.tasks_dispatch import after_free_conference_participant_singup
 
@@ -88,6 +95,11 @@ def conference_edition_waiting_room_page(request: HttpRequest, watch_token: str)
     )
     edition: ConferenceEdition = free_participant.edition
     service = ConferenceService(edition)
+    webinar_assets = WebinarAsset.manager.filter(webinar=service.webinar).order_by(
+        "filename"
+    )
+    webinar: Webinar = edition.webinar
+    webinar_metadata = get_object_or_404(WebinarMetadata, webinar=webinar)
 
     context = {
         "free_participant": free_participant,
@@ -96,16 +108,19 @@ def conference_edition_waiting_room_page(request: HttpRequest, watch_token: str)
         "status": service.get_edition_status(),
         "watch_token": watch_token,
         "hide_footer_newsletter_singup": True,
+        "webinar_assets": webinar_assets,
+        "webinar_metadata": webinar_metadata,
+        "assets_expired": now() > webinar.date + timedelta(days=90),
     }
 
-    if edition.stream_url_page:
+    to_tz = get_default_timezone()
+    webinar_date = webinar.date.astimezone(to_tz)
+    if edition.stream_url_page and webinar_date < (now() + timedelta(seconds=30)):
         template_name = "geeks/pages/conference/ConferenceEmbedPlayer.html"
         return TemplateResponse(
-            request, template_name, {**context, "hide_upper_navbar": True}
+            request,
+            template_name,
+            {**context, "hide_upper_navbar": True, "disable_navbar_sticky": True},
         )
-
-    # TODO: ?
-    # if edition.stream_url_page:
-    #     return redirect(edition.stream_url_page)
 
     return TemplateResponse(request, template_name, context)

@@ -89,6 +89,18 @@
           </div>
        </div>
     </section>
+    <section class="py-1">
+      <div class="container">
+         <div class="row">
+            <div class="col-xl-8 col-lg-8 col-md-12 col-12">
+               {% include "include/webinar_assets/assets_card.html" with webinar=webinar webinar_assets=webinar_assets assets_expired=assets_expired webinar_metadata=webinar_metadata %}
+            </div>
+            <div class="col-lg-4 col-md-12 col-12">
+              {% include "include/adverts/advert_lovalty_program.html" %}
+            </div>
+         </div>
+      </div>
+   </section>
  </main>
 {% endblock root %}
 

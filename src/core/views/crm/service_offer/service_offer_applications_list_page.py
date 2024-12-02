@@ -4,7 +4,7 @@
 
 from django.template.response import TemplateResponse
 
-from core.models import ServiceOfferApplication
+from core.models import ServiceOffer, ServiceOfferApplication
 
 # from core.models.enums import ServiceOfferApplicationStatus
 
@@ -14,6 +14,15 @@ def service_offer_applications_list_page(request):
     template_name = "core/pages/crm/service_offer/ServiceOfferApplicationsListPage.html"
 
     service_slug = request.GET.get("usluga")
+
+    if not service_slug:
+        template_name = "core/pages/crm/service_offer/ServiceOfferListPage.html"
+        service_offers = ServiceOffer.manager.all()
+        return TemplateResponse(
+            request,
+            template_name,
+            {"service_offers": service_offers},
+        )
 
     if service_slug:
         service_offers = ServiceOfferApplication.manager.filter(

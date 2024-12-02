@@ -1,0 +1,100 @@
+{% load static %}
+
+<!-- Card -->
+<div class="card mb-4">
+    <!-- Card header -->
+    <div class="card-header">
+        <h4 class="mb-0">
+        Materiały szkoleniowe do szkolenia <i>„{{webinar.title_original}}”</i>
+        </h4>
+    </div>
+    <!-- Card body -->
+    <div class="card-body">
+        <div class="row g-3">
+        {% if not assets_expired  %}
+        
+        {% if webinar_assets %}
+        <div class="col-12 col-md-12">
+
+            <div class="text-center">
+                <a target="_blank" href="{% url "core:webinar_download_assets_archive" uuid=webinar_metadata.assets_token %}" class="btn btn-lg btn-primary">
+                    <i class="fe fe-download"></i>
+                    Pobierz wszystkie materiały jako archiwum
+                </a>
+            </div>
+
+            <hr>
+
+                {% for asset in webinar_assets %}
+                <div class="card mb-4">
+                <!-- Card body -->
+                <div class="card-body">
+                    <!-- quiz -->
+                    <div class="d-lg-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <!-- img -->
+                            <a href="{% url 'core:webinar_asset_download' uuid=asset.token %}" title="{{asset.content_type}}">
+                            {% if asset.content_type == "application/pdf" %}
+                            <img src="{% static 'media/svg/files/pdf.svg' %}" class="rounded img-4by3-xs">
+                            {% else %}
+                            <img src="{% static 'media/svg/files/file.svg' %}" class="rounded img-4by3-xs">
+                            {% endif %}
+                            </a>
+                            <!-- content -->
+                            <div class="ms-3">
+                            <h3 class="mb-2">
+                                <a href="{% url 'core:webinar_asset_download' uuid=asset.token %}" class="text-inherit">
+                                    {{asset.filename}}
+                                </a>
+                            </h3>
+                            <div>
+                                <span class="me-2 align-middle">
+                                <a href="{% url 'core:webinar_asset_download' uuid=asset.token %}">
+                                    <b><i class="fe fe-download"></i> Pobierz ten plik</b>
+                                </a>
+                                </span>
+                                <span class="me-2 align-middle">
+                                <i class="fe fe-file-text"></i>
+                                    Rozmiar {{asset.filesize_human}}
+                                </span>
+                            </div>
+                            </div>
+                        </div>
+                        {% comment %} <div class="d-none d-lg-block">
+                            <a href="{% url 'core:webinar_asset_download' uuid=asset.token %}" class="btn btn-info">
+                            Pobierz <i class="fe fe-download"></i>
+                            </a>
+                        </div> {% endcomment %}
+                    </div>
+                </div>
+                </div>
+                {% endfor %}
+
+        </div>
+        {% else %}
+        <div class="col-4 offset-4">
+            <img src="{% static "geeks/assets/images/background/maintenance-mode.svg" %}" alt="maintenance" class="w-100">
+        </div>
+        <div class="col-12 col-md-12 text-center">
+            <h2>
+                Materiały nie zostały jeszcze przesłane
+            </h2>
+            <h3>
+                Gdy tylko wykładowca dostarczy materiały <br> udostępnimy je Państwu na tej stronie
+            </h3>
+        </div>
+        {% endif %}
+
+        {% else %}
+        <div class="col-12 col-md-12 text-center">
+            <h2>
+                Dostęp do materiałów szkoleniowych wygasł 
+            </h2>
+            <h3>
+                Materiały szkoleniowe nie są już dostępne dla tego szkolenia.
+            </h3>
+        </div>
+        {% endif %}
+        </div>
+    </div>
+</div>
