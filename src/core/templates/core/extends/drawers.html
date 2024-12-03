@@ -37,13 +37,13 @@
               <div
                 hx-get="{% url "htmx:system-health:celery-workers" %}"
                 hx-swap="outerHTML"
-                hx-trigger="load"
+                hx-trigger="intersect once delay:10s"
               >
               </div>
               <div
                  hx-get="{% url "htmx:system-health:tmux-processes" %}"
                  hx-swap="outerHTML"
-                 hx-trigger="load"
+                 hx-trigger="intersect once delay:10s"
                >
                </div>
           </div>

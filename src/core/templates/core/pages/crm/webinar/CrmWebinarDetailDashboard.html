@@ -82,7 +82,7 @@
         <div class="card shadow-sm card-flush h-md-100 mb-xl-10">
             <div
                 hx-get="{% url 'htmx:lecturer-price:panel' webinar_pk=webinar.pk mode='result' %}"
-                hx-trigger="load"
+                hx-trigger="intersect once delay:6s"
             >
                 <img class="htmx-indicator" width="25" src="{% static "media/loading/bars.svg" %}"/>
             </div>
@@ -543,6 +543,7 @@
                                             {{application.private_person.fullname}}
                                         {% endif %}
                                         <br><br>
+                                        {% comment %}
                                         {% if application.application_type == "COMPANY" or application.application_type == "JSFP" %}
                                         <div
                                             hx-get="{% url 'htmx:htmx_crm_check_nip' nip=application.buyer.nip %}"
@@ -553,6 +554,7 @@
                                             <img class="htmx-indicator" width="25" src="{% static "media/loading/bars.svg" %}"/>
                                         </div>
                                         {% endif %}
+                                        {% endcomment %}
                                         <b>Uczestnicy:</b> <br>
                                         <ol>
                                         {% for participant in gathered_participants %}
@@ -661,7 +663,7 @@
                         <td>
                             <div
                                 hx-get="{% url 'htmx:tracking_mailing' tracking_code=tracking.tracking_code %}"
-                                hx-trigger="load"
+                                hx-trigger="intersect once delay:3s"
                             >
                                 Ładowanie ...
                             </div>

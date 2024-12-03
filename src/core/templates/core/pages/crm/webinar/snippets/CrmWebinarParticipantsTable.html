@@ -42,21 +42,21 @@
             <td>
                 <div
                     hx-get="{% url 'htmx:htmx_crm_participant_toggle_phoned' pk=participant.pk %}"
-                    hx-trigger="revealed">
+                    hx-trigger="intersect once delay:{{forloop.counter}}s">
                     <img class="htmx-indicator" width="25" src="{% static "media/loading/bars.svg" %}"/>
                 </div>
             </td>
             <td>
                 <div
                     hx-get="{% url 'htmx:htmx_crm_participant_toggle_uncertain' pk=participant.pk %}"
-                    hx-trigger="revealed">
+                    hx-trigger="intersect once delay:{{forloop.counter}}s">
                     <img class="htmx-indicator" width="25" src="{% static "media/loading/bars.svg" %}"/>
                 </div>
             </td>
             <td>
                 <div
                     hx-get="{% url 'htmx:htmx_crm_participant_indicators' pk=participant.pk %}"
-                    hx-trigger="revealed">
+                    hx-trigger="intersect once delay:{{forloop.counter}}s">
                     <img class="htmx-indicator" width="25" src="{% static "media/loading/bars.svg" %}"/>
                 </div>
             </td>

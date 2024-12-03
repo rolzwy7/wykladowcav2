@@ -6101,7 +6101,7 @@
             >
             <div
               hx-get="{% url "htmx:system-health:indicator" %}"
-              hx-trigger="load, every 15s"
+              hx-trigger="intersect once delay:15s"
             >
             </div>
             </a>

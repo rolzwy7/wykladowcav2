@@ -102,8 +102,8 @@
         Błędy:
         <span
           hx-get="{% url "htmx:dwpldb:mailing-campaign-counters" campaign_id=campaign.id pool_status="failure_counter" %}"
-          hx-trigger="intersect once">
-          –
+          hx-trigger="click">
+          click
         </span>
       </small>
       <br>
@@ -114,14 +114,14 @@
         Proc.:
         <span
           hx-get="{% url "htmx:dwpldb:mailing-campaign-counters" campaign_id=campaign.id pool_status="BEING_PROCESSED" %}"
-          hx-trigger="intersect once">
-          –
+          hx-trigger="click">
+          click
         </span>
         /
         <span
           hx-get="{% url "htmx:dwpldb:mailing-campaign-counters" campaign_id=campaign.id pool_status="READY_TO_SEND" %}"
-          hx-trigger="intersect once">
-          –
+          hx-trigger="click">
+          click
         </span>
       </small>
       <br>
@@ -132,8 +132,8 @@
         Wysł.:
         <span
           hx-get="{% url "htmx:dwpldb:mailing-campaign-counters" campaign_id=campaign.id pool_status="SENT" %}"
-          hx-trigger="intersect once">
-          –
+          hx-trigger="click">
+          click
         </span>
       </small>
       <br>
@@ -142,9 +142,9 @@
         <span
           hx-get="{% url "htmx:dwpldb:mailing-campaign-daily-counters-campaign" campaign_id=campaign.id %}"
           hx-swap="innerHTML"
-          hx-trigger="intersect once"
+          hx-trigger="click"
         >
-          –
+        click
         </span>
       </small>
       <br>
