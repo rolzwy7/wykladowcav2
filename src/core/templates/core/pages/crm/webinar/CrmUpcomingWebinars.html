@@ -7,9 +7,12 @@
 
 {% block crm_content %}
 
-<div hx-get="{% url 'htmx:static-files-disc-space' %}" hx-trigger="load">
-  <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
+<div hx-get="{% url 'htmx:static-files-disc-space' %}" hx-trigger="click delay:1s">
+  {% comment %} <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/> {% endcomment %}
+  <button class="btn btn-sm btn-primary">Pokaż wolne miejsce na dysku</button>
 </div>
+
+{% if param_show_counters %}
 
 <b>REGON</b>
 <div
@@ -43,8 +46,11 @@
   <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
 </div>
 
+{% endif %}
+
 <b>MAILING_NUM_OF_PROCESSES</b>
 {{mailing_processes_num}}
+<br>
 
 <b>DZISIAJ ZGŁOSZEŃ</b>
 {{sent_today_paid_applications_count}}
@@ -81,6 +87,10 @@
         class="btn btn-icon btn-secondary me-4"
         data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" data-bs-placement="top" title="Odśwież listę"
       ><i class="ki-solid ki-arrows-circle fs-4"></i></a>
+      <a 
+          href="./?show_counters=1"
+          class="btn btn-flex btn-sm btn-secondary fw-bold border-0 fs-6 h-40px me-4"
+      >Pokaż liczniki</a>
       <a 
           href="{% url 'admin:core_webinar_add' %}"
           class="btn btn-flex btn-sm btn-primary fw-bold border-0 fs-6 h-40px"

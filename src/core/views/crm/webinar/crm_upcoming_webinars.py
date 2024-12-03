@@ -17,6 +17,9 @@ def crm_upcoming_webinars(request):
 
     param_any = False
 
+    # Show counters
+    param_show_counters = request.GET.get("show_counters")
+
     # Hide old webinars
     param_hide_old = request.GET.get("hide_old")
     if param_hide_old:
@@ -56,6 +59,7 @@ def crm_upcoming_webinars(request):
             "param_hide_old": param_hide_old,
             "param_search": param_search or "",
             "param_hide_fake": param_hide_fake,
+            "param_show_counters": param_show_counters,
             # "webinars_ctxs": [
             #     CrmWebinarService(webinar).get_context() for webinar in webinars
             # ],

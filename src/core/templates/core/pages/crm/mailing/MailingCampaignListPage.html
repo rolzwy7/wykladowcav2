@@ -99,10 +99,10 @@
              </div>
           </div>
        </div>
-
-
-    {% include "./snippets/MailingCampaignCountersGrid/Grid.html" %}
-
+      
+    {% if show_grid %}
+      {% include "./snippets/MailingCampaignCountersGrid/Grid.html" %}
+    {% endif %}
 
     {% if mailing_errors %}
     <div class="card shadow-sm mb-6">

@@ -79,9 +79,9 @@ class Command(BaseCommand):
             for active_id in active_campaigns_ids:
                 process_check_mx(pool_manager, [active_id], process_count=200)
                 process_bounces(
-                    pool_manager, bounce_manager, [active_id], process_count=200
+                    pool_manager, bounce_manager, [active_id], process_count=400
                 )
-                process_blacklist(pool_manager, [active_id], process_count=200)
+                process_blacklist(pool_manager, [active_id], process_count=400)
             #
             # Close managers
             pool_manager.close()

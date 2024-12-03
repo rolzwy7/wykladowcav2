@@ -37,6 +37,8 @@ def crm_mailing_campaign_list(request):
     """CRM mailing campaigns list"""
     template_name = "core/pages/crm/mailing/MailingCampaignListPage.html"
 
+    show_grid = request.GET.get("show_grid", "")
+
     show_all = request.GET.get("show_all", "")
     if show_all:
         qs = MailingCampaign.manager.all().order_by("-created_at")[:75]
@@ -80,6 +82,7 @@ def crm_mailing_campaign_list(request):
             "tuple_list": mailing_campaigns,
             "fqdn": fqdn,
             "show_all": show_all,
+            "show_grid": show_grid,
             "now": now(),
             "smpt_senders": SmtpSender.objects.filter(exclude_from_processing=False),
             "today_datestr": datetime.now().strftime("%Y-%m-%d"),

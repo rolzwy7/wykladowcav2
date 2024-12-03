@@ -7,16 +7,17 @@ from django.http import HttpRequest
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 
-from core.libs.mongo.db import get_mongo_connection
+# from core.libs.mongo.db import get_mongo_connection
 from core.models import MailingCampaign, Webinar, WebinarMetadata
 
 
 def webinar_redirect_to_program(request: HttpRequest, pk: int):
     """Redirect to webinar program by webinar ID"""
     webinar: Webinar = get_object_or_404(Webinar, pk=pk)
-    metadata = WebinarMetadata.objects.get(webinar=webinar)
-    metadata.click_count_mailing += 1
-    metadata.save()
+
+    WebinarMetadata.objects.filter(webinar=webinar).update(
+        click_count_mailing=F("click_count_mailing") + 1
+    )
 
     return redirect(
         reverse("core:webinar_program_page", kwargs={"slug": webinar.slug})
@@ -42,8 +43,8 @@ def webinar_redirect_to_program_tracking_and_campaign_id(
     request: HttpRequest, pk: int, tracking_code: str, campaign_id: int
 ):
     """Redirect to webinar program by webinar ID"""
-    webinar: Webinar = get_object_or_404(Webinar, pk=pk)
-    get_object_or_404(MailingCampaign, pk=campaign_id)
+    # webinar: Webinar = get_object_or_404(Webinar, pk=pk)
+    # get_object_or_404(MailingCampaign, pk=campaign_id)
 
     request.session["campaign_id"] = str(campaign_id)
 
@@ -54,21 +55,19 @@ def webinar_redirect_to_program_tracking_and_campaign_id(
         total_clicks=F("total_clicks") + 1
     )
 
-    try:
-        client, database = get_mongo_connection()
-        database["wykladowcav2_mailing_clicks"].insert_one(
-            {
-                "tracking_code": tracking_code,
-                "campaign_id": campaign_id,
-            }
-        )
-        client.close()
-    except Exception as e:
-        pass
+    # try:
+    #     client, database = get_mongo_connection()
+    #     database["wykladowcav2_mailing_clicks"].insert_one(
+    #         {
+    #             "tracking_code": tracking_code,
+    #             "campaign_id": campaign_id,
+    #         }
+    #     )
+    #     client.close()
+    # except Exception as e:
+    #     pass
 
-    return redirect(
-        reverse("core:webinar_redirect_to_program_safe", kwargs={"pk": webinar.id})
-    )
+    return redirect(reverse("core:webinar_redirect_to_program_safe", kwargs={"pk": pk}))
 
 
 def webinar_redirect_to_program_onesignal(request: HttpRequest, pk: int):

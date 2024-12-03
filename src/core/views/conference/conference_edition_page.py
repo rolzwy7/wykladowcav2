@@ -115,7 +115,9 @@ def conference_edition_waiting_room_page(request: HttpRequest, watch_token: str)
 
     to_tz = get_default_timezone()
     webinar_date = webinar.date.astimezone(to_tz)
-    if edition.stream_url_page and webinar_date < (now() + timedelta(seconds=30)):
+    # TODO
+    # if edition.stream_url_page and webinar_date < (now() + timedelta(seconds=30)):
+    if edition.stream_url_page:
         template_name = "geeks/pages/conference/ConferenceEmbedPlayer.html"
         return TemplateResponse(
             request,
