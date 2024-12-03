@@ -69,9 +69,9 @@ class MailingCampaignManager(Manager):
         """Returns active mailing campaigns for processing process"""
         return self.get_queryset().filter(
             Q(status=MailingCampaignStatus.SENDING)
-            & Q(allowed_to_send_after__lt=now() + timedelta(hours=14))
-            & Q(allowed_to_send_before__gt=now())
-            & Q(send_after__lt=now() + timedelta(hours=14))
+            # & Q(allowed_to_send_after__lt=now() + timedelta(hours=14))
+            # & Q(allowed_to_send_before__gt=now())
+            # & Q(send_after__lt=now() + timedelta(hours=14))
         )
 
     def sending_status_campaigns(self) -> QuerySet["MailingCampaign"]:
