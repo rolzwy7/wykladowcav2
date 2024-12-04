@@ -84,6 +84,8 @@ class ConferenceEdition(Model):
     stream_server_url = CharField("Adres URL serwera", blank=True, max_length=200)
     stream_transmission_key = CharField("Klucz strumienia", blank=True, max_length=200)
 
+    dashboard_url = CharField("Adres URL dashboard", blank=True, max_length=200)
+
     class Meta:
         """meta"""
 
