@@ -100,8 +100,10 @@ def conference_edition_waiting_room_page(request: HttpRequest, watch_token: str)
     )
     webinar: Webinar = edition.webinar
     webinar_metadata = get_object_or_404(WebinarMetadata, webinar=webinar)
+    is_debug_mode = request.GET.get("debug")
 
     context = {
+        "is_debug_mode": is_debug_mode,
         "free_participant": free_participant,
         "edition": edition,
         "webinar": service.webinar,
@@ -117,7 +119,7 @@ def conference_edition_waiting_room_page(request: HttpRequest, watch_token: str)
     webinar_date = webinar.date.astimezone(to_tz)
     # TODO
     # if edition.stream_url_page and webinar_date < (now() + timedelta(seconds=30)):
-    if edition.stream_url_page or request.GET.get("debug"):
+    if edition.stream_url_page or is_debug_mode:
         template_name = "geeks/pages/conference/ConferenceEmbedPlayer.html"
         return TemplateResponse(
             request,
