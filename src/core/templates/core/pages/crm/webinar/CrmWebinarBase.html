@@ -51,6 +51,19 @@
             <table class="table">
                 <tbody>
                     <tr>
+                        <td><b>Adres Strony Konfiguracji</b></td>
+                        <td>
+                            {% if conference_edition.dashboard_url %}
+                                <a href="{{conference_edition.dashboard_url}}">
+                                    <b>{{conference_edition.dashboard_url}}</b>
+                                </a>
+                            {% else %}
+                                <b class="text-white bg-danger px-2">BRAK ! CZY STREAM ZOSTAŁ UTWORZONY NA YT/FB ?</b>
+                            {% endif %}
+                            
+                        </td>
+                    </tr>
+                    <tr>
                         <td><b>Typ strumienia</b></td>
                         <td>
                             <span class="fw-bold text-white px-2 bg-info">

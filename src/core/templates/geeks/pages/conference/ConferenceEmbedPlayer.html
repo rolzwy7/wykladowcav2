@@ -27,6 +27,20 @@
             </div>
           </div>
         </div>
+
+        <div class="row">
+          {% if edition.advert_webinar_html %}
+          <div class="col-12 col-lg-6">
+            {{edition.advert_webinar_html|safe}}
+          </div>
+          {% endif %}
+          {% if edition.advert_facebook_html %}
+          <div class="col-12 col-lg-6">
+            {{edition.advert_facebook_html|safe}}
+          </div>
+          {% endif %}
+        </div>
+
         <!-- Content -->
         <div class="row">
           {% comment %} <div class="col-xl-8 col-lg-12 col-md-12 col-12 mb-4 mb-xl-0"> {% endcomment %}

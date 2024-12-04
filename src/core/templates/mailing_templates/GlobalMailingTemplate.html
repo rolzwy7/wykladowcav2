@@ -50,6 +50,10 @@
                 {% if service_offer %}
                   {{service_offer.mailing_html|safe}}
                 {% endif %}
+                
+                {% if short_service_offer %}
+                  {{short_service_offer.mailing_short_html|safe}}
+                {% endif %}
 
                 {% if promo_code %}
                 <tr>

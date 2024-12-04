@@ -16,6 +16,7 @@ from django.db.models import (
     OneToOneField,
     QuerySet,
     SlugField,
+    TextField,
     UUIDField,
 )
 
@@ -85,6 +86,12 @@ class ConferenceEdition(Model):
     stream_transmission_key = CharField("Klucz strumienia", blank=True, max_length=200)
 
     dashboard_url = CharField("Adres URL dashboard", blank=True, max_length=200)
+
+    advert_facebook_url = CharField("Advert FB URL", blank=True, max_length=200)
+    advert_facebook_html = TextField("Advert FB HTML", blank=True)
+
+    advert_webinar_url = CharField("Advert FB URL", blank=True, max_length=200)
+    advert_webinar_html = TextField("Advert FB HTML", blank=True)
 
     class Meta:
         """meta"""

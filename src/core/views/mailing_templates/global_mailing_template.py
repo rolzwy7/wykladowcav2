@@ -33,7 +33,23 @@ def global_mailing_editor_page(request):
     category_slug = request.GET.get("for_category_slug")
     lecturer_slug = request.GET.get("for_lecturer_slug")
     for_service_offer_id = request.GET.get("for_service_offer_id")
+    for_short_service_offer_id = request.GET.get("short_service_offer_id")
     categories = WebinarCategory.manager.get_visible_categories()
+    service_offers = ServiceOffer.manager.all()
+    lecturers = Lecturer.manager.all()
+
+    params_seq = []
+    if for_webinar_id:
+        params_seq.append(f"for_webinar_id={for_webinar_id}")
+    if category_slug:
+        params_seq.append(f"for_category_slug={category_slug}")
+    if lecturer_slug:
+        params_seq.append(f"for_lecturer_slug={lecturer_slug}")
+    if for_service_offer_id:
+        params_seq.append(f"for_service_offer_id={for_service_offer_id}")
+    if for_short_service_offer_id:
+        params_seq.append(f"short_service_offer_id={for_short_service_offer_id}")
+    params_str = "&".join(params_seq)
 
     try:
         webinar: Webinar = Webinar.manager.get(pk=for_webinar_id)
@@ -51,18 +67,30 @@ def global_mailing_editor_page(request):
         service_offer = None
         service_offer_id = None
 
+    try:
+        short_service_offer = ServiceOffer.manager.get(pk=for_short_service_offer_id)
+        short_service_offer_id = short_service_offer.id
+    except ServiceOffer.DoesNotExist:  # pylint: disable=no-member
+        short_service_offer = None
+        short_service_offer_id = None
+
     template_name = "mailing_templates/GlobalMailingEditor.html"
     return TemplateResponse(
         request,
         template_name,
         {
-            "webinar": webinar,
+            "params_str": params_str,
+            "lecturers": lecturers,
             "categories": categories,
+            "webinar": webinar,
             "webinar_id": webinar_id,
             "lecturer_slug": lecturer_slug,
             "category_slug": category_slug,
+            "service_offers": service_offers,
             "service_offer": service_offer,
             "service_offer_id": service_offer_id,
+            "short_service_offer": short_service_offer,
+            "short_service_offer_id": short_service_offer_id,
             "less_than_week_webinar": less_than_week_webinar,
         },
     )
@@ -134,6 +162,15 @@ def global_mailing_template_page(request):
     else:
         service_offer = None
 
+    # (Short) Service offer
+    short_service_offer_id = request.GET.get("short_service_offer_id")
+    if short_service_offer_id:
+        short_service_offer = get_object_or_404(
+            ServiceOffer, pk=int(short_service_offer_id)
+        )
+    else:
+        short_service_offer = None
+
     # Category webinars
     category_slug = request.GET.get("category_slug")
     if category_slug:
@@ -198,6 +235,7 @@ def global_mailing_template_page(request):
             "cta_text": cta_text,
             "program": program,
             "service_offer": service_offer,
+            "short_service_offer": short_service_offer,
             **controls,
         },
     )

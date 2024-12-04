@@ -42,8 +42,13 @@
             </a>
             {% if webinar_ctx.conference_edition and not webinar_ctx.conference_edition.clickmeeting_pasted %}
             <br>
-            <b class="text-danger">Uzupełnij transmisję w ClickMeeting !</b>
+            <b class="text-white bg-danger px-2">Uzupełnij klucz/strumień w ClickMeeting !</b>
             {% endif %}
+            {% if webinar_ctx.conference_edition and not webinar_ctx.conference_edition.dashboard_url %}
+            <br>
+            <b class="text-white bg-danger px-2">Czy został utworzony stream na YT / FB ?!</b>
+            {% endif %}
+
             <br>
             <b>{{webinar.date|date:"j E (l)"}}</b> <b>{{webinar.date|date:"H:i"}}</b> - {{webinar.date_end|date:"H:i"}}
             {% url 'admin:core_webinar_change' object_id=webinar.id as link %}
@@ -105,6 +110,7 @@
             <li class="d-flex align-items-center">
                 <span class="bullet bullet-vertical bg-info me-5"></span>
                 <span
+                    class="px-1 text-white bg-info"
                     style="cursor: pointer;"
                     data-bs-dismiss="true"
                     data-bs-toggle="popover"

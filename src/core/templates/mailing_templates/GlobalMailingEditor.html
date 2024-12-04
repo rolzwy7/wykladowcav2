@@ -44,17 +44,41 @@
                      {% else %}
                         <h3>&gt;&gt; Brak Termin ID</h3>
                      {% endif %}
+
+                     {% if short_service_offer_id %}
+                        <h3>&gt;&gt; (Short) Usługa ID={{short_service_offer_id}}: {{short_service_offer.offer_title}}</h3>
+                        <input type="hidden" name="short_service_offer_id" value="{{short_service_offer_id}}">
+                     {% else %}
+                        <h3>&gt;&gt; (Short) Usługa ID</h3>
+                        {% for service_offer in service_offers %}
+                        <a href="./?{{params_str}}&short_service_offer_id={{service_offer.id}}">
+                              Short: {{service_offer.offer_title}}
+                        </a>
+                        {% endfor %}
+                     {% endif %}
+                     
+
                      {% if service_offer_id %}
                         <h3>&gt;&gt; Usługa ID={{service_offer_id}}: {{service_offer.offer_title}}</h3>
                         <input type="hidden" name="service_offer_id" value="{{service_offer_id}}">
                      {% else %}
                         <h3>&gt;&gt; Brak Usługa ID</h3>
+                        {% for service_offer in service_offers %}
+                        <a href="./?{{params_str}}&for_service_offer_id={{service_offer.id}}">
+                              {{service_offer.offer_title}}
+                           </a>
+                        {% endfor %}
                      {% endif %}
                      {% if lecturer_slug %}
                         <h3>&gt;&gt; Wykładowca Slug={{lecturer_slug}}</h3>
                         <input type="hidden" name="lecturer_slug" value="{{lecturer_slug}}">
                      {% else %}
                         <h3>&gt;&gt; Brak Wykładowca</h3>
+                        {% for lecturer in lecturers %}
+                        <a href="./?{{params_str}}&for_lecturer_slug={{lecturer.slug}}">
+                           {{lecturer}}
+                        </a>
+                        {% endfor %}
                      {% endif %}
                      {% if category_slug %}
                         <h3>&gt;&gt; Kategoria Slug={{category_slug}}</h3>
@@ -62,7 +86,7 @@
                      {% else %}
                         <h3>&gt;&gt; Brak Kategoria</h3>
                         {% for category in categories %}
-                           <a href="./?for_webinar_id={{webinar.id}}&for_category_slug={{category.slug}}">
+                           <a href="./?{{params_str}}&for_category_slug={{category.slug}}">
                               {{category.name}}
                            </a>
                         {% endfor %}

@@ -64,6 +64,8 @@ class ServiceOffer(Model):
 
     mailing_html = TextField("MAILING_HTML", default="[MAILING_HTML]")
 
+    mailing_short_html = TextField("MAILING_SHORT_HTML", default="[MAILING_SHORT_HTML]")
+
     class Meta:
         verbose_name = "Oferta Usługi"
         verbose_name_plural = "Oferty Usług"
