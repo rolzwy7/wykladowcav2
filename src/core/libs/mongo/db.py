@@ -19,6 +19,21 @@ CONNECTION_STRING = "mongodb://{user}:{password}@{host}:{port}/{db_name}".format
 )
 
 
+class MongoDBClient:
+    """MongoDBClient"""
+
+    _client = None
+
+    @staticmethod
+    def get_connection():
+        """get_connection"""
+        if MongoDBClient._client is None:
+            # Replace with your MongoDB URI and options
+            MongoDBClient._client = MongoClient(CONNECTION_STRING)
+
+        return MongoDBClient._client, MongoDBClient._client.get_database()
+
+
 def get_mongo_connection() -> tuple[MongoClient, Database]:
     """Return new mongo client and database handle"""
     mongo_client = MongoClient(CONNECTION_STRING)
