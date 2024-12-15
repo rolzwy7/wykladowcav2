@@ -11,7 +11,7 @@ from pydantic import BaseModel  # pylint: disable=no-name-in-module
 from core.libs.notifications.email import EmailMessage, EmailTemplate
 
 
-class SendFreeParticipantConferenceEmailParams(BaseModel):
+class SendFreeParticipantConferenceConfirmationEmailParams(BaseModel):
     """Params"""
 
     webinar_title: str
@@ -30,7 +30,7 @@ def params(
 ) -> str:
     """Create params"""
     json_dump = json.dumps(
-        SendFreeParticipantConferenceEmailParams(
+        SendFreeParticipantConferenceConfirmationEmailParams(
             webinar_title=webinar_title,
             email=email,
             conference_url=conference_url,
@@ -41,12 +41,12 @@ def params(
     return json_dump
 
 
-def send_free_participant_conference_email(
-    procedure_params: SendFreeParticipantConferenceEmailParams,
+def send_free_participant_conference_confirmation_email(
+    procedure_params: SendFreeParticipantConferenceConfirmationEmailParams,
 ):
-    """Send participant confirmation email after application has been sent"""
+    """Send participant confirmation email"""
     email_template = EmailTemplate(
-        "email/EmailFreeParticipantConference.html",
+        "email/EmailFreeParticipantConferenceConfirmation.html",
         {
             "webinar_title": procedure_params.webinar_title,
             "conference_url": procedure_params.conference_url,
@@ -56,12 +56,7 @@ def send_free_participant_conference_email(
     )
     email_message = EmailMessage(
         email_template,
-        choice(
-            [
-                "Twoje zgłoszenie na szkolenie zostało przez nas przyjęte",
-                "Przyjęliśmy Twoje zgłoszenie na szkolenie",
-            ]
-        ),
+        choice(["Przypomnienie o bezpłatnym szkoleniu"]),
         procedure_params.email,
     )
     email_message.send()

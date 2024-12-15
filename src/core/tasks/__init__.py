@@ -17,6 +17,10 @@ from .send_clickmeeting_invitation_lecturer import (
 from .send_clickmeeting_invitation_participant import (
     task_send_clickmeeting_invitation_participant,
 )
+from .send_free_participant_conference_confirmation_email import (
+    params_send_free_participant_conference_confirmation_email,
+    task_send_free_participant_conference_confirmation_email,
+)
 from .send_free_participant_conference_email import (
     params_send_free_participant_conference_email,
     task_send_free_participant_conference_email,
