@@ -17,9 +17,13 @@
 
                 <tr>
                   <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;">
-                    Przyjęliśmy Państwa zgłoszenie na bezpłatne szkolenie: {{webinar_title}}
+                    Przyjęliśmy Państwa zgłoszenie na bezpłatne szkolenie: <i>„{{webinar_title}}”</i>,
                     <br>
-                    Przesyłamy link do strony, na której w dniu szkolenia ({{start_date}} godzina {{start_hour}}) będą mogli Państwo obejrzeć webinar na żywo.
+                    które odbędzie się w dniu <b>{{start_date}}</b> o godzinie <b>{{start_hour}}</b>.
+                    <br>
+                    <br>
+                    Link do strony, na której będą mogli Państwo obejrzeć webinar na żywo:
+                    <br>
                     <br>
                     {% with BASE_URL|add:conference_url as absolute_conference_url %}
                       <a href="{{absolute_conference_url}}">
