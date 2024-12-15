@@ -28,10 +28,36 @@
         </div>
       </div>
       <div class="card-body">
-       {% include './snippets/AssetsUploadForm.html' %}
 
+      <h2>Inne szkolenia o tej samej nazwie</h2>
+
+      {% for ac in assets_complete %}
+      {% if ac.2 != 0 %}
+
+        <form action="./" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="autocomplete" value="on">
+            <input type="hidden" name="autocomplete_webinar_id" value="{{ac.0.id}}">
+            <p>({{ac.2}} materiał/y) <b>{{ac.0}}</b></p>
+            <ol>
+                {% for asset in ac.1 %}
+                  {{forloop.counter}}. {{asset}}
+                {% endfor %}
+            </ol>
+            <input type="submit" value="Dodaj {{ac.2}} materiał/y z tego webinaru">
+        </form>
+        <div class="separator border-3 my-10"></div>
+      {% endif %}
+      {% endfor %}
+      
+      <div class="separator border-3 my-10"></div>
+
+        <h2>Dodaj pliki ręcznie</h2>
+       {% include './snippets/AssetsUploadForm.html' %}
        <div class="separator border-3 my-10"></div>
 
+
+       <h2>Lista materiałów do tego szkolenia</h2>
         <div class="table-responsive">
             <table class="table table-striped">
             <thead>
