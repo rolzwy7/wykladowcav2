@@ -1,5 +1,6 @@
 # flake8: noqa
 from .after_application_sent_dispatch import after_application_sent_dispatch
+from .after_conference_confirm_dispatch import after_conference_confirm_dispatch
 from .after_free_conference_participant_singup import (
     after_free_conference_participant_singup,
 )

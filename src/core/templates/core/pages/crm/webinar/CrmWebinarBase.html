@@ -51,6 +51,13 @@
             <table class="table">
                 <tbody>
                     <tr>
+                        <td colspan="2">
+                            <a href="{% url "core:confirm_free_participants" pk=conference_edition.pk %}" class="btn btn-sm btn-secondary">
+                                Wyślij przypomnienia darmowym uczestnikom
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
                         <td><b>Adres Strony Konfiguracji</b></td>
                         <td>
                             {% if conference_edition.dashboard_url %}

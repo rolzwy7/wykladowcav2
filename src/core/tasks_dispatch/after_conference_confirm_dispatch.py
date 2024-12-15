@@ -7,25 +7,10 @@ from django.urls import reverse
 from django.utils.timezone import get_default_timezone
 
 from core.consts import TelegramChats
-from core.models import (
-    ConferenceEdition,
-    ConferenceFreeParticipant,
-    Lecturer,
-    Webinar,
-    WebinarMetadata,
-    WebinarParticipant,
-)
+from core.models import ConferenceEdition, ConferenceFreeParticipant, Webinar
 from core.tasks import (
-    params_create_clickmeeting_room,
     params_send_free_participant_conference_confirmation_email,
-    params_send_free_participant_conference_email,
-    params_send_participant_preparation_email,
-    task_create_clickmeeting_room,
-    task_send_clickmeeting_invitation_lecturer,
-    task_send_clickmeeting_invitation_participant,
     task_send_free_participant_conference_confirmation_email,
-    task_send_free_participant_conference_email,
-    task_send_participant_preparation_email,
     task_send_telegram_notification,
 )
 
