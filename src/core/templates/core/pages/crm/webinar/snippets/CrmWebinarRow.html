@@ -54,7 +54,7 @@
             <b class="text-white bg-danger px-2">BRAK USTAWIONEGO PROGRAMU</b>
             {% endif %}
 
-            {% if not webinar.fakturownia_category %}
+            {% if not webinar.fakturownia_category and not webinar_ctx.conference_edition %}
             <br>
             <b class="text-white bg-danger px-2">Brak kategorii dla fakturowni</b>
             {% endif %}
@@ -160,7 +160,7 @@
             <br>
 
             {% if webinar_ctx.uncertain_participants_count %}
-                <span class="px-2 bg-warning fw-bold">
+                <span class="px-2 bg-warning text-dark fw-bold">
                     Niepewnych: {{webinar_ctx.uncertain_participants_count}}
                 </span>
             {% endif %}
