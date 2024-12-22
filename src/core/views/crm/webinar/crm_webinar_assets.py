@@ -26,7 +26,16 @@ def crm_webinar_assets(request, pk: int):
 
     # Done webinars with similar name
     assets_complete = []
-    for web in Webinar.manager.filter(Q(title=webinar.title) & ~Q(id=webinar.id)):
+    if request.GET.get("autocomplete_webinar"):
+        qs_autocomplete = Webinar.manager.filter(
+            Q(title__icontains=request.GET["autocomplete_webinar"])
+        )
+    else:
+        qs_autocomplete = Webinar.manager.filter(
+            Q(title=webinar.title) & ~Q(id=webinar.id)
+        )
+
+    for web in qs_autocomplete:
         web_assets = WebinarAsset.manager.filter(webinar=web).order_by("filename")
         assets_complete.append((web, web_assets, web_assets.count()))
 
@@ -63,6 +72,7 @@ def crm_webinar_assets(request, pk: int):
         template_name,
         {
             "webinar": webinar,
+            "autocomplete_webinar": request.GET.get("autocomplete_webinar"),
             "webinar_metadata": webinar_metadata,
             "assets": assets,
             "assets_complete": assets_complete,

@@ -218,7 +218,7 @@ class Webinar(Model):
     )
 
     remaining_places = PositiveSmallIntegerField(
-        "Pozostało miejsc", default=0, blank=True
+        "Pozostało miejsc", default=10, blank=True
     )
 
     STATUS = [
@@ -310,6 +310,7 @@ class Webinar(Model):
     program_markdown = TextField("Program szkolenia (markdown)", blank=True)
     program_pretty = TextField("Program szkolenia (enchanted)", blank=True)
     program_short = TextField("Program szkolenia (krótki)", blank=True)
+    program_word_text = TextField("Program (Word Text)", blank=True)
 
     # External
     external_name = CharField("Zewnętrzny dostawca - Nazwa", max_length=64, blank=True)

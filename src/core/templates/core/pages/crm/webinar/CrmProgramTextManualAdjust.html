@@ -1,0 +1,16 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+
+{% block crm_content %}
+
+<form method="POST" action="{% url "core:crm_program_text_manual_adjust" pk=webinar.pk %}">
+    {% csrf_token %}
+    <input type="submit" class="btn btn-primary" value="Zapisz">
+    {{form}}
+</form>
+
+{% endblock crm_content %}
+
+{% block body_scripts %}{% endblock body_scripts %}

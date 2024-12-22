@@ -49,6 +49,16 @@
             <b class="text-white bg-danger px-2">Czy został utworzony stream na YT / FB ?!</b>
             {% endif %}
 
+            {% if webinar_ctx.is_default_program %}
+            <br>
+            <b class="text-white bg-danger px-2">BRAK USTAWIONEGO PROGRAMU</b>
+            {% endif %}
+
+            {% if not webinar.fakturownia_category %}
+            <br>
+            <b class="text-white bg-danger px-2">Brak kategorii dla fakturowni</b>
+            {% endif %}
+
             <br>
             <b>{{webinar.date|date:"j E (l)"}}</b> <b>{{webinar.date|date:"H:i"}}</b> - {{webinar.date_end|date:"H:i"}}
             {% url 'admin:core_webinar_change' object_id=webinar.id as link %}
@@ -74,7 +84,10 @@
             <li class="d-flex align-items-center">
                 <span class="bullet bullet-vertical bg-dark me-5"></span>
                 <span>
-                    Token grupujący: <b>{{webinar.grouping_token}}</b>
+                    Token grupujący: 
+                    <a href="./?search={{webinar.grouping_token}}">
+                        <b>{{webinar.grouping_token}}</b>
+                    </a>
                 </span>
             </li>
             {% endif %}

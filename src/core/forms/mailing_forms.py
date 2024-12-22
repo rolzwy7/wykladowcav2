@@ -12,7 +12,11 @@ class MailingAddEmailsForm(Form):
 class MailingSendTestEmailForm(Form):
     """Form for sending test email for mailing campaign"""
 
-    email = EmailField(widget=EmailFloatingInputWidget(attrs={"label": "Adres E-mail"}))
+    email = EmailField(
+        widget=EmailFloatingInputWidget(
+            attrs={"label": "Adres E-mail", "autofocus": "autofocus"}
+        )
+    )
 
 
 class MailingAreYouSureForm(Form):

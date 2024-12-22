@@ -7,9 +7,10 @@
 
 {% block crm_content %}
 
-<div hx-get="{% url 'htmx:static-files-disc-space' %}" hx-trigger="click delay:1s">
-  {% comment %} <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/> {% endcomment %}
-  <button class="btn btn-sm btn-primary">Pokaż wolne miejsce na dysku</button>
+{% comment %} <div hx-get="{% url 'htmx:static-files-disc-space' %}" hx-trigger="click delay:1s"> {% endcomment %}
+<div hx-get="{% url 'htmx:static-files-disc-space' %}" hx-trigger="load delay:1s">
+  <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
+  {% comment %} <button class="btn btn-sm btn-primary">Pokaż wolne miejsce na dysku</button> {% endcomment %}
 </div>
 
 {% if param_show_counters %}
@@ -143,7 +144,7 @@
       </div>
     </div>
 
-    <div class="row mb-3">
+    {% comment %} <div class="row mb-3">
       <div class="col-4">
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="1" name="mailing_mode" id="param_mailing_mode" {% if param_mailing_mode %}checked{% endif %}>
@@ -152,7 +153,7 @@
           </label>
         </div>
       </div>
-    </div>
+    </div> {% endcomment %}
     
     <div class="row mb-3">
       <div class="col-6 align-self-end">

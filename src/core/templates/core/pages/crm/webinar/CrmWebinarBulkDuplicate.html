@@ -1,0 +1,44 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+
+{% block crm_content %}
+
+<ul>
+{% if extra == 0 %}
+    <li><a href="./?extra=1">2 terminy</a></li>
+    <li><a href="./?extra=2">3 terminy</a></li>
+    <li><a href="./?extra=3">4 terminy</a></li>
+    <li><a href="./?extra=4">5 terminów</a></li>
+    <li><a href="./?extra=5">6 terminów</a></li>
+    {% else %}
+    <li><a href="./?extra=0">Wybierz inną ilość terminów</a></li>
+    {% endif %}
+</ul>
+
+<form method="post" action="{% url "core:crm_webinar_bulk_duplicate" pk=webinar.pk %}?extra={{extra}}">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <table>
+        {% for form in formset %}
+            <tr>
+                {% for field in form %}
+                    <td>
+                        {{ field.label_tag }} {{ field }}
+                        {% if field.errors %}
+                            <div class="errors">
+                                {{ field.errors }}
+                            </div>
+                        {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+    <button type="submit">Submit</button>
+</form>
+
+{% endblock crm_content %}
+
+{% block body_scripts %}{% endblock body_scripts %}

@@ -15,9 +15,12 @@ from .crm_previews import (
     crm_submitter_confirmation_email_preview,
     crm_submitter_moving_email_preview,
 )
+from .crm_program_text_manual_adjust import crm_program_text_manual_adjust
 from .crm_resignations_plaintext import crm_resignations_plaintext
 from .crm_take_over_account import crm_take_over_account
 from .crm_todos_list import crm_todos_done_list, crm_todos_list
+from .crm_webinar_bulk_duplicate import crm_webinar_bulk_duplicate
+from .crm_word_to_program_text import crm_word_to_program_text
 from .webinar import (
     crm_clickmeeting_paste_stream,
     crm_upcoming_webinars,

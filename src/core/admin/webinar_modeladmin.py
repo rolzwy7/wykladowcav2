@@ -141,6 +141,7 @@ class WebinarModelAdmin(ModelAdmin):
                     "program_markdown",
                     "program_pretty",
                     "program_short",
+                    "program_word_text",
                 ],
             },
         ),

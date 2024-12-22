@@ -81,9 +81,8 @@ def on_webinar_presave(sender, **kwargs):
     # Generate pretty version
     webinar.program_pretty = ProgramService(webinar.program_markdown).get_enriched()
 
-    if not webinar.program_short:
-        try:
-            # Generate program summary
-            webinar.program_short = get_first_level_li(webinar.program)
-        except Exception as e:
-            webinar.program_short = "Nie udało się wygenerować krótkiego programu"
+    # Generate program summary
+    try:
+        webinar.program_short = get_first_level_li(webinar.program)
+    except Exception as e:
+        webinar.program_short = "Nie udało się wygenerować krótkiego programu"

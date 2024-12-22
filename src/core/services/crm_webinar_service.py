@@ -373,6 +373,7 @@ class CrmWebinarService:
             webinar=self.webinar
         )
         free_participants = self.get_free_participants()
+        is_default_program = "[Program Szkolenia]" in self.webinar.program
 
         try:
             conference_edition = ConferenceEdition.manager.get(webinar=self.webinar)
@@ -410,4 +411,5 @@ class CrmWebinarService:
                 webinar=self.webinar
             ).order_by("created_at"),
             "webinar_assets_count": webinar_assets_count,
+            "is_default_program": is_default_program,
         }

@@ -10,6 +10,7 @@ from core.views.crm import (
     crm_contact_messages,
     crm_eventlogs,
     crm_invoices_list,
+    crm_program_text_manual_adjust,
     crm_resignations_plaintext,
     crm_take_over_account,
     crm_todos_done_list,
@@ -17,6 +18,7 @@ from core.views.crm import (
     crm_upcoming_webinars,
     crm_webinar_analysis,
     crm_webinar_assets,
+    crm_webinar_bulk_duplicate,
     crm_webinar_certificates,
     crm_webinar_detail_dashboard,
     crm_webinar_duplicate,
@@ -25,6 +27,7 @@ from core.views.crm import (
     crm_webinar_free_participants,
     crm_webinar_invoices,
     crm_webinar_recordings,
+    crm_word_to_program_text,
 )
 from core.views.crm.application.actions import (
     crm_application_resend_confirmation,
@@ -127,6 +130,21 @@ urlpatterns = [
         "webinar/<int:pk>/clickmeeting-paste-stream-redirect/",
         crm_clickmeeting_paste_stream,
         name="crm_clickmeeting_paste_stream",
+    ),
+    path(
+        "webinar/<int:pk>/word-to-program-text/",
+        crm_word_to_program_text,
+        name="crm_word_to_program_text",
+    ),
+    path(
+        "webinar/<int:pk>/program-text-manual-adjust/",
+        crm_program_text_manual_adjust,
+        name="crm_program_text_manual_adjust",
+    ),
+    path(
+        "webinar/<int:pk>/bulk-duplicate/",
+        crm_webinar_bulk_duplicate,
+        name="crm_webinar_bulk_duplicate",
     ),
     # CRM Webinar Actions
     path(
