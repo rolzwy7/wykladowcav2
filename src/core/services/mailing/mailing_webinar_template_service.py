@@ -71,7 +71,8 @@ class MailingWebinarTemplateService:
         # for idx in range(int(len(lines) / 1.5)):
         #     new_program += f"{lines[idx]}\n"
         # return markdown(new_program)
-        return self.apply_antispam(markdown(self.webinar.program_markdown))
+        # return self.apply_antispam(markdown(self.webinar.program_markdown))
+        return markdown(self.webinar.program_markdown)
 
     def get_title(self) -> str:
         """Get title"""  # TODO
