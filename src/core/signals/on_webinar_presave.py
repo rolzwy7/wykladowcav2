@@ -17,6 +17,7 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from markdownify import markdownify
 
+from core.libs.html_operations.program import program_normalize, program_remarkdownify
 from core.models import Webinar
 from core.services import ProgramService
 from core.utils.text import slugify
@@ -80,6 +81,9 @@ def on_webinar_presave(sender, **kwargs):
 
     # Generate pretty version
     webinar.program_pretty = ProgramService(webinar.program_markdown).get_enriched()
+
+    # Normalize webinar program
+    webinar.program = program_normalize(program_remarkdownify(webinar.program))
 
     # Generate program summary
     try:

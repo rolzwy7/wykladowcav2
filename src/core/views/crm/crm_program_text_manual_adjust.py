@@ -9,6 +9,7 @@ from django.urls import reverse
 from markdown import markdown
 
 from core.consts.requests_consts import POST
+from core.libs.html_operations.program import tabowanie_to_html
 from core.models import Webinar
 
 
@@ -24,30 +25,6 @@ class ProgramTextForm(forms.ModelForm):
         }
 
 
-def prepend_number_to_lines(text):
-    """
-    Prepends '1. ' to each line in a text, ignoring leading tabs.
-
-    Args:
-        text (str): The input text with lines.
-
-    Returns:
-        str: The updated text with '1. ' prepended to each line, respecting leading tabs.
-    """
-    lines = text.splitlines()
-    updated_lines = []
-
-    for line in lines:
-        stripped_line = line.lstrip("\t")  # Remove leading tabs temporarily
-        if stripped_line:  # Only prepend if there's content
-            updated_line = f"{line[:len(line) - len(stripped_line)]}1. {stripped_line}"
-        else:
-            updated_line = line  # Keep empty lines or lines with only tabs as is
-        updated_lines.append(updated_line)
-
-    return "\n".join(updated_lines)
-
-
 def crm_program_text_manual_adjust(request, pk):
     """crm_word_to_program_text"""
     template_name = "core/pages/crm/webinar/CrmProgramTextManualAdjust.html"
@@ -58,15 +35,7 @@ def crm_program_text_manual_adjust(request, pk):
         if form.is_valid():
 
             webinar: Webinar = form.save(commit=False)
-            webinar.program = markdown(
-                "\n".join(
-                    [
-                        prepend_number_to_lines(line)
-                        for line in webinar.program_word_text.split("\n")
-                        if line.strip() != ""
-                    ]
-                )
-            )
+            webinar.program = tabowanie_to_html(webinar.program_word_text)
             webinar.save()
 
             return redirect(

@@ -91,6 +91,8 @@ def create_mailing_campaign(request):
         send_after = send_after + timedelta(days=1)
         send_after = send_after.replace(hour=3, minute=0, second=0)
 
+        day_of_week = now().weekday()
+
         campaign = MailingCampaign(
             webinar=webinar,
             title=mailing_title,
@@ -101,8 +103,8 @@ def create_mailing_campaign(request):
             template=template,
             resignation_list=resignation_list,
             status=MailingCampaignStatus.SENDING,
-            allowed_to_send_after=time(4, 0, 0, 0),
-            allowed_to_send_before=time(13, 30, 0, 0),
+            allowed_to_send_after=time(5, (10 * ((day_of_week + 1) % 7)) % 60, 0, 0),
+            allowed_to_send_before=time(14, 30, 0, 0),
             send_after=send_after,
         )
         campaign.save()

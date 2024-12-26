@@ -2,6 +2,14 @@
 # pylint: disable=line-too-long
 
 
+class MailingScheduledStatus:
+    """Represents status of mailing schedule"""
+
+    INIT = "INIT"
+    SCHEDULED = "SCHEDULED"
+    CANCELED = "CANCELED"
+
+
 class MailingCampaignStatus:
     """Represents status of mailing campaign"""
 
