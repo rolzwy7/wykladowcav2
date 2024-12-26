@@ -16,6 +16,7 @@ from core.views.crm import (
     crm_todos_done_list,
     crm_todos_list,
     crm_upcoming_webinars,
+    crm_url_to_program,
     crm_webinar_analysis,
     crm_webinar_assets,
     crm_webinar_bulk_duplicate,
@@ -135,6 +136,11 @@ urlpatterns = [
         "webinar/<int:pk>/word-to-program-text/",
         crm_word_to_program_text,
         name="crm_word_to_program_text",
+    ),
+    path(
+        "webinar/<int:pk>/url-to-program/",
+        crm_url_to_program,
+        name="crm_url_to_program",
     ),
     path(
         "webinar/<int:pk>/program-text-manual-adjust/",

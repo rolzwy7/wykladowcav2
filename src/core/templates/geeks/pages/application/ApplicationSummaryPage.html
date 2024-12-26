@@ -29,7 +29,7 @@
                         <th scope="row" style="width:175px;">Godzina</th>
                         <td>{{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}</td>
                     </tr>
-                    {% if webinar.show_lecturer %}
+                    {% if webinar.show_lecturer and not webinar.anonymize_lecturer %}
                     <tr>
                         <th scope="row" class="border-bottom-0" style="width:175px;">Wykładowca</th>
                         <td>{{webinar.lecturer.fullname}}</td>
@@ -382,7 +382,7 @@
 <script src="{% static 'js/sticksy.min.js' %}"></script>
 <script>
     setTimeout(function() {
-        var stickyElement = new Sticksy('.js-sticky-widget', {topSpacing: 10});
+        var stickyElement = new Sticksy('.js-sticky-widget', {topSpacing: 75});
         stickyElement.onStateChanged = function (state) {
             if(state === 'fixed') {
                 stickyElement.nodeRef.classList.add('widget--sticky')

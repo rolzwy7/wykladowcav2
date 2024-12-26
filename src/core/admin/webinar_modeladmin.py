@@ -91,6 +91,7 @@ class WebinarModelAdmin(ModelAdmin):
             {
                 "fields": [
                     "show_lecturer",
+                    "anonymize_lecturer",
                     "is_hidden",
                     "is_confirmed",
                     "recording_allowed",

@@ -26,6 +26,12 @@
     <a href="{% url "core:crm_word_to_program_text" pk=original.pk %}" class="historylink" style="margin-right:10px;">Program WORD</a>
     {% endif %}
     {% endwith %}
+
+    {% with original_pk=original.pk|stringformat:"i" %}
+    {% if request.path == '/cms/core/webinar/'|add:original_pk|add:'/change/' %}
+    <a href="{% url "core:crm_url_to_program" pk=original.pk %}" class="historylink" style="margin-right:10px;">Program z URL</a>
+    {% endif %}
+    {% endwith %}
     
     {% with original_pk=original.pk|stringformat:"i" %}
     {% if request.path == '/cms/core/webinar/'|add:original_pk|add:'/change/' %}

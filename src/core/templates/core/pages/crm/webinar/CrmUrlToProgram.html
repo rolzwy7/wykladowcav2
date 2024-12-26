@@ -1,0 +1,25 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+
+{% block crm_content %}
+
+{{webinar}} <br>
+{{webinar.date|date:"j E Y"}} r. <br>
+{{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}} <br>
+{{webinar.lecturer}}
+
+<hr>
+<b class="text-danger">Na razie obsługuję tylko centrum verte !!</b>
+<hr>
+
+<form method="POST" action="{% url "core:crm_url_to_program" pk=webinar.pk %}">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" class="btn btn-primary mt-2" value="Pobierz program">
+</form>
+
+{% endblock crm_content %}
+
+{% block body_scripts %}{% endblock body_scripts %}

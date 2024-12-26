@@ -1,9 +1,12 @@
 """dev_command"""
 
 # flake8: noqa=E501
+from pprint import pprint
+
+import requests
 from django.core.management.base import BaseCommand
 
-from core.libs.html_operations.program import program_normalize, program_remarkdownify
+from core.libs.konkurencja.centrum_verte import CentrumVerteFetcher
 
 
 class Command(BaseCommand):
@@ -15,38 +18,16 @@ class Command(BaseCommand):
         pass
 
     def handle(self, *args, **options):
-        ret = program_remarkdownify(
-            """
-<ul class="my-list" style="color: black;">
-    <li class="item" style="color: red;">12345</li>
-    <li class="item" style="color: red;">
-    inner
-        <ol>
-            <li>1</li>
-            <li>2</li>
-            <li>3</li>
-        </ol>
-    </li>
-    <li class="item">123</li>
-    <li class="item" style="color: red;">
-        <ol>
-            <li>1</li>
-            <li>2</li>
-            <li>inner
-                <ul>
-                    <li>aa</li>
-                    <li>dsa</li>
-                    <li>fds</li>
-                    <li>sad</li>
-                </ul>
-            </li>
-        </ol>
-    </li>
-    <li class="item" style="color: red;">1</li>
-</ul>
-            """
-        )
+        url = "https://centrumverte.pl/szkolenia-online/likwidacja-majatku-trwalego-w-jednostkach-budzetowych-zmiany-od-grudnia-2023r-warsztaty-praktyczne-szkolenie-online/"
+        fetcher = CentrumVerteFetcher(url)
+        fetcher.initialize()
 
-        print(ret)
+        pprint(fetcher.logs)
         print("=" * 32)
-        print(program_normalize(ret))
+        print("get_program:", fetcher.get_program())
+        print("get_lecturer:", fetcher.get_lecturer())
+        print("get_price:", fetcher.get_price())
+        print("get_date:", fetcher.get_date())
+        print("get_title:", fetcher.get_title())
+        print("=" * 32)
+        pprint(fetcher.logs)

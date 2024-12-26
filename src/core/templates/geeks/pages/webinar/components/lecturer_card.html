@@ -5,6 +5,8 @@
   <div class="card-body">
     
     <div class="d-flex align-items-center">
+      
+      {% if not webinar.anonymize_lecturer %}
       <div class="position-relative">
         <img
           {% if lecturer.avatar %}
@@ -30,19 +32,27 @@
           />
         </a>
       </div>
-      <div class="ms-4">
+      {% endif %}
+
+
+      <div class="{% if not webinar.anonymize_lecturer %}ms-4{% endif %}">
         <h4 class="mb-0">
           <a style="color: var(--geeks-heading-color);" href="{% url 'core:lecturer_experience_page' slug=webinar.lecturer.slug %}">
-            {{lecturer.fullname}}
+            {% if webinar.anonymize_lecturer %}
+              Wykładowca
+            {% else %}
+              {{lecturer.fullname}}
+            {% endif %}
           </a>
         </h4>
-        {% if lecturer.profession %}
+        {% if lecturer.profession and not webinar.anonymize_lecturer %}
           <p class="mb-1 fs-6">{{lecturer.profession}}</p>
         {% endif %}
 
         {% with lecturer_opinions_count=lecturer_service.get_lecturer_opinions_count %}
         {% if lecturer_opinions_count %}
         
+        {% if not webinar.anonymize_lecturer %}
         <p class="fs-6 mb-1 d-flex align-items-center">
           <span class="text-warning">4.5</span>
           <span class="mx-1">
@@ -53,15 +63,18 @@
           {{lecturer_opinions_count}} opinii
         </p>
         {% endif %}
+        {% endif %}
         {% endwith %}
 
       </div>
     </div>
 
     <div class="m-0 mt-2">
+      {% if not webinar.anonymize_lecturer %}
       <a href="{% url "core:lecturer_opinion_form_page" slug=lecturer.slug %}" class="btn btn-primary btn-xs mb-2">
         Dodaj opinię
       </a>
+      {% endif %}
       {% for category in webinar.categories.all %}
         <a href="{% url "core:webinar_category_page" slug=category.slug %}" class="btn btn-light btn-xs mb-2">
           {{category.name}}
@@ -69,6 +82,7 @@
       {% endfor %}
     </div>
 
+    {% if not webinar.anonymize_lecturer %}
     <div class="border-top row border-bottom mb-3 g-0">
       {% if lecturer.fake_stat_participants %}
       <div class="col">
@@ -99,19 +113,26 @@
       </div>
       {% endif %}
     </div>
+    {% endif %}
 
 
     {% if lecturer.biography_email %}
-    <p class="m-0">
-      <div id="id_lecturer_short_desc">{{lecturer.biography_email|truncatechars:150}}</div>
-      <div id="id_lecturer_long_desc" class="d-none">{{lecturer.biography_email}}</div>
-      <a id="id_lecturer_show_desc" href="javascript:$('#id_lecturer_long_desc').toggleClass('d-none');$('#id_lecturer_short_desc').toggleClass('d-none');$('#id_lecturer_show_desc').addClass('d-none');$('#id_lecturer_hide_desc').toggleClass('d-none');">
-        Zobacz pełny opis
-      </a>
-      <a class="d-none" id="id_lecturer_hide_desc" href="javascript:$('#id_lecturer_long_desc').toggleClass('d-none');$('#id_lecturer_short_desc').toggleClass('d-none');$('#id_lecturer_hide_desc').addClass('d-none');$('#id_lecturer_show_desc').toggleClass('d-none');">
-        Schowaj pełny opis
-      </a>
-    </p>
+    {% if webinar.anonymize_lecturer %}
+      <p class="m-0">
+        <div id="id_lecturer_long_desc">{{lecturer.biography_email}}</div>
+      </p>
+    {% else %}
+      <p class="m-0">
+        <div id="id_lecturer_short_desc">{{lecturer.biography_email|truncatechars:150}}</div>
+        <div id="id_lecturer_long_desc" class="d-none">{{lecturer.biography_email}}</div>
+        <a id="id_lecturer_show_desc" href="javascript:$('#id_lecturer_long_desc').toggleClass('d-none');$('#id_lecturer_short_desc').toggleClass('d-none');$('#id_lecturer_show_desc').addClass('d-none');$('#id_lecturer_hide_desc').toggleClass('d-none');">
+          Zobacz pełny opis
+        </a>
+        <a class="d-none" id="id_lecturer_hide_desc" href="javascript:$('#id_lecturer_long_desc').toggleClass('d-none');$('#id_lecturer_short_desc').toggleClass('d-none');$('#id_lecturer_hide_desc').addClass('d-none');$('#id_lecturer_show_desc').toggleClass('d-none');">
+          Schowaj pełny opis
+        </a>
+      </p>
+    {% endif %}
     {% endif %}
 
   </div>

@@ -199,6 +199,12 @@ class Webinar(Model):
 
     show_lecturer = BooleanField("Pokaż wykładowce na stronie szkolenia", default=True)
 
+    anonymize_lecturer = BooleanField(
+        "Anonimizuj wykładowcę",
+        default=False,
+        help_text="Wykładowca będzie zanonimizowany",
+    )
+
     is_hidden = BooleanField(
         "Ukryj termin szkolenia na stronie",
         default=False,
