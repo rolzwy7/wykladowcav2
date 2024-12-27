@@ -39,6 +39,14 @@
                 {% endif %}
             >
                 <span class="fs-5">{{webinar.title_original}}</span>
+                {% if webinar_ctx.webinar_metadata.fetched_from %}
+                    <a href="{{webinar_ctx.webinar_metadata.fetched_from_url}}" target="_blank">
+                        <span class="badge badge-success">
+                            {{webinar_ctx.webinar_metadata.fetched_from}}
+                        </span>
+                    </a>
+                {% endif %}
+                
             </a>
             {% if webinar_ctx.conference_edition and not webinar_ctx.conference_edition.clickmeeting_pasted %}
             <br>

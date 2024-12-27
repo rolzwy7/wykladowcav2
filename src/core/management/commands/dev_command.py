@@ -7,6 +7,7 @@ import requests
 from django.core.management.base import BaseCommand
 
 from core.libs.konkurencja.centrum_verte import CentrumVerteFetcher
+from core.libs.konkurencja.flightcontrol import konkurencja_fetcher
 
 
 class Command(BaseCommand):
@@ -19,10 +20,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         url = "https://centrumverte.pl/szkolenia-online/likwidacja-majatku-trwalego-w-jednostkach-budzetowych-zmiany-od-grudnia-2023r-warsztaty-praktyczne-szkolenie-online/"
-        fetcher = CentrumVerteFetcher(url)
-        fetcher.initialize()
+        url = "https://www.jgt.pl/szkolenia,transgraniczne-przemieszczanie-odpadow-tgs.html"
+        url = "https://izbapodatkowa.pl/szkolenie/transakcje-z-podmiotami-powiazanymi-a-podatki-dochodowe-preferencje-obostrzenia-i-zagrozenia/?termin=21468"
+        fetcher = konkurencja_fetcher(url)
 
-        pprint(fetcher.logs)
         print("=" * 32)
         print("get_program:", fetcher.get_program())
         print("get_lecturer:", fetcher.get_lecturer())

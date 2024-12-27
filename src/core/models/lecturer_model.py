@@ -72,6 +72,12 @@ class Lecturer(Model):
         help_text="Wykładowca nie chce mieć z nami nic wspólnego",
     )
 
+    anonymize = BooleanField(
+        "Anonimizuj wykładowcę",
+        default=False,
+        help_text="Wykładowca będzie zanonimizowany",
+    )
+
     order_value = PositiveIntegerField("Wartość sortująca", default=100)
 
     fullname = CharField("Imie i Nazwisko", max_length=100)

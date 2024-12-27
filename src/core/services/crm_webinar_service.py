@@ -382,6 +382,7 @@ class CrmWebinarService:
 
         return {
             "webinar": self.webinar,
+            "webinar_metadata": webinar_metadata,
             "is_fake": self.webinar.is_fake,
             "is_confirmed": self.webinar.is_confirmed,
             "is_hidden": self.webinar.is_hidden,

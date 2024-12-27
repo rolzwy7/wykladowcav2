@@ -36,3 +36,4 @@ from .webinar import (
     crm_webinar_invoices,
     crm_webinar_recordings,
 )
+from .webinar.crm_webinar_new_from_url import crm_webinar_new_from_url

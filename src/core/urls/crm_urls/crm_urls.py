@@ -27,6 +27,7 @@ from core.views.crm import (
     crm_webinar_export_participants,
     crm_webinar_free_participants,
     crm_webinar_invoices,
+    crm_webinar_new_from_url,
     crm_webinar_recordings,
     crm_word_to_program_text,
 )
@@ -141,6 +142,11 @@ urlpatterns = [
         "webinar/<int:pk>/url-to-program/",
         crm_url_to_program,
         name="crm_url_to_program",
+    ),
+    path(
+        "webinar/new-from-url/",
+        crm_webinar_new_from_url,
+        name="crm_webinar_new_from_url",
     ),
     path(
         "webinar/<int:pk>/program-text-manual-adjust/",

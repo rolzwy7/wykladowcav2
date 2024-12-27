@@ -6,7 +6,7 @@
     
     <div class="d-flex align-items-center">
       
-      {% if not webinar.anonymize_lecturer %}
+      {% if not webinar.anonymize_lecturer and not webinar.lecturer.anonymize %}
       <div class="position-relative">
         <img
           {% if lecturer.avatar %}
@@ -35,24 +35,24 @@
       {% endif %}
 
 
-      <div class="{% if not webinar.anonymize_lecturer %}ms-4{% endif %}">
+      <div class="{% if not webinar.anonymize_lecturer and not webinar.lecturer.anonymize %}ms-4{% endif %}">
         <h4 class="mb-0">
           <a style="color: var(--geeks-heading-color);" href="{% url 'core:lecturer_experience_page' slug=webinar.lecturer.slug %}">
-            {% if webinar.anonymize_lecturer %}
+            {% if webinar.anonymize_lecturer and not webinar.lecturer.anonymize %}
               Wykładowca
             {% else %}
               {{lecturer.fullname}}
             {% endif %}
           </a>
         </h4>
-        {% if lecturer.profession and not webinar.anonymize_lecturer %}
+        {% if lecturer.profession and not webinar.anonymize_lecturer and not webinar.lecturer.anonymize %}
           <p class="mb-1 fs-6">{{lecturer.profession}}</p>
         {% endif %}
 
         {% with lecturer_opinions_count=lecturer_service.get_lecturer_opinions_count %}
         {% if lecturer_opinions_count %}
         
-        {% if not webinar.anonymize_lecturer %}
+        {% if not webinar.anonymize_lecturer and not webinar.lecturer.anonymize %}
         <p class="fs-6 mb-1 d-flex align-items-center">
           <span class="text-warning">4.5</span>
           <span class="mx-1">
@@ -70,7 +70,7 @@
     </div>
 
     <div class="m-0 mt-2">
-      {% if not webinar.anonymize_lecturer %}
+      {% if not webinar.anonymize_lecturer and not webinar.lecturer.anonymize %}
       <a href="{% url "core:lecturer_opinion_form_page" slug=lecturer.slug %}" class="btn btn-primary btn-xs mb-2">
         Dodaj opinię
       </a>
@@ -82,7 +82,7 @@
       {% endfor %}
     </div>
 
-    {% if not webinar.anonymize_lecturer %}
+    {% if not webinar.anonymize_lecturer and webinar.lecturer.anonymize %}
     <div class="border-top row border-bottom mb-3 g-0">
       {% if lecturer.fake_stat_participants %}
       <div class="col">
@@ -117,7 +117,7 @@
 
 
     {% if lecturer.biography_email %}
-    {% if webinar.anonymize_lecturer %}
+    {% if webinar.anonymize_lecturer and webinar.lecturer.anonymize %}
       <p class="m-0">
         <div id="id_lecturer_long_desc">{{lecturer.biography_email}}</div>
       </p>

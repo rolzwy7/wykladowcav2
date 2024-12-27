@@ -11,7 +11,7 @@ from .abstracts import KonkurencjaFetcher
 
 
 class CentrumVerteFetcher(KonkurencjaFetcher):
-    """KonkurencjaCentrumVerte"""
+    """CentrumVerteFetcher"""
 
     def get_program(self) -> str | None:
         """Retrieve the program details."""

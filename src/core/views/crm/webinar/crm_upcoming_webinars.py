@@ -13,7 +13,7 @@ from core.services import CrmWebinarService
 def crm_upcoming_webinars(request):
     """CRM upcoming webinars"""
 
-    webinars = Webinar.manager.get_init_or_confirmed_webinars()
+    webinars = Webinar.manager.get_init_or_confirmed_or_draft_webinars()
 
     param_any = False
 

@@ -28,6 +28,7 @@ class WebinarApplicationStep:
 class WebinarStatus:
     """Webinar status enum"""
 
+    DRAFT = "DRAFT"
     INIT = "INIT"
     CONFIRMED = "CONFIRMED"
     CANCELED = "CANCELED"

@@ -20,6 +20,7 @@ class KonkurencjaFetcher(ABC):
         self.logs: list[str] = []
         self.html_content = ""
         self.selector = Selector(text="")
+        self.initialize_error = False
 
     def append_log(self, method: str, line: str):
         """append log"""
@@ -54,7 +55,8 @@ class KonkurencjaFetcher(ABC):
 
         if content == "not_fetched":
             self.append_log("initialize", f"Could not fetch after {retries} retries")
-            raise RuntimeError("Fetcher failed")
+            self.initialize_error = True
+            return
 
         self.html_content = content
         self.selector = Selector(text=content)

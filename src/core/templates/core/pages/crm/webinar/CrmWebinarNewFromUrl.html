@@ -1,0 +1,19 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+
+{% block crm_content %}
+
+<form method="POST" action="{% url "core:crm_webinar_new_from_url" %}">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" class="btn btn-primary mt-2" value="Stwórz z URL">
+</form>
+
+{% endblock crm_content %}
+
+{% block body_scripts %}{% endblock body_scripts %}
+
+
+

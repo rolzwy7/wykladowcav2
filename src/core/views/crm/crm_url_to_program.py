@@ -31,7 +31,7 @@ def crm_url_to_program(request, pk):
             url = form.cleaned_data["url"]
 
             try:
-                fetcher = konkurencja_fetcher(url)
+                _, fetcher = konkurencja_fetcher(url)
             except Exception as e:
                 return HttpResponse(f"{e}", content_type="text/html; charset=utf-8")
 

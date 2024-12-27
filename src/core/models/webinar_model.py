@@ -49,6 +49,34 @@ class WebinarManager(Manager):
             Q(status__in=[WebinarStatus.INIT, WebinarStatus.CONFIRMED])
         )
 
+    def get_init_or_confirmed_or_draft_webinars(self) -> QuerySet["Webinar"]:
+        """Returns `initialized` of `confirmed` or `draft` webinars
+
+        Returns:
+            QuerySet['Webinar']: queryset of webinars
+        """
+        return self.get_queryset().filter(
+            # Only show webinars with given status
+            Q(
+                status__in=[
+                    WebinarStatus.INIT,
+                    WebinarStatus.CONFIRMED,
+                    WebinarStatus.DRAFT,
+                ]
+            )
+        )
+
+    def get_draft_webinars(self) -> QuerySet["Webinar"]:
+        """Returns `draft` webinars
+
+        Returns:
+            QuerySet['Webinar']: queryset of webinars
+        """
+        return self.get_queryset().filter(
+            # Only show webinars with given status
+            Q(status__in=[WebinarStatus.DRAFT])
+        )
+
     def get_done_or_canceled_webinars(self) -> QuerySet["Webinar"]:
         """Returns `done` or `canceled` webinars
 
@@ -228,6 +256,7 @@ class Webinar(Model):
     )
 
     STATUS = [
+        (WebinarStatus.DRAFT, "Wersja robocza"),
         (WebinarStatus.INIT, "Planowany termin"),
         (WebinarStatus.CONFIRMED, "Termin potwierdzony"),
         (WebinarStatus.CANCELED, "Termin odwołany"),
@@ -453,6 +482,10 @@ class WebinarMetadata(Model):
     click_count_mailing = PositiveIntegerField("Kliknięcia Mailing", default=0)
     click_count_facebook = PositiveIntegerField("Kliknięcia Facebook", default=0)
     site_enter_count = PositiveIntegerField("Wejść na stronę", default=0)
+
+    fetched_from = CharField("fetched_from", blank=True, max_length=32)
+    fetched_from_url = CharField("fetched_from_url", blank=True, max_length=512)
+    fetched_too_long_title = BooleanField("fetched_too_long_title", default=False)
 
     def __str__(self) -> str:
         return f"Metadata for webinar {self.pk}"
