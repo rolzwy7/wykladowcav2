@@ -5,10 +5,29 @@
 
 {% block crm_content %}
 
-<form method="POST" action="{% url "core:crm_webinar_new_from_url" %}">
+<h1>Dodaj webinar od Konkurencji (URL)</h1>
+
+<hr>
+
+<b class="text-dark">Obsługiwana konkurencja:</b>
+<ol>
+    {% for konkurencja_name, konkurencja_url in supported_konkurencja %}
+        <li><span class="fs-5 fw-bolder text-primary">{{konkurencja_name}}</span> - <small>(zawiera <i>{{konkurencja_url}}</i>)</small></li>
+    {% endfor %}
+</ol>
+<hr>
+
+<hr>
+
+<form
+    method="POST"
+    action="{% url "core:crm_webinar_new_from_url" %}"
+    onsubmit="actionSubmit.disabled = true; return true;"
+>
     {% csrf_token %}
     {{form}}
-    <input type="submit" class="btn btn-primary mt-2" value="Stwórz z URL">
+    <hr>
+    <input type="submit" name="actionSubmit" class="btn btn-primary mt-2" value="Stwórz z URL'a">
 </form>
 
 {% endblock crm_content %}

@@ -10,7 +10,10 @@ from django.urls import reverse
 from django.utils.timezone import now
 
 from core.consts.requests_consts import POST
-from core.libs.konkurencja.flightcontrol import konkurencja_fetcher
+from core.libs.konkurencja.flightcontrol import (
+    KONKURENCJA_FETCHERS,
+    konkurencja_fetcher,
+)
 from core.models import Lecturer, Webinar, WebinarMetadata
 from core.models.enums.webinar_enums import WebinarStatus
 
@@ -72,4 +75,12 @@ def crm_webinar_new_from_url(request):
     else:
         form = UrlForm()
 
-    return TemplateResponse(request, template_name, {"form": form})
+    supported_konkurencja = [
+        (kname, ktuple[0]) for kname, ktuple in KONKURENCJA_FETCHERS.items()
+    ]
+
+    return TemplateResponse(
+        request,
+        template_name,
+        {"form": form, "supported_konkurencja": supported_konkurencja},
+    )
