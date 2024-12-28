@@ -12,7 +12,7 @@ from django.core.management.base import BaseCommand
 from django.utils.timezone import now
 
 from core.consts import TelegramChats
-from core.libs.mailing.schedule import schedule_mailing
+from core.libs.mailing.schedule import schedule_log, schedule_mailing
 from core.models import MailingScheduled
 from core.models.enums import MailingPoolStatus
 from core.models.enums.mailing_enums import MailingScheduledStatus
@@ -31,6 +31,10 @@ class Command(BaseCommand):
         """handle"""
 
         schedules = MailingScheduled.manager.get_ready_to_schedule()
+        telegram_service = TelegramService()
 
         for schedule in schedules:
-            schedule_mailing(schedule)
+            print(schedule)
+            result = schedule_log(schedule, "Log")
+            # telegram_service.try_send_chat_message("", TelegramChats.OTHER)
+            # schedule_mailing(schedule)

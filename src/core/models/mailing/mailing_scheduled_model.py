@@ -76,7 +76,9 @@ class MailingScheduled(Model):
     )
 
     scheduled_at = DateTimeField(
-        "Stworzony automatycznie o", help_text="Kiedy automat stworzył kampanie?"
+        "Stworzony automatycznie",
+        null=True,
+        help_text="Kiedy automat stworzył kampanie?",
     )
 
     schedule_after = DateTimeField(
@@ -105,6 +107,12 @@ class MailingScheduled(Model):
         "Tagi",
         blank=True,
         help_text="Z jakich tagów mają zostać wrzucone adresy e-mail",
+    )
+
+    logi = TextField(
+        "Logi",
+        blank=True,
+        help_text="Logi",
     )
 
     class Meta:
