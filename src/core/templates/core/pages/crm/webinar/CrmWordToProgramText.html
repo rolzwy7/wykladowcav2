@@ -5,14 +5,27 @@
 
 {% block crm_content %}
 
-{{webinar}}
+<h1>Program z Word'a</h1>
 
 <hr>
 
-<form method="POST" enctype='multipart/form-data' action="{% url "core:crm_word_to_program_text" pk=webinar.pk %}">
+{{webinar}}
+{{webinar.date|date:"j E Y"}} r. <br>
+{{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}} <br>
+{{webinar.lecturer}} <br>
+
+<hr>
+
+<form
+    method="POST"
+    enctype='multipart/form-data'
+    action="{% url "core:crm_word_to_program_text" pk=webinar.pk %}"
+    onsubmit="actionSubmit.disabled = true; return true;"
+>
     {% csrf_token %}
     {{form}}
-    <input type="submit" value="Przejdź dalej">
+    <hr>
+    <input type="submit" name="actionSubmit" class="btn btn-sm btn-primary" value="Przejdź dalej do „Tabowania”">
 </form>
 
 {% endblock crm_content %}

@@ -1,4 +1,5 @@
 {% load static %}
+{% load custom_templatetags %}
 <!DOCTYPE html>
 <html lang="{{META__HTML_LANG}}">
 <!-- Bartosz Nowakowski -->
@@ -23,6 +24,16 @@
         background-color: rgba(213, 213, 213, 0.7)!important;
       }
     </style>
+    {% if request.path|startswith:'/crm/' %}
+    <style>
+      .header-fixed .header {
+        height: 44px !important;
+      }
+      body.header-fixed {
+        padding-top: 44px !important;
+      }
+    </style>
+    {% endif %}
   </head>
   <!--end::Head-->
   

@@ -9,7 +9,10 @@ from django.template.response import TemplateResponse
 from django.urls import reverse
 
 from core.consts.requests_consts import POST
-from core.libs.konkurencja.flightcontrol import konkurencja_fetcher
+from core.libs.konkurencja.flightcontrol import (
+    KONKURENCJA_FETCHERS,
+    konkurencja_fetcher,
+)
 from core.models import Webinar
 
 
@@ -55,4 +58,16 @@ def crm_url_to_program(request, pk):
     else:
         form = UrlForm()
 
-    return TemplateResponse(request, template_name, {"webinar": webinar, "form": form})
+    supported_konkurencja = [
+        (kname, ktuple[0]) for kname, ktuple in KONKURENCJA_FETCHERS.items()
+    ]
+
+    return TemplateResponse(
+        request,
+        template_name,
+        {
+            "webinar": webinar,
+            "form": form,
+            "supported_konkurencja": supported_konkurencja,
+        },
+    )

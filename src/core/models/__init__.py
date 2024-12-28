@@ -34,6 +34,7 @@ from .mailing import (
     MailingTemplate,
     SmtpSender,
 )
+from .mailing.mailing_scheduled_model import MailingScheduled
 from .redirects import RedirectManual
 from .service_offer_model import ServiceOffer, ServiceOfferApplication, ServiceOfferLead
 from .survey import Survey, SurveyAnswer, SurveyOpinion, SurveyVote

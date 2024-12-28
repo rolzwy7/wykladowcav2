@@ -5,38 +5,55 @@
 
 {% block crm_content %}
 
-<ul>
-{% if extra == 0 %}
-    <li><a href="./?extra=1">2 terminy</a></li>
-    <li><a href="./?extra=2">3 terminy</a></li>
-    <li><a href="./?extra=3">4 terminy</a></li>
-    <li><a href="./?extra=4">5 terminów</a></li>
-    <li><a href="./?extra=5">6 terminów</a></li>
+<h1>Duplikuj Hurtowo</h1>
+
+{% if webinar.is_default_program %}
+<p class="fw-bold fs-3 text-danger">
+    Uwaga. Coś jest nie tak z programem tego szkolenia. Jest pusty LUB domyślny LUB podejrznie krótki.
+</p>
+<p class="fw-bold fs-3 text-danger">
+    Napraw to przed duplikacją, bo inaczej będzie bolało.
+</p>
+{% endif %}
+
+<hr>
+
+<h2>Ile terminów chcesz stworzyć z tego terminu?</h2>
+
+{% for idx in menu %}
+    {% if extra == idx|add:-1 %}
+        <button disabled class="btn btn-sm btn-secondary p-1 px-2">{{idx}} termin/y</button>
     {% else %}
-    <li><a href="./?extra=0">Wybierz inną ilość terminów</a></li>
+        <a href="./?extra={{idx|add:-1}}" class="btn btn-sm btn-primary p-1 px-2">{{idx}} termin/y</a>
     {% endif %}
-</ul>
+{% endfor %}
+
+<hr>
+
+<h3>Obecnie formularz jest ustawiony na stworzenie <u>{{extra|add:1}} termin/y/ów</u></h3>
+
+<hr>
 
 <form method="post" action="{% url "core:crm_webinar_bulk_duplicate" pk=webinar.pk %}?extra={{extra}}">
     {% csrf_token %}
     {{ formset.management_form }}
-    <table>
-        {% for form in formset %}
-            <tr>
-                {% for field in form %}
-                    <td>
-                        {{ field.label_tag }} {{ field }}
-                        {% if field.errors %}
-                            <div class="errors">
-                                {{ field.errors }}
-                            </div>
-                        {% endif %}
-                    </td>
-                {% endfor %}
-            </tr>
+    {% for form in formset %}
+        <div>
+        <h3>Termin {{forloop.counter}} z {{extra|add:1}}</h3>
+        {% for field in form %}
+            {{ field.label_tag }} {{ field }}
+            {% if field.errors %}
+                <div class="errors">
+                    {{ field.errors }}
+                </div>
+            {% endif %}
+            <br>
         {% endfor %}
-    </table>
-    <button type="submit">Submit</button>
+        </div>
+        <hr>
+    {% endfor %}
+    <hr>
+    <button type="submit" class="btn btn-primary">Stwórz termin/y</button>
 </form>
 
 {% endblock crm_content %}

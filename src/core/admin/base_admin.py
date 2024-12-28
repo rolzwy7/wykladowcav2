@@ -19,6 +19,7 @@ from core.models import (
     LoyaltyProgramPayout,
     MailingCampaign,
     MailingReplyMessage,
+    MailingScheduled,
     MailingTemplate,
     ServiceOffer,
     ServiceOfferLead,
@@ -40,6 +41,8 @@ from core.models import (
     WebinarRecording,
     WebinarRecordingToken,
 )
+
+admin.site.register(MailingScheduled)
 
 admin.site.register(SurveyAnswer)
 admin.site.register(Survey)

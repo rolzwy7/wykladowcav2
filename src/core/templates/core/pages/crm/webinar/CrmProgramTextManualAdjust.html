@@ -5,9 +5,25 @@
 
 {% block crm_content %}
 
-<form method="POST" action="{% url "core:crm_program_text_manual_adjust" pk=webinar.pk %}">
+<h1>Program z „Tabowania”</h1>
+
+<hr>
+
+{{webinar}}
+{{webinar.date|date:"j E Y"}} r. <br>
+{{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}} <br>
+{{webinar.lecturer}} <br>
+
+<hr>
+
+<form
+    method="POST"
+    action="{% url "core:crm_program_text_manual_adjust" pk=webinar.pk %}"
+    onsubmit="actionSubmit.disabled = true; return true;"
+>
     {% csrf_token %}
-    <input type="submit" class="btn btn-primary" value="Zapisz">
+    <input type="submit" name="actionSubmit" class="btn btn-primary" value="Stwórz program z „Tabowania”">
+    <hr>
     {{form}}
 </form>
 

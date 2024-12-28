@@ -17,8 +17,18 @@ def crm_upcoming_webinars(request):
 
     param_any = False
 
+    # Show only drafts
+    param_show_only_drafts = request.GET.get("show_only_drafts")
+    if param_show_only_drafts:
+        param_any = True
+        webinars = Webinar.manager.get_draft_webinars()
+    else:
+        webinars = Webinar.manager.get_init_or_confirmed_or_draft_webinars()
+
     # Show counters
     param_show_counters = request.GET.get("show_counters")
+    if param_show_counters:
+        param_any = True
 
     # Hide old webinars
     param_hide_old = request.GET.get("hide_old")
@@ -60,6 +70,7 @@ def crm_upcoming_webinars(request):
             "param_search": param_search or "",
             "param_hide_fake": param_hide_fake,
             "param_show_counters": param_show_counters,
+            "param_show_only_drafts": param_show_only_drafts,
             # "webinars_ctxs": [
             #     CrmWebinarService(webinar).get_context() for webinar in webinars
             # ],

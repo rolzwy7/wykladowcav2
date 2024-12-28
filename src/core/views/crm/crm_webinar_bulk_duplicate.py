@@ -6,9 +6,10 @@ from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
+from django.utils import timezone
 
 from core.consts.requests_consts import POST
-from core.models import Webinar
+from core.models import Webinar, WebinarMetadata
 from core.models.enums import WebinarStatus
 
 
@@ -25,7 +26,7 @@ class WebinarForm(forms.ModelForm):
 def crm_webinar_bulk_duplicate(request, pk):
     """crm_webinar_bulk_duplicate"""
     template_name = "core/pages/crm/webinar/CrmWebinarBulkDuplicate.html"
-    webinar = get_object_or_404(Webinar, pk=pk)
+    original_webinar = get_object_or_404(Webinar, pk=pk)
 
     if request.GET.get("extra"):
         extra = int(request.GET["extra"])
@@ -43,10 +44,14 @@ def crm_webinar_bulk_duplicate(request, pk):
             is_fake = form.cleaned_data["is_fake"]
             is_hidden = form.cleaned_data["is_hidden"]
             price_netto = form.cleaned_data["price_netto"]
-            date = form.cleaned_data["date"]
 
+            date = timezone.make_aware(form.cleaned_data["date"])
+
+            # Create webinar
             webinar: Webinar = Webinar.manager.get(pk=pk)
+            metadata, _ = WebinarMetadata.objects.get_or_create(webinar=webinar)
             temp_categories = [_ for _ in webinar.categories.all()]
+
             webinar.id = None  # type: ignore
             webinar.is_fake = is_fake
             webinar.is_hidden = is_hidden
@@ -55,23 +60,42 @@ def crm_webinar_bulk_duplicate(request, pk):
             webinar.slug = ""
             webinar.status = WebinarStatus.INIT
             webinar.save()
+
+            # Populate new metadata
+            new_metadata, _ = WebinarMetadata.objects.get_or_create(webinar=webinar)
+            new_metadata.fetched_from = metadata.fetched_from
+            new_metadata.fetched_from_url = metadata.fetched_from_url
+            new_metadata.fetched_too_long_title = metadata.fetched_too_long_title
+            new_metadata.save()
+
+            # Add categories
             for cat in temp_categories:
                 webinar.categories.add(cat)
+
+            metadata.save()
+
         return redirect(reverse("core:crm_upcoming_webinars"))
     else:
         formset = WebinarFormSet(
             queryset=Webinar.manager.filter(pk=pk),
             initial=[
                 {
-                    "is_fake": webinar.is_fake,
-                    "is_hidden": webinar.is_hidden,
-                    "price_netto": webinar.price_netto,
-                    "date": webinar.date,
+                    "is_fake": original_webinar.is_fake,
+                    "is_hidden": original_webinar.is_hidden,
+                    "price_netto": original_webinar.price_netto,
+                    "date": original_webinar.date,
                 }
                 for _ in range(extra)
             ],
         )
 
     return TemplateResponse(
-        request, template_name, {"webinar": webinar, "formset": formset, "extra": extra}
+        request,
+        template_name,
+        {
+            "webinar": original_webinar,
+            "formset": formset,
+            "extra": extra,
+            "menu": [_ for _ in range(1, 11)],
+        },
     )

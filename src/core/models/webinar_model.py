@@ -431,12 +431,23 @@ class Webinar(Model):
         """Display webinar datetime in human format"""
         return _date(self.date, "j E Y - H:i")
 
+    @property
+    def is_default_program(self):
+        """Check if default program is set"""
+        return any(
+            [
+                "[program szkolenia]" in str(self.program).lower(),
+                self.program == "",
+                len(self.program) < 50,
+            ]
+        )
+
     def clean(self):
 
         try:
             self.lecturer
         except Exception as e:
-            raise ValidationError("Nie podano wykładowcy")
+            raise ValidationError("Nie podano wykładowcy") from e
 
         # Make sure that discount price is >= than normal price
         if all(

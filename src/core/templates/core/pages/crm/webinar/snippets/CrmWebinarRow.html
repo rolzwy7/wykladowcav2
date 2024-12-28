@@ -29,6 +29,23 @@
     <td style="max-width: 350px;">
         
         <div class="mb-1">
+            {% if webinar.status == "DRAFT" %}
+            <span class="badge badge-info">
+                <a href="./?show_only_drafts=1" class="text-white">
+                    Wersja robocza
+                </a>
+            </span>
+            {% endif %}
+            {% if webinar_ctx.webinar_metadata.fetched_from %}
+                <a href="{{webinar_ctx.webinar_metadata.fetched_from_url}}" target="_blank">
+                    <span class="badge badge-success">
+                        {{webinar_ctx.webinar_metadata.fetched_from}}
+                    </span>
+                </a>
+            {% endif %}
+            {% if webinar.status == "DRAFT" or webinar_ctx.webinar_metadata.fetched_from %}
+            <br>
+            {% endif %}
             <a href="{% url 'core:crm_webinar_detail_dashboard' pk=webinar.pk %}"
                 {% if webinar.is_connected_to_conference %}
                 class="text-white bg-info text-hover-primary fw-bold me-1"
@@ -39,32 +56,25 @@
                 {% endif %}
             >
                 <span class="fs-5">{{webinar.title_original}}</span>
-                {% if webinar_ctx.webinar_metadata.fetched_from %}
-                    <a href="{{webinar_ctx.webinar_metadata.fetched_from_url}}" target="_blank">
-                        <span class="badge badge-success">
-                            {{webinar_ctx.webinar_metadata.fetched_from}}
-                        </span>
-                    </a>
-                {% endif %}
                 
             </a>
             {% if webinar_ctx.conference_edition and not webinar_ctx.conference_edition.clickmeeting_pasted %}
             <br>
-            <b class="text-white bg-danger px-2">Uzupełnij klucz/strumień w ClickMeeting !</b>
+            <b class="text-danger bg-light-danger px-2">Uzupełnij klucz/strumień w ClickMeeting !</b>
             {% endif %}
             {% if webinar_ctx.conference_edition and not webinar_ctx.conference_edition.dashboard_url %}
             <br>
-            <b class="text-white bg-danger px-2">Czy został utworzony stream na YT / FB ?!</b>
+            <b class="text-danger bg-light-danger px-2">Czy został utworzony stream na YT / FB ?!</b>
             {% endif %}
 
             {% if webinar_ctx.is_default_program %}
             <br>
-            <b class="text-white bg-danger px-2">BRAK USTAWIONEGO PROGRAMU</b>
+            <b class="text-danger bg-light-danger px-2">BRAK USTAWIONEGO PROGRAMU</b>
             {% endif %}
 
             {% if not webinar.fakturownia_category and not webinar_ctx.conference_edition %}
             <br>
-            <b class="text-white bg-danger px-2">Brak kategorii dla fakturowni</b>
+            <b class="text-danger bg-light-danger px-2">Brak kategorii dla fakturowni</b>
             {% endif %}
 
             <br>
@@ -142,6 +152,9 @@
                 </span>
             </li>
             {% endif %}
+            <div class="mt-2 ps-5">
+                {% include "./WebinarRowMenu.html" with webinar_ctx=webinar_ctx %}
+            </div>
         </div>
 
     </td>
@@ -278,7 +291,7 @@
         {% endif %}
 
         {% if webinar_ctx.mailing_campaigns %}
-        <div class="mt-4">
+        <div class="mt-2">
             <b><u>Mailingi:</u></b> <br>
             {% for mailing_campaign in webinar_ctx.mailing_campaigns %}
                 <span>

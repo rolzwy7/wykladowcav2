@@ -26,6 +26,7 @@ from .mailchimp import *
 from .mailing import *
 from .mongo import *
 from .niebieski import *
+from .omega_indexer import OMEGA_INDEXER_API_KEY
 from .redis import *
 from .regon import *
 from .rest_framework import *

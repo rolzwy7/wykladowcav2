@@ -5,18 +5,29 @@
 
 {% block crm_content %}
 
-{{webinar}} <br>
-{{webinar.date|date:"j E Y"}} r. <br>
-{{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}} <br>
-{{webinar.lecturer}}
+<h1>Program od Konkurencji (URL)</h1>
 
 <hr>
-<b class="text-danger">Obsługuję: CentrumVerte, IzbaPodatkowa.pl, jgt.pl</b>
+
+{{webinar}}
+{{webinar.date|date:"j E Y"}} r. <br>
+{{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}} <br>
+{{webinar.lecturer}} <br>
+
+<hr>
+
+<b class="text-dark">Obsługiwana konkurencja:</b>
+<ol>
+    {% for konkurencja_name, konkurencja_url in supported_konkurencja %}
+        <li><span class="fs-5 fw-bolder text-primary">{{konkurencja_name}}</span> - <small>(zawiera <i>{{konkurencja_url}}</i>)</small></li>
+    {% endfor %}
+</ol>
 <hr>
 
 <form method="POST" action="{% url "core:crm_url_to_program" pk=webinar.pk %}">
     {% csrf_token %}
     {{form}}
+    <hr>
     <input type="submit" class="btn btn-primary mt-2" value="Pobierz program">
 </form>
 

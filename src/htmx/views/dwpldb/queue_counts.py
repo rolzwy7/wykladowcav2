@@ -19,7 +19,7 @@ def regon_queue_count(request):
         count = cache.get(cache_key)
     else:
         client, db = get_dwpldbv3_connection()
-        count = db["regon_queue"].count_documents({})
+        count = db["regon_queue"].estimated_document_count({})
         client.close()
         cache.set(cache_key, count, timeout=cache_seconds)
 
@@ -37,7 +37,7 @@ def email_verify_queue_count(request):
         count = cache.get(cache_key)
     else:
         client, db = get_dwpldbv3_connection()
-        count = db["email_verify_queue"].count_documents({})
+        count = db["email_verify_queue"].estimated_document_count({})
         client.close()
         cache.set(cache_key, count, timeout=cache_seconds)
 
@@ -55,7 +55,7 @@ def scraper_queue_static_count(request):
         count = cache.get(cache_key)
     else:
         client, db = get_dwpldbv3_connection()
-        count = db["scraper_queue_static"].count_documents({})
+        count = db["scraper_queue_static"].estimated_document_count({})
         client.close()
         cache.set(cache_key, count, timeout=cache_seconds)
 
