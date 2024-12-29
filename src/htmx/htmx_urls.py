@@ -29,7 +29,7 @@ urlpatterns = [
     path(
         "webinar-omega-indexer/<int:pk>/",
         webinar_omega_indexer,
-        name="webinar-omega-indexer",
+        name="htmx-webinar-omega-indexer",
     ),
     path(
         "static-files/disc-space/",

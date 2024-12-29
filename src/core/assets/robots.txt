@@ -1,14 +1,13 @@
-facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)
+User-agent: facebookexternalhit/1.1
 Allow: /
 
-facebookexternalhit/1.1
-Allow: /
-
-facebookcatalog/1.0
+User-agent: facebookcatalog/1.0
 Allow: /
 
 User-agent: *
-Allow: /
 Disallow: /cgi-bin/
 Disallow: /cms/
 Disallow: /crm/
+Allow: /
+
+Sitemap: https://wykladowca.pl/sitemap.xml

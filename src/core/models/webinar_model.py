@@ -498,5 +498,7 @@ class WebinarMetadata(Model):
     fetched_from_url = CharField("fetched_from_url", blank=True, max_length=512)
     fetched_too_long_title = BooleanField("fetched_too_long_title", default=False)
 
+    omega_indexer_queued = BooleanField("omega_indexer_queued", default=False)
+
     def __str__(self) -> str:
         return f"Metadata for webinar {self.pk}"

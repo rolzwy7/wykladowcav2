@@ -241,6 +241,7 @@
         {% if webinar_ctx.click_count_onesignal %}
             <span>PUSH={{webinar_ctx.click_count_onesignal}}</span>
         {% endif %}
+        <br>
         </span>
 
     </td>
@@ -251,7 +252,7 @@
         {% else %}
             {% if webinar.status == "INIT" %}
             <b class="text-danger">Nie odbył się</b>
-            <div hx-get="{% url 'htmx:htmx_crm_cancel_webinar' pk=webinar.pk %}" hx-trigger="click">
+            <div hx-get="{% url 'htmx:htmx_crm_cancel_webinar' pk=webinar.pk %}" hx-trigger="click" hx-swap="outerHTML">
                 {% comment %} <img  alt="Ładowanie..." class="htmx-indicator" width="10" height="10" src="{% static 'media/misc/spinner.gif' %}"/> {% endcomment %}
                 <button
                     class="btn btn-danger py-0 px-1 fs-6"
@@ -273,7 +274,7 @@
                 <br>
                 <b>
                     <a href="{% url 'core:crm_webinar_assets' pk=webinar.pk %}" class="text-danger fw-bold text-hover-primary">
-                        PRZEŚLIJ MATERIAŁY
+                        !! PRZEŚLIJ MATERIAŁY !!
                     </a>
                 </b>
             {% endif %}
@@ -288,6 +289,24 @@
                 <b>Materiały: {{webinar_ctx.webinar_assets_count}} plików</b>
             </a>
         </span>
+        {% endif %}
+
+        <div class="my-5"></div>
+
+        {% if webinar_ctx.webinar_metadata.omega_indexer_queued %}
+        <div>
+            <span>Omega Indexer włączony</span>
+        </div>
+        {% else %}
+            {% if not webinar.is_connected_to_conference and webinar.status == "INIT" %}
+            <div hx-get="{% url 'htmx:htmx-webinar-omega-indexer' pk=webinar.pk %}" hx-trigger="click" hx-swap="outerHTML">
+                <button
+                    class="btn btn-secondary py-0 px-1 fs-6"
+                >
+                    Włącz Omega Indexer
+                </button>
+            </div>
+            {% endif %}
         {% endif %}
 
         {% if webinar_ctx.mailing_campaigns %}

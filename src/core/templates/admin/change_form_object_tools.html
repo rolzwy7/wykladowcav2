@@ -14,16 +14,11 @@
     <a href="{% url "core:crm_webinar_duplicate" pk=original.pk %}" class="historylink" style="margin-right:10px;">Duplikuj szkolenie</a>
     {% endif %}
     {% endwith %} {% endcomment %}
-    
-    {% with original_pk=original.pk|stringformat:"i" %}
-    {% if request.path == '/cms/core/webinar/'|add:original_pk|add:'/change/' %}
-    <a href="{% url "core:crm_webinar_bulk_duplicate" pk=original.pk %}" class="historylink" style="margin-right:10px;">Duplikuj szkolenie</a>
-    {% endif %}
-    {% endwith %}
+
 
     {% with original_pk=original.pk|stringformat:"i" %}
     {% if request.path == '/cms/core/webinar/'|add:original_pk|add:'/change/' %}
-    <a href="{% url "core:crm_webinar_bulk_duplicate" pk=original.pk %}" class="historylink" style="margin-right:10px;">Duplikuj hurtowo</a>
+    <a href="{% url "core:crm_webinar_bulk_duplicate" pk=original.pk %}" class="historylink" style="margin-right:10px;">Duplikuj</a>
     {% endif %}
     {% endwith %}
 
@@ -36,6 +31,12 @@
     {% with original_pk=original.pk|stringformat:"i" %}
     {% if request.path == '/cms/core/webinar/'|add:original_pk|add:'/change/' %}
     <a href="{% url "core:crm_url_to_program" pk=original.pk %}" class="historylink" style="margin-right:10px;">Program z URL</a>
+    {% endif %}
+    {% endwith %}
+
+    {% with original_pk=original.pk|stringformat:"i" %}
+    {% if request.path == '/cms/core/webinar/'|add:original_pk|add:'/change/' %}
+    <a href="{% url "core:crm_program_text_manual_adjust" pk=original.pk %}" class="historylink" style="margin-right:10px;">Program z Tabowania</a>
     {% endif %}
     {% endwith %}
     
@@ -54,4 +55,6 @@
     <a href="{% add_preserved_filters history_url %}" class="historylink">{% translate "History" %}</a>
 </li>
 {% if has_absolute_url %}<li><a href="{{ absolute_url }}" class="viewsitelink">{% translate "View on site" %}</a></li>{% endif %}
+
+
 {% endblock %}

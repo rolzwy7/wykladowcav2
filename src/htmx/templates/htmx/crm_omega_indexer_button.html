@@ -1,0 +1,9 @@
+<div hx-target="this" hx-swap="outerHTML">
+    <button
+        class="btn btn-dark py-0 px-1 fs-6"
+        hx-confirm="Czy chcesz wsadzić do kolejki Omega Indexer?"
+        hx-post="{% url 'htmx:htmx-webinar-omega-indexer' pk=webinar.pk %}"
+    >
+        Potwierdź Omega Indexer
+    </button>
+</div>
