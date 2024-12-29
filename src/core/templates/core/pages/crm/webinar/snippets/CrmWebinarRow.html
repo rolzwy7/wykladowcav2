@@ -298,7 +298,7 @@
             <span>Omega Indexer włączony</span>
         </div>
         {% else %}
-            {% if not webinar.is_connected_to_conference and webinar.status == "INIT" %}
+            {% if not webinar.is_connected_to_conference and webinar.status == "INIT" and webinar.time_to_webinar %}
             <div hx-get="{% url 'htmx:htmx-webinar-omega-indexer' pk=webinar.pk %}" hx-trigger="click" hx-swap="outerHTML">
                 <button
                     class="btn btn-secondary py-0 px-1 fs-6"
