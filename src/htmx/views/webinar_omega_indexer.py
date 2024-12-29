@@ -10,7 +10,7 @@ from django.urls import reverse
 
 from core.consts import POST
 from core.libs.omega_indexer.request import omega_indexer_request
-from core.models import Webinar
+from core.models import Webinar, WebinarMetadata
 
 
 def webinar_omega_indexer(request: HttpRequest, pk: int):
@@ -26,6 +26,10 @@ def webinar_omega_indexer(request: HttpRequest, pk: int):
             "core:webinar_program_page", kwargs={"slug": webinar.slug}
         )
         response_text = omega_indexer_request(absolute_url, timeout=10)
+
+        webinar_metadata = WebinarMetadata.objects.get(webinar=webinar)
+        webinar_metadata.omega_indexer_queued = True
+        webinar_metadata.save()
 
         return TemplateResponse(
             request,
