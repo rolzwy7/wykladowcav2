@@ -89,7 +89,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     # Edit your settings.py file and add WhiteNoise to the MIDDLEWARE list
     # above all other middleware apart from Django’s SecurityMiddleware
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    # "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
