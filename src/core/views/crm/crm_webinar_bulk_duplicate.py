@@ -45,7 +45,8 @@ def crm_webinar_bulk_duplicate(request, pk):
             is_hidden = form.cleaned_data["is_hidden"]
             price_netto = form.cleaned_data["price_netto"]
 
-            date = timezone.make_aware(form.cleaned_data["date"])
+            # date = timezone.make_aware(form.cleaned_data["date"])
+            date = form.cleaned_data["date"]
 
             # Create webinar
             webinar: Webinar = Webinar.manager.get(pk=pk)
