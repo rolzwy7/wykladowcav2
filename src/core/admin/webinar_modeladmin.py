@@ -4,6 +4,7 @@ from django import forms
 from django.contrib.admin import ModelAdmin, StackedInline, register
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
+from simple_history.admin import SimpleHistoryAdmin
 from tinymce.widgets import TinyMCE
 
 from core.models import Webinar, WebinarCategory, WebinarMetadata
@@ -52,7 +53,7 @@ class WebinarModelAdminForm(ModelForm):
 
 
 @register(Webinar)
-class WebinarModelAdmin(ModelAdmin):
+class WebinarModelAdmin(SimpleHistoryAdmin):
     """Webinar Model Admin"""
 
     def save_related(self, request, form, formsets, change):

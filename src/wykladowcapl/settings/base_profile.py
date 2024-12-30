@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     "django_celery_beat",
     "tinymce",
     "debug_toolbar",
+    "simple_history",
     # "csp",
     "corsheaders",
     # Django
@@ -99,8 +100,10 @@ MIDDLEWARE = [
     # Custom middleware
     "core.middleware.CoreMiddleware",
     "core.middleware.LoyaltyProgramMiddleware",
+    "simple_history.middleware.HistoryRequestMiddleware",
     # 3rd party
     # "csp.middleware.CSPMiddleware",
+    "django.middleware.gzip.GZipMiddleware",
 ]
 
 ROOT_URLCONF = "wykladowcapl.urls"

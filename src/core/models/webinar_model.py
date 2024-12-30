@@ -29,6 +29,7 @@ from django.db.models import (
 from django.template.defaultfilters import date as _date
 from django.template.defaultfilters import timeuntil_filter
 from django.utils.timezone import now, timedelta
+from simple_history.models import HistoricalRecords
 
 from core.consts import SLUG_HELP_TEXT
 
@@ -205,6 +206,7 @@ class Webinar(Model):
     """Represents webinar"""
 
     manager = WebinarManager()
+    history = HistoricalRecords()
 
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
