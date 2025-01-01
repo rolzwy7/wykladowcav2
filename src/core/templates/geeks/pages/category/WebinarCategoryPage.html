@@ -206,16 +206,18 @@
                                              {% include 'geeks/components/webinar_tr.html' with webinar=webinar show_image=1 %}
                                            {% endfor %}
 
-                                           {% if archived_webinars %}
-                                             <tr>
-                                                <td>
-                                                   <h3>Szkolenia archiwalne</h3>
-                                                </td>
-                                             </tr>
-                                             {% for webinar in archived_webinars %}
-                                                {% include 'geeks/components/webinar_tr.html' with webinar=webinar show_image=0 %}
-                                             {% endfor %}
-                                         {% endif %}
+                                           {% comment %}
+                                             {% if archived_webinars %}
+                                               <tr>
+                                                  <td>
+                                                     <h3>Szkolenia archiwalne</h3>
+                                                  </td>
+                                               </tr>
+                                               {% for webinar in archived_webinars %}
+                                                  {% include 'geeks/components/webinar_tr.html' with webinar=webinar show_image=0 %}
+                                               {% endfor %}
+                                           {% endif %}
+                                           {% endcomment %}
 
 
                                         </tbody>
@@ -279,7 +281,7 @@
     </script>
     <script src="{% static 'js/sticksy.min.js' %}"></script>
     <script>
-        var stickyElement = new Sticksy('.js-sticky-widget', {topSpacing: 10});
+        var stickyElement = new Sticksy('.js-sticky-widget', {topSpacing: 75});
         stickyElement.onStateChanged = function (state) {
             if(state === 'fixed') {
                stickyElement.nodeRef.classList.add('widget--sticky')

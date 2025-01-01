@@ -24,7 +24,7 @@ def webinar_category_page(request, slug: str):
         category_name = "Wszystkie szkolenia"
         menu_categories = WebinarCategory.manager.get_main_categories()
         webinars = Webinar.manager.get_active_webinars()
-        archived_webinars = Webinar.manager.get_archived_webinars()
+        # archived_webinars = Webinar.manager.get_archived_webinars()
         parent = None
         trusted_us = []
         page_title = "Wszystkie szkolenia"
@@ -33,7 +33,7 @@ def webinar_category_page(request, slug: str):
         category_name = "Bezpłatne webinary"
         menu_categories = WebinarCategory.manager.get_main_categories()
         webinars = Webinar.manager.get_active_conferences()
-        archived_webinars = None
+        # archived_webinars = None
         parent = None
         trusted_us = []
         page_title = "Bezpłatne webinary"
@@ -45,18 +45,18 @@ def webinar_category_page(request, slug: str):
         if parent:
             page_title = f"{parent.name} > {category.name}"
             menu_categories = WebinarCategory.manager.get_subcategories(parent)
-            archived_webinars = (
-                Webinar.manager.get_archived_webinars_for_category_slugs([slug])
-            )
+            # archived_webinars = (
+            #     Webinar.manager.get_archived_webinars_for_category_slugs([slug])
+            # )
             webinars = Webinar.manager.get_active_webinars_for_category_slugs([slug])
         else:
             page_title = category.name
             menu_categories = WebinarCategory.manager.get_subcategories(category)
-            archived_webinars = (
-                Webinar.manager.get_archived_webinars_for_category_slugs(
-                    [slug, *[_.slug for _ in menu_categories]]
-                )
-            )
+            # archived_webinars = (
+            #     Webinar.manager.get_archived_webinars_for_category_slugs(
+            #         [slug, *[_.slug for _ in menu_categories]]
+            #     )
+            # )
             webinars = Webinar.manager.get_active_webinars_for_category_slugs(
                 [slug, *[_.slug for _ in menu_categories]]
             )
@@ -69,7 +69,7 @@ def webinar_category_page(request, slug: str):
             "page_title": page_title,
             "parent": parent,
             "webinars": webinars,
-            "archived_webinars": archived_webinars,
+            # "archived_webinars": archived_webinars,
             "webinars_count": webinars.count(),
             "short_description": short_description,
             "menu_categories": menu_categories,
