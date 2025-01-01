@@ -29,7 +29,7 @@
                         <th scope="row" style="width:175px;">Godzina</th>
                         <td>{{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}</td>
                     </tr>
-                    {% if webinar.show_lecturer and not webinar.anonymize_lecturer and not webinar.lecturer.anonymize %}
+                    {% if webinar.show_lecturer and not webinar.is_lecturer_anonymized %}
                     <tr>
                         <th scope="row" class="border-bottom-0" style="width:175px;">Wykładowca</th>
                         <td>{{webinar.lecturer.fullname}}</td>
@@ -60,7 +60,7 @@
                 <table class="table">
                     <tbody>
                     <tr>
-                        <th scope="row" class="border-bottom-0" style="width:175px;">E-mail</th>
+                        <th scope="row" style="width:175px;">E-mail</th>
                         <td>{{submitter.email}}</td>
                     </tr>
                     <tr>
@@ -142,12 +142,11 @@
                         <td>{{company.postal_code}}</td>
                     </tr>
                     <tr>
-                        <th scope="row" class="border-bottom-0" style="width:175px;">Miejscowość</th>
+                        <th scope="row" style="width:175px;">Miejscowość</th>
                         <td>{{company.city}}</td>
                     </tr>
                     </tbody>
                 </table>
-                <hr>
                 {% endif %}
                 {% endwith %}
                 
@@ -184,12 +183,11 @@
                         <td>{{company.postal_code}}</td>
                     </tr>
                     <tr>
-                        <th scope="row" class="border-bottom-0" style="width:175px;">Miejscowość</th>
+                        <th scope="row" style="width:175px;">Miejscowość</th>
                         <td>{{company.city}}</td>
                     </tr>
                     </tbody>
                 </table>
-                <hr>
                 {% endif %}
                 {% endwith %}
 
@@ -214,12 +212,11 @@
                         <td>{{invoice.invoice_email}}</td>
                     </tr>
                     <tr>
-                        <th scope="row" class="border-bottom-0" style="width:175px;">Zwolnienie z VAT</th>
+                        <th scope="row" style="width:175px;">Zwolnienie z VAT</th>
                         <td>{{invoice.get_vat_exemption_display}}</td>
                     </tr>
                     </tbody>
                 </table>
-                <hr>
                 {% endwith %}
 
                 {% comment %} Dodatkowe uwagi {% endcomment %}

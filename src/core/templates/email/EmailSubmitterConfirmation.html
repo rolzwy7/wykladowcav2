@@ -25,7 +25,7 @@
                     Szkolenie planowane jest na dzień <b>{{webinar.date|date:"j E Y"}}</b> godz. <b>{{webinar.date|date:"H:i"}}</b>.
                   </td>
                 </tr>
-                {% if webinar.show_lecturer and not webinar.anonymize_lecturer and not webinar.lecturer.anonymize %}
+                {% if webinar.show_lecturer and not webinar.is_lecturer_anonymized %}
                 <tr>
                   <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
                     Wykładowca <b>{{webinar.lecturer.fullname}}</b>

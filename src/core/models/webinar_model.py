@@ -444,6 +444,11 @@ class Webinar(Model):
             ]
         )
 
+    @property
+    def is_lecturer_anonymized(self):
+        """Check if lecturer is anonymized"""
+        return self.anonymize_lecturer or self.lecturer.anonymize
+
     def clean(self):
 
         try:
