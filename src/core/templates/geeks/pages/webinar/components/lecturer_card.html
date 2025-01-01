@@ -37,13 +37,13 @@
 
       <div class="{% if not webinar.is_lecturer_anonymized %}ms-4{% endif %}">
         <h4 class="mb-0">
-          <a style="color: var(--geeks-heading-color);" href="{% url 'core:lecturer_experience_page' slug=webinar.lecturer.slug %}">
-            {% if webinar.is_lecturer_anonymized %}
-              Wykładowca
-            {% else %}
-              {{lecturer.fullname}}
+          {% if webinar.is_lecturer_anonymized %}
+            Wykładowca
+          {% else %}
+              <a style="color: var(--geeks-heading-color);" href="{% url 'core:lecturer_experience_page' slug=webinar.lecturer.slug %}">
+                {{lecturer.fullname}}
+              </a>
             {% endif %}
-          </a>
         </h4>
         {% if lecturer.profession and not webinar.is_lecturer_anonymized %}
           <p class="mb-1 fs-6">{{lecturer.profession}}</p>
@@ -118,9 +118,11 @@
 
     {% if lecturer.biography_email %}
     {% if webinar.is_lecturer_anonymized %}
-      <p class="m-0">
-        <div id="id_lecturer_long_desc">{{lecturer.biography_email}}</div>
-      </p>
+      {% comment %}
+        <p class="m-0">
+          <div id="id_lecturer_long_desc">{{lecturer.biography_email}}</div>
+        </p>
+      {% endcomment %}
     {% else %}
       <p class="m-0">
         <div id="id_lecturer_short_desc">{{lecturer.biography_email|truncatechars:150}}</div>

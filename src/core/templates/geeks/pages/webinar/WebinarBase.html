@@ -93,27 +93,25 @@
               </p>
             {% endif %}
             <div class="d-flex align-items-center flex-wrap">
-              <a
-                href="#"
-                class="text-white text-decoration-none"
-              >
-                <i class="fe fe-bookmark me-2"></i>
-                  <a class="text-white" href="{% url 'core:lecturer_experience_page' slug=webinar.lecturer.slug %}">
-                    {{webinar.lecturer.fullname}}
-                  </a>
-              </a>
+              {% comment %}
+                <a class="text-white" href="{% url 'core:lecturer_experience_page' slug=webinar.lecturer.slug %}">
+                  {{webinar.lecturer.fullname}}
+                </a>
+                
               {% if lecturer_opinions_count != 0 %}
-              <span class="ms-4">
-                <i class="mdi mdi-star me-n1 text-warning"></i>
-                <i class="mdi mdi-star me-n1 text-warning"></i>
-                <i class="mdi mdi-star me-n1 text-warning"></i>
-                <i class="mdi mdi-star me-n1 text-warning"></i>
-                <i class="mdi mdi-star me-n1-half text-warning"></i>
-                <span class="text-white">
-                  ({{lecturer_service.get_lecturer_opinions_count}})
+                <span class="ms-4">
+                  <i class="mdi mdi-star me-n1 text-warning"></i>
+                  <i class="mdi mdi-star me-n1 text-warning"></i>
+                  <i class="mdi mdi-star me-n1 text-warning"></i>
+                  <i class="mdi mdi-star me-n1 text-warning"></i>
+                  <i class="mdi mdi-star me-n1-half text-warning"></i>
+                  <span class="text-white">
+                    ({{lecturer_service.get_lecturer_opinions_count}})
+                  </span>
                 </span>
-              </span>
-              {% endif %}
+                {% endif %}
+              {% endcomment %}
+
               {% if webinar.is_confirmed %}
               <span class="ms-4 badge bg-warning text-dark ms-4">PEWNY TERMIN</span>
               {% endif %}
@@ -223,7 +221,7 @@
         >
 
           {% comment %} Lecturer's card {% endcomment %}
-          {% if webinar.show_lecturer %}
+          {% if webinar.show_lecturer and not webinar.is_lecturer_anonymized %}
             {% include './components/lecturer_card.html' with lecturer=webinar.lecturer %}
           {% endif %}
           

@@ -43,28 +43,39 @@ class WebinarService:
         Returns:
             list[tuple]: _description_
         """
-        tabs = [
+        tabs = []
+
+        tabs.append(
             (
                 "Program szkolenia",
                 "core:webinar_program_page",
                 "ki-book-open",
-            ),
+            )
+        )
+
+        tabs.append(
             (
                 "Cena i Faktura",
                 "core:webinar_price_and_invoice_page",
                 "ki-price-tag",
-            ),
-            (
-                "Opinie",
-                "core:webinar_opinions_page",
-                "ki-like-shapes",
-            ),
+            )
+        )
+        if not self.webinar.is_lecturer_anonymized:
+            tabs.append(
+                (
+                    "Opinie",
+                    "core:webinar_opinions_page",
+                    "ki-like-shapes",
+                )
+            )
+        tabs.append(
             (
                 "Certyfikat",
                 "core:webinar_certificate_page",
                 "ki-like-shapes",
-            ),
-        ]
+            )
+        )
+
         _tab_index = tab_index if all([tab_index >= 0, tab_index < len(tabs)]) else 0
         return [
             (
