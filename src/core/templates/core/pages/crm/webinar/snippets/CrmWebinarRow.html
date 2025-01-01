@@ -244,6 +244,21 @@
         <br>
         </span>
 
+        {% with webinar_ctx.date_changes|length as date_changes_length %}
+            {% if date_changes_length > 1 %}
+                <b>Historia zmian daty szkolenia:</b>
+                <ol>
+                {% for web_date in webinar_ctx.date_changes %}
+                    {% if forloop.last %}
+                        <li><u>{{web_date|date:"j E Y H:i"}}</u></li>
+                    {% else %}
+                        <li>{{web_date|date:"j E Y H:i"}}</li>
+                    {% endif %}
+                {% endfor %}
+                </ol>
+            {% endif %}
+        {% endwith %}
+
     </td>
     {% comment %} Time left {% endcomment %}
     <td>

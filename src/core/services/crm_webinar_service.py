@@ -380,9 +380,18 @@ class CrmWebinarService:
         except ConferenceEdition.DoesNotExist:  # pylint: disable=no-member
             conference_edition = None
 
+        # Date changes
+        date_dups = list()
+        date_changes = list()
+        for _ in self.webinar.history.all().order_by("history_date"):
+            if _.date not in date_dups:
+                date_dups.append(_.date)
+                date_changes.append(_.date)
+
         return {
             "webinar": self.webinar,
             "webinar_metadata": webinar_metadata,
+            "date_changes": date_changes,
             "is_fake": self.webinar.is_fake,
             "is_confirmed": self.webinar.is_confirmed,
             "is_hidden": self.webinar.is_hidden,

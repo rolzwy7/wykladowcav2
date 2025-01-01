@@ -21,12 +21,14 @@ def konkurencja_fetcher(url: str) -> tuple[str, KonkurencjaFetcher]:
     """konkurencja_fetcher"""
 
     fetcher: KonkurencjaFetcher | None = None
+    konkurencja = "not_set"
 
     for konkurencja_name, konkurencja_tuple in KONKURENCJA_FETCHERS.items():
         url_fragment, FetcherFunc = konkurencja_tuple
-        konkurencja = konkurencja_name
         if url_fragment in url:
+            konkurencja = konkurencja_name
             fetcher = FetcherFunc(url)
+            break
 
     if fetcher is None:
         raise Exception("No fetcher found for given url")
