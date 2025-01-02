@@ -2,20 +2,13 @@
 <!DOCTYPE html>
 <html lang="{{META__HTML_LANG}}" dir="{{META__HTML_DIR}}">
   <head>
-    
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name='robots' content='index, follow' />
-    <meta name="Googlebot" content="follow,index" />
     {% block meta %}{% endblock meta %}
     <meta property="og:site_name" content="{{COMPANY_NAME}}">
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'geeks/assets/images/favicon/favicon.ico' %}" />
-
     <link href="{% static 'geeks/assets/fonts/feather/feather.css' %}" rel="stylesheet" type="text/css" />
-    
     <link href="{% static 'geeks/assets/libs/bootstrap-icons/font/bootstrap-icons.min.css' %}" rel="stylesheet" type="text/css" />
-    {% comment %} <link href="{% static 'geeks/assets/libs/@mdi/font/css/materialdesignicons.min.css' %}" rel="stylesheet" type="text/css" /> {% endcomment %}
-
     <link rel="stylesheet" href="{% static 'geeks/assets/css/theme.min.css' %}" type="text/css" />
     
     {% block title %}

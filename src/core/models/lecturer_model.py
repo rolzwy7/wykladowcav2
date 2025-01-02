@@ -29,13 +29,17 @@ BASE_URL = settings.BASE_URL
 class LecturerManager(Manager):
     """Lecturer query Manager"""
 
+    def get_allowed_to_display_lecturers(self) -> QuerySet["Lecturer"]:
+        """Returns lecturers that are allowed to be displayed"""
+        return self.get_queryset().filter(Q(finished_coop=False) & Q(anonymize=False))
+
     def get_lecturers_visible_on_page(self) -> QuerySet["Lecturer"]:
         """Returns lecturers that are visible on website"""
-        return self.get_queryset().filter(visible_on_page=True)
+        return self.get_allowed_to_display_lecturers().filter(visible_on_page=True)
 
     def get_lecturers_visible_on_homepage(self) -> QuerySet["Lecturer"]:
         """Returns lecturers that are visible on homepage"""
-        return self.get_queryset().filter(
+        return self.get_allowed_to_display_lecturers().filter(
             Q(visible_on_page=True) & Q(visible_on_homepage=True)
         )
 
