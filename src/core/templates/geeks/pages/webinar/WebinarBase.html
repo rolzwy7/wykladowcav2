@@ -184,28 +184,30 @@
                     </a>
                   </li>
                   {% endfor %}
-                  <li class="nav-item">
-                    <a
-                      class="nav-link"
-                      href="{% url 'core:loyalty_program_info_page' %}"
-                      role="tab"
-                      target="_blank"
-                    >
-                      Polecaj i Zarabiaj
-                    </a>
-                  </li>
-                  {% if COMPANY_ENABLE_KRS %}
-                  <li class="nav-item">
-                    <a
-                      class="nav-link"
-                      href="{% url 'core:krajowy_fundusz_szkoleniowy_page' %}"
-                      role="tab"
-                      target="_blank"
-                    >
-                      <b>Dofinansowanie</b>
-                    </a>
-                  </li>
-                  {% endif %}
+                  {% comment %}
+                    <li class="nav-item">
+                      <a
+                        class="nav-link"
+                        href="{% url 'core:loyalty_program_info_page' %}"
+                        role="tab"
+                        target="_blank"
+                      >
+                        Polecaj i Zarabiaj
+                      </a>
+                    </li>
+                    {% if COMPANY_ENABLE_KRS %}
+                    <li class="nav-item">
+                      <a
+                        class="nav-link"
+                        href="{% url 'core:krajowy_fundusz_szkoleniowy_page' %}"
+                        role="tab"
+                        target="_blank"
+                      >
+                        <b>Dofinansowanie</b>
+                      </a>
+                    </li>
+                    {% endif %}
+                  {% endcomment %}
                 </ul>
               </div>
             </div>
