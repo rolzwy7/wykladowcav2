@@ -100,10 +100,8 @@ MIDDLEWARE = [
     # 3rd party
     # "csp.middleware.CSPMiddleware",
     "django.middleware.gzip.GZipMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
-
-if DEBUG:
-    MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
 
 ROOT_URLCONF = "wykladowcapl.urls"
 
