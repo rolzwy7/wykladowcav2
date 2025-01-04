@@ -106,6 +106,9 @@ MIDDLEWARE = [
     "django.middleware.gzip.GZipMiddleware",
 ]
 
+if DEBUG:
+    MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
+
 ROOT_URLCONF = "wykladowcapl.urls"
 
 TEMPLATES = [
