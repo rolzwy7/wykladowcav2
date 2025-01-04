@@ -7,7 +7,7 @@ from time import sleep
 from typing import Optional
 
 import requests
-from django.db.models import F
+from django.conf import settings
 from django.utils.timezone import datetime, now, timedelta
 from requests.exceptions import RequestException
 
@@ -17,6 +17,16 @@ from core.models.enums.mailing_enums import (
     MailingScheduledStatus,
 )
 
+from .export import (
+    export_emails_campaign_clicks,
+    export_emails_lecturer_all_webinars,
+    export_emails_lecturer_done_webinars,
+    export_emails_lecturer_participants_free,
+    export_emails_mongo_tagged,
+)
+from .load import load_emails_into_campaign
+from .test_email import send_campaign_test_email
+
 
 def schedule_log(schedule: MailingScheduled, log: str):
     """schedule_log"""
@@ -25,9 +35,9 @@ def schedule_log(schedule: MailingScheduled, log: str):
     schedule_id: int = schedule.id  # type: ignore
 
     current_logs: str = MailingScheduled.manager.get(id=schedule_id).logi
-    MailingScheduled.manager.filter(id=schedule_id).update(
-        logi=f"{current_logs}{timestamp} {log}\n"
-    )
+    _log = f"{current_logs}{timestamp} {log}"
+    print(_log)
+    MailingScheduled.manager.filter(id=schedule_id).update(logi=f"{_log}\n")
 
 
 def schedule_mailing(schedule: MailingScheduled) -> bool:
@@ -120,5 +130,58 @@ def schedule_mailing(schedule: MailingScheduled) -> bool:
 
     # Set `scheduled_at` time
     MailingScheduled.manager.filter(id=schedule_id).update(scheduled_at=now())
+
+    # Insert tagged e-mails from mongo
+    for tag in schedule.tags.split("\n"):
+
+        # CAMPAIGN_CLICKS:<campaign_id:int>
+        if tag.startswith("CAMPAIGN_CLICKS:"):
+            param_campaign_id = int(tag.split(":")[1])
+            emails_count = load_emails_into_campaign(
+                export_emails_campaign_clicks(param_campaign_id), campaign
+            )
+            schedule_log(schedule, f"CAMPAIGN_CLICKS emails_count={emails_count}")
+
+        # LECTURER_PARTICIPANTS_FREE:<lecturer_id:int>
+        elif tag.startswith("LECTURER_PARTICIPANTS_FREE:"):
+            param_lecturer_id = int(tag.split(":")[1])
+            emails_count = load_emails_into_campaign(
+                export_emails_lecturer_participants_free(param_lecturer_id), campaign
+            )
+            schedule_log(
+                schedule, f"LECTURER_PARTICIPANTS_FREE emails_count={emails_count}"
+            )
+
+        # LECTURER_PARTICIPANTS_DONE_WEBINARS:<lecturer_id:int>
+        elif tag.startswith("LECTURER_PARTICIPANTS_DONE_WEBINARS:"):
+            param_lecturer_id = int(tag.split(":")[1])
+            emails_count = load_emails_into_campaign(
+                export_emails_lecturer_done_webinars(param_lecturer_id), campaign
+            )
+            schedule_log(
+                schedule,
+                f"LECTURER_PARTICIPANTS_DONE_WEBINARS emails_count={emails_count}",
+            )
+
+        # LECTURER_PARTICIPANTS_ALL_WEBINARS:<lecturer_id:int>
+        elif tag.startswith("LECTURER_PARTICIPANTS_ALL_WEBINARS:"):
+            param_lecturer_id = int(tag.split(":")[1])
+            emails_count = load_emails_into_campaign(
+                export_emails_lecturer_all_webinars(param_lecturer_id), campaign
+            )
+            schedule_log(
+                schedule,
+                f"LECTURER_PARTICIPANTS_ALL_WEBINARS emails_count={emails_count}",
+            )
+
+        # LOAD FROM MONGO
+        else:
+            emails_count = load_emails_into_campaign(
+                export_emails_mongo_tagged(tag), campaign
+            )
+            schedule_log(schedule, f"MONGO_TAG tag={tag} emails_count={emails_count}")
+
+    # Test send
+    send_campaign_test_email(settings.COMPANY_OFFICE_EMAIL, campaign)
 
     return True

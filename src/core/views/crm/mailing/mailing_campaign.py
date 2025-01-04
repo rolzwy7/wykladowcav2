@@ -20,15 +20,11 @@ from core.forms import (
     MailingAreYouSureForm,
     MailingSendTestEmailForm,
 )
+from core.libs.mailing.test_email import send_campaign_test_email
 from core.models import MailingCampaign, MailingTemplate, SmtpSender, WebinarMetadata
 from core.models.enums import mailing_pool_status_display_map
 from core.models.mailing import MailingPoolManager
-from core.services import SenderSmtpService
-from core.services.mailing import (
-    MailingCampaignService,
-    MailingResignationService,
-    MailingTrackingService,
-)
+from core.services.mailing import MailingCampaignService
 
 BASE_URL = settings.BASE_URL
 
@@ -146,42 +142,13 @@ def crm_mailing_campaign_send_test_email(request, pk: int):
     """CRM mailing add emails"""
     template_name = "core/pages/crm/mailing/MailingCampaignSendTestEmailPage.html"
     mailing_campaign = get_object_or_404(MailingCampaign, pk=pk)
-    campaign_id: int = mailing_campaign.id  # type: ignore
 
     if request.method == POST:
         form = MailingSendTestEmailForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data["email"]
-            service = SenderSmtpService(mailing_campaign.smtp_sender)
 
-            template: MailingTemplate = mailing_campaign.template
-
-            resignation_code = (
-                MailingResignationService.get_or_create_inactive_resignation(
-                    email, mailing_campaign.resignation_list
-                )
-            )
-            resignation_url = BASE_URL + reverse(
-                "core:mailing_resignation_page_with_list",
-                kwargs={
-                    "resignation_code": resignation_code,
-                    "resignation_list": mailing_campaign.resignation_list,
-                },
-            )
-            tracking_code = MailingTrackingService.get_or_create_tracking(email)
-
-            with service.get_smtp_connection() as connection:
-                service.send_email(
-                    connection=connection,
-                    email=email,
-                    alias=mailing_campaign.alias,
-                    subject=mailing_campaign.get_random_subject(),
-                    html=template.html,
-                    text=template.text,
-                    resignation_url=resignation_url,
-                    tracking_code=tracking_code,
-                    campaign_id=campaign_id,
-                )
+            send_campaign_test_email(email, mailing_campaign)
 
             return redirect(
                 reverse(

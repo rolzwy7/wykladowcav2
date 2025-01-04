@@ -3,13 +3,12 @@
 # flake8: noqa=E501
 
 from datetime import time
-from random import randint
 
-from django.conf import settings
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.utils.timezone import now, timedelta
 
-from core.models import MailingCampaign, MailingPool, MailingPoolManager
+from core.libs.mailing.load import load_emails_into_campaign
+from core.models import MailingCampaign, MailingPoolManager
 from core.models.enums import (
     MailingCampaignStatus,
     MailingPoolStatus,
@@ -96,52 +95,13 @@ class MailingCampaignService:
     def load_emails_from_file_into_campaign(self, file: InMemoryUploadedFile) -> None:
         """Load emails from file into campaign"""
 
-        pool_manager = MailingPoolManager()
-        batch = []
-        mailing_campaign_id: int = self.mailing_campaign.id  # type: ignore
-
+        emails: list[str] = []
         for line in file:
             email = (
                 line.strip().lower()
                 if isinstance(line, str)
                 else str(line, "utf8").strip().lower()
             )
+            emails.append(email)
 
-            # Decide priority
-            if self.mailing_campaign.random_priority:
-                # If random priority then priority = base + random
-                priority = self.mailing_campaign.base_priority + randint(
-                    self.mailing_campaign.random_priority_min,
-                    self.mailing_campaign.random_priority_max,
-                )
-            else:
-                # If not random priority then priority = base
-                priority = self.mailing_campaign.base_priority
-
-            # If e-mail is in comapny domain set highest priority
-            if settings.COMPANY_DOMAIN in email:
-                priority = 999
-
-            # Append to pool
-            batch.append(
-                pool_manager.create_insert_object(
-                    MailingPool(
-                        campaign_id=mailing_campaign_id,
-                        email=email,
-                        status=MailingPoolStatus.BEING_PROCESSED,
-                        priority=priority,
-                        bucket_id=randint(0, settings.MAILING_NUM_OF_PROCESSES - 1),
-                        # bucket_id=self.mailing_campaign.smtp_sender.bucket_id,
-                    )
-                )
-            )
-
-            if len(batch) >= 100:
-                pool_manager.bulk_write_ignore_errors(batch)
-
-                batch = []
-
-        if batch:
-            pool_manager.bulk_write_ignore_errors(batch)
-
-        pool_manager.close()
+        load_emails_into_campaign(emails, self.mailing_campaign)

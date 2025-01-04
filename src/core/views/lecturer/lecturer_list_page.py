@@ -1,3 +1,4 @@
+from django.http import HttpResponsePermanentRedirect
 from django.template.response import TemplateResponse
 
 from core.models import Lecturer, WebinarCategory
@@ -5,6 +6,9 @@ from core.models import Lecturer, WebinarCategory
 
 def lecturer_list_page(request):
     """List of lecturers"""
+
+    return HttpResponsePermanentRedirect("/")
+
     template_name = "geeks/pages/lecturers/LecturerListPage.html"
 
     main_categories = WebinarCategory.manager.get_main_categories()

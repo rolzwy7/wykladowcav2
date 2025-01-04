@@ -11,8 +11,8 @@ from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
-VERSION_NUMBER = "1.7.0"
-VERSION_DATE = "2025/12/29"
+VERSION_NUMBER = "2.0.0"
+VERSION_DATE = "2025/01/03"
 
 APP_START_TIMESTAMP = int(time.time())
 

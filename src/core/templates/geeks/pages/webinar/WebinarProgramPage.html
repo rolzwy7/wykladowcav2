@@ -1,5 +1,10 @@
 {% extends './WebinarBase.html' %}
 
+{% block meta %}
+  <meta name="robots" content="index, follow">
+{% endblock meta %}
+
+
 {% block _head_stylesheets %}
 <style>
     {% include "core/includes/WebinarProgramStyles.html" %}
@@ -71,4 +76,5 @@
   </div>
 </section>
 {% endif %}
+
 {% endblock content %}

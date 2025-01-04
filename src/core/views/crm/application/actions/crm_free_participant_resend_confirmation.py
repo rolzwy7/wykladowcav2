@@ -61,6 +61,7 @@ def crm_free_participant_resend_confirmation(request: HttpRequest, pk: int):
                 # Send e-mail with conference URL
                 task_send_free_participant_conference_email.si(
                     params_send_free_participant_conference_email(
+                        webinar.title,
                         participant.email,
                         reverse(
                             "core:conference_waiting_room_page",

@@ -35,6 +35,5 @@ class Command(BaseCommand):
 
         for schedule in schedules:
             print(schedule)
-            result = schedule_log(schedule, "Log")
             # telegram_service.try_send_chat_message("", TelegramChats.OTHER)
-            # schedule_mailing(schedule)
+            schedule_mailing(schedule)
