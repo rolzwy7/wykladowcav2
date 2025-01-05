@@ -36,7 +36,7 @@ def schedule_log(schedule: MailingScheduled, log: str):
 
     current_logs: str = MailingScheduled.manager.get(id=schedule_id).logi
     _log = f"{current_logs}{timestamp} {log}"
-    print(_log)
+    print(f"{timestamp} {log}")
     MailingScheduled.manager.filter(id=schedule_id).update(logi=f"{_log}\n")
 
 
@@ -121,6 +121,9 @@ def schedule_mailing(schedule: MailingScheduled) -> bool:
         send_after=send_after,
     )
     campaign.save()
+
+    schedule.campaign_id = campaign  # type: ignore
+    schedule.save()
 
     campaign_id: int = campaign.id  # type: ignore # pylint: disable=no-member
     schedule_log(schedule, f"Created mailing camapign ID={campaign_id}")

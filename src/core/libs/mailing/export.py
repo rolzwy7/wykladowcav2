@@ -77,3 +77,15 @@ def export_emails_mongo_tagged(tag: str) -> list[str]:
     client.close()
 
     return list(set(emails))
+
+
+def export_emails_mongo_index_tags() -> list[tuple[str, str]]:
+    """export_emails_mongo_index_tags"""
+
+    client, db = get_dwpldbv3_connection()
+    tags_index = [
+        (doc["_id"], doc["count"]) for doc in db["mailing_database_index"].find({})
+    ]
+    client.close()
+
+    return tags_index

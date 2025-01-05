@@ -507,5 +507,7 @@ class WebinarMetadata(Model):
 
     omega_indexer_queued = BooleanField("omega_indexer_queued", default=False)
 
+    mailing_dobijanie_enabled = BooleanField("mailing_dobijanie_enabled", default=False)
+
     def __str__(self) -> str:
         return f"Metadata for webinar {self.pk}"

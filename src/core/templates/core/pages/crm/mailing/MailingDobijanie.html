@@ -1,0 +1,30 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+    <h1>Resetuj kampanie mailingową</h1>
+    <hr>
+
+
+    MailingDobijanie
+    <hr>
+    
+    {{webinar}}
+    <hr>
+    
+    {{tags}}
+    <hr>
+    
+    {% for elem in tags %}
+        {{elem.0}} {{elem.1}} <br>
+    {% endfor %}
+
+{% endblock crm_content %}
+
+{% block body_scripts %}
+
+{% endblock body_scripts %}

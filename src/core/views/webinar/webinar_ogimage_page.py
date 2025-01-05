@@ -29,6 +29,9 @@ def webinar_ogimage_page(request: HttpRequest, pk: int):
     webinar = get_object_or_404(Webinar, pk=pk)
     width, height = 940, 788
 
+    if webinar.is_lecturer_anonymized:
+        return HttpResponse(status=404)
+
     to_tz = get_default_timezone()
     date = webinar.date.astimezone(to_tz)
 

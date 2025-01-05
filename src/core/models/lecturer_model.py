@@ -106,6 +106,8 @@ class Lecturer(Model):
 
     very_short_biography = TextField("Bardzo krótka biografia", blank=True)
 
+    biography_anonymous = TextField("Biografia (anonim)", blank=True)
+
     user = OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=CASCADE,

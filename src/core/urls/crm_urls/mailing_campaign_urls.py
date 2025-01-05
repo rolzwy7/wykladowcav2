@@ -12,6 +12,7 @@ from core.views.crm.mailing import (
     crm_mailing_campaign_preview_text,
     crm_mailing_campaign_reset_emails,
     crm_mailing_campaign_send_test_email,
+    crm_mailing_dobijanie,
 )
 
 urlpatterns = [
@@ -64,6 +65,11 @@ urlpatterns = [
         "stworz-kampanie-mailingowa/",
         create_mailing_campaign,
         name="create_mailing_campaign",
+    ),
+    path(
+        "<int:pk>/wlacz-dobijanie/",
+        crm_mailing_dobijanie,
+        name="crm_mailing_dobijanie",
     ),
     path(
         "",

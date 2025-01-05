@@ -137,6 +137,20 @@
                 </span>
             </li>
             {% endif %}
+            {% if webinar.is_lecturer_anonymized %}
+            <li class="d-flex align-items-center">
+                <span class="bullet bullet-vertical bg-dark me-5"></span>
+                <span class="px-2 bg-dark text-white">
+                    ANONIM
+                    {% if webinar.anonymize_lecturer %}
+                    WEBINAR
+                    {% endif %}
+                    {% if webinar.lecturer.anonymize %}
+                    WYKLAD
+                    {% endif %}
+                </span>
+            </li>
+            {% endif %}
             {% if webinar_ctx.is_hidden %}
             <li class="d-flex align-items-center">
                 <span class="bullet bullet-vertical bg-info me-5"></span>
@@ -329,6 +343,7 @@
             <b><u>Mailingi:</u></b> <br>
             {% for mailing_campaign in webinar_ctx.mailing_campaigns %}
                 <span>
+                    {% if mailing_campaign.is_main_campaign %}*{% endif %}
                     <a href="{% url 'core:crm_mailing_campaign_detail' pk=mailing_campaign.pk %}" target="_blank">
                         <b>{{mailing_campaign.created_at_plus_one_day|date:"j b"}}</b>
                     </a>

@@ -117,11 +117,16 @@
 
     {% if lecturer.biography_email %}
     {% if webinar.is_lecturer_anonymized %}
-      {% comment %}
-        <p class="m-0">
-          <div id="id_lecturer_long_desc">{{lecturer.biography_email}}</div>
-        </p>
-      {% endcomment %}
+      <p class="m-0">
+        <div id="id_lecturer_short_desc">{{lecturer.biography_anonymous|truncatechars:150}}</div>
+        <div id="id_lecturer_long_desc" class="d-none">{{lecturer.biography_anonymous}}</div>
+        <a id="id_lecturer_show_desc" href="javascript:$('#id_lecturer_long_desc').toggleClass('d-none');$('#id_lecturer_short_desc').toggleClass('d-none');$('#id_lecturer_show_desc').addClass('d-none');$('#id_lecturer_hide_desc').toggleClass('d-none');">
+          Zobacz pełny opis
+        </a>
+        <a class="d-none" id="id_lecturer_hide_desc" href="javascript:$('#id_lecturer_long_desc').toggleClass('d-none');$('#id_lecturer_short_desc').toggleClass('d-none');$('#id_lecturer_hide_desc').addClass('d-none');$('#id_lecturer_show_desc').toggleClass('d-none');">
+          Schowaj pełny opis
+        </a>
+      </p>
     {% else %}
       <p class="m-0">
         <div id="id_lecturer_short_desc">{{lecturer.biography_email|truncatechars:150}}</div>

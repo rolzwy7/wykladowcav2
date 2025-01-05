@@ -223,9 +223,7 @@
         >
 
           {% comment %} Lecturer's card {% endcomment %}
-          {% if webinar.show_lecturer and not webinar.is_lecturer_anonymized %}
-            {% include './components/lecturer_card.html' with lecturer=webinar.lecturer %}
-          {% endif %}
+          {% include './components/lecturer_card.html' with lecturer=webinar.lecturer %}
           
           
           {% if webinar.is_archival %}

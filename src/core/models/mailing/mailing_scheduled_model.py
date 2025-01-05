@@ -78,6 +78,7 @@ class MailingScheduled(Model):
     scheduled_at = DateTimeField(
         "Stworzony automatycznie",
         null=True,
+        blank=True,
         help_text="Kiedy automat stworzył kampanie?",
     )
 

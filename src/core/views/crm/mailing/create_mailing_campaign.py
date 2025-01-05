@@ -106,6 +106,7 @@ def create_mailing_campaign(request):
             allowed_to_send_after=time(5, (10 * ((day_of_week + 1) % 7)) % 60, 0, 0),
             allowed_to_send_before=time(14, 30, 0, 0),
             send_after=send_after,
+            is_main_campaign=True,
         )
         campaign.save()
 

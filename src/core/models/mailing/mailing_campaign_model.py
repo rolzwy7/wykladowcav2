@@ -108,6 +108,12 @@ class MailingCampaign(Model):
 
     favourite = BooleanField("Ulubiona kampania", default=False)
 
+    is_main_campaign = BooleanField(
+        "Główna kampania",
+        default=False,
+        help_text="Oznacza, że ta kampania jest kampanią główną dla szkolenia",
+    )
+
     sent_start_at = DateTimeField(null=True, blank=True)
 
     target_code = CharField("target_code", max_length=32, blank=True)

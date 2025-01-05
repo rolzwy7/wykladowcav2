@@ -30,6 +30,9 @@
                            </span>
                            {% endif %}
                         </h3>
+                        <h3>
+                           &gt;&gt; Tytuł szkolenia: {{webinar.title}}
+                        </h3>
                         <a href="{% url 'admin:core_webinar_change' object_id=webinar.id %}">
                            Edytuj termin w CMS
                        </a>
@@ -117,9 +120,21 @@
                             </label>
                          </div>
                          <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="id_lecturer" name="lecturer_section" checked>
+                            <input type="checkbox" class="form-check-input" id="id_lecturer" name="lecturer_section" {% if not webinar.is_lecturer_anonymized %}checked{% endif %}>
                             <label class="form-check-label" for="id_lecturer">
                             Dodaj sekcję wykładowcy
+                            {% if webinar.is_lecturer_anonymized %}
+                            <span class="text-danger">auto-UNcheck</span>
+                              
+                              {% if webinar.anonymize_lecturer %}
+                                 <b class="bg-dark text-white px-2">[ANONIM-WEBINAR]</b>
+                              {% endif %}
+                              
+                              {% if webinar.lecturer.anonymize %}
+                                 <b class="bg-dark text-white px-2">[ANONIM-LECTURER]</b>
+                              {% endif %}
+                            
+                              {% endif %}
                             </label>
                          </div>
                          <div class="form-check">
