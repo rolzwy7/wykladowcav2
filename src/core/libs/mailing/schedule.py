@@ -23,6 +23,7 @@ from .export import (
     export_emails_lecturer_done_webinars,
     export_emails_lecturer_participants_free,
     export_emails_mongo_tagged,
+    export_emails_webinar_campaigns_clicks,
 )
 from .load import load_emails_into_campaign
 from .test_email import send_campaign_test_email
@@ -144,6 +145,16 @@ def schedule_mailing(schedule: MailingScheduled) -> bool:
                 export_emails_campaign_clicks(param_campaign_id), campaign
             )
             schedule_log(schedule, f"CAMPAIGN_CLICKS emails_count={emails_count}")
+
+        # WEBINAR_CAMPAIGNS_CLICKS:<webinar_id:int>
+        elif tag.startswith("WEBINAR_CAMPAIGNS_CLICKS:"):
+            param_webinar_id = int(tag.split(":")[1])
+            emails_count = load_emails_into_campaign(
+                export_emails_webinar_campaigns_clicks(param_webinar_id), campaign
+            )
+            schedule_log(
+                schedule, f"WEBINAR_CAMPAIGNS_CLICKS emails_count={emails_count}"
+            )
 
         # LECTURER_PARTICIPANTS_FREE:<lecturer_id:int>
         elif tag.startswith("LECTURER_PARTICIPANTS_FREE:"):

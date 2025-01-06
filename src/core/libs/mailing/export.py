@@ -5,7 +5,7 @@
 from django.db.models import Q
 
 from core.libs.mongo.db import get_dwpldbv3_connection, get_mongo_connection
-from core.models import Lecturer, WebinarParticipant
+from core.models import Lecturer, MailingCampaign, Webinar, WebinarParticipant
 from core.models.conference import ConferenceFreeParticipant
 from core.models.enums import WebinarStatus
 
@@ -34,6 +34,21 @@ def export_emails_campaign_clicks(campaign_id: int) -> list[str]:
     client.close()
 
     return emails
+
+
+def export_emails_webinar_campaigns_clicks(webinar_id: int) -> list[str]:
+    """export_emails_webinar_campaigns_clicks"""
+
+    webinar: Webinar = Webinar.manager.get(id=webinar_id)
+
+    campaigns = MailingCampaign.manager.filter(webinar=webinar)
+
+    emails: list[str] = []
+
+    for campaign in campaigns:
+        emails.extend(export_emails_campaign_clicks(campaign.id))
+
+    return list(set(emails))
 
 
 def export_emails_lecturer_done_webinars(lecturer_id: int) -> list[str]:

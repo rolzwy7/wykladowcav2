@@ -13,4 +13,4 @@ from .mailing_campaign import (
     crm_mailing_campaign_reset_emails,
     crm_mailing_campaign_send_test_email,
 )
-from .mailing_dobijanie import crm_mailing_dobijanie
+from .mailing_schedule_mailing import crm_mailing_schedule_mailing

@@ -1,0 +1,76 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+<style>
+    input[type="checkbox"]:checked + label {
+        background-color: #90EE90;
+    }
+</style>
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+    <h1>Zaplanuj kampanie mailingową</h1>
+    <h2>{{webinar}}</h2>
+    <hr>
+
+    <a target="_blank" href="{% url "core:global_mailing_editor" %}?for_webinar_id={{webinar.id}}" class="btn btn-sm btn-dark">
+        Generuj szablon mailingowy
+    </a>
+    <hr>
+    
+    <form action="{% url "core:crm_mailing_schedule_mailing" pk=webinar.pk %}" method="post">
+        {% csrf_token %}
+        {{form}}
+        <hr>
+        <fieldset>
+            <legend>Dołącz bazę na dobicie:</legend>
+            <div>
+                <input type="checkbox" id="id_WEBINAR_CAMPAIGNS_CLICKS" name="dobicie" value="WEBINAR_CAMPAIGNS_CLICKS:{{webinar.id}}" />
+                <label for="id_WEBINAR_CAMPAIGNS_CLICKS">
+                    Dołącz kliknięcia z innych kampanii mailingowych dla tego szkolenia                   
+                </label>
+            </div>
+            <div>
+                <input type="checkbox" id="id_LECTURER_PARTICIPANTS_FREE" name="dobicie" value="LECTURER_PARTICIPANTS_FREE:{{webinar.lecturer.id}}" />
+                <label for="id_LECTURER_PARTICIPANTS_FREE">
+                    Dołącz wszystkich darmowych uczestników wykładowcy
+                </label>
+            </div>
+            <div>
+                <input type="checkbox" id="id_LECTURER_PARTICIPANTS_DONE_WEBINARS" name="dobicie" value="LECTURER_PARTICIPANTS_DONE_WEBINARS:{{webinar.lecturer.id}}" />
+                <label for="id_LECTURER_PARTICIPANTS_DONE_WEBINARS">
+                    Dołącz wszystkich uczestników wykładowcy ze zrealizowanych szkoleń
+                </label>
+            </div>
+            <div>
+                <input type="checkbox" id="id_LECTURER_PARTICIPANTS_ALL_WEBINARS" name="dobicie" value="LECTURER_PARTICIPANTS_ALL_WEBINARS:{{webinar.lecturer.id}}" />
+                <label for="id_LECTURER_PARTICIPANTS_ALL_WEBINARS">
+                    Dołącz wszystkich uczestników wykładowcy ze wszystkich szkoleń
+                </label>
+            </div>
+        </fieldset>
+        <hr>
+        <fieldset>
+            <legend>Dołącz bazę mailingową:</legend>
+            {% for elem in tags %}
+                <div>
+                <input type="checkbox" id="id_mongo_choices_{{forloop.counter}}" name="mongo_db" value="{{elem.0}}" />
+                <label for="id_mongo_choices_{{forloop.counter}}">
+                    {{elem.0}} (maili {{elem.1}} )
+                </label>
+                </div>
+            {% endfor %}
+        </fieldset>
+        <hr>
+        <input type="submit" class="btn btn-primary" value="Zaplanuj kampanie">
+    </form>
+
+    <hr>
+
+
+{% endblock crm_content %}
+
+{% block body_scripts %}
+
+{% endblock body_scripts %}

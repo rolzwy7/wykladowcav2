@@ -208,6 +208,8 @@ class MailingCampaign(Model):
     sleep_between_batches = PositiveIntegerField(default=10)
     sleep_every_send = FloatField(default=0.1)
 
+    is_dobijanie = BooleanField("is_dobijanie", default=False)
+
     class Meta:
         """meta"""
 
