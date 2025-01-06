@@ -122,10 +122,6 @@ def schedule_mailing(schedule: MailingScheduled) -> bool:
         send_after=send_after,
     )
     campaign.save()
-
-    schedule.campaign_id = campaign  # type: ignore
-    schedule.save()
-
     campaign_id: int = campaign.id  # type: ignore # pylint: disable=no-member
     schedule_log(schedule, f"Created mailing camapign ID={campaign_id}")
 
