@@ -7,6 +7,7 @@ Mailing template
 from random import shuffle
 
 from django.conf import settings
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 from django.utils.timezone import now, timedelta
@@ -183,7 +184,11 @@ def global_mailing_template_page(request):
         # Get all webinars for main category and subcatagories
         category_webinars = Webinar.manager.get_active_webinars_for_category_slugs(
             all_slugs
-        ).filter(is_hidden=False)
+        ).filter(
+            Q(is_hidden=False)
+            & Q(anonymize_lecturer=False)
+            & Q(lecturer__anonymize=False)
+        )
         subcategories_pairs = split_pairs(subcategories)
 
     # Lecturer webinars
