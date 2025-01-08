@@ -108,6 +108,8 @@ class Lecturer(Model):
 
     biography_anonymous = TextField("Biografia (anonim)", blank=True)
 
+    notes = TextField("Notatki", blank=True, help_text="Widoczne tylko tutaj w CMS")
+
     user = OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=CASCADE,

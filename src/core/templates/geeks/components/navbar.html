@@ -3,21 +3,27 @@
 <div class="bg-white nav-tabs d-none d-lg-block">
    <div class="container px-3">
      <ul class="nav nav-tabs border-bottom-0">
-       <li class="nav-item">
-         <a class="nav-link active" href="{{BASE_URL}}">{{COMPANY_NAME}}</a>
-       </li>
-       <li class="nav-item">
-         <a class="nav-link" href="{% url 'core:about_us_page' %}">Kim jesteśmy?</a>
-       </li>
+       {% comment %}
+         <li class="nav-item">
+           <a class="nav-link active" href="{{BASE_URL}}">{{COMPANY_NAME}}</a>
+         </li>
+       {% endcomment %}
+       {% comment %}
+         <li class="nav-item">
+           <a class="nav-link" href="{% url 'core:about_us_page' %}">Kim jesteśmy?</a>
+         </li>
+       {% endcomment %}
        <li class="nav-item">
          {% if request.user.is_authenticated %}
-            <a class="nav-link" href="{% url 'core:loyalty_program_page' %}">Polecaj i Zarabiaj</a>
+            <a class="nav-link" href="{% url 'core:loyalty_program_page' %}" rel="nofollow">Polecaj i Zarabiaj</a>
          {% else %}
-            <a class="nav-link" href="{% url 'core:loyalty_program_info_page' %}">Polecaj i Zarabiaj</a>
+            <a class="nav-link" href="{% url 'core:loyalty_program_info_page' %}" rel="nofollow">
+               Polecaj i Zarabiaj
+            </a>
          {% endif %}
        </li>
        <li class="nav-item">
-         <a class="nav-link" href="{% url 'core:contact_page' %}">Kontakt</a>
+         <a class="nav-link" href="{% url 'core:contact_page' %}" rel="nofollow">Kontakt</a>
        </li>
 
        {% comment %} <li class="nav-item">
@@ -51,6 +57,8 @@
         src="{% static 'media/logos/wykladowcapl/logo.svg' %}"
         {% comment %} src="{% static 'geeks/assets/images/brand/logo/logo.svg' %}" {% endcomment %}
         style="height:30px;"
+        height="30px"
+        width="179px"
         alt="{{COMPANY_NAME}}"
         />
         </a>
