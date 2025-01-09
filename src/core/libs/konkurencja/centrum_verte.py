@@ -37,7 +37,11 @@ class CentrumVerteFetcher(KonkurencjaFetcher):
                 )
                 if not h3_text:
                     continue
-                h3_text = h3_text.split(".", 1)[1].strip()
+
+                try:
+                    h3_text = h3_text.split(".", 1)[1].strip()
+                except Exception as e:  # not list-like h3
+                    continue
 
                 # Get the HTML of the ul tag
                 ul_html: str | None = str(item.find("ul")) if item.find("ul") else None

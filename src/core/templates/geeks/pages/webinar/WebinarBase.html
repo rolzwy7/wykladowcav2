@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block meta %}
+    {% block inner_meta %}{% endblock inner_meta %}
     {% if webinar.description %}
     <meta name="description" content="{{webinar.description}}" />
     <meta property="og:description" content="{{webinar.description}}" />
