@@ -1,0 +1,544 @@
+{% extends 'geeks/extends/foundation.html' %}
+{% load static %}
+
+{% block meta %}
+    {% block inner_meta %}{% endblock inner_meta %}
+    {% if webinar.description %}
+    <meta name="description" content="{{webinar.description}}" />
+    <meta property="og:description" content="{{webinar.description}}" />
+    {% endif %}
+    <link rel="canonical" href="{{META__BASE_URL}}{{CANONICAL}}" />
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:url" content="{{META__BASE_URL}}{% url "core:webinar_program_page" slug=webinar.slug %}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{webinar.title}}" />
+    
+    <meta property="og:image:width" content="940" />
+    <meta property="og:image:height" content="788" />
+    {% if webinar.facebook_post_image %}
+    <meta property="og:image" content="{{META__BASE_URL}}{% get_media_prefix %}{{webinar.facebook_post_image}}" />
+    {% else %}
+    <meta property="og:image" content="{{META__BASE_URL}}{% url "core:webinar_ogimage_page" pk=webinar.pk %}" />
+    {% endif %}
+    <meta property="og:image:alt" content="{{webinar.title}}" />
+
+    <meta property="og:image:type" content="image/png" />
+{% endblock meta %}
+
+{% block title %}
+  <title>Szkolenie - {{webinar.title}}</title>
+{% endblock title %}
+
+{% block head_stylesheets %}
+{% block _head_stylesheets %}{% endblock _head_stylesheets %}
+<style>
+  @media only screen and (min-width: 992px) {
+    #WebinarDetailAside {
+      {% with webinar_length=webinar.title|length %}
+      {% if webinar_length <= 100 %}
+      margin-top: -10rem !important
+      {% elif webinar_length <= 150 %}
+      margin-top: -15rem !important
+      {% else %}
+      margin-top: -25rem !important
+      {% endif %}
+      {% endwith %}
+    }
+  }
+  
+  @media only screen and (min-width: 992px) {
+    #MobileFloatingTab {
+      display: none !important;
+    }
+  }
+  
+  @media only screen and (max-width: 992px) {    
+    #MobileFloatingTab {
+      position: fixed;
+      bottom:0;
+      width:100%;
+      height: 120px;
+      background-color: white;
+    }
+  }
+  @media (min-width: 992px) {
+    .pb-lg-16 {
+        padding-bottom: 7.5rem !important;
+    }
+  }
+  @media (min-width: 992px) {
+      .pt-lg-8 {
+          padding-top: 3.5rem !important;
+      }
+  }
+</style>
+{% endblock head_stylesheets %}
+
+{% block root %}
+<main>
+  <!-- Page header -->
+  <section class="pt-lg-8 pb-lg-16 pt-7 pb-12 bg-primary">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-xl-7 col-lg-7 col-md-12">
+          <div>
+            <h1 class="text-white display-4 fw-semibold">
+              {{webinar.title}}
+              {% if request.user.is_staff and webinar.is_fake %}
+              <span class="bg-danger py-2">FAKE'OWY TERMIN</span>
+              {% endif %}
+            </h1>
+            {% if webinar.description %}  
+              <p class="text-white mb-6 lead">
+                {{webinar.description}}
+              </p>
+            {% endif %}
+            <div class="d-flex align-items-center flex-wrap">
+              {% comment %}
+                <a class="text-white" href="{% url 'core:lecturer_experience_page' slug=webinar.lecturer.slug %}">
+                  {{webinar.lecturer.fullname}}
+                </a>
+                
+              {% if lecturer_opinions_count != 0 %}
+                <span class="ms-4">
+                  <i class="mdi mdi-star me-n1 text-warning"></i>
+                  <i class="mdi mdi-star me-n1 text-warning"></i>
+                  <i class="mdi mdi-star me-n1 text-warning"></i>
+                  <i class="mdi mdi-star me-n1 text-warning"></i>
+                  <i class="mdi mdi-star me-n1-half text-warning"></i>
+                  <span class="text-white">
+                    ({{lecturer_service.get_lecturer_opinions_count}})
+                  </span>
+                </span>
+                {% endif %}
+              {% endcomment %}
+
+              {% if webinar.is_confirmed %}
+              <span class="ms-4 badge bg-warning text-dark ms-4">PEWNY TERMIN</span>
+              {% endif %}
+              {% if request.user.is_staff %}
+                <div class="ms-4 dropdown">
+                  <button class="btn btn-sm btn-info dropdown-toggle" type="button" id="webinarOptionsDropdown" data-bs-toggle="dropdown">
+                    Admin (id={{webinar.id}})
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="webinarOptionsDropdown">
+                    <a class="dropdown-item" href="{% url 'admin:core_webinar_change' object_id=webinar.id %}">
+                      [CMS] Edytuj termin
+                    </a>
+                    <a class="dropdown-item" href="{% url 'admin:core_lecturer_change' object_id=webinar.lecturer.id %}">
+                      [CMS] Edytuj wykładowce
+                    </a>
+                    <a class="dropdown-item" href="{% url 'core:crm_webinar_detail_dashboard' pk=webinar.pk %}">
+                      [CRM] Zarządzaj w CRM
+                    </a>
+                    <a class="dropdown-item" href="{% url 'core:lecturer_experience_page' slug=webinar.lecturer.slug %}">
+                      [Strona] Zobacz profil wykładowcy  
+                    </a>
+                  </div>
+                </div>
+                <div class="ms-4">
+                  <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#employeeModal">
+                    Dla pracownika
+                  </button>
+                </div>
+                <div class="ms-4">
+                  <a class="btn btn-sm btn-info" href="{% url 'core:crm_webinar_detail_dashboard' pk=webinar.pk %}">
+                    CRM
+                  </a>
+                </div>
+                <div class="ms-4">
+                  <a class="btn btn-sm btn-warning"
+                  href="{% url "core:global_mailing_editor" %}?for_webinar_id={{webinar.id}}">
+                    Szablon mailingowy
+                  </a>
+                </div>
+
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Page content -->
+  <section class="pb-10">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-12 col-12 mt-n8 mb-4 mb-lg-0">
+          <!-- Card -->
+          <div class="card rounded-3">
+            <!-- Card header -->
+            <div class="card-header border-bottom-0 p-0">
+              <div>
+                <!-- Nav -->
+                <ul class="nav nav-lb-tab" id="tab" role="tablist">
+                  {% for tab_name, tab_url, tab_is_active, tab_icon in webinar_tabs %}
+
+                  {% endfor %}
+
+                  <li class="nav-item">
+                    <a
+                      class="nav-link active"
+                      id="description-tab"
+                      data-bs-toggle="pill"
+                      href="#description"
+                      role="tab"
+                      aria-controls="description"
+                      aria-selected="true">
+                      Program Szkolenia
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a
+                      class="nav-link"
+                      id="invoice-tab"
+                      data-bs-toggle="pill"
+                      href="#invoice"
+                      role="tab"
+                      aria-controls="invoice"
+                      aria-selected="false">
+                      Cena i Faktura
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a
+                      class="nav-link"
+                      id="certificate-tab"
+                      data-bs-toggle="pill"
+                      href="#certificate"
+                      role="tab"
+                      aria-controls="certificate"
+                      aria-selected="false">
+                      Certyfikat uczestnictwa
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a
+                      class="nav-link"
+                      id="opinions-tab"
+                      data-bs-toggle="pill"
+                      href="#opinions"
+                      role="tab"
+                      aria-controls="opinions"
+                      aria-selected="false">
+                      Opinie
+                    </a>
+                  </li>
+                  
+                  {% comment %}
+                    <li class="nav-item">
+                      <a
+                        class="nav-link"
+                        href="{% url 'core:loyalty_program_info_page' %}"
+                        role="tab"
+                        target="_blank"
+                      >
+                        Polecaj i Zarabiaj
+                      </a>
+                    </li>
+                    {% if COMPANY_ENABLE_KRS %}
+                    <li class="nav-item">
+                      <a
+                        class="nav-link"
+                        href="{% url 'core:krajowy_fundusz_szkoleniowy_page' %}"
+                        role="tab"
+                        target="_blank"
+                      >
+                        <b>Dofinansowanie</b>
+                      </a>
+                    </li>
+                    {% endif %}
+                  {% endcomment %}
+                </ul>
+              </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+              <div class="tab-content" id="tabContent">
+                {% block content %}{% endblock content %}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          id="WebinarDetailAside"
+          class="col-lg-4 col-md-12 col-12 mt-lg-n22"
+        >
+
+          {% comment %} Lecturer's card {% endcomment %}
+          {% include './components/lecturer_card.html' with lecturer=webinar.lecturer %}
+          
+          
+          {% if webinar.is_archival %}
+          <!-- Card -->
+          <div class="card mb-4 border border-primary">
+            <!-- Card Header -->
+            <div class="card-header bg-light-primary">
+              <h3 class="mb-0 text-primary">
+                <i class="bi bi-bell-fill"></i>
+                Nie realizujemy szkolenia z tej tematyki w chwili obecnej.
+              </h3>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body bg-light-primary pt-1">
+              <p class="text-dark fw-medium">
+                Jeżeli interesuje Cię ten temat daj nam znać, a my <b>wyślemy Ci przypomnienie</b> gdy szkolenie z tej tematyki ponownie znajdzie się w naszej ofercie!
+              </p>
+              <!-- Form -->
+              <form class="row" method="post" action="{% url "core:lead_webinar_post_endpoint" pk=webinar.pk %}">
+                  {% csrf_token %}
+                  <div class="mb-3 col-12 col-md-12">
+                    <label class="form-label" for="id_email">Adres E-mail</label>
+                    <input name="email" type="email" id="id_email" class="form-control" placeholder="Twój adres e-mail" required>
+                  </div>
+                  <div class="mb-3 col-12 col-md-12">
+                    <input type="submit" value="Wyślij" class="btn btn-primary">
+                  </div>
+              </form>
+            </div>
+          </div>
+         {% endif %}
+
+          {% comment %} Date and hour card {% endcomment %}
+          {% include './components/date_and_hour_card.html' with webinar=webinar %}
+
+          {% comment %} Related webinars {% endcomment %}
+          {% include './components/related_webinars.html' with related_webinars=related_webinars %}
+
+          {% comment %} What we offer {% endcomment %}
+          {% include './components/what_we_offer.html' with webinar=webinar %}
+
+          <div class="card mt-4 js-sticky-widget">
+            <!-- Card body -->
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="position-relative">
+                  <img
+                    src="{% static 'media//avatars/300-12.webp' %}"
+                    alt="avatar"
+                    class="rounded-circle avatar-xl"
+                  />
+                  <a
+                    href="#"
+                    class="position-absolute mt-2 ms-n3"
+                  >
+                    <img
+                      src="{% static 'geeks/assets/images/svg/checked-mark.svg' %}"
+                      alt="checked-mark"
+                      height="30"
+                      width="30"
+                    />
+                  </a>
+                </div>
+                <div class="ms-4">
+                  <h4 class="mb-0">{{PATRON_FIRST_NAME}} {{PATRON_LAST_NAME}}</h4>
+                  <p class="mb-1 fs-6">{{PATRON_JOB_TITLE}}</p>
+                </div>
+              </div>
+              <div class="row mt-3 mb-3 g-0">
+                <div class="col-12">
+                  <div class="pe-1 ps-2 py-3">
+                    <h5 class="mb-0">E-mail</h5>
+                    <span>
+                        <a href="mailto:{{PATRON_EMAIL}}">
+                            {{PATRON_EMAIL}}
+                        </a>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="pe-1 ps-2 py-1">
+                    <h5 class="mb-0">Numer telefonu</h5>
+                    <span>
+                        {{PATRON_PHONE}}
+                    </span>
+                  </div>
+                </div>
+             
+
+              </div>
+              
+              {% if not webinar.is_archival %}
+              <div class="d-grid">
+                <a
+                  href="{% url 'core:application_type_page' pk=webinar.pk %}"
+                  rel="nofollow"
+                  class="btn btn-primary border-0"
+                  style="background-color: #f1416c"
+                >
+                  Zapisz się na szkolenie
+                </a>
+                <hr>
+                <a
+                  href="#"
+                  rel="nofollow"
+                  data-bs-toggle="modal"
+                  data-bs-target="#askQuestionModal"
+                  class="btn btn-primary mb-2 border-0"
+                >
+                  Zadaj pytanie
+                </a>
+                <a
+                  href="{% url 'core:application_type_page' pk=webinar.pk %}?pdf=show"
+                  rel="nofollow"
+                  class="btn btn-outline-primary mb-2"
+                >
+                  Pobierz kartę zgłoszeniową
+                </a>
+                {% comment %} <a href="#" class="btn btn-outline-primary">
+                  <!-- TODO: "Pobierz ulotkę" -->
+                  Pobierz ulotkę
+                </a> {% endcomment %}
+              </div>
+              {% endif %}
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+{% if not webinar.is_archival %}
+<div id="MobileFloatingTab" class="shadow">
+  <div class="d-flex justify-content-between align-items-center px-4" style="height: 100%;">
+    <div>
+      <p style="font-size: 0.8rem;">
+        <b>Data</b>: {{webinar.date|date:"j E Y"}} <br>
+        <b>Godzina</b>: {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}} <br>
+        {% if webinar.is_discounted %}
+          <b>Cena</b>: {{webinar.price}}zł
+          <span class="text-decoration-line-through text-danger me-1">
+            {{webinar.price_netto}}zł
+          </span>
+          {{PRICE_ADNOTATION}} <br>
+          <b>Promocja do</b>: {{webinar.discount_until|date:"j E Y"}} godz. {{webinar.discount_until|date:"H:i"}}
+        {% else %}
+          <b>Cena</b>: {{webinar.price}}zł {{PRICE_ADNOTATION}}
+        {% endif %}
+      </p>
+    </div>
+    <div>
+      <a
+        href="{% url 'core:application_type_page' pk=webinar.pk %}"
+        class="btn btn-danger"
+        style="background-color: #f1416c; font-size: 0.8rem;">
+        Zapisz się teraz!
+      </a>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+
+<div class="modal fade" id="askQuestionModal" tabindex="-1" role="dialog" aria-labelledby="askQuestionModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="askQuestionModalTitle">Zadaj pytanie</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+        </button>
+      </div>
+      <div class="modal-body">
+        <div hx-get="{% url 'htmx:htmx_contact_message' %}?related_to={{request.path}}" hx-trigger="load">
+          Ładowanie ...
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if request.user.is_staff %}
+<div class="modal fade" id="employeeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Dla pracownika (ID = {{webinar.id}}) (Token grupujący = {{webinar.grouping_token}})
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <h3>Przekierowania</h3>
+              
+              <p class="fw-bold mb-1">Krótki link (używany głównie w mailingu)</p>
+              <p class="mb-1">Zlicza kliknięcia</p>
+              <p>
+                <i>{{META__BASE_URL}}{% url "core:webinar_redirect_to_program" pk=webinar.pk %}</i>
+              </p>
+              
+              <p class="fw-bold mb-1">Krótki link (Social / Facebook)</p>
+              <p class="mb-1">Zlicza kliknięcia</p>
+              <p class="m-0">
+                <i>{{META__BASE_URL}}{% url "core:webinar_redirect_to_program_facebook" pk=webinar.pk %}</i>
+              </p>
+
+              <p class="m-0">
+                <a target="_blank" href="https://developers.facebook.com/tools/debug/">
+                  Facebook Debugger Linków Udostępniania
+                </a>
+              </p>
+
+              <img class="w-100 my-3" style="border: 1px solid black;" src="{% url "core:webinar_ogimage_page" pk=webinar.pk %}" alt="og_image">
+
+              <p class="fw-bold mb-1">Krótki link (Push / OneSignal)</p>
+              <p class="mb-1">Zlicza kliknięcia</p>
+              <p>
+                <i>{{META__BASE_URL}}{% url "core:webinar_redirect_to_program_onesignal" pk=webinar.pk %}</i>
+              </p>
+              
+              <h3>Rezygnacje</h3>
+              <ol>
+                <li>
+                  <a href="{{META__BASE_URL}}{% url 'core:mailing_resignation_by_form_page' %}">
+                    Rezygnacja przez formularz
+                  </a>
+                  <p>
+                    <i>{{META__BASE_URL}}{% url 'core:mailing_resignation_by_form_page' %}</i>
+                  </p>
+                </li>
+                <li>
+                  <a href="{{META__BASE_URL}}{% url 'core:mailing_resignation_page' resignation_code="KOD_TUTAJ" %}">
+                    Rezygnacja przez kod
+                  </a>
+                  <p>
+                    <i>{{META__BASE_URL}}{% url 'core:mailing_resignation_page' resignation_code="KOD_TUTAJ" %}</i>
+                  </p>
+                </li>
+              </ol>
+
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+          </div>
+      </div>
+  </div>
+</div>
+{% endif %}
+{% endblock root %}
+
+
+{%block body_scripts %}
+    <script src="{% static 'js/htmx.min.js' %}"></script>
+    <script>
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+        })
+    </script>
+    <script src="{% static 'js/sticksy.min.js' %}"></script>
+    <script>
+        var stickyElement = new Sticksy('.js-sticky-widget', {topSpacing: 70});
+        stickyElement.onStateChanged = function (state) {
+            if(state === 'fixed') {
+              stickyElement.nodeRef.classList.add('widget--sticky')
+            } else {
+              stickyElement.nodeRef.classList.remove('widget--sticky')
+            }
+        }
+    </script>
+{% endblock body_scripts %}

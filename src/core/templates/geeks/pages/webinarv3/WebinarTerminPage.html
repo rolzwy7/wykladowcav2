@@ -1,0 +1,53 @@
+{% extends './WebinarBase.html' %}
+
+{% block inner_meta %}
+  <meta name="robots" content="index, follow">
+{% endblock inner_meta %}
+
+
+{% block _head_stylesheets %}
+<style>
+    {% include "core/includes/WebinarProgramStyles.html" %}
+</style>
+{% endblock _head_stylesheets %}
+
+{% block content %}
+
+<div
+  id="description"
+  class="tab-pane fade show active"
+  role="tabpanel"
+  aria-labelledby="description-tab"
+>
+  {% include "./subpages/program.html" %}
+</div>
+
+<div
+  id="invoice"
+  class="tab-pane fade"
+  role="tabpanel"
+  aria-labelledby="invoice-tab"
+>
+   {% include "./subpages/cena_i_faktura.html" %}
+</div>
+
+<div
+  id="certificate"
+  class="tab-pane fade"
+  role="tabpanel"
+  aria-labelledby="certificate-tab"
+>
+   {% include "./subpages/certyfikat.html" %}
+</div>
+
+<div
+  id="opinions"
+  class="tab-pane fade"
+  role="tabpanel"
+  aria-labelledby="opinions-tab"
+>
+   {% include "./subpages/opinie.html" %}
+</div>
+
+
+{% endblock content %}

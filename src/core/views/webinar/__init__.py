@@ -12,3 +12,4 @@ from .webinar_redirects import (
     webinar_redirect_to_program_facebook,
     webinar_redirect_to_program_onesignal,
 )
+from .webinar_termin_page_v3 import webinar_termin_page_v3

@@ -1,0 +1,144 @@
+
+<div class="mb-4">
+    <h3 class="mb-2">Cena i Faktura</h3>
+    <p>
+        Cena:
+        {{webinar.price}}zł {{PRICE_ADNOTATION}}
+        {% if WE_ARE_TAX_EXEMPT %}
+          <br>
+          ({{TAX_EXEMPT_TOOLTIP}})
+        {% endif %}
+        za uczestnika
+    </p>
+    <p>
+        Zapłata przelewem na konto następuje <b>do {{INVOICE_DEADLINE_DAYS}} dni po szkoleniu.</b>
+    </p>
+</div>
+
+<h4 class="mb-3">Cena zawiera</h4>
+<div class="row mb-3">
+<div class="col-12 col-md-6">
+    <ul class="list-unstyled">
+    <li class="d-flex mb-2">
+        {% include "../components/circle_check_icon.html" %}
+        <span>
+            Dostęp do platformy ClickMeeting w czasie realizacji szkolenia
+        </span>
+    </li>
+    <li class="d-flex mb-2">
+        {% include "../components/circle_check_icon.html" %}
+        <span>Autorskie materiały szkoleniowe</span>
+    </li>
+    <li class="d-flex mb-2">
+        {% include "../components/circle_check_icon.html" %}
+        <span>Możliwość zadawania pytań wykładowcy na chatcie</span>
+    </li>
+    <li class="d-flex mb-2">
+        {% include "../components/circle_check_icon.html" %}
+        <span>Imienny certyfikaty ukończenia szkolenia</span>
+    </li>
+    </ul>
+</div>
+
+</div>
+
+<h4 class="mb-3">Faktura</h4>
+<div class="row mb-3">
+<div class="col-12 col-md-12">
+    <ul class="list-unstyled">
+    {% if WE_ARE_TAX_EXEMPT %}
+    <li class="d-flex mb-2">
+        {% include "../components/circle_check_icon.html" %}
+        <span>
+            {{TAX_EXEMPT_TOOLTIP}}
+        </span>
+    </li>
+    {% endif %}
+    <li class="d-flex mb-2">
+        {% include "../components/circle_check_icon.html" %}
+        <span>
+            Faktura za udział w szkoleniu zostanie wysłana do Państwa po zajęciach mailem w formacie PDF lub listownie
+        </span>
+    </li>
+    <li class="d-flex mb-2">
+        {% include "../components/circle_check_icon.html" %}
+        <span>
+            Płatności należy dokonać przelewem do {{INVOICE_DEADLINE_DAYS}} dni po szkoleniu.
+        </span>
+    </li>
+    </ul>
+</div>
+</div>
+
+<h3 class="mb-2">Proces organizacji szkolenia</h3>
+
+<div class="row mb-3">
+<div class="col-12 col-md-12">
+    <ul class="list-unstyled">
+
+    <li class="d-flex mb-2">
+        {% include "../components/circle_check_icon.html" %}
+        <span>
+            Uczestnik zgłasza się na szkolenie poprzez zgłoszenie online, telefonicznie
+            {{PATRON_PHONE}} lub poprzez kartę zgłoszeniową.
+        </span>
+    </li>
+    <li class="d-flex mb-2">
+        {% include "../components/circle_check_icon.html" %}
+        <span>
+            Uczestnik otrzymuje potwierdzenie o zarejestrowaniu zgłoszenia w systemie.
+        </span>
+    </li>
+    <li class="d-flex mb-2">
+        {% include "../components/circle_check_icon.html" %}
+        <span>
+            Dzień przed szkoleniem uczestnik otrzymuje na wskazany adres e-mail:
+        </span>
+    </li>
+    <li class="d-flex mb-2 ms-6">
+        {% include "../components/circle_check_icon.html" %}
+        <span>
+            dostęp do webinaru w formie zaproszenia z linkiem
+        </span>
+    </li>
+    <li class="d-flex mb-2 ms-6">
+        {% include "../components/circle_check_icon.html" %}
+        <span>
+            wskazówki techniczne oraz informacje o szkoleniu
+        </span>
+    </li>
+    <li class="d-flex mb-2 ms-6">
+        {% include "../components/circle_check_icon.html" %}
+        <span>
+            materiały szkoleniowe w formie elektronicznej
+        </span>
+    </li>
+    <li class="d-flex mb-2">
+        {% include "../components/circle_check_icon.html" %}
+        <span>
+            Uczestnik przed zajęciami loguje się do platformy szkoleniowej poprzez
+            link z zaproszenia.
+        </span>
+    </li>
+    <li class="d-flex mb-2">
+        {% include "../components/circle_check_icon.html" %}
+        <span>
+            Po szkoleniu zostaje wysyłana:
+        </span>
+    </li>
+    <li class="d-flex mb-2 ms-6">
+        {% include "../components/circle_check_icon.html" %}
+        <span>
+            faktura z terminem płatności do {{INVOICE_DEADLINE_DAYS}} dni po szkoleniu
+        </span>
+    </li>
+    <li class="d-flex mb-2 ms-6">
+        {% include "../components/circle_check_icon.html" %}
+        <span>
+            certyfikat uczestnictwa emailem (na życzenie pocztą tradycyjna) po
+            zakończonych zajęciach
+        </span>
+    </li>
+    </ul>
+</div>
+</div>

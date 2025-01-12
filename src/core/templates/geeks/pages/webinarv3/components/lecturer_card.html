@@ -1,0 +1,146 @@
+{% load static %}
+<!-- Card -->
+<div class="card mb-4">
+  <!-- Card body -->
+  <div class="card-body">
+    
+    <div class="d-flex align-items-center">
+      
+      {% if not webinar.is_lecturer_anonymized %}
+      <div class="position-relative">
+        <img
+          {% if lecturer.avatar %}
+          src="{% get_media_prefix %}uploads/lecturers/{{lecturer.slug}}_80x80.webp"
+          {% else %}
+          src="{% static "default/default-lecturer-avatar-80x80.webp" %}"
+          {% endif %}
+          alt="avatar"
+          class="rounded-circle avatar-xl"
+        />
+        <span
+          class="position-absolute mt-2 ms-n3"
+          data-bs-toggle="tooltip"
+          data-placement="top"
+          title="Wykładowca zweryfikowany"
+        >
+          <img
+            src="{% static 'geeks/assets/images/svg/checked-mark.svg' %}"
+            alt="checked-mark"
+            height="30"
+            width="30"
+          />
+      </span>
+      </div>
+      {% endif %}
+
+
+      <div class="{% if not webinar.is_lecturer_anonymized %}ms-4{% endif %}">
+        <h4 class="mb-0">
+          {% if webinar.is_lecturer_anonymized %}
+            Wykładowca
+          {% else %}
+              <a style="color: var(--geeks-heading-color);" href="{% url 'core:lecturer_experience_page' slug=webinar.lecturer.slug %}">
+                {{lecturer.fullname}}
+              </a>
+            {% endif %}
+        </h4>
+        {% if lecturer.profession and not webinar.is_lecturer_anonymized %}
+          <p class="mb-1 fs-6">{{lecturer.profession}}</p>
+        {% endif %}
+
+        {% with lecturer_opinions_count=lecturer_service.get_lecturer_opinions_count %}
+        {% if lecturer_opinions_count %}
+        
+        {% if not webinar.is_lecturer_anonymized %}
+        <p class="fs-6 mb-1 d-flex align-items-center">
+          <span class="text-warning">4.5</span>
+          <span class="mx-1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
+              <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+            </svg>
+          </span>
+          {{lecturer_opinions_count}} opinii
+        </p>
+        {% endif %}
+        {% endif %}
+        {% endwith %}
+
+      </div>
+    </div>
+
+    <div class="m-0 mt-2">
+      {% if not webinar.is_lecturer_anonymized %}
+      <a href="{% url "core:lecturer_opinion_form_page" slug=lecturer.slug %}" class="btn btn-primary btn-xs mb-2">
+        Dodaj opinię
+      </a>
+      {% endif %}
+      {% for category in webinar.categories.all %}
+        <a href="{% url "core:webinar_category_page" slug=category.slug %}" class="btn btn-light btn-xs mb-2">
+          {{category.name}}
+        </a>
+      {% endfor %}
+    </div>
+
+    {% if not webinar.is_lecturer_anonymized %}
+    <div class="border-top row border-bottom mb-3 g-0">
+      {% if lecturer.fake_stat_participants %}
+      <div class="col">
+        <div class="pe-1 ps-2 py-3">
+          <h5 class="mb-0">{{lecturer.fake_stat_participants}}+</h5>
+          <span>Przeszkolonych</span>
+        </div>
+      </div>
+      {% endif %}
+      {% comment %}
+      {% with lecturer_opinions_count=lecturer_service.get_lecturer_opinions_count %}
+      {% if lecturer_opinions_count %}
+      <div class="col border-start">
+        <div class="pe-1 ps-3 py-3">
+          <h5 class="mb-0">{{lecturer_opinions_count}}</h5>
+          <span>Opinii</span>
+        </div>
+      </div>
+      {% endif %}
+      {% endwith %}
+      {% endcomment %}
+      {% if lecturer.fake_stat_webinars %}
+      <div class="col border-start">
+        <div class="pe-1 ps-3 py-3">
+          <h5 class="mb-0">{{lecturer.fake_stat_webinars}}+</h5>
+          <span>Szkoleń</span>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+
+    {% if lecturer.biography_email %}
+    {% if webinar.is_lecturer_anonymized %}
+      <p class="m-0">
+        <div id="id_lecturer_short_desc">{{lecturer.biography_anonymous|truncatechars:150}}</div>
+        <div id="id_lecturer_long_desc" class="d-none">{{lecturer.biography_anonymous}}</div>
+        <a id="id_lecturer_show_desc" href="javascript:$('#id_lecturer_long_desc').toggleClass('d-none');$('#id_lecturer_short_desc').toggleClass('d-none');$('#id_lecturer_show_desc').addClass('d-none');$('#id_lecturer_hide_desc').toggleClass('d-none');">
+          Zobacz pełny opis
+        </a>
+        <a class="d-none" id="id_lecturer_hide_desc" href="javascript:$('#id_lecturer_long_desc').toggleClass('d-none');$('#id_lecturer_short_desc').toggleClass('d-none');$('#id_lecturer_hide_desc').addClass('d-none');$('#id_lecturer_show_desc').toggleClass('d-none');">
+          Schowaj pełny opis
+        </a>
+      </p>
+    {% else %}
+      <p class="m-0">
+        <div id="id_lecturer_short_desc">{{lecturer.biography_email|truncatechars:150}}</div>
+        <div id="id_lecturer_long_desc" class="d-none">{{lecturer.biography_email}}</div>
+        <a id="id_lecturer_show_desc" href="javascript:$('#id_lecturer_long_desc').toggleClass('d-none');$('#id_lecturer_short_desc').toggleClass('d-none');$('#id_lecturer_show_desc').addClass('d-none');$('#id_lecturer_hide_desc').toggleClass('d-none');">
+          Zobacz pełny opis
+        </a>
+        <a class="d-none" id="id_lecturer_hide_desc" href="javascript:$('#id_lecturer_long_desc').toggleClass('d-none');$('#id_lecturer_short_desc').toggleClass('d-none');$('#id_lecturer_hide_desc').addClass('d-none');$('#id_lecturer_show_desc').toggleClass('d-none');">
+          Schowaj pełny opis
+        </a>
+      </p>
+    {% endif %}
+    {% endif %}
+
+  </div>
+</div>
+<!-- Card -->

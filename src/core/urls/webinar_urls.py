@@ -2,6 +2,8 @@
 Webinar URLs
 """
 
+# flake8: noqa=E501
+
 from django.urls import path
 
 from core.views.webinar import (
@@ -16,6 +18,7 @@ from core.views.webinar import (
     webinar_redirect_to_program,
     webinar_redirect_to_program_facebook,
     webinar_redirect_to_program_onesignal,
+    webinar_termin_page_v3,
 )
 from core.views.webinar_cancellation import webinar_cancellation_page
 from core.views.webinar_moving import (
@@ -47,7 +50,9 @@ urlpatterns = [
         name="webinar_redirect_to_application",
     ),
     # Webinar by slug
-    path("<slug:slug>/", webinar_program_page, name="webinar_program_page"),
+    # path("dev/<slug:slug>/", webinar_termin_page_v3, name="webinar_program_page_v3"),
+    # path("<slug:slug>/", webinar_program_page, name="webinar_program_page"),
+    path("<slug:slug>/", webinar_termin_page_v3, name="webinar_program_page"),
     path(
         "<slug:slug>/opinie/",
         webinar_opinions_page,

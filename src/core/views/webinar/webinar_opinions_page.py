@@ -1,5 +1,6 @@
 # flake8: noqa=E501
 
+from django.http import HttpResponsePermanentRedirect
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 from django.urls import reverse
@@ -12,6 +13,11 @@ from core.services.webinar import WebinarService
 
 def webinar_opinions_page(request, slug: str):
     """Webinar page - opinions tab tab"""
+
+    return HttpResponsePermanentRedirect(
+        reverse("core:webinar_program_page", kwargs={"slug": slug})
+    )
+
     template_name = "geeks/pages/webinar/WebinarOpinionsPage.html"
     webinar = get_object_or_404(Webinar, slug=slug)
     webinar_service = WebinarService(webinar)
