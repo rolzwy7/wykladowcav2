@@ -28,6 +28,7 @@ from core.models import (
     SurveyAnswer,
     SurveyOpinion,
     SurveyVote,
+    WebinarAggregate,
     WebinarApplicationCancellation,
     WebinarApplicationCompany,
     WebinarApplicationInvoice,
@@ -41,6 +42,24 @@ from core.models import (
     WebinarRecording,
     WebinarRecordingToken,
 )
+
+
+@register(WebinarAggregate)
+class WebinarAggregateModelAdmin(ModelAdmin):
+    """WebinarAggregateModelAdmin"""
+
+    list_display = [
+        "__str__",
+        "status",
+        "slug",
+    ]
+
+    search_fields = ["grouping_token", "slug"]
+
+    list_filter = [
+        "status",
+    ]
+
 
 admin.site.register(MailingScheduled)
 

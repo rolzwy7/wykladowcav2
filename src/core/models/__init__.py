@@ -39,6 +39,7 @@ from .redirects import RedirectManual
 from .service_offer_model import ServiceOffer, ServiceOfferApplication, ServiceOfferLead
 from .survey import Survey, SurveyAnswer, SurveyOpinion, SurveyVote
 from .user_model import User
+from .webinar_aggregate_model import WebinarAggregate, WebinarAggregateManager
 from .webinar_application_model import (
     WebinarApplication,
     WebinarApplicationCompany,

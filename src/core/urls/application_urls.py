@@ -4,6 +4,7 @@ from core.views.webinar_application import (
     application_additional_information_page,
     application_buyer_page,
     application_buyer_recipient_page,
+    application_choose_webinar,
     application_invoice_page,
     application_participants_page,
     application_pdf_card,
@@ -64,6 +65,11 @@ urlpatterns = [
         "<uuid:uuid>/karta-zgloszeniowa/",
         application_pdf_card,
         name="application_pdf_card",
+    ),
+    path(
+        "wybierz-termin/<str:grouping_token>/",
+        application_choose_webinar,
+        name="application_choose_webinar",
     ),
     path(
         "wyslano/",

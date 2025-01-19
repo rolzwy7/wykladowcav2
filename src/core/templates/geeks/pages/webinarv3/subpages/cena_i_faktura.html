@@ -1,15 +1,17 @@
 
 <div class="mb-4">
     <h3 class="mb-2">Cena i Faktura</h3>
+    {% if par_price %}
     <p>
         Cena:
-        {{webinar.price}}zł {{PRICE_ADNOTATION}}
+        {{par_price}}zł {{PRICE_ADNOTATION}}
         {% if WE_ARE_TAX_EXEMPT %}
           <br>
           ({{TAX_EXEMPT_TOOLTIP}})
         {% endif %}
         za uczestnika
     </p>
+    {% endif %}
     <p>
         Zapłata przelewem na konto następuje <b>do {{INVOICE_DEADLINE_DAYS}} dni po szkoleniu.</b>
     </p>

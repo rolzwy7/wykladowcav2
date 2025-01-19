@@ -19,6 +19,7 @@ from .participant_enums import WebinarParticipantIsMxValidType, WebinarParticipa
 from .service_offer_enums import ServiceOfferApplicationStatus
 from .webinar_enums import (
     WEBINAR_CLICKMEETING_DURATION,
+    WebinarAggregateStatus,
     WebinarApplicationStep,
     WebinarApplicationType,
     WebinarDuration,

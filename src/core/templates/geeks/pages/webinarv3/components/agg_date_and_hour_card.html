@@ -1,0 +1,67 @@
+<div class="card mb-3 mb-4">
+    <div>
+      <!-- Card header -->
+      <div class="card-header">
+        <h4 class="mb-0">Terminy szkolenia:</h4>
+      </div>
+      <ul class="list-group list-group-flush">
+        {% for agg_webinar in webinars %}
+        <li class="list-group-item bg-transparent">
+          <i class="fe fe-map-pin align-middle me-1 text-success"></i>
+          Online
+          <br>
+          <i class="fe fe-calendar align-middle me-1 text-info"></i>
+          <b>{{agg_webinar.date|date:"j E Y"}} r.</b> ({{agg_webinar.date|date:"l"}})
+          <br>
+          <i class="fe fe-clock align-middle me-1 text-warning"></i>
+          {{agg_webinar.date|date:"H:i"}} - {{agg_webinar.date_end|date:"H:i"}}
+          <br>
+          <i class="fe fe-dollar-sign align-middle me-1 text-success"></i>
+          <span class="fw-bold">
+          {% if agg_webinar.is_discounted %}
+            <span class="text-decoration-line-through text-danger me-1 fw-bold">
+              {{agg_webinar.price_netto}}zł
+            </span>
+            <b>{{agg_webinar.price}}zł</b>
+          {% else %}
+            <b>{{agg_webinar.price}}zł</b>
+          {% endif %}
+            {{PRICE_ADNOTATION}} / os.
+          </span>
+    
+          {% if agg_webinar.is_discounted %}
+            <br>
+            <span class="fw-bold text-danger">
+              Promocja trwa do {{agg_webinar.discount_until|date:"j E Y"}} godz. {{agg_webinar.discount_until|date:"H:i"}}
+            </span>
+          {% endif %}
+
+          <br>
+          <div class="mt-2">
+          <a
+            href="{% url 'core:application_type_page' pk=agg_webinar.pk %}"
+            rel="nofollow"
+            class="btn btn-sm btn-primary mb-2 border-0"
+            style="background-color: #f1416c"
+          >
+            Zapisz się teraz!
+          </a>
+          <a
+          href="{% url 'core:application_type_page' pk=agg_webinar.pk %}?pdf=show"
+          rel="nofollow"
+          class="btn btn-sm btn-primary mb-2 border-0"
+        >
+          <b>Pobierz kartę zgłoszeniową</b>
+        </a>
+      </div>
+
+
+        </li>
+        {% endfor %}
+
+
+
+      </ul>
+    </div>
+
+  </div>

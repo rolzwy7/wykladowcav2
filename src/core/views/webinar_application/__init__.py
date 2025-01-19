@@ -4,6 +4,7 @@ from .application_additional_information_page import (
 )
 from .application_buyer_page import application_buyer_page
 from .application_buyer_recipient_page import application_buyer_recipient_page
+from .application_choose_webinar import application_choose_webinar
 from .application_invoice_page import application_invoice_page
 from .application_participants_page import application_participants_page
 from .application_pdf_card import application_pdf_card

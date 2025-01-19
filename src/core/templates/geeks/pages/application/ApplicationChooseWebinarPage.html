@@ -1,0 +1,119 @@
+{% extends './ApplicationBase.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row mt-0 mt-md-4">
+    <div class="col-lg-8 col-md-12 col-12">
+        <div class="card mb-4">
+            <!-- Card header -->
+            <div class="card-header">
+                <h3 class="mb-0">Wybierz termin szkolenia</h3>
+                <span>{{step_description}}</span>
+            </div>
+            <!-- Card body -->
+            <div class="card-body">
+        
+                <div class="row">
+                    <div class="col-12">
+                        {% for webinar in webinars %}
+                        
+                        <div class="card shadow-lg">
+                            <div class="card-body">
+                              <h4 class="card-title text-dark">
+                                <b>{{webinar.date|date:"j E Y"}} r.</b> ({{webinar.date|date:"l"}}) godzina {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}
+                              </h5>
+
+                              <p class="card-text">
+                                <span class="fw-bold">
+                                Cena:
+                                {% if webinar.is_discounted %}
+                                    <span class="text-decoration-line-through text-danger me-1 fw-bold">
+                                    {{webinar.price_netto}}zł
+                                    </span>
+                                    <b>{{webinar.price}}zł</b>
+                                {% else %}
+                                    <b>{{webinar.price}}zł</b>
+                                {% endif %}
+                                    {{PRICE_ADNOTATION}} / os.
+                                </span>
+                              </p>
+                              
+                              {% if webinar.is_discounted %}
+                              <p class="card-text">
+                                Promocja trwa do {{webinar.discount_until|date:"j E Y"}} godz. {{webinar.discount_until|date:"H:i"}}
+                              </p>
+                              {% endif %}
+
+                              <a href="{% url 'core:application_type_page' pk=webinar.pk %}" class="btn btn-danger" style="background-color: #f1416c">
+                                Zapisz się
+                              </a>
+                              <a href="{% url 'core:application_type_page' pk=webinar.pk %}?pdf=show" class="btn btn-primary">
+                                Pobierz kartę zgłoszeniową
+                            </a>
+                            </div>
+                          </div>
+                          {% endfor %}
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>                        
+    </div>
+    <div class="col-lg-4 col-md-12 col-12">
+        <div class="card js-sticky-widget">
+            <!-- Card body -->
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="position-relative">
+                  <img
+                    src="{% static 'media//avatars/300-12.webp' %}"
+                    alt="avatar"
+                    class="rounded-circle avatar-xl"
+                  />
+                  <a
+                    href="#"
+                    class="position-absolute mt-2 ms-n3"
+                  >
+                    <img
+                      src="{% static 'geeks/assets/images/svg/checked-mark.svg' %}"
+                      alt="checked-mark"
+                      height="30"
+                      width="30"
+                    />
+                  </a>
+                </div>
+                <div class="ms-4">
+                  <h4 class="mb-0">{{PATRON_FIRST_NAME}} {{PATRON_LAST_NAME}}</h4>
+                  <p class="mb-1 fs-6">{{PATRON_JOB_TITLE}}</p>
+                </div>
+              </div>
+              <div class="row mt-3 mb-3 g-0">
+                <div class="col-12">
+                  <div class="pe-1 ps-2 py-3">
+                    <h5 class="mb-0">E-mail</h5>
+                    <span>
+                        <a href="mailto:{{PATRON_EMAIL}}">
+                            {{PATRON_EMAIL}}
+                        </a>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="pe-1 ps-2 py-1">
+                    <h5 class="mb-0">Numer telefonu</h5>
+                    <span>
+                        {{PATRON_PHONE}}
+                    </span>
+                  </div>
+                </div>
+             
+
+              </div>
+              
+
+            </div>
+          </div>
+    </div>
+</div>
+{% endblock content %}

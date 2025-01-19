@@ -7,13 +7,13 @@ Webinar URLs
 from django.urls import path
 
 from core.views.webinar import (
+    webinar_aggregate_page,
     webinar_certificate_page,
     webinar_faq_page,
     webinar_loyalty_program_page,
     webinar_ogimage_page,
     webinar_opinions_page,
     webinar_price_and_invoice_page,
-    webinar_program_page,
     webinar_redirect_to_application,
     webinar_redirect_to_program,
     webinar_redirect_to_program_facebook,
@@ -53,6 +53,9 @@ urlpatterns = [
     # path("dev/<slug:slug>/", webinar_termin_page_v3, name="webinar_program_page_v3"),
     # path("<slug:slug>/", webinar_program_page, name="webinar_program_page"),
     path("<slug:slug>/", webinar_termin_page_v3, name="webinar_program_page"),
+    path(
+        "aggregate/<slug:slug>/", webinar_aggregate_page, name="webinar_aggregate_page"
+    ),
     path(
         "<slug:slug>/opinie/",
         webinar_opinions_page,

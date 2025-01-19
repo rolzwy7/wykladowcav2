@@ -1,4 +1,5 @@
 # flake8: noqa
+from .webinar_aggregate_page import webinar_aggregate_page
 from .webinar_certificate_page import webinar_certificate_page
 from .webinar_faq_page import webinar_faq_page
 from .webinar_loyalty_program_page import webinar_loyalty_program_page

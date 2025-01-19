@@ -7,6 +7,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db.models import (
     CASCADE,
+    RESTRICT,
     SET_NULL,
     BooleanField,
     CharField,
@@ -367,6 +368,21 @@ class Webinar(Model):
         blank=True,
         upload_to="uploads/webinar-facebook-covers",
         help_text=("wymiary: 1200px na 630px"),
+    )
+
+    seo_webinar_redirect = ForeignKey(
+        "Webinar",
+        on_delete=RESTRICT,
+        null=True,
+        blank=True,
+        verbose_name="SEO Webinar Redirect",
+    )
+
+    seo_manual_redirect = CharField(
+        "SEO Manual Redirect",
+        max_length=512,
+        blank=True,
+        help_text="SEO Manual Redirect",
     )
 
     class Meta:
