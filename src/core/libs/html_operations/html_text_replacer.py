@@ -97,6 +97,8 @@ class HTMLTextReplacer:
         for text_node in soup.find_all(string=True):
             if isinstance(text_node, Comment):
                 continue
+            if text_node.parent.name == "h1":
+                continue
             modified_text = text_node
             for old, new in self.replacements.items():
                 # Use re.sub to replace text case insensitively
