@@ -344,6 +344,7 @@ class Webinar(Model):
     )
 
     # Program
+    program_assets = TextField("Materiały szkoleniowe", blank=True)
     program = TextField("Program szkolenia", default="[Program Szkolenia]")
     program_markdown = TextField("Program szkolenia (markdown)", blank=True)
     program_pretty = TextField("Program szkolenia (enchanted)", blank=True)

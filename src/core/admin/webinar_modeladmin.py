@@ -25,7 +25,10 @@ class WebinarModelAdminForm(ModelForm):
     class Meta:
         model = Webinar
         fields = "__all__"
-        widgets = {"program": TinyMCE(attrs={"cols": 80, "rows": 30})}
+        widgets = {
+            "program": TinyMCE(attrs={"cols": 80, "rows": 30}),
+            "program_assets": TinyMCE(attrs={"cols": 80, "rows": 30}),
+        }
 
     def clean_status(self):
         """clean_status"""
@@ -124,7 +127,7 @@ class WebinarModelAdmin(SimpleHistoryAdmin):
         (
             "Program szkolenia",
             {
-                "fields": ["program"],
+                "fields": ["program_assets", "program"],
             },
         ),
         (
