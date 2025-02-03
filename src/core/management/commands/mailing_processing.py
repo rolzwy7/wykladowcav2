@@ -48,6 +48,7 @@ class Command(BaseCommand):
         next_inbox_scan_at = now() - timedelta(days=999)
 
         while True:
+
             #
             # Run inboxes scan every hour
             # if now() > next_inbox_scan_at:
@@ -58,6 +59,7 @@ class Command(BaseCommand):
             #             continue
             #         process_scan_inbox(sender, cache)
             #
+
             # Get active campaigns
             active_campaigns = MailingCampaign.manager.active_campaigns_for_processing()
             active_campaigns_ids = []
@@ -79,9 +81,9 @@ class Command(BaseCommand):
             for active_id in active_campaigns_ids:
                 process_check_mx(pool_manager, [active_id], process_count=200)
                 process_bounces(
-                    pool_manager, bounce_manager, [active_id], process_count=400
+                    pool_manager, bounce_manager, [active_id], process_count=200
                 )
-                process_blacklist(pool_manager, [active_id], process_count=400)
+                process_blacklist(pool_manager, [active_id], process_count=200)
             #
             # Close managers
             pool_manager.close()

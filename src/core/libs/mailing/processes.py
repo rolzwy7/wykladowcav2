@@ -196,7 +196,7 @@ def process_check_mx(
     # MX check process
     pool_being_processed = pool_manager.find_all_by_status_and_campaign_ids(
         MailingPoolStatus.BEING_PROCESSED, campaigns_ids
-    )
+    )  # TODO: OPTYMALIZACJA to bierze całe? jaki index?
 
     for idx, document in enumerate(pool_being_processed):
         if idx >= process_count:
