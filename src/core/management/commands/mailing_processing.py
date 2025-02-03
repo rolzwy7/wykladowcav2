@@ -50,13 +50,13 @@ class Command(BaseCommand):
         while True:
             #
             # Run inboxes scan every hour
-            if now() > next_inbox_scan_at:
-                next_inbox_scan_at = now() + timedelta(hours=1)
-                for sender in SmtpSender.objects.all():  # pylint: disable=no-member
-                    if sender.exclude_from_processing:
-                        print(f"Skipping sender {sender} from processing (inbox scan)")
-                        continue
-                    process_scan_inbox(sender, cache)
+            # if now() > next_inbox_scan_at:
+            #     next_inbox_scan_at = now() + timedelta(hours=1)
+            #     for sender in SmtpSender.objects.all():  # pylint: disable=no-member
+            #         if sender.exclude_from_processing:
+            #             print(f"Skipping sender {sender} from processing (inbox scan)")
+            #             continue
+            #         process_scan_inbox(sender, cache)
             #
             # Get active campaigns
             active_campaigns = MailingCampaign.manager.active_campaigns_for_processing()
