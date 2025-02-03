@@ -89,11 +89,17 @@ class MailingPoolManager:
         """Count all by status"""
         return self.collection.count_documents({"status": status})
 
-    def find_all_by_status_and_campaign_ids(self, status: str, campaign_ids: list[int]):
+    def find_all_by_status_and_campaign_ids(
+        self, status: str, campaign_ids: list[int], limit: int = 100
+    ):
         """Find all by status"""
-        return self.collection.find(
-            {"status": status, "campaign_id": {"$in": campaign_ids}}
-        ).sort("priority", DESCENDING)
+        return (
+            self.collection.find(
+                {"status": status, "campaign_id": {"$in": campaign_ids}}
+            )
+            .sort("priority", DESCENDING)
+            .limit(limit)
+        )
 
     def count_all_by_status_and_campaign_ids(
         self, status: str, campaign_ids: list[int]
