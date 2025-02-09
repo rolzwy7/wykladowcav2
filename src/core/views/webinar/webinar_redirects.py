@@ -55,16 +55,16 @@ def webinar_redirect_to_program_tracking_and_campaign_id(
         total_clicks=F("total_clicks") + 1
     )
 
-    # try:
-    #     _, database = MongoDBClient.get_connection()
-    #     database["wykladowcav2_mailing_clicks"].insert_one(
-    #         {
-    #             "tracking_code": tracking_code,
-    #             "campaign_id": campaign_id,
-    #         }
-    #     )
-    # except Exception as e:
-    #     pass
+    try:
+        _, database = MongoDBClient.get_connection()
+        database["wykladowcav2_mailing_clicks"].insert_one(
+            {
+                "tracking_code": tracking_code,
+                "campaign_id": campaign_id,
+            }
+        )
+    except Exception as e:
+        pass
 
     return redirect(reverse("core:webinar_redirect_to_program_safe", kwargs={"pk": pk}))
 
