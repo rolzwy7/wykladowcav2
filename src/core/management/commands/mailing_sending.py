@@ -53,7 +53,7 @@ class Command(BaseCommand):
         # Sleep and continue loop if no active campaigns
         if active_campaigns.count() == 0:
             print("[*] No active campaigns for sending, sleeping 20s ...")
-            time.sleep(20)
+            time.sleep(120)
             return
 
         # Iterate over active campaigns and start sending process
