@@ -12,6 +12,7 @@ import traceback
 from django.core.management.base import BaseCommand
 from django.utils.timezone import now, timedelta
 
+from core.consts import TelegramChats
 from core.libs.mailing.handlers import handle_complete_failure, handle_on_loop_failure
 from core.libs.mailing.processes import (
     process_blacklist,
@@ -22,13 +23,14 @@ from core.libs.mailing.processes import (
 )
 from core.models import MailingBounceManager, MailingPoolManager, SmtpSender
 from core.models.mailing import MailingCampaign
+from core.services import TelegramService
 
 logging.getLogger("flufl.bounce").setLevel(logging.WARNING)
 
 
 INBOX_SCAN_CACHE = {}
 
-SLEEP_BETWEEN_LOOPS_SECONDS = 60
+SLEEP_BETWEEN_LOOPS_SECONDS = 5
 SLEEP_ON_NO_ACTIVE_CAMPAIGNS = 120
 
 MINUTE = 60
@@ -124,6 +126,27 @@ class Command(BaseCommand):
         # Load cache once at the start of program
         cache = process_load_cache()
         print(f"\n[*] Cache has {len(INBOX_SCAN_CACHE):,} elements")
+
+        # Run inboxes scan every hour
+        for sender in SmtpSender.objects.all():  # pylint: disable=no-member
+            if sender.exclude_from_processing:
+                print(f"Skipping sender {sender} from processing (inbox scan)")
+                continue
+            time.sleep(2)
+            try:
+                process_scan_inbox(sender, cache)
+            except Exception as e:
+                telegram_service = TelegramService()
+                telegram_service.send_chat_message(
+                    f"Sender {sender}: process_scan_inbox error: {e}",
+                    TelegramChats.OTHER,
+                )
+            else:
+                telegram_service = TelegramService()
+                telegram_service.send_chat_message(
+                    f"Sender {sender}: process_scan_inbox success",
+                    TelegramChats.OTHER,
+                )
 
         # Execute main
         self.main(cache)
