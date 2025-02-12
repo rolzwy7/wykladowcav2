@@ -30,7 +30,7 @@ logging.getLogger("flufl.bounce").setLevel(logging.WARNING)
 
 INBOX_SCAN_CACHE = {}
 
-SLEEP_BETWEEN_LOOPS_SECONDS = 5
+SLEEP_BETWEEN_LOOPS_SECONDS = 15
 SLEEP_ON_NO_ACTIVE_CAMPAIGNS = 120
 
 MINUTE = 60
@@ -43,7 +43,9 @@ class Command(BaseCommand):
     help = "Mailing processing"
 
     def add_arguments(self, parser):
-        pass
+        parser.add_argument(
+            "--scan-inbox", action="store_true", help="Scan inboxes and exit"
+        )
 
     def start_loop(self, cache: dict):
         """Start infinite loop"""
@@ -127,26 +129,28 @@ class Command(BaseCommand):
         cache = process_load_cache()
         print(f"\n[*] Cache has {len(INBOX_SCAN_CACHE):,} elements")
 
-        # Run inboxes scan every hour
-        for sender in SmtpSender.objects.all():  # pylint: disable=no-member
-            if sender.exclude_from_processing:
-                print(f"Skipping sender {sender} from processing (inbox scan)")
-                continue
-            time.sleep(2)
-            try:
-                process_scan_inbox(sender, cache)
-            except Exception as e:
-                telegram_service = TelegramService()
-                telegram_service.send_chat_message(
-                    f"Sender {sender}: process_scan_inbox error: {e}",
-                    TelegramChats.OTHER,
-                )
-            else:
-                telegram_service = TelegramService()
-                telegram_service.send_chat_message(
-                    f"Sender {sender}: process_scan_inbox success",
-                    TelegramChats.OTHER,
-                )
+        if options["scan_inbox"]:
+            for sender in SmtpSender.objects.all():  # pylint: disable=no-member
+                time.sleep(2)
+                if sender.exclude_from_processing:
+                    print(f"Skipping sender {sender} from processing (inbox scan)")
+                    continue
+                try:
+                    process_scan_inbox(sender, cache)
+                except Exception as e:
+                    telegram_service = TelegramService()
+                    telegram_service.send_chat_message(
+                        f"Sender {sender}: process_scan_inbox error: {e}",
+                        TelegramChats.OTHER,
+                    )
+                else:
+                    telegram_service = TelegramService()
+                    telegram_service.send_chat_message(
+                        f"Sender {sender}: process_scan_inbox success",
+                        TelegramChats.OTHER,
+                    )
+
+            exit(0)
 
         # Execute main
         self.main(cache)
