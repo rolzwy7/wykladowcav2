@@ -19,7 +19,12 @@ class CoreMiddleware:
 
         # Deny access to CRM for unauthenticated users and
         # users that are authenticated but aren't staff memebers
-        if request.path.startswith("/crm/"):
+        if any(
+            [
+                request.path.startswith("/crm"),
+                request.path.startswith("crm"),
+            ]
+        ):
             try:
                 deny_if_not_staff(request.user)
             except UnauthorizedException:

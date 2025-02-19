@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 
+from core.models.conference import ConferenceFreeParticipant
 from core.models.enums import WebinarStatus
 from core.models.lecturer_model import Lecturer
 from core.models.webinar_participant_model import WebinarParticipant
@@ -14,6 +15,7 @@ from core.models.webinar_participant_model import WebinarParticipant
 def lecturer_participants_emails_page(request, pk: int, participants_type: str):
     """lecturer_participants_emails_page"""
     lecturer = get_object_or_404(Lecturer, pk=pk)
+    emails: list[str] = []
 
     include_all_webinars = request.GET.get("include_all_webinars")
 
@@ -31,7 +33,10 @@ def lecturer_participants_emails_page(request, pk: int, participants_type: str):
 
         emails: list[str] = [_.email for _ in paid_pairticipants]
     elif participants_type == "free-participants":
-        emails: list[str] = []
+        free_participants = ConferenceFreeParticipant.manager.filter(
+            edition__webinar__lecturer=lecturer
+        )
+        emails: list[str] = [_.email for _ in free_participants]
 
     return HttpResponse(
         "\n".join(set(emails)),
