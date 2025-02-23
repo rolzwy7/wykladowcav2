@@ -16,6 +16,7 @@ from .queue_counts import (
     regon_queue_count,
     scraper_queue_static_count,
 )
+from .scraper_procedure_progress import scraper_procedure_progress
 
 app_name = "queues"  # pylint: disable=invalid-name
 
@@ -39,6 +40,11 @@ urlpatterns = [
         "bisnode-2024-download-progress/",
         bisnode_2024_download_progress,
         name="bisnode-2024-download-progress",
+    ),
+    path(
+        "scraper-procedure-progress/<str:collection_fragment>/",
+        scraper_procedure_progress,
+        name="scraper_procedure_progress",
     ),
     path(
         "mailing-pool-counters/<str:campaign_status>/<str:pool_status>/",

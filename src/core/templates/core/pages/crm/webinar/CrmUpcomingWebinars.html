@@ -45,6 +45,23 @@
   <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
 </div>
 
+<hr>
+
+<b>
+  <a href="https://docs.google.com/document/d/10rPeZzv5lKR3rzH0YwmDaZ7gJCmLYeo0RMfAEV3asAs/edit?usp=sharing">
+    Scraper - OSW_2025_02_16
+  </a>
+</b>
+<br>
+<div
+  hx-get="{% url "htmx:dwpldb:scraper_procedure_progress" collection_fragment="OSW_2025_02_16" %}"
+  hx-swap="outerHTML"
+  hx-trigger="load">
+  <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
+</div>
+
+<hr>
+
 {% endif %}
 
 <b>MAILING_NUM_OF_PROCESSES</b>
@@ -55,6 +72,8 @@
 {{sent_today_paid_applications_count}}
 
 {{sent_today_paid_applications}}
+
+<hr>
 
 {% if 0 %}
 <div hx-get="{% url "htmx:htmx_annoying_alerts" %}" hx-trigger="load">
