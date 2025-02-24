@@ -344,6 +344,11 @@ class WebinarApplication(Model):
         return f"Zgłoszenie {self.id}"  # type: ignore # pylint: disable=no-member
 
     @property
+    def metadata(self):
+        """metadata"""
+        return WebinarApplicationMetadata.objects.filter(application=self).first()
+
+    @property
     def price_brutto(self):
         """Calculate BRUTTO price for one participant"""
 
@@ -369,6 +374,8 @@ class WebinarApplicationMetadata(Model):
     terms_accepted = BooleanField("Zaakceptowano regulamin", default=False)
 
     ip_address = CharField(max_length=64, blank=True)
+
+    vat_status = CharField(max_length=64, blank=True)
 
     def __str__(self) -> str:
         return f"Zgłoszenie {self.application.id} metadata"  # pylint: disable=no-member
