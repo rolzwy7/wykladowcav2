@@ -1,4 +1,15 @@
+{% load humanize %}
 
 Procedura skanowania branży o nazwie <b>{{collection_fragment}}</b> <br>
-Estymowana liczba URLi w kolejce: <b>{{estimated_count}}</b> <br>
-Z czego przerobionych: <b>{{done_queue}}</b> ( <b style="color: goldenrod;">{{percent_done}}</b> )
+Kolekcja inicjalizacyjna <b>{{estimated_init_count}}</b> <br>
+Kolekcja kolejki: pobranych <b>{{done_queue}}</b> ( <b style="color: goldenrod;">{{percent_done}}</b> ) z <b>{{estimated_queue_count}}</b> <br>
+Kolekcja HTML: <b>{{estimated_html_count}}</b> (~{{html_size_gb}} GB) <br>
+<br>
+Analizatory:
+<ol>
+{% for analyzer in analyzers %}
+    <li>{{analyzer.0}} - {{analyzer.1}} - {{analyzer.3}} <b>przeanalizowanych {{analyzer.2|intcomma}}</b> na dzień {{analyzer.4}}</li>
+{% empty %}
+    <li>Brak analizatorów</li>
+{% endfor %}
+</ol>

@@ -14,7 +14,7 @@ def scraper_procedure_progress(request, collection_fragment: str):
 
     template_path = "htmx/scraper_procedure_progress.html"
     cache_key = f"CACHED_SCRAPER_PROCEDURE_PROGRESS_{collection_fragment}"
-    cache_seconds = 60 * 60  # 60 minutes
+    cache_seconds = 20 * 60  # 20 minutes
 
     if cache.get(cache_key):
         context = cache.get(cache_key)
@@ -24,15 +24,48 @@ def scraper_procedure_progress(request, collection_fragment: str):
         done_queue = db[f"scraper_{collection_fragment}_queue"].count_documents(
             {"bucket": 999}
         )
-        estimated_count = db[
+        estimated_queue_count = db[
             f"scraper_{collection_fragment}_queue"
         ].estimated_document_count()
+
+        estimated_init_count = db[
+            f"scraper_{collection_fragment}_init"
+        ].estimated_document_count()
+
+        estimated_html_count = db[
+            f"scraper_{collection_fragment}_html"
+        ].estimated_document_count()
+
+        # Get storage size
+        stats = db.command("collStats", f"scraper_{collection_fragment}_html")
+        storage_size = stats.get("storageSize", 0)  # Storage size in bytes
+        if storage_size != 0:
+            html_size_gb = storage_size / (1024**3)
+        else:
+            html_size_gb = -1
+
+        # Analyzers
+        analyzers = []
+        for doc in db["vars_map"].find({"kod_procedury": collection_fragment}):
+            analyzers.append(
+                (
+                    doc["hostname"],
+                    doc["status"],
+                    doc["analyze_counter"],
+                    doc["analyze_dir"],
+                    doc["datetime"],
+                )
+            )
 
         context = {
             "collection_fragment": collection_fragment,
             "done_queue": f"{done_queue:,}",
-            "estimated_count": f"{estimated_count:,}",
-            "percent_done": f"{done_queue / estimated_count:.2%}",
+            "estimated_queue_count": f"{estimated_queue_count:,}",
+            "estimated_init_count": f"{estimated_init_count:,}",
+            "estimated_html_count": f"{estimated_html_count:,}",
+            "percent_done": f"{done_queue / estimated_queue_count:.2%}",
+            "html_size_gb": f"{html_size_gb:.1f}",
+            "analyzers": analyzers,
         }
 
         client.close()
