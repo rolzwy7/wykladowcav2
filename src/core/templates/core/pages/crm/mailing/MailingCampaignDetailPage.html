@@ -49,6 +49,10 @@
             <a href="{% url 'core:crm_mailing_campaign_preview_text' pk=mailing_campaign.pk %}">
                 <b>TEXT preview</b>
             </a>
+            /
+            <a href="{% url 'core:crm_mailing_campaign_download_emails' pk=mailing_campaign.pk %}">
+                <b>Pobierz adresy e-mail</b>
+            </a>
 
         </p>
     </div>
@@ -170,6 +174,9 @@
                             class="fw-bold"
                             href="{% url 'core:crm_mailing_campaign_email_search_page' pk=mailing_campaign.pk %}?status={{status}}">
                             {{status_name}}
+                        </a> -
+                        <a href="{% url 'core:crm_mailing_campaign_download_emails' pk=mailing_campaign.pk %}?status={{status}}">
+                            <b>Pobierz</b>
                         </a>
                     </td>
                     <td>{{count}}</td>

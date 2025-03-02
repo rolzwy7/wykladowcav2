@@ -307,3 +307,28 @@ def crm_mailing_campaign_email_search_page(request, pk: int):
             ],
         },
     )
+
+
+def crm_mailing_campaign_download_emails(request, pk: int):
+    """crm_mailing_campaign_download_emails"""
+
+    campaign = get_object_or_404(MailingCampaign, pk=pk)
+    campaign_id: int = campaign.id  # type: ignore
+
+    status = request.GET.get("status", "")
+
+    mongo_filter = {"campaign_id": campaign_id}
+    if status:
+        mongo_filter["status"] = status
+
+    manager = MailingPoolManager()
+    emails = [document["email"] for document in manager.collection.find(mongo_filter)]
+    manager.close()
+
+    return HttpResponse(
+        "\n".join(set(emails)),
+        content_type="text/plain; charset=utf8",
+        headers={
+            "Content-Disposition": f'inline; filename="CAMPAIG_ID_{campaign_id}_{status}.txt"'
+        },
+    )
