@@ -44,18 +44,21 @@
 <tr>
   <td style="{{td_classes|safe}}padding-top:5px;padding-bottom:15px;">
     <strong style="font-weight: bold; color: #f1416c;">
-      Jeżeli żaden z proponowanych terminów webinaru Państwu nie odpowiada, istnieje opcja zakupu dostępu do nagrania, które będzie dostępne przez 48 godzin.
+      Jeśli żaden z terminów webinaru Państwu nie odpowiada, możecie wybrać dostęp do nagrania <u>na 48 godzin</u>.
+      Wystarczy zapisać się na webinar i w polu 'Dodatkowe uwagi' podać preferowany termin dostępu.
     </strong>
   </td>
 </tr>
-<tr>
-  <td style="{{td_classes|safe}}padding-top:5px;padding-bottom:15px;">
-    <strong style="font-weight: bold; color: #f1416c;">
-      Możecie Państwo sami wybrać moment rozpoczęcia dostępu do nagrania.
-      Wystarczy zapisać się na webinar i w polu 'Dodatkowe uwagi' określić preferowany termin dostępu.
-    </strong>
-  </td>
-</tr>
+{% comment %}
+  <tr>
+    <td style="{{td_classes|safe}}padding-top:5px;padding-bottom:15px;">
+      <strong style="font-weight: bold; color: #f1416c;">
+        Możecie Państwo sami wybrać moment rozpoczęcia dostępu do nagrania.
+        Wystarczy zapisać się na webinar i w polu 'Dodatkowe uwagi' określić preferowany termin dostępu.
+      </strong>
+    </td>
+  </tr>
+{% endcomment %}
 {% endif %}
 
 {% if show_last_spots and webinar.remaining_places != 0 %}
