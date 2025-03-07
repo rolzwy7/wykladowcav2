@@ -45,8 +45,10 @@ def scraper_procedure_progress(request, collection_fragment: str):
             html_size_gb = -1
 
         # Analyzers
+        total_analyzed = 0
         analyzers = []
         for doc in db["vars_map"].find({"kod_procedury": collection_fragment}):
+            total_analyzed += doc["analyze_counter"]
             analyzers.append(
                 (
                     doc["hostname"],
@@ -57,6 +59,11 @@ def scraper_procedure_progress(request, collection_fragment: str):
                 )
             )
 
+        if done_queue == 0:
+            total_analyzed_percent = 0
+        else:
+            total_analyzed_percent = total_analyzed / done_queue
+
         context = {
             "collection_fragment": collection_fragment,
             "done_queue": f"{done_queue:,}",
@@ -66,6 +73,8 @@ def scraper_procedure_progress(request, collection_fragment: str):
             "percent_done": f"{done_queue / estimated_queue_count:.2%}",
             "html_size_gb": f"{html_size_gb:.1f}",
             "analyzers": analyzers,
+            "total_analyzed": f"{total_analyzed:,}",
+            "total_analyzed_percent": f"{total_analyzed_percent:.2%}",
         }
 
         client.close()

@@ -5,11 +5,12 @@ Kolekcja inicjalizacyjna <b>{{estimated_init_count}}</b> <br>
 Kolekcja kolejki: pobranych <b>{{done_queue}}</b> ( <b style="color: goldenrod;">{{percent_done}}</b> ) z <b>{{estimated_queue_count}}</b> <br>
 Kolekcja HTML: <b>{{estimated_html_count}}</b> (~{{html_size_gb}} GB) <br>
 <br>
-Analizatory:
+<b>Analizatory:</b>
 <ol>
 {% for analyzer in analyzers %}
-    <li>{{analyzer.0}} - {{analyzer.1}} - {{analyzer.3}} <b>przeanalizowanych {{analyzer.2|intcomma}}</b> na dzień {{analyzer.4}}</li>
+    <li>{{analyzer.0}} - {{analyzer.1}} - na dzień {{analyzer.4}} - {{analyzer.3}} <b>przeanalizowanych {{analyzer.2|intcomma}}</b></li>
 {% empty %}
     <li>Brak analizatorów</li>
 {% endfor %}
+<li>Przeanalizowano w sumie <b>{{total_analyzed}}</b> dokumentów ( <b style="color: goldenrod;">{{total_analyzed_percent}}</b> )</li>
 </ol>
