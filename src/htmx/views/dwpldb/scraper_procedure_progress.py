@@ -14,7 +14,7 @@ def scraper_procedure_progress(request, collection_fragment: str):
 
     template_path = "htmx/scraper_procedure_progress.html"
     cache_key = f"CACHED_SCRAPER_PROCEDURE_PROGRESS_{collection_fragment}"
-    cache_seconds = 20 * 60  # 20 minutes
+    cache_seconds = 30 * 60  # 30 minutes
 
     if cache.get(cache_key):
         context = cache.get(cache_key)

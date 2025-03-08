@@ -47,7 +47,30 @@
 
 <hr>
 
+
+
 <b>
+  <a target="_blank" href="https://docs.google.com/document/d/10rPeZzv5lKR3rzH0YwmDaZ7gJCmLYeo0RMfAEV3asAs/edit?usp=sharing">
+    Scraper - OSW_2025_02_16
+  </a>
+</b>
+<br>
+
+<button 
+    hx-get="{% url "htmx:dwpldb:scraper_procedure_progress" collection_fragment="OSW_2025_02_16" %}"
+    hx-trigger="click"
+    hx-indicator="#loading_OSW_2025_02_16"
+    hx-swap="outerHTML"
+    onclick="this.style.display='none'"
+>
+    Kliknij, aby załadować statystyki. Klikaj pojedynczo i <b>czekaj aż się załaduje zanim klikniesz następne</b>, bo cię Rzepka dojedzie
+</button>
+<div id="result_OSW_2025_02_16"></div>
+<div id="loading_OSW_2025_02_16" class="htmx-indicator">
+  <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
+</div>
+
+{% comment %} <b>
   <a target="_blank" href="https://docs.google.com/document/d/10rPeZzv5lKR3rzH0YwmDaZ7gJCmLYeo0RMfAEV3asAs/edit?usp=sharing">
     Scraper - OSW_2025_02_16
   </a>
@@ -56,9 +79,14 @@
 <div
   hx-get="{% url "htmx:dwpldb:scraper_procedure_progress" collection_fragment="OSW_2025_02_16" %}"
   hx-swap="outerHTML"
-  hx-trigger="load">
-  <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
-</div>
+  hx-trigger="click"
+  hx-indicator="#loading_OSW_2025_02_16"
+>
+  <button>Kliknij, aby załadować statystyki. Klikaj pojedynczo, bo cię Rzepka dojedzie</button>
+  <div id="loading_OSW_2025_02_16" class="htmx-indicator">
+    <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
+  </div>
+</div> {% endcomment %}
 
 <hr>
 
