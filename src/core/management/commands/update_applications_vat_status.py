@@ -36,6 +36,7 @@ class Command(BaseCommand):
         ).order_by("-created_at")
 
         for application in applications:
+            print("Procesuje zgłoszenie id=", application.id)
             metadata = WebinarApplicationMetadata.objects.get(application=application)
             if metadata.vat_status:
                 print("Already has vat status:", application)
