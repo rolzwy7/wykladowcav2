@@ -62,7 +62,10 @@ class Command(BaseCommand):
             except requests.HTTPError as e:  # raise_for_status
                 raise
             else:
-                vat_status = json_data["result"]["subject"]["statusVat"]
+                try:
+                    vat_status = json_data["result"]["subject"]["statusVat"]
+                except Exception as e:
+                    vat_status = "Błąd result->subject->statusVat"
                 print(vat_status)
                 WebinarApplicationMetadata.objects.filter(
                     application=application
