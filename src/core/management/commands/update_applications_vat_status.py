@@ -32,7 +32,8 @@ class Command(BaseCommand):
         """handle"""
 
         applications = WebinarApplication.manager.filter(
-            Q(status=ApplicationStatus.SENT) | Q(status=ApplicationStatus.PAYED)
+            ~Q(application_type=WebinarApplicationType.PRIVATE_PERSON)
+            & (Q(status=ApplicationStatus.SENT) | Q(status=ApplicationStatus.PAYED))
         ).order_by("-created_at")
 
         for application in applications:
