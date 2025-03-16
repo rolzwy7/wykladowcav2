@@ -143,7 +143,10 @@ def global_mailing_template_page(request):
         cta_href += "/{TRACKING_CODE}/{CAMPAIGN_ID}/"
         cta_text = "Zapisz się teraz!"
 
-        _program = markdown(main_webinar.program_markdown)
+        if request.GET.get("use_markdown"):
+            _program = markdown(main_webinar.program_markdown)
+        else:
+            _program = main_webinar.program
 
         program: str = _program
 

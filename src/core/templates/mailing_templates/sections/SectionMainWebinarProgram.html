@@ -1,6 +1,9 @@
 <tr>
 <td style="{{td_classes|safe}}padding-top:15px;">
     <h3 style="margin: 1em 0; font-size:1.17em">Program webinaru</h3>
+    {% if main_webinar.program_assets %}
+    <p style="margin: 0.5em 0;">{{main_webinar.program_assets|safe}}</p>
+    {% endif %}
     <p style="margin: 1em 0;">{{program|safe}}</p>
     {% include '../includes/WebinarMailingCTA.html' with text=cta_text href=cta_href %}
 </td>
