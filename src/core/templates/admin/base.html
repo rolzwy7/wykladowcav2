@@ -113,6 +113,12 @@
     </div>
     {% endif %}
 
+    {% if original.status == "DRAFT" %}
+    <div style="padding: 10px;background-color: #754ffe!important; text-align:center;color:white;">
+      <b>WERSJA ROBOCZA TERMINU</b>
+    </div>
+    {% endif %}
+
     <div class="main" id="main">
       {% if not is_popup and is_nav_sidebar_enabled %}
         {% block nav-sidebar %}

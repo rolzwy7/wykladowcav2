@@ -87,6 +87,9 @@
               {% if request.user.is_staff and webinar.is_fake %}
               <span class="bg-danger py-2">FAKE'OWY TERMIN</span>
               {% endif %}
+              {% if request.user.is_staff and webinar.status == "DRAFT" %}
+              <span class="bg-warning text-white py-2">WERSJA ROBOCZA</span>
+              {% endif %}
             </h1>
             {% if webinar.description %}  
               <p class="text-white mb-6 lead">

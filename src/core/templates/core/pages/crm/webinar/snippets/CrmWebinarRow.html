@@ -4,7 +4,7 @@
 
 <tr>
     {% comment %} Avatar {% endcomment %}
-    <td>
+    <td {% if webinar.status == "DRAFT" %}style="background-color: #754ffe!important;"{% endif %}>
         <div class="d-flex">
             <div class="symbol">
                 <img
