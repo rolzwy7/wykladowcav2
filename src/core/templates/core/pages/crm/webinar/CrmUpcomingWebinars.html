@@ -94,6 +94,28 @@ Kliknij, aby załadować statystyki. Klikaj pojedynczo i <b>czekaj aż się zał
 
 <hr>
 
+<b>
+  <a target="_blank" href="https://docs.google.com/document/d/1jJO6twzszCS1_BYSqaVSeXN2SX32hZzFdClhwmFFgmI/edit?tab=t.0">
+    Scraper - SZPITAL_2025_03_16
+  </a>
+</b>
+<br>
+<button 
+    hx-get="{% url "htmx:dwpldb:scraper_procedure_progress" collection_fragment="SZPITAL_2025_03_16" %}"
+    hx-trigger="click"
+    hx-indicator="#loading_SZPITAL_2025_03_16"
+    hx-swap="outerHTML"
+    onclick="this.style.display='none'"
+>
+    Kliknij, aby załadować statystyki. Klikaj pojedynczo i <b>czekaj aż się załaduje zanim klikniesz następne</b>, bo cię Rzepka dojedzie
+</button>
+<div id="result_SZPITAL_2025_03_16"></div>
+<div id="loading_SZPITAL_2025_03_16" class="htmx-indicator">
+  <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/>
+</div>
+
+<hr>
+
 {% endif %}
 
 <b>MAILING_NUM_OF_PROCESSES</b>
