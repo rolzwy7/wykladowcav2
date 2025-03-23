@@ -6,6 +6,7 @@ from django.db.models import F
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
+from django.utils.timezone import now
 
 from core.libs.mongo.db import MongoDBClient
 from core.models import MailingCampaign, Webinar, WebinarMetadata
@@ -61,6 +62,10 @@ def webinar_redirect_to_program_tracking_and_campaign_id(
             {
                 "tracking_code": tracking_code,
                 "campaign_id": campaign_id,
+                "request_url": request.build_absolute_uri(),
+                "datetime": now(),
+                "ip_address": request.META.get("REMOTE_ADDR"),
+                "user_agent": request.META.get("HTTP_USER_AGENT"),
             }
         )
     except Exception as e:

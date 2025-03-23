@@ -18,9 +18,11 @@
       <p style="font-size: 12px;margin-bottom: 0;text-align:center;">
          {{webinar.date|date:"j E"}} godzina {{webinar.date|date:"H:i"}}
       </p>
+      {% if not webinar.is_lecturer_anonymized %}
       <p style="font-size: 12px;margin: 0 0 1em 0;font-weight:bold;text-align:center;">
          <strong>Wykładowca: {{webinar.lecturer}}</strong>
       </p>
+      {% endif %}
       {% if webinar.program_short %}
       <div style="font-size: 10px;">
          <ol style='text-align: left;padding-left: 20px;'>
