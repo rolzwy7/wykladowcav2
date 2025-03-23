@@ -88,7 +88,7 @@
 
                 <!--begin::Hint-->
                 <span class="form-text text-muted">
-                    Maksymalnie 30 plików. Maksymalny rozmiar każdego pliku to 5 MB.
+                    Maksymalnie 50 plików. Maksymalny rozmiar każdego pliku to 15 MB.
                 </span>
                 <!--end::Hint-->
             </div>
@@ -116,9 +116,9 @@
         url: "{% url 'core:crm_mailing_campaign_add_emails' pk=mailing_campaign.pk %}",
         parallelUploads: 1,
         previewTemplate: previewTemplate,
-        maxFiles: 30,
+        maxFiles: 50,
         headers: {'X-CSRFToken': '{{csrf_token}}'},
-        maxFilesize: 5, // Max filesize in MB
+        maxFilesize: 15, // Max filesize in MB
         autoQueue: false, // Make sure the files aren't queued until manually added
         previewsContainer: id + " .dropzone-items", // Define the container to display the previews
         clickable: id + " .dropzone-select" // Define the element that should be used as click trigger to select files.

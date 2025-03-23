@@ -14,6 +14,8 @@ load_dotenv(override=True)
 VERSION_NUMBER = "2.0.0"
 VERSION_DATE = "2025/01/03"
 
+MAX_UPLOAD_SIZE = 15728640
+
 APP_START_TIMESTAMP = int(time.time())
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
