@@ -13,6 +13,7 @@ from core.views.crm.mailing import (
     crm_mailing_campaign_preview_text,
     crm_mailing_campaign_reset_emails,
     crm_mailing_campaign_send_test_email,
+    crm_mailing_clicks_stats,
     crm_mailing_schedule_mailing,
 )
 
@@ -76,6 +77,11 @@ urlpatterns = [
         "<int:pk>/zaplanuj-mailing/",
         crm_mailing_schedule_mailing,
         name="crm_mailing_schedule_mailing",
+    ),
+    path(
+        "<int:pk>/klikniecia/",
+        crm_mailing_clicks_stats,
+        name="crm_mailing_clicks_stats",
     ),
     path(
         "",

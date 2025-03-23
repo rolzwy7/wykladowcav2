@@ -1,5 +1,6 @@
 # flake8: noqa
 from .create_mailing_campaign import create_mailing_campaign
+from .crm_mailing_clicks_stats import crm_mailing_clicks_stats
 from .download_emails_from_sender_page import download_emails_from_sender_page
 from .mailing_campaign import (
     crm_mailing_campaign_add_emails,

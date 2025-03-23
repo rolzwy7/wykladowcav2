@@ -1,0 +1,56 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+<!--begin::Row-->
+<div class="row g-6 g-xl-9 mb-10">
+    <!--begin::Col-->
+    <div class="col-md-12 col-xl-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Kliknięcia statystyki</h3>
+        </div>
+        <div class="card-body fs-4">
+
+            <p>
+                Ilość kliknięć dla tej kampanii: {{campaign.total_clicks}}
+            </p>
+
+            <hr>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr class="fw-bold fs-6 text-gray-800">
+                            <th>Link</th>
+                            <th>Szkolenie</th>
+                            <th>Liczba kliknięć</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for url, stats in per_url.items %}
+                        <tr>
+                            <td>{{url}}</td>
+                            <td>{{stats.webinar}}</td>
+                            <td>{{stats.click_count}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+
+
+        </div>
+      </div>
+    </div>
+    <!--end::Col-->
+  </div>
+  <!--end::Row-->
+{% endblock crm_content %}
+
+{% block body_scripts %}{% endblock body_scripts %}
