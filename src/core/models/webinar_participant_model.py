@@ -125,7 +125,7 @@ class WebinarParticipantMetadata(Model):
 
     sms_reminder_consent = BooleanField("Zgoda na SMS przypominający?", default=False)
     sms_reminder_send = BooleanField("Wysłano SMS przypominający?", default=False)
-    sms_reminder_send_dt = DateTimeField(null=True)
+    sms_reminder_send_dt = DateTimeField(null=True, blank=True)
 
     IS_MX_VALID = [
         (WebinarParticipantIsMxValidType.NOT_CHECKED, "Nie sprawdzono"),
