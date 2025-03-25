@@ -11,8 +11,11 @@ Mailing sending procedure
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
+from core.consts import TelegramChats
+from core.models import MailingPoolManager
 from core.models.enums import MailingPoolStatus
-from core.models.mailing import MailingCampaign, MailingPoolManager
+from core.models.mailing import MailingPoolManager
+from core.services import TelegramService
 
 
 class Command(BaseCommand):
@@ -37,3 +40,9 @@ class Command(BaseCommand):
             buckets_num=settings.MAILING_NUM_OF_PROCESSES,
         )
         pool_manager.close()
+
+        telegram_service = TelegramService()
+        telegram_service.try_send_chat_message(
+            f"Randomized buckets, MAILING_NUM_OF_PROCESSES := {settings.MAILING_NUM_OF_PROCESSES}",
+            TelegramChats.OTHER,
+        )

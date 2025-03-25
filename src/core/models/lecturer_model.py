@@ -76,6 +76,12 @@ class Lecturer(Model):
         help_text="Wykładowca nie chce mieć z nami nic wspólnego",
     )
 
+    forbid_mailing_alias = BooleanField(
+        "Nie chce być w Aliasie w mailingu",
+        default=False,
+        help_text="Wykładowca nie chce być widoczny z imienia i nazwiska w aliasie w mailingu",
+    )
+
     anonymize = BooleanField(
         "Anonimizuj wykładowcę",
         default=False,

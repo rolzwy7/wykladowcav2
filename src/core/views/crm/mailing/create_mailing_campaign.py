@@ -34,7 +34,12 @@ def create_mailing_campaign(request):
         form_data["mailing_title"] = (
             f"{now().strftime('%Y%m%d')}_[target_code]_{webinar.title[:30]}"
         )
-        form_data["alias"] = webinar.lecturer.fullname
+
+        if webinar.lecturer.forbid_mailing_alias:
+            form_data["alias"] = "Wykładowca PL"
+        else:
+            form_data["alias"] = webinar.lecturer.fullname
+
         form_data["webinar_id"] = request.GET.get("webinar_id")
 
         # Create subjects

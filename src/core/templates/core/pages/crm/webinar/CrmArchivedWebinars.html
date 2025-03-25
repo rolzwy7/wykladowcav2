@@ -8,6 +8,24 @@
 {% block crm_content %}
     <h1>Archiwum</h1>
 
+    <form action="{% url "core:crm_archived_webinars" %}" method="get">
+      <div class="row mb-3">
+        <div class="col-12">
+          <input value="{{param_search}}" type="text" name="search" class="form-control" placeholder="Szukaj frazy...">
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-6 align-self-end">
+          <button type="submit" class="btn btn-primary mb-3">Szukaj</button>
+          {% if param_any %}
+          <a href="{% url "core:crm_archived_webinars" %}" class="btn btn-danger mb-3">
+            Resetuj wyszukiwanie
+          </a>
+          {% endif %}
+        </div>
+      </div>
+    </form>
     
     {% include "core/includes/Pagination.html" with param_name="page" page_obj=page_obj %}
   
