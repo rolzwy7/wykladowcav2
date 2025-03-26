@@ -22,6 +22,34 @@
 
             <hr>
 
+            <h2>Iość kliknięć dla każdego szkolenia</h2>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr class="fw-bold fs-6 text-gray-800">
+                            <th>ID Szkolenia</th>
+                            <th>Szkolenie</th>
+                            <th>Liczba kliknięć</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for webinar_id, stats in per_webinar.items %}
+                        <tr>
+                            <td>{{webinar_id}}</td>
+                            <td>{{stats.webinar}}</td>
+                            <td>{{stats.click_count}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>       
+
+
+            <hr>
+
+            <h2>Iość kliknięć dla każdego linku</h2>
+
             <div class="table-responsive">
                 <table class="table">
                     <thead>

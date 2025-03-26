@@ -187,11 +187,7 @@ def global_mailing_template_page(request):
         # Get all webinars for main category and subcatagories
         category_webinars = Webinar.manager.get_active_webinars_for_category_slugs(
             all_slugs
-        ).filter(
-            Q(is_hidden=False)
-            & Q(anonymize_lecturer=False)
-            & Q(lecturer__anonymize=False)
-        )
+        ).filter(Q(is_hidden=False))
         subcategories_pairs = split_pairs(subcategories)
 
     # Lecturer webinars

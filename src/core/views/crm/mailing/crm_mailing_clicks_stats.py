@@ -23,6 +23,7 @@ def crm_mailing_clicks_stats(request, pk):
     click_docs = database["wykladowcav2_mailing_clicks"].find({"campaign_id": pk})
 
     per_url: dict[str, dict] = {}
+    per_webinar: dict[int, dict] = {}
 
     for doc in click_docs:
         request_url = doc.get("request_url") or "Brak Danych"
@@ -42,6 +43,11 @@ def crm_mailing_clicks_stats(request, pk):
         # Get webinar
         if webinar_id:
             webinar = Webinar.manager.filter(id=webinar_id).first()
+            if webinar_id in per_webinar:
+                per_webinar[webinar_id]["click_count"] += 1
+            else:
+                per_webinar[webinar_id] = {"click_count": 1}
+            per_webinar[webinar_id]["webinar"] = webinar
         else:
             webinar = None
         per_url[request_url]["webinar"] = webinar
@@ -53,6 +59,11 @@ def crm_mailing_clicks_stats(request, pk):
             "campaign": campaign,
             "per_url": dict(
                 sorted(per_url.items(), key=lambda x: x[1]["click_count"], reverse=True)
+            ),
+            "per_webinar": dict(
+                sorted(
+                    per_webinar.items(), key=lambda x: x[1]["click_count"], reverse=True
+                )
             ),
         },
     )
