@@ -1,6 +1,7 @@
 # flake8: noqa=E501
 
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.template.response import TemplateResponse
 
 from core.models import Webinar
@@ -15,7 +16,10 @@ def crm_archived_webinars(request):
 
     param_search = request.GET.get("search") or ""
     if param_search:
-        webinars = webinars.filter(title__icontains=param_search)
+        webinars = webinars.filter(
+            Q(title__icontains=param_search)
+            | Q(lecturer__fullname__icontains=param_search)
+        )
 
     paginator = Paginator(webinars.order_by("-date"), 100)
 
