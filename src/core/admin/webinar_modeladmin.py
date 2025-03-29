@@ -62,10 +62,10 @@ class WebinarModelAdmin(SimpleHistoryAdmin):
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)
 
-        # Add lecturer's categories to webinar after save
-        webinar = form.instance
-        for category in webinar.lecturer.categories.all():
-            webinar.categories.add(category)
+        # # Add lecturer's categories to webinar after save
+        # webinar = form.instance
+        # for category in webinar.lecturer.categories.all():
+        #     webinar.categories.add(category)
 
     form = WebinarModelAdminForm
     inlines = [

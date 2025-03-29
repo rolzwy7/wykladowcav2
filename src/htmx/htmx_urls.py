@@ -6,7 +6,10 @@ from django.urls import include, path
 
 from htmx.views.contact_message import htmx_contact_message
 from htmx.views.static_files import disc_space
-from htmx.views.tracking.tracking_mailing import tracking_mailing
+from htmx.views.tracking.tracking_mailing import (
+    tracking_mailing,
+    tracking_mailing_clicks,
+)
 from htmx.views.webinar_mailings import htmx_webinar_mailing_modal
 from htmx.views.webinar_omega_indexer import webinar_omega_indexer
 
@@ -40,6 +43,11 @@ urlpatterns = [
         "tracking_mailing/<str:tracking_code>/",
         tracking_mailing,
         name="tracking_mailing",
+    ),
+    path(
+        "tracking_mailing_clicks/<int:webinar_id>/",
+        tracking_mailing_clicks,
+        name="tracking_mailing_clicks",
     ),
     path(
         "crm/lecturer-price/",

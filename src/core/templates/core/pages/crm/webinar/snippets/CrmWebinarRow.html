@@ -358,6 +358,18 @@
                 <br>
             {% endfor %}
 
+            <hr>
+            
+            {% if webinar.status == "INIT" or webinar.status == "CONFIRMED" %}
+            <div
+                hx-get="{% url "htmx:tracking_mailing_clicks" webinar_id=webinar.id %}"
+                hx-swap="outerHTML"
+                hx-trigger="click">
+                {% comment %} <img  alt="Ładowanie..." class="htmx-indicator" width="30" height="30" src="{% static 'media/misc/spinner.gif' %}"/> {% endcomment %}
+                Pokaż
+            </div>
+            {% endif %}
+
             {% comment %} <a 
                 hx-get="{% url "htmx:htmx_webinar_mailing_modal" pk=webinar.pk %}" 
                 hx-target="#modals-here" 
