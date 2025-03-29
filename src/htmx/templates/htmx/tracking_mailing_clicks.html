@@ -1,0 +1,9 @@
+<ol>    
+    {% for campaign_id, stats in per_campaign.items %}
+    <li>
+        <a href="{% url "core:crm_mailing_clicks_stats" pk=campaign_id %}">
+            {{stats.campaign}}
+        </a> - {{stats.click_count}} klik.
+    </li>
+    {% endfor %}
+</ol>
