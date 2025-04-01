@@ -357,10 +357,13 @@
                 </span> 
                 <br>
             {% endfor %}
+        </div>
+        {% endif %}
 
-            <hr>
-            
-            {% if webinar.status == "INIT" or webinar.status == "CONFIRMED" %}
+        <hr>
+    
+        {% if webinar.status == "INIT" or webinar.status == "CONFIRMED" %}
+        <div class="mt-2">
             <div
                 hx-get="{% url "htmx:tracking_mailing_clicks" webinar_id=webinar.id %}"
                 hx-swap="outerHTML"
@@ -372,20 +375,9 @@
                     Pokaż kliknięcia w kampaniach
                 </button>
             </div>
-            {% endif %}
-
-            {% comment %} <a 
-                hx-get="{% url "htmx:htmx_webinar_mailing_modal" pk=webinar.pk %}" 
-                hx-target="#modals-here" 
-                hx-trigger="click" 
-                data-bs-toggle="modal" 
-                data-bs-target="#modals-here"
-                style="cursor: pointer;"
-                class="mt-4">Szczegóły mailingów</a> {% endcomment %}
-
         </div>
         {% endif %}
-    
+
     </td>
 </tr>
 
