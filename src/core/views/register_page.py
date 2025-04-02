@@ -1,6 +1,6 @@
 # flake8: noqa:E501
 from django.contrib.auth import login
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
@@ -37,6 +37,9 @@ def register_page(request: HttpRequest):
 
     # Handle POST request
     if request.method == POST:
+
+        return HttpResponse("Cloudflare protection", status=200)
+
         form = RegistrationForm(request.POST)
         if form.is_valid():
             first_name = form.cleaned_data["first_name"]
