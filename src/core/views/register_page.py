@@ -38,7 +38,7 @@ def register_page(request: HttpRequest):
     # Handle POST request
     if request.method == POST:
 
-        return HttpResponse("Cloudflare protection", status=200)
+        # return HttpResponse("Cloudflare protection", status=200)
 
         form = RegistrationForm(request.POST)
         if form.is_valid():

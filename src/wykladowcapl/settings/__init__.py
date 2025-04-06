@@ -20,6 +20,7 @@ from .fakturownia import FAKTUROWNIA_API_KEY, FAKTUROWNIA_API_URL
 from .files import *
 from .images import *
 from .invoice import *
+from .just_send import JUST_SEND_API_KEY, JUST_SEND_API_URL
 from .logging import *
 from .loyalty_program import *
 from .mailchimp import *

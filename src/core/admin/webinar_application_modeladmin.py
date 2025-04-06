@@ -2,16 +2,28 @@
 
 # flake8: noqa=E501
 
-from django.contrib.admin import ModelAdmin, register
+from django.contrib.admin import ModelAdmin, StackedInline, register
 from django.utils.html import format_html
 
-from core.models import WebinarApplication
+from core.models import WebinarApplication, WebinarApplicationMetadata
+
+
+class WebinarApplicationModelAdminInline(StackedInline):
+    """WebinarApplicationModelAdmin"""
+
+    model = WebinarApplicationMetadata
+    can_delete = False
+    classes = ["collapse"]
+
+    def get_extra(self, request, obj=None, **kwargs):
+        return 0
 
 
 @register(WebinarApplication)
 class WebinarApplicationModelAdmin(ModelAdmin):
     """WebinarApplicationModelAdmin"""
 
+    inlines = [WebinarApplicationModelAdminInline]
     list_display = ["uuid", "status", "application_type", "buyer_htmlfield"]
     list_filter = [
         "status",
