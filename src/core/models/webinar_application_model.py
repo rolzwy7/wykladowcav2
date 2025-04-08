@@ -334,6 +334,12 @@ class WebinarApplication(Model):
 
     recording_dt = DateTimeField("Początek dostępu do nagrania", blank=True, null=True)
 
+    fake_application = BooleanField(
+        "Fałszywe zgłoszenie",
+        default=False,
+        help_text="Czy prawdopodobnie fałszywe zgłoszenie?",
+    )
+
     class Meta:
         """meta"""
 
