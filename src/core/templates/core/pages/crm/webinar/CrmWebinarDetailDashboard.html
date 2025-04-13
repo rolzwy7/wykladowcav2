@@ -425,6 +425,7 @@
                                     class="bg-light-success"
                                     {% endif %}
                                     >
+                                        
                                         {{forloop.counter}} / <span>ID = {{application.id}}</span>
                                         <br>
                                         <b>{{application.created_at|date:"j E Y"}}</b> {{application.created_at|date:"H:i"}}
@@ -435,6 +436,16 @@
                                         <span class="text-danger fw-bold">Partnerski: {{application.refcode}}</span>
                                         <br>
                                         {% endif %}
+                                        <br>
+                                        Kod śledzący: {{application.tracking_code}}
+                                        <div
+                                            hx-get="{% url 'htmx:tracking_mailing' tracking_code=application.tracking_code %}"
+                                            hx-trigger="intersect once delay:3s"
+                                        >
+                                            Ładowanie ...
+                                        </div>
+                                        <br>
+                                        IP: {{application.metadata.ip_address}}
                                         
                                         <br> <br>
 
