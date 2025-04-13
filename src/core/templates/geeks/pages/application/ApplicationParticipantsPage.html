@@ -68,6 +68,7 @@
                                                 <div class="text-danger">
                                                     {{form.phone.errors}}
                                                 </div>
+                                                {{form.sms_reminder_consent}}
                                             </div>
                                         </div>
 
@@ -93,6 +94,7 @@
                                 <i class="fe fe-plus me-1"></i> Dodaj kolejnego uczestnika
                             </button>
                         </div>
+
                         {% include './components/next_previous_buttons.html' %}
                     </form>
                 </div>
@@ -121,6 +123,9 @@
             document.querySelector("#id_form-TOTAL_FORMS").setAttribute("value", 
                 1 + Number(document.querySelector("#id_form-TOTAL_FORMS").getAttribute("value"))
             )
+            var new_label_id = Math.floor(Date.now() / 10);
+            $(this).find('input')[4].setAttribute('id', `id_form-${new_label_id}-sms_reminder_consent`);
+            $(this).find('label[for]')[4].setAttribute('for', `id_form-${new_label_id}-sms_reminder_consent`);
             $(this).slideDown();
         },
         hide: function (deleteElement) {

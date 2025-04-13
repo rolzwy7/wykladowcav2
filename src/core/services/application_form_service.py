@@ -299,7 +299,7 @@ class ApplicationFormService:
                 msg = "Dane uczestnika nie mogą być puste. Uzupełnij dane lub usuń uczestnika."
             post_keys_to_delete.append(post_key)
             key_index = post_key.split("][")[0].split("[")[1]
-            field_name = post_key.split("-")[-1].strip("]")
+            field_name = post_key.split(f"form-{key_index}-")[-1].split("]")[0]
             new_post_key = f"form-{key_index}-{field_name}"
             transformed_post_keys[new_post_key] = post_value
 

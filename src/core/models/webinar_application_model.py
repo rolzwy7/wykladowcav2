@@ -339,6 +339,11 @@ class WebinarApplication(Model):
         default=False,
         help_text="Czy prawdopodobnie fałszywe zgłoszenie?",
     )
+    fake_application_logs = TextField(
+        "Fałszywe zgłoszenie (logi)",
+        blank=True,
+        help_text="Logi detektora fałszywych zgłoszeń",
+    )
 
     class Meta:
         """meta"""

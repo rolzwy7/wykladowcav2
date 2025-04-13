@@ -91,6 +91,11 @@ class WebinarParticipant(Model):
     email = CharField("E-mail", max_length=100)
     phone = CharField("Numer telefonu", max_length=100, blank=True)
 
+    sms_reminder_consent = BooleanField("Zgoda na SMS przypominający?", default=False)
+    sms_reminder_send = BooleanField("Wysłano SMS przypominający?", default=False)
+    sms_reminder_send_dt = DateTimeField(null=True, blank=True)
+    sms_error_msg = CharField("SMS błąd", max_length=100, blank=True)
+
     class Meta:
         """Meta"""
 
@@ -122,10 +127,6 @@ class WebinarParticipantMetadata(Model):
     clickmeeting_invitation_send = BooleanField(
         "Czy wysłano zaproszenie do clickmeeting?", default=False
     )
-
-    sms_reminder_consent = BooleanField("Zgoda na SMS przypominający?", default=False)
-    sms_reminder_send = BooleanField("Wysłano SMS przypominający?", default=False)
-    sms_reminder_send_dt = DateTimeField(null=True, blank=True)
 
     IS_MX_VALID = [
         (WebinarParticipantIsMxValidType.NOT_CHECKED, "Nie sprawdzono"),

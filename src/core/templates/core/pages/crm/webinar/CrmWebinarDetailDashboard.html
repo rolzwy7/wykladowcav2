@@ -415,7 +415,9 @@
                                 {% for application in sent_applications %}
                                 <tr class="{% cycle '' 'bg-gray-300' %}">
                                     <td
-                                    {% if application.application_type == "COMPANY" %}
+                                    {% if application.fake_application %}
+                                    class="bg-danger"
+                                    {% elif application.application_type == "COMPANY" %}
                                     class="bg-light-primary"
                                     {% elif application.application_type == "JSFP" %}
                                     class="bg-light-danger"
@@ -529,6 +531,9 @@
 
                                     </td>
                                     <td class="fs-5">
+                                        {% if application.fake_application %}
+                                        <h1 class="text-danger">!!! Potencjalnie fałszywe zgłoszenie !!!</h1>
+                                        {% endif %}
                                         {% if application.application_type == "COMPANY" %}
                                             <b>Nabywca:</b> <br>
                                             {{application.buyer}}
@@ -619,6 +624,12 @@
                                             <span>
                                                 {{application.additional_information}}
                                             </span>
+                                            <hr>
+                                            <span>
+                                                {{application.fake_application_logs}}
+                                            </span>
+                                                                                        
+                                            
                                             </div>
                                         </div>
                                         {% endif %}

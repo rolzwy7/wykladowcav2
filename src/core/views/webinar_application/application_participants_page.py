@@ -36,6 +36,7 @@ def application_participants_page(request, uuid: str):
             "last_name": participant.last_name,
             "email": participant.email,
             "phone": participant.phone,
+            "sms_reminder_consent": participant.sms_reminder_consent,
         }
         for participant in participants
     ]
@@ -44,7 +45,7 @@ def application_participants_page(request, uuid: str):
         ApplicationParticipantForm,
         min_num=1,
         validate_min=True,
-        max_num=20,
+        max_num=10,
         validate_max=True,
         extra=0,
     )

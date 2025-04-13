@@ -15,6 +15,10 @@
         {% for participant in gathered_participants %}
         <tr class="{% cycle 'bg-gray-300' '' %}">
             <td style="padding-left: 15px;">
+                {% if participant.application.fake_application %}
+                    <h1 class="bg-danger text-white m-0">!Fałszywe!</h1>
+                    <br>
+                {% endif %}
                 <a class="fs-3" href="{% url 'admin:core_webinarparticipant_change' object_id=participant.id %}">
                     <b>{{forloop.counter}}.) {{participant.fullname}}</b>
                 </a>
@@ -23,6 +27,14 @@
                 <br>
                 <b>{{participant.phone|default:"Nie podano"}}</b>
                 <br>
+                {% if participant.sms_reminder_consent %}
+                <span class="text-success fw-bold"><small>✅ Zgoda na przypomnienie SMS</small></span>
+                <br>
+                {% endif %}
+                {% if participant.sms_reminder_send %}
+                <span class="text-success fw-bold"><small>✅ Wysłano SMS: {{participant.sms_reminder_send_dt}}</small></span>
+                <br>
+                {% endif %}
                 {{participant.email}}
             </td>
             {% comment %} <td>

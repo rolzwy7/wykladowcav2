@@ -1,4 +1,9 @@
+"""Application forms"""
+
+# flake8: noqa=E501
+
 from django.forms import (
+    BooleanField,
     CharField,
     EmailInput,
     Form,
@@ -90,9 +95,7 @@ class ApplicationCompanyForm(ModelForm):
 class ApplicationBuyerForm(ApplicationCompanyForm):
     """Application buyer form"""
 
-    email = CharField(
-        required=True, widget=EmailInput(attrs={"class": "form-control"})
-    )
+    email = CharField(required=True, widget=EmailInput(attrs={"class": "form-control"}))
     phone_number = CharField(
         required=True, widget=TextInput(attrs={"class": "form-control"})
     )
@@ -161,9 +164,9 @@ class ApplicationInvoiceForm(ModelForm):
 
     def set_choices(self, application_type: str):
         """Set invoice choices"""
-        self.fields[
-            "vat_exemption"
-        ].choices = ALLOWED_EXEMPTIONS_BY_APPLICATION_TYPE[application_type]
+        self.fields["vat_exemption"].choices = ALLOWED_EXEMPTIONS_BY_APPLICATION_TYPE[
+            application_type
+        ]
 
 
 class ApplicationSubmitterForm(ModelForm):
@@ -208,11 +211,16 @@ class ApplicationParticipantForm(ModelForm):
     last_name = CharField(
         required=True, widget=TextInput(attrs={"class": "form-control"})
     )
-    email = CharField(
-        required=True, widget=EmailInput(attrs={"class": "form-control"})
-    )
-    phone = CharField(
-        required=True, widget=TextInput(attrs={"class": "form-control"})
+    email = CharField(required=True, widget=EmailInput(attrs={"class": "form-control"}))
+    phone = CharField(required=True, widget=TextInput(attrs={"class": "form-control"}))
+
+    sms_reminder_consent = BooleanField(
+        required=False,
+        widget=CheckboxWidget(
+            attrs={
+                "label": ("Zgoda na przypomnienie SMS przed szkoleniem (opcjonalnie)")
+            }
+        ),
     )
 
     def clean_email(self):
@@ -222,12 +230,7 @@ class ApplicationParticipantForm(ModelForm):
 
     class Meta:
         model = WebinarParticipant
-        fields = [
-            "first_name",
-            "last_name",
-            "email",
-            "phone",
-        ]
+        fields = ["first_name", "last_name", "email", "phone", "sms_reminder_consent"]
         # widgets = {
         #     "first_name": TextInput(attrs={"class": "form-control"}),
         #     "last_name": TextInput(attrs={"class": "form-control"}),
@@ -256,8 +259,6 @@ class ApplicationSummarySubmitForm(Form):
 
     accept_terms_of_service = CharField(
         widget=CheckboxWidget(
-            attrs={
-                "label": ("Kliknij tutaj, aby zaakceptować regulamin szkoleń")
-            }
+            attrs={"label": ("Kliknij tutaj, aby zaakceptować regulamin szkoleń")}
         )
     )
