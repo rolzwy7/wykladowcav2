@@ -46,6 +46,7 @@ from core.views.crm.inbox import crm_inbox_message_page, crm_inbox_page
 from core.views.crm.mailing import download_emails_from_sender_page
 from core.views.crm.recording import crm_send_recording_to_all_participants
 from core.views.crm.service_offer import service_offer_applications_list_page
+from core.views.crm.sms import crm_send_sms
 from core.views.crm.statistics import crm_statistics_dashboard
 from core.views.crm.webinar.actions import (
     CancelWebinarAction,
@@ -306,6 +307,12 @@ urlpatterns = [
         "konferencja/darmowi-uczestnicy/<int:pk>/przeslij-ponownie-potwierdzenie/",
         crm_free_participant_resend_confirmation,
         name="crm_free_participant_resend_confirmation",
+    ),
+    # SMS
+    path(
+        "wyslij-sms/",
+        crm_send_sms,
+        name="crm_send_sms",
     ),
     # Upcoming webinars
     path(

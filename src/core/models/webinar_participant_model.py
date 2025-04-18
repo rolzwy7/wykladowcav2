@@ -15,6 +15,7 @@ from django.db.models import (
     QuerySet,
 )
 
+from core.libs.justsend.send_sms import sms_clean_phone_number
 from core.libs.normalizers import normalize_phone_number
 
 from .enums import (
@@ -113,6 +114,11 @@ class WebinarParticipant(Model):
     def fullname(self):
         """Get participant fullname"""
         return f"{self.first_name} {self.last_name}"
+
+    @property
+    def can_send_sms(self):
+        """Can send sms to phone number"""
+        return sms_clean_phone_number(self.phone)
 
 
 class WebinarParticipantMetadata(Model):

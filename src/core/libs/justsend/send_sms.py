@@ -2,8 +2,22 @@
 
 # flake8: noqa=E501
 
+import re
+from typing import Optional
+
 import requests
 from django.conf import settings
+
+
+def sms_clean_phone_number(phone_number: str) -> Optional[str]:
+    """sms_clean_phone_number"""
+
+    candid = phone_number.replace("+48", "").strip()
+    pattern = r"^\d{3} \d{3} \d{3}$"
+    if re.match(pattern, candid):
+        return "".join([ch for ch in candid if ch.isdigit()])
+
+    return None
 
 
 def send_sms(

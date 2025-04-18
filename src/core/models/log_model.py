@@ -1,79 +1,73 @@
-# """Log Model"""
+"""SystemLog Model"""
 
-# # flake8: noqa:E501
-# # pylint: disable=line-too-long
-# import uuid
+# flake8: noqa:E501
+# pylint: disable=line-too-long
+import uuid
 
-# from django.conf import settings
-# from django.db.models import (
-#     CASCADE,
-#     BooleanField,
-#     CharField,
-#     DateTimeField,
-#     EmailField,
-#     ImageField,
-#     Manager,
-#     ManyToManyField,
-#     Model,
-#     OneToOneField,
-#     PositiveIntegerField,
-#     Q,
-#     QuerySet,
-#     SlugField,
-#     TextField,
-#     UUIDField,
-# )
-# from django.urls import reverse
+from django.conf import settings
+from django.db.models import (
+    CASCADE,
+    BooleanField,
+    CharField,
+    DateTimeField,
+    EmailField,
+    ImageField,
+    Index,
+    Manager,
+    ManyToManyField,
+    Model,
+    OneToOneField,
+    PositiveIntegerField,
+    Q,
+    QuerySet,
+    SlugField,
+    TextField,
+    UUIDField,
+)
+from django.urls import reverse
 
-# from core.consts import SLUG_HELP_TEXT
-# from core.utils.text import slugify
+from core.consts import SLUG_HELP_TEXT
+from core.utils.text import slugify
 
-# BASE_URL = settings.BASE_URL
-
-
-# class LogiModelManager(Manager):
-#     """Lecturer query Manager"""
-
-#     def get_lecturers_visible_on_page(self) -> QuerySet["Lecturer"]:
-#         """Returns lecturers that are visible on website"""
-#         return self.get_queryset().filter(visible_on_page=True)
+BASE_URL = settings.BASE_URL
 
 
-# class LogiModel(Model):
-#     """This model represents Lecturer"""
+class SystemLogModelManager(Manager):
+    """SystemLogModelManager"""
 
-#     manager = LecturerManager()
+    # def get_lecturers_visible_on_page(self) -> QuerySet["Lecturer"]:
+    #     """Returns lecturers that are visible on website"""
+    #     return self.get_queryset().filter(visible_on_page=True)
 
-#     uuid = UUIDField("Identyfikator certyfikatu", default=uuid.uuid4, unique=True)
 
-#     created_at = DateTimeField(auto_now_add=True)
-#     updated_at = DateTimeField(auto_now=True)
+class SystemLogModel(Model):
+    LOG_TYPE_CHOICES = (
+        ("INFO", "Info"),
+        ("DEBUG", "Debug"),
+        ("ERROR", "Error"),
+        ("WARNING", "Warning"),
+        ("CRITICAL", "Critical"),
+    )
 
-#     category = CharField(
-#         "Kategoria",
-#         max_length=64,
-#         db_index=True,
-#         default="default",
-#         help_text="Kategoria logu",
-#     )
+    manager = SystemLogModelManager()
 
-#     subcategory = CharField(
-#         "Subkategoria",
-#         max_length=64,
-#         db_index=True,
-#         default="default",
-#         help_text="Subkategoria logu",
-#     )
+    timestamp = DateTimeField(auto_now_add=True)
+    log_type = CharField(max_length=20, choices=LOG_TYPE_CHOICES, default="INFO")
+    message = TextField()
+    source = CharField(
+        max_length=100, null=True, blank=True
+    )  # e.g., module or service name
+    stack_trace = TextField(null=True, blank=True)  # For error details
 
-#     description = TextField(
-#         "Logi",
-#         blank=True,
-#         help_text="Logi",
-#     )
+    class Meta:
+        """Meta"""
 
-#     class Meta:
-#         verbose_name = "Logi"
-#         verbose_name_plural = "Logi"
+        ordering = ["-timestamp"]
+        verbose_name = "System Log"
+        verbose_name_plural = "System Logs"
+        indexes = [
+            Index(fields=["source"]),
+        ]
 
-#     def save(self, *args, **kwargs) -> None:
-#         return super().save(*args, **kwargs)
+    def __str__(self):
+        return f"{self.timestamp} - {self.log_type} - {self.source or 'System'}"

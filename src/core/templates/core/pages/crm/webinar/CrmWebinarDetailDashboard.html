@@ -635,10 +635,13 @@
                                             <span>
                                                 {{application.additional_information}}
                                             </span>
+
+                                            {% if application.fake_application %}
                                             <hr>
                                             <span>
                                                 {{application.fake_application_logs}}
                                             </span>
+                                            {% endif %}
                                                                                         
                                             
                                             </div>

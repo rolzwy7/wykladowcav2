@@ -1,0 +1,54 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+<style>
+    .errorlist {
+        color: red;
+    }
+</style>
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+    {% if success_phone_number or fail %}
+
+    {% if success_phone_number %}
+    <h1>Wysłano poprawnie na numer <b>{{success_phone_number}}</b></h1>
+    <hr>
+    <p>
+        <a class="btn btn-primary" href="{% url 'core:crm_send_sms' %}"><b>Wyślij kolejny SMS</b></a>
+    </p>
+    {% endif %}
+    
+    {% if fail %}
+    <h1>Błąd podczas wysyłania SMS</h1>
+    <h2>Zrób screen'a i mi wyślij</h2>
+    <hr>
+    <p><i>{{fail}}</i></p>
+    <hr>
+    <p>
+        <a class="btn btn-primary" href="{% url 'core:crm_send_sms' %}"><b>Powrót do formularza</b></a>
+    </p>
+    {% endif %}
+
+
+    {% else %}
+    <h1>Wyślij SMS</h1>
+    <p>
+        Nadawca (widoczny w wiadomości SMS): <b>Wykladowca</b> 
+    </p>
+    <form
+        method="post"
+        action="{% url 'core:crm_send_sms' %}"
+        onsubmit="actionSubmit.disabled = true; return true;"
+    >
+        {% csrf_token %}
+        {{form}}
+        <input type="submit" class="btn btn-primary mt-3" value="Wyślij" name="actionSubmit">
+    </form>
+    {% endif %}
+{% endblock crm_content %}
+
+{% block body_scripts %}
+
+{% endblock body_scripts %}

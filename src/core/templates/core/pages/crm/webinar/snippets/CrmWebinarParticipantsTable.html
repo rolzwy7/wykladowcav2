@@ -26,15 +26,47 @@
                 <b><u>Kontakt do uczestnika:</u></b>
                 <br>
                 <b>{{participant.phone|default:"Nie podano"}}</b>
-                <br>
+
                 {% if participant.sms_reminder_consent %}
-                <span class="text-success fw-bold"><small>✅ Zgoda na przypomnienie SMS</small></span>
-                <br>
+                    <br>
+                    <span class="text-success fw-bold">
+                        <small>
+                            ✅ Zgoda na przypomnienie SMS
+                            {% if participant.can_send_sms %}
+                            <a href="{% url "core:crm_send_sms" %}?participant_id={{participant.id}}">
+                                {% if participant.sms_reminder_send %}( Wyślij ponownie ){% else %}( Wyślij ){% endif %}
+                            </a>
+                            {% endif %}
+                        </small>
+                    </span>
                 {% endif %}
+
+                {% if not participant.can_send_sms %}
+                    <br>
+                    <span class="text-danger fw-bold">
+                        <small>
+                            ❌ Nieprawidłowy numer (SMS)
+                        </small>
+                    </span>
+                {% endif %}
+
+                
+                
                 {% if participant.sms_reminder_send %}
-                <span class="text-success fw-bold"><small>✅ Wysłano SMS: {{participant.sms_reminder_send_dt}}</small></span>
-                <br>
+                    <br>
+                    <span class="text-success fw-bold">
+                        <small>✅ Wysłano SMS: {{participant.sms_reminder_send_dt}}</small>
+                    </span>
                 {% endif %}
+                
+                {% if participant.sms_error_msg %}
+                    <br>
+                    <span class="text-danger fw-bold">
+                        <small>❌ SMS Błąd: {{participant.sms_error_msg}}</small>
+                    </span>
+                {% endif %}
+                
+                <br>
                 {{participant.email}}
             </td>
             {% comment %} <td>
