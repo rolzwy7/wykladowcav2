@@ -82,9 +82,6 @@ def mailing_resignation_page_with_list(
     if not resignation:
         return HttpResponse("Strona nie istnieje")
 
-    if resignation.confirmed:
-        return HttpResponse("Rezygnacja już została przyjęta")
-
     if request.method == POST:
         MailingResignationService.confirm_resignation_by_code_and_list(
             resignation_code, resignation_list

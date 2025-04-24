@@ -6,6 +6,7 @@ from random import choice, shuffle
 from string import ascii_letters, digits
 from typing import Optional
 
+from django.utils.timezone import now
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
 
 from core.libs.mongo.db import get_mongo_connection
@@ -98,5 +99,5 @@ class MailingResignationManager:
         """Mark resignation as cofirmed by code and list"""
         self.collection.update_one(
             {"_id": code, "resignation_list": resignation_list},
-            {"$set": {"confirmed": True}},
+            {"$set": {"confirmed": True, "resignation_at": now()}},
         )
