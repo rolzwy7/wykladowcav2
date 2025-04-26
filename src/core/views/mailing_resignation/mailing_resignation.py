@@ -100,6 +100,7 @@ def mailing_resignation_page_with_list(
         request,
         template_name,
         {
+            "resignation_list": resignation_list,
             "resignation_code": resignation_code,
             "confirmed": resignation.confirmed,
         },

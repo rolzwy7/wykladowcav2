@@ -17,7 +17,7 @@
     </p>
     <form
         method="post"
-        action="{% url 'core:mailing_resignation_page' resignation_code=resignation_code %}"
+        action="{% url 'core:mailing_resignation_page_with_list' resignation_list=resignation_list resignation_code=resignation_code %}"
         onsubmit="actionSubmit.disabled = true; return true;"
     >
         {% csrf_token %}
