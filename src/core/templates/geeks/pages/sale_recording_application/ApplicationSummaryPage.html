@@ -1,0 +1,347 @@
+{% extends './ApplicationBase.html' %} 
+{% load static %}
+
+{% block content %}
+<div class="row mt-0 mt-md-4">
+    <div class="col-lg-8 col-md-12 col-12">
+        <div class="card mb-4">
+            <!-- Card header -->
+            <div class="card-header">
+                <h3 class="mb-0"><span class="text-primary">Krok {{step_number}}:</span> {{step_title}}</h3>
+                <span>{{step_description}}</span>
+            </div>
+            <!-- Card body -->
+            <div class="card-body">
+                
+                {% comment %} Szkolenie {% endcomment %}
+                <h3>Szkolenie:</h3>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th scope="row" style="width:175px;">Tytuł</th>
+                        <td>{{webinar.title_original}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:175px;">Data</th>
+                        <td>{{webinar.date|date:"j E Y"}} r.</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:175px;">Godzina</th>
+                        <td>{{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}</td>
+                    </tr>
+                    {% if webinar.show_lecturer and not webinar.is_lecturer_anonymized %}
+                    <tr>
+                        <th scope="row" class="border-bottom-0" style="width:175px;">Wykładowca</th>
+                        <td>{{webinar.lecturer.fullname}}</td>
+                    </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+                <hr>
+
+                {% with application.submitter as submitter %}
+                {% if submitter %}
+                {% comment %} Nabywca {% endcomment %}
+                <div class="d-flex justify-content-between">
+                    <div><h3>Dane kontaktowe:</h3></div>
+                    <div class="fw-bold">
+                        {% if application.application_type == "COMPANY" %}
+                        <a href="{% url 'core:sale_recording_application_buyer_page' uuid=application.uuid %}">
+                        {% elif application.application_type == "JSFP" %}
+                        <a href="{% url 'core:sale_recording_application_buyer_recipient_page' uuid=application.uuid %}">
+                        {% elif application.application_type == "PRIVATE_PERSON" %}
+                        <a href="{% url 'core:sale_recording_application_person_details_page' uuid=application.uuid %}">
+                        {% endif %}
+                            <i class="bi bi-pencil-square"></i>
+                            Edytuj
+                        </a>
+                    </div>
+                </div>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th scope="row" style="width:175px;">E-mail</th>
+                        <td>{{submitter.email}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:175px;">Telefon</th>
+                        <td>{{submitter.phone}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <hr>
+                {% endif %}
+                {% endwith %}
+
+                {% comment %} Uczestnicy {% endcomment %}
+                <div class="d-flex justify-content-between">
+                    <div><h3>Osoby, które uzyskają dostęp do nagrania:</h3></div>
+                    <div class="fw-bold">
+                        <a href="{% url 'core:sale_recording_application_participants_page' uuid=application.uuid %}">
+                            <i class="bi bi-pencil-square"></i>
+                            Edytuj
+                        </a>
+                    </div>
+                </div>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Imię</th>
+                        <th scope="col">Nazwisko</th>
+                        <th scope="col">Adres E-mail</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for participant in participants %}
+                    <tr>
+                        <td>{{participant.first_name}}</td>
+                        <td>{{participant.last_name}}</td>
+                        <td>{{participant.email}}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <hr>
+                
+                {% with application.buyer as company %}
+                {% if company %}
+                {% comment %} Nabywca {% endcomment %}
+                <div class="d-flex justify-content-between">
+                    <div><h3>Nabywca:</h3></div>
+                    <div class="fw-bold">
+                        {% if application.application_type == "COMPANY" %}
+                        <a href="{% url 'core:sale_recording_application_buyer_page' uuid=application.uuid %}">
+                        {% elif application.application_type == "JSFP" %}
+                        <a href="{% url 'core:sale_recording_application_buyer_recipient_page' uuid=application.uuid %}">
+                        {% elif application.application_type == "PRIVATE_PERSON" %}
+                        <a href="{% url 'core:sale_recording_application_person_details_page' uuid=application.uuid %}">
+                        {% endif %}
+                            <i class="bi bi-pencil-square"></i>
+                            Edytuj
+                        </a>
+                    </div>
+                </div>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th scope="row" style="width:175px;">NIP</th>
+                        <td>{{company.nip}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:175px;">Nazwa podmiotu</th>
+                        <td>{{company.name}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:175px;">Adres</th>
+                        <td>{{company.address}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:175px;">Kod pocztowy</th>
+                        <td>{{company.postal_code}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:175px;">Miejscowość</th>
+                        <td>{{company.city}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                {% endif %}
+                {% endwith %}
+                
+                {% comment %} Odbiorca {% endcomment %}
+                {% with application.recipient as company %}
+                {% if company %}
+                <div class="d-flex justify-content-between">
+                    <div><h3>Odbiorca:</h3></div>
+                    <div class="fw-bold">
+                        {% if application.application_type == "COMPANY" %}
+                        <a href="{% url 'core:sale_recording_application_buyer_page' uuid=application.uuid %}">
+                        {% elif application.application_type == "JSFP" %}
+                        <a href="{% url 'core:sale_recording_application_buyer_recipient_page' uuid=application.uuid %}">
+                        {% elif application.application_type == "PRIVATE_PERSON" %}
+                        <a href="{% url 'core:sale_recording_application_person_details_page' uuid=application.uuid %}">
+                        {% endif %}
+                            <i class="bi bi-pencil-square"></i>
+                            Edytuj
+                        </a>
+                    </div>
+                </div>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th scope="row" style="width:175px;">Nazwa podmiotu</th>
+                        <td>{{company.name}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:175px;">Adres</th>
+                        <td>{{company.address}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:175px;">Kod pocztowy</th>
+                        <td>{{company.postal_code}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:175px;">Miejscowość</th>
+                        <td>{{company.city}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                {% endif %}
+                {% endwith %}
+
+                {% with application.invoice as invoice %}
+                <div class="d-flex justify-content-between">
+                    <div><h3>Faktura:</h3></div>
+                    <div class="fw-bold">
+                        <a href="{% url 'core:sale_recording_application_invoice_page' uuid=application.uuid %}">
+                            <i class="bi bi-pencil-square"></i>
+                            Edytuj
+                        </a>
+                    </div>
+                </div>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th scope="row" style="width:175px;">Typ faktury</th>
+                        <td>{{invoice.get_invoice_type_display}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:175px;">E-mail do faktury</th>
+                        <td>{{invoice.invoice_email}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:175px;">Zwolnienie z VAT</th>
+                        <td>{{invoice.get_vat_exemption_display}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                {% endwith %}
+
+                {% comment %} Dodatkowe uwagi {% endcomment %}
+                <div class="d-flex justify-content-between">
+                    <div><h3>Dodatkowe uwagi:</h3></div>
+                    <div class="fw-bold">
+                        <a href="{% url 'core:sale_recording_application_invoice_page' uuid=application.uuid %}">
+                            <i class="bi bi-pencil-square"></i>
+                            Edytuj
+                        </a>
+                    </div>
+                </div>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <i>
+                                „{{application.additional_information|default:"Brak uwag"}}”
+                            </i>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>                        
+    </div>
+    <div class="col-lg-4 col-md-12 col-12">
+        <div class="card mb-4 js-sticky-widget">
+            {% comment %} <!-- Card header -->
+            <div class="card-header">
+                <h3 class="mb-0">OOO</h3>
+                <span>OOO</span>
+            </div> {% endcomment %}
+            <!-- Card body -->
+            <div class="card-body">
+
+                {% if application.status == 'INIT' %}
+                <!--begin::Actions-->
+                <div class="mb-0">
+
+                    <span class="my-2 fs-5 fw-bold">
+                        Cena za osobę:
+                        {{application.price_netto}} zł
+                        {% if WE_ARE_TAX_EXEMPT or application.invoice.vat_exemption == "VAT_EXEMPTION_0" %}
+                            {{PRICE_ADNOTATION}}
+                        {% endif %}
+                        <br>
+                        Całkowita cena: {{total_price}} zł
+                        {% if WE_ARE_TAX_EXEMPT or application.invoice.vat_exemption == "VAT_EXEMPTION_0" %}
+                            {{PRICE_ADNOTATION}}
+                        {% endif %}
+                      </span>
+
+                    <hr>
+
+                    <form
+                        action="{% url 'core:sale_recording_application_summary_page' uuid=application.uuid %}"
+                        method="post"
+                        onsubmit="actionSubmit.disabled = true; return true;"
+                    >
+                        {% csrf_token %}
+                        <div class="d-flex justify-content-center">
+                            <p>
+                                Klikając przycisk <i>„Złóż zamówienie”</i> oświadczam, że zapoznałem się i akceptuję postanowienia
+                                <a href="#" data-bs-toggle="modal" data-bs-target=".modal-terms-of-service">
+                                    <b>Regulaminu Szkoleń</b>
+                                </a>
+                            </p>
+                        </div>
+
+                        <div class="d-flex justify-content-center">
+                            <button
+                                name="actionSubmit"
+                                type="submit"
+                                class="btn btn-success mt-3 w-100"
+                                id="send-application-btn"
+                            >
+                            Złóż zamówienie
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+                <!--end::Actions-->
+                {% endif %}
+
+            </div>
+        </div> 
+    </div>
+</div>
+
+ <div class="modal fade modal-terms-of-service" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            {% include 'geeks/pages/terms_and_conditions/snippets/TermsAndConditionsWebinarsCard.html' %}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij okno</button>
+         </div>
+      </div>
+    </div>
+  </div>
+ {% endblock content %}
+
+{% block body_scripts %}
+<script src="{% static 'js/htmx.min.js' %}"></script>
+<script>
+    document.body.addEventListener('htmx:configRequest', (event) => {
+        event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+    })
+</script>
+<script src="{% static 'js/sticksy.min.js' %}"></script>
+<script>
+    setTimeout(function() {
+        var stickyElement = new Sticksy('.js-sticky-widget', {topSpacing: 75});
+        stickyElement.onStateChanged = function (state) {
+            if(state === 'fixed') {
+                stickyElement.nodeRef.classList.add('widget--sticky')
+            } else {
+                stickyElement.nodeRef.classList.remove('widget--sticky')
+            }
+        }
+    }, 3000);
+</script>
+{% endblock body_scripts %}

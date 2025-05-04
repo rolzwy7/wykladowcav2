@@ -1,0 +1,71 @@
+{% extends './ApplicationBase.html' %} 
+{% load static %}
+
+{% block content %}
+<div class="row mt-0 mt-md-4">
+    <div class="col-lg-8 col-md-8 col-12">
+       <div class="card mb-4">
+          <!-- Card header -->
+          <div class="card-header">
+             <h3 class="mb-0"><span class="text-primary">Krok {{step_number}}:</span> {{step_title}}</h3>
+             <span>{{step_description}}</span>
+          </div>
+          <!-- Card body -->
+          <div class="card-body">
+             <form
+                action="{% url 'core:application_submitter_page' uuid=application.uuid %}"
+                method="post"
+                class="row"
+            >
+                {% csrf_token %}
+                <div class="mb-3 col-12 col-md-6">
+                    <label class="form-label" for="id_first_name">
+                        Imię <span class="text-danger">*</span>
+                    </label>
+                    {{form.first_name}}
+                </div>
+                <div class="mb-3 col-12 col-md-6">
+                    <label class="form-label" for="id_last_name">
+                        Nazwisko <span class="text-danger">*</span>
+                    </label>
+                    {{form.last_name}}
+                </div>
+                <div class="mb-3 col-12 col-md-6">
+                    <label class="form-label" for="id_email">
+                        Adres E-mail <span class="text-danger">*</span>
+                    </label>
+                    {{form.email}}
+                </div>
+                <div class="mb-3 col-12 col-md-6">
+                    <label class="form-label" for="id_phone">
+                        Numer telefonu <span class="text-danger">*</span>
+                    </label>
+                    {{form.phone}}
+                </div>
+                <div class="mb-3 col-12 col-md-12">
+                    <label class="form-label" for="id_phone">
+                        Czy zgłaszający jest też uczestnikiem?
+                    </label>
+                    {{form.is_participant}}
+                </div>
+                {% include './components/next_previous_buttons.html' %}
+             </form>
+          </div>
+       </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-12">
+       <div class="card mb-4">
+          <!-- Card header -->
+          <div class="card-header">
+             <h3 class="mb-0">OOO</h3>
+             <span>OOO</span>
+          </div>
+          <!-- Card body -->
+          <div class="card-body">
+          </div>
+       </div>
+    </div>
+ </div>
+{% endblock content %}
+
+{% block body_scripts %}{% endblock body_scripts %}

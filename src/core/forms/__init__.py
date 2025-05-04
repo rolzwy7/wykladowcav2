@@ -24,5 +24,15 @@ from .mailing_forms import (
 )
 from .registration_form import RegistrationForm
 from .resignation_forms import ResignationForm
+from .sale_recording_application_forms import (
+    SaleRecordingApplicationAdditionalInformationForm,
+    SaleRecordingApplicationBuyerForm,
+    SaleRecordingApplicationInvoiceForm,
+    SaleRecordingApplicationParticipantForm,
+    SaleRecordingApplicationPersonDetailForm,
+    SaleRecordingApplicationRecipientForm,
+    SaleRecordingApplicationSummarySubmitForm,
+    SaleRecordingApplicationTypeForm,
+)
 from .tagging_forms import TaggingAddEmailsForm
 from .webinar_asset_forms import WebinarAssetForm

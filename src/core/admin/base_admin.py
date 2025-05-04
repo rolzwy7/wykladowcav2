@@ -21,6 +21,8 @@ from core.models import (
     MailingReplyMessage,
     MailingScheduled,
     MailingTemplate,
+    SaleRecording,
+    SaleRecordingApplication,
     ServiceOffer,
     ServiceOfferLead,
     SmtpSender,
@@ -62,6 +64,9 @@ class WebinarAggregateModelAdmin(ModelAdmin):
 
 
 admin.site.register(MailingScheduled)
+
+admin.site.register(SaleRecording)
+admin.site.register(SaleRecordingApplication)
 
 admin.site.register(SurveyAnswer)
 admin.site.register(Survey)

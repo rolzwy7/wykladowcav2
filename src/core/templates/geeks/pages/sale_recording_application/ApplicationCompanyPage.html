@@ -1,0 +1,176 @@
+{% extends './ApplicationBase.html' %} 
+{% load static %}
+
+{% block content %}
+<div class="row mt-0 mt-md-4">
+    <div class="col-lg-8 col-md-8 col-12">
+        <div class="card mb-4">
+            <!-- Card header -->
+            <div class="card-header">
+                <h3 class="mb-0"><span class="text-primary">Krok {{step_number}}:</span> {{step_title}}</h3>
+                <span>{{step_description}}</span>
+            </div>
+            <!-- Card body -->
+            <div class="card-body">
+
+                <div class="d-flex flex-row justify-content-center">
+                    <form
+                        class="row"
+                        action="{{action_url}}"
+                        method="post"
+                    >
+                        {% csrf_token %}
+
+                        <div class="mb-3 col-12 col-md-6">
+                            <label class="form-label" for="id_nip">
+                                NIP
+                                <span class="text-danger">*</span>
+                                <span class="text-success d-none" id="regon_success">
+                                    <i class="bi bi-check2-circle"></i>
+                                    Znaleziono w rejestrze REGON
+                                </span>
+                                <span class="text-danger d-none" id="regon_not_found">
+                                    <i class="bi bi-x-circle"></i>
+                                    NIP jest niepoprawny
+                                </span>
+                                <span class="text-danger d-none" id="regon_is_down">
+                                    <i class="bi bi-x-circle"></i>
+                                    Rejestr REGON jest czasowo niedostępny. Wypełnij dane ręcznie.
+                                </span>
+                            </label>
+                            {{form.nip}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6">
+                            <label class="form-label" for="id_name">
+                                Nazwa podmiotu <span class="text-danger">*</span>
+                            </label>
+                            {{form.name}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6">
+                            <label class="form-label" for="id_postal_code">
+                                Kod pocztowy <span class="text-danger">*</span>
+                            </label>
+                            {{form.postal_code}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6">
+                            <label class="form-label" for="id_city">
+                                Miejscowość <span class="text-danger">*</span>
+                            </label>
+                            {{form.city}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-12">
+                            <label class="form-label" for="id_address">
+                                Ulica i numer lokalu <span class="text-danger">*</span>
+                            </label>
+                            {{form.address}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6">
+                            <label class="form-label" for="id_email">E-mail firmowy (opcjonalnie)</label>
+                            {{form.email}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6">
+                            <label class="form-label" for="id_phone_number">Numer telefonu firmowy (opjonalnie)</label>
+                            {{form.phone_number}}
+                        </div>
+                        {% include './components/next_previous_buttons.html' %}
+                    </form>
+                </div>
+            </div>
+        </div>                        
+    </div>
+    <div class="col-lg-4 col-md-4 col-12">
+        <div class="card mb-4">
+            <!-- Card header -->
+            <div class="card-header">
+                <h3 class="mb-0">OOO</h3>
+                <span>OOO</span>
+            </div>
+            <!-- Card body -->
+            <div class="card-body">
+                123
+                
+            </div>
+        </div> 
+    </div>
+</div>
+{% endblock content %}
+
+{% block body_scripts %}
+<script>
+    var csrf = "{{ csrf_token }}";
+    var regon_is_down = false;
+    var already_feteched = false;
+
+    function populateFieldById(fieldId, value) {
+        let input = document.querySelector(`#${fieldId}`);
+        input.value = value;
+    }
+
+    function populateCompany(nip) {
+        const url = '/api/regon-autocomplete/';
+        const data = {
+            nip: nip
+        };
+
+        const request = new Request(
+            url,
+            {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrf,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+                mode: 'same-origin'
+            }
+        );
+        
+        fetch(request)
+        .then(response => response.json())
+        .then(result => {
+            console.log('REGON:', result);
+            const success = result.success;
+            if(!success) {
+                $('#regon_success').addClass("d-none");
+                $('#regon_is_down').addClass("d-none");
+                $('#regon_not_found').removeClass("d-none");
+                return;
+            };
+            const data = result.company;
+            const name = data.name
+            populateFieldById("id_name", name)
+            const address = data.address
+            populateFieldById("id_address", address)
+            const postal_code = data.postal_code
+            populateFieldById("id_postal_code", postal_code)
+            const city = data.city
+            populateFieldById("id_city", city)
+            already_feteched = true
+            $('#regon_success').removeClass("d-none");
+            $('#regon_is_down').addClass("d-none");
+            $('#regon_not_found').addClass("d-none");
+        })
+        .catch(error => {
+            regon_is_down = true;
+            $('#regon_success').addClass("d-none");
+            $('#regon_is_down').removeClass("d-none");
+            $('#regon_not_found').addClass("d-none");
+        });
+
+    }
+
+    // Function to perform the actual search
+    function performSearch() {
+        if(regon_is_down || already_feteched) return;
+        let nip = document.querySelector('#id_nip').value.replaceAll("-", "").replaceAll("_", "").replaceAll(" ", "");
+        if(/[0-9]{10}/.exec(nip) !== null) {
+            populateCompany(nip);
+        }
+    }
+
+    document.querySelector("#id_nip").addEventListener("keyup", function() {
+        performSearch();
+    })
+
+</script>
+{% endblock body_scripts %}

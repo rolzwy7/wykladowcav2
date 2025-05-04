@@ -1,0 +1,81 @@
+<script>
+    var csrf = "{{ csrf_token }}";
+    var {{prefix}}_regon_is_down = false;
+    var {{prefix}}_already_feteched = false;
+
+    function {{prefix}}_populateFieldById(fieldId, value) {
+        let input = document.querySelector(`#id_{{prefix}}-${fieldId}`);
+        input.value = value;
+    }
+
+    function {{prefix}}_populateCompany(nip) {
+        const url = '/api/regon-autocomplete/';
+        const data = {
+            nip: nip
+        };
+
+        const request = new Request(
+            url,
+            {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrf,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+                mode: 'same-origin'
+            }
+        );
+
+        $('#{{prefix}}-regon_success').addClass("d-none");
+        $('#{{prefix}}-regon_is_down').addClass("d-none");
+        $('#{{prefix}}-regon_not_found').addClass("d-none");
+        $('#{{prefix}}-regon_loading').removeClass("d-none");
+        
+        fetch(request)
+        .then(response => response.json())
+        .then(result => {
+            console.log('REGON:', result);
+            const success = result.success;
+            if(!success) {
+                $('#{{prefix}}-regon_success').addClass("d-none");
+                $('#{{prefix}}-regon_is_down').addClass("d-none");
+                $('#{{prefix}}-regon_not_found').removeClass("d-none");
+                $('#{{prefix}}-regon_loading').addClass("d-none");
+                return;
+            };
+            const data = result.company;
+            {{prefix}}_populateFieldById("name", data.name)
+            {{prefix}}_populateFieldById("address", data.address)
+            {{prefix}}_populateFieldById("postal_code", data.postal_code)
+            {{prefix}}_populateFieldById("city", data.city)
+            {{prefix}}_already_feteched = true
+            $('#{{prefix}}-regon_success').removeClass("d-none");
+            $('#{{prefix}}-regon_is_down').addClass("d-none");
+            $('#{{prefix}}-regon_not_found').addClass("d-none");
+            $('#{{prefix}}-regon_loading').addClass("d-none");
+        })
+        .catch(error => {
+            {{prefix}}_regon_is_down = true;
+            $('#{{prefix}}-regon_success').addClass("d-none");
+            $('#{{prefix}}-regon_is_down').removeClass("d-none");
+            $('#{{prefix}}-regon_not_found').addClass("d-none");
+            $('#{{prefix}}-regon_loading').addClass("d-none");
+        });
+
+    }
+
+    function {{prefix}}_performSearch() {
+        if({{prefix}}_regon_is_down || {{prefix}}_already_feteched) return;
+        let nip = document.querySelector('#id_{{prefix}}-nip');
+        let nip_value = nip.value.replaceAll("-", "");
+        nip_value = nip_value.replaceAll("_", "");
+        nip_value = nip_value.replaceAll(" ", "");
+        if(/[0-9]{10}/.exec(nip_value) !== null) {{prefix}}_populateCompany(nip_value);
+    }
+
+    document.querySelector("#id_{{prefix}}-nip").addEventListener("input", function() {
+        {{prefix}}_performSearch();
+    })
+
+</script>

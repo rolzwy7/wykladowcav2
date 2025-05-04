@@ -36,6 +36,14 @@ from .mailing import (
 )
 from .mailing.mailing_scheduled_model import MailingScheduled
 from .redirects import RedirectManual
+from .sale_recording_application_model import (
+    SaleRecordingApplication,
+    SaleRecordingApplicationCompany,
+    SaleRecordingApplicationInvoice,
+    SaleRecordingApplicationPrivatePerson,
+)
+from .sale_recording_model import SaleRecording
+from .sale_recording_participant_model import SaleRecordingParticipant
 from .service_offer_model import ServiceOffer, ServiceOfferApplication, ServiceOfferLead
 from .survey import Survey, SurveyAnswer, SurveyOpinion, SurveyVote
 from .user_model import User

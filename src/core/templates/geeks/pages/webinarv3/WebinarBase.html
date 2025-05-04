@@ -305,6 +305,41 @@
           </div>
          {% endif %}
 
+          {% if webinar.sale_recording %}
+          
+          <div class="card mb-3 mb-4">
+            <div>
+              <!-- Card header -->
+              <div class="card-header">
+                <h4 class="mb-0">Kup dostęp do nagrania teraz!</h4>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-transparent">
+                  <i class="fe fe-help-circle align-middle me-2 text-success"></i>
+                  Możliwe jest wykupienie dostępu do nagrania z <b>poprzedniego terminu</b> tego szkolenia.
+                </li>
+              </ul>
+            </div>
+        
+            {% if hide_ctas != "1" and not webinar.is_archival %}
+            <!-- Card body -->
+            <div class="card-body pt-0">
+              <div class="d-grid">
+                <a
+                href="{% url 'core:sale_recording_application_type_page' pk=webinar.sale_recording.pk %}"
+                rel="nofollow"
+                class="btn btn-success mb-2 border-0"
+              >
+                Zobacz jak to działa
+              </a>
+
+              </div>
+            </div>
+            {% endif %}
+          </div>
+
+          {% endif %}
+
           {% comment %} Date and hour card {% endcomment %}
           {% include './components/date_and_hour_card.html' with webinar=webinar %}
 

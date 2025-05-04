@@ -21,7 +21,7 @@
                 <div class="d-flex flex-row justify-content-center" id="kt_participants_repeater">
                     
                     <form
-                        action="{% url 'core:application_participants_page' uuid=application.uuid %}"
+                        action="{% url 'core:sale_recording_application_participants_page' uuid=application.uuid %}"
                         method="post"
                     >
                         {% csrf_token %}
@@ -60,16 +60,6 @@
                                                     {{form.email.errors}}
                                                 </div>
                                             </div>
-                                            <div class="mb-3 col-6 col-md-6">
-                                                <label class="form-label" for="id_phone">
-                                                    Numer telefonu <span class="text-danger">*</span>
-                                                </label>
-                                                {{form.phone}}
-                                                <div class="text-danger">
-                                                    {{form.phone.errors}}
-                                                </div>
-                                                {{form.sms_reminder_consent}}
-                                            </div>
                                         </div>
 
                                         <div class="d-flex justify-content-end">
@@ -80,7 +70,7 @@
                                                 href="javascript:;"
                                                 data-repeater-delete
                                                 >
-                                                Usuń tego uczestnika
+                                                Usuń osobę
                                             </button>
                                         </div>
 
@@ -91,7 +81,7 @@
                     
                         <div class="d-flex justify-content-center">
                             <button type="button" class="btn btn-light-primary" data-repeater-create>
-                                <i class="fe fe-plus me-1"></i> Dodaj kolejnego uczestnika
+                                <i class="fe fe-plus me-1"></i> Dodaj kolejną osobę
                             </button>
                         </div>
 
@@ -104,10 +94,10 @@
     </div>
     <div class="col-lg-4 col-md-12 col-12">
         {% comment %} Date and hour card {% endcomment %}
-        {% include 'geeks/pages/webinar/components/date_and_hour_card.html' with webinar=webinar hide_ctas="1" %}
+        {% include 'geeks/pages/webinar/components/date_and_hour_card_sale_recording.html' with webinar=webinar hide_ctas="1" %}
 
         {% comment %} What we offer {% endcomment %}
-        {% include 'geeks/pages/webinar/components/what_we_offer.html' with webinar=webinar %}
+        {% include 'geeks/pages/webinar/components/what_we_offer_sale_recording.html' with webinar=webinar %}
     </div>
 </div>
 
@@ -124,8 +114,6 @@
                 1 + Number(document.querySelector("#id_form-TOTAL_FORMS").getAttribute("value"))
             )
             var new_label_id = Math.floor(Date.now() / 10);
-            $(this).find('input')[4].setAttribute('id', `id_form-${new_label_id}-sms_reminder_consent`);
-            $(this).find('label[for]')[4].setAttribute('for', `id_form-${new_label_id}-sms_reminder_consent`);
             $(this).slideDown();
         },
         hide: function (deleteElement) {

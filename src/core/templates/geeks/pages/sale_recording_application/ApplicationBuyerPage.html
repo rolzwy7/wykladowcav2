@@ -1,0 +1,113 @@
+{% extends './ApplicationBase.html' %} 
+{% load static %}
+
+{% block content %}
+<div class="row mt-0 mt-md-4">
+    <div class="col-lg-8 col-md-12 col-12">
+        <div class="card mb-4">
+            <!-- Card header -->
+            <div class="card-header">
+                <h3 class="mb-0"><span class="text-primary">Krok {{step_number}}:</span> {{step_title}}</h3>
+                <span>{{step_description}}</span>
+            </div>
+            <!-- Card body -->
+            <div class="card-body">
+
+                <div class="d-flex flex-row justify-content-center">
+                    <form
+                        action="{% url 'core:sale_recording_application_buyer_page' uuid=application.uuid %}"
+                        class="row"
+                        method="post"
+                    >
+                        {% csrf_token %}
+                        {{form.phone_number}}
+
+                            {% comment %} <div class="mb-3 col-12 col-md-6">
+                                <label class="form-label" for="id_phone_number">
+                                    Kontaktowy numer telefonu
+                                    <span class="text-danger">*</span>
+                                </label>
+                                {{form.phone_number}}
+                            </div> {% endcomment %}
+                            <div class="mb-3 col-12 col-md-12">
+                                <label class="form-label" for="id_email">
+                                    Adres e-mail do zamówienia
+                                    <span class="text-danger">*</span>
+                                </label>
+                                {{form.email}}
+                                <small class="form-text text-muted">
+                                    Adres e-mail na który zostanie wysłane potwierdzenie otrzymania zamówienia i link do płatności.
+                                </small>
+                            </div>
+    
+                            <div class="mb-3 col-12 col-md-12">
+                                <hr>
+                            </div>
+
+                        <h2>Nabywca</h2>
+                        <div class="mb-3 col-12 col-md-6">
+                            <label class="form-label" for="id_buyer-nip">
+                                NIP
+                                <span class="text-danger">*</span>
+                                <span class="text-success d-none" id="buyer-regon_success">
+                                    <i class="bi bi-check2-circle"></i>
+                                    Znaleziono w rejestrze REGON
+                                </span>
+                                <span class="text-primary d-none" id="buyer-regon_loading">
+                                    <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+                                    Ładuję dane z rejestru REGON
+                                </span>
+                                <span class="text-danger d-none" id="buyer-regon_not_found">
+                                    <i class="bi bi-x-circle"></i>
+                                    NIP jest niepoprawny
+                                </span>
+                                <span class="text-danger d-none" id="buyer-regon_is_down">
+                                    <i class="bi bi-x-circle"></i>
+                                    Rejestr REGON jest czasowo niedostępny. Wypełnij dane ręcznie.
+                                </span>
+                            </label>
+                            {{form.nip}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-12">
+                            <label class="form-label" for="id_buyer-name">
+                                Nazwa firmy <span class="text-danger">*</span>
+                            </label>
+                            {{form.name}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-12">
+                            <label class="form-label" for="id_buyer-address">
+                                Ulica i numer lokalu <span class="text-danger">*</span>
+                            </label>
+                            {{form.address}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6">
+                            <label class="form-label" for="id_buyer-postal_code">
+                                Kod pocztowy <span class="text-danger">*</span>
+                            </label>
+                            {{form.postal_code}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6">
+                            <label class="form-label" for="id_buyer-city">
+                                Miejscowość <span class="text-danger">*</span>
+                            </label>
+                            {{form.city}}
+                        </div>
+                        {% include './components/next_previous_buttons.html' %}
+                    </form>
+                </div>
+            </div>
+        </div>                        
+    </div>
+    <div class="col-lg-4 col-md-12 col-12">
+        {% comment %} Date and hour card {% endcomment %}
+        {% include 'geeks/pages/webinar/components/date_and_hour_card_sale_recording.html' with webinar=webinar hide_ctas="1" %}
+                
+        {% comment %} What we offer {% endcomment %}
+        {% include 'geeks/pages/webinar/components/what_we_offer_sale_recording.html' with webinar=webinar %}
+    </div>
+</div>
+{% endblock content %}
+
+{% block body_scripts %}
+    {% include './js_scripts/populate_nip_by_regon.html' with prefix="buyer" %}
+{% endblock body_scripts %}

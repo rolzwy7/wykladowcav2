@@ -45,6 +45,9 @@ from .mailing_template_urls import urlpatterns as mailing_templates_urlpatterns
 from .previews_urls import urlpatterns as previews_urlpatterns
 from .recording_urls import urlpatterns as recording_urlpatterns
 from .registration_urls import urlpatterns as registration_urlpatterns
+from .sale_recording_application_urls import (
+    urlpatterns as sale_recording_application_urlpatterns,
+)
 from .service_offer_urls import urlpatterns as service_offer_urlpatterns
 from .terms_and_conditions_urls import urlpatterns as terms_and_conditions_urlpatterns
 from .user_account_urls import urlpatterns as user_account_urlpatterns
@@ -58,6 +61,10 @@ urlpatterns = [
     path("szkolenia/", include(category_urlpatterns)),
     path("polecaj-i-zarabiaj/", include(loyalty_urlpatterns)),
     path("zgloszenie-online/", include(application_urlpatterns)),
+    path(
+        "zamowienie-dostep-do-nagrania/",
+        include(sale_recording_application_urlpatterns),
+    ),
     path("przypomnij-haslo/", include(forgot_password_urlpatterns)),
     path("rejestracja/", include(registration_urlpatterns)),
     path("wykladowcy/", lecturer_list_page, name="all_lecturers_list_page"),

@@ -356,6 +356,15 @@ class Webinar(Model):
     external_url = URLField("Zewnętrzny dostawca - URL", blank=True)
     external_description = TextField("Zewnętrzny dostawca - Opis", blank=True)
 
+    # Nagranie na sprzedaz
+    sale_recording = ForeignKey(
+        "SaleRecording",
+        null=True,
+        blank=True,
+        on_delete=SET_NULL,
+        verbose_name="Nagranie na sprzedaż",
+    )
+
     # Grouping
     grouping_token = CharField(
         "Token grupujący",

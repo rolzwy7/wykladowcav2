@@ -125,6 +125,14 @@ class WebinarModelAdmin(SimpleHistoryAdmin):
             },
         ),
         (
+            "Nagranie na sprzedaż",
+            {
+                "fields": [
+                    "sale_recording",
+                ],
+            },
+        ),
+        (
             "Program szkolenia",
             {
                 "fields": ["program_assets", "program"],
