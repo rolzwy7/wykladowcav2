@@ -84,9 +84,9 @@ class Command(BaseCommand):
             # Run at every loop
             for active_id in active_campaigns_ids:
                 process_check_mx(pool_manager, [active_id], process_count=200)
-                process_bounces(
-                    pool_manager, bounce_manager, [active_id], process_count=200
-                )
+                # process_bounces(
+                #     pool_manager, bounce_manager, [active_id], process_count=200
+                # )
                 process_blacklist(pool_manager, [active_id], process_count=200)
             #
             # Close managers
