@@ -218,6 +218,7 @@ class SaleRecordingApplication(Model):
     fakturownia_invoice_id = CharField(max_length=32, blank=True)
     fakturownia_invoice_number = CharField(max_length=64, blank=True)
     fakturownia_invoice_url = CharField(max_length=300, blank=True)
+    fakturownia_payment_url = CharField(max_length=300, blank=True)
 
     terms_accepted = BooleanField("Zaakceptowano regulamin", default=False)
 

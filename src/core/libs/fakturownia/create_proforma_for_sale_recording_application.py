@@ -27,6 +27,7 @@ class ProformaInvoiceCreateResult(BaseModel):
     invoice_id: int  # id
     invoice_number: str  # number
     invoice_view_url: str  # view_url
+    invoice_payment_url: str  # payment_url
 
 
 def create_proforma_for_sale_recording_application(
@@ -170,6 +171,7 @@ def create_proforma_for_sale_recording_application(
         invoice_id=result_json["id"],
         invoice_number=result_json["number"],
         invoice_view_url=result_json["view_url"],
+        invoice_payment_url=result_json["payment_url"],
     )
 
     return proforma_invoice

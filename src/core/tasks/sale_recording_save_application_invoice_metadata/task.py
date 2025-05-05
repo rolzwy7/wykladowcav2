@@ -30,3 +30,7 @@ def task_sale_recording_save_application_invoice_metadata(
     SaleRecordingApplication.manager.filter(id=application_id).update(
         fakturownia_invoice_url=invoice_result.invoice_view_url
     )
+
+    SaleRecordingApplication.manager.filter(id=application_id).update(
+        fakturownia_payment_url=invoice_result.invoice_payment_url
+    )
