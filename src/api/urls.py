@@ -10,6 +10,7 @@ from api.base.views import (
     fakturownia_sale_recording_webhook,
     health_check,
     regon_autocomplete,
+    sale_recording_check_payment_url,
 )
 
 app_name = "api"  # pylint: disable=invalid-name
@@ -21,6 +22,11 @@ urlpatterns = [
         "fakturownia-sale-recording-webhook/",
         fakturownia_sale_recording_webhook,
         name="fakturownia_sale_recording_webhook",
+    ),
+    path(
+        "sale_recording_check_payment_url/<uuid:uuid>/",
+        sale_recording_check_payment_url,
+        name="sale_recording_check_payment_url",
     ),
     path(
         "conference-watch-url/<uuid:uuid>/",

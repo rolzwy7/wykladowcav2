@@ -59,10 +59,24 @@
 
                  <div class="ms-3">
                    <h3 class="mb-2">Jak zapłacić?</h3>
-                   <p class="mb-0 fs-4">
-                        Link do płatności znajdziecie Państwo tutaj: 
+                   <p class="mb-2 fs-4 fw-bold" id="IDPaymentHeaderText">
+                        Trwa generowanie adresu do płatności ...
                    </p>
-                   <p class="mb-0 fs-4">
+                   
+                   <p class="mb-2 fs-4 fw-bold" id="IDPaymentWaitBlock">
+                     <img src="{% static 'media/misc/spinner.gif' %}"/>
+                     <span id="IDPaymentWaitText">
+                        Tutaj za chwilę pojawi się link do płatności. Proszę czekać.
+                     </span>
+                   </p>
+
+                   <p class="mb-2" id="IDPaymentATagBlock" style="display: none;">
+                        <a href="#temp" class="fs-3 text-white bg-primary px-2" id="IDPaymentATag">
+                           <b>&gt;&gt;&nbsp;Kliknij tutaj, aby przejść do płatności&nbsp;&lt;&lt;</b>
+                        </a>
+                   </p>
+                   
+                   <p class="mb-2 fs-4">
                         Link do płatności jest też <b>dostępny także na fakturze proforma</b> (prawy górny róg, przycisk „Kliknij i zapłać online”).
                    </p>
 
@@ -247,7 +261,28 @@
          setTimeout(function() {shoot(75, 0);}, 6000);
          setTimeout(function() {shoot(100, 0);}, 5000);
       }
-       
+
+      setInterval(function() {
+         
+
+         fetch('/api/sale_recording_check_payment_url/{{application.uuid}}/')
+         .then(response => {
+            if (!response.ok) {
+               throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+         })
+         .then(data => {
+            console.log(data.payment_url);
+            if(data.payment_url) {
+               document.getElementById("IDPaymentHeaderText").innerText = "Adres do płatności został wygenerowany:";
+               document.getElementById("IDPaymentWaitBlock").style.display = "none";
+               document.getElementById("IDPaymentATagBlock").style.display = "block";
+               document.getElementById('IDPaymentATag').href = data.payment_url;
+            }
+         })
+         .catch(error => console.error('Error fetching JSON:', error));
+      }, 6000);
        
     </script>
 {% endblock body_scripts %}

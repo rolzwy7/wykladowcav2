@@ -34,19 +34,15 @@
                   </td>
                 </tr>
                 
-                {% comment %}
-                  <tr>
-                    <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
-                      Faktura za udział w szkoleniu będzie wysłana do Państwa po zajęciach e-mailem.
-                    </td>
-                  </tr>
-                {% endcomment %}
+                <tr>
+                  <td style="border-collapse:collapse;padding-left:20px;padding-right:20px;font-size: 16px;padding-top:15px;">
+                    Linki z dostępem do nagrania zostaną wysłane do osób podanych w zamówieniu po dokonaniu płatności.
+                  </td>
+                </tr>
                 
                 <tr>
                   <td style="border-collapse:collapse;padding-left:20px;padding-top:20px">
-                    {% with BASE_URL|add:webinar_url as absolute_webinar_url %}
-                      {% include './includes/EmailButton.html' with text="Szczegóły szkolenia" url=absolute_webinar_url %}
-                    {% endwith %}
+                    {% include './includes/EmailButton.html' with text="Przejdź do płatności" url=application.fakturownia_payment_url %}
                   </td>
                 </tr>
                 
