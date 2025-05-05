@@ -72,7 +72,7 @@ urlpatterns = [
         name="application_choose_webinar",
     ),
     path(
-        "wyslano/",
+        "<uuid:uuid>/wyslano/",
         application_success_page,
         name="application_success_page",
     ),

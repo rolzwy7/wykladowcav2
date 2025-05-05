@@ -87,7 +87,11 @@ def application_summary_page(request, uuid):
             application.step_dt_summary_end = now()
             application.save()
 
-            return redirect(reverse("core:application_success_page"))
+            return redirect(
+                reverse(
+                    "core:application_success_page", kwargs={"uuid": application.uuid}
+                )
+            )
     else:
         form = ApplicationSummarySubmitForm()
 

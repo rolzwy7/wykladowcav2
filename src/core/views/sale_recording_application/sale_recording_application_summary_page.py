@@ -15,7 +15,9 @@ from core.models.enums import ApplicationStatus, WebinarApplicationStep
 from core.tasks import (
     params_send_sale_recording_order_email,
     task_sale_recording_create_application_invoice,
+    task_sale_recording_save_application_invoice_metadata,
     task_send_sale_recording_order_email,
+    task_send_sale_recording_proforma,
     task_send_telegram_notification,
 )
 
@@ -50,6 +52,8 @@ def sale_recording_application_summary_page(request, uuid):
             # Dispatch tasks
             chain(
                 task_sale_recording_create_application_invoice.si(application_id),
+                task_sale_recording_save_application_invoice_metadata.s(application.id),  # type: ignore
+                task_send_sale_recording_proforma.si(application_id),
                 task_send_sale_recording_order_email.si(
                     params_send_sale_recording_order_email(order_email, application_id)
                 ),
@@ -65,7 +69,12 @@ def sale_recording_application_summary_page(request, uuid):
 
             application.save()
 
-            return redirect(reverse("core:sale_recording_application_success_page"))
+            return redirect(
+                reverse(
+                    "core:sale_recording_application_success_page",
+                    kwargs={"uuid": application.uuid},
+                )
+            )
     else:
         form = SaleRecordingApplicationSummarySubmitForm()
 

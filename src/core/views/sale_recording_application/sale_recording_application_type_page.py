@@ -82,7 +82,7 @@ def sale_recording_application_type_page(request, pk: int):
         {
             "step_number": "1",
             "step_title": "Typ zgłoszenia",
-            "step_description": "Wybierz czy wysyłasz zgłoszenie jako Firma, JSFP lub Osoba Prywatna",
+            "step_description": "Wybierz czy tworzysz zamówienie jako Firma, JSFP lub Osoba Prywatna",
             "application_timeline": [("Typ zgłoszenia", "-", True)],
             "sale_recording": sale_recording,
             "webinar": webinar,

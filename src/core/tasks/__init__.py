@@ -13,6 +13,9 @@ from .download_and_process_clickmeeting_recording import (
 from .sale_recording_create_application_invoice import (
     task_sale_recording_create_application_invoice,
 )
+from .sale_recording_save_application_invoice_metadata import (
+    task_sale_recording_save_application_invoice_metadata,
+)
 from .save_application_invoice_metadata import task_save_application_invoice_metadata
 from .send_clickmeeting_invitation_lecturer import (
     task_send_clickmeeting_invitation_lecturer,
@@ -53,6 +56,7 @@ from .send_sale_recording_order_email import (
     params_send_sale_recording_order_email,
     task_send_sale_recording_order_email,
 )
+from .send_sale_recording_proforma import task_send_sale_recording_proforma
 from .send_submitter_cancellation_email import (
     params_send_submitter_cancellation_email,
     task_send_submitter_cancellation_email,

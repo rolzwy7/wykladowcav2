@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    <title>Zgłoszenie - Wysłano</title>
+    <title>Zamówienie - Wysłano</title>
 {% endblock title %}
 
 {% block content %}
@@ -12,15 +12,17 @@
           <div class="card-body">
 
             <span class="text-primary ls-md text-uppercase fw-semibold">
-                Zgłoszenie wysłane
+                Zamówienie przyjęte
             </span>
 
              <h1 class="display-4 mt-4 mb-3 fw-bold">
-                Przyjęliśmy Państwa zgłoszenie!
+                Przyjęliśmy Państwa zamówienie!
              </h1>
 
             <p class="mb-3 fs-4">
-                Z przyjemnością informujemy, że przyjęliśmy Państwa zgłoszenie na szkolenie.
+                Z przyjemnością informujemy, że przyjęliśmy Państwa zamówienie dostępu do nagrania ze szkolenia:
+                <br>
+                <i>„{{webinar.title}}”</i>
             </p>
 
              <h2>Co dalej?</h2>
@@ -35,9 +37,9 @@
                  </div>
                  <div class="ms-3">
                     <!-- content -->
-                   <h3 class="mb-2">Potwierdzenia otrzymania zgłoszenia</h3>
+                   <h3 class="mb-2">Faktura proforma i potwierdzenie zamówienia</h3>
                    <p class="mb-2 fs-4">
-                        Na adresy e-mail <b>kontaktowy</b> oraz <b>uczestników</b> wysłaliśmy potwierdzenie przyjęcia zgłoszenia.
+                        Na adres e-mail podany w zgłoszeniu została wysłana <b>faktura proforma</b> oraz <b>potwierdzenie otrzymania zamówienia</b>.
                    </p>
                    <p class="mb-0 fs-4">
                         W razie nie otrzymania wiadomości e-mail
@@ -56,10 +58,14 @@
                  </div>
 
                  <div class="ms-3">
-                   <h3 class="mb-2">Potwierdzenie otrzymania zaproszenia</h3>
+                   <h3 class="mb-2">Jak zapłacić?</h3>
                    <p class="mb-0 fs-4">
-                        <b>Dzień przed szkoleniem</b> będziemy kontaktować się z uczestnikami telefonicznie w celu potwierdzenia otrzymania zaproszenia do platformy szkoleniowej ClickMeeting, wysyłanego na adres e-mail każdego z uczestników.
+                        Link do płatności znajdziecie Państwo tutaj: 
                    </p>
+                   <p class="mb-0 fs-4">
+                        Link do płatności jest też <b>dostępny także na fakturze proforma</b> (prawy górny róg, przycisk „Kliknij i zapłać online”).
+                   </p>
+
                  </div>
                </div>
 
@@ -71,12 +77,12 @@
                  </div>
                              
                  <div class="ms-3">
-                   <h3 class="mb-2">Faktura i płatność</h3>
+                   <h3 class="mb-2">Po zrealizowaniu płatności</h3>
                    <p class="mb-2 fs-4">
-                    Faktura za udział w szkoleniu zostanie wysłana na <b>podany przez Państwa adres e-mail</b> po zajęciach.
+                    Kiedy płatność zostanie zaksięgowana wyślemy wszystkim osobom podanym w zamówieniu dostęp do nagrania ze szkolenia na ich skrzynki e-mail.
                    </p>
                    <p class="mb-0 fs-4">
-                    Płatności należy dokonać przelewem <b>do {{INVOICE_DEADLINE_DAYS}} dni</b> po szkoleniu.
+                    Faktura VAT zostanie wysłana na adres e-mail podany w zgłoszeniu.
                    </p>
                  </div>
                </div>
@@ -224,18 +230,23 @@
            shapes: ["heart"],
          });
        }
-       
-       setTimeout(function() {shoot(0, 0);}, 1000);
-       setTimeout(function() {shoot(25, 0);}, 2500);
-       setTimeout(function() {shoot(50, 0);}, 1500);
-       setTimeout(function() {shoot(75, 0);}, 3000);
-       setTimeout(function() {shoot(100, 0);}, 2000);
-       
-       setTimeout(function() {shoot(0, 0);}, 4000);
-       setTimeout(function() {shoot(25, 0);}, 5500);
-       setTimeout(function() {shoot(50, 0);}, 4500);
-       setTimeout(function() {shoot(75, 0);}, 6000);
-       setTimeout(function() {shoot(100, 0);}, 5000);
+
+
+       if(localStorage.getItem("confetti-{{application.id}}") === null) {
+         localStorage.setItem("confetti-{{application.id}}", "confettied")
+
+         setTimeout(function() {shoot(0, 0);}, 1000);
+         setTimeout(function() {shoot(25, 0);}, 2500);
+         setTimeout(function() {shoot(50, 0);}, 1500);
+         setTimeout(function() {shoot(75, 0);}, 3000);
+         setTimeout(function() {shoot(100, 0);}, 2000);
+         
+         setTimeout(function() {shoot(0, 0);}, 4000);
+         setTimeout(function() {shoot(25, 0);}, 5500);
+         setTimeout(function() {shoot(50, 0);}, 4500);
+         setTimeout(function() {shoot(75, 0);}, 6000);
+         setTimeout(function() {shoot(100, 0);}, 5000);
+      }
        
        
     </script>

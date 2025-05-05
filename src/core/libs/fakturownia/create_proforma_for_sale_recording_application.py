@@ -172,16 +172,4 @@ def create_proforma_for_sale_recording_application(
         invoice_view_url=result_json["view_url"],
     )
 
-    SaleRecordingApplication.manager.filter(id=application_id).update(
-        fakturownia_invoice_id=proforma_invoice.invoice_id
-    )
-
-    SaleRecordingApplication.manager.filter(id=application_id).update(
-        fakturownia_invoice_number=proforma_invoice.invoice_number
-    )
-
-    SaleRecordingApplication.manager.filter(id=application_id).update(
-        fakturownia_invoice_url=proforma_invoice.invoice_view_url
-    )
-
     return proforma_invoice

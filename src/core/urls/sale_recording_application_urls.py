@@ -68,7 +68,7 @@ urlpatterns = [
     #     name="application_choose_webinar",
     # ),
     path(
-        "wyslano/",
+        "<uuid:uuid>/wyslano/",
         sale_recording_application_success_page,
         name="sale_recording_application_success_page",
     ),
