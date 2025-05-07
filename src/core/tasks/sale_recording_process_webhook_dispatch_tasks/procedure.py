@@ -1,4 +1,7 @@
+"""sale_recording_process_webhook_dispatch_tasks procedure"""
+
 # flake8: noqa=E501
+# pylint: disable=import-outside-toplevel
 
 from celery import chain
 from django.conf import settings
