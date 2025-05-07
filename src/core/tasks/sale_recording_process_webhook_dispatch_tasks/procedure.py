@@ -11,15 +11,16 @@ from core.models import (
     SaleRecordingParticipant,
     WebinarRecordingToken,
 )
-from core.tasks import (
-    params_sale_recording_send_access_email,
-    task_sale_recording_send_access_email,
-    task_send_telegram_notification,
-)
 
 
 def sale_recording_process_webhook_dispatch_tasks(invoice_proforma_id: int):
     """Process sale recording webhook"""
+
+    from core.tasks import (
+        params_sale_recording_send_access_email,
+        task_sale_recording_send_access_email,
+        task_send_telegram_notification,
+    )
 
     applications = SaleRecordingApplication.manager.filter(
         fakturownia_invoice_id=str(invoice_proforma_id)
