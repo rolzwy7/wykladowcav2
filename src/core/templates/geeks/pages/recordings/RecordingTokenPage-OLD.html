@@ -26,16 +26,11 @@
             width: 100%;
         }
     }
-    .artplayer-app {
-      width: auto;
-      height: 600px;
-    }
     {% include "core/includes/WebinarProgramStyles.html" %}
 </style>
 {% endblock head_stylesheets %}
 
 {% block root %}
-
   <main>
     <section class="p-lg-5 py-7">
       <div class="container">
@@ -70,8 +65,18 @@
 
       <div class="container-fluid mb-4" style="background-color: black;">
         <div class="row">
-          <div class="col-12">
-            <div class="artplayer-app"></div>
+          <div class="col-lg-8 offset-lg-2 col-12">
+            
+            <div id="video-container" class="rounded-3 position-relative w-100 d-block p-0" style="height: 600px">
+                <video id="recording_video" class="video-js position-absolute top-0 end-0 start-0 end-0 bottom-0 h-100 w-100">
+                  <source src="/nagrania/stream/{{uuid}}/" type="video/mp4" />
+                  <p class="vjs-no-js">
+                    Aby obejrzeć to video włącz obsługę JavaScript lub zaktualizuj swoją przeglądarke:
+                  <a href="https://videojs.com/html5-video-support/" target="_blank">HTML5 support</a>
+                  </p>
+                </video>
+            </div>
+
           </div>
         </div>
       </div>
@@ -313,79 +318,27 @@
 
 
 {% block body_scripts %}
-<!-- jsdelivr -->
-<script src="https://cdn.jsdelivr.net/npm/artplayer/dist/artplayer.js"></script>
 <script>
-  var art = new Artplayer({
-    container: '.artplayer-app',
-    url: '/nagrania/stream/{{uuid}}/',
-    lang: "pl",
-    i18n: {
-      'pl': {
-          "Play Speed": "Szybkość odtwarzania",
-          "Normal": "Normalna",
-          "Screenshot": "Zrzut ekranu",
-          "Show Setting": "Pokaż ustawienia",
-          {% comment %}  {% endcomment %}
-          "Video Info": "Informacje o wideo",
-          "Close": "Zamknij",
-          "Video Load Failed": "Nie udało się załadować wideo",
-          "Volume": "Głośność",
-          "Play": "Odtwarzaj",
-          "Pause": "Pauza",
-          "Rate": "Ocena",
-          "Mute": "Wycisz",
-          "Video Flip": "Obrót wideo",
-          "Horizontal": "Poziomo",
-          "Vertical": "Pionowo",
-          "Reconnect": "Połącz ponownie",
-          "Hide Setting": "Ukryj ustawienia",
-          "Play Speed": "Szybkość odtwarzania",
-          "Aspect Ratio": "Proporcje obrazu",
-          "Default": "Domyślne",
-          "Open": "Otwórz",
-          "Switch Video": "Zmień wideo",
-          "Switch Subtitle": "Zmień napisy",
-          "Fullscreen": "Pełny ekran",
-          "Exit Fullscreen": "Wyłącz pełny ekran",
-          "Web Fullscreen": "Pełny ekran w przeglądarce",
-          "Exit Web Fullscreen": "Wyjdź z pełnego ekranu w przeglądarce",
-          "Mini Player": "Miniodtwarzacz",
-          "PIP Mode": "Tryb obrazu w obrazie",
-          "Exit PIP Mode": "Wyjdź z trybu obrazu w obrazie",
-          "PIP Not Supported": "Tryb obrazu w obrazie nieobsługiwany",
-          "Fullscreen Not Supported": "Pełny ekran nieobsługiwany",
-          "Subtitle Offset": "Przesunięcie napisów",
-          "Last Seen": "Ostatnio oglądane",
-          "Jump Play": "Przejdź do odtwarzania",
-          "AirPlay": "AirPlay",
-          "AirPlay Not Available": "AirPlay niedostępny"
-      },
-    },
-    volume: 0.5,
-    isLive: false,
-    muted: false,
+  window.HELP_IMPROVE_VIDEOJS = false;
+</script>
+<script src="{% static 'js/video-js-8.3.0.min.js' %}"></script>
+<script>
+  const player = videojs('recording_video', {
+    fluid: true,
+    controls: true,
     autoplay: false,
-    autoSize: false,
-    autoMini: true,
-    screenshot: true,
-    setting: true,
-    loop: true,
-    playbackRate: true, 
-    fullscreen: true,
-    subtitleOffset: false,
-    miniProgressBar: true,
-    mutex: true,
-    backdrop: true,
-    playsInline: true,
-    autoPlayback: true,
-    airplay: true,
-    theme: '#23ade5',
-    moreVideoAttr: {
-        crossOrigin: 'anonymous',
-    },
-});
-
-
+    disablePictureInPicture: true,
+    preload: 'auto',
+    playbackRates: [1, 1.5, 2],
+    // poster: "MY_VIDEO_POSTER.jpg", <!-- TODO: Poster can be automatically generated -->
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Initialize the modal
+    var myModal = new bootstrap.Modal(document.getElementById('exampleModal-2'));
+    // Show the modal
+    myModal.show();
+  });
 </script>
 {% endblock body_scripts %}

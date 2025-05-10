@@ -46,7 +46,7 @@ def sale_recording_process_webhook_dispatch_tasks(invoice_proforma_id: int):
         token.save()
 
         token_path = reverse("core:recording_token_page", kwargs={"uuid": token.token})
-        access_url = f"{settings.BASE_URL}/{token_path}"
+        access_url = f"{settings.BASE_URL}{token_path}"
 
         task_chain.append(
             task_sale_recording_send_access_email.si(
