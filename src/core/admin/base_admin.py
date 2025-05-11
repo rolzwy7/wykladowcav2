@@ -10,6 +10,7 @@ from core.models import (
     ContactMessage,
     CrmCompany,
     CrmContact,
+    CrmNote,
     CustomHtmlSite,
     DiscountApplicationApplied,
     Eventlog,
@@ -62,6 +63,8 @@ class WebinarAggregateModelAdmin(ModelAdmin):
         "status",
     ]
 
+
+admin.site.register(CrmNote)
 
 admin.site.register(MailingScheduled)
 

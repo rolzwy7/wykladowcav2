@@ -157,6 +157,29 @@ Kliknij, aby załadować statystyki. Klikaj pojedynczo i <b>czekaj aż się zał
 </div>
 {% endif %}
 
+{% if crm_notes %}
+{% for crm_note in crm_notes %}
+<div class="alert alert-{{crm_note.color}} d-flex align-items-center p-5">
+  <div class="d-flex flex-column">
+      <h4 class="mb-1 text-dark">{{crm_note.note_title|safe}}</h4>
+      <span>
+        {{crm_note.note_content_html|safe}}
+      </span>
+      {% if crm_note.deadline %}
+      {% endif %}
+      <br>
+      <span>
+        Pozostało: <b>{{crm_note.deadline_progress_remaining_days}} dni</b> ( Deadline {{crm_note.deadline|date:"j E Y H:i"}} )
+      </span>
+      <div class="h-8px bg-secondary rounded mb-1">
+        <div class="bg-{{crm_note.deadline_progress_color}} rounded h-8px" style="width: {{crm_note.deadline_progress_percent}}%;"></div>
+      </div>
+  </div>
+</div>
+{% endfor %}
+<hr>
+{% endif %}
+
 
 <!--begin::Toolbar-->
 <div class="toolbar d-flex flex-stack flex-wrap mb-5 mt-5 mb-lg-7" id="kt_toolbar">

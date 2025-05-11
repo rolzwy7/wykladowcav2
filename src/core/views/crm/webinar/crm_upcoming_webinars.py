@@ -5,7 +5,7 @@ from django.template.response import TemplateResponse
 from django.utils import timezone
 from django.utils.timezone import now
 
-from core.models import Webinar, WebinarApplication
+from core.models import CrmNote, Webinar, WebinarApplication
 from core.models.enums import ApplicationStatus
 from core.services import CrmWebinarService
 
@@ -61,6 +61,7 @@ def crm_upcoming_webinars(request):
         request,
         "core/pages/crm/webinar/CrmUpcomingWebinars.html",
         {
+            "crm_notes": CrmNote.manager.get_notes(),
             "upcoming_webinars_count": webinars.count(),
             "sent_today_paid_applications": sent_today_paid_applications,
             "sent_today_paid_applications_count": sent_today_paid_applications.count(),

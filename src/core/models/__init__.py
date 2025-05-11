@@ -11,6 +11,7 @@ from .conference import ConferenceCycle, ConferenceEdition, ConferenceFreePartic
 from .contact_message_model import ContactMessage
 from .crm_company_model import CrmCompany
 from .crm_contact_model import CrmContact
+from .crm_notes_model import CrmNote
 from .crm_todo_model import CrmTodo
 from .custom_html_sites import CustomHtmlSite
 from .discount_model import DiscountApplicationApplied, DiscountCode
