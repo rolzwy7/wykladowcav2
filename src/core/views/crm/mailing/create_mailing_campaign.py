@@ -94,7 +94,7 @@ def create_mailing_campaign(request):
         # Start sending tomorrow
         send_after = now()
         send_after = send_after + timedelta(days=1)
-        send_after = send_after.replace(hour=3, minute=0, second=0)
+        send_after = send_after.replace(hour=2, minute=0, second=0)
 
         day_of_week = now().weekday()
 

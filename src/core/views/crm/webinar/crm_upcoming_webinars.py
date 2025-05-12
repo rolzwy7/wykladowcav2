@@ -56,6 +56,12 @@ def crm_upcoming_webinars(request):
     sent_today_paid_applications = WebinarApplication.manager.filter(
         status=ApplicationStatus.SENT, created_at__date=timezone.now().date()
     )
+    sent_today_paid_applications_total_netto = sum(
+        [
+            CrmWebinarService(_).total_netto_value_of_webinar()
+            for _ in sent_today_paid_applications
+        ]
+    )
 
     return TemplateResponse(
         request,
@@ -65,6 +71,7 @@ def crm_upcoming_webinars(request):
             "upcoming_webinars_count": webinars.count(),
             "sent_today_paid_applications": sent_today_paid_applications,
             "sent_today_paid_applications_count": sent_today_paid_applications.count(),
+            "sent_today_paid_applications_total_netto": f"{sent_today_paid_applications_total_netto:,} zł",
             "mailing_processes_num": settings.MAILING_NUM_OF_PROCESSES,
             "param_any": param_any,
             "param_hide_old": param_hide_old,

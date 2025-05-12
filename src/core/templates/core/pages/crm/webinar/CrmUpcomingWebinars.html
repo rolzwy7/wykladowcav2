@@ -144,10 +144,18 @@ Kliknij, aby załadować statystyki. Klikaj pojedynczo i <b>czekaj aż się zał
 {{mailing_processes_num}}
 <br>
 
-<b>DZISIAJ ZGŁOSZEŃ</b>
-{{sent_today_paid_applications_count}}
-
-{{sent_today_paid_applications}}
+{% if sent_today_paid_applications_count %}
+  <b>DZISIAJ ZGŁOSZEŃ</b>
+  <b class="bg-dark text-white px-2">
+    {{sent_today_paid_applications_total_netto}}
+  </b>
+  <br>
+  {{sent_today_paid_applications_count}}
+  
+  {{sent_today_paid_applications}}
+  {% else %}
+  <b>BRAK DZISIAJ ZGŁOSZEŃ</b>
+{% endif %}
 
 <hr>
 
