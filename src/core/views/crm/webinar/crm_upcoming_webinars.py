@@ -5,7 +5,7 @@ from django.template.response import TemplateResponse
 from django.utils import timezone
 from django.utils.timezone import now
 
-from core.models import CrmNote, Webinar, WebinarApplication
+from core.models import CrmNote, Webinar, WebinarApplication, WebinarParticipant
 from core.models.enums import ApplicationStatus
 from core.services import CrmWebinarService
 
@@ -56,12 +56,15 @@ def crm_upcoming_webinars(request):
     sent_today_paid_applications = WebinarApplication.manager.filter(
         status=ApplicationStatus.SENT, created_at__date=timezone.now().date()
     )
-    # sent_today_paid_applications_total_netto = sum(
-    #     [
-    #         CrmWebinarService(_).total_netto_value_of_webinar()
-    #         for _ in sent_today_paid_applications
-    #     ]
-    # )
+
+    today_total_netto = 0
+    for application in sent_today_paid_applications:
+        count_participants = (
+            WebinarParticipant.manager.get_valid_participants_for_application(
+                application
+            ).count()
+        )
+        today_total_netto += application.price_netto * count_participants
 
     return TemplateResponse(
         request,
@@ -71,6 +74,7 @@ def crm_upcoming_webinars(request):
             "upcoming_webinars_count": webinars.count(),
             "sent_today_paid_applications": sent_today_paid_applications,
             "sent_today_paid_applications_count": sent_today_paid_applications.count(),
+            "today_total_netto": f"{today_total_netto:,} zł",
             # "sent_today_paid_applications_total_netto": f"{sent_today_paid_applications_total_netto:,} zł",
             "mailing_processes_num": settings.MAILING_NUM_OF_PROCESSES,
             "param_any": param_any,

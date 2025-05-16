@@ -145,14 +145,14 @@ Kliknij, aby załadować statystyki. Klikaj pojedynczo i <b>czekaj aż się zał
 <br>
 
 {% if sent_today_paid_applications_count %}
-  <b>DZISIAJ ZGŁOSZEŃ</b>
-  <b class="bg-dark text-white px-2">
-    {{sent_today_paid_applications_total_netto}}
+  <b>
+    DZISIAJ ZGŁOSZEŃ:
+    <span class="fs-4">{{sent_today_paid_applications_count}}</span>
   </b>
-  <br>
-  {{sent_today_paid_applications_count}}
-  
-  {{sent_today_paid_applications}}
+  &nbsp;|&nbsp;
+  <b class="bg-dark text-white px-2">
+    {{today_total_netto}} NETTO
+  </b>
   {% else %}
   <b>BRAK DZISIAJ ZGŁOSZEŃ</b>
 {% endif %}
@@ -169,19 +169,28 @@ Kliknij, aby załadować statystyki. Klikaj pojedynczo i <b>czekaj aż się zał
 {% for crm_note in crm_notes %}
 <div class="alert alert-{{crm_note.color}} d-flex align-items-center p-5">
   <div class="d-flex flex-column">
-      <h4 class="mb-1 text-dark">{{crm_note.note_title|safe}}</h4>
+      <h4 class="mb-1 text-dark">
+        {{crm_note.note_title|safe}}
+        <a href="{% url "admin:core_crmnote_change" object_id=crm_note.id %}">🔗</a>
+      </h4>
       <span>
         {{crm_note.note_content_html|safe}}
       </span>
       {% if crm_note.deadline %}
       {% endif %}
       <br>
+      {% if crm_note.deadline_progress_remaining_days %}
       <span>
         Pozostało: <b>{{crm_note.deadline_progress_remaining_days}} dni</b> ( Deadline {{crm_note.deadline|date:"j E Y H:i"}} )
       </span>
       <div class="h-8px bg-secondary rounded mb-1">
         <div class="bg-{{crm_note.deadline_progress_color}} rounded h-8px" style="width: {{crm_note.deadline_progress_percent}}%;"></div>
       </div>
+      {% else %}
+      <span>
+        PO TERMINIE ({{crm_note.deadline|date:"j E Y H:i"}})
+      </span>
+      {% endif %}
   </div>
 </div>
 {% endfor %}
