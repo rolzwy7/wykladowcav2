@@ -1,0 +1,47 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+
+{% block crm_content %}
+    <h1>CRM Agregaty</h1>
+
+    {% for aggregate in aggregates %}
+    
+    grouping_token: <b>{{aggregate.grouping_token}}</b>
+    <br>
+    slug_conflict: {{aggregate.slug_conflict}}
+    <br>
+    title_conflict: {{aggregate.title_conflict}}
+    <br>
+    title: <b>{{aggregate.title}}</b>
+    <br>
+    absolute_redirect: {{aggregate.absolute_redirect}}
+    <br>
+    parent: {{aggregate.parent}}
+    <br>
+    slug: {{aggregate.slug}}
+    <br>
+    webinars:
+    <ol class="m-0">
+        {% for webinar in aggregate.webinars.all %}
+            <li>
+                {{webinar}} -
+                <a href="{% url 'core:crm_webinar_detail_dashboard' pk=webinar.pk %}">CRM</a> -
+                <a href="{% url 'admin:core_webinar_change' object_id=webinar.id %}">CMS</a> -
+                <a href="{% url 'core:webinar_program_page' slug=webinar.slug %}">Strona</a>
+            </li>
+        {% endfor %}
+    </ol>
+
+    <br>
+    categories: {{aggregate.categories.all}}
+    <br>
+
+    <hr>
+    
+    {% endfor %}
+
+{% endblock crm_content %}
+
+{% block body_scripts %}{% endblock body_scripts %}

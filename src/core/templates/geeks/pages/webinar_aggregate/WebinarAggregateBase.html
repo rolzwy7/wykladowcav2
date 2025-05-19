@@ -85,9 +85,6 @@
           <div>
             <h1 class="text-white display-4 fw-semibold">
               {{webinar.title}}
-              {% if request.user.is_staff and webinar.is_fake %}
-              <span class="bg-danger py-2">FAKE'OWY TERMIN</span>
-              {% endif %}
             </h1>
             {% if webinar.description %}  
               <p class="text-white mb-6 lead">
@@ -228,11 +225,13 @@
           class="col-lg-4 col-md-12 col-12 mt-lg-n22"
         >
 
-          {% comment %} Lecturer's card {% endcomment %}
-          {% include './components/lecturer_card.html' with lecturer=webinar.lecturer %}
+          {% if lecturer %}
+            {% comment %} Lecturer's card {% endcomment %}
+            {% include './components/lecturer_card.html' with lecturer=lecturer %}
+          {% endif %}
           
           
-          {% if webinar.is_archival %}
+          {% if not any_active_webinar %}
           <!-- Card -->
           <div class="card mb-4 border border-primary">
             <!-- Card Header -->
@@ -264,9 +263,6 @@
 
           {% comment %} Date and hour card {% endcomment %}
           {% include './components/agg_date_and_hour_card.html' %}
-
-          {% comment %} Related webinars {% endcomment %}
-          {% include './components/related_webinars.html' with related_webinars=related_webinars %}
 
           {% comment %} What we offer {% endcomment %}
           {% include './components/what_we_offer.html' with webinar=webinar %}
@@ -321,10 +317,11 @@
 
               </div>
               
-              {% if not webinar.is_archival %}
               <div class="d-grid">
+
+                {% if any_active_webinar %}
                 <a
-                  href="{% url 'core:application_choose_webinar' grouping_token=webinar_aggregate.grouping_token %}"
+                  href="{% url 'core:application_choose_webinar' slug=aggregate.slug %}"
                   rel="nofollow"
                   class="btn btn-primary border-0"
                   style="background-color: #f1416c"
@@ -332,6 +329,7 @@
                   Zapisz się teraz!
                 </a>
                 <hr>
+                {% endif %}
                 <a
                   href="#"
                   rel="nofollow"
@@ -355,7 +353,6 @@
                   Pobierz ulotkę
                 </a> {% endcomment %}
               </div>
-              {% endif %}
 
             </div>
           </div>
@@ -379,7 +376,7 @@
     </div>
     <div>
       <a
-        href="{% url 'core:application_choose_webinar' grouping_token=webinar_aggregate.grouping_token %}"
+        href="{% url 'core:application_choose_webinar' slug=aggregate.slug %}"
         rel="nofollow"
         class="btn btn-danger"
         style="background-color: #f1416c; font-size: 0.8rem;">

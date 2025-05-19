@@ -1,0 +1,21 @@
+{% if par_program_assets %}
+<div class="card bg-light-primary mb-3">
+  <div class="card-body">
+    <div class="program-assets-enriched fw-semibold lh-base" id="reveal_list" style="overflow: hidden;height: 100px;">
+      {{par_program_assets|safe}}
+    </div>
+    <div id="reveal_grad_card"></div>
+  </div>
+  <div id="reveal_program_footer" class="card-footer bg-light-primary text-center">
+    <button type="button" id="reveal_program_assets" class="btn btn-primary mb-2" style="position: relative;z-index: 999;">
+      Zobacz więcej
+    </button>
+  </div>
+</div>
+{% endif %}
+
+<div class="program-enriched fw-semibold lh-base">
+    {% comment %} {{webinar.program_pretty|safe}} {% endcomment %}
+    {{par_program|safe}}
+</div>
+

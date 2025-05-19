@@ -67,7 +67,7 @@ urlpatterns = [
         name="application_pdf_card",
     ),
     path(
-        "wybierz-termin/<str:grouping_token>/",
+        "wybierz-termin/<str:slug>/",
         application_choose_webinar,
         name="application_choose_webinar",
     ),

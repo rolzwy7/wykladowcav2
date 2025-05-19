@@ -212,6 +212,15 @@ class Webinar(Model):
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
 
+    webinar_aggregate = ForeignKey(
+        "WebinarAggregate",
+        on_delete=SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Agregat",
+        help_text="(Samo się wypełni) Agregat grupujący terminy webinarów",
+    )
+
     fakturownia_category = ForeignKey(
         "FakturowniaCategory",
         on_delete=SET_NULL,

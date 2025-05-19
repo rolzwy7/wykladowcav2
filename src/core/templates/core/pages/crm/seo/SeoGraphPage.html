@@ -1,0 +1,43 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+
+{% block crm_content %}
+    <h1>SEO Graf</h1>
+
+    <div id="cy" style="width: 100%; height: 800px;background-color:white;"></div>
+{% endblock crm_content %}
+
+
+
+{% block body_scripts %}
+<script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+<script>
+  cytoscape({
+    container: document.getElementById('cy'),
+    elements: {{elements|safe}},
+      {% comment %}
+        { data: { id: 'a', label: 'Decide' }, classes: 'aggregate' },
+        { data: { id: 'b' }, classes: 'webinar' },
+        { data: { id: 'ab', source: 'a', target: 'b' } }
+      {% endcomment %}
+    style: [
+      { selector: 'node', style: { 'label': 'data(label)' } },
+      { selector: 'edge', style: { 'curve-style': 'bezier', 'target-arrow-shape': 'triangle' } },
+      { selector: '.aggregate', style: {'shape': 'triangle'} },
+      { selector: '.webinar', style: {'shape': 'ellipse'} }
+    ],
+    layout: {
+      name: 'grid'
+    }
+    {% comment %} layout: {
+      name: 'dagre',
+      rankDir: 'TB',
+      nodeSep: 60 60,
+      edgeSep: 20,
+      rankSep: 100
+    } {% endcomment %}
+  });
+</script>
+{% endblock body_scripts %}

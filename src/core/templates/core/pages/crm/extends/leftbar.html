@@ -134,6 +134,16 @@ data-kt-sticky-zindex="95"
           </a>
       </div>
       <!--end::Menu item-->
+      <!--begin::Menu item-->
+      <div class="menu-item">
+          <a href="{% url "core:seo_graph_page" %}" class="menu-link px-1 py-3">
+              <span class="menu-bullet me-0">
+                  <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Graph</span>
+          </a>
+      </div>
+      <!--end::Menu item-->
   </div>
   <!--end::Menu sub-->
   </div>
@@ -533,21 +543,36 @@ data-kt-sticky-zindex="95"
     </a>
   </div>
   <!--end::Menu item-->
-    <!--begin::Menu item-->
-    <div class="menu-item">
-        <a
-          href="{% url 'core:crm_eventlogs' %}"
-          class="menu-link {% if request.path == '/crm/logi/' %}active{% endif %}"
-        >
-        <span class="menu-icon">
-          <i class="ki-duotone ki-abstract-26 fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
-        </span>
-          <span class="menu-title">
-            Logi
-        </span>
-        </a>
-      </div>
-      <!--end::Menu item-->
+  <!--begin::Menu item-->
+  <div class="menu-item">
+      <a
+        href="{% url 'core:crm_eventlogs' %}"
+        class="menu-link {% if request.path == '/crm/logi/' %}active{% endif %}"
+      >
+      <span class="menu-icon">
+        <i class="ki-duotone ki-abstract-26 fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+      </span>
+        <span class="menu-title">
+          Logi
+      </span>
+      </a>
+    </div>
+    <!--end::Menu item-->
+  <!--begin::Menu item-->
+  <div class="menu-item">
+      <a
+        href="{% url "core:crm_aggregates_page" %}"
+        class="menu-link {% if request.path == '/crm/agregaty/' %}active{% endif %}"
+      >
+      <span class="menu-icon">
+        <i class="ki-duotone ki-abstract-26 fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+      </span>
+        <span class="menu-title">
+          Agregaty
+      </span>
+      </a>
+    </div>
+    <!--end::Menu item-->
 
 
   </div>

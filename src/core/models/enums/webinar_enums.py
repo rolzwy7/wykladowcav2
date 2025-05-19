@@ -35,14 +35,6 @@ class WebinarStatus:
     DONE = "DONE"
 
 
-class WebinarAggregateStatus:
-    """Webinar aggregate status enum"""
-
-    DRAFT = "DRAFT"
-    PUBLISHED = "PUBLISHED"
-    REJECTED = "REJECTED"
-
-
 # When you add durations here remember to add them to `WEBINAR_CLICKMEETING_DURATION` too
 # TODO: ^ make test for that
 class WebinarDuration:

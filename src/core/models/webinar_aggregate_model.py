@@ -1,23 +1,31 @@
 """Webinar Aggregate"""
 
-from django.db.models import CharField, Manager, Model, QuerySet, SlugField
+# flake8: noqa=E501
+
+from django.db.models import (
+    SET_NULL,
+    BooleanField,
+    CharField,
+    ForeignKey,
+    Manager,
+    ManyToManyField,
+    Model,
+    Q,
+    QuerySet,
+    SlugField,
+    TextField,
+)
 
 from core.consts import SLUG_HELP_TEXT
-from core.models.enums import WebinarAggregateStatus
 
 
 class WebinarAggregateManager(Manager):
     """WebinarAggregate Manager"""
 
-    def get_published_aggregates(self) -> QuerySet["WebinarAggregate"]:
-        """Returns `done` webinars
-
-        Returns:
-            QuerySet['Webinar']: queryset of webinars
-        """
+    def get_active_aggregates(self) -> QuerySet["WebinarAggregate"]:
+        """get_active_aggregates"""
         return self.get_queryset().filter(
-            # Only show webinars with given status
-            status=WebinarAggregateStatus.PUBLISHED
+            Q(slug_conflict=False) & Q(title_conflict=False)
         )
 
 
@@ -26,14 +34,34 @@ class WebinarAggregate(Model):
 
     manager = WebinarAggregateManager()
 
-    STATUS = [
-        (WebinarAggregateStatus.DRAFT, "Wersja robocza"),
-        (WebinarAggregateStatus.PUBLISHED, "Opublikowany"),
-        (WebinarAggregateStatus.REJECTED, "Odrzucony"),
-    ]
+    grouping_token = CharField(
+        "Token grupujący",
+        max_length=32,
+        primary_key=True,
+        help_text="Ciąg znaków grupujący razem terminy",
+    )
 
-    status = CharField(
-        max_length=32, default=WebinarAggregateStatus.DRAFT, choices=STATUS
+    slug_conflict = BooleanField("Slug conflict", default=False)
+    title_conflict = BooleanField("Title conflict", default=False)
+
+    title = TextField(
+        "Tytuł szkolenia",
+        max_length=220,
+        blank=True,
+        help_text=(
+            "Tytuł szkolenia zmodyfikowany,"
+            " aby mieścił się w ogrniczonej ilości znaków"
+        ),
+    )
+
+    absolute_redirect = CharField(max_length=32, blank=True)
+
+    parent = ForeignKey(
+        "WebinarAggregate",
+        on_delete=SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Rodzic",
     )
 
     slug = SlugField(
@@ -43,12 +71,14 @@ class WebinarAggregate(Model):
         help_text=SLUG_HELP_TEXT,
     )
 
-    grouping_token = CharField(
-        "Token grupujący",
-        max_length=32,
-        primary_key=True,
-        help_text="Ciąg znaków grupujący razem terminy",
+    webinars = ManyToManyField(
+        "Webinar", verbose_name="Terminy", help_text="[Autouzupełnianie]", blank=True
+    )
+
+    # Categories
+    categories = ManyToManyField(
+        "WebinarCategory", verbose_name="Kategorie", blank=True
     )
 
     def __str__(self) -> str:
-        return f"gt-{self.grouping_token}"
+        return f"{self.grouping_token}"

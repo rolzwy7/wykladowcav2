@@ -94,7 +94,7 @@ def create_mailing_campaign(request):
         # Start sending tomorrow
         send_after = now()
         send_after = send_after + timedelta(days=1)
-        send_after = send_after.replace(hour=2, minute=0, second=0)
+        send_after = send_after.replace(hour=1, minute=9, second=9)
 
         day_of_week = now().weekday()
 
@@ -108,8 +108,8 @@ def create_mailing_campaign(request):
             template=template,
             resignation_list=resignation_list,
             status=MailingCampaignStatus.SENDING,
-            allowed_to_send_after=time(5, (10 * ((day_of_week + 1) % 7)) % 60, 0, 0),
-            allowed_to_send_before=time(16, 0, 0, 0),
+            allowed_to_send_after=time(4, (10 * (day_of_week % 7)) % 60, 0, 0),
+            allowed_to_send_before=time(22, 0, 0, 0),
             send_after=send_after,
             is_main_campaign=True,
         )

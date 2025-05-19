@@ -6,24 +6,20 @@
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 
-from core.models import Webinar, WebinarAggregate
+from core.models import WebinarAggregate
 
 
-def application_choose_webinar(request, grouping_token: str):
+def application_choose_webinar(request, slug: str):
     """application_choose_webinar"""
     template_name = "geeks/pages/application/ApplicationChooseWebinarPage.html"
 
-    webinar_aggregate = get_object_or_404(
-        WebinarAggregate, grouping_token=grouping_token
-    )
-    webinars = (
-        Webinar.manager.get_active_webinars()
-        .filter(grouping_token=grouping_token)
-        .order_by("date")
-    )
+    webinar_aggregate = get_object_or_404(WebinarAggregate, slug=slug)
 
     return TemplateResponse(
         request,
         template_name,
-        {"webinar_aggregate": webinar_aggregate, "webinars": webinars},
+        {
+            "webinar_aggregate": webinar_aggregate,
+            "webinars": webinar_aggregate.webinars.all(),
+        },
     )

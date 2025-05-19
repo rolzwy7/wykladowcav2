@@ -2,38 +2,62 @@
 
 # flake8: noqa=E501
 
-from django.shortcuts import get_object_or_404, redirect
+from django.http import Http404
+from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
-from django.urls import reverse
 
+from core.libs.webinar_aggregate import resolve_aggregate_redirect
 from core.models import Webinar, WebinarAggregate
 
 
 def webinar_aggregate_page(request, slug: str):
     """webinar_aggregate_page"""
-    template_name = "geeks/pages/webinarv3/WebinarAggregatePage.html"
+    template_name = "geeks/pages/webinar_aggregate/WebinarAggregatePage.html"
 
-    webinar_aggregate = get_object_or_404(WebinarAggregate, slug=slug)
+    # Get webinar aggregate
+    aggregate = get_object_or_404(WebinarAggregate, slug=slug)
 
-    webinars = (
-        Webinar.manager.get_active_webinars()
-        .filter(grouping_token=webinar_aggregate.grouping_token)
-        .order_by("date")
-    )
+    agg_redirect = resolve_aggregate_redirect(aggregate)
+    if agg_redirect:
+        return agg_redirect
 
-    if webinars.exists():
-        webinar = webinars.first()
+    # Get all webinars from aggregate
+    aggregate_all_webinars = aggregate.webinars.all().order_by("date")
+
+    # If aggregate doesn't have any webinar return 404
+    if not aggregate_all_webinars:
+        return Http404()
+
+    # Get first webinar as reference webinar
+    webinar = aggregate_all_webinars.first()
+
+    # Get all active webinars on webiste
+    active_webinars = Webinar.manager.get_active_webinars()
+
+    # Get active webinars for this aggregate
+    aggregate_active_webinars = [
+        _ for _ in aggregate_all_webinars if active_webinars.filter(id=_.id).exists()
+    ]
+    any_active_webinar = bool(aggregate_active_webinars)
+
+    # If any webinar is anonymized -> whole aggragate is anonymized
+    anonymized = any([_.is_lecturer_anonymized for _ in aggregate_all_webinars])
+
+    # Get lecturer
+    if anonymized:
+        lecturer = None
     else:
-        webinar = Webinar.manager.all().filter(
-            grouping_token=webinar_aggregate.grouping_token
-        )
+        lecturer = webinar.lecturer  # type: ignore
 
     return TemplateResponse(
         request,
         template_name,
         {
-            "webinar_aggregate": webinar_aggregate,
-            "webinars": webinars,
+            "aggregate": aggregate,
             "webinar": webinar,
+            "anonymized": anonymized,
+            "any_active_webinar": any_active_webinar,
+            "lecturer": lecturer,
+            "aggregate_active_webinars": aggregate_active_webinars,
         },
     )

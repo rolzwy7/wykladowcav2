@@ -5,6 +5,7 @@ from django.urls import include, path
 from core.views.crm import (
     conference_from_webinar,
     confirm_free_participants,
+    crm_aggregates_page,
     crm_blacklist_paste,
     crm_clickmeeting_paste_stream,
     crm_contact_messages,
@@ -45,6 +46,7 @@ from core.views.crm.crm_archived_webinars import (
 from core.views.crm.inbox import crm_inbox_message_page, crm_inbox_page
 from core.views.crm.mailing import download_emails_from_sender_page
 from core.views.crm.recording import crm_send_recording_to_all_participants
+from core.views.crm.seo import seo_graph_page
 from core.views.crm.service_offer import service_offer_applications_list_page
 from core.views.crm.sms import crm_send_sms
 from core.views.crm.statistics import crm_statistics_dashboard
@@ -313,6 +315,18 @@ urlpatterns = [
         "wyslij-sms/",
         crm_send_sms,
         name="crm_send_sms",
+    ),
+    # SEO
+    path(
+        "seo/graf/",
+        seo_graph_page,
+        name="seo_graph_page",
+    ),
+    # CRM Aggregates
+    path(
+        "agregaty/",
+        crm_aggregates_page,
+        name="crm_aggregates_page",
     ),
     # Upcoming webinars
     path(

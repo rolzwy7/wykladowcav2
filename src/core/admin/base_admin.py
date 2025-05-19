@@ -51,17 +51,9 @@ from core.models import (
 class WebinarAggregateModelAdmin(ModelAdmin):
     """WebinarAggregateModelAdmin"""
 
-    list_display = [
-        "__str__",
-        "status",
-        "slug",
-    ]
+    list_display = ["__str__", "slug", "slug_conflict", "parent"]
 
     search_fields = ["grouping_token", "slug"]
-
-    list_filter = [
-        "status",
-    ]
 
 
 admin.site.register(CrmNote)
