@@ -18,6 +18,8 @@ from core.views.crm import (
     crm_todos_list,
     crm_upcoming_webinars,
     crm_url_to_program,
+    crm_user_password_reset,
+    crm_users_page,
     crm_webinar_analysis,
     crm_webinar_assets,
     crm_webinar_bulk_duplicate,
@@ -327,6 +329,18 @@ urlpatterns = [
         "agregaty/",
         crm_aggregates_page,
         name="crm_aggregates_page",
+    ),
+    # CRM Users
+    path(
+        "uzytkownicy/",
+        crm_users_page,
+        name="crm_users_page",
+    ),
+    # User password reset
+    path(
+        "user-password-reset/<int:pk>/",
+        crm_user_password_reset,
+        name="crm_user_password_reset",
     ),
     # Upcoming webinars
     path(

@@ -21,6 +21,8 @@ from .crm_resignations_plaintext import crm_resignations_plaintext
 from .crm_take_over_account import crm_take_over_account
 from .crm_todos_list import crm_todos_done_list, crm_todos_list
 from .crm_url_to_program import crm_url_to_program
+from .crm_user_password_reset import crm_user_password_reset
+from .crm_users_page import crm_users_page
 from .crm_webinar_bulk_duplicate import crm_webinar_bulk_duplicate
 from .crm_word_to_program_text import crm_word_to_program_text
 from .webinar import (

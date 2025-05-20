@@ -1,0 +1,44 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+
+{% block crm_content %}
+    <h1>CRM Użytkownicy</h1>
+
+    <div>
+        <form action="./">
+            <input type="text" name="q" value="{{search_query}}" placeholder="Szukaj użytkownika">
+            <input type="submit" value="Szukaj">
+            {% if search_query %}
+            <a href="./" class="btn">Resetuj wyszukiwanie</a>
+            {% endif %}
+        </form>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr class="fw-bold fs-6 text-gray-800">
+                    <th>Użytkownik</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>
+                        {{user}}
+                        <a href="{% url "core:crm_user_password_reset" pk=user.id %}">
+                            Resetuj hasło
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock crm_content %}
+
+{% block body_scripts %}{% endblock body_scripts %}

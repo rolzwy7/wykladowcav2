@@ -574,6 +574,22 @@ data-kt-sticky-zindex="95"
     </div>
     <!--end::Menu item-->
 
+    <!--begin::Menu item-->
+  <div class="menu-item">
+      <a
+        href="{% url "core:crm_users_page" %}"
+        class="menu-link {% if request.path == '/crm/uzytkownicy/' %}active{% endif %}"
+      >
+      <span class="menu-icon">
+        <i class="ki-duotone ki-abstract-26 fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+      </span>
+        <span class="menu-title">
+          Użytkownicy
+      </span>
+      </a>
+    </div>
+    <!--end::Menu item-->
+
 
   </div>
   <!--end::Menu-->
