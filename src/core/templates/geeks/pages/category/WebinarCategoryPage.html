@@ -1,293 +1,266 @@
 {% extends './WebinarCategoryBase.html' %}
-
 {% load static %}
 
 {% block title %}
-   <title>{{page_title}}</title>
+<title>{{category.title}} | {{COMPANY_NAME}}</title>
 {% endblock title %}
 
 {% block content %}
-<section class="py-1">
-    <div class="container">
-       <div class="row">
-          <div class="col-md-12">
-             <!-- Tab content -->
-             <div class="tab-content" id="pills-tabContent">
-                <div
-                   class="tab-pane fade show active"
-                   id="pills-course"
-                   role="tabpanel"
-                   aria-labelledby="pills-course-tab"
-                   >
-                   <!-- Tab pane -->
-                   <div class="row">
-                      <div class="col-12">
-                         <div class="row mt-0 mt-md-4">
-                            <div class="col-lg-3 col-md-4 col-12">
-                               {% if menu_categories %}
-                               <!-- Side navabar -->
-                               <nav
-                                  class="navbar navbar-expand-md navbar-light shadow-sm mb-4 mb-lg-0 sidenav"
+<section class="py-5">
+  <div class="container">
+    <div class="row gy-5 gy-lg-0">
+      <div class="col-xxl-3 col-lg-4 col-12">
+
+        {% comment %}
+          
+          <div class="d-flex flex-column">
+            <div class="d-flex flex-row align-items-center justify-content-between mt-2 mb-3">
+              <div class="d-flex flex-row gap-2 align-items-center">
+                <a class="text-inherit d-none d-lg-flex gap-2" href="#">
+                  <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sliders text-dark" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1z"></path>
+                    </svg>
+                  </span>
+                  <span class="fw-semibold text-dark">Filtry</span>
+                </a>
+                <a class="text-inherit d-lg-none d-flex flex-row gap-2" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                  <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sliders text-dark" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1z"></path>
+                    </svg>
+                  </span>
+                  <span class="fw-semibold text-dark">Filtry</span>
+                </a>
+              </div>
+              <div>
+                <button id="clearButton" style="display: none" class="btn btn-light border btn-sm">
+                  <span>Wyczyść</span>
+                  <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"></path>
+                      <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"></path>
+                    </svg>
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div class="offcanvas offcanvas-start offcanvas-collapse" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+              <div class="offcanvas-header d-lg-none">
+                <h5 class="offcanvas-title" id="offcanvasExampleLabel">Filtry</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              </div>
+              <div class="offcanvas-body pt-0 p-lg-0">
+                <div class="d-flex flex-column gap-3">
+                  <div class="card">
+                    <div class="card-body p-3">
+                      <div class="">
+                        <!-- Toggle -->
+                        <a class="d-flex align-items-center h4 mb-0 justify-content-between" data-bs-toggle="collapse" href="#coursTopic" role="button" aria-expanded="false" aria-controls="coursTopic">
+                          <div>Temat szkolenia</div>
+                          <!-- Chevron -->
+                          <span class="chevron-arrow ms-4">
+                          <i class="fe fe-chevron-down fs-4"></i>
+                          </span>
+                        </a>
+                        <!-- Row -->
+                        <!-- Collapse -->
+                        <div class="collapse show" id="coursTopic" data-bs-parent="#courseAccordion">
+                          <div class="d-flex flex-column">
+                            <ul class="list-unstyled mb-1 d-flex flex-column gap-1 mt-3">
+                              {% for menu_category in menu_categories %}
+                              <li class="d-flex flex-row gap-2">
+                                <div class="form-check">
+                                  <input
+                                    class="form-check-input filter-checkbox"
+                                    type="checkbox"
+                                    name="cat-{{menu_category.id}}" id="cat-{{menu_category.id}}"
                                   >
-                                  <!-- Navbar Collapse -->
-                                  <div id="sidenav">
-                                     <div class="navbar-nav flex-column">
-                                        <!-- Navbar header -->
-                                        <span class="navbar-header">
-                                          {% if slug == "wszystkie-szkolenia" %}
-                                          Kategorie szkoleń
-                                          {% else %}
-                                          Podkategorie
-                                          {% endif %}
-                                        </span>
-                                        <ul class="list-unstyled ms-n2 mb-4">
-                                          {% if parent %}
-                                           <li class="nav-item">
-                                              <a
-                                                 class="nav-link"
-                                                 href="{% url 'core:webinar_category_page' slug=parent.slug %}"
-                                                 >
-                                              <i class="fe fe-arrow-left nav-icon"></i>
-                                              Wróć
-                                              </a>
-                                           </li>
-                                           {% endif %}
-                                           {% for menu_category in menu_categories %}
-                                           <li class="nav-item {% if slug == menu_category.slug %}active{% endif %}">
-                                              <a
-                                                 class="nav-link"
-                                                 href="{% url 'core:webinar_category_page' slug=menu_category.slug %}"
-                                                 >
-                                              <i class="fe fe-book nav-icon"></i>
-                                              {{menu_category.name}}
-                                              </a>
-                                           </li>
-                                           {% endfor %}
-                                        </ul>
-                                     </div>
-                                  </div>
-                               </nav>
-                               {% else %}
-
-                               {% if category.parent %}
-                               <nav
-                                  class="navbar navbar-expand-md navbar-light shadow-sm mb-4 mb-lg-0 sidenav"
-                                  >
-                                  <!-- Navbar Collapse -->
-                                  <div id="sidenav">
-                                     <div class="navbar-nav flex-column">
-                                        <!-- Navbar header -->
-                                        <span class="navbar-header">Kategoria główna</span>
-                                        <ul class="list-unstyled ms-n2 mb-4">
-                                           </li>
-                                           <!-- Nav item -->
-                                           <li class="nav-item">
-                                              <a
-                                                 class="nav-link"
-                                                 href="{% url 'core:webinar_category_page' slug=category.parent.slug %}"
-                                                 >
-                                              <i class="fe fe-book nav-icon"></i>
-                                              {{category.parent.name}}
-                                              </a>
-                                           </li>
-                                        </ul>
-                                     </div>
-                                  </div>
-                               </nav>
-                               {% endif %}
-                               {% endif %}
-
-
-                               <!--Patron-->
-                               <div class="card {% if menu_categories %}mt-4{% endif %} js-sticky-widget">
-                                  <!-- Card body -->
-                                  <div class="card-body">
-                                     <div class="d-flex align-items-center">
-                                        <div class="position-relative">
-                                           <img
-                                              src="{% static 'media//avatars/300-12.webp' %}"
-                                              alt="avatar"
-                                              class="rounded-circle avatar-xl"
-                                              />
-                                           <a
-                                              href="#"
-                                              class="position-absolute mt-2 ms-n3"
-                                              >
-                                           <img
-                                              src="{% static 'geeks/assets/images/svg/checked-mark.svg' %}"
-                                              alt="checked-mark"
-                                              height="30"
-                                              width="30"
-                                              />
-                                           </a>
-                                        </div>
-                                        <div class="ms-4">
-                                           <h4 class="mb-0">{{PATRON_FIRST_NAME}} {{PATRON_LAST_NAME}}</h4>
-                                           <p class="mb-1 fs-6">{{PATRON_JOB_TITLE}}</p>
-                                        </div>
-                                     </div>
-                                     <div class="row mt-3 mb-3 g-0">
-                                        <div class="col-12">
-                                           <div class="pe-1 ps-2 py-3">
-                                              <h5 class="mb-0">E-mail</h5>
-                                              <span>
-                                              <a href="mailto:{{PATRON_EMAIL}}">
-                                              {{PATRON_EMAIL}}
-                                              </a>
-                                              </span>
-                                           </div>
-                                        </div>
-                                        <div class="col-12">
-                                           <div class="pe-1 ps-2 py-1">
-                                              <h5 class="mb-0">Numer telefonu</h5>
-                                              <span>
-                                              {{PATRON_PHONE}}
-                                              </span>
-                                           </div>
-                                        </div>
-                                     </div>
-                                     <div class="text-center">
-                                        <a
-                                           href="#"
-                                           data-bs-toggle="modal" data-bs-target="#askQuestionModal"
-                                           class="btn btn-outline-primary btn-sm"
-                                           >
-                                        Zadaj pytanie
-                                        </a>
-                                     </div>
-                                  </div>
-                               </div>
-
-                            </div>
-                            <div class="col-lg-9 col-md-8 col-12">
-                               <!-- Card -->
-                               
-                              {% if trusted_us %}
-                                 {% include "./components/trusted_us_category_logos.html" with trusted_us=trusted_us %} 
-                              {% endif %}
-
-                               <div class="card">
-                                  {% comment %} <!-- Card header -->
-                                  <div class="card-header">
-                                     <h3 class="mb-0">
-                                        {% if slug == "wszystkie" %}
-                                        {{category_name}}
-                                        {% else %}
-                                        Szkolenia {{category_name}}
-                                        {% endif %}
-                                     </h3>
-                                     <p>
-                                        {{short_description}}
-                                     </p>
-                                  </div> {% endcomment %}
-                                  <!-- Table -->
-                                  {% if webinars %}
-                                  <div class="table-responsive overflow-y-hidden">
-                                     <table
-                                        class="table mb-0 text-nowrap table-hover table-centered text-nowrap"
-                                        >
-                                        {% comment %} <thead class="table-light">
-                                           <tr>
-                                              <th class="bg-white" scope="col">Szkolenie</th>
-                                              <th class="bg-white" scope="col">Data / Cena</th>
-                                           </tr>
-                                        </thead> {% endcomment %}
-                                        <tbody>
-                                          <tr>
-                                             <td>
-                                                {% if slug == "darmowe-webinary" %}
-                                                <h3>Bezpłatne webinary</h3>
-                                                {% else %}
-                                                <h3>Szkolenia aktualne</h3>
-                                                {% endif %}
-                                             </td>
-                                          </tr>
-                                           {% for webinar in webinars %}
-                                             {% include 'geeks/components/webinar_tr.html' with webinar=webinar show_image=1 %}
-                                           {% endfor %}
-
-                                           {% comment %}
-                                             {% if archived_webinars %}
-                                               <tr>
-                                                  <td>
-                                                     <h3>Szkolenia archiwalne</h3>
-                                                  </td>
-                                               </tr>
-                                               {% for webinar in archived_webinars %}
-                                                  {% include 'geeks/components/webinar_tr.html' with webinar=webinar show_image=0 %}
-                                               {% endfor %}
-                                           {% endif %}
-                                           {% endcomment %}
-
-
-                                        </tbody>
-                                     </table>
-                                  </div>
-                                  {% else %}
-                                  <div class="mt-2 p-5">
-                                     <h2 class="text-center">Brak szkoleń</h2>
-                                     <p class="text-center">
-                                       Obecnie nie prowadzimy szkoleń z kategorii <i>{{category_name}}</i>.
-                                    </p>
-                                     <p class="text-center">
-                                       Jednakże, jeśli są Państwo zainteresowani otrzymywaniem powiadomień o naszych przyszłych szkoleniach, <br>
-                                       zachęcamy do zapisania się do naszego newslettera.
-                                     </p>
-                                     <p class="text-center fw-bold">
-                                       Będziesz na bieżąco z naszą ofertą! <br>
-                                       <a href="https://mailchi.mp/b5e14cbaf165/zapis-do-listy-mailingowej" target="_blank" rel="nofollow">
-                                          Kliknij tutaj, aby dołączyć do naszej listy subskrybentów.
-                                       </a>
-                                    </p>
-                                    </div>
-                                  {% endif %}
-
-                               </div>
-                            </div>
-                         </div>
+                                  <label class="form-check-label text-secondary" for="cat-{{menu_category.id}}" style="user-select: none;">
+                                    {{menu_category.name}}
+                                  </label>
+                                </div>
+                              </li>
+                              {% endfor %}
+                            </ul>
+                          </div>
+                        </div>
                       </div>
-                   </div>
+                    </div>
+                  </div>
                 </div>
-             </div>
+              </div>
+            </div>
           </div>
-       </div>
+          
+        {% endcomment %}
+        <div class="card js-sticky-widget">
+          <!-- Card body -->
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <div class="position-relative">
+                <img
+                  src="{% static 'media//avatars/300-12.webp' %}"
+                  alt="avatar"
+                  class="rounded-circle avatar-xl"
+                  />
+                <a
+                  href="#"
+                  class="position-absolute mt-2 ms-n3"
+                  >
+                <img
+                  src="{% static 'geeks/assets/images/svg/checked-mark.svg' %}"
+                  alt="checked-mark"
+                  height="30"
+                  width="30"
+                  />
+                </a>
+              </div>
+              <div class="ms-4">
+                <h4 class="mb-0">{{PATRON_FIRST_NAME}} {{PATRON_LAST_NAME}}</h4>
+                <p class="mb-1 fs-6">{{PATRON_JOB_TITLE}}</p>
+              </div>
+            </div>
+            <div class="row mt-3 mb-3 g-0">
+              <div class="col-12">
+                <div class="pe-1 ps-2 py-3">
+                  <h5 class="mb-0">E-mail</h5>
+                  <span>
+                  <a href="mailto:{{PATRON_EMAIL}}" class="fs-6">
+                  {{PATRON_EMAIL}}
+                  </a>
+                  </span>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="pe-1 ps-2 py-1">
+                  <h5 class="mb-0">Numer telefonu</h5>
+                  <span>
+                  {{PATRON_PHONE}}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="text-center">
+              <a
+                href="#"
+                data-bs-toggle="modal" data-bs-target="#askQuestionModal"
+                class="btn btn-primary btn-sm"
+                >
+              Zadaj pytanie
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-xxl-9 col-lg-8 col-12">
+        <div class="d-flex flex-column gap-3">
+
+        {% for aggregate in aggregates %}
+        {% if aggregate.has_active_webinars %}
+        {% include "./components/aggregate_row_card.html" with aggregate=aggregate %}
+        {% endif %}
+        {% endfor %}
+
+        {% for aggregate in aggregates %}
+        {% if not aggregate.has_active_webinars %}
+        {% include "./components/aggregate_row_card.html" with aggregate=aggregate %}
+        {% endif %}
+        {% endfor %}
+
+{% comment %}
+            <div>
+              <p style="font-size: 18px;font-weight: 500;">Zobacz powiązane szkolenia</p>
+  
+              <div class="row">
+                <div class="col-12 col-sm-4">
+                    <p style="font-size: 14px;line-height: 0.8em;">
+                      <a href="#">Test A</a>
+                    </p>
+                    <p style="font-size: 14px;line-height: 0.8em;">
+                      <a href="#">Test B</a>
+                    </p>
+                    <p style="font-size: 14px;line-height: 0.8em;">
+                      <a href="#">Test C</a>
+                    </p>
+                </div>
+                <div class="col-12 col-sm-4">
+                    <p style="font-size: 14px;line-height: 0.8em;">
+                      <a href="#">Test A</a>
+                    </p>
+                    <p style="font-size: 14px;line-height: 0.8em;">
+                      <a href="#">Test B</a>
+                    </p>
+                    <p style="font-size: 14px;line-height: 0.8em;">
+                      <a href="#">Test C</a>
+                    </p>
+                </div>
+                <div class="col-12 col-sm-4">
+                    <p style="font-size: 14px;line-height: 0.8em;">
+                      <a href="#">Test A</a>
+                    </p>
+                    <p style="font-size: 14px;line-height: 0.8em;">
+                      <a href="#">Test B</a>
+                    </p>
+                    <p style="font-size: 14px;line-height: 0.8em;">
+                      <a href="#">Test C</a>
+                    </p>
+                </div>
+              </div>
+{% endcomment %}
+                        
+            <p style="font-size: 18px;font-weight: 500;">Zobacz także</p>
+            
+            <p style="font-size: 14px;line-height: 0.8em;">
+              {% for category, count, _ in CACHED_MAIN_CATEGORIES %}
+              <a href="{% url 'core:webinar_category_page' slug=category.slug %}">{{category.title}}</a>{% if not forloop.last %},{% endif %}
+              {% endfor %}
+            </p>
+
+          </div>
+
+        </div>
+      </div>
     </div>
- </section>
+  </div>
+</section>
 
- <div class="modal fade" id="askQuestionModal" tabindex="-1" role="dialog" aria-labelledby="askQuestionModalTitle" aria-hidden="true">
-   <div class="modal-dialog modal-dialog-centered" role="document">
-     <div class="modal-content">
-       <div class="modal-header">
-         <h5 class="modal-title" id="askQuestionModalTitle">Zadaj pytanie</h5>
-         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-         </button>
-       </div>
-       <div class="modal-body">
-         <div hx-get="{% url 'htmx:htmx_contact_message' %}?related_to={{request.path}}" hx-trigger="load">
-           Ładowanie ...
-         </div>
-       </div>
-     </div>
-   </div>
- </div>
+
+
+<div class="modal fade" id="askQuestionModal" tabindex="-1" role="dialog" aria-labelledby="askQuestionModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="askQuestionModalTitle">Zadaj pytanie</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+        </button>
+      </div>
+      <div class="modal-body">
+        <div hx-get="{% url 'htmx:htmx_contact_message' %}?related_to={{request.path}}" hx-trigger="load">
+          Ładowanie ...
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock content %}
-
-{%block body_scripts %}
-    <script src="{% static 'js/htmx.min.js' %}"></script>
-    <script>
-        document.body.addEventListener('htmx:configRequest', (event) => {
-            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
-        })
-    </script>
-    <script src="{% static 'js/sticksy.min.js' %}"></script>
-    <script>
-        var stickyElement = new Sticksy('.js-sticky-widget', {topSpacing: 51});
-        stickyElement.onStateChanged = function (state) {
-            if(state === 'fixed') {
-               stickyElement.nodeRef.classList.add('widget--sticky')
-            } else {
-               stickyElement.nodeRef.classList.remove('widget--sticky')
-            }
-        }
-    </script>
+{% block body_scripts %}
+<script src="{% static 'js/htmx.min.js' %}"></script>
+<script>
+  document.body.addEventListener('htmx:configRequest', (event) => {
+     event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+  })
+</script>
+<script src="{% static 'js/sticksy.min.js' %}"></script>
+<script>
+   var stickyElement = new Sticksy('.js-sticky-widget', {topSpacing: 80});
+   stickyElement.onStateChanged = function (state) {
+      if(state === 'fixed') {
+         stickyElement.nodeRef.classList.add('widget--sticky')
+      } else {
+         stickyElement.nodeRef.classList.remove('widget--sticky')
+      }
+   }
+</script>
 {% endblock body_scripts %}

@@ -2,10 +2,11 @@ from django.http import HttpRequest
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 
+from core.consts import TelegramChats
 from core.consts.requests_consts import POST
 from core.models import Webinar, WebinarCategory
 from core.models.enums import LeadSource
-from core.services import LeadService
+from core.services import LeadService, TelegramService
 
 
 def lead_footer_post_endpoint(request: HttpRequest):
@@ -41,6 +42,12 @@ def lead_webinar_post_endpoint(request: HttpRequest, pk: int):
             LeadSource.ARCHIVED_WEBINAR,
             request=request,
             categories=[_ for _ in webinar.categories.all()],
+        )
+
+        telegram_service = TelegramService()
+        telegram_service.try_send_chat_message(
+            f"Lead: {email} - {webinar.title}",
+            TelegramChats.OTHER,
         )
 
     return redirect(reverse("core:leads_thanks_page"))

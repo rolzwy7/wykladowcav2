@@ -7,16 +7,15 @@ Base URLs
 from django.urls import include, path
 from django.views.generic.base import RedirectView
 
-from core.views import (
-    about_us_page,
-    contact_page,
-    home_page,
-    login_page,
-    logout_page,
-    webmap_page,
+from core.views import contact_page, login_page, logout_page, webmap_page
+from core.views.about_us_page import about_us_page
+from core.views.closed_webinar_contact_page import (
+    closed_webinar_contact_page,
+    closed_webinar_contact_sent_page,
 )
 from core.views.custom_error_pages import custom404_page, custom500_page
 from core.views.custom_html_site_page import custom_html_site_page
+from core.views.home_page import home_page
 from core.views.krajowy_fundusz_szkoleniowy_page import krajowy_fundusz_szkoleniowy_page
 from core.views.lecturer import lecturer_list_page
 from core.views.mailing_resignation import (
@@ -135,6 +134,16 @@ urlpatterns = [
         "krajowy-fundusz-szkoleniowy/",
         krajowy_fundusz_szkoleniowy_page,
         name="krajowy_fundusz_szkoleniowy_page",
+    ),
+    path(
+        "szkolenia-zamkniete/",
+        closed_webinar_contact_page,
+        name="closed_webinar_contact_page",
+    ),
+    path(
+        "szkolenia-zamkniete/wyslano/",
+        closed_webinar_contact_sent_page,
+        name="closed_webinar_contact_sent_page",
     ),
     path("", home_page, name="homepage"),
 ]

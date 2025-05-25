@@ -51,7 +51,11 @@ class WebinarCategory(Model):
 
     visible = BooleanField("Widoczna na stronie", default=True)
     name = CharField("Nazwa kategorii", max_length=100)
-    short_description = CharField("Krótki opis", max_length=100, blank=True)
+    name_homepage = CharField(
+        "Nazwa kategorii (strona główna)", max_length=100, blank=True
+    )
+    title = CharField("Tytuł kategorii", max_length=100, blank=True)
+    short_description = CharField("Krótki opis", max_length=500, blank=True)
     icon_html = TextField("Ikona HTML", blank=True)
 
     slug = SlugField(

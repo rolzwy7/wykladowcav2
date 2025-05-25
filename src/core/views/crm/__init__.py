@@ -1,6 +1,6 @@
 # flake8: noqa
 from .conference import conference_from_webinar, confirm_free_participants
-from .crm_aggregates_page import crm_aggregates_page
+from .crm_aggregates_page import crm_aggregates_page, crm_aggregates_webinar_list_page
 from .crm_blacklist_paste import crm_blacklist_paste
 from .crm_contact_messages import crm_contact_messages
 from .crm_eventlogs import crm_eventlogs

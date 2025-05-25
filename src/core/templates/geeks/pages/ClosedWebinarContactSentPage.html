@@ -1,0 +1,41 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+
+{% block title %}
+   <title>Szkolenia zamknięte (wewnętrzne) dla firm - {{COMPANY_NAME}}</title>
+{% endblock title %}
+
+{% block root %}
+
+<main>
+  <!-- Page Content -->
+  <section class="container-fluid">
+    <div class="row">
+      <!-- col -->
+      <div class="offset-xl-1 col-xl-12 col-lg-12 col-md-12 col-12">
+        <div class="py-8 me-xl-8 pe-xl-8">
+          <!-- content -->
+          <div>
+            <h1 class="display-4 fw-bold">Zapytanie zostało wysłane</h1>
+            <p class="lead text-dark">
+               Zapytanie zostało pomyślnie wysłane. Wkrótce się z Państwem skontaktujemy!
+            </p>
+
+            <div class="mt-4 fs-4">
+                <p>
+                    Kliknij tutaj, aby powrócić do strony głównej:
+                    <a href="/">
+                        <b>Strona główna</b>
+                    </a>
+                </p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+{% endblock root %}

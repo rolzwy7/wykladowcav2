@@ -58,6 +58,7 @@ def crm_upcoming_webinars(request):
     )
 
     today_total_netto = 0
+    sent_today_paid_applications_with_netto = []
     for application in sent_today_paid_applications:
         count_participants = (
             WebinarParticipant.manager.get_valid_participants_for_application(
@@ -65,6 +66,13 @@ def crm_upcoming_webinars(request):
             ).count()
         )
         today_total_netto += application.price_netto * count_participants
+        sent_today_paid_applications_with_netto.append(
+            (
+                application,
+                count_participants,
+                application.price_netto * count_participants,
+            )
+        )
 
     return TemplateResponse(
         request,
@@ -73,6 +81,7 @@ def crm_upcoming_webinars(request):
             "crm_notes": CrmNote.manager.get_notes(),
             "upcoming_webinars_count": webinars.count(),
             "sent_today_paid_applications": sent_today_paid_applications,
+            "sent_today_paid_applications_with_netto": sent_today_paid_applications_with_netto,
             "sent_today_paid_applications_count": sent_today_paid_applications.count(),
             "today_total_netto": f"{today_total_netto:,} zł",
             # "sent_today_paid_applications_total_netto": f"{sent_today_paid_applications_total_netto:,} zł",

@@ -1,0 +1,95 @@
+{% load static %}
+
+<div class="row gy-4">
+<div class="col-12">
+    <div class="row g-0">
+    <div class="col-lg-2 col-md-12 d-none d-lg-block">
+        {% if aggregate.lecturer.avatar %}
+        <img
+            src="{% get_media_prefix %}uploads/lecturers/{{aggregate.lecturer.slug}}_160x160.webp"
+            alt="figma"
+            class="img-fluid w-100 rounded mb-4 mb-lg-0"
+        >
+        {% endif %}
+    </div>
+    <div class="col-lg-10 col-12 ps-4">
+        <div class="d-flex flex-column gap-3">
+        <div class="d-flex flex-column gap-3">
+            <div>
+            {% comment %}
+                <span class="badge border border-light-subtle rounded-pill bg-danger text-white">
+                    Gorący temat
+                </span>
+            {% endcomment %}
+            {% if aggregate.is_new %}
+            <span class="badge bg-primary border border-light-subtle rounded-pill">
+                Nowość
+            </span>
+            {% endif %}
+            {% comment %} category {% endcomment %}
+            {% for agg_category in aggregate.categories.all %}
+            {% if agg_category.id != category.id and agg_category.parent.id == category.id %}
+            <span class="badge text-light-emphasis bg-light-subtle border border-light-subtle rounded-pill">
+                {{agg_category.name}}
+            </span>
+            {% endif %}
+            {% endfor %}
+            </div>
+            <div class="d-flex flex-column gap-2">
+            <h3 class="mb-0">
+                <a href="{% url "core:webinar_aggregate_page" slug=aggregate.slug %}" class="text-reset">
+                {{aggregate.title}}
+                </a>
+                {% if request.user.is_staff %}
+                <a href="{% url "admin:core_webinaraggregate_change" object_id=aggregate.grouping_token %}"><b>CMS</b></a>
+                {% endif %}
+            </h3>
+            {% if aggregate.short_description %}
+            <p class="mb-0">
+                {{aggregate.short_description}}
+            </p>
+            {% endif %}
+            {% if not aggregate.is_anonymized %}
+            <span class="text-gray-500">
+            Wykładowca:
+            <a href="{% url "core:lecturer_experience_page" slug=aggregate.lecturer.slug %}">{{aggregate.lecturer}}</a>
+            </span>
+            {% endif %}
+            </div>
+        </div>
+        
+        <div>
+            {% for webinar in aggregate.webinars.all %}
+                {% if webinar.is_active %}
+                    <span class="badge text-light-emphasis bg-light-subtle border border-light-subtle rounded-pill bg-secondary fs-4">
+                        {{webinar.date|date:"j E Y"}} godz. {{webinar.date|date:"H:i"}}
+                    </span>
+                {% endif %}
+            {% endfor %}
+            </div>
+        
+
+            <div class="d-flex flex-row gap-2 align-items-center justify-content-between">
+            <span>
+                {% if aggregate.minimal_price %}
+                Cena od:
+                <span class="fw-semibold text-dark">
+                    {{aggregate.minimal_price}}zł {{PRICE_ADNOTATION}} za uczestnika
+                </span>
+                {% endif %}
+            </span>
+            <button
+                type="button"
+                class="btn btn-primary btn-xs d-none d-lg-block"
+                onclick="window.location.href='{% url "core:webinar_aggregate_page" slug=aggregate.slug %}'"
+            >
+                Zobacz program szkolenia
+            </button>
+        </div>
+
+        </div>
+    </div>
+    </div>
+    <hr class="my-4">
+</div>
+</div>

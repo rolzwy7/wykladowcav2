@@ -47,7 +47,7 @@ def webinar_aggregate_page(request, slug: str):
     if anonymized:
         lecturer = None
     else:
-        lecturer = webinar.lecturer  # type: ignore
+        lecturer = aggregate.lecturer  # type: ignore
 
     return TemplateResponse(
         request,

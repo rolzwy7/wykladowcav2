@@ -1,3 +1,5 @@
+# flake8: noqa=E501
+
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
@@ -27,16 +29,14 @@ def htmx_application_discount_panel(request: HttpRequest, pk: int):
                 discount_service.apply_refcode(discount_code)
             else:
                 # If code is not a refcode try to apply normal discount
-                discount_valid = discount_service.is_discount_code_valid(
-                    discount_code
-                )
+                discount_valid = discount_service.is_discount_code_valid(discount_code)
                 if discount_valid:
                     discount_service.create_application_discount_from_code(
                         discount_code
                     )
                 else:
                     error_msg = (
-                        "Kod jest niepoprawny, wygasł lub już został użyty"
+                        "Kod jest niepoprawny, wygasł lub został już wykorzystany"
                     )
     else:
         form = DiscountCodeForm()
@@ -46,9 +46,7 @@ def htmx_application_discount_panel(request: HttpRequest, pk: int):
 
     # Get display of total netto price
     application_service = ApplicationService(application)
-    preview_total_price_netto = (
-        application_service.get_preview_total_price_netto()
-    )
+    preview_total_price_netto = application_service.get_preview_total_price_netto()
 
     return TemplateResponse(
         request,

@@ -1,1 +1,10 @@
-from .webinar_aggregate import connect_webinar_to_aggregate, resolve_aggregate_redirect
+from .webinar_aggregate import (
+    aggregate_add_category,
+    aggregate_add_webinar,
+    aggregate_refresh_categories,
+    aggregate_update_closest_webinar_dt,
+    aggregate_update_conflicts,
+    aggregate_update_has_active_webinars,
+    get_or_create_aggregate,
+    resolve_aggregate_redirect,
+)

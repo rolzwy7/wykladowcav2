@@ -1,3 +1,4 @@
+{% if aggregate_active_webinars %}
 <div class="card mb-3 mb-4">
     <div>
       <!-- Card header -->
@@ -7,11 +8,16 @@
       <ul class="list-group list-group-flush">
         {% for agg_webinar in aggregate_active_webinars %}
         <li class="list-group-item bg-transparent">
-          <i class="fe fe-map-pin align-middle me-1 text-success"></i>
+          {% comment %} <i class="fe fe-map-pin align-middle me-1 text-success"></i>
           Online
+          <br> {% endcomment %}
+          {% if request.user.is_staff %}
+          <a href="{% url "admin:core_webinar_change" object_id=agg_webinar.id %}"><b>CMS</b></a>
+          <a href="{% url 'core:crm_webinar_detail_dashboard' pk=agg_webinar.pk %}"><b>CRM</b></a>
           <br>
+          {% endif %}
           <i class="fe fe-calendar align-middle me-1 text-info"></i>
-          <b>{{agg_webinar.date|date:"j E Y"}} r.</b> ({{agg_webinar.date|date:"l"}})
+          <b>{{agg_webinar.date|date:"j E Y"}} r.</b> ({{agg_webinar.date|date:"l"}}) — Online
           <br>
           <i class="fe fe-clock align-middle me-1 text-warning"></i>
           godz. {{agg_webinar.date|date:"H:i"}} - {{agg_webinar.date_end|date:"H:i"}}
@@ -65,3 +71,4 @@
     </div>
 
   </div>
+  {% endif %}

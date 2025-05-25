@@ -1,0 +1,145 @@
+{% extends 'geeks/extends/foundation.html' %}
+
+{% load static %}
+
+{% block title %}
+   <title>Szkolenia zamknięte (wewnętrzne) dla firm - {{COMPANY_NAME}}</title>
+{% endblock title %}
+
+{% block body_tag %}
+<body class="bg-white">
+{% endblock body_tag %}
+
+{% block root %}
+<main>
+  <!-- Page Content -->
+  <section class="container-fluid">
+    <div class="row  min-vh-100">
+      <!-- col -->
+      <div class="offset-xl-1 col-xl-5 col-lg-6 col-md-12 col-12">
+        <div class="py-8 me-xl-8 pe-xl-8">
+          <!-- content -->
+          <div>
+            <h1 class="display-4 fw-bold">Szkolenia zamknięte</h1>
+            <p class="lead text-dark">
+                Jeśli planują Państwo przeprowadzenie szkolenia wewnętrznego (zamkniętego) dla swoich pracowników, zachęcamy do kontaktu.
+            </p>
+
+            <div class="mt-4 fs-4">
+                <ul class="list-unstyled mb-0 d-flex flex-column gap-2">
+                    <li class="d-flex flex-row gap-2">
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill text-success" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"></path>
+                        </svg>
+                    </span>
+                    <span>
+                        Zaprezentujemy dostępne opcje.
+                    </span>
+                    </li>
+                    <li class="d-flex flex-row gap-2">
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill text-success" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"></path>
+                        </svg>
+                    </span>
+                    <span>
+                        Omówimy Państwa potrzeby.
+                    </span>
+                    </li>
+                    <li class="d-flex flex-row gap-2">
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill text-success" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"></path>
+                        </svg>
+                    </span>
+                    <span>
+                        Przygotujemy indywidualną ofertę.
+                    </span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="mt-4 fs-4">
+                <p>
+                    Zapytania prosimy kierować na
+                    <a href="mailto:{{COMPANY_OFFICE_EMAIL}}?subject=Szkolenie zamknięte - zapytanie">
+                        <b>{{COMPANY_OFFICE_EMAIL}}</b>
+                    </a>
+                </p>
+                <p>
+                    <u>lub</u> skorzystać z formularza obok.
+                </p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- background color -->
+      <div class="col-lg-6 d-lg-flex align-items-center w-lg-50  position-fixed-lg bg-cover bg-light top-0 right-0 ">
+        <div class="px-4 px-xl-8 mx-xl-8 py-8 py-lg-0">
+          <!-- form section -->
+          <div>
+            <!-- form row -->
+            <form
+                method="post"
+                action="{% url "core:closed_webinar_contact_page" %}"
+                class="row needs-validation"
+                novalidate="">
+                {% csrf_token %}
+
+                <div class="mb-3 col-12 col-md-12">
+                    <label class="form-label" for="id_full_name">
+                        Imię i Nazwisko:
+                        <span class="text-danger">*</span>
+                    </label>
+                    {{ form.full_name }}
+                </div>
+
+                <div class="mb-3 col-12 col-md-12">
+                    <label class="form-label fw-normal" for="id_company">
+                        Firma (opcjonalnie):
+                    </label>
+                    {{ form.company }}
+                </div>
+
+                <div class="mb-3 col-12 col-md-12">
+                    <label class="form-label fw-normal" for="id_phone">
+                        Telefon (opcjonalnie):
+                    </label>
+                    {{ form.phone }}
+                </div>
+
+                <div class="mb-3 col-12 col-md-12">
+                    <label class="form-label" for="id_email">
+                        E-mail:
+                        <span class="text-danger">*</span>
+                    </label>
+                    {{ form.email }}
+                </div>
+
+                <div class="mb-3 col-12 col-md-12">
+                    <label class="form-label" for="id_message">
+                        Treść wiadomości:
+                        <span class="text-danger">*</span>
+                    </label>
+                    {{ form.message }}
+                    <small class="form-text text-muted">
+                        Maksymalna długość treści wiadomości to 1000 znaków.
+                    </small>
+                </div>
+                
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">
+                        Wyślij Zapytanie
+                    </button>
+                </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock root %}

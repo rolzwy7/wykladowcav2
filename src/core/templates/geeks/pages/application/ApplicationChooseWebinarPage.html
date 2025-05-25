@@ -7,7 +7,7 @@
         <div class="card mb-4">
             <!-- Card header -->
             <div class="card-header">
-                <h3 class="mb-0">Wybierz termin szkolenia</h3>
+                <h3 class="mb-0">Wybierz termin szkolenia: {{webinar_aggregate.title}}</h3>
                 <span>{{step_description}}</span>
             </div>
             <!-- Card body -->
@@ -17,7 +17,7 @@
                     <div class="col-12">
                         {% for webinar in webinars %}
                         
-                        <div class="card shadow-lg">
+                        <div class="card shadow-lg mb-3">
                             <div class="card-body">
                               <h4 class="card-title text-dark">
                                 <b>{{webinar.date|date:"j E Y"}} r.</b> ({{webinar.date|date:"l"}}) godzina {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}

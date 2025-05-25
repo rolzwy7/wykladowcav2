@@ -6,6 +6,7 @@ from core.views.crm import (
     conference_from_webinar,
     confirm_free_participants,
     crm_aggregates_page,
+    crm_aggregates_webinar_list_page,
     crm_blacklist_paste,
     crm_clickmeeting_paste_stream,
     crm_contact_messages,
@@ -329,6 +330,12 @@ urlpatterns = [
         "agregaty/",
         crm_aggregates_page,
         name="crm_aggregates_page",
+    ),
+    # CRM Aggregates
+    path(
+        "agregaty/spis-terminow/",
+        crm_aggregates_webinar_list_page,
+        name="crm_aggregates_webinar_list_page",
     ),
     # CRM Users
     path(

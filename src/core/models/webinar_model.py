@@ -464,6 +464,19 @@ class Webinar(Model):
         )
 
     @property
+    def is_active(self):
+        """Is webinar active"""
+
+        return all(
+            [
+                self.status in [WebinarStatus.INIT, WebinarStatus.CONFIRMED],
+                self.is_hidden is False,
+                self.date
+                >= now() - timedelta(minutes=settings.WEBINAR_ARCHIVE_DELAY_MINUTES),
+            ]
+        )
+
+    @property
     def human_date(self):
         """Display webinar datetime in human format"""
         return _date(self.date, "j E Y - H:i")

@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
 
-from core.models import ConferenceEdition, Webinar
+from core.models import ConferenceEdition, Webinar, WebinarAggregate
 from core.services import OpinionsService
 from core.services.lecturer import LecturerService
 from core.services.webinar import WebinarService
@@ -30,6 +30,13 @@ def webinar_termin_page_v3(request, slug: str):
                     kwargs={"slug_edition": edition.slug},
                 )
             )
+
+    # If webinar is not active redirect to aggregate
+    if not webinar.is_active:
+        aggregate = WebinarAggregate.manager.get(grouping_token=webinar.grouping_token)
+        return redirect(
+            reverse("core:webinar_aggregate_page", kwargs={"slug": aggregate.slug})
+        )
 
     webinar_service = WebinarService(webinar)
     lecturer_service = LecturerService(webinar.lecturer)

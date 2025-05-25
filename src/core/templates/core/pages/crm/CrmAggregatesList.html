@@ -1,0 +1,83 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+
+{% block crm_content %}
+    <h1>
+        CRM Agregaty Spis Terminów
+        <a href="./" title="Odśwież">🔄</a>
+    </h1>
+
+<form action="./">
+    <label for="id_grouping_token">grouping_token</label>
+    <input type="text" name="q_grouping_token" id="id_grouping_token" value="{{q_grouping_token}}">
+    
+    <label for="id_title">title</label>
+    <input type="text" name="q_title" id="id_title" value="{{q_title}}">
+    
+    <label for="id_lecturer">lecturer</label>
+    <input type="text" name="q_lecturer" id="id_lecturer" value="{{q_lecturer}}">
+    
+    <input type="submit" value="Szukaj">
+    
+    {% if q_grouping_token or q_title or q_lecturer %}
+    <a href="./">
+        Wyczyść wyszukiwanie
+    </a>
+    {% endif %}
+</form>
+
+<p>
+    <small><i>
+        *Do `grouping_token` wpisz "pusty", żeby wyszukać webianary z pustym polem `grouping_token`
+    </i></small>
+</p>
+
+<table id="kt_datatable_zero_configuration" class="table table-row-bordered gy-5">
+    <thead>
+        <tr class="fw-bold fs-6 text-gray-800">
+            <th>Webinar</th>
+            <th>Data</th>
+            <th>Wykładowca</th>
+            <th>Token grupujący</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for webinar in webinars %}
+        <tr>
+            <td>
+                {{webinar.title}} - 
+                <a href="{% url 'admin:core_webinar_change' object_id=webinar.id %}">
+                    CMS
+                </a>
+            </td>
+            <td>{{webinar.date|date:"Y-n-j"}}</td>
+            <td>{{webinar.lecturer.fullname}}</td>
+            <td>{{webinar.grouping_token}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>Webinar</th>
+            <th>Data</th>
+            <th>Wykładowca</th>
+            <th>Token grupujący</th>
+        </tr>
+    </tfoot>
+</table>
+
+{% endblock crm_content %}
+
+{% block body_scripts %}
+<script src="{% static 'plugins/custom/datatables/datatables.bundle.js' %}"></script>
+<script>
+    $("#kt_datatable_zero_configuration").DataTable(
+        {
+            pageLength: 5000,
+            lengthMenu: [10, 25, 50, 100, 1000, 5000, 10000],
+        }
+    );
+</script>
+{% endblock body_scripts %}

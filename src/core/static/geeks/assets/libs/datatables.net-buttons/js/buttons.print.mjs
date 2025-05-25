@@ -20,9 +20,7 @@ var _link = document.createElement('a');
  * @param  {node}     el Element to convert
  */
 var _styleToAbs = function (el) {
-	var url;
 	var clone = $(el).clone()[0];
-	var linkHost;
 
 	if (clone.nodeName.toLowerCase() === 'link') {
 		clone.href = _relToAbs(clone.href);
@@ -59,16 +57,18 @@ DataTable.ext.buttons.print = {
 		return dt.i18n('buttons.print', 'Print');
 	},
 
-	action: function (e, dt, button, config) {
+	action: function (e, dt, button, config, cb) {
 		var data = dt.buttons.exportData(
 			$.extend({ decodeEntities: false }, config.exportOptions) // XSS protection
 		);
 		var exportInfo = dt.buttons.exportInfo(config);
+
+		// Get the classes for the columns from the header cells
 		var columnClasses = dt
 			.columns(config.exportOptions.columns)
-			.flatten()
-			.map(function (idx) {
-				return dt.settings()[0].aoColumns[dt.column(idx).index()].sClass;
+			.nodes()
+			.map(function (n) {
+				return n.className;
 			})
 			.toArray();
 
@@ -78,9 +78,20 @@ DataTable.ext.buttons.print = {
 			for (var i = 0, ien = d.length; i < ien; i++) {
 				// null and undefined aren't useful in the print output
 				var dataOut = d[i] === null || d[i] === undefined ? '' : d[i];
-				var classAttr = columnClasses[i] ? 'class="' + columnClasses[i] + '"' : '';
+				var classAttr = columnClasses[i]
+					? 'class="' + columnClasses[i] + '"'
+					: '';
 
-				str += '<' + tag + ' ' + classAttr + '>' + dataOut + '</' + tag + '>';
+				str +=
+					'<' +
+					tag +
+					' ' +
+					classAttr +
+					'>' +
+					dataOut +
+					'</' +
+					tag +
+					'>';
 			}
 
 			return str + '</tr>';
@@ -90,7 +101,27 @@ DataTable.ext.buttons.print = {
 		var html = '<table class="' + dt.table().node().className + '">';
 
 		if (config.header) {
-			html += '<thead>' + addRow(data.header, 'th') + '</thead>';
+			var headerRows = data.headerStructure.map(function (row) {
+				return (
+					'<tr>' +
+					row
+						.map(function (cell) {
+							return cell
+								? '<th colspan="' +
+										cell.colspan +
+										'" rowspan="' +
+										cell.rowspan +
+										'">' +
+										cell.title +
+										'</th>'
+								: '';
+						})
+						.join('') +
+					'</tr>'
+				);
+			});
+
+			html += '<thead>' + headerRows.join('') + '</thead>';
 		}
 
 		html += '<tbody>';
@@ -100,7 +131,27 @@ DataTable.ext.buttons.print = {
 		html += '</tbody>';
 
 		if (config.footer && data.footer) {
-			html += '<tfoot>' + addRow(data.footer, 'th') + '</tfoot>';
+			var footerRows = data.footerStructure.map(function (row) {
+				return (
+					'<tr>' +
+					row
+						.map(function (cell) {
+							return cell
+								? '<th colspan="' +
+										cell.colspan +
+										'" rowspan="' +
+										cell.rowspan +
+										'">' +
+										cell.title +
+										'</th>'
+								: '';
+						})
+						.join('') +
+					'</tr>'
+				);
+			});
+
+			html += '<tfoot>' + footerRows.join('') + '</tfoot>';
 		}
 		html += '</table>';
 
@@ -137,6 +188,15 @@ DataTable.ext.buttons.print = {
 			$(win.document.head).html(head); // Old IE
 		}
 
+		// Add any custom scripts (for example for paged.js)
+		if (config.customScripts) {
+			config.customScripts.forEach(function (script) {
+				var tag = win.document.createElement("script");
+				tag.src = script;
+				win.document.getElementsByTagName("head")[0].appendChild(tag);
+			});
+		}
+
 		// Inject the table and other surrounding information
 		win.document.body.innerHTML =
 			'<h1>' +
@@ -168,14 +228,12 @@ DataTable.ext.buttons.print = {
 			}
 		};
 
-		if (navigator.userAgent.match(/Trident\/\d.\d/)) {
-			// IE needs to call this without a setTimeout
-			autoPrint();
-		}
-		else {
-			win.setTimeout(autoPrint, 1000);
-		}
+		win.setTimeout(autoPrint, 1000);
+
+		cb();
 	},
+
+	async: 100,
 
 	title: '*',
 
@@ -187,7 +245,7 @@ DataTable.ext.buttons.print = {
 
 	header: true,
 
-	footer: false,
+	footer: true,
 
 	autoPrint: true,
 

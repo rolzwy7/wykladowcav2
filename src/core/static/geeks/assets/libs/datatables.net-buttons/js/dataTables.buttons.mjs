@@ -1,4 +1,4 @@
-/*! Buttons for DataTables 2.4.2
+/*! Buttons for DataTables 3.1.1
  * © SpryMedia Ltd - datatables.net/license
  */
 
@@ -54,6 +54,10 @@ function _fadeOut(el, duration, fn) {
  * @param {[type]}
  */
 var Buttons = function (dt, config) {
+	if (!DataTable.versionCheck('2')) {
+		throw 'Warning: Buttons requires DataTables 2 or newer';
+	}
+
 	// If not created with a `new` keyword then we return a wrapper function that
 	// will take the settings object for a DT. This allows easy use of new instances
 	// with the `layout` option - e.g. `topLeft: $.fn.dataTable.Buttons( ... )`.
@@ -93,7 +97,9 @@ var Buttons = function (dt, config) {
 	};
 
 	this.dom = {
-		container: $('<' + this.c.dom.container.tag + '/>').addClass(this.c.dom.container.className)
+		container: $('<' + this.c.dom.container.tag + '/>').addClass(
+			this.c.dom.container.className
+		)
 	};
 
 	this._constructor();
@@ -182,7 +188,9 @@ $.extend(Buttons.prototype, {
 			buttons,
 			config,
 			config !== undefined ? config.split : undefined,
-			(config === undefined || config.split === undefined || config.split.length === 0) &&
+			(config === undefined ||
+				config.split === undefined ||
+				config.split.length === 0) &&
 				base !== undefined,
 			false,
 			idx
@@ -227,7 +235,8 @@ $.extend(Buttons.prototype, {
 						newBtn.config !== undefined &&
 						newBtn.config.split !== undefined,
 					true,
-					newBtn.parentConf !== undefined && newBtn.parentConf.split !== undefined,
+					newBtn.parentConf !== undefined &&
+						newBtn.parentConf.split !== undefined,
 					null,
 					newBtn.parentConf
 				);
@@ -253,7 +262,9 @@ $.extend(Buttons.prototype, {
 	disable: function (node) {
 		var button = this._nodeToButton(node);
 
-		$(button.node).addClass(this.c.dom.button.disabled).prop('disabled', true);
+		$(button.node)
+			.addClass(this.c.dom.button.disabled)
+			.prop('disabled', true);
 
 		return this;
 	},
@@ -304,7 +315,9 @@ $.extend(Buttons.prototype, {
 		}
 
 		var button = this._nodeToButton(node);
-		$(button.node).removeClass(this.c.dom.button.disabled).prop('disabled', false);
+		$(button.node)
+			.removeClass(this.c.dom.button.disabled)
+			.prop('disabled', false);
 
 		return this;
 	},
@@ -440,7 +453,9 @@ $.extend(Buttons.prototype, {
 		var dt = this.s.dt;
 		var jqNode = $(button.node);
 		var text = function (opt) {
-			return typeof opt === 'function' ? opt(dt, jqNode, button.conf) : opt;
+			return typeof opt === 'function'
+				? opt(dt, jqNode, button.conf)
+				: opt;
 		};
 
 		if (label === undefined) {
@@ -488,7 +503,10 @@ $.extend(Buttons.prototype, {
 
 		// Global key event binding to listen for button keys
 		$('body').on('keyup.' + this.s.namespace, function (e) {
-			if (!document.activeElement || document.activeElement === document.body) {
+			if (
+				!document.activeElement ||
+				document.activeElement === document.body
+			) {
 				// SUse a string of characters for fast lookup of if we need to
 				// handle this
 				var character = String.fromCharCode(e.keyCode).toLowerCase();
@@ -511,7 +529,9 @@ $.extend(Buttons.prototype, {
 	 */
 	_addKey: function (conf) {
 		if (conf.key) {
-			this.s.listenKeys += $.isPlainObject(conf.key) ? conf.key.key : conf.key;
+			this.s.listenKeys += $.isPlainObject(conf.key)
+				? conf.key.key
+				: conf.key;
 		}
 	},
 
@@ -579,7 +599,9 @@ $.extend(Buttons.prototype, {
 				this._expandButton(
 					attachTo,
 					conf,
-					built !== undefined && built.conf !== undefined ? built.conf.split : undefined,
+					built !== undefined && built.conf !== undefined
+						? built.conf.split
+						: undefined,
 					inCollection,
 					parentConf !== undefined && parentConf.split !== undefined,
 					attachPoint,
@@ -592,7 +614,8 @@ $.extend(Buttons.prototype, {
 				conf,
 				inCollection,
 				conf.split !== undefined ||
-					(conf.config !== undefined && conf.config.split !== undefined),
+					(conf.config !== undefined &&
+						conf.config.split !== undefined),
 				inSplit
 			);
 			if (!built) {
@@ -609,7 +632,9 @@ $.extend(Buttons.prototype, {
 
 			// Create the dropdown for a collection
 			if (built.conf.buttons) {
-				built.collection = $('<' + domCollection.container.content.tag + '/>');
+				built.collection = $(
+					'<' + domCollection.container.content.tag + '/>'
+				);
 				built.conf._collection = built.collection;
 
 				$(built.node).append(domCollection.action.dropHtml);
@@ -679,6 +704,7 @@ $.extend(Buttons.prototype, {
 	 * @private
 	 */
 	_buildButton: function (config, inCollection, isSplit, inSplit) {
+		var that = this;
 		var configDom = this.c.dom;
 		var textNode;
 		var dt = this.s.dt;
@@ -704,7 +730,12 @@ $.extend(Buttons.prototype, {
 		// Spacers don't do much other than insert an element into the DOM
 		if (config.spacer) {
 			var spacer = $('<' + dom.spacer.tag + '/>')
-				.addClass('dt-button-spacer ' + config.style + ' ' + dom.spacer.className)
+				.addClass(
+					'dt-button-spacer ' +
+						config.style +
+						' ' +
+						dom.spacer.className
+				)
 				.html(text(config.text));
 
 			return {
@@ -721,15 +752,19 @@ $.extend(Buttons.prototype, {
 
 		// Make sure that the button is available based on whatever requirements
 		// it has. For example, PDF button require pdfmake
-		if (config.available && !config.available(dt, config) && !config.hasOwnProperty('html')) {
+		if (
+			config.available &&
+			!config.available(dt, config) &&
+			!config.html
+		) {
 			return false;
 		}
 
 		var button;
 
-		if (!config.hasOwnProperty('html')) {
-			var action = function (e, dt, button, config) {
-				config.action.call(dt.button(button), e, dt, button, config);
+		if (!config.html) {
+			var run = function (e, dt, button, config, done) {
+				config.action.call(dt.button(button), e, dt, button, config, done);
 
 				$(dt.table().node()).triggerHandler('buttons-action.dt', [
 					dt.button(button),
@@ -739,8 +774,24 @@ $.extend(Buttons.prototype, {
 				]);
 			};
 
+			var action = function(e, dt, button, config) {
+				if (config.async) {
+					that.processing(button[0], true);
+
+					setTimeout(function () {
+						run(e, dt, button, config, function () {
+							that.processing(button[0], false);
+						});
+					}, config.async);
+				}
+				else {
+					run(e, dt, button, config, function () {});
+				}
+			}
+
 			var tag = config.tag || dom.tag;
-			var clickBlurs = config.clickBlurs === undefined ? true : config.clickBlurs;
+			var clickBlurs =
+				config.clickBlurs === undefined ? true : config.clickBlurs;
 
 			button = $('<' + tag + '/>')
 				.addClass(dom.className)
@@ -869,7 +920,13 @@ $.extend(Buttons.prototype, {
 			this._addKey(dropButtonConfig);
 
 			var splitAction = function (e, dt, button, config) {
-				_dtButtons.split.action.call(dt.button(splitDiv), e, dt, button, config);
+				_dtButtons.split.action.call(
+					dt.button(splitDiv),
+					e,
+					dt,
+					button,
+					config
+				);
 
 				$(dt.table().node()).triggerHandler('buttons-action.dt', [
 					dt.button(button),
@@ -881,7 +938,9 @@ $.extend(Buttons.prototype, {
 			};
 
 			var dropButton = $(
-				'<button class="' + dropdownConf.dropdown.className + ' dt-button"></button>'
+				'<button class="' +
+					dropdownConf.dropdown.className +
+					' dt-button"></button>'
 			)
 				.html(dropdownConf.dropdown.dropHtml)
 				.on('click.dtb', function (e) {
@@ -1181,7 +1240,7 @@ $.extend(Buttons.prototype, {
 	 * @param {DataTable.Api} hostButton DT API instance of the button
 	 * @param {object} inOpts Options (see object below for all options)
 	 */
-	_popover: function (content, hostButton, inOpts, e) {
+	_popover: function (content, hostButton, inOpts) {
 		var dt = hostButton;
 		var c = this.c;
 		var closed = false;
@@ -1205,7 +1264,8 @@ $.extend(Buttons.prototype, {
 			inOpts
 		);
 
-		var containerSelector = options.tag + '.' + options.containerClassName.replace(/ /g, '.');
+		var containerSelector =
+			options.tag + '.' + options.containerClassName.replace(/ /g, '.');
 		var hostNode = hostButton.node();
 
 		var close = function () {
@@ -1215,13 +1275,19 @@ $.extend(Buttons.prototype, {
 				$(this).detach();
 			});
 
-			$(dt.buttons('[aria-haspopup="dialog"][aria-expanded="true"]').nodes()).attr(
-				'aria-expanded',
-				'false'
-			);
+			$(
+				dt
+					.buttons('[aria-haspopup="dialog"][aria-expanded="true"]')
+					.nodes()
+			).attr('aria-expanded', 'false');
 
 			$('div.dt-button-background').off('click.dtb-collection');
-			Buttons.background(false, options.backgroundClassName, options.fade, hostNode);
+			Buttons.background(
+				false,
+				options.backgroundClassName,
+				options.fade,
+				hostNode
+			);
 
 			$(window).off('resize.resize.dtb-collection');
 			$('body').off('.dtb-collection');
@@ -1284,12 +1350,16 @@ $.extend(Buttons.prototype, {
 
 		if (options.popoverTitle) {
 			display.prepend(
-				'<div class="dt-button-collection-title">' + options.popoverTitle + '</div>'
+				'<div class="dt-button-collection-title">' +
+					options.popoverTitle +
+					'</div>'
 			);
 		}
 		else if (options.collectionTitle) {
 			display.prepend(
-				'<div class="dt-button-collection-title">' + options.collectionTitle + '</div>'
+				'<div class="dt-button-collection-title">' +
+					options.collectionTitle +
+					'</div>'
 			);
 		}
 
@@ -1321,7 +1391,8 @@ $.extend(Buttons.prototype, {
 			var computed = window.getComputedStyle(offsetParent[0]);
 
 			tableSizes.height = offsetParent.outerHeight();
-			tableSizes.width = offsetParent.width() + parseFloat(computed.paddingLeft);
+			tableSizes.width =
+				offsetParent.width() + parseFloat(computed.paddingLeft);
 			tableSizes.right = tableSizes.left + tableSizes.width;
 			tableSizes.bottom = tableSizes.top + tableSizes.height;
 
@@ -1354,25 +1425,36 @@ $.extend(Buttons.prototype, {
 					popoverSizes.marginBottom;
 			}
 
-			if (options.align === 'button-right' || display.hasClass(options.rightAlignClassName)) {
-				left = buttonPosition.left - popoverSizes.width + hostNode.outerWidth();
+			if (
+				options.align === 'button-right' ||
+				display.hasClass(options.rightAlignClassName)
+			) {
+				left =
+					buttonPosition.left -
+					popoverSizes.width +
+					hostNode.outerWidth();
 			}
 
 			// Container alignment - make sure it doesn't overflow the table container
-			if (options.align === 'dt-container' || options.align === 'container') {
+			if (
+				options.align === 'dt-container' ||
+				options.align === 'container'
+			) {
 				if (left < buttonPosition.left) {
 					left = -buttonPosition.left;
-				}
-
-				if (left + popoverSizes.width > tableSizes.width) {
-					left = tableSizes.width - popoverSizes.width;
 				}
 			}
 
 			// Window adjustment
-			if (containerPosition.left + left + popoverSizes.width > $(window).width()) {
+			if (
+				containerPosition.left + left + popoverSizes.width >
+				$(window).width()
+			) {
 				// Overflowing the document to the right
-				left = $(window).width() - popoverSizes.width - containerPosition.left;
+				left =
+					$(window).width() -
+					popoverSizes.width -
+					containerPosition.left;
 			}
 
 			if (buttonOffset.left + left < 0) {
@@ -1405,7 +1487,7 @@ $.extend(Buttons.prototype, {
 		}
 		else {
 			// Fix position - centre on screen
-			var position = function () {
+			var place = function () {
 				var half = $(window).height() / 2;
 
 				var top = display.height() / 2;
@@ -1416,10 +1498,10 @@ $.extend(Buttons.prototype, {
 				display.css('marginTop', top * -1);
 			};
 
-			position();
+			place();
 
 			$(window).on('resize.dtb-collection', function () {
-				position();
+				place();
 			});
 		}
 
@@ -1436,7 +1518,10 @@ $.extend(Buttons.prototype, {
 		// background element, iOS Safari will ignore the body click
 		// listener below. An empty function here is all that is
 		// required to make it work...
-		$('div.dt-button-background').on('click.dtb-collection', function () {});
+		$('div.dt-button-background').on(
+			'click.dtb-collection',
+			function () {}
+		);
 
 		if (options.autoClose) {
 			setTimeout(function () {
@@ -1466,7 +1551,8 @@ $.extend(Buttons.prototype, {
 					var parent = $(e.target).parent()[0];
 
 					if (
-						(!$(e.target).parents()[back]().filter(content).length &&
+						(!$(e.target).parents()[back]().filter(content)
+							.length &&
 							!$(parent).hasClass('dt-buttons')) ||
 						$(e.target).hasClass('dt-button-background')
 					) {
@@ -1532,7 +1618,10 @@ Buttons.background = function (show, className, fade, insertPoint) {
 
 	if (show) {
 		_fadeIn(
-			$('<div/>').addClass(className).css('display', 'none').insertAfter(insertPoint),
+			$('<div/>')
+				.addClass(className)
+				.css('display', 'none')
+				.insertAfter(insertPoint),
 			fade
 		);
 	}
@@ -1592,6 +1681,14 @@ Buttons.instanceSelector = function (group, buttons) {
 		else if (typeof input === 'number') {
 			// Index selector
 			ret.push(buttons[input].inst);
+		}
+		else if (typeof input === 'object' && input.nodeName) {
+			// Element selector
+			for (var j = 0; j < buttons.length; j++) {
+				if (buttons[j].inst.dom.container[0] === input) {
+					ret.push(buttons[j].inst);
+				}
+			}
 		}
 		else if (typeof input === 'object') {
 			// Actual instance selector
@@ -1750,17 +1847,17 @@ Buttons.stripData = function (str, config) {
 	}
 
 	// Always remove script tags
-	str = str.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+	str = Buttons.stripHtmlScript(str);
 
 	// Always remove comments
-	str = str.replace(/<!\-\-.*?\-\->/g, '');
+	str = Buttons.stripHtmlComments(str);
 
 	if (!config || config.stripHtml) {
-		str = str.replace(/<[^>]*>/g, '');
+		str = DataTable.util.stripHtml(str);
 	}
 
 	if (!config || config.trim) {
-		str = str.replace(/^\s+|\s+$/g, '');
+		str = str.trim();
 	}
 
 	if (!config || config.stripNewlines) {
@@ -1787,7 +1884,41 @@ Buttons.stripData = function (str, config) {
  */
 Buttons.entityDecoder = function (fn) {
 	_entityDecoder = fn;
-}
+};
+
+/**
+ * Common function for stripping HTML comments
+ *
+ * @param {*} input 
+ * @returns 
+ */
+Buttons.stripHtmlComments = function (input) {
+	var previous;  
+	
+	do {  
+		previous = input;
+		input = input.replace(/(<!--.*?--!?>)|(<!--[\S\s]+?--!?>)|(<!--[\S\s]*?$)/g, '');
+	} while (input !== previous);  
+
+	return input;  
+};
+
+/**
+ * Common function for stripping HTML script tags
+ *
+ * @param {*} input 
+ * @returns 
+ */
+Buttons.stripHtmlScript = function (input) {
+	var previous;  
+	
+	do {  
+		previous = input;
+		input = input.replace(/<script\b[^<]*(?:(?!<\/script[^>]*>)<[^<]*)*<\/script[^>]*>/gi, '');
+	} while (input !== previous);  
+
+	return input;  
+};
 
 /**
  * Buttons defaults. For full documentation, please refer to the docs/option
@@ -1864,7 +1995,7 @@ Buttons.defaults = {
  * @type {string}
  * @static
  */
-Buttons.version = '2.4.2';
+Buttons.version = '3.1.1';
 
 $.extend(_dtButtons, {
 	collection: {
@@ -1873,7 +2004,7 @@ $.extend(_dtButtons, {
 		},
 		className: 'buttons-collection',
 		closeButton: false,
-		init: function (dt, button, config) {
+		init: function (dt, button) {
 			button.attr('aria-expanded', false);
 		},
 		action: function (e, dt, button, config) {
@@ -1901,7 +2032,7 @@ $.extend(_dtButtons, {
 		},
 		className: 'buttons-split',
 		closeButton: false,
-		init: function (dt, button, config) {
+		init: function (dt, button) {
 			return button.attr('aria-expanded', false);
 		},
 		action: function (e, dt, button, config) {
@@ -1912,7 +2043,7 @@ $.extend(_dtButtons, {
 		}
 		// Also the popover options, defined in Buttons.popover
 	},
-	copy: function (dt, conf) {
+	copy: function () {
 		if (_dtButtons.copyHtml5) {
 			return 'copyHtml5';
 		}
@@ -1923,7 +2054,10 @@ $.extend(_dtButtons, {
 		}
 	},
 	excel: function (dt, conf) {
-		if (_dtButtons.excelHtml5 && _dtButtons.excelHtml5.available(dt, conf)) {
+		if (
+			_dtButtons.excelHtml5 &&
+			_dtButtons.excelHtml5.available(dt, conf)
+		) {
 			return 'excelHtml5';
 		}
 	},
@@ -2062,30 +2196,38 @@ DataTable.Api.register('button()', function (group, selector) {
 });
 
 // Active buttons
-DataTable.Api.registerPlural('buttons().active()', 'button().active()', function (flag) {
-	if (flag === undefined) {
-		return this.map(function (set) {
-			return set.inst.active(set.node);
+DataTable.Api.registerPlural(
+	'buttons().active()',
+	'button().active()',
+	function (flag) {
+		if (flag === undefined) {
+			return this.map(function (set) {
+				return set.inst.active(set.node);
+			});
+		}
+
+		return this.each(function (set) {
+			set.inst.active(set.node, flag);
 		});
 	}
-
-	return this.each(function (set) {
-		set.inst.active(set.node, flag);
-	});
-});
+);
 
 // Get / set button action
-DataTable.Api.registerPlural('buttons().action()', 'button().action()', function (action) {
-	if (action === undefined) {
-		return this.map(function (set) {
-			return set.inst.action(set.node);
+DataTable.Api.registerPlural(
+	'buttons().action()',
+	'button().action()',
+	function (action) {
+		if (action === undefined) {
+			return this.map(function (set) {
+				return set.inst.action(set.node);
+			});
+		}
+
+		return this.each(function (set) {
+			set.inst.action(set.node, action);
 		});
 	}
-
-	return this.each(function (set) {
-		set.inst.action(set.node, action);
-	});
-});
+);
 
 // Collection control
 DataTable.Api.registerPlural(
@@ -2104,18 +2246,24 @@ DataTable.Api.registerPlural(
 );
 
 // Enable / disable buttons
-DataTable.Api.register(['buttons().enable()', 'button().enable()'], function (flag) {
-	return this.each(function (set) {
-		set.inst.enable(set.node, flag);
-	});
-});
+DataTable.Api.register(
+	['buttons().enable()', 'button().enable()'],
+	function (flag) {
+		return this.each(function (set) {
+			set.inst.enable(set.node, flag);
+		});
+	}
+);
 
 // Disable buttons
-DataTable.Api.register(['buttons().disable()', 'button().disable()'], function () {
-	return this.each(function (set) {
-		set.inst.disable(set.node);
-	});
-});
+DataTable.Api.register(
+	['buttons().disable()', 'button().disable()'],
+	function () {
+		return this.each(function (set) {
+			set.inst.disable(set.node);
+		});
+	}
+);
 
 // Button index
 DataTable.Api.register('button().index()', function () {
@@ -2133,51 +2281,67 @@ DataTable.Api.register('button().index()', function () {
 });
 
 // Get button nodes
-DataTable.Api.registerPlural('buttons().nodes()', 'button().node()', function () {
-	var jq = $();
+DataTable.Api.registerPlural(
+	'buttons().nodes()',
+	'button().node()',
+	function () {
+		var jq = $();
 
-	// jQuery will automatically reduce duplicates to a single entry
-	$(
-		this.each(function (set) {
-			jq = jq.add(set.inst.node(set.node));
-		})
-	);
+		// jQuery will automatically reduce duplicates to a single entry
+		$(
+			this.each(function (set) {
+				jq = jq.add(set.inst.node(set.node));
+			})
+		);
 
-	return jq;
-});
+		return jq;
+	}
+);
 
 // Get / set button processing state
-DataTable.Api.registerPlural('buttons().processing()', 'button().processing()', function (flag) {
-	if (flag === undefined) {
-		return this.map(function (set) {
-			return set.inst.processing(set.node);
+DataTable.Api.registerPlural(
+	'buttons().processing()',
+	'button().processing()',
+	function (flag) {
+		if (flag === undefined) {
+			return this.map(function (set) {
+				return set.inst.processing(set.node);
+			});
+		}
+
+		return this.each(function (set) {
+			set.inst.processing(set.node, flag);
 		});
 	}
-
-	return this.each(function (set) {
-		set.inst.processing(set.node, flag);
-	});
-});
+);
 
 // Get / set button text (i.e. the button labels)
-DataTable.Api.registerPlural('buttons().text()', 'button().text()', function (label) {
-	if (label === undefined) {
-		return this.map(function (set) {
-			return set.inst.text(set.node);
+DataTable.Api.registerPlural(
+	'buttons().text()',
+	'button().text()',
+	function (label) {
+		if (label === undefined) {
+			return this.map(function (set) {
+				return set.inst.text(set.node);
+			});
+		}
+
+		return this.each(function (set) {
+			set.inst.text(set.node, label);
 		});
 	}
-
-	return this.each(function (set) {
-		set.inst.text(set.node, label);
-	});
-});
+);
 
 // Trigger a button's action
-DataTable.Api.registerPlural('buttons().trigger()', 'button().trigger()', function () {
-	return this.each(function (set) {
-		set.inst.node(set.node).trigger('click');
-	});
-});
+DataTable.Api.registerPlural(
+	'buttons().trigger()',
+	'button().trigger()',
+	function () {
+		return this.each(function (set) {
+			set.inst.node(set.node).trigger('click');
+		});
+	}
+);
 
 // Button resolver to the popover
 DataTable.Api.register('button().popover()', function (content, options) {
@@ -2217,7 +2381,10 @@ DataTable.Api.register('button().add()', function (idx, conf, draw) {
 
 	// Don't use `this` as it could be empty - select the instances directly
 	if (ctx.length) {
-		var inst = Buttons.instanceSelector(this._groupSelector, ctx[0]._buttons);
+		var inst = Buttons.instanceSelector(
+			this._groupSelector,
+			ctx[0]._buttons
+		);
 
 		if (inst.length) {
 			inst[0].add(conf, idx, draw);
@@ -2239,13 +2406,17 @@ DataTable.Api.register('buttons().destroy()', function () {
 });
 
 // Remove a button
-DataTable.Api.registerPlural('buttons().remove()', 'buttons().remove()', function () {
-	this.each(function (set) {
-		set.inst.remove(set.node);
-	});
+DataTable.Api.registerPlural(
+	'buttons().remove()',
+	'buttons().remove()',
+	function () {
+		this.each(function (set) {
+			set.inst.remove(set.node);
+		});
 
-	return this;
-});
+		return this;
+	}
+);
 
 // Information box that can be used by buttons
 var _infoTimer;
@@ -2276,7 +2447,11 @@ DataTable.Api.register('buttons.info()', function (title, message, time) {
 	_fadeIn(
 		$('<div id="datatables_buttons_info" class="dt-button-info"/>')
 			.html(title)
-			.append($('<div/>')[typeof message === 'string' ? 'html' : 'append'](message))
+			.append(
+				$('<div/>')[typeof message === 'string' ? 'html' : 'append'](
+					message
+				)
+			)
 			.css('display', 'none')
 			.appendTo('body')
 	);
@@ -2310,20 +2485,20 @@ DataTable.Api.register('buttons.exportInfo()', function (conf) {
 	}
 
 	return {
-		filename: _filename(conf),
-		title: _title(conf),
-		messageTop: _message(this, conf.message || conf.messageTop, 'top'),
-		messageBottom: _message(this, conf.messageBottom, 'bottom')
+		filename: _filename(conf, this),
+		title: _title(conf, this),
+		messageTop: _message(this, conf, conf.message || conf.messageTop, 'top'),
+		messageBottom: _message(this, conf, conf.messageBottom, 'bottom')
 	};
 });
 
 /**
  * Get the file name for an exported file.
  *
- * @param {object}	config Button configuration
- * @param {boolean} incExtension Include the file name extension
+ * @param {object} config Button configuration
+ * @param {object} dt DataTable instance
  */
-var _filename = function (config) {
+var _filename = function (config, dt) {
 	// Backwards compatibility
 	var filename =
 		config.filename === '*' &&
@@ -2335,7 +2510,7 @@ var _filename = function (config) {
 			: config.filename;
 
 	if (typeof filename === 'function') {
-		filename = filename();
+		filename = filename(config, dt);
 	}
 
 	if (filename === undefined || filename === null) {
@@ -2343,13 +2518,13 @@ var _filename = function (config) {
 	}
 
 	if (filename.indexOf('*') !== -1) {
-		filename = filename.replace('*', $('head > title').text()).trim();
+		filename = filename.replace(/\*/g, $('head > title').text()).trim();
 	}
 
 	// Strip characters which the OS will object to
 	filename = filename.replace(/[^a-zA-Z0-9_\u00A1-\uFFFF\.,\-_ !\(\)]/g, '');
 
-	var extension = _stringOrFunction(config.extension);
+	var extension = _stringOrFunction(config.extension, config, dt);
 	if (!extension) {
 		extension = '';
 	}
@@ -2363,12 +2538,12 @@ var _filename = function (config) {
  * @param {undefined|string|function} option Option
  * @return {null|string} Resolved value
  */
-var _stringOrFunction = function (option) {
+var _stringOrFunction = function (option, config, dt) {
 	if (option === null || option === undefined) {
 		return null;
 	}
 	else if (typeof option === 'function') {
-		return option();
+		return option(config, dt);
 	}
 	return option;
 };
@@ -2378,18 +2553,18 @@ var _stringOrFunction = function (option) {
  *
  * @param {object} config	Button configuration
  */
-var _title = function (config) {
-	var title = _stringOrFunction(config.title);
+var _title = function (config, dt) {
+	var title = _stringOrFunction(config.title, config, dt);
 
 	return title === null
 		? null
 		: title.indexOf('*') !== -1
-		? title.replace('*', $('head > title').text() || 'Exported data')
+		? title.replace(/\*/g, $('head > title').text() || 'Exported data')
 		: title;
 };
 
-var _message = function (dt, option, position) {
-	var message = _stringOrFunction(option);
+var _message = function (dt, config, option, position) {
+	var message = _stringOrFunction(option, config, dt);
 	if (message === null) {
 		return null;
 	}
@@ -2435,7 +2610,8 @@ var _exportData = function (dt, inOpts) {
 					return Buttons.stripData(d, config);
 				}
 			},
-			customizeData: null
+			customizeData: null,
+			customizeZip: null
 		},
 		inOpts
 	);
@@ -2444,8 +2620,8 @@ var _exportData = function (dt, inOpts) {
 		.columns(config.columns)
 		.indexes()
 		.map(function (idx) {
-			var el = dt.column(idx).header();
-			return config.format.header(el.innerHTML, idx, el);
+			var col = dt.column(idx);
+			return config.format.header(col.title(), idx, col.header());
 		})
 		.toArray();
 
@@ -2455,7 +2631,17 @@ var _exportData = function (dt, inOpts) {
 				.indexes()
 				.map(function (idx) {
 					var el = dt.column(idx).footer();
-					return config.format.footer(el ? el.innerHTML : '', idx, el);
+					var val = '';
+
+					if (el) {
+						var inner = $('.dt-column-title', el);
+
+						val = inner.length
+							? inner.html()
+							: $(el).html();
+					}
+
+					return config.format.footer(val, idx, el);
 				})
 				.toArray()
 		: null;
@@ -2464,18 +2650,27 @@ var _exportData = function (dt, inOpts) {
 	// to the selected rows. If no rows are selected, all rows will be exported. Specify
 	// a `selected` modifier to control directly.
 	var modifier = $.extend({}, config.modifier);
-	if (dt.select && typeof dt.select.info === 'function' && modifier.selected === undefined) {
-		if (dt.rows(config.rows, $.extend({ selected: true }, modifier)).any()) {
+	if (
+		dt.select &&
+		typeof dt.select.info === 'function' &&
+		modifier.selected === undefined
+	) {
+		if (
+			dt.rows(config.rows, $.extend({ selected: true }, modifier)).any()
+		) {
 			$.extend(modifier, { selected: true });
 		}
 	}
 
 	var rowIndexes = dt.rows(config.rows, modifier).indexes().toArray();
-	var selectedCells = dt.cells(rowIndexes, config.columns);
+	var selectedCells = dt.cells(rowIndexes, config.columns, {
+		order: modifier.order
+	});
 	var cells = selectedCells.render(config.orthogonal).toArray();
 	var cellNodes = selectedCells.nodes().toArray();
+	var cellIndexes = selectedCells.indexes().toArray();
 
-	var columns = header.length;
+	var columns = dt.columns(config.columns).count();
 	var rows = columns > 0 ? cells.length / columns : 0;
 	var body = [];
 	var cellCounter = 0;
@@ -2484,7 +2679,12 @@ var _exportData = function (dt, inOpts) {
 		var row = [columns];
 
 		for (var j = 0; j < columns; j++) {
-			row[j] = config.format.body(cells[cellCounter], i, j, cellNodes[cellCounter]);
+			row[j] = config.format.body(
+				cells[cellCounter],
+				cellIndexes[cellCounter].row,
+				cellIndexes[cellCounter].column,
+				cellNodes[cellCounter]
+			);
 			cellCounter++;
 		}
 
@@ -2493,7 +2693,15 @@ var _exportData = function (dt, inOpts) {
 
 	var data = {
 		header: header,
+		headerStructure: _headerFormatter(
+			config.format.header,
+			dt.table().header.structure(config.columns)
+		),
 		footer: footer,
+		footerStructure: _headerFormatter(
+			config.format.footer,
+			dt.table().footer.structure(config.columns)
+		),
 		body: body
 	};
 
@@ -2503,6 +2711,24 @@ var _exportData = function (dt, inOpts) {
 
 	return data;
 };
+
+function _headerFormatter(formatter, struct) {
+	for (var i=0 ; i<struct.length ; i++) {
+		for (var j=0 ; j<struct[i].length ; j++) {
+			var item = struct[i][j];
+
+			if (item) {
+				item.title = formatter(
+					item.title,
+					j,
+					item.cell
+				);
+			}
+		}
+	}
+
+	return struct;
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * DataTables interface
@@ -2531,20 +2757,22 @@ $(document).on('init.dt plugin-init.dt', function (e, settings) {
 
 function _init(settings, options) {
 	var api = new DataTable.Api(settings);
-	var opts = options ? options : api.init().buttons || DataTable.defaults.buttons;
+	var opts = options
+		? options
+		: api.init().buttons || DataTable.defaults.buttons;
 
 	return new Buttons(api, opts).container();
 }
 
-// DataTables `dom` feature option
+// DataTables 1 `dom` feature option
 DataTable.ext.feature.push({
 	fnInit: _init,
 	cFeature: 'B'
 });
 
 // DataTables 2 layout feature
-if (DataTable.ext.features) {
-	DataTable.ext.features.register('buttons', _init);
+if (DataTable.feature) {
+	DataTable.feature.register('buttons', _init);
 }
 
 
