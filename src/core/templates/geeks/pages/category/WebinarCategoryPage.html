@@ -2,14 +2,14 @@
 {% load static %}
 
 {% block title %}
-<title>{{category.title}} | {{COMPANY_NAME}}</title>
+<title>{{category.title}} - {{COMPANY_NAME}}</title>
 {% endblock title %}
 
 {% block content %}
 <section class="py-5">
   <div class="container">
     <div class="row gy-5 gy-lg-0">
-      <div class="col-xxl-3 col-lg-4 col-12">
+      <div class="col-xxl-3 col-lg-4 col-12 order-2 order-lg-1">
 
         {% comment %}
           
@@ -154,7 +154,7 @@
         </div>
 
       </div>
-      <div class="col-xxl-9 col-lg-8 col-12">
+      <div class="col-xxl-9 col-lg-8 col-12 order-1 order-lg-2">
         <div class="d-flex flex-column gap-3">
 
         {% for aggregate in aggregates %}
@@ -169,50 +169,36 @@
         {% endif %}
         {% endfor %}
 
-{% comment %}
-            <div>
-              <p style="font-size: 18px;font-weight: 500;">Zobacz powiązane szkolenia</p>
-  
-              <div class="row">
-                <div class="col-12 col-sm-4">
-                    <p style="font-size: 14px;line-height: 0.8em;">
-                      <a href="#">Test A</a>
-                    </p>
-                    <p style="font-size: 14px;line-height: 0.8em;">
-                      <a href="#">Test B</a>
-                    </p>
-                    <p style="font-size: 14px;line-height: 0.8em;">
-                      <a href="#">Test C</a>
-                    </p>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <p style="font-size: 14px;line-height: 0.8em;">
-                      <a href="#">Test A</a>
-                    </p>
-                    <p style="font-size: 14px;line-height: 0.8em;">
-                      <a href="#">Test B</a>
-                    </p>
-                    <p style="font-size: 14px;line-height: 0.8em;">
-                      <a href="#">Test C</a>
-                    </p>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <p style="font-size: 14px;line-height: 0.8em;">
-                      <a href="#">Test A</a>
-                    </p>
-                    <p style="font-size: 14px;line-height: 0.8em;">
-                      <a href="#">Test B</a>
-                    </p>
-                    <p style="font-size: 14px;line-height: 0.8em;">
-                      <a href="#">Test C</a>
-                    </p>
-                </div>
+          <div>
+            <p style="font-size: 18px;font-weight: 500;">Zobacz powiązane szkolenia</p>
+
+            <div class="row">
+              <div class="col-12 col-sm-4">
+                {% for cat in cat_column_a %}
+                <p style="font-size: 14px;line-height: 1em;">
+                  <a href="#">{{cat.title|default:cat.name}}</a>
+                </p>
+                {% endfor %}
               </div>
-{% endcomment %}
+              <div class="col-12 col-sm-4">
+                {% for cat in cat_column_b %}
+                <p style="font-size: 14px;line-height: 1em;">
+                  <a href="#">{{cat.title|default:cat.name}}</a>
+                </p>
+                {% endfor %}
+              </div>
+              <div class="col-12 col-sm-4">
+                {% for cat in cat_column_c %}
+                <p style="font-size: 14px;line-height: 1em;">
+                  <a href="#">{{cat.title|default:cat.name}}</a>
+                </p>
+                {% endfor %}
+              </div>
+            </div>
                         
             <p style="font-size: 18px;font-weight: 500;">Zobacz także</p>
             
-            <p style="font-size: 14px;line-height: 0.8em;">
+            <p style="font-size: 14px;line-height: 1em;">
               {% for category, count, _ in CACHED_MAIN_CATEGORIES %}
               <a href="{% url 'core:webinar_category_page' slug=category.slug %}">{{category.title}}</a>{% if not forloop.last %},{% endif %}
               {% endfor %}

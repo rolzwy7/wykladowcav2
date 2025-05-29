@@ -37,7 +37,7 @@ def tracking_mailing_clicks(request, webinar_id: int):
     _, database = MongoDBClient.get_connection()
 
     click_docs = database["wykladowcav2_mailing_clicks"].find(
-        {"request_url": {"$regex": f"szkl/{webinar_id}"}}
+        {"request_url": {"$regex": f"szkl/{webinar_id}/"}}
         # {"request_url": {"$regex": f"szkl/506"}}
     )
 

@@ -31,7 +31,6 @@ from core.models import (
     SurveyAnswer,
     SurveyOpinion,
     SurveyVote,
-    WebinarAggregate,
     WebinarApplicationCancellation,
     WebinarApplicationCompany,
     WebinarApplicationInvoice,
@@ -45,16 +44,6 @@ from core.models import (
     WebinarRecording,
     WebinarRecordingToken,
 )
-
-
-@register(WebinarAggregate)
-class WebinarAggregateModelAdmin(ModelAdmin):
-    """WebinarAggregateModelAdmin"""
-
-    list_display = ["__str__", "slug", "slug_conflict", "parent"]
-
-    search_fields = ["grouping_token", "slug"]
-
 
 admin.site.register(CrmNote)
 

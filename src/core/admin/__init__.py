@@ -16,6 +16,7 @@ from .lecturer_opinion_admin import LecturerOpinionModelAdmin
 from .redirects_admin import RedirectManualModelAdmin
 from .service_offer_admin import ServiceOfferApplicationModelAdmin
 from .user_modeladmin import UserModelAdmin
+from .webinar_aggregate_admin import WebinarAggregateModelAdmin
 from .webinar_application_modeladmin import WebinarApplicationModelAdmin
 from .webinar_category_modeladmin import WebinarCategoryModelAdmin
 from .webinar_certificate_modeladmin import WebinarCertificateModelAdmin

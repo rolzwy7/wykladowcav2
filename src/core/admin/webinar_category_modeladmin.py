@@ -23,6 +23,7 @@ class WebinarCategoryModelAdmin(ModelAdmin):
     form = WebinarCategoryModelAdminForm
     list_display = [
         "name",
+        "name_homepage",
         "parent",
         "visible",
         "slug",

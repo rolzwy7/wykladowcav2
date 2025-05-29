@@ -19,10 +19,11 @@ def webinar_category_page(request, slug: str):
 
     category = get_object_or_404(WebinarCategory, slug=slug)
 
-    if category.parent:
-        return redirect(
-            reverse("core:webinar_category_page", kwargs={"slug": category.parent.slug})
-        )
+    # TODO: Przekieruj do rodzica
+    # if category.parent:
+    #     return redirect(
+    #         reverse("core:webinar_category_page", kwargs={"slug": category.parent.slug})
+    #     )
 
     # trusted_us = CategoryTrustedUs.manager.get_visible().filter(category=category)
     menu_categories = WebinarCategory.manager.get_subcategories(category)
@@ -38,6 +39,17 @@ def webinar_category_page(request, slug: str):
         [slug, *[_.slug for _ in menu_categories]]
     )
 
+    cat_column_a = []
+    cat_column_b = []
+    cat_column_c = []
+    for idx, menu_category in enumerate(menu_categories):
+        if idx % 3 == 0:
+            cat_column_a.append(menu_category)
+        if idx % 3 == 1:
+            cat_column_b.append(menu_category)
+        if idx % 3 == 2:
+            cat_column_c.append(menu_category)
+
     return TemplateResponse(
         request,
         template_name,
@@ -50,5 +62,8 @@ def webinar_category_page(request, slug: str):
             # "webinars_count": webinars.count(),
             "menu_categories": menu_categories,
             # "trusted_us": trusted_us,
+            "cat_column_a": cat_column_a,
+            "cat_column_b": cat_column_b,
+            "cat_column_c": cat_column_c,
         },
     )

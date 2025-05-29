@@ -49,6 +49,11 @@ def webinar_aggregate_page(request, slug: str):
     else:
         lecturer = aggregate.lecturer  # type: ignore
 
+    # Categories (only names)
+    set_category_names = set()
+    for category in aggregate.categories.all():
+        set_category_names.add(category.name)
+
     return TemplateResponse(
         request,
         template_name,
@@ -59,5 +64,6 @@ def webinar_aggregate_page(request, slug: str):
             "any_active_webinar": any_active_webinar,
             "lecturer": lecturer,
             "aggregate_active_webinars": aggregate_active_webinars,
+            "set_category_names": set_category_names,
         },
     )

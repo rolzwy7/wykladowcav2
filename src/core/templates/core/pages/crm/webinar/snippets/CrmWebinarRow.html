@@ -322,21 +322,23 @@
 
         <div class="my-5"></div>
 
-        {% if webinar_ctx.webinar_metadata.omega_indexer_queued %}
-        <div>
-            <span>Omega Indexer włączony</span>
-        </div>
-        {% else %}
-            {% if not webinar.is_connected_to_conference and webinar.status == "INIT" and webinar.time_to_webinar %}
-            <div hx-get="{% url 'htmx:htmx-webinar-omega-indexer' pk=webinar.pk %}" hx-trigger="click" hx-swap="outerHTML">
-                <button
-                    class="btn btn-secondary py-0 px-1 fs-6"
-                >
-                    Włącz Omega Indexer
-                </button>
+{% comment %}
+            {% if webinar_ctx.webinar_metadata.omega_indexer_queued %}
+            <div>
+                <span>Omega Indexer włączony</span>
             </div>
+            {% else %}
+                {% if not webinar.is_connected_to_conference and webinar.status == "INIT" and webinar.time_to_webinar %}
+                <div hx-get="{% url 'htmx:htmx-webinar-omega-indexer' pk=webinar.pk %}" hx-trigger="click" hx-swap="outerHTML">
+                    <button
+                        class="btn btn-secondary py-0 px-1 fs-6"
+                    >
+                        Włącz Omega Indexer
+                    </button>
+                </div>
+                {% endif %}
             {% endif %}
-        {% endif %}
+{% endcomment %}
 
         {% if webinar_ctx.mailing_campaigns %}
         <div class="mt-2">
@@ -353,7 +355,9 @@
                 </span> 
                 <span>
                     wysł. {{mailing_campaign.stat_sent|floatformat:"-3g" }}
-                    klik. {{mailing_campaign.total_clicks|floatformat:"-3g" }}
+                    <a href="{% url "core:crm_mailing_clicks_stats" pk=mailing_campaign.id %}">
+                        <b>klik. {{mailing_campaign.total_clicks|floatformat:"-3g" }}</b>
+                    </a>
                 </span> 
                 <br>
             {% endfor %}

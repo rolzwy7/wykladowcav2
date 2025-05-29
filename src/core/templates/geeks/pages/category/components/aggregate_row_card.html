@@ -61,7 +61,7 @@
         <div>
             {% for webinar in aggregate.webinars.all %}
                 {% if webinar.is_active %}
-                    <span class="badge text-light-emphasis bg-light-subtle border border-light-subtle rounded-pill bg-secondary fs-4">
+                    <span class="badge mb-1 text-light-emphasis bg-light-subtle border border-light-subtle rounded-pill bg-secondary fs-4">
                         {{webinar.date|date:"j E Y"}} godz. {{webinar.date|date:"H:i"}}
                     </span>
                 {% endif %}

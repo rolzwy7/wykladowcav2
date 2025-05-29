@@ -52,14 +52,10 @@
 
   {% include './homepage_sections/homepage_categories3.html' %}
   
-{% comment %}
-     <section class="py-lg-8 py-6">
+     <section class="py-lg-2 py-6">
          <div>
-          <div class="position-relative d-flex overflow-x-hidden py-lg-4 pt-4">
+          <div class="position-relative d-flex overflow-x-hidden py-lg-8 pt-6">
              <div class="animate-marquee d-flex gap-3">
-               {% for lecturer in homepage_lecturers %}
-                <a href="{% url 'core:lecturer_experience_page' slug=lecturer.slug %}" class="bg-white text-center shadow-sm text-wrap rounded-4 w-100 border card-lift border" style="width: 200px !important"><div class="p-3"><img src="{% get_media_prefix %}uploads/lecturers/{{lecturer.slug}}_80x80.webp" alt="{{lecturer.fullname}}" class="avatar avatar-xl rounded-circle"><div class="mt-3"><h3 class="mb-0 h4">{{lecturer.fullname}}</h3><span class="text-gray-800">{{lecturer.profession}}</span></div></div></a>
-                {% endfor %}
                {% for lecturer in homepage_lecturers %}
                 <a href="{% url 'core:lecturer_experience_page' slug=lecturer.slug %}" class="bg-white text-center shadow-sm text-wrap rounded-4 w-100 border card-lift border" style="width: 200px !important"><div class="p-3"><img src="{% get_media_prefix %}uploads/lecturers/{{lecturer.slug}}_80x80.webp" alt="{{lecturer.fullname}}" class="avatar avatar-xl rounded-circle"><div class="mt-3"><h3 class="mb-0 h4">{{lecturer.fullname}}</h3><span class="text-gray-800">{{lecturer.profession}}</span></div></div></a>
                 {% endfor %}
@@ -67,12 +63,10 @@
           </div>
        </div>
      </section>
-     
-{% endcomment %}
   
   {% if our_clients %}
   {% comment %} Zaufali nam loga {% endcomment %}
-   <section class="py-lg-8 py-6">
+   <section class="py-lg-2 py-6">
     <div class="container py-lg-6">
        <!--row-->
        <div class="row">

@@ -1,7 +1,15 @@
 {% extends './WebinarAggregateBase.html' %}
 
+{% block title %}
+  <title>{{ aggregate.seo_meta_title|default:aggregate.title }}</title>
+{% endblock title %}
+
 {% block inner_meta %}
   <meta name="robots" content="index, follow">
+  {% if aggregate.seo_meta_description %}
+  <meta name="description" content="{{ aggregate.seo_meta_description }}">
+  {% endif %}
+  <link rel="canonical" href="{{ aggregate.seo_canonical_url|default:request.build_absolute_uri }}">
 {% endblock inner_meta %}
 
 

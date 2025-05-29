@@ -32,6 +32,7 @@ from core.views.webinar_category import webinar_category_page
 
 from .application_urls import urlpatterns as application_urlpatterns
 from .assets_urls import urlpatterns as assets_urlpatterns
+from .blog_urls import urlpatterns as blog_urlpatterns
 from .category_urls import urlpatterns as category_urlpatterns
 from .certificate_urls import urlpatterns as certificate_urlpatterns
 from .conference_urls import urlpatterns as conference_urlpatterns
@@ -80,6 +81,7 @@ urlpatterns = [
     path("nagrania/", include(recording_urlpatterns)),
     path("materialy-szkoleniowe/", include(assets_urlpatterns)),
     path("leads/", include(leads_urlpatterns)),
+    path("blog/", include(blog_urlpatterns)),
     path(
         "rezyg/formularz/",
         mailing_resignation_by_form_page,

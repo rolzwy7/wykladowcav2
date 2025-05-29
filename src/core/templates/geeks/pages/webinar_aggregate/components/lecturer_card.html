@@ -64,13 +64,16 @@
     </div>
 
     <div class="m-0 mt-2">
-      <a href="{% url "core:lecturer_opinion_form_page" slug=lecturer.slug %}" class="btn btn-primary btn-xs mb-2">
-        Dodaj opinię
+      <a href="{% url "core:lecturer_opinion_form_page" slug=lecturer.slug %}" rel="nofollow">
+         <span class="badge bg-primary">Dodaj opinię</span>
       </a>
-      {% for category in webinar.categories.all %}
-        <a href="{% url "core:webinar_category_page" slug=category.slug %}" class="btn btn-light btn-xs mb-2">
+      {% for category_name in set_category_names %}
+        {% comment %} <span href="{% url "core:webinar_category_page" slug=category.slug %}" class="btn btn-light btn-xs mb-2">
           {{category.name}}
-        </a>
+        </span> {% endcomment %}
+        <span class="badge bg-secondary-soft mb-2 h-100">
+          {{category_name}}
+        </span>
       {% endfor %}
     </div>
 
