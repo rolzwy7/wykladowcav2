@@ -55,4 +55,6 @@ def crm_aggregates_page(request):
     else:
         aggregates = WebinarAggregate.manager.all()
 
-    return TemplateResponse(request, template_name, {"aggregates": aggregates})
+    return TemplateResponse(
+        request, template_name, {"aggregates": aggregates.order_by("-created_at")}
+    )

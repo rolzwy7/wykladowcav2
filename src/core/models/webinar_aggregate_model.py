@@ -51,6 +51,9 @@ class WebinarAggregate(Model):
 
     manager = WebinarAggregateManager()
 
+    created_at = DateTimeField(auto_now_add=True)
+    updated_at = DateTimeField(auto_now=True)
+
     hidden = BooleanField("Ukryty", default=False)
 
     # PK

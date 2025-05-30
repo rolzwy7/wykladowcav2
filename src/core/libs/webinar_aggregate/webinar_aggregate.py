@@ -26,6 +26,7 @@ def get_or_create_aggregate(webinar: Webinar):
         webinar_core_slug = "-".join(webinar.slug.split("-")[:-1])
         slug_conflict = WebinarAggregate.manager.filter(slug=webinar_core_slug).exists()
         new_aggregate: WebinarAggregate = WebinarAggregate(
+            hidden=True,
             title=webinar.title,
             grouping_token=webinar.grouping_token,
             slug_conflict=slug_conflict,

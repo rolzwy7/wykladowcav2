@@ -30,6 +30,7 @@ from core.views.webinar.webinar_redirects import (
 )
 from core.views.webinar_category import webinar_category_page
 
+from .aggregate_urls import urlpatterns as aggregate_urlpatterns
 from .application_urls import urlpatterns as application_urlpatterns
 from .assets_urls import urlpatterns as assets_urlpatterns
 from .blog_urls import urlpatterns as blog_urlpatterns
@@ -58,6 +59,7 @@ app_name = "core"  # pylint: disable=invalid-name
 urlpatterns = [
     # path("api/", include("api.urls"), namespace="api"),
     path("szkolenia-online/", include(webinar_urlpatterns)),
+    path("szkolenie/", include(aggregate_urlpatterns)),
     path("szkolenia/", include(category_urlpatterns)),
     path("polecaj-i-zarabiaj/", include(loyalty_urlpatterns)),
     path("zgloszenie-online/", include(application_urlpatterns)),

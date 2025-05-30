@@ -10,6 +10,7 @@ from core.models import (
     ConferenceFreeParticipant,
     MailingCampaign,
     Webinar,
+    WebinarAggregate,
     WebinarApplication,
     WebinarApplicationCancellation,
     WebinarApplicationMetadata,
@@ -388,7 +389,15 @@ class CrmWebinarService:
                 date_dups.append(_.date)
                 date_changes.append(_.date)
 
+        try:
+            aggregate = WebinarAggregate.manager.get(
+                grouping_token=self.webinar.grouping_token
+            )
+        except WebinarAggregate.DoesNotExist:
+            aggregate = None
+
         return {
+            "aggregate": aggregate,
             "webinar": self.webinar,
             "webinar_metadata": webinar_metadata,
             "date_changes": date_changes,
