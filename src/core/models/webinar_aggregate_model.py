@@ -98,6 +98,9 @@ class WebinarAggregate(Model):
     slug_conflict = BooleanField("Slug conflict", default=False)
     title_conflict = BooleanField("Title conflict", default=False)
     program_conflict = BooleanField("Program conflict", default=False)
+    program_assets_conflict = BooleanField(
+        "Materiały szkoleniowe conflict", default=False
+    )
     lecturer_conflict = BooleanField("Lecturer conflict", default=False)
 
     # Lecturer
@@ -110,6 +113,7 @@ class WebinarAggregate(Model):
         "Tytuł szkolenia", max_length=220, blank=True, help_text="Max. 220 znaków"
     )
     short_description = TextField("Krótki opis", blank=True)
+    program_assets = TextField("Materiały szkoleniowe", blank=True)
     program = TextField(
         "Program szkolenia", default="[Agregat Program Szkolenia]", blank=True
     )

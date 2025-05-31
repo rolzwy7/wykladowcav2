@@ -29,7 +29,7 @@ def webinar_aggregate_page(request, slug: str):
         return Http404()
 
     # Get first webinar as reference webinar
-    webinar = aggregate_all_webinars.first()
+    first_webinar = aggregate_all_webinars.first()
 
     # Get all active webinars on webiste
     active_webinars = Webinar.manager.get_active_webinars()
@@ -59,7 +59,7 @@ def webinar_aggregate_page(request, slug: str):
         template_name,
         {
             "aggregate": aggregate,
-            "webinar": webinar,
+            "first_webinar": first_webinar,
             "anonymized": anonymized,
             "any_active_webinar": any_active_webinar,
             "lecturer": lecturer,

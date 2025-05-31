@@ -31,14 +31,14 @@
 <style>
   @media only screen and (min-width: 992px) {
     #WebinarDetailAside {
-      {% with webinar_length=webinar.title|length %}
-      {% if webinar_length <= 100 %}
-      margin-top: -10rem !important
-      {% elif webinar_length <= 150 %}
-      margin-top: -15rem !important
-      {% else %}
-      margin-top: -25rem !important
-      {% endif %}
+      {% with webinar_length=aggregate.title|length %}
+        {% if webinar_length <= 100 %}
+        margin-top: -10rem !important
+        {% elif webinar_length <= 150 %}
+        margin-top: -15rem !important
+        {% else %}
+        margin-top: -25rem !important
+        {% endif %}
       {% endwith %}
     }
   }
@@ -80,11 +80,16 @@
         <div class="col-xl-7 col-lg-7 col-md-12">
           <div>
             <h1 class="text-white display-4 fw-semibold">
-              {{webinar.title}}
+              {{aggregate.title}}
+              {% if request.user.is_staff %}
+              <a href="{% url "admin:core_webinaraggregate_change" object_id=aggregate.grouping_token %}" class="text-white">
+                  CMS
+              </a>
+              {% endif %}
             </h1>
-            {% if webinar.description %}  
+            {% if aggregate.short_description %}  
               <p class="text-white mb-6 lead">
-                {{webinar.description}}
+                {{aggregate.short_description}}
               </p>
             {% endif %}
             <div class="d-flex align-items-center flex-wrap">
@@ -117,7 +122,7 @@
   <section class="pb-10">
     <div class="container">
       <div class="row">
-        <div class="col-lg-8 col-md-12 col-12 mt-n8 mb-4 mb-lg-0">
+        <div class="col-lg-8 col-md-12 col-12 mt-lg-n8 mb-4 mb-lg-0">
           <!-- Card -->
           <div class="card rounded-3">
             <!-- Card header -->
@@ -125,9 +130,6 @@
               <div>
                 <!-- Nav -->
                 <ul class="nav nav-lb-tab" id="tab" role="tablist">
-                  {% for tab_name, tab_url, tab_is_active, tab_icon in webinar_tabs %}
-
-                  {% endfor %}
 
                   <li class="nav-item">
                     <a
@@ -243,7 +245,7 @@
                 Jeżeli interesuje Cię ten temat daj nam znać, a my <b>wyślemy Ci przypomnienie</b> gdy szkolenie z tej tematyki ponownie znajdzie się w naszej ofercie!
               </p>
               <!-- Form -->
-              <form class="row" method="post" action="{% url "core:lead_webinar_post_endpoint" pk=webinar.pk %}">
+              <form class="row" method="post" action="{% url "core:lead_webinar_post_endpoint" pk=first_webinar.pk %}">
                   {% csrf_token %}
                   <div class="mb-3 col-12 col-md-12">
                     <label class="form-label" for="id_email">Adres E-mail</label>
@@ -261,7 +263,7 @@
           {% include './components/agg_date_and_hour_card.html' %}
 
           {% comment %} What we offer {% endcomment %}
-          {% include './components/what_we_offer.html' with webinar=webinar %}
+          {% include './components/what_we_offer.html' with webinar=first_webinar %}
 
           <div class="card mt-4 js-sticky-widget">
             <!-- Card body -->

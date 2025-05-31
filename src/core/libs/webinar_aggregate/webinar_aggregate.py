@@ -20,6 +20,28 @@ def get_or_create_aggregate(webinar: Webinar):
         aggregate: WebinarAggregate = WebinarAggregate.manager.get(
             grouping_token=webinar.grouping_token
         )
+
+        # If it exists fill blank fields
+        save_needed = False
+        if not aggregate.title:
+            aggregate.title = webinar.title
+            save_needed = True
+
+        if not aggregate.program:
+            aggregate.program = webinar.program
+            save_needed = True
+
+        if not aggregate.program_assets:
+            aggregate.program_assets = webinar.program_assets
+            save_needed = True
+
+        if not aggregate.lecturer:
+            aggregate.lecturer = webinar.lecturer
+            save_needed = True
+
+        if save_needed:
+            aggregate.save()
+
         return aggregate
     except WebinarAggregate.DoesNotExist:  # pylint: disable=no-member
         # Create new aggregate
@@ -31,6 +53,7 @@ def get_or_create_aggregate(webinar: Webinar):
             grouping_token=webinar.grouping_token,
             slug_conflict=slug_conflict,
             program=webinar.program,
+            program_assets=webinar.program_assets,
             lecturer=webinar.lecturer,
             slug=(
                 f"CONFLICT-{randint(1_000, 99_999)}-{slug_conflict}"
@@ -112,10 +135,12 @@ def aggregate_update_conflicts(aggregate: WebinarAggregate):
     titles = set()
     lecturers = set()
     program_hashes = set()
+    program_assets_hashes = set()
 
     for _webinar in aggregate.webinars.all():
         webinar: Webinar = _webinar
         webinar_program: str = webinar.program
+        webinar_program_assets: str = webinar.program_assets
 
         if not aggregate.lecturer:
             aggregate.lecturer = webinar.lecturer
@@ -123,10 +148,12 @@ def aggregate_update_conflicts(aggregate: WebinarAggregate):
         titles.add(webinar.title)
         lecturers.add(webinar.lecturer.id)
         program_hashes.add(sha256(webinar_program.encode()).hexdigest())
+        program_assets_hashes.add(sha256(webinar_program_assets.encode()).hexdigest())
 
     # Title conflict
     aggregate.title_conflict = len(titles) != 1
     aggregate.program_conflict = len(program_hashes) != 1
+    aggregate.program_assets_conflict = len(program_assets_hashes) != 1
     aggregate.lecturer_conflict = len(lecturers) != 1
 
     aggregate.save()
