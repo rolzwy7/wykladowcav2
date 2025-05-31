@@ -399,4 +399,16 @@
             }
         }
     </script>
+    <script>
+      document.getElementById("reveal_program_assets").addEventListener("click", function() {
+        let footer = document.getElementById("reveal_program_footer");
+        footer.style.display = "none";
+        
+        let reveal_grad_card = document.getElementById("reveal_grad_card");
+        reveal_grad_card.style.display = "none";
+        
+        let reveal_list = document.getElementById("reveal_list");
+        reveal_list.style.height = "auto";
+      }); 
+    </script>
 {% endblock body_scripts %}
