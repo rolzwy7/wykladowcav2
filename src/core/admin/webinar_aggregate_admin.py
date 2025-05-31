@@ -1,13 +1,29 @@
 # flake8: noqa:DJ07
 
 from django.contrib.admin import ModelAdmin, register
+from django.forms import ModelForm
+from tinymce.widgets import TinyMCE
 
 from core.models import WebinarAggregate
+
+
+class WebinarAggregateModelAdminForm(ModelForm):
+    """Webinar Model Admin Form"""
+
+    class Meta:
+        model = WebinarAggregate
+        fields = "__all__"
+        widgets = {
+            "program": TinyMCE(attrs={"cols": 80, "rows": 30}),
+            "program_assets": TinyMCE(attrs={"cols": 80, "rows": 30}),
+        }
 
 
 @register(WebinarAggregate)
 class WebinarAggregateModelAdmin(ModelAdmin):
     """WebinarAggregateModelAdmin"""
+
+    form = WebinarAggregateModelAdminForm
 
     list_display = ["__str__", "slug", "slug_conflict", "parent"]
     search_fields = ["grouping_token", "slug", "title"]
@@ -26,9 +42,10 @@ class WebinarAggregateModelAdmin(ModelAdmin):
                     "lecturer",
                     "title",
                     "short_description",
+                    "program_assets",
                     "program",
-                    "webinars",
                     "categories",
+                    "webinars",
                 ],
             },
         ),
@@ -48,6 +65,7 @@ class WebinarAggregateModelAdmin(ModelAdmin):
                     "title_conflict",
                     "program_conflict",
                     "lecturer_conflict",
+                    "program_assets_conflict",
                 ],
             },
         ),
@@ -71,108 +89,3 @@ class WebinarAggregateModelAdmin(ModelAdmin):
             },
         ),
     )
-
-
-#     inlines = [
-#         WebinarModelAdminInline,
-#     ]
-#     date_hierarchy = "date"
-#     list_filter = [
-#         "status",
-#         "is_confirmed",
-#         "is_fake",
-#         "show_lecturer",
-#         "is_hidden",
-#         "recording_allowed",
-#     ]
-
-#     fieldsets = (
-#         (
-#             None,
-#             {
-#                 "fields": [
-#                     "show_lecturer",
-#                     "anonymize_lecturer",
-#                     "is_hidden",
-#                     "is_confirmed",
-#                     "recording_allowed",
-#                     "is_fake",
-#                     "remaining_places",
-#                     "fakturownia_category",
-#                     "facebook_post_image",
-#                     ("status", "slug"),
-#                     ("date", "duration"),
-#                     ("lecturer", "grouping_token"),
-#                     "title_original",
-#                     "title",
-#                     "description",
-#                 ],
-#             },
-#         ),
-#         # (
-#         #     "Data",
-#         #     {
-#         #         "fields": ["date", "duration"],
-#         #     },
-#         # ),
-#         (
-#             "Cena",
-#             {
-#                 "fields": ["price_netto", "discount_until", "discount_netto"],
-#             },
-#         ),
-#         (
-#             "Nagranie na sprzedaż",
-#             {
-#                 "fields": [
-#                     "sale_recording",
-#                 ],
-#             },
-#         ),
-#         (
-#             "Program szkolenia",
-#             {
-#                 "fields": ["program_assets", "program"],
-#             },
-#         ),
-#         (
-#             "Kategorie",
-#             {
-#                 "fields": [
-#                     "categories",
-#                 ],
-#             },
-#         ),
-#         (
-#             "Program (inne formy)",
-#             {
-#                 "classes": ["collapse"],
-#                 "fields": [
-#                     "program_markdown",
-#                     "program_pretty",
-#                     "program_short",
-#                     "program_word_text",
-#                 ],
-#             },
-#         ),
-#         (
-#             "Zewnętrzny dostawca",
-#             {
-#                 "classes": ["collapse"],
-#                 "fields": [
-#                     "external_name",
-#                     "external_url",
-#                     "external_description",
-#                 ],
-#             },
-#         ),
-#         (
-#             "Konferencja",
-#             {
-#                 "classes": ["collapse"],
-#                 "fields": [
-#                     "is_connected_to_conference",
-#                 ],
-#             },
-#         ),
-#     )
