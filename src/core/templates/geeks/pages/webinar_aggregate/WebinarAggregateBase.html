@@ -228,6 +228,41 @@
             {% include './components/lecturer_card.html' with lecturer=lecturer %}
           {% endif %}
           
+          {% if aggregate.sale_recording %}
+          
+          <div class="card mb-3 mb-4">
+            <div>
+              <!-- Card header -->
+              <div class="card-header">
+                <h4 class="mb-0">
+                  <b>Nagranie z tego szkolenia jest dostępne</b>
+                </h4>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-transparent">
+                  Nie czekaj na realizację terminu! <br>
+                  <b>Kup dostęp do nagrania już teraz.</b>
+                </li>
+              </ul>
+            </div>
+        
+            <!-- Card body -->
+            <div class="card-body pt-0">
+              <div class="d-grid">
+                <a
+                href="{% url 'core:sale_recording_application_type_page' pk=aggregate.sale_recording.pk %}"
+                rel="nofollow"
+                class="btn mb-2 border-0 text-white"
+                style="background-color: #f1416c"
+              >
+                <b>Kup Nagranie</b>
+              </a>
+
+              </div>
+            </div>
+          </div>
+
+          {% endif %}
           
           {% if not any_active_webinar %}
           <!-- Card -->
