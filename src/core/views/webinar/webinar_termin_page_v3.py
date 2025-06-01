@@ -32,11 +32,11 @@ def webinar_termin_page_v3(request, slug: str):
             )
 
     # If webinar is not active redirect to aggregate
-    if not webinar.is_active:
-        aggregate = WebinarAggregate.manager.get(grouping_token=webinar.grouping_token)
-        return redirect(
-            reverse("core:webinar_aggregate_page", kwargs={"slug": aggregate.slug})
-        )
+    # if not webinar.is_active:
+    #     aggregate = WebinarAggregate.manager.get(grouping_token=webinar.grouping_token)
+    #     return redirect(
+    #         reverse("core:webinar_aggregate_page", kwargs={"slug": aggregate.slug})
+    #     )
 
     webinar_service = WebinarService(webinar)
     lecturer_service = LecturerService(webinar.lecturer)
