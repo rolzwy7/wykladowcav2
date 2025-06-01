@@ -40,7 +40,8 @@ def sale_recording_process_webhook_dispatch_tasks(invoice_proforma_id: int):
     participants = SaleRecordingParticipant.manager.filter(application=application)
     for participant in participants:
         token = WebinarRecordingToken(
-            expires_at=now() + timedelta(days=14),
+            expires_at=now() + timedelta(days=7),
+            free_access=True,
             recording=application.sale_recording.recording,
         )
         token.save()

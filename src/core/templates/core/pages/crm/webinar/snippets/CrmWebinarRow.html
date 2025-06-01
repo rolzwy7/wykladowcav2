@@ -102,7 +102,9 @@
             <li class="d-flex align-items-center">
                 <span class="bullet bullet-vertical bg-dark me-5"></span>
                 <span>
-                    Agregat: {{aggregate}}
+                    Agregat
+                    {% url 'admin:core_webinaraggregate_change' object_id=webinar_ctx.aggregate.grouping_token as link %}
+                    {% include "include/crm/EditWithCmsButton.html" with link=link fs="fs-5" %}
                     {% url 'core:webinar_aggregate_page' slug=webinar_ctx.aggregate.slug as link %}
                     {% include "include/crm/ShowOnPageButton.html" with link=link fs="fs-5" %}
                     <b>{{webinar.grouping_token}}</b>
@@ -111,6 +113,16 @@
                     </a>
                 </span>
             </li>
+            {% if webinar_ctx.aggregate.hidden %}
+            <li class="d-flex align-items-center">
+                <span class="bullet bullet-vertical bg-info me-5"></span>
+                <span
+                    class="px-1 text-white bg-info"
+                >
+                    Ukryty Agregat
+                </span>
+            </li>
+            {% endif %}
             {% endif %}
             {% if webinar_ctx.is_confirmed %}
             <li class="d-flex align-items-center">
