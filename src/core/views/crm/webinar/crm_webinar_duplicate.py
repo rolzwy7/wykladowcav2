@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
+from django.utils.timezone import now
 
 from core.consts import POST
 from core.models import Webinar
@@ -19,6 +20,7 @@ def crm_webinar_duplicate(request, pk: int):
         webinar.id = None  # type: ignore
         webinar.slug = ""
         webinar.status = WebinarStatus.INIT
+        webinar.created_at = now()
         webinar.save()
         webinar_id: int = webinar.id  # type: ignore
         for cat in temp_categories:

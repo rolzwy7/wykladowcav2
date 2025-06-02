@@ -57,6 +57,7 @@ def crm_upcoming_webinars(request):
         status=ApplicationStatus.SENT, created_at__date=timezone.now().date()
     )
 
+    # Total netto value of todays webinars
     today_total_netto = 0
     sent_today_paid_applications_with_netto = []
     for application in sent_today_paid_applications:
@@ -74,10 +75,16 @@ def crm_upcoming_webinars(request):
             )
         )
 
+    # Webinars added today
+    webinars_added_today = Webinar.manager.filter(
+        created_at__date=timezone.now().date()
+    )
+
     return TemplateResponse(
         request,
         "core/pages/crm/webinar/CrmUpcomingWebinars.html",
         {
+            "webinars_added_today": webinars_added_today,
             "crm_notes": CrmNote.manager.get_notes(),
             "upcoming_webinars_count": webinars.count(),
             "sent_today_paid_applications": sent_today_paid_applications,

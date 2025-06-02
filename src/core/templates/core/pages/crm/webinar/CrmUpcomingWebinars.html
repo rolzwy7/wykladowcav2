@@ -142,9 +142,9 @@ Kliknij, aby załadować statystyki. Klikaj pojedynczo i <b>czekaj aż się zał
 
 <b>MAILING_NUM_OF_PROCESSES</b>
 {{mailing_processes_num}}
-<br>
 
 {% if sent_today_paid_applications_count %}
+  <br><br>
   <b>
     DZISIAJ ZGŁOSZEŃ:
     <span class="fs-4">{{sent_today_paid_applications_count}}</span>
@@ -164,8 +164,25 @@ Kliknij, aby załadować statystyki. Klikaj pojedynczo i <b>czekaj aż się zał
     {{sent_today_paid_application.webinar.title|truncatechars:60}}
     <br>
   {% endfor %}
-  {% else %}
+{% else %}
   <b>BRAK DZISIAJ ZGŁOSZEŃ</b>
+{% endif %}
+
+{% if webinars_added_today %}
+<br><br>
+<b>
+  NOWE TERMINY:
+</b>
+<br>
+  {% for todays_webinar in webinars_added_today %}
+  {{forloop.counter}}.)
+  <span>
+    [{{todays_webinar.date}}]
+    [{{todays_webinar.lecturer}}]:
+    {{todays_webinar.title|truncatechars:60}}
+  </span>
+  <br>
+  {% endfor %}
 {% endif %}
 
 <hr>

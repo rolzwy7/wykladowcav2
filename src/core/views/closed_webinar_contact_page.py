@@ -26,7 +26,8 @@ def closed_webinar_contact_page(request):
             contact_message.save()
             telegram_service = TelegramService()
             telegram_service.send_chat_message(
-                "Wysłano zapytanie o szkolenie zamknięte",
+                "Wysłano zapytanie o szkolenie zamknięte:\n\n"
+                + contact_message.message,
                 TelegramChats.OTHER,
             )
             return redirect(reverse("core:closed_webinar_contact_sent_page"))

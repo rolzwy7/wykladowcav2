@@ -6,7 +6,7 @@ from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
-from django.utils import timezone
+from django.utils.timezone import now
 
 from core.consts.requests_consts import POST
 from core.models import Webinar, WebinarMetadata
@@ -58,6 +58,7 @@ def crm_webinar_bulk_duplicate(request, pk):
             webinar.is_hidden = is_hidden
             webinar.price_netto = price_netto
             webinar.date = date
+            webinar.created_at = now()
             webinar.slug = ""
             webinar.status = WebinarStatus.INIT
             webinar.save()
