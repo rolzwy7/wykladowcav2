@@ -28,6 +28,7 @@ class WebinarAggregateModelAdmin(ModelAdmin):
     list_display = ["__str__", "slug", "slug_conflict", "parent"]
     search_fields = ["grouping_token", "slug", "title"]
     filter_horizontal = ("categories",)
+    list_filter = ["categories", "lecturer"]
 
     fieldsets = (
         (

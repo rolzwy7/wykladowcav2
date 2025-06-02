@@ -11,7 +11,7 @@ from core.views.webinar import aggregate_ogimage_page, webinar_aggregate_page
 urlpatterns = [
     path("<slug:slug>/", webinar_aggregate_page, name="webinar_aggregate_page"),
     path(
-        "<int:pk>/og-image.png",
+        "<str:grouping_token>/og-image.png",
         aggregate_ogimage_page,
         name="aggregate_ogimage_page",
     ),

@@ -15,7 +15,7 @@ from django.template.defaultfilters import date as _date
 from django.utils.timezone import get_default_timezone
 from PIL import Image, ImageDraw
 
-from core.models import WebinarAggregate
+from core.models import Webinar, WebinarAggregate
 from core.utils.pillow import draw_multiline_text, load_font
 
 BASE_DIR = settings.BASE_DIR
@@ -23,20 +23,29 @@ ASSETS_DIR: Path = BASE_DIR.parent / "core" / "assets"
 MEDIA_DIR: Path = BASE_DIR.parent / "public" / "media"
 
 
-def aggregate_ogimage_page(request: HttpRequest, pk: int):
+def aggregate_ogimage_page(request: HttpRequest, grouping_token: str):
     """View for generating og:image for webinar"""
 
-    webinar = get_object_or_404(WebinarAggregate, pk=pk)
+    to_tz = get_default_timezone()
+    aggregate = get_object_or_404(WebinarAggregate, grouping_token=grouping_token)
+
+    # nearest_webinar = (
+    #     Webinar.manager.get_active_webinars()
+    #     .filter(id__in=[_.id for _ in aggregate.webinars.all()])
+    #     .order_by("date")
+    #     .first()
+    # )
+
     width, height = 940, 788
 
-    if webinar.is_anonymized:
+    if aggregate.is_anonymized:
         return HttpResponse(status=404)
 
-    to_tz = get_default_timezone()
-    date = webinar.date.astimezone(to_tz)
+    # if nearest_webinar:
+    #     nearest_webinar_date = nearest_webinar.date.astimezone(to_tz)
 
     base_layer = Image.open(
-        ASSETS_DIR / "webinar_ogimage" / "og_image_base.png"
+        ASSETS_DIR / "webinar_ogimage" / "og_image_agg_base.png"
     ).convert("RGBA")
 
     layer = Image.new("RGBA", (width, height), (255, 255, 255, 0))
@@ -50,46 +59,59 @@ def aggregate_ogimage_page(request: HttpRequest, pk: int):
 
     draw.text((75, 125), "Webinar", font=font_30b, fill=(0, 0, 0, 255))
 
-    if len(webinar.title) < 140:
+    if len(aggregate.title) < 140:
         draw_multiline_text(
-            draw, font_35b, webinar.title, (75, 160), 800, fill=(117, 79, 254, 255)
+            draw, font_35b, aggregate.title, (75, 160), 800, fill=(117, 79, 254, 255)
         )
     else:
         draw_multiline_text(
-            draw, font_30b, webinar.title, (75, 160), 800, fill=(117, 79, 254, 255)
+            draw, font_30b, aggregate.title, (75, 160), 800, fill=(117, 79, 254, 255)
         )
 
-    draw.text((75, 300), webinar.lecturer.fullname, font=font_30b, fill=(0, 0, 0, 255))
+    draw.text(
+        (75, 300), aggregate.lecturer.fullname, font=font_30b, fill=(0, 0, 0, 255)
+    )
 
-    if webinar.lecturer.very_short_biography:
+    if aggregate.lecturer.very_short_biography:
         draw_multiline_text(
             draw,
             font_20ri,
-            webinar.lecturer.very_short_biography,
+            aggregate.lecturer.very_short_biography,
             (75, 340),
             350,
             fill=(0, 0, 0, 255),
         )
 
-    draw.text((150, 465), _date(date, "l").upper(), font=font_24m, fill=(0, 0, 0, 255))
-    draw.text(
-        (150, 495),
-        _date(date, "j E Y").upper(),
-        font=font_24m,
-        fill=(0, 0, 0, 255),
-    )
+    # if nearest_webinar:
+    #     draw.text(
+    #         (150, 465),
+    #         _date(nearest_webinar_date, "l").upper(),
+    #         font=font_24m,
+    #         fill=(0, 0, 0, 255),
+    #     )
+    #     draw.text(
+    #         (150, 495),
+    #         _date(nearest_webinar_date, "j E Y").upper(),
+    #         font=font_24m,
+    #         fill=(0, 0, 0, 255),
+    #     )
 
-    draw.text((150, 540), "GODZINA", font=font_24m, fill=(0, 0, 0, 255))
-    draw.text((150, 570), _date(date, "H:i"), font=font_24m, fill=(0, 0, 0, 255))
+    #     draw.text((150, 540), "GODZINA", font=font_24m, fill=(0, 0, 0, 255))
+    #     draw.text(
+    #         (150, 570),
+    #         _date(nearest_webinar_date, "H:i"),
+    #         font=font_24m,
+    #         fill=(0, 0, 0, 255),
+    #     )
 
     out = Image.alpha_composite(base_layer, layer)
 
-    if webinar.lecturer.avatar:
+    if aggregate.lecturer.avatar:
         lecturer_im = Image.open(
             MEDIA_DIR
             / "uploads"
             / "lecturers"
-            / f"{webinar.lecturer.slug}_500x500.webp"
+            / f"{aggregate.lecturer.slug}_500x500.webp"
         ).convert("RGBA")
         out.paste(lecturer_im.resize((350, 350)), (460, 340))
 

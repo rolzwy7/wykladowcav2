@@ -151,8 +151,6 @@ class WebinarAggregate(Model):
         verbose_name = "Agregat"
         verbose_name_plural = "Agregaty"
 
-    # TODO: earliest webinar
-
     @property
     def minimal_price(self):
         """minimal_price"""
