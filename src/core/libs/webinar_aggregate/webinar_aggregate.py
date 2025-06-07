@@ -7,7 +7,7 @@ from random import randint
 
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.utils.timezone import now, timedelta
+from django.utils.timezone import datetime, now, timedelta
 
 from core.models import Webinar, WebinarAggregate, WebinarCategory
 
@@ -101,9 +101,16 @@ def aggregate_update_closest_webinar_dt(aggregate: WebinarAggregate):
     """aggregate_update_closest_webinar_dt"""
 
     base_dt = now() + timedelta(days=365 * 10)
+    active_webinars = Webinar.manager.get_active_webinars()
+    active_webinars_ids = {_.id: True for _ in active_webinars}  # type: ignore
 
     for _webinar in aggregate.webinars.all():
         webinar: Webinar = _webinar
+        webinar_id: int = webinar.id  # type: ignore
+
+        if not active_webinars_ids.get(webinar_id):
+            continue
+
         if webinar.date < base_dt:
             base_dt = webinar.date
 
