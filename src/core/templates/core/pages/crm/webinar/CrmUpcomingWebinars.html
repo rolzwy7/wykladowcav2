@@ -154,14 +154,32 @@ Kliknij, aby załadować statystyki. Klikaj pojedynczo i <b>czekaj aż się zał
     {{today_total_netto}} NETTO
   </b>
   <br>
-  {% for sent_today_paid_application, sent_today_paid_application_count_participants, sent_today_paid_application_netto in sent_today_paid_applications_with_netto %}
+  {% for sent_today_paid_application, sent_today_paid_application_count_participants, sent_today_paid_application_netto, sent_today_mailing_campaign in sent_today_paid_applications_with_netto %}
     {{forloop.counter}}.)
     <b class="bg-dark text-white px-2">
       {{sent_today_paid_application_netto}} NETTO / {{sent_today_paid_application_count_participants}} ucz.
     </b>
+
+    {% if sent_today_mailing_campaign %}
+    <b class="bg-primary text-white px-2">
+      <a class="text-white" target="_blank" href="{% url 'core:crm_mailing_campaign_detail' pk=sent_today_mailing_campaign.pk %}">
+        Kampania z {{sent_today_mailing_campaign.created_at|date:"j E Y"}}: {{sent_today_mailing_campaign.title}}
+      </a>
+    </b>
+    {% else %}
+    <b class="bg-warning text-white px-2">
+      Bez kampanii mailingowej
+    </b>
+    {% endif %}
+
+    <br>
   
     <b class="ms-1">{{sent_today_paid_application.webinar.lecturer}}</b>
     {{sent_today_paid_application.webinar.title|truncatechars:60}}
+    <a href="{% url 'core:crm_webinar_detail_dashboard' pk=sent_today_paid_application.webinar.pk %}">
+      <b>CRM</b>
+    </a>
+    
     <br>
   {% endfor %}
 {% else %}

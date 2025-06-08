@@ -112,6 +112,22 @@
                         🔍
                     </a>
                 </span>
+
+                <span class="ms-4">
+                    <b title="Tytuł" class="bg-{% if webinar_ctx.aggregate.title_conflict %}danger{% else %}success{% endif %}">
+                        T
+					</b>
+					<b title="Program" class="bg-{% if webinar_ctx.aggregate.program_conflict %}danger{% else %}success{% endif %}">
+                        P
+					</b>
+					<b title="Wykładowca" class="bg-{% if webinar_ctx.aggregate.lecturer_conflict %}danger{% else %}success{% endif %}">
+                        W
+					</b>
+                    <b title="Slug" class="bg-{% if webinar_ctx.aggregate.slug_conflict %}danger{% else %}success{% endif %}">
+                        S
+                    </b>
+                </span>
+
             </li>
             {% if webinar_ctx.aggregate.hidden %}
             <li class="d-flex align-items-center">

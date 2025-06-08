@@ -139,6 +139,9 @@ def aggregate_update_has_active_webinars(aggregate: WebinarAggregate):
 def aggregate_update_conflicts(aggregate: WebinarAggregate):
     """aggregate_update_conflicts"""
 
+    active_webinars = Webinar.manager.get_active_webinars()
+    active_webinars_ids = {_.id: True for _ in active_webinars}  # type: ignore
+
     titles = set()
     lecturers = set()
     program_hashes = set()
@@ -146,8 +149,13 @@ def aggregate_update_conflicts(aggregate: WebinarAggregate):
 
     for _webinar in aggregate.webinars.all():
         webinar: Webinar = _webinar
+        webinar_id: int = webinar.id  # type: ignore
         webinar_program: str = webinar.program
         webinar_program_assets: str = webinar.program_assets
+
+        # Only active webinars
+        if not active_webinars_ids.get(webinar_id):
+            continue
 
         if not aggregate.lecturer:
             aggregate.lecturer = webinar.lecturer

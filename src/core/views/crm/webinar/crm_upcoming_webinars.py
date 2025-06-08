@@ -5,7 +5,13 @@ from django.template.response import TemplateResponse
 from django.utils import timezone
 from django.utils.timezone import now
 
-from core.models import CrmNote, Webinar, WebinarApplication, WebinarParticipant
+from core.models import (
+    CrmNote,
+    MailingCampaign,
+    Webinar,
+    WebinarApplication,
+    WebinarParticipant,
+)
 from core.models.enums import ApplicationStatus
 from core.services import CrmWebinarService
 
@@ -67,11 +73,18 @@ def crm_upcoming_webinars(request):
             ).count()
         )
         today_total_netto += application.price_netto * count_participants
+
+        try:
+            campaign = MailingCampaign.manager.get(id=int(application.campaign_id))
+        except Exception as e:
+            campaign = None
+
         sent_today_paid_applications_with_netto.append(
             (
                 application,
                 count_participants,
                 application.price_netto * count_participants,
+                campaign,
             )
         )
 
