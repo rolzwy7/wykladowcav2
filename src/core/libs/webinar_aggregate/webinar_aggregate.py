@@ -139,7 +139,7 @@ def aggregate_update_has_active_webinars(aggregate: WebinarAggregate):
 def aggregate_update_conflicts(aggregate: WebinarAggregate):
     """aggregate_update_conflicts"""
 
-    active_webinars = Webinar.manager.get_active_webinars()
+    active_webinars = Webinar.manager.get_init_or_confirmed_webinars()
     active_webinars_ids = {_.id: True for _ in active_webinars}  # type: ignore
 
     titles = set()
