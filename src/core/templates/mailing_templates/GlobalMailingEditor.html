@@ -183,6 +183,23 @@
                             </label>
                          </div>
                          <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="id_button_closed_webinar" name="button_closed_webinar" checked>
+                            <label class="form-check-label" for="id_button_closed_webinar">
+                            Dodaj przycisk: Zapytaj o szkolenie zamknięte
+                            </label>
+                         </div>
+                         <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="id_button_buy_recording" name="button_buy_recording" {% if webinar.sale_recording %}checked{% endif %}>
+                            <label class="form-check-label" for="id_button_buy_recording">
+                            Dodaj przycisk: Kup nagranie
+                            {% if webinar.sale_recording %}
+                            <span class="fw-bold bg-success text-white">Nagranie dostępne</span>
+                            {% else %}
+                            <span class="fw-bold bg-danger text-white">Nagranie niedostępne</span>
+                            {% endif %}
+                            </label>
+                         </div>
+                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="id_last_spots" name="show_last_spots" {% if less_than_week_webinar %}checked{% endif %}>
                             <label class="form-check-label" for="id_last_spots">
                                <span class="fw-bold text-warning">( {{webinar.remaining_places}} miejsc/a )</span>

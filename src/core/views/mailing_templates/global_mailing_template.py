@@ -113,6 +113,8 @@ def global_mailing_template_page(request):
         "show_hello_text": request.GET.get("show_hello_text"),
         "section_fb_group": request.GET.get("section_fb_group"),
         "section_loyalty": request.GET.get("section_loyalty"),
+        "button_closed_webinar": request.GET.get("button_closed_webinar"),
+        "button_buy_recording": request.GET.get("button_buy_recording"),
         "lecturer_section": request.GET.get("lecturer_section"),
         "patron_section": request.GET.get("patron_section"),
         "other_cat_section": request.GET.get("other_cat_section"),
