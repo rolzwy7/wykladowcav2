@@ -1,17 +1,17 @@
 """Webinar Queue Model"""
 
+# flake8: noqa=E501
+
 from django.db.models import (
-    CASCADE,
+    RESTRICT,
+    BooleanField,
     CharField,
     DateTimeField,
+    EmailField,
     ForeignKey,
     Manager,
     Model,
-    Q,
-    QuerySet,
-    TextField,
 )
-from django.utils.timezone import now
 
 
 class WebinarQueueManager(Manager):
@@ -27,12 +27,27 @@ class WebinarQueue(Model):
 
     created_at = DateTimeField(auto_now_add=True)
 
-    # e-mail
-    # tracking_code
-    # aggregate
-    # sent_email
-    # ip address
-    # user-agent
+    # Basic info
+    email = EmailField("Adres E-mail")
+    aggregate = ForeignKey(
+        "WebinarAggregate",
+        on_delete=RESTRICT,
+        verbose_name="Agregat",
+    )
+    aggregate_current_title = CharField(max_length=256, blank=True)
+
+    # Tracking info
+    spy_object = ForeignKey(
+        "SpyObject",
+        on_delete=RESTRICT,
+        null=True,
+        blank=True,
+        verbose_name="Spy Object",
+    )
+
+    # Notification
+    sent_notification = BooleanField("Wysłano e-mail?", default=False)
+    sent_notification_at = DateTimeField("Kiedy wysłano e-mail", null=True, blank=True)
 
     class Meta:
         ordering = ["-created_at"]

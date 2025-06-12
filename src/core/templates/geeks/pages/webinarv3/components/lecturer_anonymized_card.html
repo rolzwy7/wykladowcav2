@@ -15,9 +15,11 @@
 
     <div class="m-0 mt-2">
       {% for category in webinar.categories.all %}
-        <a href="{% url "core:webinar_category_page" slug=category.slug %}" class="btn btn-light btn-xs mb-2">
-          {{category.name}}
-        </a>
+      {% if not category.parent %}
+      <a href="{% url "core:webinar_category_page" slug=category.slug %}" class="btn btn-light btn-xs mb-2">
+        {{category.name}}
+      </a>
+      {% endif %}
       {% endfor %}
     </div>
 

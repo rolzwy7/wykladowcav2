@@ -43,6 +43,7 @@ def webinar_ogimage_page(request: HttpRequest, pk: int):
 
     font_24m = load_font(str(ASSETS_DIR / "fonts" / "Montserrat-Medium.ttf"), 24)
     font_30b = load_font(str(ASSETS_DIR / "fonts" / "Montserrat-Bold.ttf"), 30)
+    font_25b = load_font(str(ASSETS_DIR / "fonts" / "Montserrat-Bold.ttf"), 25)
     font_35b = load_font(str(ASSETS_DIR / "fonts" / "Montserrat-Bold.ttf"), 35)
     font_20ri = load_font(str(ASSETS_DIR / "fonts" / "Montserrat-Italic.ttf"), 20)
 
@@ -54,9 +55,13 @@ def webinar_ogimage_page(request: HttpRequest, pk: int):
         draw_multiline_text(
             draw, font_35b, webinar.title, (75, 160), 800, fill=(117, 79, 254, 255)
         )
-    else:
+    elif len(webinar.title) < 180:
         draw_multiline_text(
             draw, font_30b, webinar.title, (75, 160), 800, fill=(117, 79, 254, 255)
+        )
+    else:
+        draw_multiline_text(
+            draw, font_25b, webinar.title, (75, 160), 800, fill=(117, 79, 254, 255)
         )
 
     draw.text((75, 300), webinar.lecturer.fullname, font=font_30b, fill=(0, 0, 0, 255))

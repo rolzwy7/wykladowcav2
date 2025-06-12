@@ -181,42 +181,6 @@
         {% endfor %}
     {% endcomment %}
 
-    {% if favourite_mailings %}
-    <div class="card shadow-sm mb-4">
-        <div class="card-header">
-          <h3 class="card-title">⭐ Ulubione kampanie ({{fqdn}})</h3>
-        </div>
-        <div class="card-body">
-
-          <div class="table-responsive">
-            <table class="table">
-              <tbody>
-
-                {% for pack in favourite_mailings %}
-                {% with campaign=pack.0 %}
-                {% with metadata=pack.1 %}
-
-
-                <tr style="background-color:{% cycle '#e6e6e6' '#ffffff' %};">
-                  {% include "./snippets/MailingTr.html" %}
-                </tr>
-
-                {% endwith %}
-                {% endwith %}
-                {% endfor %}
-
-              </tbody>
-            </table>
-          </div>
-
-
-        </div>
-        <div class="card-footer">
-          
-        </div>
-      </div>
-      {% endif %}
-
 
       <div class="card shadow-sm">
         <div class="card-header">
@@ -265,6 +229,42 @@
           
         </div>
       </div>
+
+    {% if favourite_mailings %}
+    <div class="card shadow-sm mb-4">
+        <div class="card-header">
+          <h3 class="card-title">⭐ Ulubione kampanie ({{fqdn}})</h3>
+        </div>
+        <div class="card-body">
+
+          <div class="table-responsive">
+            <table class="table">
+              <tbody>
+
+                {% for pack in favourite_mailings %}
+                {% with campaign=pack.0 %}
+                {% with metadata=pack.1 %}
+
+
+                <tr style="background-color:{% cycle '#e6e6e6' '#ffffff' %};">
+                  {% include "./snippets/MailingTr.html" %}
+                </tr>
+
+                {% endwith %}
+                {% endwith %}
+                {% endfor %}
+
+              </tbody>
+            </table>
+          </div>
+
+
+        </div>
+        <div class="card-footer">
+          
+        </div>
+      </div>
+      {% endif %}
 
 
 {% endblock crm_content %}
