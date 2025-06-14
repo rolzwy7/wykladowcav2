@@ -9,7 +9,7 @@
   {% if aggregate.seo_meta_description %}
   <meta name="description" content="{{ aggregate.seo_meta_description }}">
   {% endif %}
-  <link rel="canonical" href="{{ aggregate.seo_canonical_url|default:request.build_absolute_uri }}">
+  <link rel="canonical" href="{{ aggregate.seo_canonical_url|default:request.build_absolute_uri }}" />
 
   <meta property="og:locale" content="pl_PL" />
   <meta property="og:url" content="{{META__BASE_URL}}{% url "core:webinar_aggregate_page" slug=aggregate.slug %}" />

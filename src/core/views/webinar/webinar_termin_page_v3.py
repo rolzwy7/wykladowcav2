@@ -2,6 +2,7 @@
 
 # flake8: noqa=E501
 
+from django.http import HttpResponsePermanentRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
@@ -17,6 +18,7 @@ def webinar_termin_page_v3(request, slug: str):
     template_name = "geeks/pages/webinarv3/WebinarTerminPage.html"
 
     webinar = get_object_or_404(Webinar, slug=slug)
+    aggregate = WebinarAggregate.manager.get(grouping_token=webinar.grouping_token)
 
     if webinar.is_connected_to_conference:
         try:
@@ -34,7 +36,7 @@ def webinar_termin_page_v3(request, slug: str):
     # If webinar is not active redirect to aggregate
     # if not webinar.is_active:
     #     aggregate = WebinarAggregate.manager.get(grouping_token=webinar.grouping_token)
-    #     return redirect(
+    #     return HttpResponsePermanentRedirect(
     #         reverse("core:webinar_aggregate_page", kwargs={"slug": aggregate.slug})
     #     )
 
@@ -48,9 +50,10 @@ def webinar_termin_page_v3(request, slug: str):
         {
             "META__TITLE": webinar.title,
             "CANONICAL": reverse(
-                "core:webinar_program_page", kwargs={"slug": webinar.slug}
+                "core:webinar_aggregate_page", kwargs={"slug": aggregate.slug}
             ),
             "webinar": webinar,
+            "aggregate": aggregate,
             "related_webinars": webinar_service.get_related_webinars(),
             "similar_webinars": webinar_service.get_similar_webinars(),
             "webinar_tabs": webinar_service.get_webinar_tabs(0),
