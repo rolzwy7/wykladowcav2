@@ -6,6 +6,7 @@ from django.http import HttpResponsePermanentRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
+from django.utils.timezone import now, timedelta
 
 from core.models import ConferenceEdition, Webinar, WebinarAggregate
 from core.services import OpinionsService
@@ -33,12 +34,12 @@ def webinar_termin_page_v3(request, slug: str):
                 )
             )
 
-    # If webinar is not active redirect to aggregate
-    # if not webinar.is_active:
-    #     aggregate = WebinarAggregate.manager.get(grouping_token=webinar.grouping_token)
-    #     return HttpResponsePermanentRedirect(
-    #         reverse("core:webinar_aggregate_page", kwargs={"slug": aggregate.slug})
-    #     )
+    # If webinar is not active and time passed perma redirect to aggregate
+    if not webinar.is_active and (now() - webinar.date) > timedelta(days=30):
+        aggregate = WebinarAggregate.manager.get(grouping_token=webinar.grouping_token)
+        return HttpResponsePermanentRedirect(
+            reverse("core:webinar_aggregate_page", kwargs={"slug": aggregate.slug})
+        )
 
     webinar_service = WebinarService(webinar)
     lecturer_service = LecturerService(webinar.lecturer)
