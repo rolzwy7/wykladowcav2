@@ -1,4 +1,4 @@
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, HttpResponsePermanentRedirect
 from django.shortcuts import redirect
 
 from core.exceptions import RedirectException, UnauthorizedException
@@ -16,6 +16,14 @@ class CoreMiddleware:
     def __call__(self, request: HttpRequest):
         # Code to be executed for each request before
         # the view (and later middleware) are called.
+
+        # Redirect www. traffic to non-www
+        host = request.get_host()
+        if host.startswith("www."):
+            non_www_host = host[4:]  # Remove 'www.'
+            url = request.build_absolute_uri()
+            non_www_url = url.replace(f"://{host}", f"://{non_www_host}", 1)
+            return HttpResponsePermanentRedirect(non_www_url)
 
         # Deny access to CRM for unauthenticated users and
         # users that are authenticated but aren't staff memebers
