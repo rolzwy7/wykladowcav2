@@ -266,28 +266,28 @@
           
           {% if not any_active_webinar %}
           <!-- Card -->
-          <div class="card mb-4 border border-primary">
+          <div class="card mb-4 border border-success">
             <!-- Card Header -->
-            <div class="card-header bg-light-primary">
-              <h3 class="mb-0 text-primary">
+            <div class="card-header bg-light-success">
+              <h3 class="mb-0 text-success">
                 <i class="bi bi-bell-fill"></i>
                 Powiadom o dostępnych terminach
               </h3>
             </div>
             <!-- Card Body -->
-            <div class="card-body bg-light-primary pt-1">
+            <div class="card-body bg-light-success pt-1">
               <p class="text-dark fw-medium">
-                Jeżeli interesuje Cię ten temat daj nam znać, a my <b>wyślemy Ci przypomnienie</b> gdy szkolenie z tej tematyki ponownie znajdzie się w naszej ofercie!
+                Jeżeli interesuje Cię ten temat daj nam znać, a my <b>wyślemy Ci przypomnienie</b> gdy szkolenie z tej tematyki <b>ponownie znajdzie się w naszej ofercie!</b>
               </p>
               <!-- Form -->
-              <form class="row" method="post" action="{% url "core:lead_webinar_post_endpoint" pk=first_webinar.pk %}">
+              <form class="row" method="post" action="{% url "core:webinar_queue_endpoint" grouping_token=aggregate.grouping_token %}">
                   {% csrf_token %}
                   <div class="mb-3 col-12 col-md-12">
                     <label class="form-label" for="id_email">Adres E-mail</label>
                     <input name="email" type="email" id="id_email" class="form-control" placeholder="Twój adres e-mail" required>
                   </div>
                   <div class="mb-3 col-12 col-md-12">
-                    <input type="submit" value="Wyślij" class="btn btn-primary">
+                    <input type="submit" value="Powiadom mnie" class="btn btn-success">
                   </div>
               </form>
             </div>

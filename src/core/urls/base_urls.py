@@ -23,6 +23,7 @@ from core.views.mailing_resignation import (
     mailing_resignation_by_form_page,
     mailing_resignation_page_with_list,
 )
+from core.views.thanks_page import thanks_page
 from core.views.webinar.webinar_redirects import (
     webinar_redirect_to_program,
     webinar_redirect_to_program_tracking,
@@ -139,6 +140,7 @@ urlpatterns = [
         krajowy_fundusz_szkoleniowy_page,
         name="krajowy_fundusz_szkoleniowy_page",
     ),
+    # Szkolenie zamkniete
     path(
         "szkolenia-zamkniete/",
         closed_webinar_contact_page,
@@ -149,5 +151,12 @@ urlpatterns = [
         closed_webinar_contact_sent_page,
         name="closed_webinar_contact_sent_page",
     ),
+    # Dziekujemy
+    path(
+        "dziekujemy/<str:choice_slug>/",
+        thanks_page,
+        name="thanks_page",
+    ),
+    # Strona glowna
     path("", home_page, name="homepage"),
 ]

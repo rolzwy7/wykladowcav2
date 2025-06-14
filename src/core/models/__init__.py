@@ -47,6 +47,7 @@ from .sale_recording_application_model import (
 from .sale_recording_model import SaleRecording
 from .sale_recording_participant_model import SaleRecordingParticipant
 from .service_offer_model import ServiceOffer, ServiceOfferApplication, ServiceOfferLead
+from .spy.spy_object_model import SpyObject
 from .survey import Survey, SurveyAnswer, SurveyOpinion, SurveyVote
 from .user_model import User
 from .webinar_aggregate_model import WebinarAggregate, WebinarAggregateManager
@@ -66,4 +67,5 @@ from .webinar_certificate_model import WebinarCertificate
 from .webinar_model import Webinar, WebinarMetadata
 from .webinar_move_register_model import WebinarMoveRegister, WebinarMoveRegisterItem
 from .webinar_participant_model import WebinarParticipant, WebinarParticipantMetadata
+from .webinar_queue_model import WebinarQueue
 from .webinar_recording_model import WebinarRecording, WebinarRecordingToken

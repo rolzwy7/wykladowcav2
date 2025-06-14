@@ -2,7 +2,11 @@
 {% load static %}
 
 {% block title %}
+{% if not category.title %}
+<title>{{category.name}} - {{COMPANY_NAME}}</title>
+{% else %}
 <title>{{category.title}} - {{COMPANY_NAME}}</title>
+{% endif %}
 {% endblock title %}
 
 {% block content %}

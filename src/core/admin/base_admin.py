@@ -27,6 +27,7 @@ from core.models import (
     ServiceOffer,
     ServiceOfferLead,
     SmtpSender,
+    SpyObject,
     Survey,
     SurveyAnswer,
     SurveyOpinion,
@@ -41,9 +42,13 @@ from core.models import (
     WebinarAsset,
     WebinarMoveRegister,
     WebinarMoveRegisterItem,
+    WebinarQueue,
     WebinarRecording,
     WebinarRecordingToken,
 )
+
+admin.site.register(WebinarQueue)
+admin.site.register(SpyObject)
 
 admin.site.register(CrmNote)
 
