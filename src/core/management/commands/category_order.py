@@ -4,7 +4,9 @@
 
 from django.core.management.base import BaseCommand
 
+from core.consts import TelegramChats
 from core.models import Webinar, WebinarApplication, WebinarCategory, WebinarParticipant
+from core.services import TelegramService
 
 
 class Command(BaseCommand):
@@ -62,3 +64,9 @@ class Command(BaseCommand):
         for kat_id, order_val in modify_map.items():
             print("Cat", kat_id, "new order value:", order_val)
             WebinarCategory.manager.filter(id=kat_id).update(order=order_val)
+
+        telegram_service = TelegramService()
+        telegram_service.try_send_chat_message(
+            "Zreorganizowano kategorie na stronie głównej",
+            TelegramChats.OTHER,
+        )
