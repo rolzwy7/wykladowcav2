@@ -21,8 +21,6 @@
             <tr>
                 <th scope="row">{{aggregate.id}}</th>
                 <td>
-                    {{aggregate.created_at}}
-                    <br>
                     <b>{{aggregate.grouping_token}}</b>
                     <br>
                     <a href="{% url "admin:core_webinaraggregate_change" object_id=aggregate.grouping_token %}">

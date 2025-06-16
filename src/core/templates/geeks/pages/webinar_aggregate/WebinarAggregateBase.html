@@ -79,13 +79,17 @@
       <div class="row align-items-center">
         <div class="col-xl-7 col-lg-7 col-md-12">
           <div>
+            
+            {% if request.user.is_staff %}
+            <div class="mb-2">
+              <a href="{% url "admin:core_webinaraggregate_change" object_id=aggregate.grouping_token %}" class="btn btn-dark btn-xs">
+                Edytuj Agragat w CMS
+              </a>
+            </div>
+            {% endif %}
+
             <h1 class="text-white display-4 fw-semibold">
               {{aggregate.title}}
-              {% if request.user.is_staff %}
-              <a href="{% url "admin:core_webinaraggregate_change" object_id=aggregate.grouping_token %}" class="text-white">
-                  CMS
-              </a>
-              {% endif %}
             </h1>
             {% if aggregate.short_description %}  
               <p class="text-white mb-6 lead">
@@ -296,6 +300,28 @@
 
           {% comment %} Date and hour card {% endcomment %}
           {% include './components/agg_date_and_hour_card.html' %}
+
+          {% if request.user.is_staff %}
+          <div class="card mb-3 mb-4">
+              <div>
+                <!-- Card header -->
+                <div class="card-header">
+                  <h4 class="mb-0">Administracja</h4>
+                </div>
+                <ol class="m-0">
+                  <li class="p-2">
+                    <a href="{% url "core:crm_aggregates_page" %}?q_grouping_token={{aggregate.grouping_token}}">
+                      <b>[CRM] Wszystkie terminy dla tego agregatu</b>
+                    </a>
+                  </li>
+                </ol>
+                <div class="p-2">
+                  <span><b>Podgląd obrazka FB:</b></span>
+                  <img style="border: 1px solid black;" src="{% url "core:aggregate_ogimage_page" grouping_token=aggregate.grouping_token %}" alt="" class="w-100">
+                </div>
+              </div>
+            </div>
+          {% endif %}
 
           {% comment %} What we offer {% endcomment %}
           {% include './components/what_we_offer.html' with webinar=first_webinar %}

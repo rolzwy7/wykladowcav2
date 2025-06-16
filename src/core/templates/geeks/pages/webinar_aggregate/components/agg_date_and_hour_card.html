@@ -12,9 +12,14 @@
           Online
           <br> {% endcomment %}
           {% if request.user.is_staff %}
-          <a href="{% url "admin:core_webinar_change" object_id=agg_webinar.id %}"><b>CMS</b></a>
-          <a href="{% url 'core:crm_webinar_detail_dashboard' pk=agg_webinar.pk %}"><b>CRM</b></a>
-          <br>
+          <div class="mb-2">
+            <a href="{% url "admin:core_webinar_change" object_id=agg_webinar.id %}" class="btn btn-dark btn-xs">
+              <b>CMS</b>
+            </a>
+            <a href="{% url 'core:crm_webinar_detail_dashboard' pk=agg_webinar.pk %}" class="btn btn-dark btn-xs">
+              <b>CRM</b>
+            </a>
+          </div>
           {% endif %}
           <i class="fe fe-calendar align-middle me-1 text-info"></i>
           <b>{{agg_webinar.date|date:"j E Y"}} r.</b> ({{agg_webinar.date|date:"l"}}) — Online
