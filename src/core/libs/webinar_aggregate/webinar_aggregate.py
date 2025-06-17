@@ -75,6 +75,20 @@ def aggregate_add_webinar(aggregate: WebinarAggregate, webinar: Webinar):
     aggregate.webinars.add(webinar)
 
 
+def relink_webinars_for_aggregate(aggregate: WebinarAggregate):
+    """relink_webinars_for_aggregate"""
+
+    # Get all webinars with aggregate's grouping token
+    webinars_for_token = Webinar.manager.filter(grouping_token=aggregate.grouping_token)
+
+    # Clear webinars for aggregate
+    aggregate_clear_webinars(aggregate)
+
+    # Re-link webinars with aggregate
+    for webinar in webinars_for_token:
+        aggregate_add_webinar(aggregate, webinar)
+
+
 def aggregate_clear_categories(aggregate: WebinarAggregate):
     """aggregate_clear_categories"""
     aggregate.categories.clear()

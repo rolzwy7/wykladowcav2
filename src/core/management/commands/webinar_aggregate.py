@@ -11,6 +11,7 @@ from core.libs.webinar_aggregate import (
     aggregate_update_conflicts,
     aggregate_update_has_active_webinars,
     get_or_create_aggregate,
+    relink_webinars_for_aggregate,
 )
 from core.models import Webinar, WebinarAggregate
 
@@ -35,6 +36,9 @@ class Command(BaseCommand):
 
         for aggregate in WebinarAggregate.manager.all():
             print("Aggregate:", aggregate)
+
+            print("Re-linking webinars for aggregate:", aggregate)
+            relink_webinars_for_aggregate(aggregate)
 
             print("Refreshing categories for:", aggregate)
             aggregate_refresh_categories(aggregate)
