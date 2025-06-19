@@ -375,6 +375,7 @@ class CrmWebinarService:
         )
         free_participants = self.get_free_participants()
         is_default_program = self.webinar.is_default_program
+        any_categories = any([cat for cat in self.webinar.categories.all()])
 
         try:
             conference_edition = ConferenceEdition.manager.get(webinar=self.webinar)
@@ -398,6 +399,7 @@ class CrmWebinarService:
 
         return {
             "aggregate": aggregate,
+            "any_categories": any_categories,
             "webinar": self.webinar,
             "webinar_metadata": webinar_metadata,
             "date_changes": date_changes,

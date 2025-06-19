@@ -139,6 +139,16 @@
                 </span>
             </li>
             {% endif %}
+            {% if not webinar_ctx.any_categories %}
+            <li class="d-flex align-items-center">
+                <span class="bullet bullet-vertical bg-info me-5"></span>
+                <span
+                    class="px-1 text-white bg-info"
+                >
+                    Brak kategorii (NIEWIDOCZNY NA STRONIE)
+                </span>
+            </li>
+            {% endif %}
             {% endif %}
             {% if webinar_ctx.is_confirmed %}
             <li class="d-flex align-items-center">
