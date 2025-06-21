@@ -268,7 +268,7 @@ def process_blacklist(
                 print("[DEBUG] if not aggregate_customers.get(grouping_token):")
                 aggregate_webinars = Webinar.manager.filter(
                     Q(grouping_token=grouping_token)
-                    & Q(created_at__gte=now() - timedelta(days=30))
+                    & Q(date__gte=now() - timedelta(days=30))
                 )
                 for aggregate_webinar in aggregate_webinars:
                     print("[DEBUG] aggregate_webinar", aggregate_webinar)
@@ -285,7 +285,6 @@ def process_blacklist(
                         "[DEBUG] aggregate_customers:",
                         aggregate_customers[grouping_token],
                     )
-                    time.sleep(10)
 
         # Blacklist
         if BlacklistService.is_email_dangerous_to_send(email):
