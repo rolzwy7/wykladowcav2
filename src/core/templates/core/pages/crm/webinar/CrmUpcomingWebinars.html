@@ -204,6 +204,37 @@ Kliknij, aby załadować statystyki. Klikaj pojedynczo i <b>czekaj aż się zał
   {% endfor %}
 {% endif %}
 
+{% if webinar_queue_map %}
+<br><br>
+
+<div class="table-responsive">
+	<table class="table">
+		<thead>
+			<tr class="fw-bold fs-6 text-gray-800">
+				<th>Agregat</th>
+				<th>W kolejce</th>
+				<th>Wysłano</th>
+			</tr>
+		</thead>
+		<tbody>
+      {% for agg_grouping_token, queue_list in webinar_queue_map.items %}
+			<tr>
+				<td>
+          <a href="{% url "admin:core_webinarqueue_changelist" %}?q={{agg_grouping_token}}">
+            CMS
+          </a>
+          <br>
+          {{queue_list.0}}
+        </td>
+				<td>{{queue_list.2}}</td>
+				<td>{{queue_list.1}}</td>
+			</tr>
+      {% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endif %}
+
 <hr>
 
 {% if 0 %}

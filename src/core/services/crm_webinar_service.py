@@ -21,6 +21,7 @@ from core.models import (
     WebinarMoveRegister,
     WebinarParticipant,
     WebinarParticipantMetadata,
+    WebinarQueue,
     WebinarRecording,
     WebinarRecordingToken,
 )
@@ -397,9 +398,23 @@ class CrmWebinarService:
         except WebinarAggregate.DoesNotExist:
             aggregate = None
 
+        # Aggregate queue
+        webinar_queue_not_sent_notify = WebinarQueue.manager.filter(
+            Q(aggregate=aggregate) & Q(sent_notification=False)
+        )
+        webinar_queue_sent_notify = WebinarQueue.manager.filter(
+            Q(aggregate=aggregate) & Q(sent_notification=True)
+        )
+
         return {
             "aggregate": aggregate,
             "any_categories": any_categories,
+            # Weinar Queue
+            "webinar_queue_not_sent_notify": webinar_queue_not_sent_notify,
+            "webinar_queue_not_sent_notify_count": webinar_queue_not_sent_notify.count(),
+            "webinar_queue_sent_notify": webinar_queue_sent_notify,
+            "webinar_queue_sent_notify_count": webinar_queue_sent_notify.count(),
+            #
             "webinar": self.webinar,
             "webinar_metadata": webinar_metadata,
             "date_changes": date_changes,

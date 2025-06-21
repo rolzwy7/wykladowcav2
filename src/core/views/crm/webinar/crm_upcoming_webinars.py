@@ -11,6 +11,7 @@ from core.models import (
     Webinar,
     WebinarApplication,
     WebinarParticipant,
+    WebinarQueue,
 )
 from core.models.enums import ApplicationStatus
 from core.services import CrmWebinarService
@@ -93,11 +94,26 @@ def crm_upcoming_webinars(request):
         created_at__date=timezone.now().date()
     )
 
+    # Webinar Queue
+    webinar_queue_map = {}
+    for webinar_queue in WebinarQueue.manager.all():
+        if webinar_queue.aggregate.grouping_token not in webinar_queue_map:
+            webinar_queue_map[webinar_queue.aggregate.grouping_token] = [
+                webinar_queue.aggregate.title,
+                0,
+                0,
+            ]
+        if webinar_queue.sent_notification:
+            webinar_queue_map[webinar_queue.aggregate.grouping_token][1] += 1
+        else:
+            webinar_queue_map[webinar_queue.aggregate.grouping_token][2] += 1
+
     return TemplateResponse(
         request,
         "core/pages/crm/webinar/CrmUpcomingWebinars.html",
         {
             "webinars_added_today": webinars_added_today,
+            "webinar_queue_map": webinar_queue_map,
             "crm_notes": CrmNote.manager.get_notes(),
             "upcoming_webinars_count": webinars.count(),
             "sent_today_paid_applications": sent_today_paid_applications,

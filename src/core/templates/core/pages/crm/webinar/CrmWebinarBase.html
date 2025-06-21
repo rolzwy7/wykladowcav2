@@ -397,6 +397,13 @@
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
                                     <div class="menu-item px-3">
+                                        <a href="{% url "core:crm_send_webinar_queue_email_notifications" grouping_token=webinar.grouping_token %}" class="menu-link px-3">
+                                            Wyślij przypomnienia z kolejki
+                                        </a>
+                                    </div>
+                                    <!--end::Menu item-->
+                                    <!--begin::Menu item-->
+                                    <div class="menu-item px-3">
                                         <a href="{% url "core:crm_webinar_send_opinion_request_action" pk=webinar.pk %}" class="menu-link px-3">
                                             Prześlij prośbę o opinię do uczestników
                                         </a>

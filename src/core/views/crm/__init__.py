@@ -18,6 +18,9 @@ from .crm_previews import (
 )
 from .crm_program_text_manual_adjust import crm_program_text_manual_adjust
 from .crm_resignations_plaintext import crm_resignations_plaintext
+from .crm_send_webinar_queue_email_notifications import (
+    crm_send_webinar_queue_email_notifications,
+)
 from .crm_take_over_account import crm_take_over_account
 from .crm_todos_list import crm_todos_done_list, crm_todos_list
 from .crm_url_to_program import crm_url_to_program

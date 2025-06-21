@@ -42,12 +42,10 @@ from core.models import (
     WebinarAsset,
     WebinarMoveRegister,
     WebinarMoveRegisterItem,
-    WebinarQueue,
     WebinarRecording,
     WebinarRecordingToken,
 )
 
-admin.site.register(WebinarQueue)
 admin.site.register(SpyObject)
 
 admin.site.register(CrmNote)

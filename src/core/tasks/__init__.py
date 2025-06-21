@@ -81,3 +81,7 @@ from .send_submitter_moving_email import (
     task_send_submitter_moving_email,
 )
 from .send_telegram_notification import task_send_telegram_notification
+from .send_webinar_queue_notification_email import (
+    params_send_webinar_queue_notification_email,
+    task_send_webinar_queue_notification_email,
+)

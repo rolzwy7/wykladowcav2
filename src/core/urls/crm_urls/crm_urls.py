@@ -14,6 +14,7 @@ from core.views.crm import (
     crm_invoices_list,
     crm_program_text_manual_adjust,
     crm_resignations_plaintext,
+    crm_send_webinar_queue_email_notifications,
     crm_take_over_account,
     crm_todos_done_list,
     crm_todos_list,
@@ -348,6 +349,12 @@ urlpatterns = [
         "user-password-reset/<int:pk>/",
         crm_user_password_reset,
         name="crm_user_password_reset",
+    ),
+    #
+    path(
+        "send-webinar-queue-email-notifications/<str:grouping_token>/",
+        crm_send_webinar_queue_email_notifications,
+        name="crm_send_webinar_queue_email_notifications",
     ),
     # Upcoming webinars
     path(

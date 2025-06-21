@@ -1,0 +1,75 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+
+<!--begin::Row-->
+<div class="row g-6 g-xl-9 mb-10">
+
+    <!--begin::Col-->
+    <div class="col-md-12 col-xl-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">
+            Wyślij przypomnienia do osób z kolejki: {{aggragate.title}}
+          </h3>
+        </div>
+        <div class="card-body">
+
+
+
+
+
+
+
+
+
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr class="fw-bold fs-6 text-gray-800">
+                <th>Email</th>
+                <th>Aggregate</th>
+                <th>Source</th>
+                <th>IP</th>
+                <th>Campaign ID</th>
+                <th>User-Agent</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for queue_elem in webinar_queue %}
+              <tr>
+                <td>{{queue_elem.email}}</td>
+                <td>{{queue_elem.aggregate}}</td>
+                <td>{{queue_elem.spy_object.source}}</td>
+                <td>{{queue_elem.spy_object.ip_address}}</td>
+                <td>{{queue_elem.spy_object.tracking_code}}</td>
+                <td>{{queue_elem.spy_object.campaign_id}}</td>
+                <td>{{queue_elem.spy_object.user_agent}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <hr>
+        <form action="{% url "core:crm_send_webinar_queue_email_notifications" grouping_token=aggragate.grouping_token %}" method="post">
+            {% csrf_token %}
+            {{form}}
+            <input type="submit" class="btn btn-primary" value="Wyślij">
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--end::Col-->
+
+  </div>
+  <!--end::Row-->
+
+  {% endblock crm_content %}
+
+{% block body_scripts %}
+{% endblock body_scripts %}
