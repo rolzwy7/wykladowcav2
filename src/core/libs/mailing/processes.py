@@ -7,6 +7,8 @@ import time
 
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
+from django.db.models import Q
+from django.utils.timezone import now, timedelta
 
 from core.consts import TelegramChats
 from core.libs.inbox import InboxMessage
@@ -261,19 +263,24 @@ def process_blacklist(
             grouping_token: str = campaign.webinar.grouping_token
             print("[DEBUG] if campaign.webinar, grouping_token:", grouping_token)
             # If not fetched, create a key
-            if not aggregate_customers.get(grouping_token):
+            if aggregate_customers.get(grouping_token) is None:
+                aggregate_customers[grouping_token] = []
                 print("[DEBUG] if not aggregate_customers.get(grouping_token):")
                 aggregate_webinars = Webinar.manager.filter(
-                    grouping_token=grouping_token
+                    Q(grouping_token=grouping_token)
+                    & Q(created_at__gte=now() - timedelta(days=30))
                 )
                 for aggregate_webinar in aggregate_webinars:
                     print("[DEBUG] aggregate_webinar", aggregate_webinar)
-                    aggregate_customers[grouping_token] = [
-                        participant.email.lower()
-                        for participant in WebinarParticipant.manager.get_valid_participants_for_webinar(
-                            aggregate_webinar
+                    for (
+                        participant
+                    ) in WebinarParticipant.manager.get_valid_participants_for_webinar(
+                        aggregate_webinar
+                    ):
+                        aggregate_customers[grouping_token].append(
+                            participant.email.lower()
                         )
-                    ]
+
                     print(
                         "[DEBUG] aggregate_customers:",
                         aggregate_customers[grouping_token],
