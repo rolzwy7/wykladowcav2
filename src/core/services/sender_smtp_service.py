@@ -67,6 +67,8 @@ class SenderSmtpService:
         resignation_url: str,
         tracking_code: str,
         campaign_id: int,
+        cc=None,
+        bcc=None,
     ):
         """Send email message"""
 
@@ -105,6 +107,8 @@ class SenderSmtpService:
                 "Reply-To": reply_to,
             },
             to=[to_email],
+            cc=cc,
+            bcc=bcc,
             connection=connection,
         )
         msg.attach_alternative(html_content, "text/html")

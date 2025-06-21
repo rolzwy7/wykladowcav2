@@ -16,6 +16,8 @@ from core.models import (
     MailingPoolManager,
     MailingReplyMessage,
     SmtpSender,
+    Webinar,
+    WebinarParticipant,
 )
 from core.models.enums import MailingBounceStatus, MailingPoolStatus
 from core.models.mailing import (
@@ -239,6 +241,9 @@ def process_blacklist(
         MailingPoolStatus.MX_VALID, campaigns_ids
     )
 
+    # Aggragete customers
+    aggregate_customers: dict[str, list] = {}
+
     for idx, document in enumerate(pool_mx_valid):
         if idx >= process_count:
             break
@@ -249,6 +254,23 @@ def process_blacklist(
 
         document_id = f"{campaign_id}:{email}"
         prefix, domain = email.split("@")
+
+        # If webinar exclude already singed up customers
+        if campaign.webinar:
+            # Get grouping token
+            grouping_token: str = campaign.webinar.grouping_token
+            # If not fetched, create a key
+            if not aggregate_customers.get(grouping_token):
+                aggregate_webinars = Webinar.manager.filter(
+                    grouping_token=grouping_token
+                )
+                for aggregate_webinar in aggregate_webinars:
+                    aggregate_customers[grouping_token] = [
+                        participant.email.lower()
+                        for participant in WebinarParticipant.manager.get_valid_participants_for_webinar(
+                            aggregate_webinar
+                        )
+                    ]
 
         # Blacklist
         if BlacklistService.is_email_dangerous_to_send(email):
@@ -273,7 +295,10 @@ def process_blacklist(
             email, campaign.resignation_list
         ):
             new_status = MailingPoolStatus.RESIGNATION
-
+        elif campaign.webinar and email.lower() in aggregate_customers.get(
+            campaign.webinar.grouping_token, []
+        ):
+            new_status = MailingPoolStatus.IS_ALREADY_CUSTOMER
         else:
             new_status = MailingPoolStatus.READY_TO_SEND
 

@@ -3,13 +3,17 @@
 # flake8: noqa=E501
 
 from celery import group
+from django.conf import settings
 from django.db.models import Q
 from django.forms import CharField, Form, ModelChoiceField, Select, Textarea, TextInput
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
+from django.urls import reverse
 from django.utils.timezone import now
 
+from core.consts import TelegramChats
 from core.models import SmtpSender, WebinarAggregate, WebinarQueue
+from core.services import TelegramService
 from core.tasks import (
     params_send_webinar_queue_notification_email,
     task_send_webinar_queue_notification_email,
@@ -98,16 +102,24 @@ def crm_send_webinar_queue_email_notifications(request, grouping_token: str):
             sender_alias = form.data["sender_alias"]
             # Subject
             subject = form.data["subject"]
-            # HTML
-            html = form.data["content"]
-            html = html.replace("{{TITLE}}", "aaaaaaaaaa")
-            html = html.replace("{{URL}}", "aaaaaaaaaa")
-            html = html.replace("{{URL_TEXT}}", "aaaaaaaaaa")
-            html = html.replace("{{EMAIL}}", "aaaaaaaaaa")
-
+            # Tasks list
             tasks = []
 
             for queue_elem in webinar_queue:
+
+                # URL
+                url_path = reverse(
+                    "core:webinar_aggregate_page", kwargs={"slug": aggragate.slug}
+                )
+                url = f"{settings.COMPANY_WWW}{url_path}"
+
+                # HTML
+                html = form.data["content"]
+                html = html.replace("{{TITLE}}", aggragate.title)
+                html = html.replace("{{URL}}", url)
+                html = html.replace("{{URL_TEXT}}", url)
+                html = html.replace("{{EMAIL}}", queue_elem.email)
+
                 tasks.append(
                     task_send_webinar_queue_notification_email.si(
                         params_send_webinar_queue_notification_email(
@@ -123,6 +135,14 @@ def crm_send_webinar_queue_email_notifications(request, grouping_token: str):
             group(*tasks).apply_async()
 
             webinar_queue.update(sent_notification=True, sent_notification_at=now())
+
+            telegram_service = TelegramService()
+            telegram_service.try_send_chat_message(
+                f"Kolejka: Wysłano powiadomienia o terminie - {subject}",
+                TelegramChats.OTHER,
+            )
+
+            return redirect(reverse("core:crm_upcoming_webinars"))
     else:
         form = WebinarEmailNotificationForm(
             initial={

@@ -2,6 +2,7 @@
 # pylint: disable=line-too-long
 import json
 
+from django.conf import settings
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
 
 from core.libs.html_operations.html_to_text import html_to_text
@@ -59,6 +60,7 @@ def send_webinar_queue_notification_email(
         resignation_url="",
         tracking_code="",
         campaign_id=0,
+        cc=settings.COMPANY_OFFICE_EMAIL,
     )
 
     try:
