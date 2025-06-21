@@ -60,7 +60,7 @@ def send_webinar_queue_notification_email(
         resignation_url="",
         tracking_code="",
         campaign_id=0,
-        cc=settings.COMPANY_OFFICE_EMAIL,
+        cc=[settings.COMPANY_OFFICE_EMAIL],
     )
 
     try:
