@@ -259,18 +259,26 @@ def process_blacklist(
         if campaign.webinar:
             # Get grouping token
             grouping_token: str = campaign.webinar.grouping_token
+            print("[DEBUG] if campaign.webinar, grouping_token:", grouping_token)
             # If not fetched, create a key
             if not aggregate_customers.get(grouping_token):
+                print("[DEBUG] if not aggregate_customers.get(grouping_token):")
                 aggregate_webinars = Webinar.manager.filter(
                     grouping_token=grouping_token
                 )
                 for aggregate_webinar in aggregate_webinars:
+                    print("[DEBUG] aggregate_webinar", aggregate_webinar)
                     aggregate_customers[grouping_token] = [
                         participant.email.lower()
                         for participant in WebinarParticipant.manager.get_valid_participants_for_webinar(
                             aggregate_webinar
                         )
                     ]
+                    print(
+                        "[DEBUG] aggregate_customers:",
+                        aggregate_customers[grouping_token],
+                    )
+                    time.sleep(10)
 
         # Blacklist
         if BlacklistService.is_email_dangerous_to_send(email):
