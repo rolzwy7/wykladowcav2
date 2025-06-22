@@ -13,6 +13,7 @@ from core.views.crm import (
     crm_eventlogs,
     crm_invoices_list,
     crm_program_text_manual_adjust,
+    crm_redirect,
     crm_resignations_plaintext,
     crm_send_webinar_queue_email_notifications,
     crm_take_over_account,
@@ -355,6 +356,11 @@ urlpatterns = [
         "send-webinar-queue-email-notifications/<str:grouping_token>/",
         crm_send_webinar_queue_email_notifications,
         name="crm_send_webinar_queue_email_notifications",
+    ),
+    path(
+        "crm-redirect/<str:name>/<str:param>/",
+        crm_redirect,
+        name="crm_redirect",
     ),
     # Upcoming webinars
     path(

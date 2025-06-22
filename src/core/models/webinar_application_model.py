@@ -10,6 +10,7 @@ import uuid
 from django.conf import settings
 from django.db.models import (
     CASCADE,
+    RESTRICT,
     BooleanField,
     CharField,
     DateTimeField,
@@ -343,6 +344,14 @@ class WebinarApplication(Model):
         "Fałszywe zgłoszenie (logi)",
         blank=True,
         help_text="Logi detektora fałszywych zgłoszeń",
+    )
+
+    spy_object = ForeignKey(
+        "SpyObject",
+        on_delete=RESTRICT,
+        null=True,
+        blank=True,
+        verbose_name="Spy Object",
     )
 
     class Meta:

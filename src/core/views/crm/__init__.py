@@ -17,6 +17,7 @@ from .crm_previews import (
     crm_submitter_moving_email_preview,
 )
 from .crm_program_text_manual_adjust import crm_program_text_manual_adjust
+from .crm_redirect import crm_redirect
 from .crm_resignations_plaintext import crm_resignations_plaintext
 from .crm_send_webinar_queue_email_notifications import (
     crm_send_webinar_queue_email_notifications,

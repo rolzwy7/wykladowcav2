@@ -9,6 +9,7 @@ from django.template.response import TemplateResponse
 
 from core.consts import POST
 from core.forms import ApplicationTypeForm
+from core.libs.spy import create_spy_object
 from core.models import (
     Webinar,
     WebinarApplication,
@@ -47,12 +48,15 @@ def application_type_page(request, pk: int):
             # TODO: move this to service ?? reflink_service would be a dependancy
 
             with transaction.atomic():
+                spy_object = create_spy_object(request, "WEBINAR_APPLICATION")
+
                 # Create apllication
                 application = WebinarApplication(
                     application_type=form.cleaned_data["application_type"],
                     price_netto=webinar.price,
                     price_old=webinar.price_netto,
                     webinar=webinar,
+                    spy_object=spy_object,
                 )
 
                 # Set tracking code
