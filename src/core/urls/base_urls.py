@@ -28,6 +28,7 @@ from core.views.webinar.webinar_redirects import (
     webinar_redirect_to_program,
     webinar_redirect_to_program_tracking,
     webinar_redirect_to_program_tracking_and_campaign_id,
+    webinar_redirect_to_program_tracking_and_campaign_id_test_title,
 )
 from core.views.webinar_category import webinar_category_page
 
@@ -123,6 +124,11 @@ urlpatterns = [
         "szkl/<int:pk>/<str:tracking_code>/<int:campaign_id>/",
         webinar_redirect_to_program_tracking_and_campaign_id,
         name="webinar_redirect_to_program_tracking_and_campaign_id",
+    ),
+    path(
+        "szkl/<int:pk>/<str:tracking_code>/<int:campaign_id>/<int:test_title_id>/",
+        webinar_redirect_to_program_tracking_and_campaign_id_test_title,
+        name="webinar_redirect_to_program_tracking_and_campaign_id_test_title",
     ),
     path(
         "kat/<slug:slug>/",

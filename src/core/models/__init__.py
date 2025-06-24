@@ -34,6 +34,7 @@ from .mailing import (
     MailingPoolManager,
     MailingReplyMessage,
     MailingTemplate,
+    MailingTitleTest,
     SmtpSender,
 )
 from .mailing.mailing_scheduled_model import MailingScheduled

@@ -13,6 +13,7 @@ from .discountcode_modeladmin import DiscountCodeModelAdmin
 from .leads_admin import LeadModelAdmin
 from .lecturer_modeladmin import LecturerModelAdmin
 from .lecturer_opinion_admin import LecturerOpinionModelAdmin
+from .mailing_title_test_modeladmin import MailingTitleTestModelAdmin
 from .redirects_admin import RedirectManualModelAdmin
 from .service_offer_admin import ServiceOfferApplicationModelAdmin
 from .user_modeladmin import UserModelAdmin

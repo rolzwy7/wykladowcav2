@@ -20,6 +20,7 @@ from core.libs.mailing.handlers import (
     handle_smtp_server_disconnected_error,
     handle_timeout_error,
 )
+from core.libs.mailing.title_test import get_or_create_mailing_title_test
 from core.models import MailingCampaign, MailingPoolManager, MailingTemplate, SmtpSender
 from core.models.enums import MailingPoolStatus
 from core.services import SenderSmtpService
@@ -84,6 +85,9 @@ def process_sending(
         html_content = html
         any_error_occured = False
 
+        # Save test a/b subject
+        test_title = get_or_create_mailing_title_test(subject, str(campaign_id))
+
         # Tracking code, get or create
         start_time = time.time()
         tracking_code = MailingTrackingService.get_or_create_tracking(email)
@@ -132,6 +136,7 @@ def process_sending(
                 resignation_url=resignation_url,
                 tracking_code=tracking_code,
                 campaign_id=campaign_id,
+                test_subject_id=str(test_title.id),  # type: ignore
             )
             end_time = time.time()
             time_send = (end_time - start_time) * 1000

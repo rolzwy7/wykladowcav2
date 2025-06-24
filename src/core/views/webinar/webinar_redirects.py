@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.utils.timezone import now
 
 from core.libs.mongo.db import MongoDBClient
-from core.models import MailingCampaign, Webinar, WebinarMetadata
+from core.models import MailingCampaign, MailingTitleTest, Webinar, WebinarMetadata
 
 
 def webinar_redirect_to_program(request: HttpRequest, pk: int):
@@ -75,6 +75,52 @@ def webinar_redirect_to_program_tracking_and_campaign_id(
         )
     except Exception as e:
         pass
+
+    return redirect(reverse("core:webinar_redirect_to_program_safe", kwargs={"pk": pk}))
+
+
+def webinar_redirect_to_program_tracking_and_campaign_id_test_title(
+    request: HttpRequest,
+    pk: int,
+    tracking_code: str,
+    campaign_id: int,
+    test_title_id: int,
+):
+    """Redirect to webinar program by webinar ID"""
+    # webinar: Webinar = get_object_or_404(Webinar, pk=pk)
+    # get_object_or_404(MailingCampaign, pk=campaign_id)
+
+    if request.user.is_staff:  # type: ignore
+        return redirect(
+            reverse("core:webinar_redirect_to_program_safe", kwargs={"pk": pk})
+        )
+
+    request.session["campaign_id"] = str(campaign_id)
+
+    if len(tracking_code) <= 32:
+        request.session["tracking_code"] = tracking_code
+
+    MailingCampaign.manager.filter(id=campaign_id).update(
+        total_clicks=F("total_clicks") + 1
+    )
+
+    try:
+        _, database = MongoDBClient.get_connection()
+        database["wykladowcav2_mailing_clicks"].insert_one(
+            {
+                "tracking_code": tracking_code,
+                "campaign_id": campaign_id,
+                "request_url": request.build_absolute_uri(),
+                "datetime": now(),
+                "ip_address": request.META.get("REMOTE_ADDR"),
+                "user_agent": request.META.get("HTTP_USER_AGENT"),
+            }
+        )
+    except Exception as e:
+        pass
+
+    # increment test title id
+    MailingTitleTest.objects.filter(id=test_title_id).update(counter=F("counter") + 1)
 
     return redirect(reverse("core:webinar_redirect_to_program_safe", kwargs={"pk": pk}))
 

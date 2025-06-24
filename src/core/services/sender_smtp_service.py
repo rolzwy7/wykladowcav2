@@ -69,6 +69,7 @@ class SenderSmtpService:
         campaign_id: int,
         cc=None,
         bcc=None,
+        test_subject_id=None,
     ):
         """Send email message"""
 
@@ -96,6 +97,9 @@ class SenderSmtpService:
 
         html_content = html_content.replace("{CAMPAIGN_ID}", str(campaign_id))
         text_content = text_content.replace("{CAMPAIGN_ID}", str(campaign_id))
+
+        html_content = html_content.replace("{TEST_SUBJECT_ID}", str(test_subject_id))
+        text_content = text_content.replace("{TEST_SUBJECT_ID}", str(test_subject_id))
 
         msg = EmailMultiAlternatives(
             subject=subject,

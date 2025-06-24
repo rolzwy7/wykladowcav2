@@ -48,6 +48,7 @@ from core.models import (
 
 admin.site.register(SpyObject)
 
+
 admin.site.register(CrmNote)
 
 admin.site.register(MailingScheduled)
