@@ -113,7 +113,9 @@ def crm_upcoming_webinars(request):
         "core/pages/crm/webinar/CrmUpcomingWebinars.html",
         {
             "webinars_added_today": webinars_added_today,
+            "webinars_added_today_count": webinars_added_today.count(),
             "webinar_queue_map": webinar_queue_map,
+            "webinar_queue_map_count": len(webinar_queue_map),
             "crm_notes": CrmNote.manager.get_notes(),
             "upcoming_webinars_count": webinars.count(),
             "sent_today_paid_applications": sent_today_paid_applications,

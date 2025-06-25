@@ -143,97 +143,164 @@ Kliknij, aby załadować statystyki. Klikaj pojedynczo i <b>czekaj aż się zał
 <b>MAILING_NUM_OF_PROCESSES</b>
 {{mailing_processes_num}}
 
-{% if sent_today_paid_applications_count %}
-  <br><br>
-  <b>
-    DZISIAJ ZGŁOSZEŃ:
-    <span class="fs-4">{{sent_today_paid_applications_count}}</span>
-  </b>
-  &nbsp;|&nbsp;
-  <b class="bg-dark text-white px-2">
-    {{today_total_netto}} NETTO
-  </b>
-  <br>
-  {% for sent_today_paid_application, sent_today_paid_application_count_participants, sent_today_paid_application_netto, sent_today_mailing_campaign in sent_today_paid_applications_with_netto %}
-    <br>
-    {{forloop.counter}}.)
-    <b class="bg-dark text-white px-2">
-      {{sent_today_paid_application_netto}} NETTO / {{sent_today_paid_application_count_participants}} ucz.
-    </b>
-
-    {% if sent_today_mailing_campaign %}
-    <b class="bg-primary text-white px-2">
-      <a class="text-white" target="_blank" href="{% url 'core:crm_mailing_campaign_detail' pk=sent_today_mailing_campaign.pk %}">
-        Kampania z {{sent_today_mailing_campaign.created_at|date:"j E Y"}}: {{sent_today_mailing_campaign.title}}
-      </a>
-    </b>
-    {% else %}
-    <b class="bg-warning text-white px-2">
-      Bez kampanii mailingowej
-    </b>
-    {% endif %}
-
-    <br>
-  
-    <b class="ms-1">{{sent_today_paid_application.webinar.lecturer}}</b>
-    {{sent_today_paid_application.webinar.title|truncatechars:60}}
-    <a href="{% url 'core:crm_webinar_detail_dashboard' pk=sent_today_paid_application.webinar.pk %}">
-      <b>CRM</b>
-    </a>
-    
-    <br>
-  {% endfor %}
-{% else %}
-  <b>BRAK DZISIAJ ZGŁOSZEŃ</b>
-{% endif %}
-
-{% if webinars_added_today %}
-<br><br>
-<b>
-  NOWE TERMINY:
-</b>
-<br>
-  {% for todays_webinar in webinars_added_today %}
-  {{forloop.counter}}.)
-  <span>
-    [{{todays_webinar.date}}]
-    [{{todays_webinar.lecturer}}]:
-    {{todays_webinar.title|truncatechars:60}}
-  </span>
-  <br>
-  {% endfor %}
-{% endif %}
-
-{% if webinar_queue_map %}
-<br><br>
-
-<div class="table-responsive">
-	<table class="table">
-		<thead>
-			<tr class="fw-bold fs-6 text-gray-800">
-				<th>Agregat</th>
-				<th>W kolejce</th>
-				<th>Wysłano</th>
-			</tr>
-		</thead>
-		<tbody>
-      {% for agg_grouping_token, queue_list in webinar_queue_map.items %}
-			<tr>
-				<td>
-          <a href="{% url "admin:core_webinarqueue_changelist" %}?q={{agg_grouping_token}}">
-            CMS
-          </a>
+<div class="col-md-12 mt-2">
+   <div class="card shadow-sm">
+      <div class="card-header collapsible cursor-pointer rotate" style="min-height:30px;!important" data-bs-toggle="collapse" data-bs-target="#kt_card_today_applications">
+         <h3 class="card-title m-0">
+            Dzisiejsze zgłoszenia ({{sent_today_paid_applications_count}})
+         </h3>
+         <div class="card-toolbar rotate-180">
+            <i class="ki-duotone ki-down fs-1"></i>
+         </div>
+      </div>
+      <div id="kt_card_today_applications" class="collapse show">
+         <div class="card-body">
+          {% if sent_today_paid_applications_count %}
+          <b>
+            DZISIAJ ZGŁOSZEŃ:
+            <span class="fs-4">{{sent_today_paid_applications_count}}</span>
+          </b>
+          &nbsp;|&nbsp;
+          <b class="bg-dark text-white px-2">
+            {{today_total_netto}} NETTO
+          </b>
           <br>
-          {{queue_list.0}}
-        </td>
-				<td>{{queue_list.2}}</td>
-				<td>{{queue_list.1}}</td>
-			</tr>
-      {% endfor %}
-		</tbody>
-	</table>
+          {% for sent_today_paid_application, sent_today_paid_application_count_participants, sent_today_paid_application_netto, sent_today_mailing_campaign in sent_today_paid_applications_with_netto %}
+            <br>
+            {{forloop.counter}}.)
+            <b class="bg-dark text-white px-2">
+              {{sent_today_paid_application_netto}} NETTO / {{sent_today_paid_application_count_participants}} ucz.
+            </b>
+
+            {% if sent_today_mailing_campaign %}
+            <b class="bg-primary text-white px-2">
+              <a class="text-white" target="_blank" href="{% url 'core:crm_mailing_campaign_detail' pk=sent_today_mailing_campaign.pk %}">
+                Kampania z {{sent_today_mailing_campaign.created_at|date:"j E Y"}}: {{sent_today_mailing_campaign.title}}
+              </a>
+            </b>
+            {% else %}
+            <b class="bg-warning text-white px-2">
+              Bez kampanii mailingowej
+            </b>
+            {% endif %}
+
+            <br>
+          
+            <b class="ms-1">{{sent_today_paid_application.webinar.lecturer}}</b>
+            {{sent_today_paid_application.webinar.title|truncatechars:60}}
+            <a href="{% url 'core:crm_webinar_detail_dashboard' pk=sent_today_paid_application.webinar.pk %}">
+              <b>CRM</b>
+            </a>
+            
+            <br>
+          {% endfor %}
+        {% else %}
+          <b>BRAK DZISIAJ ZGŁOSZEŃ</b>
+        {% endif %}
+         </div>
+      </div>
+   </div>
 </div>
-{% endif %}
+
+
+<div class="col-md-12 mt-2">
+   <div class="card shadow-sm">
+      <div class="card-header collapsible cursor-pointer rotate" style="min-height:30px;!important" data-bs-toggle="collapse" data-bs-target="#kt_card_today_added_webinars">
+         <h3 class="card-title m-0">
+            Nowe terminy ({{webinars_added_today_count}})
+         </h3>
+         <div class="card-toolbar rotate-180">
+            <i class="ki-duotone ki-down fs-1"></i>
+         </div>
+      </div>
+      <div id="kt_card_today_added_webinars" class="collapse {% if webinars_added_today %}show{% endif %}">
+         <div class="card-body">
+          {% if webinars_added_today %}
+          <b>
+            NOWE TERMINY:
+          </b>
+          <br>
+            {% for todays_webinar in webinars_added_today %}
+            {{forloop.counter}}.)
+            <span>
+              [{{todays_webinar.date}}]
+              [{{todays_webinar.lecturer}}]:
+              {{todays_webinar.title|truncatechars:60}}
+            </span>
+            <br>
+            {% endfor %}
+          {% else %}
+            NIE DODANO DZIŚ ŻADNYCH NOWYCH TERMINÓW
+          {% endif %}
+         </div>
+      </div>
+   </div>
+</div>
+
+<div class="col-md-12 mt-2">
+   <div class="card shadow-sm">
+      <div class="card-header collapsible cursor-pointer rotate" style="min-height:30px;!important" data-bs-toggle="collapse" data-bs-target="#kt_card_agg_queue">
+         <h3 class="card-title m-0">
+            Kolejka Agragaty ({{webinar_queue_map_count}})
+         </h3>
+         <div class="card-toolbar rotate-180">
+            <i class="ki-duotone ki-down fs-1"></i>
+         </div>
+      </div>
+      <div id="kt_card_agg_queue" class="collapse">
+         <div class="card-body">
+
+          {% if webinar_queue_map %}
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr class="fw-bold fs-6 text-gray-800">
+                  <th>W kolejce</th>
+                  <th>Wysłano</th>
+                  <th>Agregat</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for agg_grouping_token, queue_list in webinar_queue_map.items %}
+                <tr>
+                  <td><b>{{queue_list.2}} do wysyłki</b></td>
+                  <td>{{queue_list.1}}</td>
+                  <td>
+                    <a href="{% url "admin:core_webinarqueue_changelist" %}?q={{agg_grouping_token}}">
+                      (Zobacz w CMS)
+                    </a> {{queue_list.0}}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% endif %}
+
+         </div>
+      </div>
+   </div>
+</div>
+
+{% comment %}
+  <div class="col-md-12 mt-2">
+     <div class="card shadow-sm">
+        <div class="card-header collapsible cursor-pointer rotate" style="min-height:30px;!important" data-bs-toggle="collapse" data-bs-target="#kt_card_email_copy">
+           <h3 class="card-title m-0">
+              XXXX
+           </h3>
+           <div class="card-toolbar rotate-180">
+              <i class="ki-duotone ki-down fs-1"></i>
+           </div>
+        </div>
+        <div id="kt_card_email_copy" class="collapse">
+           <div class="card-body">
+           </div>
+        </div>
+     </div>
+  </div>
+{% endcomment %}
+
 
 <hr>
 
