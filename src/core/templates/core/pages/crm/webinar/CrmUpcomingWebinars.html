@@ -220,7 +220,15 @@ Kliknij, aby załadować statystyki. Klikaj pojedynczo i <b>czekaj aż się zał
                 <tbody>
                   {% for mailing_campaign, test_subjects in sending_campaigns_with_test_subjects %}
                   <tr>
-                    <th>{{mailing_campaign.title}}</th>
+                    <th>
+                      <b>{{mailing_campaign.title}}</b>
+                      {% if mailing_campaign.webinar %}
+                        <br>
+                        {{mailing_campaign.webinar.lecturer}}
+                        /
+                        {{mailing_campaign.webinar.date|date:"j E Y"}} godz. {{webinar.date|date:"H:i"}}
+                      {% endif %}
+                    </th>
                     <td>
                       <span
                         hx-get="{% url "htmx:dwpldb:mailing-campaign-counters" campaign_id=mailing_campaign.id pool_status="BEING_PROCESSED" %}"

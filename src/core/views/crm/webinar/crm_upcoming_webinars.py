@@ -112,12 +112,12 @@ def crm_upcoming_webinars(request):
             webinar_queue_map[webinar_queue.aggregate.grouping_token][2] += 1
 
     # Active mailing campaigns
-    sending_campaigns = MailingCampaign.manager.filter(
-        Q(created_at__gte=now() - timedelta(days=1, hours=8)) & ~Q(stat_sent=0)
-    )
     # sending_campaigns = MailingCampaign.manager.filter(
-    #     status=MailingCampaignStatus.SENDING
+    #     Q(created_at__gte=now() - timedelta(days=1, hours=8)) & ~Q(stat_sent=0)
     # )
+    sending_campaigns = MailingCampaign.manager.filter(
+        status=MailingCampaignStatus.SENDING
+    )
     sending_campaigns_with_test_subjects = [
         (
             _,
