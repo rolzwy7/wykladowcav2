@@ -3,17 +3,18 @@ from django.conf import settings
 from django.db.models import Q
 from django.template.response import TemplateResponse
 from django.utils import timezone
-from django.utils.timezone import now
+from django.utils.timezone import now, timedelta
 
 from core.models import (
     CrmNote,
     MailingCampaign,
+    MailingTitleTest,
     Webinar,
     WebinarApplication,
     WebinarParticipant,
     WebinarQueue,
 )
-from core.models.enums import ApplicationStatus
+from core.models.enums import ApplicationStatus, MailingCampaignStatus
 from core.services import CrmWebinarService
 
 
@@ -77,7 +78,9 @@ def crm_upcoming_webinars(request):
 
         try:
             campaign = MailingCampaign.manager.get(id=int(application.campaign_id))
-        except Exception as e:
+        except MailingCampaign.DoesNotExist:  # pylint: disable=no-member
+            campaign = None
+        except (TypeError, ValueError):
             campaign = None
 
         sent_today_paid_applications_with_netto.append(
@@ -108,6 +111,26 @@ def crm_upcoming_webinars(request):
         else:
             webinar_queue_map[webinar_queue.aggregate.grouping_token][2] += 1
 
+    # Active mailing campaigns
+    sending_campaigns = MailingCampaign.manager.filter(
+        created_at__gte=now() - timedelta(days=1, hours=8)
+    )
+    # sending_campaigns = MailingCampaign.manager.filter(
+    #     status=MailingCampaignStatus.SENDING
+    # )
+    sending_campaigns_with_test_subjects = [
+        (
+            _,
+            [
+                mt
+                for mt in MailingTitleTest.objects.filter(  # pylint: disable=no-member
+                    campaign_id=_.id
+                ).order_by("title")
+            ],
+        )
+        for _ in sending_campaigns
+    ]
+
     return TemplateResponse(
         request,
         "core/pages/crm/webinar/CrmUpcomingWebinars.html",
@@ -116,6 +139,10 @@ def crm_upcoming_webinars(request):
             "webinars_added_today_count": webinars_added_today.count(),
             "webinar_queue_map": webinar_queue_map,
             "webinar_queue_map_count": len(webinar_queue_map),
+            "sending_campaigns_with_test_subjects": sending_campaigns_with_test_subjects,
+            "sending_campaigns_with_test_subjects_count": len(
+                sending_campaigns_with_test_subjects
+            ),
             "crm_notes": CrmNote.manager.get_notes(),
             "upcoming_webinars_count": webinars.count(),
             "sent_today_paid_applications": sent_today_paid_applications,

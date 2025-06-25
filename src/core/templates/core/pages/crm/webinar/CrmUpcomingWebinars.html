@@ -202,6 +202,81 @@ Kliknij, aby załadować statystyki. Klikaj pojedynczo i <b>czekaj aż się zał
    </div>
 </div>
 
+<div class="col-md-12 mt-2">
+    <div class="card shadow-sm">
+      <div class="card-header collapsible cursor-pointer rotate" style="min-height:30px;!important" data-bs-toggle="collapse" data-bs-target="#kt_card_mailings">
+          <h3 class="card-title m-0">
+            Mailingi ({{sending_campaigns_with_test_subjects_count}})
+          </h3>
+          <div class="card-toolbar rotate-180">
+            <i class="ki-duotone ki-down fs-1"></i>
+          </div>
+      </div>
+      <div id="kt_card_mailings" class="collapse {% if sending_campaigns_with_test_subjects_count %}show{% endif %}">
+          <div class="card-body">
+
+            <div class="table-responsive">
+              <table class="table table-striped table-rounded border border-gray-300 table-row-bordered table-row-gray-300 gs-7">
+                <tbody>
+                  {% for mailing_campaign, test_subjects in sending_campaigns_with_test_subjects %}
+                  <tr>
+                    <th>{{mailing_campaign.title}}</th>
+                    <td>
+                      <span
+                        hx-get="{% url "htmx:dwpldb:mailing-campaign-counters" campaign_id=mailing_campaign.id pool_status="BEING_PROCESSED" %}"
+                        hx-trigger="load">
+                        ...
+                      </span>
+                      -&gt;
+                      <span
+                        hx-get="{% url "htmx:dwpldb:mailing-campaign-counters" campaign_id=mailing_campaign.id pool_status="READY_TO_SEND" %}"
+                        hx-trigger="load">
+                        ...
+                      </span>
+                      Pozostało
+                    </td>
+                    <td>
+                        <span
+                          hx-get="{% url "htmx:dwpldb:mailing-campaign-counters" campaign_id=mailing_campaign.id pool_status="SENT" %}"
+                          hx-trigger="load">
+                            ...
+                        </span>
+                        Wysłano
+                    </td>
+                    <td>
+                      <a href="{% url "core:crm_mailing_campaign_detail" pk=mailing_campaign.id %}">Szczegóły</a>
+                      /
+                      <a href="{% url "core:crm_mailing_campaign_email_search_page" pk=mailing_campaign.id %}">Szukaj</a>
+                      /
+                      <a href="{% url "core:crm_mailing_campaign_download_emails" pk=mailing_campaign.id %}">Pobierz</a>
+                      /
+                      <a href="{% url "core:crm_mailing_campaign_send_test_email" pk=mailing_campaign.id %}">Test</a>
+                      /
+                      <a href="{% url "core:crm_mailing_clicks_stats" pk=mailing_campaign.id %}">Kliknięcia</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="4">
+                      <table class="table table-row-dashed table-row-gray-500 gs-5 mb-0">
+                        <tbody>
+                          {% for test_subject in test_subjects %}
+                          <tr>
+                            <th><b>{{test_subject.counter}} kliknięc</b> w tytuł <i><b>„{{test_subject.title}}”</b></i></th>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+      </div>
+    </div>
+</div>
 
 <div class="col-md-12 mt-2">
    <div class="card shadow-sm">
@@ -264,7 +339,7 @@ Kliknij, aby załadować statystyki. Klikaj pojedynczo i <b>czekaj aż się zał
                 {% for agg_grouping_token, queue_list in webinar_queue_map.items %}
                 <tr>
                   <td><b>{{queue_list.2}} do wysyłki</b></td>
-                  <td>{{queue_list.1}}</td>
+                  <td>{{queue_list.1}} wysłano</td>
                   <td>
                     <a href="{% url "admin:core_webinarqueue_changelist" %}?q={{agg_grouping_token}}">
                       (Zobacz w CMS)
@@ -281,6 +356,7 @@ Kliknij, aby załadować statystyki. Klikaj pojedynczo i <b>czekaj aż się zał
       </div>
    </div>
 </div>
+
 
 {% comment %}
   <div class="col-md-12 mt-2">
