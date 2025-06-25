@@ -113,7 +113,7 @@ def crm_upcoming_webinars(request):
 
     # Active mailing campaigns
     sending_campaigns = MailingCampaign.manager.filter(
-        created_at__gte=now() - timedelta(days=1, hours=8)
+        Q(created_at__gte=now() - timedelta(days=1, hours=8)) & ~Q(stat_sent=0)
     )
     # sending_campaigns = MailingCampaign.manager.filter(
     #     status=MailingCampaignStatus.SENDING
