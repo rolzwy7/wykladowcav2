@@ -48,14 +48,6 @@ def get_or_create_aggregate(webinar: Webinar):
         webinar_core_slug = "-".join(webinar.slug.split("-")[:-1])
         slug_conflict = WebinarAggregate.manager.filter(slug=webinar_core_slug).exists()
 
-        # If there is conflict then assume thatwebinar needs to be assigned to
-        # already existing aggragate
-        if slug_conflict:
-            existing_aggregate = WebinarAggregate.manager.get(slug=webinar_core_slug)
-            webinar.grouping_token = aggregate.grouping_token
-            webinar.save()
-            return existing_aggregate
-
         new_aggregate: WebinarAggregate = WebinarAggregate(
             hidden=False,
             title=webinar.title,
@@ -65,7 +57,7 @@ def get_or_create_aggregate(webinar: Webinar):
             program_assets=webinar.program_assets,
             lecturer=webinar.lecturer,
             slug=(
-                f"CONFLICT-{randint(1_000, 99_999)}-{slug_conflict}"
+                f"{webinar_core_slug}-conf-{randint(1_000, 99_999)}"
                 if slug_conflict
                 else webinar_core_slug
             ),

@@ -173,6 +173,16 @@
                 </span>
             </li>
             {% endif %}
+            {% if webinar_ctx.aggregate.slug_conflict %}
+            <li class="d-flex align-items-center">
+                <span class="bullet bullet-vertical bg-danger me-5"></span>
+                <span
+                    class="px-1 text-white bg-danger"
+                >
+                    KONFLIKT SLUG (NIEWIDOCZNY NA STRONIE)
+                </span>
+            </li>
+            {% endif %}
             {% endif %}
             {% if webinar_ctx.is_confirmed %}
             <li class="d-flex align-items-center">
