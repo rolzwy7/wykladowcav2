@@ -87,6 +87,7 @@ class WebinarModelAdmin(SimpleHistoryAdmin):
         "show_lecturer",
         "is_hidden",
         "recording_allowed",
+        "lecturer",
     ]
 
     fieldsets = (
