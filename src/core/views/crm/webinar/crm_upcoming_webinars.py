@@ -11,10 +11,11 @@ from core.models import (
     MailingTitleTest,
     Webinar,
     WebinarApplication,
+    WebinarCategory,
     WebinarParticipant,
     WebinarQueue,
 )
-from core.models.enums import ApplicationStatus, MailingCampaignStatus
+from core.models.enums import ApplicationStatus
 from core.services import CrmWebinarService
 
 
@@ -32,6 +33,15 @@ def crm_upcoming_webinars(request):
         webinars = Webinar.manager.get_draft_webinars()
     else:
         webinars = Webinar.manager.get_init_or_confirmed_or_draft_webinars()
+
+    # Main categories
+    main_categories = WebinarCategory.manager.get_main_categories()
+    param_main_category = request.GET.get("param_main_category")
+    selected_main_category = None
+    if param_main_category and param_main_category != "all":
+        webinars = webinars.filter(categories__slug__in=[param_main_category])
+        param_any = True
+        selected_main_category = WebinarCategory.manager.get(slug=param_main_category)
 
     # Show counters
     param_show_counters = request.GET.get("show_counters")
@@ -143,6 +153,8 @@ def crm_upcoming_webinars(request):
             "sending_campaigns_with_test_subjects_count": len(
                 sending_campaigns_with_test_subjects
             ),
+            "main_categories": main_categories,
+            "selected_main_category": selected_main_category,
             "crm_notes": CrmNote.manager.get_notes(),
             "upcoming_webinars_count": webinars.count(),
             "sent_today_paid_applications": sent_today_paid_applications,
@@ -157,6 +169,7 @@ def crm_upcoming_webinars(request):
             "param_hide_fake": param_hide_fake,
             "param_show_counters": param_show_counters,
             "param_show_only_drafts": param_show_only_drafts,
+            "param_main_category": param_main_category,
             # "webinars_ctxs": [
             #     CrmWebinarService(webinar).get_context() for webinar in webinars
             # ],

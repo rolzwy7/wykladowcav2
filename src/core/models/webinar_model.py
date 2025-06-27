@@ -29,10 +29,12 @@ from django.db.models import (
 )
 from django.template.defaultfilters import date as _date
 from django.template.defaultfilters import timeuntil_filter
+from django.utils.text import slugify
 from django.utils.timezone import now, timedelta
 from simple_history.models import HistoricalRecords
 
 from core.consts import SLUG_HELP_TEXT
+from core.models.webinar_aggregate_model import WebinarAggregate
 
 from .enums import WebinarDuration, WebinarStatus
 
@@ -514,6 +516,11 @@ class Webinar(Model):
             raise ValidationError(
                 "Cena promocyjna nie może być większa niż normalna cena"
             )
+
+        slugified_title = slugify(self.title)
+        slug_conflict = WebinarAggregate.manager.filter(slug=slugified_title).exists()
+        if slug_conflict:
+            raise ValidationError("Istnieje już agregat z takim slugiem")
 
         # Make sure that lecturer agrees to recordings
         if self.lecturer and (

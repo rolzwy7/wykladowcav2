@@ -172,33 +172,34 @@
         {% include "./components/aggregate_row_card.html" with aggregate=aggregate %}
         {% endif %}
         {% endfor %}
-
+          
+          {% if menu_categories %}
           <div>
             <p style="font-size: 18px;font-weight: 500;">Zobacz powiązane szkolenia</p>
-
             <div class="row">
               <div class="col-12 col-sm-4">
                 {% for cat in cat_column_a %}
                 <p style="font-size: 14px;line-height: 1em;">
-                  <a href="#">{{cat.title|default:cat.name}}</a>
+                  <a href="{% url 'core:webinar_category_page' slug=cat.slug %}">{{cat.title|default:cat.name}}</a>
                 </p>
                 {% endfor %}
               </div>
               <div class="col-12 col-sm-4">
                 {% for cat in cat_column_b %}
                 <p style="font-size: 14px;line-height: 1em;">
-                  <a href="#">{{cat.title|default:cat.name}}</a>
+                  <a href="{% url 'core:webinar_category_page' slug=cat.slug %}">{{cat.title|default:cat.name}}</a>
                 </p>
                 {% endfor %}
               </div>
               <div class="col-12 col-sm-4">
                 {% for cat in cat_column_c %}
                 <p style="font-size: 14px;line-height: 1em;">
-                  <a href="#">{{cat.title|default:cat.name}}</a>
+                  <a href="{% url 'core:webinar_category_page' slug=cat.slug %}">{{cat.title|default:cat.name}}</a>
                 </p>
                 {% endfor %}
               </div>
             </div>
+            {% endif %}
                         
             <p style="font-size: 18px;font-weight: 500;">Zobacz także</p>
             
