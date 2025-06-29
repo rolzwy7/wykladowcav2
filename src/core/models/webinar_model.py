@@ -517,10 +517,10 @@ class Webinar(Model):
                 "Cena promocyjna nie może być większa niż normalna cena"
             )
 
-        slugified_title = slugify(self.title)
-        slug_conflict = WebinarAggregate.manager.filter(slug=slugified_title).exists()
-        if slug_conflict:
-            raise ValidationError("Istnieje już agregat z takim slugiem")
+        # slugified_title = slugify(self.title)
+        # slug_conflict = WebinarAggregate.manager.filter(slug=slugified_title).exists()
+        # if slug_conflict:
+        #     raise ValidationError("Istnieje już agregat z takim slugiem")
 
         # Make sure that lecturer agrees to recordings
         if self.lecturer and (
