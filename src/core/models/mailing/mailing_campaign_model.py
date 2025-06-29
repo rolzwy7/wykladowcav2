@@ -148,7 +148,7 @@ class MailingCampaign(Model):
 
     # Subject
     subjects = TextField("Tytuły wiadomości e-mail")
-    winner_subject = CharField("Temat (tast a/b winner)", max_length=200)
+    winner_subject = CharField("Temat (tast a/b winner)", max_length=200, blank=True)
 
     # Alias
     alias = CharField("Alias", max_length=64)
