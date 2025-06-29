@@ -20,6 +20,9 @@ class MailingTitleTest(Model):
     sha256_hash = CharField("sha256", max_length=80, blank=True)
 
     counter = PositiveIntegerField("counter", default=0)
+    counter_non_bot = PositiveIntegerField("counter_non_bot", default=0)
+
+    total_sent = PositiveIntegerField("total_sent", default=0)
 
     def save(self, *args, **kwargs):
         value = f"{self.campaign_id}:{self.title}"

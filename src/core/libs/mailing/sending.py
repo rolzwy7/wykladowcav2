@@ -21,7 +21,13 @@ from core.libs.mailing.handlers import (
     handle_timeout_error,
 )
 from core.libs.mailing.title_test import get_or_create_mailing_title_test
-from core.models import MailingCampaign, MailingPoolManager, MailingTemplate, SmtpSender
+from core.models import (
+    MailingCampaign,
+    MailingPoolManager,
+    MailingTemplate,
+    MailingTitleTest,
+    SmtpSender,
+)
 from core.models.enums import MailingPoolStatus
 from core.services import SenderSmtpService
 from core.services.mailing import MailingResignationService, MailingTrackingService
@@ -87,6 +93,11 @@ def process_sending(
 
         # Save test a/b subject
         test_title = get_or_create_mailing_title_test(subject, str(campaign_id))
+        test_title_id: int = test_title.id  # type: ignore
+        # Increment total sent
+        MailingTitleTest.objects.filter(id=test_title_id).update(
+            total_sent=F("total_sent") + 1
+        )
 
         # Tracking code, get or create
         start_time = time.time()
