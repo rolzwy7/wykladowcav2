@@ -13,11 +13,11 @@ from core.views.webinar_category import (
 )
 
 urlpatterns = [
-    # path(
-    #     "wszystkie-kategorie/",
-    #     webinar_all_categories_page,
-    #     name="webinar_all_categries_page",
-    # ),
+    path(
+        "wszystkie-kategorie/",
+        webinar_all_categories_page,
+        name="webinar_all_categries_page",
+    ),
     path(
         "<slug:slug>/",
         webinar_category_page,
