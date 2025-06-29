@@ -104,7 +104,7 @@ class CategorySitemap(sitemaps.Sitemap):
 sitemaps = {
     "homepage": HighPrioritySitemap,
     "aggregate": WebinarAggregateSitemap,
-    "webinar": WebinarSitemap,
+    # "webinar": WebinarSitemap,
     "lecturer": LecturerSitemap,
     "category": CategorySitemap,
     "low_priority": LowPrioritySitemap,

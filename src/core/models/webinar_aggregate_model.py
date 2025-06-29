@@ -91,8 +91,12 @@ class WebinarAggregate(Model):
     # robots_meta = models.CharField(max_length=100, blank=True)
 
     # Automatic fill
-    closest_webinar_dt = DateTimeField(null=True, blank=True)
-    has_active_webinars = BooleanField("Ma aktywne webinary", default=False)
+    closest_webinar_dt = DateTimeField(
+        null=True, blank=True, help_text="UZUPEŁNIA SIĘ AUTOMATYCZNIE"
+    )
+    has_active_webinars = BooleanField(
+        "Ma aktywne webinary", default=False, help_text="UZUPEŁNIA SIĘ AUTOMATYCZNIE"
+    )
 
     # Conflicts
     slug_conflict = BooleanField("Slug conflict", default=False)
@@ -139,12 +143,18 @@ class WebinarAggregate(Model):
 
     # Webinars
     webinars = ManyToManyField(
-        "Webinar", verbose_name="Terminy", help_text="[Autouzupełnianie]", blank=True
+        "Webinar",
+        verbose_name="Terminy",
+        help_text="UZUPEŁNIA SIĘ AUTOMATYCZNIE",
+        blank=True,
     )
 
     # Categories
     categories = ManyToManyField(
-        "WebinarCategory", verbose_name="Kategorie", blank=True
+        "WebinarCategory",
+        verbose_name="Kategorie",
+        blank=True,
+        help_text="UZUPEŁNIA SIĘ AUTOMATYCZNIE",
     )
 
     class Meta:
