@@ -269,7 +269,7 @@ Kliknij, aby załadować statystyki. Klikaj pojedynczo i <b>czekaj aż się zał
                         <tbody>
                           {% for test_subject in test_subjects %}
                           <tr>
-                            <th><b>{{test_subject.counter}} kliknięc</b> w tytuł <i><b>„{{test_subject.title}}”</b></i></th>
+                            <th><b>{{test_subject.counter}} kliknięc</b> / {{test_subject.total_sent}} wysłanych  - tytuł <i><b>„{{test_subject.title}}”</b></i></th>
                           </tr>
                           {% endfor %}
                         </tbody>
