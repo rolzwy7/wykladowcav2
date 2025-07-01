@@ -1,0 +1,47 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+
+{% block crm_content %}
+    <h1>Zapytania szkolenia zamknięte</h1>
+
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr class="fw-bold fs-6 text-gray-800">
+                    <th>Kto wysłał</th>
+                    <th>Kontakt</th>
+                    <th>Wiadomość</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contact_message in contact_messages %}
+                <tr>
+                    <td>
+                        Wysłano: {{contact_message.created_at}} <br> <br>
+                        <b>{{contact_message.company}}</b> <br>
+                        {{contact_message.full_name}}
+                        <br><br>
+                        Kod śledzący: {{contact_message.tracking_info}} <br>
+                        E-mail (kod śledzący):
+                        <div
+                            hx-get="{% url 'htmx:tracking_mailing' tracking_code=contact_message.tracking_info %}"
+                            hx-trigger="intersect once delay:3s"
+                        >
+                            Ładowanie ...
+                        </div>
+                    </td>
+                    <td>{{contact_message.phone}} / {{contact_message.email}}</td>
+                    <td>
+                        {{contact_message.message}}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock crm_content %}
+
+{% block body_scripts %}{% endblock body_scripts %}

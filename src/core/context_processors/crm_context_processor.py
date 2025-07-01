@@ -1,8 +1,9 @@
 # flake8: noqa:501
 # pylint: disable=line-too-long
 from django.http import HttpRequest
+from django.utils.timezone import now, timedelta
 
-from core.models import ContactMessage, CrmTodo, Webinar
+from core.models import ClosedWebinarContactMessage, ContactMessage, CrmTodo, Webinar
 from core.models.mailing import MailingCampaign
 
 
@@ -17,4 +18,7 @@ def crm(request: HttpRequest):
         "CRM_LEFBAR_WEBINAR_COUNT": Webinar.manager.get_init_or_confirmed_webinars().count(),
         "CRM_LEFBAR_ACTIVE_MAILING_CAMPAIGNS": MailingCampaign.manager.active_campaigns().count(),
         "CRM_CONTACT_MESSAGE_NEWSET_COUNT": ContactMessage.manager.newest_count(),
+        "CRM_CLOSED_WEBINARS_CONTACT_COUNT": ClosedWebinarContactMessage.objects.filter(
+            created_at__gt=now() - timedelta(days=3)
+        ).count(),
     }

@@ -48,6 +48,7 @@ from core.views.crm.crm_archived_webinars import (
     crm_archived_webinars,
     crm_archived_webinars_with_applications,
 )
+from core.views.crm.crm_closed_webinars import crm_closed_webinars
 from core.views.crm.inbox import crm_inbox_message_page, crm_inbox_page
 from core.views.crm.mailing import download_emails_from_sender_page
 from core.views.crm.recording import crm_send_recording_to_all_participants
@@ -68,6 +69,11 @@ from .mailing_campaign_urls import urlpatterns as mailing_campaign_urlpatterns
 from .tagging_url import urlpatterns as tagging_urlpatterns
 
 urlpatterns = [
+    path(
+        "zapytania-szkolenia-zamkniete/",
+        crm_closed_webinars,
+        name="crm_closed_webinars",
+    ),
     # Service Offer
     path(
         "uslugi-zgloszenia/",
