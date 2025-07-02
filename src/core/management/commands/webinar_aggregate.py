@@ -7,6 +7,7 @@ from django.core.management.base import BaseCommand
 
 from core.libs.webinar_aggregate import (
     aggregate_refresh_categories,
+    aggregate_sync_webinars,
     aggregate_update_closest_webinar_dt,
     aggregate_update_conflicts,
     aggregate_update_has_active_webinars,
@@ -42,6 +43,10 @@ class Command(BaseCommand):
 
             print("Refreshing categories for:", aggregate)
             aggregate_refresh_categories(aggregate)
+
+            # TODO: Apply?
+            # print("Sync webinars with it's aggregate:", aggregate)
+            # aggregate_sync_webinars(aggregate)
 
             print("Update closest webinar:", aggregate)
             aggregate_update_closest_webinar_dt(aggregate)

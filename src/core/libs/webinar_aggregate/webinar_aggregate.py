@@ -112,6 +112,20 @@ def aggregate_refresh_categories(aggregate: WebinarAggregate):
             aggregate.categories.add(category)
 
 
+def aggregate_sync_webinars(aggregate: WebinarAggregate):
+    """aggregate_sync_webinars"""
+
+    # Sync webinars for aggragete
+    for _webinar in aggregate.webinars.all():
+        webinar: Webinar = _webinar
+
+        webinar.title = aggregate.title
+        webinar.program = aggregate.program
+        webinar.program_assets = aggregate.program_assets
+
+        webinar.save()
+
+
 def aggregate_update_closest_webinar_dt(aggregate: WebinarAggregate):
     """aggregate_update_closest_webinar_dt"""
 
