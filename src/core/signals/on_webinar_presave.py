@@ -18,7 +18,7 @@ from django.dispatch import receiver
 from markdownify import markdownify
 
 from core.libs.html_operations.program import program_normalize, program_remarkdownify
-from core.models import Webinar
+from core.models import Webinar, WebinarAggregate
 from core.services import ProgramService
 from core.utils.text import slugify
 
@@ -36,13 +36,22 @@ def get_first_level_li(html_content: str):
 
 
 @receiver(pre_save, sender=Webinar, dispatch_uid="1f4ea25e80")
-def on_webinar_presave(sender, **kwargs):
+def on_webinar_presave(sender, instance, **kwargs):
     """On Webinar Presave"""
 
-    if not kwargs.get("instance"):
-        return
+    # if not kwargs.get("instance"):
+    #     return
 
-    webinar: Webinar = kwargs["instance"]
+    webinar: Webinar = instance
+
+    if instance.pk:
+        try:
+            existing = Webinar.manager.get(pk=instance.pk)
+            created = False
+        except Webinar.DoesNotExist:
+            created = True
+    else:
+        created = True
 
     # Generate grouping token if doesn't exist
     if not webinar.grouping_token:
@@ -71,6 +80,15 @@ def on_webinar_presave(sender, **kwargs):
     # Calculate webinar's slug
     if not webinar.slug:
         webinar.slug = f"{slugify(webinar.title)}-{randint(1_000, 99_999)}"
+
+    # Override grouping token with existing aggragate if created
+    if created:
+        webinar_core_slug = "-".join(webinar.slug.split("-")[:-1])
+        qs_conflict = WebinarAggregate.manager.filter(slug=webinar_core_slug)
+        slug_conflict = qs_conflict.exists()
+        if slug_conflict:
+            already_existing_aggregate: WebinarAggregate = qs_conflict.first()  # type: ignore
+            webinar.grouping_token = already_existing_aggregate.grouping_token
 
     # Remove <br /> tags from webinar's program
     for _ in ["<br />", "<br/>", "<br>"]:

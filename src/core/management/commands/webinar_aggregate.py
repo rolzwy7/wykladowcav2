@@ -44,9 +44,8 @@ class Command(BaseCommand):
             print("Refreshing categories for:", aggregate)
             aggregate_refresh_categories(aggregate)
 
-            # TODO: Apply?
-            # print("Sync webinars with it's aggregate:", aggregate)
-            # aggregate_sync_webinars(aggregate)
+            print("Sync webinars with it's aggregate:", aggregate)
+            aggregate_sync_webinars(aggregate)
 
             print("Update closest webinar:", aggregate)
             aggregate_update_closest_webinar_dt(aggregate)

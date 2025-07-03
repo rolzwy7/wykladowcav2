@@ -114,6 +114,10 @@
     {% if mailing_campaign.webinar %}
     {% with webinar=mailing_campaign.webinar %}
     <p class="fs-4 mb-1">
+        <b>Token grupujący:</b>
+        {{webinar.grouping_token}}
+    </p>
+    <p class="fs-4 mb-1">
         <b>Powiązany webinar:</b>
         <a href="{% url 'core:webinar_program_page' slug=webinar.slug %}">
             <b>{{webinar.title}}</b>
