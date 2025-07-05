@@ -2,6 +2,10 @@
 {% comment %} {% extends './LecturerBase.html' %} {% endcomment %}
 {% load static %}
 
+{% block title %}
+  <title>{{lecturer.fullname}} - {{COMPANY_NAME}}</title>
+{% endblock title %}
+
 {% block meta %}
     <meta property="og:image" content="{{META__BASE_URL}}{% url "core:lecturer_ogimage_page" slug=lecturer.slug %}" />
 {% endblock meta %}
