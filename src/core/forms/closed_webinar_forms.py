@@ -22,12 +22,12 @@ class ClosedWebinarContactForm(forms.ModelForm):
                 attrs={"class": "form-control", "placeholder": "Telefon (opcjonalne)"}
             ),
             "email": forms.EmailInput(
-                attrs={"class": "form-control", "placeholder": "Email"}
+                attrs={"class": "form-control", "placeholder": "Adres E-mail"}
             ),
             "message": forms.Textarea(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Treść wiadomości",
+                    "placeholder": "Jakiej tematyki ma dotyczyć szkolenie? Jakie są Państwa oczekiwania?",
                     "rows": 5,
                     "maxlength": "1000",
                 }

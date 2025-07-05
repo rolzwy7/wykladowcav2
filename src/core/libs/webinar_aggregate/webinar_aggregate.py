@@ -183,10 +183,10 @@ def aggregate_update_conflicts(aggregate: WebinarAggregate):
     titles.add(aggregate.title)
 
     program_hashes = set()
-    program_hashes.add(aggregate.program)
+    program_hashes.add(sha256(aggregate.program.encode()).hexdigest())
 
     program_assets_hashes = set()
-    program_assets_hashes.add(aggregate.program_assets)
+    program_assets_hashes.add(sha256(aggregate.program_assets.encode()).hexdigest())
 
     for _webinar in aggregate.webinars.all():
         webinar: Webinar = _webinar
@@ -207,9 +207,13 @@ def aggregate_update_conflicts(aggregate: WebinarAggregate):
         program_assets_hashes.add(sha256(webinar_program_assets.encode()).hexdigest())
 
     # Title conflict
+    print(titles)
     aggregate.title_conflict = len(titles) != 1
+    print(program_hashes)
     aggregate.program_conflict = len(program_hashes) != 1
+    print(program_assets_hashes)
     aggregate.program_assets_conflict = len(program_assets_hashes) != 1
+    print(lecturers)
     aggregate.lecturer_conflict = len(lecturers) != 1
 
     aggregate.save()

@@ -18,7 +18,7 @@
     {% block head_stylesheets %}{% endblock head_stylesheets %}
 
     {% if META__APP_ENV == "production" and not request.user.is_staff %}
-    <!-- Google tag (gtag.js) -->
+    {% comment %} Google tag (gtag.js) {% endcomment %}
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9C0FK07Z1V"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -34,6 +34,14 @@
           appId: "32218943-1240-44e5-9496-4a02a498b41f",
         });
       });
+    </script>
+    {% comment %} Clarity.ms {% endcomment %}
+    <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "sa4nhqneet");
     </script>
     {% endif %}
   </head>

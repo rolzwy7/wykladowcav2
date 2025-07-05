@@ -6,6 +6,8 @@ AGGRESSOR_PHRASES_ICONTAINS = [
     "kurwy",
     "kurwi",
     "pierdol",
+    "pierdal",
+    "jeban",
     "odjeb",
     "chuj",
     "gówno",

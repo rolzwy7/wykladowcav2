@@ -1,0 +1,1 @@
+from .bakalarz_chatgpt_zamkniete import bakalarz_chatgpt_zamkniete

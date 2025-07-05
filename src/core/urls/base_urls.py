@@ -9,6 +9,7 @@ from django.views.generic.base import RedirectView
 
 from core.views import contact_page, login_page, logout_page, webmap_page
 from core.views.about_us_page import about_us_page
+from core.views.adhoc import bakalarz_chatgpt_zamkniete
 from core.views.closed_webinar_contact_page import (
     closed_webinar_contact_page,
     closed_webinar_contact_sent_page,
@@ -162,6 +163,12 @@ urlpatterns = [
         "dziekujemy/<str:choice_slug>/",
         thanks_page,
         name="thanks_page",
+    ),
+    # Strony ad-hoc
+    path(
+        "chatgpt-szkolenia-zamkniete-adam-bakalarz/",
+        bakalarz_chatgpt_zamkniete,
+        name="bakalarz_chatgpt_zamkniete",
     ),
     # Strona glowna
     path("", home_page, name="homepage"),

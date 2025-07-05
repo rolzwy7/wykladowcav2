@@ -754,6 +754,11 @@
               {% endif %}
            </li> {% endcomment %}
 
+           <li class="nav-item active">
+              <a class="nav-link" href="{% url "core:closed_webinar_contact_page" %}">
+              Szkolenia Zamknięte
+              </a>
+           </li>
            {% if request.user.is_staff %}
            <li class="nav-item active">
               <a class="nav-link" href="{% url 'admin:index' %}">
