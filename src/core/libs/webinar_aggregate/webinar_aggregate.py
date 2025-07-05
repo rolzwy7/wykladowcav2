@@ -112,18 +112,24 @@ def aggregate_refresh_categories(aggregate: WebinarAggregate):
             aggregate.categories.add(category)
 
 
-def aggregate_sync_webinars(aggregate: WebinarAggregate):
-    """aggregate_sync_webinars"""
+def aggregate_sync_active_webinars(aggregate: WebinarAggregate):
+    """aggregate_sync_active_webinars"""
 
-    # Sync webinars for aggragete
+    active_webinars = Webinar.manager.get_active_webinars()
+    active_webinars_ids = {_.id: True for _ in active_webinars}  # type: ignore
+
+    # Sync active webinars for aggragete
     for _webinar in aggregate.webinars.all():
         webinar: Webinar = _webinar
+        webinar_id: int = webinar.id  # type: ignore
 
-        webinar.title = aggregate.title
-        webinar.program = aggregate.program
-        webinar.program_assets = aggregate.program_assets
+        if active_webinars_ids.get(webinar_id):
 
-        webinar.save()
+            webinar.title = aggregate.title
+            webinar.program = aggregate.program
+            webinar.program_assets = aggregate.program_assets
+
+            webinar.save()
 
 
 def aggregate_update_closest_webinar_dt(aggregate: WebinarAggregate):
@@ -171,10 +177,16 @@ def aggregate_update_conflicts(aggregate: WebinarAggregate):
     active_webinars = Webinar.manager.get_init_or_confirmed_webinars()
     active_webinars_ids = {_.id: True for _ in active_webinars}  # type: ignore
 
-    titles = set()
     lecturers = set()
+
+    titles = set()
+    titles.add(aggregate.title)
+
     program_hashes = set()
+    program_hashes.add(aggregate.program)
+
     program_assets_hashes = set()
+    program_assets_hashes.add(aggregate.program_assets)
 
     for _webinar in aggregate.webinars.all():
         webinar: Webinar = _webinar
