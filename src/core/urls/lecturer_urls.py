@@ -3,6 +3,7 @@ from django.urls import path
 from core.views.lecturer import (
     lecturer_closed_webinar_pages,
     lecturer_experience_page,
+    lecturer_ogimage_page,
     lecturer_opinion_form_page,
     lecturer_opinion_thanks,
     lecturer_opinions_page,
@@ -14,6 +15,11 @@ urlpatterns = [
         "<slug:slug>/",
         lecturer_experience_page,
         name="lecturer_experience_page",
+    ),
+    path(
+        "<slug:slug>/og-image.png",
+        lecturer_ogimage_page,
+        name="lecturer_ogimage_page",
     ),
     path(
         "<slug:slug>/opinie/",

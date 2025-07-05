@@ -48,7 +48,7 @@ def aggregate_ogimage_page(request: HttpRequest, grouping_token: str):
         ASSETS_DIR / "webinar_ogimage" / "og_image_agg_base.png"
     ).convert("RGBA")
 
-    layer = Image.new("RGBA", (width, height), (255, 255, 255, 0))
+    layer = Image.new("RGBA", (width, height), (255, 255, 255, 0))  # type: ignore
 
     font_24m = load_font(str(ASSETS_DIR / "fonts" / "Montserrat-Medium.ttf"), 24)
     font_30b = load_font(str(ASSETS_DIR / "fonts" / "Montserrat-Bold.ttf"), 30)

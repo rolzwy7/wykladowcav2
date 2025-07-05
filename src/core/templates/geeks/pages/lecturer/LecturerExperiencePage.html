@@ -1,6 +1,10 @@
 {% extends 'geeks/extends/foundation.html' %}
 {% comment %} {% extends './LecturerBase.html' %} {% endcomment %}
 {% load static %}
+
+{% block meta %}
+    <meta property="og:image" content="{{META__BASE_URL}}{% url "core:lecturer_ogimage_page" slug=lecturer.slug %}" />
+{% endblock meta %}
  
 {% block root %}
 

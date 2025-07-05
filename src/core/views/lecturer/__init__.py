@@ -2,6 +2,7 @@
 from .lecturer_closed_webinar_pages import lecturer_closed_webinar_pages
 from .lecturer_experience_page import lecturer_experience_page
 from .lecturer_list_page import lecturer_list_page
+from .lecturer_ogimage_page import lecturer_ogimage_page
 from .lecturer_opinion_form_page import lecturer_opinion_form_page
 from .lecturer_opinion_thanks import lecturer_opinion_thanks
 from .lecturer_opinions_page import lecturer_opinions_page

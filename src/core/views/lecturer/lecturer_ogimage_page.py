@@ -15,7 +15,7 @@ from django.template.defaultfilters import date as _date
 from django.utils.timezone import get_default_timezone
 from PIL import Image, ImageDraw
 
-from core.models import Webinar
+from core.models import Lecturer
 from core.utils.pillow import draw_multiline_text, load_font
 
 BASE_DIR = settings.BASE_DIR
@@ -23,20 +23,14 @@ ASSETS_DIR: Path = BASE_DIR.parent / "core" / "assets"
 MEDIA_DIR: Path = BASE_DIR.parent / "public" / "media"
 
 
-def webinar_ogimage_page(request: HttpRequest, pk: int):
+def lecturer_ogimage_page(request: HttpRequest, slug: str):
     """View for generating og:image for webinar"""
 
-    webinar = get_object_or_404(Webinar, pk=pk)
+    lecturer = get_object_or_404(Lecturer, slug=slug)
     width, height = 940, 788
 
-    if webinar.is_lecturer_anonymized:
-        return HttpResponse(status=404)
-
-    to_tz = get_default_timezone()
-    date = webinar.date.astimezone(to_tz)
-
     base_layer = Image.open(
-        ASSETS_DIR / "webinar_ogimage" / "og_image_base.png"
+        ASSETS_DIR / "webinar_ogimage" / "og_image_lecturer_base.png"
     ).convert("RGBA")
 
     layer = Image.new("RGBA", (width, height), (255, 255, 255, 0))  # type: ignore
@@ -49,52 +43,23 @@ def webinar_ogimage_page(request: HttpRequest, pk: int):
 
     draw = ImageDraw.Draw(layer)
 
-    draw.text((75, 125), "Webinar", font=font_30b, fill=(0, 0, 0, 255))
+    draw.text((75, 300), lecturer.fullname, font=font_30b, fill=(0, 0, 0, 255))
 
-    if len(webinar.title) < 140:
-        draw_multiline_text(
-            draw, font_35b, webinar.title, (75, 160), 800, fill=(117, 79, 254, 255)
-        )
-    elif len(webinar.title) < 180:
-        draw_multiline_text(
-            draw, font_30b, webinar.title, (75, 160), 800, fill=(117, 79, 254, 255)
-        )
-    else:
-        draw_multiline_text(
-            draw, font_25b, webinar.title, (75, 160), 800, fill=(117, 79, 254, 255)
-        )
-
-    draw.text((75, 300), webinar.lecturer.fullname, font=font_30b, fill=(0, 0, 0, 255))
-
-    if webinar.lecturer.very_short_biography:
+    if lecturer.very_short_biography:
         draw_multiline_text(
             draw,
             font_20ri,
-            webinar.lecturer.very_short_biography,
+            lecturer.very_short_biography,
             (75, 340),
             350,
             fill=(0, 0, 0, 255),
         )
 
-    draw.text((150, 465), _date(date, "l").upper(), font=font_24m, fill=(0, 0, 0, 255))
-    draw.text(
-        (150, 495),
-        _date(date, "j E Y").upper(),
-        font=font_24m,
-        fill=(0, 0, 0, 255),
-    )
-
-    draw.text((150, 540), "GODZINA", font=font_24m, fill=(0, 0, 0, 255))
-    draw.text((150, 570), _date(date, "H:i"), font=font_24m, fill=(0, 0, 0, 255))
-
     out = Image.alpha_composite(base_layer, layer)
 
-    if webinar.lecturer.avatar:
+    if lecturer.avatar:
         lecturer_im = Image.open(
-            MEDIA_DIR
-            / "uploads"
-            / "lecturers"
-            / f"{webinar.lecturer.slug}_500x500.webp"
+            MEDIA_DIR / "uploads" / "lecturers" / f"{lecturer.slug}_500x500.webp"
         ).convert("RGBA")
         out.paste(lecturer_im.resize((350, 350)), (460, 340))
 
