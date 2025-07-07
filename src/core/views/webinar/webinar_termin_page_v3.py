@@ -35,7 +35,7 @@ def webinar_termin_page_v3(request, slug: str):
             )
 
     # If webinar is not active and time passed perma redirect to aggregate
-    if not webinar.is_active and (now() - webinar.date) > timedelta(days=30):
+    if not webinar.is_active and (now() - webinar.date) > timedelta(hours=18):
         aggregate = WebinarAggregate.manager.get(grouping_token=webinar.grouping_token)
         return HttpResponsePermanentRedirect(
             reverse("core:webinar_aggregate_page", kwargs={"slug": aggregate.slug})
