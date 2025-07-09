@@ -135,6 +135,8 @@ class ServiceOfferApplication(Model):
     resigned = BooleanField("Zrezygnowali?", default=False)
     no_answer = BooleanField("Brak odpowiedzi?", default=False)
 
+    notes = TextField("Nasze uwagi", blank=True)
+
     class Meta:
         verbose_name = "Oferta Usługi - Zgłoszenie"
         verbose_name_plural = "Oferty Usług - Zgłoszenia"

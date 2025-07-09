@@ -14,6 +14,8 @@ def webinar_aggregate_page(request, slug: str):
     """webinar_aggregate_page"""
     template_name = "geeks/pages/webinar_aggregate/WebinarAggregatePage.html"
 
+    show_queue_form = request.GET.get("show_queue_form")
+
     # Get webinar aggregate
     aggregate = get_object_or_404(WebinarAggregate, slug=slug)
 
@@ -65,5 +67,6 @@ def webinar_aggregate_page(request, slug: str):
             "lecturer": lecturer,
             "aggregate_active_webinars": aggregate_active_webinars,
             "set_category_names": set_category_names,
+            "show_queue_form": show_queue_form,
         },
     )

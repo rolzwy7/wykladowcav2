@@ -23,6 +23,7 @@
 				<th>Zrezygnowano?</th>
 				<th>Brak odpowiedzi?</th>
 				<th>Przesłany plik</th>
+				<th>Nasze uwagi</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -67,6 +68,9 @@
                     <a href="{% get_media_prefix %}{{service_offer.file}}" class="fw-bold">
                         Pobierz
                     </a>
+                </td>
+                <td>
+                    {{service_offer.notes|default:"-"}}
                 </td>
 			</tr>
             {% endfor %}

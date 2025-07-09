@@ -29,6 +29,7 @@ class ServiceOfferApplicationModelAdmin(ModelAdmin):
             None,
             {
                 "fields": [
+                    "notes",
                     "status",
                     "uncertain",
                     "accepted_conditions",
