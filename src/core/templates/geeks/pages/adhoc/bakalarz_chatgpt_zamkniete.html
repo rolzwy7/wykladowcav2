@@ -1,7 +1,60 @@
 {% extends 'geeks/extends/foundation.html' %}
 {% load static %}
 
-{% block head_stylesheets %}{% endblock head_stylesheets %}
+{% block head_stylesheets %}
+<style>
+    /* Custom styles to better match the Tailwind version */
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f9fafb; /* Equivalent to bg-gray-50 */
+    }
+
+    /* Custom Gradients */
+    .bg-gradient-blue {
+        background-image: linear-gradient(to right, #2563eb, #1d4ed8); /* from-blue-600 to-blue-700 */
+    }
+
+    .bg-gradient-green {
+        background-image: linear-gradient(to right, #16a34a, #15803d); /* from-green-600 to-green-700 */
+    }
+
+    .bg-gradient-purple {
+        background-image: linear-gradient(to right, #9333ea, #7e22ce); /* from-purple-600 to-purple-700 */
+    }
+
+    /* Custom Border Colors */
+    .border-blue-500 {
+        border-color: #3b82f6 !important;
+    }
+
+    .border-green-500 {
+        border-color: #22c55e !important;
+    }
+
+    .border-purple-500 {
+        border-color: #a855f7 !important;
+    }
+    
+    /* Custom list styling */
+    .custom-list {
+        list-style: none;
+        padding-left: 0;
+    }
+    .custom-list li::before {
+        content: "•";
+        color: #6b7280; /* text-gray-500 */
+        font-weight: bold;
+        display: inline-block;
+        width: 1em;
+        margin-left: 0;
+    }
+    
+    /* Larger border radius to match rounded-2xl */
+    .rounded-4 {
+          border-radius: 1rem !important;
+    }
+</style>
+{% endblock head_stylesheets %}
 
 {% block body_tag %}
 <body>
@@ -64,12 +117,12 @@
                     </div>
                     <div class="position-absolute top-25 mt-4 z-1 ms-xl-n8 d-none d-md-block">
                       <div class="bg-white border rounded-pill px-3 py-2 d-inline-block fw-medium shadow-lg">
-                        📍 Online lub stacjonarnie
+                        📍 Szkolenie Online
                       </div>
                     </div>
                     <div class="position-absolute top-50 z-1 ms-n5 ms-xl-n8 mt-n4 d-none d-md-block">
                       <div class="bg-white border rounded-pill px-3 py-2 d-inline-block fw-medium shadow-lg">
-                        🕒 4-8 godzin
+                        🕒 4 godziny lub indywidualnie
                       </div>
                     </div>
                     <div class="position-absolute top-60 z-1 mt-2 ms-xl-n8 d-none d-md-block">
@@ -307,7 +360,201 @@
           </div>
         </div>
       </section>
-      
+
+    <section class="py-5">
+        <div class="container">
+            <div class="col-xl-10 mx-auto">
+                <h2 class="display-5 fw-bold text-center mb-5 text-dark">Program szkolenia</h2>
+
+                <!-- Module 1 -->
+                <div class="mb-5">
+                    <div class="bg-gradient-blue text-white rounded-top-4 p-4">
+                        <h3 class="fw-bold fs-3 text-white">Moduł 1 – Wprowadzenie</h3>
+                    </div>
+                    <div class="bg-white rounded-bottom-4 p-4 shadow">
+                        <div class="row g-4">
+                            <div class="col-md-6 d-flex flex-column gap-4">
+                                <div class="border-start border-4 border-blue-500 ps-3">
+                                    <h4 class="fw-semibold fs-5 mb-2">1.1. Wstęp i zasady pracy z ChatGPT</h4>
+                                    <ul class="text-secondary custom-list">
+                                        <li>Bezpieczeństwo danych</li>
+                                        <li>Aspekty etyczne, prawne i moralne</li>
+                                    </ul>
+                                </div>
+                                <div class="border-start border-4 border-blue-500 ps-3">
+                                    <h4 class="fw-semibold fs-5 mb-2">1.2. Czym jest ChatGPT i jak działa</h4>
+                                    <ul class="text-secondary custom-list">
+                                        <li>Modele LLM i ich możliwości</li>
+                                        <li>Ograniczenia i halucynacje</li>
+                                        <li>Era agentów AI</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-6 d-flex flex-column gap-4">
+                                <div class="border-start border-4 border-blue-500 ps-3">
+                                    <h4 class="fw-semibold fs-5 mb-2">1.3. Zakładanie konta i konfiguracja</h4>
+                                    <ul class="text-secondary custom-list">
+                                        <li>Rejestracja, aplikacje, ceny</li>
+                                        <li>Ustawienia i personalizacja</li>
+                                        <li>Wybór modeli i dostępne funkcje</li>
+                                    </ul>
+                                </div>
+                                <div class="border-start border-4 border-blue-500 ps-3">
+                                    <h4 class="fw-semibold fs-5 mb-2">1.4. Jak pisać dobre prompty</h4>
+                                    <ul class="text-secondary custom-list">
+                                        <li>Konstrukcja promptu: persona, format, kontekst, przykłady</li>
+                                        <li>Iteracja, testowanie i poprawki</li>
+                                        <li>Przykłady promptów: zły → dobry → bardzo dobry</li>
+                                        <li>Metody poprawy: framework, podział, zawężenie, alternatywa</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Module 2 -->
+                <div class="mb-5">
+                    <div class="bg-gradient-green text-white rounded-top-4 p-4">
+                        <h3 class="fw-bold fs-3 text-white">Moduł 2 – ChatGPT w biznesie</h3>
+                    </div>
+                    <div class="bg-white rounded-bottom-4 p-4 shadow">
+                        <div class="row g-4">
+                            <div class="col-md-6 d-flex flex-column gap-4">
+                                <div class="border-start border-4 border-green-500 ps-3">
+                                    <h4 class="fw-semibold fs-5 mb-2">2.1. Analiza rynku i konkurencji</h4>
+                                    <ul class="text-secondary custom-list">
+                                        <li>Praca na linkach z Google</li>
+                                        <li>Identyfikacja bestsellerów i strategii cenowej</li>
+                                        <li>Pozycjonowanie, UX, tabela porównawcza i wnioski</li>
+                                    </ul>
+                                </div>
+                                <div class="border-start border-4 border-green-500 ps-3">
+                                    <h4 class="fw-semibold fs-5 mb-2">2.2. Deep Research</h4>
+                                    <ul class="text-secondary custom-list">
+                                        <li>Analiza konkurencji w wybranym sektorze</li>
+                                        <li>Tabela z podmiotami i powodami uznania za konkurencję</li>
+                                    </ul>
+                                </div>
+                                <div class="border-start border-4 border-green-500 ps-3">
+                                    <h4 class="fw-semibold fs-5 mb-2">2.3. Tworzenie profilu grupy docelowej</h4>
+                                    <ul class="text-secondary custom-list">
+                                        <li>Pytania o klienta idealnego</li>
+                                        <li>Język grupy docelowej, typowe pytania, potrzeby</li>
+                                    </ul>
+                                </div>
+                                <div class="border-start border-4 border-green-500 ps-3">
+                                    <h4 class="fw-semibold fs-5 mb-2">2.4. Strategia i struktura firmy</h4>
+                                    <ul class="text-secondary custom-list">
+                                        <li>Brief-strategia</li>
+                                        <li>Analiza SWOT, CJM</li>
+                                    </ul>
+                                </div>
+                                <div class="border-start border-4 border-green-500 ps-3">
+                                    <h4 class="fw-semibold fs-5 mb-2">2.5. Generowanie pomysłów biznesowych</h4>
+                                    <ul class="text-secondary custom-list">
+                                        <li>30+ pomysłów w różnych kategoriach</li>
+                                        <li>Macierz oceny i wybór TOP 10</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-6 d-flex flex-column gap-4">
+                                <div class="border-start border-4 border-green-500 ps-3">
+                                    <h4 class="fw-semibold fs-5 mb-2">2.6. Karta konceptu produktu (One-Pager)</h4>
+                                    <ul class="text-secondary custom-list">
+                                        <li>Problem, rozwiązanie, segmenty, model przychodu, MVP, KPI</li>
+                                    </ul>
+                                </div>
+                                <div class="border-start border-4 border-green-500 ps-3">
+                                    <h4 class="fw-semibold fs-5 mb-2">2.7. Usprawnianie procedur</h4>
+                                    <ul class="text-secondary custom-list">
+                                        <li>Onboarding i plan 30-60-90</li>
+                                        <li>Pakiet powitalny i FAQ</li>
+                                        <li>Wsparcie HR: ogłoszenia o pracę, analiza CV</li>
+                                    </ul>
+                                </div>
+                                <div class="border-start border-4 border-green-500 ps-3">
+                                    <h4 class="fw-semibold fs-5 mb-2">2.8. Analiza rozmów sprzedażowych</h4>
+                                    <ul class="text-secondary custom-list">
+                                        <li>Transkrypt, licznik fraz, ocena relacji, potrzeb i CTA</li>
+                                        <li>Wnioski i rekomendacje</li>
+                                    </ul>
+                                </div>
+                                <div class="border-start border-4 border-green-500 ps-3">
+                                    <h4 class="fw-semibold fs-5 mb-2">2.9. Praca na plikach PDF</h4>
+                                    <ul class="text-secondary custom-list">
+                                        <li>Analiza danych z raportów finansowych</li>
+                                        <li>Wizualizacje trendów i KPI</li>
+                                        <li>Ocena atrakcyjności inwestycyjnej spółki</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Module 3 -->
+                <div class="mb-5">
+                    <div class="bg-gradient-purple text-white rounded-top-4 p-4">
+                        <h3 class="fw-bold fs-3 text-white">Moduł 3 – ChatGPT w marketingu</h3>
+                    </div>
+                    <div class="bg-white rounded-bottom-4 p-4 shadow">
+                        <div class="row g-4">
+                            <div class="col-md-6 d-flex flex-column gap-4">
+                                <div class="border-start border-4 border-purple-500 ps-3">
+                                    <h4 class="fw-semibold fs-5 mb-2">3.1. Rola ChatGPT w marketingu</h4>
+                                    <ul class="text-secondary custom-list">
+                                        <li>Planowanie strategii</li>
+                                        <li>Tworzenie materiałów: blogi, treści SEO, posty</li>
+                                    </ul>
+                                </div>
+                                <div class="border-start border-4 border-purple-500 ps-3">
+                                    <h4 class="fw-semibold fs-5 mb-2">3.2. Tworzenie treści marketingowych</h4>
+                                    <ul class="text-secondary custom-list">
+                                        <li>Pomysły na artykuły blogowe</li>
+                                        <li>Konspekt wpisu, słowa kluczowe, CTA</li>
+                                        <li>Rozwijanie treści w języku grupy docelowej</li>
+                                    </ul>
+                                </div>
+                                <div class="border-start border-4 border-purple-500 ps-3">
+                                    <h4 class="fw-semibold fs-5 mb-2">3.3. Landing page i strony sprzedażowe</h4>
+                                    <ul class="text-secondary custom-list">
+                                        <li>Ocena skuteczności LP</li>
+                                        <li>Sekcja hero: dla kogo, co robi, dlaczego warto</li>
+                                        <li>Tworzenie całych stron sprzedażowych</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-6 d-flex flex-column gap-4">
+                                <div class="border-start border-4 border-purple-500 ps-3">
+                                    <h4 class="fw-semibold fs-5 mb-2">3.4. E-booki i lead magnety</h4>
+                                    <ul class="text-secondary custom-list">
+                                        <li>Struktura e-booka</li>
+                                        <li>Layout, CTA, kanały promocji</li>
+                                    </ul>
+                                </div>
+                                <div class="border-start border-4 border-purple-500 ps-3">
+                                    <h4 class="fw-semibold fs-5 mb-2">3.5. Analiza opinii klientów</h4>
+                                    <ul class="text-secondary custom-list">
+                                        <li>Identyfikacja problemów i kategorii</li>
+                                        <li>Plan działań naprawczych i odzyskiwania reputacji</li>
+                                    </ul>
+                                </div>
+                                <div class="border-start border-4 border-purple-500 ps-3">
+                                    <h4 class="fw-semibold fs-5 mb-2">3.6. IT i wsparcie techniczne</h4>
+                                    <ul class="text-secondary custom-list">
+                                        <li>Analiza zgłoszeń serwisowych</li>
+                                        <li>Usprawnienia helpdesku i mierzenie skuteczności</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+  
       <section class="pb-8 pt-8 bg-light" id="Action">
         <div class="container">
           <div class="row gy-4 gy-lg-0">

@@ -1,0 +1,789 @@
+
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT dla Biznesu - Szkolenie zamknięte</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .card-shadow { box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .hover-lift { transition: transform 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-5px); }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header Section -->
+    <section class="gradient-bg text-white py-16">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <div class="inline-block bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
+                    <span class="text-sm font-medium">🎯 Szkolenie zamknięte</span>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                    Szkolenie zamknięte: ChatGPT dla Biznesu – Praktyczne zastosowania sztucznej inteligencji
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 opacity-90 leading-relaxed">
+                    Zautomatyzuj marketing, analizuj rynek, twórz treści i usprawnij procesy — w praktyczny sposób, z pomocą doświadczonego eksperta. Szkolenie prowadzi Adam Bakalarz – strateg AI i autor bestsellerowych kursów.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4 text-sm mb-8">
+                    <div class="bg-white/20 backdrop-blur-sm rounded-full px-4 py-2">
+                        📍 Online lub stacjonarnie
+                    </div>
+                    <div class="bg-white/20 backdrop-blur-sm rounded-full px-4 py-2">
+                        🕒 4-8 godzin
+                    </div>
+                    <div class="bg-white/20 backdrop-blur-sm rounded-full px-4 py-2">
+                        👥 Dla zespołów biznesowych
+                    </div>
+                </div>
+                <button onclick="scrollToContact()" class="inline-block bg-white text-purple-600 font-bold py-4 px-8 rounded-xl hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 text-lg shadow-lg">
+                    ➡️ Wyślij Darmowe Zapytanie
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instructor Section with Tooltips -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 card-shadow relative">
+                    <div class="flex items-start gap-6">
+                        <div class="relative">
+                            <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                                AB
+                            </div>
+                            <!-- Tooltips around instructor photo -->
+                            <div class="absolute -top-4 -left-8 bg-green-500 text-white text-xs px-3 py-2 rounded-full shadow-lg animate-pulse">
+                                Praktyczne wdrożenia AI
+                            </div>
+                            <div class="absolute -bottom-4 -right-8 bg-blue-500 text-white text-xs px-3 py-2 rounded-full shadow-lg animate-pulse" style="animation-delay: 1s;">
+                                Warsztat oparty na Twojej branży
+                            </div>
+                            <div class="absolute top-8 -right-12 bg-purple-500 text-white text-xs px-3 py-2 rounded-full shadow-lg animate-pulse" style="animation-delay: 2s;">
+                                100% gotowych narzędzi i promptów
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <h2 class="text-2xl font-bold mb-3 text-gray-800">Prowadzący: Adam Bakalarz</h2>
+                            <p class="text-gray-600 leading-relaxed">
+                                Strateg marketingowy i założyciel agencji NowoczesnyMarketing.pl. Jako zaufany partner wspiera w rozwoju ambitne firmy z Polski i Europy, a także startupy technologiczne z Doliny Krzemowej, przekuwając złożone wyzwania biznesowe i marketingowe w mierzalny wzrost.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="py-16 bg-gradient-to-r from-gray-900 to-blue-900 text-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6">
+                        <div class="text-4xl font-bold mb-2">4000+</div>
+                        <div class="text-lg opacity-90">przeszkolonych uczestników</div>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6">
+                        <div class="text-4xl font-bold mb-2">17</div>
+                        <div class="text-lg opacity-90">bestsellerowych kursów</div>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6">
+                        <div class="text-4xl font-bold mb-2">98%</div>
+                        <div class="text-lg opacity-90">uczestników poleca szkolenie</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission/Vision Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">O szkoleniu: Wdrażamy AI, która faktycznie działa</h2>
+                
+                <div class="bg-white rounded-2xl p-8 card-shadow mb-8">
+                    <p class="text-lg leading-relaxed text-gray-700 mb-6">
+                        Szkolenie „ChatGPT dla Biznesu" to intensywny warsztat, który pomoże Twojemu zespołowi wdrożyć sztuczną inteligencję w codzienne zadania – od tworzenia treści i analiz rynkowych po automatyzację onboardingu i procesów HR. Bez teorii. Bez technobełkotu. Tylko to, co działa.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                            <span class="text-2xl">🎯</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Nasza Misja</h3>
+                        <p class="text-gray-600">Pomagać firmom wykorzystywać AI w sposób prosty, bezpieczny i skalowalny – niezależnie od poziomu zaawansowania.</p>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                            <span class="text-2xl">🚀</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Nasza Wizja</h3>
+                        <p class="text-gray-600">Budować zespoły, które wykorzystują sztuczną inteligencję do realnego wzrostu i lepszej organizacji pracy.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visual Mockups Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Team Workshop Image -->
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 card-shadow hover-lift">
+                        <div class="bg-white rounded-xl p-6 mb-4">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-8 h-8 bg-blue-500 rounded-full"></div>
+                                <div class="w-8 h-8 bg-green-500 rounded-full"></div>
+                                <div class="w-8 h-8 bg-purple-500 rounded-full"></div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="h-3 bg-gray-200 rounded w-full"></div>
+                                <div class="h-3 bg-gray-200 rounded w-3/4"></div>
+                                <div class="h-3 bg-blue-200 rounded w-1/2"></div>
+                            </div>
+                        </div>
+                        <h3 class="font-semibold text-center">Zespół podczas warsztatu</h3>
+                    </div>
+
+                    <!-- ChatGPT Prompt Mockup -->
+                    <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8 card-shadow hover-lift">
+                        <div class="bg-white rounded-xl p-6 mb-4">
+                            <div class="flex items-center gap-2 mb-4">
+                                <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold">AI</div>
+                                <span class="text-sm font-medium">ChatGPT</span>
+                            </div>
+                            <div class="text-xs text-gray-600 mb-2">Prompt biznesowy:</div>
+                            <div class="bg-gray-100 rounded p-3 text-xs">
+                                "Przeanalizuj konkurencję w branży [X] i stwórz tabelę porównawczą..."
+                            </div>
+                        </div>
+                        <h3 class="font-semibold text-center">Gotowe prompty biznesowe</h3>
+                    </div>
+
+                    <!-- Instructor Presentation -->
+                    <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-8 card-shadow hover-lift">
+                        <div class="bg-white rounded-xl p-6 mb-4">
+                            <div class="flex items-center justify-center mb-4">
+                                <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center text-white text-lg font-bold">
+                                    AB
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="h-2 bg-purple-200 rounded w-full"></div>
+                                <div class="h-2 bg-purple-200 rounded w-2/3"></div>
+                                <div class="h-2 bg-purple-200 rounded w-4/5"></div>
+                            </div>
+                        </div>
+                        <h3 class="font-semibold text-center">Adam Bakalarz prowadzi szkolenie</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customization Section -->
+    <section class="py-16 bg-gradient-to-r from-orange-500 to-red-500 text-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-8">
+                    <div class="inline-block bg-white/20 backdrop-blur-sm rounded-full px-6 py-3 mb-6">
+                        <span class="text-lg font-semibold">🧩 Dostosowanie programu do Twojej firmy</span>
+                    </div>
+                    <p class="text-xl mb-8 leading-relaxed">
+                        Każde szkolenie realizujemy w ścisłym dopasowaniu do branży, potrzeb i poziomu zaawansowania uczestników.
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-2xl">🔧</span>
+                            </div>
+                            <div>
+                                <p class="text-lg leading-relaxed">
+                                    Dostosowujemy program, przykłady, ćwiczenia i prompty do realiów Twojej organizacji – niezależnie czy działasz w e-commerce, finansach, produkcji, marketingu czy administracji.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-2xl">📂</span>
+                            </div>
+                            <div>
+                                <p class="text-lg leading-relaxed">
+                                    Materiały szkoleniowe, które otrzymasz, są spersonalizowane i gotowe do wdrożenia w Twoim zespole. Dzięki temu uczestnicy nie tylko uczą się, ale wypracowują konkretne rozwiązania dla własnej firmy już w trakcie warsztatu.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-white/20 backdrop-blur-sm rounded-2xl p-6 inline-block">
+                        <p class="text-lg font-semibold mb-4">
+                            👉 Skontaktuj się z nami, aby ustalić zakres i dopasowanie szkolenia do potrzeb Twojego zespołu.
+                        </p>
+                        <button onclick="scrollToContact()" class="bg-white text-orange-600 font-bold py-3 px-6 rounded-xl hover:bg-gray-100 transition-all duration-300 transform hover:scale-105">
+                            Dostosuj szkolenie do mojej firmy
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Program Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Program szkolenia</h2>
+                
+                <!-- Module 1 -->
+                <div class="mb-12">
+                    <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-t-2xl p-6">
+                        <h3 class="text-2xl font-bold">Moduł 1 – Wprowadzenie</h3>
+                    </div>
+                    <div class="bg-white rounded-b-2xl p-6 card-shadow">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <div class="border-l-4 border-blue-500 pl-4">
+                                    <h4 class="font-semibold text-lg mb-2">1.1. Wstęp i zasady pracy z ChatGPT</h4>
+                                    <ul class="text-gray-600 space-y-1">
+                                        <li>• Bezpieczeństwo danych</li>
+                                        <li>• Aspekty etyczne, prawne i moralne</li>
+                                    </ul>
+                                </div>
+                                <div class="border-l-4 border-blue-500 pl-4">
+                                    <h4 class="font-semibold text-lg mb-2">1.2. Czym jest ChatGPT i jak działa</h4>
+                                    <ul class="text-gray-600 space-y-1">
+                                        <li>• Modele LLM i ich możliwości</li>
+                                        <li>• Ograniczenia i halucynacje</li>
+                                        <li>• Era agentów AI</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="border-l-4 border-blue-500 pl-4">
+                                    <h4 class="font-semibold text-lg mb-2">1.3. Zakładanie konta i konfiguracja</h4>
+                                    <ul class="text-gray-600 space-y-1">
+                                        <li>• Rejestracja, aplikacje, ceny</li>
+                                        <li>• Ustawienia i personalizacja</li>
+                                        <li>• Wybór modeli i dostępne funkcje</li>
+                                    </ul>
+                                </div>
+                                <div class="border-l-4 border-blue-500 pl-4">
+                                    <h4 class="font-semibold text-lg mb-2">1.4. Jak pisać dobre prompty</h4>
+                                    <ul class="text-gray-600 space-y-1">
+                                        <li>• Konstrukcja promptu: persona, format, kontekst, przykłady</li>
+                                        <li>• Iteracja, testowanie i poprawki</li>
+                                        <li>• Przykłady promptów: zły → dobry → bardzo dobry</li>
+                                        <li>• Metody poprawy: framework, podział, zawężenie, alternatywa</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Module 2 -->
+                <div class="mb-12">
+                    <div class="bg-gradient-to-r from-green-600 to-green-700 text-white rounded-t-2xl p-6">
+                        <h3 class="text-2xl font-bold">Moduł 2 – ChatGPT w biznesie</h3>
+                    </div>
+                    <div class="bg-white rounded-b-2xl p-6 card-shadow">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <div class="border-l-4 border-green-500 pl-4">
+                                    <h4 class="font-semibold text-lg mb-2">2.1. Analiza rynku i konkurencji</h4>
+                                    <ul class="text-gray-600 space-y-1">
+                                        <li>• Praca na linkach z Google</li>
+                                        <li>• Identyfikacja bestsellerów i strategii cenowej</li>
+                                        <li>• Pozycjonowanie, UX, tabela porównawcza i wnioski</li>
+                                    </ul>
+                                </div>
+                                <div class="border-l-4 border-green-500 pl-4">
+                                    <h4 class="font-semibold text-lg mb-2">2.2. Deep Research</h4>
+                                    <ul class="text-gray-600 space-y-1">
+                                        <li>• Analiza konkurencji w wybranym sektorze</li>
+                                        <li>• Tabela z podmiotami i powodami uznania za konkurencję</li>
+                                    </ul>
+                                </div>
+                                <div class="border-l-4 border-green-500 pl-4">
+                                    <h4 class="font-semibold text-lg mb-2">2.3. Tworzenie profilu grupy docelowej</h4>
+                                    <ul class="text-gray-600 space-y-1">
+                                        <li>• Pytania o klienta idealnego</li>
+                                        <li>• Język grupy docelowej, typowe pytania, potrzeby</li>
+                                    </ul>
+                                </div>
+                                <div class="border-l-4 border-green-500 pl-4">
+                                    <h4 class="font-semibold text-lg mb-2">2.4. Strategia i struktura firmy</h4>
+                                    <ul class="text-gray-600 space-y-1">
+                                        <li>• Brief-strategia</li>
+                                        <li>• Analiza SWOT, CJM</li>
+                                    </ul>
+                                </div>
+                                <div class="border-l-4 border-green-500 pl-4">
+                                    <h4 class="font-semibold text-lg mb-2">2.5. Generowanie pomysłów biznesowych</h4>
+                                    <ul class="text-gray-600 space-y-1">
+                                        <li>• 30+ pomysłów w różnych kategoriach</li>
+                                        <li>• Macierz oceny i wybór TOP 10</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="border-l-4 border-green-500 pl-4">
+                                    <h4 class="font-semibold text-lg mb-2">2.6. Karta konceptu produktu (One-Pager)</h4>
+                                    <ul class="text-gray-600 space-y-1">
+                                        <li>• Problem, rozwiązanie, segmenty, model przychodu, MVP, KPI</li>
+                                    </ul>
+                                </div>
+                                <div class="border-l-4 border-green-500 pl-4">
+                                    <h4 class="font-semibold text-lg mb-2">2.7. Usprawnianie procedur</h4>
+                                    <ul class="text-gray-600 space-y-1">
+                                        <li>• Onboarding i plan 30-60-90</li>
+                                        <li>• Pakiet powitalny i FAQ</li>
+                                        <li>• Wsparcie HR: ogłoszenia o pracę, analiza CV</li>
+                                    </ul>
+                                </div>
+                                <div class="border-l-4 border-green-500 pl-4">
+                                    <h4 class="font-semibold text-lg mb-2">2.8. Analiza rozmów sprzedażowych</h4>
+                                    <ul class="text-gray-600 space-y-1">
+                                        <li>• Transkrypt, licznik fraz, ocena relacji, potrzeb i CTA</li>
+                                        <li>• Wnioski i rekomendacje</li>
+                                    </ul>
+                                </div>
+                                <div class="border-l-4 border-green-500 pl-4">
+                                    <h4 class="font-semibold text-lg mb-2">2.9. Praca na plikach PDF</h4>
+                                    <ul class="text-gray-600 space-y-1">
+                                        <li>• Analiza danych z raportów finansowych</li>
+                                        <li>• Wizualizacje trendów i KPI</li>
+                                        <li>• Ocena atrakcyjności inwestycyjnej spółki</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Module 3 -->
+                <div class="mb-12">
+                    <div class="bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-t-2xl p-6">
+                        <h3 class="text-2xl font-bold">Moduł 3 – ChatGPT w marketingu</h3>
+                    </div>
+                    <div class="bg-white rounded-b-2xl p-6 card-shadow">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <div class="border-l-4 border-purple-500 pl-4">
+                                    <h4 class="font-semibold text-lg mb-2">3.1. Rola ChatGPT w marketingu</h4>
+                                    <ul class="text-gray-600 space-y-1">
+                                        <li>• Planowanie strategii</li>
+                                        <li>• Tworzenie materiałów: blogi, treści SEO, posty</li>
+                                    </ul>
+                                </div>
+                                <div class="border-l-4 border-purple-500 pl-4">
+                                    <h4 class="font-semibold text-lg mb-2">3.2. Tworzenie treści marketingowych</h4>
+                                    <ul class="text-gray-600 space-y-1">
+                                        <li>• Pomysły na artykuły blogowe</li>
+                                        <li>• Konspekt wpisu, słowa kluczowe, CTA</li>
+                                        <li>• Rozwijanie treści w języku grupy docelowej</li>
+                                    </ul>
+                                </div>
+                                <div class="border-l-4 border-purple-500 pl-4">
+                                    <h4 class="font-semibold text-lg mb-2">3.3. Landing page i strony sprzedażowe</h4>
+                                    <ul class="text-gray-600 space-y-1">
+                                        <li>• Ocena skuteczności LP</li>
+                                        <li>• Sekcja hero: dla kogo, co robi, dlaczego warto</li>
+                                        <li>• Tworzenie całych stron sprzedażowych</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="border-l-4 border-purple-500 pl-4">
+                                    <h4 class="font-semibold text-lg mb-2">3.4. E-booki i lead magnety</h4>
+                                    <ul class="text-gray-600 space-y-1">
+                                        <li>• Struktura e-booka</li>
+                                        <li>• Layout, CTA, kanały promocji</li>
+                                    </ul>
+                                </div>
+                                <div class="border-l-4 border-purple-500 pl-4">
+                                    <h4 class="font-semibold text-lg mb-2">3.5. Analiza opinii klientów</h4>
+                                    <ul class="text-gray-600 space-y-1">
+                                        <li>• Identyfikacja problemów i kategorii</li>
+                                        <li>• Plan działań naprawczych i odzyskiwania reputacji</li>
+                                    </ul>
+                                </div>
+                                <div class="border-l-4 border-purple-500 pl-4">
+                                    <h4 class="font-semibold text-lg mb-2">3.6. IT i wsparcie techniczne</h4>
+                                    <ul class="text-gray-600 space-y-1">
+                                        <li>• Analiza zgłoszeń serwisowych</li>
+                                        <li>• Usprawnienia helpdesku i mierzenie skuteczności</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Materials Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Materiały szkoleniowe dla uczestników</h2>
+                <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 card-shadow">
+                    <p class="text-lg text-gray-700 mb-8 text-center">
+                        Każdy uczestnik otrzyma komplet praktycznych materiałów szkoleniowych, które obejmują m.in.:
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-blue-600">📝</span>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold mb-2">Szczegółowe prompty</h3>
+                                <p class="text-gray-600 text-sm">Gotowe do użycia w biznesie i marketingu</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-green-600">📋</span>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold mb-2">Instrukcje i schematy</h3>
+                                <p class="text-gray-600 text-sm">Tworzenia skutecznych komunikatów dla ChatGPT</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-purple-600">📊</span>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold mb-2">Checklisty i wzory analiz</h3>
+                                <p class="text-gray-600 text-sm">Gotowe struktury i schematy strategii</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-orange-600">🎯</span>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold mb-2">Przykłady zastosowań</h3>
+                                <p class="text-gray-600 text-sm">Analiza konkurencji, kampanie reklamowe, onboarding, tworzenie ofert</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 md:col-span-2">
+                            <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-red-600">🛠️</span>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold mb-2">Szablony do pracy własnej</h3>
+                                <p class="text-gray-600 text-sm">Briefy, formularze, schematy promptowania do wdrażania w firmie</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Instructor Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Wykładowca: Adam Bakalarz</h2>
+                <div class="bg-white rounded-2xl p-8 card-shadow">
+                    <p class="text-lg leading-relaxed text-gray-700 mb-6">
+                        Strateg marketingowy i założyciel agencji NowoczesnyMarketing.pl. Jako zaufany partner wspiera w rozwoju ambitne firmy z Polski i Europy, a także startupy technologiczne z Doliny Krzemowej, przekuwając złożone wyzwania biznesowe i marketingowe w mierzalny wzrost.
+                    </p>
+                    <p class="text-lg leading-relaxed text-gray-700 mb-6">
+                        Jego 17 bestsellerowych kursów online z dziedziny marketingu, AI i produktywności na platformie StrefaKursów.pl stało się kluczowym źródłem wiedzy dla tysięcy specjalistów i przedsiębiorców. Dogłębna znajomość tematu i praktyczne podejście sprawiły, że jego szkolenia regularnie osiągają najwyższe oceny.
+                    </p>
+                    <p class="text-lg leading-relaxed text-gray-700">
+                        Unikalne podejście Adama opiera się na głębokim zrozumieniu biznesu klienta i wejściu w rolę zintegrowanego partnera, a nie tylko zewnętrznego wykonawcy. Tworzy i wdraża kompleksowe rozwiązania - od strategii, przez zaawansowane kampanie reklamowe, aż po automatyzację procesów marketingowych.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="py-16 bg-gradient-to-r from-green-600 to-blue-600 text-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-3xl font-bold text-center mb-12">📊 Efekty szkoleń</h2>
+                <div class="text-center mb-12">
+                    <h3 class="text-2xl font-semibold mb-6">🎯 Efekty wdrożeniowe po szkoleniu:</h3>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center">
+                        <div class="text-4xl mb-4">✅</div>
+                        <div class="text-3xl font-bold mb-2">83%</div>
+                        <p class="text-sm opacity-90">uczestników wdrożyło ChatGPT lub inne narzędzia AI do codziennej pracy już w ciągu 2 tygodni</p>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center">
+                        <div class="text-4xl mb-4">📈</div>
+                        <div class="text-3xl font-bold mb-2">20-30%</div>
+                        <p class="text-sm opacity-90">wzrost efektywności marketingu w ciągu 30 dni dzięki automatyzacji treści i analizie konkurencji</p>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center">
+                        <div class="text-4xl mb-4">🕒</div>
+                        <div class="text-3xl font-bold mb-2">5h</div>
+                        <p class="text-sm opacity-90">oszczędność czasu tygodniowo na zadaniach powtarzalnych w zespołach marketingu i HR</p>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center">
+                        <div class="text-4xl mb-4">🔍</div>
+                        <div class="text-3xl font-bold mb-2">100%</div>
+                        <p class="text-sm opacity-90">dane oparte na ankietach poszkoleniowych i analizie wdrożeń u klientów</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">💬 Opinie uczestników</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-2xl p-8 card-shadow hover-lift">
+                        <div class="flex items-center mb-4">
+                            <div class="flex text-yellow-400 text-xl">
+                                ⭐⭐⭐⭐⭐
+                            </div>
+                        </div>
+                        <blockquote class="text-gray-700 mb-6 italic">
+                            "Adam w 4 godziny dał więcej wartości niż większość szkoleń tygodniowych. Wszystko było konkretne, praktyczne i gotowe do wdrożenia."
+                        </blockquote>
+                        <div class="border-t pt-4">
+                            <div class="font-semibold text-gray-800">Monika G.</div>
+                            <div class="text-sm text-gray-600">Dyrektor Marketingu</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-8 card-shadow hover-lift">
+                        <div class="flex items-center mb-4">
+                            <div class="flex text-yellow-400 text-xl">
+                                ⭐⭐⭐⭐⭐
+                            </div>
+                        </div>
+                        <blockquote class="text-gray-700 mb-6 italic">
+                            "Zespół sam tworzy teraz strategie marketingowe wspierane AI. Nie musimy już nic zlecać na zewnątrz. To szkolenie zwróciło się błyskawicznie."
+                        </blockquote>
+                        <div class="border-t pt-4">
+                            <div class="font-semibold text-gray-800">Tomasz R.</div>
+                            <div class="text-sm text-gray-600">Właściciel agencji digitalowej</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-8 card-shadow hover-lift">
+                        <div class="flex items-center mb-4">
+                            <div class="flex text-yellow-400 text-xl">
+                                ⭐⭐⭐⭐⭐
+                            </div>
+                        </div>
+                        <blockquote class="text-gray-700 mb-6 italic">
+                            "Zero lania wody, tylko gotowe frameworki i prompty. Wyszliśmy z gotową strategią i szablonem komunikacji."
+                        </blockquote>
+                        <div class="border-t pt-4">
+                            <div class="font-semibold text-gray-800">Marta L.</div>
+                            <div class="text-sm text-gray-600">HR Business Partner</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Highlight Section -->
+    <section class="py-16 bg-gradient-to-r from-yellow-400 to-orange-400">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <div class="bg-white/20 backdrop-blur-sm rounded-2xl p-8">
+                    <h2 class="text-2xl font-bold text-white mb-4">
+                        📈 To szkolenie to nie teoria, a praktyczny warsztat oparty na Twojej branży
+                    </h2>
+                    <p class="text-xl text-white/90">
+                        ✅ Zobaczysz, jak szybko AI może realnie usprawnić Twoje procesy – bez wielkiej rewolucji
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-gray-900 text-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl font-bold mb-6">Zamów szkolenie zamknięte</h2>
+                <p class="text-xl mb-8 text-gray-300">
+                    Skontaktuj się z nami, aby otrzymać dedykowaną ofertę, poznać pełen program lub ustalić dogodny termin
+                </p>
+                <button onclick="scrollToContact()" class="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-4 px-8 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 text-lg">
+                    Zamów szkolenie
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="kontakt" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-center mb-6 text-gray-800">Skontaktuj się z nami</h2>
+                <p class="text-lg text-center text-gray-600 mb-12 max-w-3xl mx-auto">
+                    Masz pytania dotyczące szkolenia zamkniętego lub chcesz dopasować tematykę do branży Twojej firmy? Skontaktuj się z nami – chętnie przygotujemy indywidualną ofertę:
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Contact Info Box -->
+                    <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 card-shadow">
+                        <h3 class="text-xl font-bold mb-6 text-gray-800">Biuro Obsługi Klienta</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <span class="text-xl">📞</span>
+                                </div>
+                                <div>
+                                    <div class="font-semibold">531 304 098</div>
+                                    <div class="text-sm text-gray-600">Pon-Pt 9:00-17:00</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                                    <span class="text-xl">📧</span>
+                                </div>
+                                <div>
+                                    <div class="font-semibold">biuro@wykladowca.pl</div>
+                                    <div class="text-sm text-gray-600">Odpowiadamy w 24h</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <div class="bg-gray-50 rounded-2xl p-8 card-shadow">
+                        <h3 class="text-xl font-bold mb-6 text-gray-800">Wypełnij formularz – przygotujemy indywidualną ofertę szkolenia AI dla Twojej firmy</h3>
+                        <form method="post" action="/szkolenia-zamkniete/" class="space-y-6" novalidate>
+    <input type="hidden" name="csrfmiddlewaretoken" value="S7UGkGowv4grDe54qlP8SzJhXJmnPU7aviR53zHN8T5XoKHQ3SW2AcEbSFsR9Vf9">
+
+    <!-- Grid for Name and Company -->
+    <div class="grid md:grid-cols-2 gap-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2" for="id_full_name">
+                Imię i Nazwisko <span class="text-red-500">*</span>
+            </label>
+            <input type="text" name="full_name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Imię i nazwisko" maxlength="100" required id="id_full_name">
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2" for="id_company">
+                Firma (opcjonalnie)
+            </label>
+            <input type="text" name="company" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Firma (opcjonalne)" maxlength="100" id="id_company">
+        </div>
+    </div>
+
+    <!-- Phone Number -->
+    <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2" for="id_phone">
+            Telefon (opcjonalnie)
+        </label>
+        <input type="text" name="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Telefon (opcjonalne)" maxlength="20" id="id_phone">
+    </div>
+
+    <!-- Email -->
+    <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2" for="id_email">
+            E-mail <span class="text-red-500">*</span>
+        </label>
+        <input type="email" name="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Adres E-mail" maxlength="254" required id="id_email">
+    </div>
+
+    <!-- Message -->
+    <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2" for="id_message">
+            Treść wiadomości <span class="text-red-500">*</span>
+        </label>
+        <textarea name="message" cols="40" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Jakiej tematyki ma dotyczyć szkolenie? Jakie są Państwa oczekiwania?" maxlength="1000" required id="id_message"></textarea>
+    </div>
+    
+    <!-- Submit Button -->
+    <div>
+        <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300">
+            Wyślij Zapytanie
+        </button>
+    </div>
+</form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function scrollToContact() {
+            document.getElementById('kontakt').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.hover-lift, .card-shadow').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'95e0afa9f706bbc3',t:'MTc1MjMyNDgzNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
