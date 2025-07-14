@@ -113,6 +113,7 @@ def create_mailing_campaign(request):
             send_after=send_after,
             is_main_campaign=True,
         )
+        campaign.template_url = content_url
         campaign.save()
 
         return redirect(

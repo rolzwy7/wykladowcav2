@@ -42,6 +42,10 @@
             </a>
             {% endif %}
             /
+            <a href="{% url 'core:crm_mailing_refetch_template' pk=mailing_campaign.pk %}">
+                <b>Refetch</b>
+            </a>
+            /
             <a href="{% url 'core:crm_mailing_campaign_preview_html' pk=mailing_campaign.pk %}">
                 <b>HTML preview</b>
             </a>

@@ -14,6 +14,7 @@ from core.views.crm.mailing import (
     crm_mailing_campaign_reset_emails,
     crm_mailing_campaign_send_test_email,
     crm_mailing_clicks_stats,
+    crm_mailing_refetch_template,
     crm_mailing_schedule_mailing,
 )
 
@@ -77,6 +78,11 @@ urlpatterns = [
         "<int:pk>/zaplanuj-mailing/",
         crm_mailing_schedule_mailing,
         name="crm_mailing_schedule_mailing",
+    ),
+    path(
+        "<int:pk>/refetch-szablon/",
+        crm_mailing_refetch_template,
+        name="crm_mailing_refetch_template",
     ),
     path(
         "<int:pk>/klikniecia/",
