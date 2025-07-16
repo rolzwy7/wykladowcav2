@@ -184,6 +184,10 @@
                             </div>
                             <div class="col-md-12">
                                 {% include './snippets/FieldWithErrors.html' with field=form.file label=service_offer.file_text %}
+                                <p class="text-danger">
+                                    Formularz przyjmuje tylko jeden plik. Jeśli chcesz przesłać więcej plików, spakuj je do archiwum ZIP <b>lub</b> doślij dodatkowe pliki na adres:
+                                    <a href="mailto:{{COMPANY_OFFICE_EMAIL}}"><b>{{COMPANY_OFFICE_EMAIL}}</b></a>
+                                </p>
                                 {% include './snippets/FieldWithErrors.html' with field=form.additional_info label=service_offer.additional_info_text %}
                             </div>
                             <div class="col-md-12">

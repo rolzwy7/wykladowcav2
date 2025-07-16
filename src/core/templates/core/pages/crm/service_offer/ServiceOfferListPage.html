@@ -16,6 +16,10 @@
             <a href="{% url 'core:service_offer_applications_list_page' %}?usluga={{service_offer.slug}}">
                 {{service_offer.short_name}}
             </a>
+            ---
+            <a href="{% url "core:service_offer_page" slug=service_offer.slug %}">
+                <b>Zobacz na stronie</b>
+            </a>
         </li>
     {% endfor %}
 </ol>
