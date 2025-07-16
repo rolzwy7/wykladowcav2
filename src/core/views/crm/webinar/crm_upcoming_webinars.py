@@ -1,5 +1,6 @@
 # flake8: noqa:E501
 from django.conf import settings
+from django.core.cache import cache
 from django.db.models import Q
 from django.template.response import TemplateResponse
 from django.utils import timezone
@@ -75,32 +76,46 @@ def crm_upcoming_webinars(request):
         status=ApplicationStatus.SENT, created_at__date=timezone.now().date()
     )
 
-    # Total netto value of todays webinars
-    today_total_netto = 0
-    sent_today_paid_applications_with_netto = []
-    for application in sent_today_paid_applications:
-        count_participants = (
-            WebinarParticipant.manager.get_valid_participants_for_application(
-                application
-            ).count()
+    if cache.get("CACHE_PERFORM_SENTINEL_total_netto") is not None:
+        today_total_netto = cache.get("CACHE_PERFORM_today_total_netto")
+        sent_today_paid_applications_with_netto = cache.get(
+            "CACHE_PERFORM_sent_today_paid_applications_with_netto"
         )
-        today_total_netto += application.price_netto * count_participants
-
-        try:
-            campaign = MailingCampaign.manager.get(id=int(application.campaign_id))
-        except MailingCampaign.DoesNotExist:  # pylint: disable=no-member
-            campaign = None
-        except (TypeError, ValueError):
-            campaign = None
-
-        sent_today_paid_applications_with_netto.append(
-            (
-                application,
-                count_participants,
-                application.price_netto * count_participants,
-                campaign,
+    else:
+        # Total netto value of todays webinars
+        today_total_netto = 0
+        sent_today_paid_applications_with_netto = []
+        for application in sent_today_paid_applications:
+            count_participants = (
+                WebinarParticipant.manager.get_valid_participants_for_application(
+                    application
+                ).count()
             )
-        )
+            today_total_netto += application.price_netto * count_participants
+
+            try:
+                campaign = MailingCampaign.manager.get(id=int(application.campaign_id))
+            except MailingCampaign.DoesNotExist:  # pylint: disable=no-member
+                campaign = None
+            except (TypeError, ValueError):
+                campaign = None
+
+            sent_today_paid_applications_with_netto.append(
+                (
+                    application,
+                    count_participants,
+                    application.price_netto * count_participants,
+                    campaign,
+                )
+            )
+
+            cache.set("CACHE_PERFORM_SENTINEL_total_netto", True, timeout=300)
+            cache.set("CACHE_PERFORM_today_total_netto", today_total_netto, timeout=600)
+            cache.set(
+                "CACHE_PERFORM_sent_today_paid_applications_with_netto",
+                sent_today_paid_applications_with_netto,
+                timeout=600,
+            )
 
     # Webinars added today
     webinars_added_today = Webinar.manager.filter(
@@ -121,25 +136,37 @@ def crm_upcoming_webinars(request):
         else:
             webinar_queue_map[webinar_queue.aggregate.grouping_token][2] += 1
 
-    # Active mailing campaigns
-    sending_campaigns = MailingCampaign.manager.filter(
-        Q(created_at__gte=now() - timedelta(days=1, hours=8)) & ~Q(stat_sent=0)
-    )
-    # sending_campaigns = MailingCampaign.manager.filter(
-    #     status=MailingCampaignStatus.SENDING
-    # )
-    sending_campaigns_with_test_subjects = [
-        (
-            _,
-            [
-                mt
-                for mt in MailingTitleTest.objects.filter(  # pylint: disable=no-member
-                    campaign_id=_.id
-                ).order_by("title")
-            ],
+    if cache.get("CACHE_PERFORM_sending_campaigns_with_test_subjects") is not None:
+        sending_campaigns_with_test_subjects = cache.get(
+            "CACHE_PERFORM_sending_campaigns_with_test_subjects"
         )
-        for _ in sending_campaigns
-    ]
+    else:
+        # Active mailing campaigns
+        sending_campaigns = MailingCampaign.manager.filter(
+            Q(created_at__gte=now() - timedelta(days=1, hours=8)) & ~Q(stat_sent=0)
+        )
+        # sending_campaigns = MailingCampaign.manager.filter(
+        #     status=MailingCampaignStatus.SENDING
+        # )
+        sending_campaigns_with_test_subjects = [
+            (
+                _,
+                [
+                    mt
+                    for mt in MailingTitleTest.objects.filter(  # pylint: disable=no-member
+                        campaign_id=_.id
+                    ).order_by(
+                        "title"
+                    )
+                ],
+            )
+            for _ in sending_campaigns
+        ]
+        cache.set(
+            "CACHE_PERFORM_sending_campaigns_with_test_subjects",
+            sending_campaigns_with_test_subjects,
+            timeout=600,
+        )
 
     return TemplateResponse(
         request,

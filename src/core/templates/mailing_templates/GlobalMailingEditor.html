@@ -89,21 +89,28 @@
                      {% else %}
                         <h3>&gt;&gt; Brak Kategoria</h3>
                         {% for category in categories %}
+                           {% if not category.parent %}
                            <a href="./?{{params_str}}&for_category_slug={{category.slug}}">
                               {{category.name}}
                            </a>
+                           {% endif %}
                         {% endfor %}
                      {% endif %}
                      <div class="col-12 mb-3">
-                      <div class="mb-3 col-12 col-md-3">
+                      <div class="mb-3 col-12 col-md-6">
                         <label class="form-label" for="id_for_whom">Dla kogo?</label>
                         <input type="text" id="id_for_whom" name="for_whom" class="form-control" placeholder="np. Webinary dla księgowych">
                      </div>
                      </div>
                      <div class="col-12 mb-3">
-                      <div class="mb-3 col-12 col-md-3">
+                      <div class="mb-3 col-12 col-md-12">
                         <label class="form-label" for="id_subject_override">subject_override:</label>
                         <input type="text" id="id_subject_override" name="subject_override" class="form-control" placeholder="">
+                     </div>
+                     <div class="col-12 mb-3">
+                      <div class="mb-3 col-12 col-md-12">
+                        <label class="form-label" for="id_closed_webinar_btn_url">closed_webinar_btn_url:</label>
+                        <input type="text" id="id_closed_webinar_btn_url" name="closed_webinar_btn_url" class="form-control" placeholder="" value="{{closed_webinar_btn_url}}">
                      </div>
                      </div>
                       <div class="col-12 mb-3">
