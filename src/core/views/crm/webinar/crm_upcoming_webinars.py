@@ -118,9 +118,17 @@ def crm_upcoming_webinars(request):
             )
 
     # Webinars added today
-    webinars_added_today = Webinar.manager.filter(
-        created_at__date=timezone.now().date()
-    )
+    if cache.get("CACHE_PERFORM_webinars_added_today") is not None:
+        webinars_added_today = cache.get("CACHE_PERFORM_webinars_added_today")
+    else:
+        webinars_added_today = Webinar.manager.filter(
+            created_at__date=timezone.now().date()
+        )
+        cache.set(
+            "CACHE_PERFORM_webinars_added_today",
+            webinars_added_today,
+            timeout=15 * 60,
+        )
 
     # Webinar Queue
     webinar_queue_map = {}
