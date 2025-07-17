@@ -117,6 +117,18 @@ class Command(BaseCommand):
                 settings.NIEBIESKI_ZAPYTANIE_2_LOGIN,
                 settings.NIEBIESKI_ZAPYTANIE_2_PASSWORD,
             ),
+            (
+                "ZAPYTANIE 333",
+                "https://webas5125.niebieski.net",
+                settings.NIEBIESKI_ZAPYTANIE_3_LOGIN,
+                settings.NIEBIESKI_ZAPYTANIE_3_PASSWORD,
+            ),
+            (
+                "ZAPYTANIE 444",
+                "https://webas5289.niebieski.net",
+                settings.NIEBIESKI_ZAPYTANIE_4_LOGIN,
+                settings.NIEBIESKI_ZAPYTANIE_4_PASSWORD,
+            ),
         ]
 
         for alias, base_url, login, password in profiles:
