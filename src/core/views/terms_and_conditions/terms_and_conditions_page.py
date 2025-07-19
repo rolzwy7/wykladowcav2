@@ -3,9 +3,7 @@ from django.template.response import TemplateResponse
 
 def terms_and_conditions_webinars(request):
     """Term and conditions for webinars"""
-    template_name = (
-        "geeks/pages/terms_and_conditions/TermsAndConditionsWebinars.html"
-    )
+    template_name = "geeks/pages/terms_and_conditions/TermsAndConditionsWebinars.html"
     return TemplateResponse(
         request,
         template_name,
