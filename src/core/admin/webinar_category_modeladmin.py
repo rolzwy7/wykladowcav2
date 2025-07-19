@@ -20,10 +20,18 @@ class WebinarCategoryModelAdminForm(ModelForm):
 class WebinarCategoryModelAdmin(ModelAdmin):
     """Webinar Category Model Admin"""
 
+    search_fields = [
+        "name",
+        "name_homepage",
+        "title",
+        "short_description",
+    ]
+
     form = WebinarCategoryModelAdminForm
     list_display = [
         "name",
         "name_homepage",
+        "title",
         "parent",
         "visible",
         "slug",
