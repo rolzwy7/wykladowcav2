@@ -25,6 +25,10 @@
         color: white !important;
         border-color: #754ffe;
     }
+      
+    .megamenu-item.active svg {
+      fill: white;
+    }
     
     /* Ustawienie maksymalnej wysokości i przewijania dla kolumny wyników */
     #megamenu-results {
@@ -268,10 +272,12 @@
 
             const categories = Object.keys(menuData);
             categories.forEach(categoryName => {
+                const categoryValue = menuData[categoryName];
                 const categoryItem = document.createElement('a');
                 categoryItem.href = '#';
                 categoryItem.className = 'list-group-item list-group-item-action megamenu-item';
-                categoryItem.textContent = categoryName;
+                {% comment %} categoryItem.innerHTML = `${categoryValue.icon} ${categoryName}` {% endcomment %}
+                categoryItem.innerHTML = `<span class="icon-shape icon-xs pe-1">${categoryValue.icon}</span> ${categoryName}`
                 categoryItem.dataset.category = categoryName;
                 categoryItem.onclick = (e) => {
                     e.preventDefault();

@@ -97,7 +97,9 @@ def cached(request):
         for main_cat in WebinarCategory.manager.get_main_categories():
             subcategories = []
 
-            for _ in WebinarCategory.manager.get_subcategories(main_cat):
+            for _ in WebinarCategory.manager.get_subcategories(main_cat).order_by(
+                "name"
+            ):
                 any_aggregates = (
                     WebinarAggregate.manager.get_active_aggregates_for_category_slugs(
                         slugs=[_.slug]
@@ -107,6 +109,7 @@ def cached(request):
                     subcategories.append(_.name)
 
             menu_data[f"{main_cat.name_homepage}"] = {
+                "icon": main_cat.icon_html,
                 "subcategories": subcategories,
                 "results": {
                     "Wszystko": [
