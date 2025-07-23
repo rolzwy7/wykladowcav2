@@ -47,6 +47,7 @@ def crm_aggregates_page(request):
     template_name = "core/pages/crm/CrmAggregates.html"
 
     q_grouping_token = request.GET.get("q_grouping_token")
+    only_without_active_webinars = request.GET.get("only_without_active_webinars")
 
     if q_grouping_token:
         aggregates = WebinarAggregate.manager.filter(
@@ -55,6 +56,14 @@ def crm_aggregates_page(request):
     else:
         aggregates = WebinarAggregate.manager.all()
 
+    if only_without_active_webinars:
+        aggregates = aggregates.filter(has_active_webinars=False)
+
     return TemplateResponse(
-        request, template_name, {"aggregates": aggregates.order_by("-created_at")}
+        request,
+        template_name,
+        {
+            "aggregates": aggregates.order_by("-created_at"),
+            "only_without_active_webinars": only_without_active_webinars,
+        },
     )

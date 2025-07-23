@@ -248,9 +248,9 @@ class Webinar(Model):
     )
 
     is_hidden = BooleanField(
-        "Ukryj termin szkolenia na stronie",
+        "Ukryj termin w Agregacie",
         default=False,
-        help_text="Nie będzie można wyszukać terminu, ale będzie można wejść bezpośrednio",
+        help_text="Termin nie będzie widoczny w agragacie",
     )
 
     is_connected_to_conference = BooleanField(

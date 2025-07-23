@@ -6,6 +6,10 @@
 {% block crm_content %}
     <h1>CRM Agregaty</h1>
 
+{% if only_without_active_webinars %}
+    <h2 class="text-white bg-danger px-2 py-4">Tylko szkolenia bez aktywnych terminów</h2>
+{% endif %}
+
 <div class="table-responsive">
     <table class="table table-striped table-rounded border border-gray-300 table-row-bordered table-row-gray-300 gy-1 gs-1">
         <thead>

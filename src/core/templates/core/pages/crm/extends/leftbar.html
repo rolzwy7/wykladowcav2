@@ -206,6 +206,21 @@ data-kt-sticky-zindex="95"
   <!--begin::Menu item-->
   <div class="menu-item">
     <a
+      href="{% url "core:crm_aggregates_page" %}?only_without_active_webinars=1"
+      class="menu-link"
+    >
+      <span class="menu-icon">
+        <i class="ki-duotone ki-rocket fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+      </span>
+      <span class="menu-title">
+        Szkolenia bez terminów
+      </span>
+    </a>
+  </div>
+  <!--end::Menu item-->
+  <!--begin::Menu item-->
+  <div class="menu-item">
+    <a
       href="{% url 'core:service_offer_applications_list_page' %}"
       class="
         menu-link
@@ -543,6 +558,7 @@ data-kt-sticky-zindex="95"
       </a>
     </div>
     <!--end::Menu item-->
+    {% comment %}
     <!--begin::Menu item-->
     <div class="menu-item">
       <a
@@ -558,6 +574,7 @@ data-kt-sticky-zindex="95"
       </a>
     </div>
     <!--end::Menu item-->
+    {% endcomment %}
       <!--begin::Menu item-->
   <div class="menu-item">
     <a

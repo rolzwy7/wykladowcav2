@@ -172,6 +172,12 @@
         {% include "./components/aggregate_row_card.html" with aggregate=aggregate %}
         {% endif %}
         {% endfor %}
+
+        {% if category.about_html %}
+        <div>
+          {{category.about_html|safe}}
+        </div>
+        {% endif %}
           
           {% if menu_categories %}
           <div>
