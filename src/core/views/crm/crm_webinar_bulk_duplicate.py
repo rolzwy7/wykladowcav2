@@ -28,6 +28,8 @@ def crm_webinar_bulk_duplicate(request, pk):
     template_name = "core/pages/crm/webinar/CrmWebinarBulkDuplicate.html"
     original_webinar = get_object_or_404(Webinar, pk=pk)
 
+    next_redirect = request.GET.get("next")
+
     if request.GET.get("extra"):
         extra = int(request.GET["extra"])
     else:
@@ -76,7 +78,10 @@ def crm_webinar_bulk_duplicate(request, pk):
 
             metadata.save()
 
-        return redirect(reverse("core:crm_upcoming_webinars"))
+        if next_redirect:
+            return redirect(next_redirect)
+        else:
+            return redirect(reverse("core:crm_upcoming_webinars"))
     else:
         formset = WebinarFormSet(
             queryset=Webinar.manager.filter(pk=pk),
@@ -96,6 +101,7 @@ def crm_webinar_bulk_duplicate(request, pk):
         template_name,
         {
             "webinar": original_webinar,
+            "next_redirect": next_redirect,
             "formset": formset,
             "extra": extra,
             "menu": [_ for _ in range(1, 11)],

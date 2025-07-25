@@ -36,10 +36,16 @@ def webinar_aggregate_page(request, slug: str):
     # Get all active webinars on webiste
     active_webinars = Webinar.manager.get_active_webinars()
 
-    # Get active webinars for this aggregate
-    aggregate_active_webinars = [
-        _ for _ in aggregate_all_webinars if active_webinars.filter(id=_.id).exists()
-    ]
+    # Get active and inactive webinars for this aggregate
+    aggregate_active_webinars: list[Webinar] = []
+    aggregate_inactive_webinars: list[Webinar] = []
+
+    for _ in aggregate_all_webinars:
+        if active_webinars.filter(id=_.id).exists():
+            aggregate_active_webinars.append(_)
+        else:
+            aggregate_inactive_webinars.append(_)
+
     any_active_webinar = bool(aggregate_active_webinars)
 
     # If any webinar is anonymized -> whole aggragate is anonymized
@@ -66,6 +72,7 @@ def webinar_aggregate_page(request, slug: str):
             "any_active_webinar": any_active_webinar,
             "lecturer": lecturer,
             "aggregate_active_webinars": aggregate_active_webinars,
+            "aggregate_inactive_webinars": aggregate_inactive_webinars,
             "set_category_names": set_category_names,
             "show_queue_form": show_queue_form,
         },

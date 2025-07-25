@@ -8,10 +8,10 @@
 <h1>Duplikuj Hurtowo</h1>
 
 {% if webinar.is_default_program %}
-<p class="fw-bold fs-3 text-danger">
+<p class="fw-bold fs-3 text-white fw-bold bg-danger p-3">
     Uwaga. Coś jest nie tak z programem tego szkolenia. Jest pusty LUB domyślny LUB podejrznie krótki.
 </p>
-<p class="fw-bold fs-3 text-danger">
+<p class="fw-bold fs-3 text-white fw-bold bg-danger p-3">
     Napraw to przed duplikacją, bo inaczej będzie bolało.
 </p>
 {% endif %}
@@ -34,7 +34,7 @@
 
 <hr>
 
-<form method="post" action="{% url "core:crm_webinar_bulk_duplicate" pk=webinar.pk %}?extra={{extra}}">
+<form method="post" action="{% url "core:crm_webinar_bulk_duplicate" pk=webinar.pk %}?extra={{extra}}&next={{next_redirect}}">
     {% csrf_token %}
     {{ formset.management_form }}
     {% for form in formset %}
