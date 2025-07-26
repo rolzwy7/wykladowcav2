@@ -1,0 +1,31 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %}
+
+{% load static %}
+
+{% block head_stylesheets %} {% endblock head_stylesheets %}
+
+{% block crm_content %}
+    <h1>CRM AI</h1>
+
+
+    <div class="py-5">
+        <div class="row">
+            
+            <div class="col-md-4">
+                <a href="{% url "core:crm_ai_konsensus" %}" class="card hover-elevate-up shadow-sm parent-hover">
+                    <div class="card-body d-flex align-items">
+                        <i class="ki-duotone ki-rocket fs-1"><span class="path1"></span><span class="path2"></span></i>
+                        <span class="ms-3 text-gray-700 parent-hover-primary fs-6 fw-bold">
+                            Konsensus
+                        </span>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock crm_content %}
+
+
+{% block body_scripts %} {% endblock body_scripts %}

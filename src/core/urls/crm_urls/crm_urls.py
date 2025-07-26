@@ -7,6 +7,8 @@ from core.views.crm import (
     confirm_free_participants,
     crm_aggregates_page,
     crm_aggregates_webinar_list_page,
+    crm_ai_konsensus,
+    crm_ai_page,
     crm_blacklist_paste,
     crm_clickmeeting_paste_stream,
     crm_contact_messages,
@@ -367,6 +369,16 @@ urlpatterns = [
         "crm-redirect/<str:name>/<str:param>/",
         crm_redirect,
         name="crm_redirect",
+    ),
+    path(
+        "ai/",
+        crm_ai_page,
+        name="crm_ai_page",
+    ),
+    path(
+        "ai/agent.txt",
+        crm_ai_konsensus,
+        name="crm_ai_konsensus",
     ),
     # Upcoming webinars
     path(

@@ -651,6 +651,23 @@ data-kt-sticky-zindex="95"
       </a>
     </div>
     <!--end::Menu item-->
+{% comment %}
+      <!--begin::Menu item-->
+    <div class="menu-item">
+        <a
+          href="{% url "core:crm_ai_page" %}"
+          class="menu-link {% if request.path == '/crm/ai/' %}active{% endif %}"
+        >
+        <span class="menu-icon">
+          <i class="ki-duotone ki-abstract-26 fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+        </span>
+          <span class="menu-title">
+            AI
+        </span>
+        </a>
+      </div>
+      <!--end::Menu item-->
+{% endcomment %}
 
 
   </div>
