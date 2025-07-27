@@ -2,6 +2,7 @@
 
 # flake8: noqa=E501
 
+from django.conf import settings
 from django.template.response import TemplateResponse
 
 from core.models import Lecturer, WebinarAggregate
@@ -37,6 +38,10 @@ def crm_ai_konsensus(request):
     return TemplateResponse(
         request,
         template_name,
-        {"active_lecturers": active_lecturers, "aggregates": aggregates},
+        {
+            "active_lecturers": active_lecturers,
+            "aggregates": aggregates,
+            "BASE_URL": settings.BASE_URL,
+        },
         content_type="text/plain; charset=utf-8",
     )

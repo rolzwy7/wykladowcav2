@@ -1,5 +1,5 @@
 """
-    Spam and spam-forbidden phrases
+Spam and spam-forbidden phrases
 """
 
 FORBIDDEN_PHRASES = {
@@ -67,7 +67,7 @@ SPAM_PHRASES = {
     "inter;netowa": "inter;netowa",
     # J
     # K
-    "kurs": "ku;rs",
+    # "kurs": "ku;rs",
     # L
     # M
     "musisz": "mus;isz",

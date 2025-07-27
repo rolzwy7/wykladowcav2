@@ -30,8 +30,10 @@ Opis wykładowcy: `{{active_lecturer.biography}}`
 {% for aggregate in aggregates %}
 {{forloop.counter}}.)
 Tytuł szkolenia: {{aggregate.title}}
+Adres URL: {{BASE_URL}}{% url "core:webinar_aggregate_page" slug=aggregate.slug %}
 Wykładowca: {{aggregate.lecturer}}
 Kategorie: {% for cat in aggregate.categories.all %}{{cat|safe}}, {% endfor %}
+Czas trwania: {{aggregate.duration}}
 {% if aggregate.has_active_webinars %}Terminy: {% for term in aggregate.webinars.all %}{{term.date|date:"j E Y"}} godz. {{term.date|date:"H:i"}} (Cena: {{term.price}} zł NETTO), {% endfor %} {% else %}Terminy: Na dzień dzisiejszy brak terminów tego szkolenia{% endif %}
 Materiały dla uczestników HTML:
 ```html
@@ -43,7 +45,3 @@ Program szkolenia HTML:
 ```
 
 {% endfor %}
-
-=====
-
-[Lista szkoleń z  cena normalna, obecna liczba zapisanych, lista uczestników

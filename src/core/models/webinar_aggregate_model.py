@@ -185,6 +185,13 @@ class WebinarAggregate(Model):
             ]
         )
 
+    @property
+    def duration(self):
+        """duration"""
+        for webinar in self.webinars.all().order_by("-updated_at"):
+            return webinar.get_duration_display()
+        return None
+
     def save(self, *args, **kwargs) -> None:
         return super().save(*args, **kwargs)
 
