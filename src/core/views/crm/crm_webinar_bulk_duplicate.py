@@ -79,7 +79,10 @@ def crm_webinar_bulk_duplicate(request, pk):
             metadata.save()
 
         if next_redirect:
-            return redirect(next_redirect)
+            try:
+                return redirect(next_redirect)
+            except Exception as e:
+                return redirect(reverse("core:crm_upcoming_webinars"))
         else:
             return redirect(reverse("core:crm_upcoming_webinars"))
     else:

@@ -1,52 +1,55 @@
+"""Blog Model"""
+
 from datetime import datetime
 
 from django.db import models
 from django.utils.text import slugify
 
+# flake8: noqa=E501
+
 
 class BlogPost(models.Model):
-    STATUS_CHOICES = (
-        ("draft", "Draft"),
-        ("published", "Published"),
-        ("archived", "Archived"),
-    )
+    """BlogPost"""
 
-    slug = models.SlugField(
-        max_length=250, unique=True, help_text="URL-friendly identifier"
-    )
-    add_date = models.DateTimeField(
-        null=True, blank=True, help_text="Date the post was created"
-    )
+    STATUS_CHOICES = [
+        ("draft", "Szkic"),
+        ("published", "Opublikowany"),
+        ("archived", "Zarchiwizowany"),
+    ]
+
+    # Status and dates
     status = models.CharField(
-        max_length=20,
-        choices=STATUS_CHOICES,
-        default="draft",
-        help_text="Publication status",
+        "Status", max_length=20, choices=STATUS_CHOICES, default="draft"
     )
+    created_at = models.DateTimeField("Data utworzenia", auto_now_add=True)
+    updated_at = models.DateTimeField("Data aktualizacji", auto_now=True)
+    published_at = models.DateTimeField("Data publikacji", blank=True, null=True)
     visible_after = models.DateTimeField(
-        default=datetime.now, help_text="Date after which the post is visible"
+        default=datetime.now, help_text="Widoczny po dacie"
     )
 
-    title_meta = models.CharField(
-        max_length=200, help_text="SEO meta title for the blog post"
-    )
-    title_h1 = models.CharField(
-        max_length=200, help_text="Main heading for the blog post"
-    )
+    # Basic fields
+    title = models.CharField("Tytuł", max_length=200)
+    slug = models.SlugField("Slug URL", max_length=250, unique=True)
+    content = models.TextField("Treść artykułu")
+    excerpt = models.TextField("Krótki opis", max_length=500, blank=True)
 
+    # SEO fields
+    meta_title = models.CharField("Meta tytuł (SEO)", max_length=60, blank=True)
+    meta_description = models.CharField("Meta opis (SEO)", max_length=160, blank=True)
+    meta_keywords = models.CharField("Słowa kluczowe (SEO)", max_length=255, blank=True)
+
+    # Author
     author = models.CharField(max_length=100, help_text="Name of the author")
     author_url = models.URLField(
         blank=True, null=True, help_text="URL to author's profile or website"
     )
 
-    image = models.ImageField(
-        upload_to="blog_images/",
-        blank=True,
-        null=True,
-        help_text="Featured image for the blog post",
-    )
+    # Reading time estimation
+    reading_time = models.PositiveIntegerField("Czas czytania (minuty)", default=5)
 
-    html = models.TextField(help_text="HTML content of the blog post")
+    # View count
+    view_count = models.PositiveIntegerField("Liczba wyświetleń", default=0)
 
     categories = models.ManyToManyField(
         "WebinarCategory",
@@ -55,14 +58,15 @@ class BlogPost(models.Model):
     )
 
     class Meta:
-        ordering = ["-visible_after"]
-        verbose_name = "Blog Post"
-        verbose_name_plural = "Blog Posts"
+        verbose_name = "Artykuł blogowy"
+        verbose_name_plural = "Artykuły blogowe"
+        ordering = ["-published_at", "-created_at"]
 
     def __str__(self):
-        return self.title_h1
+        """__str__"""
+        return str(self.title)
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title_h1)
+            self.slug = slugify(self.title)
         super().save(*args, **kwargs)
