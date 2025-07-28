@@ -126,3 +126,26 @@
   {% include '../includes/WebinarMailingCTA.html' with text=cta_text href=cta_href %}
   </td>
 </tr>
+
+{% if fb_title %}
+<tr>
+  <td style="{{td_classes|safe}}padding-top:15px;">
+    <h3 style="font-size: 1.4em; color: #1e293b; margin-bottom: 10px;">
+      Dołącz do naszej grupy na Facebooku!
+    </h3>
+    <p style="font-size: 16px; color: #333; margin-bottom: 15px;">
+      {{fb_title|safe}}
+    </p>
+    </td>
+</tr>
+
+<tr>
+  <td style="{{td_classes|safe}}padding-top:15px;">
+    <center>
+      <a href="{{fb_btn_url}}" style="width: 350px; background-color:#1877F2; text-decoration: none; padding: .5em 2em; color: #fff; display:inline-block; border-radius:.4em; mso-padding-alt:0;text-underline-color:#005959">
+        {{fb_btn_text|safe}}
+      </a>
+  </center>
+  </td>
+</tr>
+{% endif %}

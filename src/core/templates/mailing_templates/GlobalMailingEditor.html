@@ -97,6 +97,7 @@
                         {% endfor %}
                      {% endif %}
                      <div class="col-12 mb-3">
+                        <hr>
                       <div class="mb-3 col-12 col-md-6">
                         <label class="form-label" for="id_for_whom">Dla kogo?</label>
                         <input type="text" id="id_for_whom" name="for_whom" class="form-control" placeholder="np. Webinary dla księgowych">
@@ -114,6 +115,7 @@
                      </div>
                      </div>
                       <div class="col-12 mb-3">
+                        <h3><u>Checkboxy</u></h3>
                          <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="id_show_logo" name="show_logo" checked>
                             <label class="form-check-label" for="id_show_logo">
@@ -220,6 +222,32 @@
                             </label>
                          </div>
                       </div>
+                      <h3><u>Grupa FB</u></h3>
+                     
+                      <div class="mb-3 col-12 col-md-4">
+                        <label class="form-label" for="id_fb_position">Wybierz opcję grupy FB</label>
+                        <select id="id_fb_position" name="fb_position" class="form-select">
+                           <option value="fb_up">Góra</option>
+                           <option value="fb_down">Dół</option>
+                        </select>
+                     </div>
+
+                      <div class="mb-3 col-12 col-md-8">
+                         <label class="form-label" for="id_fb_title">FB TITLE - ( 📌 ChatGPT Polska – PROMPTY, TRIKI, AI w praktyce, Zarabianie i Automatyzacja )</label>
+                         <input type="text" id="id_fb_title" class="form-control" name="fb_title" placeholder="">
+                      </div>
+                     
+                      <div class="mb-3 col-12 col-md-8">
+                         <label class="form-label" for="id_fb_btn_text">FB BTN TEXT - ( Dołącz teraz do grupy na Facebook'u )</label>
+                         <input type="text" id="id_fb_btn_text" class="form-control" name="fb_btn_text" placeholder="">
+                      </div>
+                      
+                      <div class="mb-3 col-12 col-md-8">
+                         <label class="form-label" for="id_fb_btn_url">FB BTN URL</label>
+                         <input type="text" id="id_fb_btn_url" class="form-control" name="fb_btn_url" placeholder="https://www.facebook.com/groups/...">
+                      </div>
+
+                      <h3><u>Kod zniżkowy</u></h3>
                       <div class="mb-3 col-12 col-md-4">
                          <label class="form-label" for="id_znizka_kod">Kod zniżkowy (kod)</label>
                          <input type="text" id="id_znizka_kod" class="form-control" name="promo_code" placeholder="np. ABC123">

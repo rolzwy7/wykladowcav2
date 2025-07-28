@@ -125,6 +125,10 @@ def global_mailing_template_page(request):
         "max_width": "640px",
         "subject_override": request.GET.get("subject_override"),
         "closed_webinar_btn_url": request.GET.get("closed_webinar_btn_url"),
+        "fb_position": request.GET.get("fb_position"),
+        "fb_title": request.GET.get("fb_title"),
+        "fb_btn_text": request.GET.get("fb_btn_text"),
+        "fb_btn_url": request.GET.get("fb_btn_url"),
     }
 
     template_name = "mailing_templates/GlobalMailingTemplate.html"
