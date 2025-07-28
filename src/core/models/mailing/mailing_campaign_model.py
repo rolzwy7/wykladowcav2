@@ -155,7 +155,7 @@ class MailingCampaign(Model):
 
     # Template
     template = ForeignKey("MailingTemplate", on_delete=CASCADE)
-    template_url = CharField("template_url", max_length=512, blank=True)
+    template_url = CharField("template_url", max_length=2048, blank=True)
 
     # Comment
     comment = TextField("Komentarz", blank=True)
