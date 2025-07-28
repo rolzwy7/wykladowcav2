@@ -255,7 +255,6 @@
               <div class="d-grid">
                 <a
                 href="{% url 'core:sale_recording_application_type_page' pk=aggregate.sale_recording.pk %}"
-                rel="nofollow"
                 class="btn mb-2 border-0 text-white"
                 style="background-color: #f1416c"
               >
@@ -381,7 +380,6 @@
                 {% if any_active_webinar %}
                 <a
                   href="{% url 'core:application_choose_webinar' slug=aggregate.slug %}"
-                  rel="nofollow"
                   class="btn btn-primary border-0"
                   style="background-color: #f1416c"
                 >
@@ -391,7 +389,6 @@
                 {% endif %}
                 <a
                   href="#"
-                  rel="nofollow"
                   data-bs-toggle="modal"
                   data-bs-target="#askQuestionModal"
                   class="btn btn-primary mb-2 border-0"

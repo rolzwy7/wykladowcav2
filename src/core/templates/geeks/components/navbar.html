@@ -41,7 +41,7 @@
               <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
             </svg>
           </span>
-          <a href="{% url "core:register_page" %}" class="text-inherit fs-5 fw-medium" rel="nofollow">
+          <a href="{% url "core:register_page" %}" class="text-inherit fs-5 fw-medium">
             Zarejestruj się
           </a>
         </div>
@@ -55,8 +55,7 @@
               <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"></path>
             </svg>
           </span>
-          {% comment %} <a href="{% url 'core:login_page' %}?next={{request.path}}" class="text-inherit fs-5 fw-medium" rel="nofollow"> {% endcomment %}
-          <a href="{% url 'core:login_page' %}" class="text-inherit fs-5 fw-medium" rel="nofollow">
+          <a href="{% url 'core:login_page' %}" class="text-inherit fs-5 fw-medium">
             Zaloguj się
          </a>
         </div>
@@ -121,8 +120,7 @@
      <div class="order-lg-3">
         <div class="d-flex align-items-center">
            {% if not request.user.is_authenticated %}
-           {% comment %} <a href="{% url 'core:login_page' %}?next={{request.path}}" class="btn btn-primary ms-1 d-none d-lg-block" rel="nofollow"> {% endcomment %}
-           <a href="{% url 'core:contact_page' %}" class="btn btn-primary ms-1 d-none d-lg-block" rel="nofollow">
+           <a href="{% url 'core:contact_page' %}" class="btn btn-primary ms-1 d-none d-lg-block">
            Kontakt
            </a>
            {% endif %}
@@ -213,7 +211,7 @@
                  <div class="dropdown-divider"></div>
                  <ul class="list-unstyled">
                     <li>
-                       <a class="dropdown-item text-danger" href="{% url 'core:logout_page' %}" rel="nofollow">
+                       <a class="dropdown-item text-danger" href="{% url 'core:logout_page' %}">
                        <i class="fe fe-power me-2"></i>Wyloguj się
                        </a>
                     </li>
