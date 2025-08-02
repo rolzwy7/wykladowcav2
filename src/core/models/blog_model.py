@@ -1,63 +1,134 @@
 """Blog Model"""
 
-from datetime import datetime
-
-from django.db import models
+from django.db.models import (
+    SET_NULL,
+    BooleanField,
+    CharField,
+    DateTimeField,
+    ForeignKey,
+    ImageField,
+    Manager,
+    ManyToManyField,
+    Model,
+    PositiveIntegerField,
+    Q,
+    QuerySet,
+    SlugField,
+    TextChoices,
+    TextField,
+    URLField,
+)
+from django.utils import timezone
 from django.utils.text import slugify
 
 # flake8: noqa=E501
 
 
-class BlogPost(models.Model):
+class BlogPostQuerySet(QuerySet):
+    """Dedykowany QuerySet dla modelu BlogPost."""
+
+    def published(self):
+        """Zwraca tylko opublikowane artykuły, których data publikacji już minęła."""
+        return self.filter(
+            Q(status=self.model.Status.PUBLISHED)
+            & (Q(published_at=None) | Q(published_at__lte=timezone.now()))
+        )
+
+    def with_related_data(self):
+        """
+        Optymalizuje zapytanie poprzez pobranie powiązanych obiektów
+        (wykładowcy i kategorie) w jednym zapytaniu do bazy danych.
+        Używa select_related dla relacji ForeignKey i prefetch_related dla ManyToManyField.
+        """
+        return self.select_related("lecturer").prefetch_related("categories")
+
+
+class BlogPostManager(Manager):
+    """Manager dla modelu BlogPost."""
+
+    def get_queryset(self):
+        """Używa dedykowanego BlogPostQuerySet."""
+        return BlogPostQuerySet(self.model, using=self._db)
+
+    # Możesz dodać "skróty" do najczęściej używanych metod z QuerySet
+    # aby można było je wywołać bezpośrednio z managera, np. BlogPost.objects.published()
+
+    def published(self):
+        """Zwraca opublikowane artykuły."""
+        return self.get_queryset().published()
+
+    def all_published_with_related(self):
+        """Zwraca wszystkie opublikowane artykuły wraz z powiązanymi danymi."""
+        return self.get_queryset().published().with_related_data()
+
+
+class BlogPost(Model):
     """BlogPost"""
 
-    STATUS_CHOICES = [
-        ("draft", "Szkic"),
-        ("published", "Opublikowany"),
-        ("archived", "Zarchiwizowany"),
-    ]
+    class Status(TextChoices):
+        """Status"""
+
+        DRAFT = "draft", "Szkic"
+        PUBLISHED = "published", "Opublikowany"
+        ARCHIVED = "archived", "Zarchiwizowany"
+
+    manager = BlogPostManager()
+
+    show_related_webinars = BooleanField(
+        "Pokaż szkolenia powiązane tematycznie", default=False
+    )
 
     # Status and dates
-    status = models.CharField(
-        "Status", max_length=20, choices=STATUS_CHOICES, default="draft"
+    status = CharField(
+        "Status", max_length=20, choices=Status.choices, default=Status.DRAFT
     )
-    created_at = models.DateTimeField("Data utworzenia", auto_now_add=True)
-    updated_at = models.DateTimeField("Data aktualizacji", auto_now=True)
-    published_at = models.DateTimeField("Data publikacji", blank=True, null=True)
-    visible_after = models.DateTimeField(
-        default=datetime.now, help_text="Widoczny po dacie"
+    created_at = DateTimeField("Data utworzenia", auto_now_add=True)
+    updated_at = DateTimeField("Data aktualizacji", auto_now=True)
+    published_at = DateTimeField("Data publikacji", blank=True, null=True)
+
+    # Cover Image
+    cover_image = ImageField(
+        "Zdjęcie okładkowe",
+        upload_to="uploads/blog_covers/%Y/%m/%d/",
+        blank=True,
+        null=True,
     )
 
     # Basic fields
-    title = models.CharField("Tytuł", max_length=200)
-    slug = models.SlugField("Slug URL", max_length=250, unique=True)
-    content = models.TextField("Treść artykułu")
-    excerpt = models.TextField("Krótki opis", max_length=500, blank=True)
+    title = CharField("Tytuł", max_length=200)
+    slug = SlugField("Slug URL", max_length=250, unique=True)
+    excerpt = TextField("Krótki opis", max_length=500, blank=True)
+    content = TextField("Treść artykułu")
 
     # SEO fields
-    meta_title = models.CharField("Meta tytuł (SEO)", max_length=60, blank=True)
-    meta_description = models.CharField("Meta opis (SEO)", max_length=160, blank=True)
-    meta_keywords = models.CharField("Słowa kluczowe (SEO)", max_length=255, blank=True)
+    meta_title = CharField("Meta tytuł (SEO)", max_length=60, blank=True)
+    meta_description = CharField("Meta opis (SEO)", max_length=160, blank=True)
+    meta_keywords = CharField("Słowa kluczowe (SEO)", max_length=255, blank=True)
 
-    # Author
-    author = models.CharField(max_length=100, help_text="Name of the author")
-    author_url = models.URLField(
-        blank=True, null=True, help_text="URL to author's profile or website"
+    # Lecturer
+    lecturer = ForeignKey(
+        "Lecturer", on_delete=SET_NULL, null=True, blank=True, verbose_name="Wykładowca"
     )
 
+    # Author
+    author = CharField(max_length=100, help_text="Autor")
+    author_url = URLField(blank=True, null=True, help_text="Autor URL")
+
     # Reading time estimation
-    reading_time = models.PositiveIntegerField("Czas czytania (minuty)", default=5)
+    reading_time = CharField("Czas czytania (minuty)", max_length=20, default="5 minut")
 
     # View count
-    view_count = models.PositiveIntegerField("Liczba wyświetleń", default=0)
+    view_count = PositiveIntegerField("Liczba wyświetleń", default=0)
 
-    categories = models.ManyToManyField(
+    categories = ManyToManyField(
         "WebinarCategory",
         related_name="blog_posts",
-        help_text="Categories for the blog post",
+        help_text="Kategorie",
     )
 
     class Meta:
+        """Meta"""
+
         verbose_name = "Artykuł blogowy"
         verbose_name_plural = "Artykuły blogowe"
         ordering = ["-published_at", "-created_at"]

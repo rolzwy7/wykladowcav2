@@ -7,6 +7,7 @@ from .blacklist_admin import (
     BlacklistedPhraseModelAdmin,
     BlacklistedPrefixModelAdmin,
 )
+from .blogpost_modeladmin import BlogPostAdmin
 from .conference_admin import ConferenceFreeParticipantModelAdmin
 from .crm_todo_modeladmin import CrmTodoModelAdmin
 from .discountcode_modeladmin import DiscountCodeModelAdmin

@@ -6,6 +6,7 @@ from .blacklist import (
     BlacklistedPhrase,
     BlacklistedPrefix,
 )
+from .blog_model import BlogPost
 from .category_trusted_us_model import CategoryTrustedUs
 from .closed_webinar_contact_model import ClosedWebinarContactMessage
 from .conference import ConferenceCycle, ConferenceEdition, ConferenceFreeParticipant
