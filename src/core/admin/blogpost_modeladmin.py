@@ -68,6 +68,10 @@ class BlogPostAdmin(admin.ModelAdmin):
     # Grupuje pola w sekcje (fieldsets) dla lepszej organizacji formularza
     fieldsets = (
         (
+            None,
+            {"fields": ("show_related_webinars",)},
+        ),
+        (
             _("Treść i okładka"),
             {"fields": ("title", "slug", "cover_image", "excerpt", "content")},
         ),
@@ -78,7 +82,6 @@ class BlogPostAdmin(admin.ModelAdmin):
         (
             _("Dane SEO"),
             {
-                "classes": ("collapse",),  # Sekcja domyślnie zwinięta
                 "fields": ("meta_title", "meta_description", "meta_keywords"),
             },
         ),
@@ -90,7 +93,6 @@ class BlogPostAdmin(admin.ModelAdmin):
                     "author_url",
                     "lecturer",
                     "categories",
-                    "show_related_webinars",
                 ),
             },
         ),

@@ -6,7 +6,7 @@ from django.db.models import F
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 
-from core.models import BlogPost
+from core.models import BlogPost, WebinarAggregate
 
 
 def blog_article_page(request, slug: str):
@@ -28,7 +28,7 @@ def blog_article_page(request, slug: str):
     # i zgodny z logiką biznesową zdefiniowaną w modelu.
     # Metoda `published()` filtruje status i datę publikacji.
     # Metoda `with_related_data()` optymalizuje zapytanie (prefetch/select_related).
-    article = get_object_or_404(
+    article: BlogPost = get_object_or_404(
         BlogPost.manager.published().with_related_data(), slug=slug
     )
 
@@ -39,10 +39,16 @@ def blog_article_page(request, slug: str):
     if not request.user.is_staff:
         BlogPost.manager.filter(pk=article.pk).update(view_count=F("view_count") + 1)
 
+    related_aggregates = []
+    if article.show_related_webinars:
+        related_aggregates = (
+            WebinarAggregate.manager.get_active_aggregates_for_category_slugs(
+                [cat.slug for cat in article.categories.all()]
+            )
+        )
+
     return TemplateResponse(
         request,
         template_name,
-        {
-            "article": article,
-        },
+        {"article": article, "related_aggregates": related_aggregates},
     )

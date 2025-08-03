@@ -43,6 +43,6 @@ class Command(BaseCommand):
 
         telegram_service = TelegramService()
         telegram_service.try_send_chat_message(
-            f"Randomized buckets, MAILING_NUM_OF_PROCESSES := {settings.MAILING_NUM_OF_PROCESSES}",
+            f"✅ Randomized buckets, MAILING_NUM_OF_PROCESSES := {settings.MAILING_NUM_OF_PROCESSES}",
             TelegramChats.OTHER,
         )
