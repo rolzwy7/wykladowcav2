@@ -36,7 +36,7 @@ def webinar_queue_endpoint(request: HttpRequest, grouping_token: str):
 
         telegram_service = TelegramService()
         telegram_service.try_send_chat_message(
-            f"AGREGAT LEAD KOLEJKA: {email} - {aggregate.title}",
+            f"🏆 AGREGAT LEAD KOLEJKA: {email} - {aggregate.title}",
             TelegramChats.OTHER,
         )
 

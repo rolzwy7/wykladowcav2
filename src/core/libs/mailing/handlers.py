@@ -48,7 +48,7 @@ def try_to_finish_campaign(
 
         telegram_service = TelegramService()
         telegram_service.try_send_chat_message(
-            f"Kampania mailingowa zakończona: {campaign_title}",
+            f"✅ Kampania mailingowa zakończona: {campaign_title}",
             TelegramChats.OTHER,
         )
         return True

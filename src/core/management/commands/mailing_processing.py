@@ -140,13 +140,13 @@ class Command(BaseCommand):
                 except Exception as e:
                     telegram_service = TelegramService()
                     telegram_service.send_chat_message(
-                        f"Sender {sender}: process_scan_inbox error: {e}",
+                        f"🟥 Sender {sender}: process_scan_inbox error: {e}",
                         TelegramChats.OTHER,
                     )
                 else:
                     telegram_service = TelegramService()
                     telegram_service.send_chat_message(
-                        f"Sender {sender}: process_scan_inbox success",
+                        f"✅ Sender {sender}: process_scan_inbox success",
                         TelegramChats.OTHER,
                     )
 

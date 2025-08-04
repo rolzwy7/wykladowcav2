@@ -67,6 +67,6 @@ class Command(BaseCommand):
 
         telegram_service = TelegramService()
         telegram_service.try_send_chat_message(
-            "Zreorganizowano kategorie na stronie głównej",
+            "✅ Zreorganizowano kategorie na stronie głównej",
             TelegramChats.OTHER,
         )
