@@ -47,7 +47,7 @@ SPAM_PHRASES = {
     "bezpłatna": "bezpł;atna",
     "bezpłatny": "bezpł;atny",
     # C
-    "celu": "ce;lu",
+    "celu": "ceIu",
     # D
     "dyrektyw": "dyre;ktyw",
     "danych": "dany;ch",
@@ -83,9 +83,9 @@ SPAM_PHRASES = {
     "osobowe": "osob;owe",
     "osobowe,": "osob;owe,",
     # P
-    "publicz": "pub;licz",
-    "publicznych": "pub;licznych,",
-    "publicznych,": "pub;licznych,",
+    "publicz": "pubIicz",
+    "publicznych": "pubIicznych,",
+    "publicznych,": "pubIicznych,",
     "propozycj": "pro;pozycj",
     "przedsiębior": "przed;siębior",
     "przedsiębiorstw": "przed;siębiorstw",
@@ -94,13 +94,13 @@ SPAM_PHRASES = {
     "rezygnacja": "rezyg;nacja",
     "rezygnacji": "rezyg;nacji",
     # S
-    "szkolen": "szko;len",
-    "szkoleń": "szko;leń",
+    "szkolen": "szkoIen",
+    "szkoleń": "szkoIeń",
     "szczegółow": "szcze;gółow",
-    "szkolenia": "szko;lenia",
-    "szkoleniach": "szko;leniach",
-    "szkoleniowych": "szko;leniowych",
-    "szkoleniu": "szko;leniu",
+    "szkolenia": "szkoIenia",
+    "szkoleniach": "szkoIeniach",
+    "szkoleniowych": "szkoIeniowych",
+    "szkoleniu": "szkoIeniu",
     # T
     # U
     # W

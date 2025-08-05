@@ -235,6 +235,15 @@ def crm_mailing_campaign_duplicate(request, pk: int):
             service = MailingCampaignService(mailing_campaign)
             service.reset_campaign()
 
+            # Duplicate template
+            template = MailingTemplate.objects.get(id=mailing_campaign.template.id)
+            template.id = None  # type: ignore
+            template.name = f"fromcopy_{mailing_campaign.id}_{template.name}"  # type: ignore
+            template.save()
+
+            mailing_campaign.template = template
+            mailing_campaign.save()
+
             return redirect(
                 reverse(
                     "core:crm_mailing_campaign_detail",
