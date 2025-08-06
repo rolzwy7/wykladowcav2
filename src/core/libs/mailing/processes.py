@@ -144,7 +144,7 @@ def process_scan_inbox(smtp_sender: SmtpSender, cache: dict):
             telegram_service.try_send_chat_message(
                 "\n".join(
                     [
-                        "[AGGRESSOR DETECTION] Tymczasowo (14 dni) zablokowano:",
+                        "👿 [AGGRESSOR DETECTION] Tymczasowo (14 dni) zablokowano:",
                         " ".join([from_email, *subject_emails]),
                         "\nPonieważ wykryto:",
                         " ".join(which_phrases),
