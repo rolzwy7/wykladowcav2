@@ -14,7 +14,7 @@ load_dotenv(override=True)
 VERSION_NUMBER = "2.0.0"
 VERSION_DATE = "2025/01/03"
 
-MAX_UPLOAD_SIZE = 26214400  # 25 MB
+MAX_UPLOAD_SIZE = 52428800  # 50 MB
 
 APP_START_TIMESTAMP = int(time.time())
 

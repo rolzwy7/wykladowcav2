@@ -154,7 +154,7 @@ var myDropzone = new Dropzone(id, { // Make the whole body a dropzone
     headers: {'X-CSRFToken': '{{csrf_token}}'},
     previewTemplate: previewTemplate,
     maxFiles: 40,
-    maxFilesize: 25, // Max filesize in MB
+    maxFilesize: 50, // Max filesize in MB
     autoQueue: false, // Make sure the files aren't queued until manually added
     previewsContainer: id + " .dropzone-items", // Define the container to display the previews
     clickable: id + " .dropzone-select" // Define the element that should be used as click trigger to select files.
