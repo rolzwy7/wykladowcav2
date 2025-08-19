@@ -10,7 +10,7 @@ AGGRESSOR_PHRASES_ICONTAINS = [
     "jeban",
     "odjeb",
     "chuj",
-    "gówno",
+    "gówn",
     "skąd macie",
     "skąd mają państwo",
     "skąd państwo mają",
