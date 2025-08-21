@@ -376,7 +376,7 @@ class CrmWebinarService:
         )
         free_participants = self.get_free_participants()
         is_default_program = self.webinar.is_default_program
-        any_categories = any([cat for cat in self.webinar.categories.all()])
+        any_categories_webinar = any([cat for cat in self.webinar.categories.all()])
 
         try:
             conference_edition = ConferenceEdition.manager.get(webinar=self.webinar)
@@ -392,11 +392,13 @@ class CrmWebinarService:
                 date_changes.append(_.date)
 
         try:
-            aggregate = WebinarAggregate.manager.get(
+            aggregate: WebinarAggregate = WebinarAggregate.manager.get(
                 grouping_token=self.webinar.grouping_token
             )
         except WebinarAggregate.DoesNotExist:
-            aggregate = None
+            aggregate = None  # type: ignore
+        else:
+            any_categories_aggregate = any([cat for cat in aggregate.categories.all()])
 
         # Aggregate queue
         webinar_queue_not_sent_notify = WebinarQueue.manager.filter(
@@ -408,7 +410,8 @@ class CrmWebinarService:
 
         return {
             "aggregate": aggregate,
-            "any_categories": any_categories,
+            "any_categories_webinar": any_categories_webinar,
+            "any_categories_aggregate": any_categories_aggregate,
             # Weinar Queue
             "webinar_queue_not_sent_notify": webinar_queue_not_sent_notify,
             "webinar_queue_not_sent_notify_count": webinar_queue_not_sent_notify.count(),

@@ -170,6 +170,16 @@
                 </span>
             </li>
             {% endif %}
+            {% if not webinar_ctx.aggregate %}
+            <li class="d-flex align-items-center">
+                <span class="bullet bullet-vertical bg-danger me-5"></span>
+                <span
+                    class="px-1 text-white bg-info"
+                >
+                    BRAK AGREGATU !
+                </span>
+            </li>
+            {% endif %}
             {% if webinar_ctx.aggregate.hidden %}
             <li class="d-flex align-items-center">
                 <span class="bullet bullet-vertical bg-info me-5"></span>
@@ -180,13 +190,23 @@
                 </span>
             </li>
             {% endif %}
-            {% if not webinar_ctx.any_categories %}
+            {% if not webinar_ctx.any_categories_webinar %}
             <li class="d-flex align-items-center">
                 <span class="bullet bullet-vertical bg-info me-5"></span>
                 <span
                     class="px-1 text-white bg-info"
                 >
-                    Brak Kategorii (NIEWIDOCZNY NA STRONIE)
+                    Brak Kategorii Szkolenie (NIEWIDOCZNY NA STRONIE)
+                </span>
+            </li>
+            {% endif %}
+            {% if not webinar_ctx.any_categories_aggregate %}
+            <li class="d-flex align-items-center">
+                <span class="bullet bullet-vertical bg-info me-5"></span>
+                <span
+                    class="px-1 text-white bg-info"
+                >
+                    Brak Kategorii Agregat (NIEWIDOCZNY NA STRONIE)
                 </span>
             </li>
             {% endif %}
