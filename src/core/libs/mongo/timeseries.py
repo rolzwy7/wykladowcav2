@@ -20,7 +20,7 @@
 # flake8: noqa=E501
 
 from datetime import datetime
-from typing import Any, Dict, Literal, Optional
+from typing import Any, Dict, List, Literal, Optional
 
 import pymongo
 from bson.objectid import ObjectId
@@ -113,6 +113,56 @@ def delete_events(collection: Collection, filter_query: Dict[str, Any]) -> int:
     result = collection.delete_many(filter_query)
     print(f"Usunięto {result.deleted_count} dokumentów.")
     return result.deleted_count
+
+
+def get_data_for_apexcharts(
+    collection: Collection,
+    series_definitions: List[Dict[str, str]],
+    start_date: datetime,
+    end_date: datetime,
+) -> Dict[str, List[Dict[str, Any]]]:
+    """
+    Pobiera dane dla wielu serii i formatuje je dla ApexCharts.js.
+
+    Każdy punkt danych to lista [timestamp_ms, wartość].
+
+    :param collection: Obiekt kolekcji MongoDB.
+    :param series_definitions: Lista słowników, gdzie każdy definiuje jedną serię.
+                               Przykład: [{"name": "Site Visitors", "eventType": "...", "source": "...", "data_field": "..."}]
+    :param start_date: Początkowa data okresu.
+    :param end_date: Końcowa data okresu.
+    :return: Słownik z kluczem 'series' gotowy do przekazania do ApexCharts.
+    """
+    apex_series_data = []
+
+    for series_def in series_definitions:
+        event_type = series_def.get("eventType")
+        source = series_def.get("source")
+        data_field = series_def.get("data_field")
+
+        if not all([event_type, source, data_field]):
+            print(f"Pominięto niekompletną definicję serii: {series_def}")
+            continue
+
+        query = {
+            "eventType": event_type,
+            "source": source,
+            "timestamp": {"$gte": start_date, "$lte": end_date},
+            f"data.{data_field}": {"$exists": True},
+        }
+
+        cursor = collection.find(query).sort("timestamp", 1)
+
+        data_points = []
+        for doc in cursor:
+            timestamp_ms = int(doc["timestamp"].timestamp() * 1000)
+            value = doc["data"].get(data_field)
+            if isinstance(value, (int, float)):
+                data_points.append([timestamp_ms, value])
+
+        apex_series_data.append({"name": event_type, "data": data_points})
+
+    return {"series": apex_series_data}
 
 
 def get_raw_data_for_chartjs(

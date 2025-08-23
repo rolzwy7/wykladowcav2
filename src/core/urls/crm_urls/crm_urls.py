@@ -19,6 +19,7 @@ from core.views.crm import (
     crm_resignations_plaintext,
     crm_send_webinar_queue_email_notifications,
     crm_take_over_account,
+    crm_timeseries_chart,
     crm_todos_done_list,
     crm_todos_list,
     crm_upcoming_webinars,
@@ -369,6 +370,11 @@ urlpatterns = [
         "crm-redirect/<str:name>/<str:param>/",
         crm_redirect,
         name="crm_redirect",
+    ),
+    path(
+        "timeseries-chart/",
+        crm_timeseries_chart,
+        name="crm_timeseries_chart",
     ),
     path(
         "ai/",

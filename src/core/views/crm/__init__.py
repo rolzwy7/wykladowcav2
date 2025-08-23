@@ -24,6 +24,7 @@ from .crm_send_webinar_queue_email_notifications import (
     crm_send_webinar_queue_email_notifications,
 )
 from .crm_take_over_account import crm_take_over_account
+from .crm_timeseries_chart import crm_timeseries_chart
 from .crm_todos_list import crm_todos_done_list, crm_todos_list
 from .crm_url_to_program import crm_url_to_program
 from .crm_user_password_reset import crm_user_password_reset

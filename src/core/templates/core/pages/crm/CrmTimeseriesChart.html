@@ -1,0 +1,151 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+
+
+<!--begin::Row-->
+<div class="row g-6 g-xl-9 mb-10">
+
+    <!--begin::Col-->
+    <div class="col-md-12 col-xl-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">
+            Timeseries Chart
+          </h3>
+        </div>
+        <div class="card-body">
+
+            <div id="chart"></div>
+         
+        </div>
+      </div>
+    </div>
+    <!--end::Col-->
+
+  </div>
+  <!--end::Row-->
+
+  {% endblock crm_content %}
+
+{% block body_scripts %}
+<script>
+    // --- CHART OPTIONS ---
+    // We configure the chart's appearance and data here.
+    const options = {
+        // 1. Series Data: An array of objects, where each object is a data series.
+        {% comment %} series: [{
+            name: 'Site Visitors',
+            // Data points are arrays [timestamp, value]
+            data: [
+                [new Date('2024-01-01T10:00:00').getTime(), 34],
+                [new Date('2024-01-01T10:05:00').getTime(), 43],
+                [new Date('2024-01-01T10:10:00').getTime(), 31],
+                [new Date('2024-01-01T10:15:00').getTime(), 43],
+                [new Date('2024-01-01T10:20:00').getTime(), 33],
+                [new Date('2024-01-01T10:25:00').getTime(), 52]
+            ]
+        }, {
+            name: 'Page Views',
+            data: [
+                [new Date('2024-01-01T10:00:00').getTime(), 24],
+                [new Date('2024-01-01T10:05:00').getTime(), 33],
+                [new Date('2024-01-01T10:10:00').getTime(), 21],
+                [new Date('2024-01-01T10:15:00').getTime(), 33],
+                [new Date('2024-01-01T10:20:00').getTime(), 23],
+                [new Date('2024-01-01T10:25:00').getTime(), 42]
+            ]
+        }], {% endcomment %}
+        series: {{series|safe}},
+
+        // 2. Chart Configuration
+        chart: {
+            type: 'line', // Changed from 'area'
+            height: 350,
+            zoom: {
+                type: 'x',
+                enabled: true,
+                autoScaleYaxis: true
+            },
+            toolbar: {
+                autoSelected: 'zoom'
+            }
+        },
+        
+        // 3. Data Labels: Customize the labels on data points.
+        dataLabels: {
+            enabled: false // Hiding labels for a cleaner look
+        },
+        
+        // 4. Markers: Customize the points on the line/area chart.
+        markers: {
+            size: 5, // Made markers visible for line chart
+        },
+
+        // 5. Title: Main title for the chart.
+        title: {
+            text: 'Stock Price Movement',
+            align: 'left',
+            style: {
+                fontSize: '16px',
+                fontWeight: '600',
+                color: '#263238'
+            }
+        },
+        
+        // 6. Stroke: Defines the line style.
+        stroke: {
+            curve: 'smooth',
+            width: 2
+        },
+        
+        // 7. Y-axis Configuration
+        yaxis: {
+            title: {
+                text: 'Count'
+            },
+        },
+        
+        // 8. X-axis Configuration for Timeseries
+        xaxis: {
+            type: 'datetime', // Crucial for timeseries charts
+            title: {
+                text: 'Time'
+            },
+            labels: {
+                datetimeUTC: false, // Display in local time
+                datetimeFormatter: {
+                    year: 'yyyy',
+                    month: 'MMM \'yy',
+                    day: 'dd MMM',
+                    hour: 'HH:mm',
+                },
+            }
+        },
+        
+        // 9. Tooltip: Customize the hover tooltip.
+        tooltip: {
+            shared: true, // Shared tooltip shows values for all series
+            x: {
+                format: 'dd MMM yyyy - HH:mm:ss' // Updated format
+            },
+            {% comment %} y: {
+                formatter: function (val) {
+                    return val.toFixed(0) // Format to whole numbers
+                }
+            } {% endcomment %}
+        }
+    };
+
+    // --- RENDER CHART ---
+    // Create a new ApexCharts instance and render it.
+    const chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+</script>
+
+
+{% endblock body_scripts %}
