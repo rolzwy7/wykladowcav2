@@ -32,8 +32,8 @@ class Command(BaseCommand):
         count_blck_domain = BlacklistedDomain.manager.count()
         timeseries.insert_event(
             collection,
-            "MailingSystem",
             "blacklist_domain",
+            "MailingSystem",
             {"count": count_blck_domain},
             check_for_change=True,
         )
@@ -41,8 +41,8 @@ class Command(BaseCommand):
         count_blck_email = BlacklistedEmail.manager.count()
         timeseries.insert_event(
             collection,
-            "MailingSystem",
             "blacklist_email",
+            "MailingSystem",
             {"count": count_blck_email},
             check_for_change=True,
         )
@@ -50,8 +50,8 @@ class Command(BaseCommand):
         count_blck_temp_email = BlacklistedEmailTemporary.manager.count()
         timeseries.insert_event(
             collection,
-            "MailingSystem",
             "blacklist_temp_email",
+            "MailingSystem",
             {"count": count_blck_temp_email},
             check_for_change=True,
         )
@@ -61,8 +61,8 @@ class Command(BaseCommand):
         ).count()
         timeseries.insert_event(
             collection,
-            "MailingSystem",
             "blacklist_temp_email_active",
+            "MailingSystem",
             {"count": count_blck_temp_email_active},
             check_for_change=True,
         )
@@ -70,8 +70,8 @@ class Command(BaseCommand):
         count_blck_phrase = BlacklistedPhrase.manager.count()
         timeseries.insert_event(
             collection,
-            "MailingSystem",
             "blacklist_phrase",
+            "MailingSystem",
             {"count": count_blck_phrase},
             check_for_change=True,
         )
@@ -79,8 +79,8 @@ class Command(BaseCommand):
         count_blck_prefix = BlacklistedPrefix.manager.count()
         timeseries.insert_event(
             collection,
-            "MailingSystem",
             "blacklist_prefix",
+            "MailingSystem",
             {"count": count_blck_prefix},
             check_for_change=True,
         )
