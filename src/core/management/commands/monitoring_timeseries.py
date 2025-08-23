@@ -57,7 +57,7 @@ class Command(BaseCommand):
         )
 
         count_blck_temp_email_active = BlacklistedEmailTemporary.manager.filter(
-            expires_at__lt=now()
+            expires_at__gt=now()
         ).count()
         timeseries.insert_event(
             collection,
