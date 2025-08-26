@@ -34,7 +34,11 @@
 
 <hr>
 
-<form method="post" action="{% url "core:crm_webinar_bulk_duplicate" pk=webinar.pk %}?extra={{extra}}&next={{next_redirect}}">
+<form
+    method="post"
+    action="{% url "core:crm_webinar_bulk_duplicate" pk=webinar.pk %}?extra={{extra}}&next={{next_redirect}}"
+    onsubmit="actionSubmit.disabled = true; return true;"
+>
     {% csrf_token %}
     {{ formset.management_form }}
     {% for form in formset %}
@@ -53,7 +57,7 @@
         <hr>
     {% endfor %}
     <hr>
-    <button type="submit" class="btn btn-primary">Stwórz termin/y</button>
+    <input type="submit" name="actionSubmit" value=">>> Duplikuj termin <<<" class="btn btn-primary"/>
 </form>
 
 {% endblock crm_content %}

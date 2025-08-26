@@ -129,6 +129,8 @@ def aggregate_sync_active_webinars(aggregate: WebinarAggregate):
             webinar.program = aggregate.program
             webinar.program_assets = aggregate.program_assets
 
+            # TODO: Sync categories too
+
             webinar.save()
 
 
