@@ -45,6 +45,7 @@ class WebinarAggregateModelAdmin(ModelAdmin):
                     "short_description",
                     "program_assets",
                     "program",
+                    "program_short",
                     "categories",
                     "webinars",
                 ],

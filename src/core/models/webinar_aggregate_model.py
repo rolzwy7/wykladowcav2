@@ -121,6 +121,7 @@ class WebinarAggregate(Model):
     program = TextField(
         "Program szkolenia", default="[Agregat Program Szkolenia]", blank=True
     )
+    program_short = TextField("Program szkolenia (krótki)", blank=True)
 
     # Redirects
     absolute_redirect = CharField(max_length=32, blank=True)
