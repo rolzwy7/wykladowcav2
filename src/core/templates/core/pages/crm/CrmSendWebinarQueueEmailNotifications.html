@@ -63,7 +63,13 @@
                   {% else %}
                     <ol>
                       {% for application in application_qs %}
-                      <li>{{application.webinar.get_status_display}} <br> {{application.webinar}}</li>
+                      <li>
+                        {{application.webinar.get_status_display}}
+                        <br>
+                        <a href="{% url "core:crm_webinar_detail_dashboard" pk=application.webinar.id %}" target="_blank">
+                          <b>{{application.webinar}}</b>
+                        </a>
+                      </li>
                       {% endfor %}
                     </ol>
                   {% endif %}
