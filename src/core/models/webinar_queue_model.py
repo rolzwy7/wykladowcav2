@@ -49,5 +49,10 @@ class WebinarQueue(Model):
     sent_notification = BooleanField("Wysłano e-mail?", default=False)
     sent_notification_at = DateTimeField("Kiedy wysłano e-mail", null=True, blank=True)
 
+    @property
+    def domain(self):
+        """get email's domain"""
+        return self.email.split("@")[1]
+
     class Meta:
         ordering = ["-created_at"]

@@ -12,7 +12,13 @@ from django.urls import reverse
 from django.utils.timezone import now
 
 from core.consts import TelegramChats
-from core.models import SmtpSender, WebinarAggregate, WebinarQueue
+from core.models import (
+    SmtpSender,
+    WebinarAggregate,
+    WebinarApplication,
+    WebinarParticipant,
+    WebinarQueue,
+)
 from core.services import TelegramService
 from core.tasks import (
     params_send_webinar_queue_notification_email,
@@ -22,11 +28,6 @@ from core.tasks import (
 NOTIFICATION_HTML = """
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Template</title>
-</head>
 <body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #ffffff;">
     <div style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="text-align: center;">
@@ -88,9 +89,25 @@ def crm_send_webinar_queue_email_notifications(request, grouping_token: str):
     template_name = "core/pages/crm/CrmSendWebinarQueueEmailNotifications.html"
     aggragate = get_object_or_404(WebinarAggregate, grouping_token=grouping_token)
 
-    webinar_queue = WebinarQueue.manager.filter(
-        Q(aggregate=aggragate) & Q(sent_notification=False)
+    show_form = request.GET.get("show_form") == "1"
+
+    webinar_queue = WebinarQueue.manager.filter(aggregate=aggragate).order_by(
+        "sent_notification"
     )
+
+    webinar_queue_list = []
+    for _ in webinar_queue:
+
+        participant_qs = WebinarParticipant.manager.filter(email=_.email)
+        application_qs = WebinarApplication.manager.filter(
+            Q(buyer__email=_.email)
+            | Q(recipient__email=_.email)
+            | Q(private_person__email=_.email)
+            | Q(invoice__invoice_email=_.email)
+            | Q(submitter__email=_.email)
+        )
+
+        webinar_queue_list.append((_, participant_qs, application_qs))
 
     if request.method == "POST":
         form = WebinarEmailNotificationForm(request.POST)
@@ -105,7 +122,11 @@ def crm_send_webinar_queue_email_notifications(request, grouping_token: str):
             # Tasks list
             tasks = []
 
-            for queue_elem in webinar_queue:
+            webinar_queue_not_sent_yet_qs = WebinarQueue.manager.filter(
+                Q(aggregate=aggragate) & Q(sent_notification=False)
+            )
+
+            for queue_elem in webinar_queue_not_sent_yet_qs:
 
                 # URL
                 url_path = reverse(
@@ -134,7 +155,9 @@ def crm_send_webinar_queue_email_notifications(request, grouping_token: str):
 
             group(*tasks).apply_async()
 
-            webinar_queue.update(sent_notification=True, sent_notification_at=now())
+            webinar_queue_not_sent_yet_qs.update(
+                sent_notification=True, sent_notification_at=now()
+            )
 
             telegram_service = TelegramService()
             telegram_service.try_send_chat_message(
@@ -154,5 +177,10 @@ def crm_send_webinar_queue_email_notifications(request, grouping_token: str):
     return TemplateResponse(
         request,
         template_name,
-        {"webinar_queue": webinar_queue, "aggragate": aggragate, "form": form},
+        {
+            "webinar_queue_list": webinar_queue_list,
+            "aggragate": aggragate,
+            "form": form,
+            "show_form": show_form,
+        },
     )

@@ -14,41 +14,96 @@
       <div class="card">
         <div class="card-header">
           <h3 class="card-title">
-            Wyślij przypomnienia do osób z kolejki: {{aggragate.title}}
+            Wyślij przypomnienia do osób z kolejki dla agragatu:
           </h3>
+          <h2>
+            <i>„{{aggragate.title}}”</i>
+          </h2>
+          <h2>
+            Kod agragatu: <i>„{{aggragate.grouping_token}}”</i>
+          </h2>
         </div>
         <div class="card-body">
-
-
-
-
-
-
-
-
 
         <div class="table-responsive">
           <table class="table">
             <thead>
               <tr class="fw-bold fs-6 text-gray-800">
                 <th>Email</th>
-                <th>Aggregate</th>
-                <th>Source</th>
-                <th>IP</th>
-                <th>Campaign ID</th>
-                <th>User-Agent</th>
+                <th>Wysłano przypomnienie e-mail?</th>
+                <th>Był już na szkoleniu?</th>
+                <th>Śledzenie</th>
               </tr>
             </thead>
             <tbody>
-              {% for queue_elem in webinar_queue %}
+              {% for queue_elem, participant_qs, application_qs in webinar_queue_list %}
               <tr>
-                <td>{{queue_elem.email}}</td>
-                <td>{{queue_elem.aggregate}}</td>
-                <td>{{queue_elem.spy_object.source}}</td>
-                <td>{{queue_elem.spy_object.ip_address}}</td>
-                <td>{{queue_elem.spy_object.tracking_code}}</td>
-                <td>{{queue_elem.spy_object.campaign_id}}</td>
-                <td>{{queue_elem.spy_object.user_agent}}</td>
+                <td>
+                  <b>{{queue_elem.email}}</b> <br>
+                  <a href="{% url 'admin:core_webinarqueue_change' object_id=queue_elem.id %}">
+                      <b>Zobacz w CMS</b>
+                  </a>
+                  <br> <br>
+                  <a href="//{{queue_elem.domain}}" target="_blank">
+                    <b>Przejdź do {{queue_elem.domain}}</b>
+                  </a>
+                </td>
+                <td>
+                  {% if queue_elem.sent_notification %}
+                    <span class="bg-success px-2 text-white">Tak</span> <br>
+                    <span>{{queue_elem.sent_notification_at}}</span>
+                  {% else %}
+                    <span class="bg-danger px-2 text-white">Nie</span>
+                  {% endif %}
+                </td>
+                <td>
+                  <b>W zgłoszeniu:</b> <br>
+                  {% if not application_qs %}
+                    =Brak=
+                  {% else %}
+                    <ol>
+                      {% for application in application_qs %}
+                      <li>{{application.webinar.get_status_display}} <br> {{application.webinar}}</li>
+                      {% endfor %}
+                    </ol>
+                  {% endif %}
+                  
+                  <br><br>
+                  
+                  <b>Jako uczestnik:</b> <br>
+                  {% if not participant_qs %}
+                    =Brak=
+                  {% else %}
+                    <ol>
+                      {% for participant in participant_qs %}
+                      <li>
+                        {{participant.application.webinar.get_status_display}}
+                        <br>
+                        <a href="{% url "core:crm_webinar_detail_dashboard" pk=participant.application.webinar.id %}" target="_blank">
+                          <b>{{participant.application.webinar}}</b>
+                        </a>
+                      </li>
+                      {% endfor %}
+                    </ol>
+                  {% endif %}
+
+                </td>
+                <td>
+                  Źródło: <i>{{queue_elem.spy_object.get_source_display}}</i> <br>
+                  Adres IP: <i>{{queue_elem.spy_object.ip_address}}</i> <br>
+                  Kod śledzący: <i>{{queue_elem.spy_object.tracking_code}}</i>
+                  {% if queue_elem.spy_object.tracking_code != "no_code" %}
+                  Adres e-mail powiązany z kodem śledzącym: <div
+                      hx-get="{% url 'htmx:tracking_mailing' tracking_code=queue_elem.spy_object.tracking_code %}"
+                      hx-trigger="intersect once delay:3s"
+                  >
+                      Ładowanie ...
+                  </div>
+                  {% endif %}
+                  <br>
+                  Kampania ID: {{queue_elem.spy_object.campaign_id}} <br>
+                  User-Agent: {{queue_elem.spy_object.user_agent}}
+                </td>
               </tr>
               {% endfor %}
             </tbody>
@@ -56,11 +111,19 @@
         </div>
 
         <hr>
-        <form action="{% url "core:crm_send_webinar_queue_email_notifications" grouping_token=aggragate.grouping_token %}" method="post">
-            {% csrf_token %}
-            {{form}}
-            <input type="submit" class="btn btn-primary" value="Wyślij">
-          </form>
+        
+        {% if show_form %}
+        <p class="bg-dark text-white px-2"><b>
+          Formularz wyśle przypomnienia e-mail do wszystkich w kolejce, którzy jeszcze ich nie dostali.
+        </b></p>
+        <form action="{% url "core:crm_send_webinar_queue_email_notifications" grouping_token=aggragate.grouping_token %}?show_form=1" method="post">
+          {% csrf_token %}
+          {{form}}
+          <input type="submit" class="btn btn-primary" value="Wyślij">
+        </form>
+        {% else %}
+          <a href="./?show_form=1" class="btn btn-primary">Pokaż formularz do wysyłki powiadomień</a>
+        {% endif %}
         </div>
       </div>
     </div>

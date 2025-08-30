@@ -83,6 +83,10 @@ Oryginalny temat szkolenia: „{{webinar.title_original}}”
                 <input value="{{target_code}}" id="id-target_code" type="text" class="form-control" name="target_code">
               </div>
               <div class="mb-3">
+                <label for="id-resignation-list" class="form-label">Lista rezygnacji</label>
+                <input id="id-resignation-list" type="text" class="form-control" name="resignation_list" value="default">
+              </div>
+              <div class="mb-3">
                 <label for="id-mailing_title" class="form-label">Tytuł kampanii mailingowej</label>
                 <input value="{{mailing_title}}" id="id-mailing_title" type="text" class="form-control" name="mailing_title">
               </div>
@@ -93,10 +97,6 @@ Oryginalny temat szkolenia: „{{webinar.title_original}}”
               <div class="mb-3">
                 <label for="id-subjects" class="form-label">Tytuły mailingu</label>
                 <textarea rows="6" name="subjects" id="id-subjects" class="form-control">{{subjects}}</textarea>
-              </div>
-              <div class="mb-3">
-                <label for="id-resignation-list" class="form-label">Lista rezygnacji</label>
-                <input id="id-resignation-list" type="text" class="form-control" name="resignation_list" value="default">
               </div>
               <div class="mb-3">
                 <input type="submit" value="Stwórz kampanie mailingową" name="actionSubmit" class="btn btn-primary">

@@ -146,30 +146,6 @@
                 </span>
 
             </li>
-            {% if webinar_ctx.webinar_queue_not_sent_notify_count %}
-            <li class="d-flex align-items-center">
-                <span class="bullet bullet-vertical bg-success me-5"></span>
-                <span>
-                    {% if webinar_ctx.webinar_queue_not_sent_notify_count >= 5 %}
-                        <b class="text-white bg-success">Agragat kolejka:</b>
-                        <span class="text-white bg-success px-2">
-                            <b>{{webinar_ctx.webinar_queue_not_sent_notify_count}}</b>
-                        </span>
-                    {% else %}
-                        <b>Agregat kolejka:</b>
-                        <span>{{webinar_ctx.webinar_queue_not_sent_notify_count}}</span>
-                    {% endif %}
-                    &nbsp;/&nbsp;
-                    {{webinar_ctx.webinar_queue_sent_notify_count}}
-                    
-                    {% if webinar_ctx.webinar_queue_not_sent_notify_count >= 1 %}
-                    <a href="{% url "core:crm_send_webinar_queue_email_notifications" grouping_token=webinar.grouping_token %}">
-                        <b>(&nbsp;Wyślij powiadomienia&nbsp;)</b>
-                    </a>
-                    {% endif %}
-                </span>
-            </li>
-            {% endif %}
             {% if not webinar_ctx.aggregate %}
             <li class="d-flex align-items-center">
                 <span class="bullet bullet-vertical bg-danger me-5"></span>
@@ -310,6 +286,39 @@
                 <span class="px-2 bg-warning text-dark fw-bold">
                     Niepewnych: {{webinar_ctx.uncertain_participants_count}}
                 </span>
+            {% endif %}
+
+            {% if webinar_ctx.webinar_queue_not_sent_notify_count %}
+            <span class="px-2 bg-success text-dark fw-bold">
+                Kolejka: {{webinar_ctx.webinar_queue_not_sent_notify_count}} / {{webinar_ctx.webinar_queue_sent_notify_count}}
+                <a class="text-white" href="{% url "core:crm_send_webinar_queue_email_notifications" grouping_token=webinar.grouping_token %}">
+                    <b>(&nbsp;Zobacz&nbsp;)</b>
+                </a>
+            </span>
+{% comment %}
+                <li class="d-flex align-items-center">
+                    <span class="bullet bullet-vertical bg-success me-5"></span>
+                    <span>
+                        {% if webinar_ctx.webinar_queue_not_sent_notify_count >= 5 %}
+                            <b class="text-white bg-success">Agragat kolejka:</b>
+                            <span class="text-white bg-success px-2">
+                                <b>{{webinar_ctx.webinar_queue_not_sent_notify_count}}</b>
+                            </span>
+                        {% else %}
+                            <b>Agregat kolejka:</b>
+                            <span>{{webinar_ctx.webinar_queue_not_sent_notify_count}}</span>
+                        {% endif %}
+                        &nbsp;/&nbsp;
+                        {{webinar_ctx.webinar_queue_sent_notify_count}}
+                        
+                        {% if webinar_ctx.webinar_queue_not_sent_notify_count >= 1 %}
+                        <a href="{% url "core:crm_send_webinar_queue_email_notifications" grouping_token=webinar.grouping_token %}">
+                            <b>(&nbsp;Wyślij powiadomienia&nbsp;)</b>
+                        </a>
+                        {% endif %}
+                    </span>
+                </li>
+{% endcomment %}
             {% endif %}
             
         </span>
