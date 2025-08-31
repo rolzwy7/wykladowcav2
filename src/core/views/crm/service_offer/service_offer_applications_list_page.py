@@ -3,6 +3,7 @@
 # flake8: noqa=E501
 
 from django import forms
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 
@@ -28,7 +29,6 @@ def service_offer_applications_list_page(request):
     """service_offer_applications_list_page"""
 
     service_slug = request.GET.get("usluga")
-    status = request.GET.get("status")
 
     if not service_slug:
         service_offers = ServiceOffer.manager.all()
@@ -36,17 +36,27 @@ def service_offer_applications_list_page(request):
             request,
             "core/pages/crm/service_offer/ServiceOfferListPage.html",
             {
-                "service_offers": service_offers,
-                "statuses": [
+                "service_offers": [
                     (
-                        status,
-                        status_display,
-                        ServiceOfferApplication.manager.filter(status=status).count(),
+                        service_offer,
+                        [
+                            (
+                                _status,
+                                _status_display,
+                                ServiceOfferApplication.manager.filter(
+                                    Q(service_offer__slug=service_offer.slug)
+                                    & Q(status=_status)
+                                ).count(),
+                            )
+                            for _status, _status_display in ServiceOfferApplication.STATUS
+                        ],
                     )
-                    for status, status_display in ServiceOfferApplication.STATUS
+                    for service_offer in service_offers
                 ],
             },
         )
+
+    status = request.GET.get("status")
 
     service_offer = get_object_or_404(ServiceOffer, slug=service_slug)
 
