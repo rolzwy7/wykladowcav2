@@ -19,6 +19,11 @@
     </a>
 </h1>
 <ol>
+    <li>
+        <a class="hover-scale fs-3" href="{% url 'core:service_offer_applications_list_page' %}?usluga={{service_offer.slug}}">
+            <b>Wszystkie zgłoszenia</b>
+        </a>
+    </li>
     {% for status, status_display, status_count in statuses %}
     <li>
         <a class="{% if status_count == 0 %}text-dark{% endif %} hover-scale fs-3" href="{% url 'core:service_offer_applications_list_page' %}?usluga={{service_offer.slug}}&status={{status}}">

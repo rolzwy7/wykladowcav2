@@ -16,6 +16,7 @@ from core.models import (
     ConferenceEdition,
     ConferenceFreeParticipant,
     Webinar,
+    WebinarAggregate,
     WebinarAsset,
     WebinarMetadata,
 )
@@ -115,6 +116,20 @@ def conference_edition_waiting_room_page(request: HttpRequest, watch_token: str)
         "assets_expired": now() > webinar.date + timedelta(days=90),
     }
 
+    if edition.advert_lecturer:
+        context[
+            "advert_lecturer_aggragates"
+        ] = WebinarAggregate.manager.get_active_aggregates().filter(
+            lecturer=edition.advert_lecturer
+        )
+
+    if edition.advert_category:
+        context["advert_category_aggregates"] = (
+            WebinarAggregate.manager.get_active_aggregates_for_category_slugs(
+                slugs=[edition.advert_category.slug]
+            )
+        )
+
     to_tz = get_default_timezone()
     webinar_date = webinar.date.astimezone(to_tz)
     # TODO
@@ -123,7 +138,7 @@ def conference_edition_waiting_room_page(request: HttpRequest, watch_token: str)
         template_name = "geeks/pages/conference/ConferenceEmbedPlayer.html"
         return TemplateResponse(
             request,
-            template_name,
+            "geeks/pages/conference/ConferenceEmbedPlayer.html",
             {**context, "hide_upper_navbar": True, "disable_navbar_sticky": True},
         )
 

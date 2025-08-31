@@ -46,6 +46,34 @@
           {% endif %}
         </div>
 
+        {% if advert_lecturer_aggragates %}
+        <div class="row mb-4">
+          <div class="col-12">
+              <div class="card p-3">
+              {% for aggregate in advert_lecturer_aggragates %}
+              {% if aggregate.has_active_webinars %}
+              {% include "geeks/pages/category/components/aggregate_row_card.html" with aggregate=aggregate %}
+              {% endif %}
+              {% endfor %}
+              </div>
+          </div>
+        </div>
+        {% endif %}
+
+        {% if advert_category_aggregates %}
+        <div class="row mb-4">
+          <div class="col-12">
+              <div class="card p-3">
+              {% for aggregate in advert_category_aggregates %}
+              {% if aggregate.has_active_webinars %}
+              {% include "geeks/pages/category/components/aggregate_row_card.html" with aggregate=aggregate %}
+              {% endif %}
+              {% endfor %}
+              </div>
+          </div>
+        </div>
+        {% endif %}
+
         <!-- Content -->
         <div class="row">
           {% comment %} <div class="col-xl-8 col-lg-12 col-md-12 col-12 mb-4 mb-xl-0"> {% endcomment %}
