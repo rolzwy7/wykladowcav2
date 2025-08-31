@@ -2,6 +2,8 @@
 
 # flake8: noqa=E501
 
+from django import forms
+from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 
 from core.models import ServiceOffer, ServiceOfferApplication
@@ -9,19 +11,30 @@ from core.models import ServiceOffer, ServiceOfferApplication
 # from core.models.enums import ServiceOfferApplicationStatus
 
 
+class ServiceOfferApplicationStatusForm(forms.ModelForm):
+    """ServiceOfferApplicationStatusForm"""
+
+    class Meta:
+        """Meta"""
+
+        model = ServiceOfferApplication
+        fields = ["status"]
+        widgets = {
+            "status": forms.Select(attrs={"class": "form-control"}),
+        }
+
+
 def service_offer_applications_list_page(request):
     """service_offer_applications_list_page"""
-    template_name = "core/pages/crm/service_offer/ServiceOfferApplicationsListPage.html"
 
     service_slug = request.GET.get("usluga")
     status = request.GET.get("status")
 
     if not service_slug:
-        template_name = "core/pages/crm/service_offer/ServiceOfferListPage.html"
         service_offers = ServiceOffer.manager.all()
         return TemplateResponse(
             request,
-            template_name,
+            "core/pages/crm/service_offer/ServiceOfferListPage.html",
             {
                 "service_offers": service_offers,
                 "statuses": [
@@ -35,25 +48,28 @@ def service_offer_applications_list_page(request):
             },
         )
 
-    if service_slug:
-        service_offers = ServiceOfferApplication.manager.filter(
-            service_offer__slug=service_slug
-        ).order_by("-created_at")
+    service_offer = get_object_or_404(ServiceOffer, slug=service_slug)
 
-        if status:
-            service_offers = service_offers.filter(status=status)
+    service_offer_applications = ServiceOfferApplication.manager.filter(
+        service_offer__slug=service_slug
+    ).order_by("-created_at")
 
+    if status:
+        service_offer_applications = service_offer_applications.filter(status=status)
+        status_display = {
+            _status: _status_disp
+            for _status, _status_disp in ServiceOfferApplication.STATUS
+        }[status]
     else:
-        service_offers = ServiceOfferApplication.manager.all().order_by("-created_at")
-
-    # if request.GET.get("show_all"):
-    # else:
-    #     service_offers = ServiceOfferApplication.manager.exclude(
-    #         status=ServiceOfferApplicationStatus.PAID
-    #     ).order_by("-created_at")
+        status_display = None
 
     return TemplateResponse(
         request,
-        template_name,
-        {"service_offers": service_offers, "service_slug": service_slug},
+        "core/pages/crm/service_offer/ServiceOfferApplicationsListPage.html",
+        {
+            "service_offer": service_offer,
+            "service_offer_applications": service_offer_applications,
+            "service_slug": service_slug,
+            "status_display": status_display,
+        },
     )

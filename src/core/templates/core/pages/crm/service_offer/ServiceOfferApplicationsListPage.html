@@ -5,8 +5,14 @@
 
 {% block crm_content %}
 
+<a href="./" class="fw-bold fs-3">&lt;&lt; Wróć do usług</a>
 
-<h1>Usługa: {{service_slug}}</h1>
+<hr>
+
+<h1>{{service_offer.offer_title}}</h1>
+<h3 class="bg-dark text-white p-3">
+    Status: <b><u>{{status_display}}</u></b>
+</h3>
 
 <hr>
 
@@ -17,61 +23,76 @@
 				<th>ID</th>
 				<th>Status</th>
 				<th>Firma</th>
-				<th>Uwagi</th>
-				<th>Niepewny?</th>
-				<th>Zaakceptowano warunki?</th>
-				<th>Zrezygnowano?</th>
-				<th>Brak odpowiedzi?</th>
 				<th>Przesłany plik</th>
+				{% comment %} <th>Uwagi</th> {% endcomment %}
+				<th>Do usunięcia</th>
 			</tr>
 		</thead>
 		<tbody>
-            {% for service_offer in service_offers %}
+            {% for application in service_offer_applications %}
 			<tr>
                 <td>
-                    <a href="{% url "admin:core_serviceofferapplication_change" object_id=service_offer.pk %}" class="fw-bold">
-                        Zgłoszenie {{service_offer.id}}
-                    </a> <br>
-                    <small>{{service_offer.created_at|date:"j E Y"}}</small>
+                    Zgłoszenie {{application.id}}<br>
+                    <small>{{application.created_at|date:"j E Y"}}</small>
                 </td>
                 <td>
-                    {% if service_offer.status == "SENT" %}<span class="bg-success text-white">{% endif %}
-                    {% if service_offer.status == "OFFER" %}<span>{% endif %}
-                    {% if service_offer.status == "ACCEPTED" %}<span>{% endif %}
-                    {% if service_offer.status == "REJECTED" %}<span>{% endif %}
-                    {% if service_offer.status == "PAID" %}<span>{% endif %}
-                    {% if service_offer.status == "UNPAID" %}<span>{% endif %}
-                    {{service_offer.get_status_display}}
+                    {% if application.status == "SENT" %}<span class="bg-success text-white">{% endif %}
+                    {% if application.status == "OFFER" %}<span>{% endif %}
+                    {% if application.status == "ACCEPTED" %}<span>{% endif %}
+                    {% if application.status == "REJECTED" %}<span>{% endif %}
+                    {% if application.status == "PAID" %}<span>{% endif %}
+                    {% if application.status == "UNPAID" %}<span>{% endif %}
+                    {{application.get_status_display}}
                     </span>
+                    <br>
+                    <a href="{% url "admin:core_serviceofferapplication_change" object_id=application.pk %}" class="fw-bold bg-dark text-white px-1">
+                        Zmień status
+                    </a>
                 </td>
 				<td>
-                    <b>{{service_offer.name}}</b>
+                    <b>{{application.name}}</b>
                 </td>
                 <td>
-                    {% if service_offer.additional_info %}
-                    <span class="fw-bold" title="{{service_offer.additional_info}}" style="cursor: pointer;">
+                    <a href="{% get_media_prefix %}{{application.file}}" class="fw-bold bg-primary text-white px-1">
+                        Pobierz
+                    </a>
+                </td>
+                {% comment %} <td>
+                    {% if application.additional_info %}
+                    <span class="fw-bold" title="{{application.additional_info}}" style="cursor: pointer;">
                         Tak
                         <i class="ki-duotone ki-information-5"><i class="path1"></i><i class="path2"></i><i class="path3"></i></i>
                     </span>
                     {% else %}
                     -
                     {% endif %}
-                </td>
-				<td>
-                    {% include "htmx/service_offer_application_toggle_uncertain.html" with application_id=service_offer.id uncertain=service_offer.uncertain  %}
-                </td>
-                <td>{% include "htmx/service_offer_application_toggle_accepted_conditions.html" with application_id=service_offer.id accepted_conditions=service_offer.accepted_conditions  %}</td>
-                <td>{% include "htmx/service_offer_application_toggle_resigned.html" with application_id=service_offer.id resigned=service_offer.resigned  %}</td>
-                <td>{% include "htmx/service_offer_application_toggle_no_answer.html" with application_id=service_offer.id no_answer=service_offer.no_answer  %}</td>
+                </td> {% endcomment %}
                 <td>
-                    <a href="{% get_media_prefix %}{{service_offer.file}}" class="fw-bold">
-                        Pobierz
-                    </a>
+                    Niepewny? (do usunięcia)
+                    <br>
+                    {% include "htmx/service_offer_application_toggle_uncertain.html" with application_id=application.id uncertain=application.uncertain  %}
+                    <br>
+				    Zaakceptowano warunki? (do usunięcia)
+                    <br>
+                    {% include "htmx/service_offer_application_toggle_accepted_conditions.html" with application_id=application.id accepted_conditions=application.accepted_conditions  %}
+                    <br>
+				    Zrezygnowano? (do usunięcia)
+                    <br>
+                    {% include "htmx/service_offer_application_toggle_resigned.html" with application_id=application.id resigned=application.resigned  %}
+                    <br>
+				    Brak odpowiedzi? (do usunięcia)
+                    <br>
+                    {% include "htmx/service_offer_application_toggle_no_answer.html" with application_id=application.id no_answer=application.no_answer  %}
                 </td>
 			</tr>
             <tr>
+                <td colspan="9">
+                    <b class="fs-4">Uwagi klienta:</b> <span class="fs-4">{{application.additional_info|default:"-Brak-"}}</span>
+                </td>
+            </tr>
+            <tr>
                 <td colspan="9" style="border-bottom: 1px solid black;">
-                    <b class="fs-4">Nasze uwagi:</b> <span class="fs-4">{{service_offer.notes|default:"-"}}</span>
+                    <b class="fs-4">Nasze uwagi:</b> <span class="fs-4">{{application.notes|default:"-Brak-"}}</span>
                 </td>
             </tr>
             {% endfor %}

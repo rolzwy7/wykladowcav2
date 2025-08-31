@@ -47,7 +47,7 @@ class ServiceOfferApplicationModelAdmin(ModelAdmin):
         (
             "Firma",
             {
-                "classes": ["collapse"],
+                # "classes": ["collapse"],
                 "fields": [
                     "nip",
                     "name",
