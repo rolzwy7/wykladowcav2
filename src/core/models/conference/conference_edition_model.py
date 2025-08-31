@@ -8,6 +8,7 @@ import uuid
 
 from django.db.models import (
     RESTRICT,
+    SET_NULL,
     BooleanField,
     CharField,
     ForeignKey,
@@ -86,6 +87,21 @@ class ConferenceEdition(Model):
     stream_transmission_key = CharField("Klucz strumienia", blank=True, max_length=200)
 
     dashboard_url = CharField("Adres URL dashboard", blank=True, max_length=200)
+
+    advert_lecturer = ForeignKey(
+        "Lecturer",
+        on_delete=SET_NULL,
+        verbose_name="Advert Wykładowca",
+        null=True,
+        blank=True,
+    )
+    advert_category = ForeignKey(
+        "WebinarCategory",
+        on_delete=SET_NULL,
+        verbose_name="Advert Kategoria",
+        null=True,
+        blank=True,
+    )
 
     advert_facebook_url = CharField("Advert FB URL", blank=True, max_length=200)
     advert_facebook_html = TextField("Advert FB HTML", blank=True)

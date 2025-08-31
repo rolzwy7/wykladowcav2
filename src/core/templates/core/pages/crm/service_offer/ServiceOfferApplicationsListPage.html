@@ -51,6 +51,15 @@
                 </td>
 				<td>
                     <b>{{application.name}}</b>
+                    <br>
+                    {{application.postal_code}} {{application.city}} {{application.address}}
+                    <br>
+                    NIP: {{application.nip}}
+                    <br><br>
+                    <u>Kontakt:</u><br>
+                    <b>{{application.first_name}}</b> <b>{{application.last_name}}</b> <br>
+                    E-mail: <a class="fw-bold" href="mailto:{{application.email_contact}}">{{application.email_contact}}</a> <br>
+                    Telefon: <a class="fw-bold" href="tel:{{application.phone}}">{{application.phone}}</a>
                 </td>
                 <td>
                     <a href="{% get_media_prefix %}{{application.file}}" class="fw-bold bg-primary text-white px-1">
