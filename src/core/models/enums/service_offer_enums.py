@@ -1,8 +1,11 @@
 class ServiceOfferApplicationStatus:
     SENT = "SENT"
     OFFER = "OFFER"
+    NO_RESPONSE = "NO_RESPONSE"
     ACCEPTED = "ACCEPTED"
     REJECTED = "REJECTED"
     PAID = "PAID"
     UNPAID = "UNPAID"
     TRASH = "TRASH"
+    UNCERTAIN = "UNCERTAIN"
+    DUPLICATE = "DUPLICATE"

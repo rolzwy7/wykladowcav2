@@ -88,10 +88,13 @@ class ServiceOfferApplication(Model):
 
     STATUS = (
         (ServiceOfferApplicationStatus.SENT, "Wysłano zgłoszenie"),
-        (ServiceOfferApplicationStatus.OFFER, "Przygotowano ofertę"),
-        (ServiceOfferApplicationStatus.ACCEPTED, "Klient zaakceptował ofertę"),
-        (ServiceOfferApplicationStatus.REJECTED, "Klient odrzucił ofertę"),
-        (ServiceOfferApplicationStatus.PAID, "Zapłacono za usługę"),
+        (ServiceOfferApplicationStatus.OFFER, "Oferta wysłana"),
+        (ServiceOfferApplicationStatus.NO_RESPONSE, "Brak odpowiedzi"),
+        (ServiceOfferApplicationStatus.UNCERTAIN, "Niepewne"),
+        (ServiceOfferApplicationStatus.ACCEPTED, "Zaakceptowane"),
+        (ServiceOfferApplicationStatus.REJECTED, "Odrzucone"),
+        (ServiceOfferApplicationStatus.PAID, "Zrealizowane"),
+        (ServiceOfferApplicationStatus.DUPLICATE, "Duplikat zgłoszenia"),
         (ServiceOfferApplicationStatus.UNPAID, "Nie zapłacono za usługę"),
         (ServiceOfferApplicationStatus.TRASH, "Śmieciowe zgłoszenie"),
     )

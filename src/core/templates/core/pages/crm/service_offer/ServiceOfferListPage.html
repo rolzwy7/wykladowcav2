@@ -10,19 +10,30 @@
 
 <hr>
 
+{% for service_offer in service_offers %}
+<h1>
+    {{service_offer.short_name}}
+    ---
+    <a href="{% url "core:service_offer_page" slug=service_offer.slug %}" target="_blank">
+        <b>Zobacz stronę usługi</b>
+    </a>
+</h1>
 <ol>
-    {% for service_offer in service_offers %}
-        <li>
-            <a href="{% url 'core:service_offer_applications_list_page' %}?usluga={{service_offer.slug}}">
-                {{service_offer.short_name}}
-            </a>
-            ---
-            <a href="{% url "core:service_offer_page" slug=service_offer.slug %}">
-                <b>Zobacz na stronie</b>
-            </a>
-        </li>
+    {% for status, status_display, status_count in statuses %}
+    <li>
+        <a class="{% if status_count == 0 %}text-dark{% endif %} hover-scale fs-3" href="{% url 'core:service_offer_applications_list_page' %}?usluga={{service_offer.slug}}&status={{status}}">
+            {% if status_count == 0 %}
+                ( {{status_count}} ) {{status_display}}
+            {% else %}
+                <b>( {{status_count}} ) {{status_display}}</b>
+            {% endif %}
+             - {{service_offer.short_name}}
+        </a>
+    </li>
     {% endfor %}
 </ol>
+<hr>
+{% endfor %}
 
 
 {% endblock crm_content %}
