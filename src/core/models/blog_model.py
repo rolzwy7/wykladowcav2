@@ -126,6 +126,21 @@ class BlogPost(Model):
         help_text="Kategorie",
     )
 
+    advert_aggregate = ForeignKey(
+        "WebinarAggregate",
+        on_delete=SET_NULL,
+        verbose_name="Advert Agregat",
+        null=True,
+        blank=True,
+    )
+    advert_category = ForeignKey(
+        "WebinarCategory",
+        on_delete=SET_NULL,
+        verbose_name="Advert Kategoria",
+        null=True,
+        blank=True,
+    )
+
     class Meta:
         """Meta"""
 

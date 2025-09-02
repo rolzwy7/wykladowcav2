@@ -6,11 +6,20 @@ Webinar URLs
 
 from django.urls import path
 
-from core.views.webinar import aggregate_ogimage_page, webinar_aggregate_page
+from core.views.webinar import (
+    aggregate_ogimage_page,
+    webinar_aggregate_advert_banner,
+    webinar_aggregate_page,
+)
 from core.views.webinar.webinar_queue_endpoint import webinar_queue_endpoint
 
 urlpatterns = [
     path("<slug:slug>/", webinar_aggregate_page, name="webinar_aggregate_page"),
+    path(
+        "<slug:slug>/blogpost-banner.png",
+        webinar_aggregate_advert_banner,
+        name="webinar_aggregate_advert_banner",
+    ),
     path(
         "<str:grouping_token>/og-image.png",
         aggregate_ogimage_page,

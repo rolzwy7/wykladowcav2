@@ -106,6 +106,16 @@ class Lecturer(Model):
         ),
     )
 
+    avatar_transparent = ImageField(
+        "Avatar Transparent",
+        blank=True,
+        upload_to="uploads/lecturers-transparent",
+        help_text=(
+            "Obrazek powinien być dobrej jakości"
+            "o wymiarach kwadratowych (np. 500px na 500px)"
+        ),
+    )
+
     biography = TextField("Biografia", blank=True)
 
     biography_email = TextField("Biografia (e-mail)", blank=True)
