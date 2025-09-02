@@ -21,10 +21,10 @@ CORE_STATIC_DIR: Path = BASE_DIR.parent / "core" / "static"
 MEDIA_DIR: Path = BASE_DIR.parent / "public" / "media"
 
 
-def webinar_aggregate_advert_banner(request, slug: str):
+def webinar_aggregate_advert_banner(request, grouping_token: str):
     """webinar_aggregate_advert_banner"""
 
-    aggregate = get_object_or_404(WebinarAggregate, slug=slug)
+    aggregate = get_object_or_404(WebinarAggregate, grouping_token=grouping_token)
 
     width, height = 1940, 700
     primary_color = (117, 79, 254)
@@ -173,13 +173,13 @@ def webinar_aggregate_advert_banner(request, slug: str):
     )
     draw.text(
         (calendar_position[0] + 65, calendar_position[1] + 5),
-        _date(aggregate.closest_webinar_dt, "j E Y"),
+        _date(aggregate.closest_webinar_dt, "d.m.Y"),
         font=font_calendar_date,
         fill=(255, 255, 255, 255),
     )
 
     # Clock
-    clock_position = (400, 475)
+    clock_position = (350, 475)
     clock_im = Image.open(
         ASSETS_DIR / "aggregate_blogpost_banner" / "alarm-clock.png"
     ).convert("RGBA")
@@ -196,13 +196,13 @@ def webinar_aggregate_advert_banner(request, slug: str):
     font_clock_hour = load_font(str(ASSETS_DIR / "fonts" / "Montserrat-Medium.ttf"), 32)
     draw.text(
         (clock_position[0] + 65, clock_position[1] + 5),
-        _date(aggregate.closest_webinar_dt, "G:i"),
+        _date(aggregate.closest_webinar_dt, "H:i"),
         font=font_clock_hour,
         fill=(255, 255, 255, 255),
     )
 
     # User
-    user_position = (600, 475)
+    user_position = (540, 475)
     user_im = Image.open(ASSETS_DIR / "aggregate_blogpost_banner" / "user.png").convert(
         "RGBA"
     )
@@ -218,7 +218,7 @@ def webinar_aggregate_advert_banner(request, slug: str):
 
     font_clock_hour = load_font(str(ASSETS_DIR / "fonts" / "Montserrat-Medium.ttf"), 32)
     draw.text(
-        (user_position[0] + 65, user_position[1] + 5),
+        (user_position[0] + 55, user_position[1] + 5),
         aggregate.lecturer.fullname,
         font=font_clock_hour,
         fill=(255, 255, 255, 255),
