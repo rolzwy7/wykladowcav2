@@ -158,6 +158,13 @@ class WebinarAggregate(Model):
         help_text="UZUPEŁNIA SIĘ AUTOMATYCZNIE",
     )
 
+    title_blogpost_advert = TextField(
+        "Tytuł szkolenia (Blogpost advert)",
+        max_length=220,
+        blank=True,
+        help_text="Max. 220 znaków",
+    )
+
     class Meta:
         verbose_name = "Agregat"
         verbose_name_plural = "Agregaty"

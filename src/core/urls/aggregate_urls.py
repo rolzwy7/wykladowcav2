@@ -16,7 +16,7 @@ from core.views.webinar.webinar_queue_endpoint import webinar_queue_endpoint
 urlpatterns = [
     path("<slug:slug>/", webinar_aggregate_page, name="webinar_aggregate_page"),
     path(
-        "<str:grouping_token>/blogpost-banner.png",
+        "<str:grouping_token>/<str:resolution>/blogpost-banner.png",
         webinar_aggregate_advert_banner,
         name="webinar_aggregate_advert_banner",
     ),

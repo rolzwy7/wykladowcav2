@@ -90,4 +90,12 @@ class WebinarAggregateModelAdmin(ModelAdmin):
                 ],
             },
         ),
+        (
+            "Advert",
+            {
+                "fields": [
+                    "title_blogpost_advert",
+                ],
+            },
+        ),
     )

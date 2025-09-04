@@ -6,7 +6,7 @@ from io import BytesIO
 from pathlib import Path
 
 from django.conf import settings
-from django.http import HttpRequest, HttpResponse
+from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import date as _date
 from django.utils.timezone import get_default_timezone
@@ -21,8 +21,19 @@ CORE_STATIC_DIR: Path = BASE_DIR.parent / "core" / "static"
 MEDIA_DIR: Path = BASE_DIR.parent / "public" / "media"
 
 
-def webinar_aggregate_advert_banner(request, grouping_token: str):
+def webinar_aggregate_advert_banner(request, grouping_token: str, resolution: str):
     """webinar_aggregate_advert_banner"""
+
+    tz = get_default_timezone()
+    allowed_resolution_map = {
+        "768x277": True,
+        "800x289": True,
+        "1024x369": True,
+        "1536x554": True,
+        "1940x700": True,
+    }
+    if not allowed_resolution_map.get(resolution):
+        raise Http404()
 
     aggregate = get_object_or_404(WebinarAggregate, grouping_token=grouping_token)
 
@@ -173,7 +184,7 @@ def webinar_aggregate_advert_banner(request, grouping_token: str):
     )
     draw.text(
         (calendar_position[0] + 65, calendar_position[1] + 5),
-        _date(aggregate.closest_webinar_dt, "d.m.Y"),
+        _date(aggregate.closest_webinar_dt.astimezone(tz), "d.m.Y"),  # type: ignore
         font=font_calendar_date,
         fill=(255, 255, 255, 255),
     )
@@ -196,7 +207,7 @@ def webinar_aggregate_advert_banner(request, grouping_token: str):
     font_clock_hour = load_font(str(ASSETS_DIR / "fonts" / "Montserrat-Medium.ttf"), 32)
     draw.text(
         (clock_position[0] + 65, clock_position[1] + 5),
-        _date(aggregate.closest_webinar_dt, "H:i"),
+        _date(aggregate.closest_webinar_dt.astimezone(tz), "H:i"),  # type: ignore
         font=font_clock_hour,
         fill=(255, 255, 255, 255),
     )
@@ -242,13 +253,17 @@ def webinar_aggregate_advert_banner(request, grouping_token: str):
     draw_multiline_text(
         draw,
         font_aggregate_title,
-        aggregate.title,
+        aggregate.title_blogpost_advert or aggregate.title,
         (75, 120),
         1200,
         fill=(255, 255, 255, 255),
     )
 
     out = Image.alpha_composite(layer1, layer2)
+
+    transform_width = int(resolution.split("x")[0])
+    transform_height = int(resolution.split("x")[1])
+    out = out.resize((transform_width, transform_height))
 
     # Create byte buffer
     bytes_io = BytesIO()

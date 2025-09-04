@@ -102,6 +102,12 @@ class BlogPostAdmin(admin.ModelAdmin):
                 "fields": ("reading_time", "view_count"),
             },
         ),
+        (
+            _("Advert"),
+            {
+                "fields": ("advert_aggregate", "advert_category"),
+            },
+        ),
     )
 
     # --- Akcje administracyjne ---

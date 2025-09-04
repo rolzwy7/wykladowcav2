@@ -6,6 +6,7 @@ from django.db.models import F
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 
+from core.libs.blog.blog_advert import get_blogpost_advert_img_tag
 from core.models import BlogPost, WebinarAggregate
 
 
@@ -19,7 +20,6 @@ def blog_article_page(request, slug: str):
 
     Po pomyślnym pobraniu artykułu, zwiększa jego licznik wyświetleń.
     """
-    template_name = "geeks/pages/blog/BlogArticle.html"
 
     # Użyj get_object_or_404, aby elegancko obsłużyć przypadek,
     # gdy obiekt nie zostanie znaleziony.
@@ -47,8 +47,22 @@ def blog_article_page(request, slug: str):
             )
         )
 
+    # Article content
+    article_content = article.content
+
+    # Advert aggregate
+    if article.advert_aggregate and article.advert_aggregate.has_active_webinars:
+        advert_aggregate = article.advert_aggregate
+        advert_img_tag = get_blogpost_advert_img_tag(advert_aggregate)
+
+        article_content = article_content.replace("[[ADVERT_BLOGPOST]]", advert_img_tag)
+
     return TemplateResponse(
         request,
-        template_name,
-        {"article": article, "related_aggregates": related_aggregates},
+        "geeks/pages/blog/BlogArticle.html",
+        {
+            "article": article,
+            "article_content": article_content,
+            "related_aggregates": related_aggregates,
+        },
     )
