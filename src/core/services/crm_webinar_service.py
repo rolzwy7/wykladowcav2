@@ -4,6 +4,7 @@
 # pylint: disable=line-too-long
 
 from django.db.models import Count, Q, QuerySet
+from django.utils.timezone import datetime
 
 from core.models import (
     ConferenceEdition,
@@ -409,6 +410,9 @@ class CrmWebinarService:
         )
 
         return {
+            "webinar_year_lesser_than_current_year": self.webinar.date.year
+            < datetime.now().year,
+            #
             "aggregate": aggregate,
             "any_categories_webinar": any_categories_webinar,
             "any_categories_aggregate": any_categories_aggregate,

@@ -36,7 +36,7 @@ def crm_upcoming_webinars(request):
         webinars = Webinar.manager.get_init_or_confirmed_or_draft_webinars()
 
     # Main categories
-    main_categories = WebinarCategory.manager.get_main_categories()
+    main_categories = WebinarCategory.manager.get_main_categories_alphabetical_order()
     param_main_category = request.GET.get("param_main_category")
     selected_main_category = None
     if param_main_category and param_main_category != "all":

@@ -95,7 +95,7 @@
             {% endif %}
 
             <br>
-            <b>{{webinar.date|date:"j E (l)"}}</b> <b>{{webinar.date|date:"H:i"}}</b> - {{webinar.date_end|date:"H:i"}}
+            <b>{{webinar.date|date:"j E Y (l)"}}</b> <b>{{webinar.date|date:"H:i"}}</b> - {{webinar.date_end|date:"H:i"}}
             {% url 'admin:core_webinar_change' object_id=webinar.id as link %}
             {% include "include/crm/EditWithCmsButton.html" with link=link fs="fs-5" %}
             {% url 'core:webinar_program_page' slug=webinar.slug as link %}
@@ -156,13 +156,25 @@
                 </span>
             </li>
             {% endif %}
+
+            {% if webinar_ctx.webinar_year_lesser_than_current_year %}
+            <li class="d-flex align-items-center">
+                <span class="bullet bullet-vertical bg-danger me-5"></span>
+                <span
+                    class="px-1 text-white bg-danger"
+                >
+                    <u><b>!!! ROK SIĘ NIE ZGADZA !!!</b></u>
+                </span>
+            </li>
+            {% endif %}
+
             {% if webinar_ctx.aggregate.hidden %}
             <li class="d-flex align-items-center">
                 <span class="bullet bullet-vertical bg-info me-5"></span>
                 <span
                     class="px-1 text-white bg-info"
                 >
-                    Ukryty Agregat (NIEWIDOCZNY NA STRONIE)
+                    <u><b>AGREGAT</b></u> ukryty (NIEWIDOCZNY NA STRONIE)
                 </span>
             </li>
             {% endif %}
@@ -172,7 +184,7 @@
                 <span
                     class="px-1 text-white bg-info"
                 >
-                    Brak Kategorii Szkolenie (NIEWIDOCZNY NA STRONIE)
+                    <u>Brak Kategorii</u> Szkolenie (NIEWIDOCZNY NA STRONIE)
                 </span>
             </li>
             {% endif %}
@@ -242,15 +254,8 @@
             {% if webinar_ctx.is_hidden %}
             <li class="d-flex align-items-center">
                 <span class="bullet bullet-vertical bg-info me-5"></span>
-                <span
-                    class="px-1 text-white bg-info"
-                    style="cursor: pointer;"
-                    data-bs-dismiss="true"
-                    data-bs-toggle="popover"
-                    data-bs-placement="right"
-                    title="Co to 'Ukryty termin'?"
-                    data-bs-content="Ukryty termin jest jedynie niewidoczny w liście szkoleń, jednak nadal można wejść na stronę szkolenia jeśli posiada się bezpośredni link.">
-                    Ukryty Termin (NIEWIDOCZNY W AGREGACIE)
+                <span class="px-1 text-white bg-info">
+                    <u><b>TERMIN</b></u> ukryty (NIEWIDOCZNY W AGREGACIE)
                 </span>
             </li>
             {% endif %}

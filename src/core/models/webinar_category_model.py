@@ -34,6 +34,10 @@ class WebinarCategoryManager(Manager):
         """Get main categories (visible categories without parents)"""
         return self.get_visible_categories().filter(parent=None).order_by("order")
 
+    def get_main_categories_alphabetical_order(self) -> QuerySet["WebinarCategory"]:
+        """Get main categories (visible categories without parents, alphabetical_order)"""
+        return self.get_visible_categories().filter(parent=None).order_by("name")
+
     def get_subcategories(
         self, category: "WebinarCategory"
     ) -> QuerySet["WebinarCategory"]:
