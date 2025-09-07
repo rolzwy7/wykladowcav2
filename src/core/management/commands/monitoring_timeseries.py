@@ -158,6 +158,96 @@ class Command(BaseCommand):
         )
 
         #
+        # Monitor scraper
+        #
+
+        scraper_queue_static_collection = db["scraper_queue_static"]
+        scraper_queue_static_count = (
+            scraper_queue_static_collection.estimated_document_count()
+        )
+        timeseries.insert_event(
+            timeseries_collection,
+            "regon_pozostala",
+            "DlpRegon",
+            {"count": scraper_queue_static_count},
+            check_for_change=True,
+        )
+
+        scraper_html_files_collection = db["scraper_html_files"]
+        scraper_html_files_count = (
+            scraper_html_files_collection.estimated_document_count()
+        )
+        timeseries.insert_event(
+            timeseries_collection,
+            "regon_pozostala",
+            "DlpRegon",
+            {"count": scraper_html_files_count},
+            check_for_change=True,
+        )
+
+        scraper_found_nips_collection = db["scraper_found_nips"]
+        scraper_found_nips_count = (
+            scraper_found_nips_collection.estimated_document_count()
+        )
+        timeseries.insert_event(
+            timeseries_collection,
+            "regon_pozostala",
+            "DlpRegon",
+            {"count": scraper_found_nips_count},
+            check_for_change=True,
+        )
+
+        scraper_found_emails_collection = db["scraper_found_emails"]
+        scraper_found_emails_count = (
+            scraper_found_emails_collection.estimated_document_count()
+        )
+        timeseries.insert_event(
+            timeseries_collection,
+            "regon_pozostala",
+            "DlpRegon",
+            {"count": scraper_found_emails_count},
+            check_for_change=True,
+        )
+
+        scraper_best_privacy_policy_urls_collection = db[
+            "scraper_best_privacy_policy_urls"
+        ]
+        scraper_best_privacy_policy_urls_count = (
+            scraper_best_privacy_policy_urls_collection.estimated_document_count()
+        )
+        timeseries.insert_event(
+            timeseries_collection,
+            "regon_pozostala",
+            "DlpRegon",
+            {"count": scraper_best_privacy_policy_urls_count},
+            check_for_change=True,
+        )
+
+        scraper_best_contact_urls_collection = db["scraper_best_contact_urls"]
+        scraper_best_contact_urls_count = (
+            scraper_best_contact_urls_collection.estimated_document_count()
+        )
+        timeseries.insert_event(
+            timeseries_collection,
+            "regon_pozostala",
+            "DlpRegon",
+            {"count": scraper_best_contact_urls_count},
+            check_for_change=True,
+        )
+
+        wizytowki_core_method_collection = db["wizytowki_core_method"]
+        wizytowki_core_method_count = (
+            wizytowki_core_method_collection.estimated_document_count()
+        )
+        timeseries.insert_event(
+            timeseries_collection,
+            "regon_pozostala",
+            "DlpRegon",
+            {"count": wizytowki_core_method_count},
+            check_for_change=True,
+        )
+
+        #
         #
         # Close mongo connection
         client.close()
