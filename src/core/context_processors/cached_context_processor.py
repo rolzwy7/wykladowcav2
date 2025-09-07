@@ -79,9 +79,14 @@ def cached(request):
 
             for webinar in aggregate.webinars.all():
                 if webinar.is_active:
-                    dates.append(
-                        f"{_date(webinar.date.astimezone(tz), 'j E Y')} godz. {_date(webinar.date.astimezone(tz), 'H:i')}"
-                    )
+                    if webinar.is_connected_to_conference:
+                        dates.append(
+                            f"DARMOWE SZKOLENIE: {_date(webinar.date.astimezone(tz), 'j E Y')} godz. {_date(webinar.date.astimezone(tz), 'H:i')}"
+                        )
+                    else:
+                        dates.append(
+                            f"{_date(webinar.date.astimezone(tz), 'j E Y')} godz. {_date(webinar.date.astimezone(tz), 'H:i')}"
+                        )
 
             return {
                 "title": aggregate.title,

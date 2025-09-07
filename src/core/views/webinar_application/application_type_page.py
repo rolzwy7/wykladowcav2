@@ -4,13 +4,16 @@
 # pylint: disable=line-too-long
 
 from django.db import transaction
-from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
+from django.urls import reverse
 
 from core.consts import POST
 from core.forms import ApplicationTypeForm
 from core.libs.spy import create_spy_object
 from core.models import (
+    ConferenceEdition,
     Webinar,
     WebinarApplication,
     WebinarApplicationMetadata,
@@ -31,6 +34,21 @@ def application_type_page(request, pk: int):
     reflink_service = ReflinkService(request)
     tracking_code = request.session.get("tracking_code", "no_code")
     campaign_id = request.session.get("campaign_id", "no_campaign_id")
+
+    if webinar.is_connected_to_conference:
+        try:
+            conference_edition = ConferenceEdition.manager.get(webinar=webinar)
+        except ConferenceEdition.DoesNotExist:  # pylint: disable=no-member
+            return HttpResponse(
+                "Brak konferencji dla webinaru. webinar.is_connected_to_conference=True"
+            )
+        else:
+            return redirect(
+                reverse(
+                    "core:conference_edition_page",
+                    kwargs={"slug_edition": conference_edition.slug},
+                )
+            )
 
     # Create application tracking if set
     if tracking_code != "no_code":

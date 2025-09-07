@@ -61,9 +61,23 @@
         <div>
             {% for webinar in aggregate.webinars.all %}
                 {% if webinar.is_active %}
-                    <span class="badge mb-1 text-light-emphasis bg-light-subtle border border-light-subtle rounded-pill bg-secondary fs-4">
-                        {{webinar.date|date:"j E Y"}} godz. {{webinar.date|date:"H:i"}}
-                    </span>
+                    {% if webinar.is_connected_to_conference %}
+                        <span
+                            class="badge mb-1 border border-light-subtle rounded-pill bg-primary text-white fw-bold fs-4"
+                            style="cursor: pointer;"
+                            onclick="window.location.href='{% url "core:webinar_aggregate_page" slug=aggregate.slug %}'"
+                        >
+                            DARMOWE SZKOLENIE: {{webinar.date|date:"j E Y"}} godz. {{webinar.date|date:"H:i"}}
+                        </span>
+                    {% else %}
+                        <span
+                            class="badge mb-1 text-light-emphasis bg-light-subtle border border-light-subtle rounded-pill bg-secondary fs-4"
+                            style="cursor: pointer;"
+                            onclick="window.location.href='{% url "core:webinar_aggregate_page" slug=aggregate.slug %}'"
+                        >
+                            {{webinar.date|date:"j E Y"}} godz. {{webinar.date|date:"H:i"}}
+                        </span>
+                    {% endif %}
                 {% endif %}
             {% endfor %}
             </div>

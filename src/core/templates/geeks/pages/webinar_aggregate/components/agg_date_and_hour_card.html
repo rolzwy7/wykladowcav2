@@ -8,102 +8,12 @@
       <ul class="list-group list-group-flush">
 
         {% for agg_webinar in aggregate_active_webinars %}
-          <li class="list-group-item bg-transparent">
-            {% comment %} <i class="fe fe-map-pin align-middle me-1 text-success"></i>
-            Online
-            <br> {% endcomment %}
-            {% if request.user.is_staff %}
-            <div class="mb-2">
-                <a href="{% url "admin:core_webinar_change" object_id=agg_webinar.id %}" class="btn btn-dark btn-xs">
-                <b>CMS</b>
-                </a>
-                <a href="{% url 'core:crm_webinar_detail_dashboard' pk=agg_webinar.pk %}" class="btn btn-dark btn-xs">
-                <b>CRM</b>
-                </a>
-            </div>
-            {% endif %}
-            <i class="fe fe-calendar align-middle me-1 text-info"></i>
-            <b>{{agg_webinar.date|date:"j E Y"}} r.</b> ({{agg_webinar.date|date:"l"}}) — Online
-            <br>
-            <i class="fe fe-clock align-middle me-1 text-warning"></i>
-            godz. {{agg_webinar.date|date:"H:i"}} - {{agg_webinar.date_end|date:"H:i"}}
-            <br>
-            <i class="fe fe-dollar-sign align-middle me-1 text-success"></i>
-            <span class="fw-bold">
-            {% if agg_webinar.is_discounted %}
-            <span class="text-decoration-line-through text-danger me-1 fw-bold">
-            {{agg_webinar.price_netto}}zł
-            </span>
-            <b>{{agg_webinar.price}}zł</b>
-            {% else %}
-            <b>{{agg_webinar.price}}zł</b>
-            {% endif %}
-            {{PRICE_ADNOTATION}} / os.
-            </span>
-            {% if agg_webinar.is_discounted %}
-            <br>
-            <span class="fw-bold text-danger">
-            Promocja trwa do {{agg_webinar.discount_until|date:"j E Y"}} godz. {{agg_webinar.discount_until|date:"H:i"}}
-            </span>
-            {% endif %}
-            <br>
-            <div class="mt-2">
-                <a
-                  href="{% url 'core:application_type_page' pk=agg_webinar.pk %}"
-                  class="btn btn-sm btn-primary mb-2 border-0"
-                  style="background-color: #f1416c"
-                  >
-                Zapisz się teraz!
-                </a>
-                <a
-                  href="{% url 'core:application_type_page' pk=agg_webinar.pk %}?pdf=show"
-                  class="btn btn-sm btn-primary mb-2 border-0"
-                  >
-                <b>Pobierz kartę zgłoszeniową</b>
-                </a>
-            </div>
-          </li>
+          {% include "./agg_date_and_hour_card_item.html" with agg_webinar=agg_webinar %}
         {% endfor %}
 
         {% if request.user.is_staff %}
         {% for agg_webinar in aggregate_inactive_webinars %}
-          <li class="list-group-item bg-light-dark">
-            <div class="mb-2">
-                <a href="{% url "admin:core_webinar_change" object_id=agg_webinar.id %}" class="btn btn-dark btn-xs">
-                <b>CMS</b>
-                </a>
-                <a href="{% url 'core:crm_webinar_detail_dashboard' pk=agg_webinar.pk %}" class="btn btn-dark btn-xs">
-                <b>CRM</b>
-                </a>
-                <a href="{% url 'core:crm_webinar_bulk_duplicate' pk=agg_webinar.pk %}?next={% url "core:webinar_aggregate_page" slug=aggregate.slug %}" class="btn btn-dark btn-xs">
-                <b>Duplikuj</b>
-                </a>
-            </div>
-            <i class="fe fe-calendar align-middle me-1 text-info"></i>
-            <b>{{agg_webinar.date|date:"j E Y"}} r.</b> ({{agg_webinar.date|date:"l"}}) — Online
-            <br>
-            <i class="fe fe-clock align-middle me-1 text-warning"></i>
-            godz. {{agg_webinar.date|date:"H:i"}} - {{agg_webinar.date_end|date:"H:i"}}
-            <br>
-            <i class="fe fe-dollar-sign align-middle me-1 text-success"></i>
-            <span class="fw-bold">
-            {% if agg_webinar.is_discounted %}
-            <span class="text-decoration-line-through text-danger me-1 fw-bold">
-            {{agg_webinar.price_netto}}zł
-            </span>
-            <b>{{agg_webinar.price}}zł</b>
-            {% else %}
-            <b>{{agg_webinar.price}}zł</b>
-            {% endif %}
-            {{PRICE_ADNOTATION}} / os.
-            </span>
-            {% if agg_webinar.is_discounted %}
-            <br>
-            <span class="fw-bold text-danger">
-            Promocja trwa do {{agg_webinar.discount_until|date:"j E Y"}} godz. {{agg_webinar.discount_until|date:"H:i"}}
-            </span>
-            {% endif %}
-          </li>
+          {% include "./agg_date_and_hour_card_item.html" with agg_webinar=agg_webinar %}
         {% endfor %}
         {% endif %}
 
