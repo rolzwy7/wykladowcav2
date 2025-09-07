@@ -167,7 +167,7 @@ class Command(BaseCommand):
         )
         timeseries.insert_event(
             timeseries_collection,
-            "regon_pozostala",
+            "scraper_queue_static",
             "DlpRegon",
             {"count": scraper_queue_static_count},
             check_for_change=True,
@@ -179,7 +179,7 @@ class Command(BaseCommand):
         )
         timeseries.insert_event(
             timeseries_collection,
-            "regon_pozostala",
+            "scraper_html_files",
             "DlpRegon",
             {"count": scraper_html_files_count},
             check_for_change=True,
@@ -191,7 +191,7 @@ class Command(BaseCommand):
         )
         timeseries.insert_event(
             timeseries_collection,
-            "regon_pozostala",
+            "scraper_found_nips",
             "DlpRegon",
             {"count": scraper_found_nips_count},
             check_for_change=True,
@@ -203,7 +203,7 @@ class Command(BaseCommand):
         )
         timeseries.insert_event(
             timeseries_collection,
-            "regon_pozostala",
+            "scraper_found_emails",
             "DlpRegon",
             {"count": scraper_found_emails_count},
             check_for_change=True,
@@ -217,7 +217,7 @@ class Command(BaseCommand):
         )
         timeseries.insert_event(
             timeseries_collection,
-            "regon_pozostala",
+            "scraper_best_privacy_policy_urls",
             "DlpRegon",
             {"count": scraper_best_privacy_policy_urls_count},
             check_for_change=True,
@@ -229,7 +229,7 @@ class Command(BaseCommand):
         )
         timeseries.insert_event(
             timeseries_collection,
-            "regon_pozostala",
+            "scraper_best_contact_urls",
             "DlpRegon",
             {"count": scraper_best_contact_urls_count},
             check_for_change=True,
@@ -241,7 +241,7 @@ class Command(BaseCommand):
         )
         timeseries.insert_event(
             timeseries_collection,
-            "regon_pozostala",
+            "wizytowki_core_method",
             "DlpRegon",
             {"count": wizytowki_core_method_count},
             check_for_change=True,
