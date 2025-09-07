@@ -36,6 +36,7 @@ from core.views.webinar.webinar_redirects import (
 )
 from core.views.webinar_category import webinar_category_page
 
+from .advert_urls import urlpatterns as advert_urlpatterns
 from .aggregate_urls import urlpatterns as aggregate_urlpatterns
 from .application_urls import urlpatterns as application_urlpatterns
 from .assets_urls import urlpatterns as assets_urlpatterns
@@ -178,6 +179,7 @@ urlpatterns = [
         bakalarz_chatgpt_zamkniete_no_work,
         name="bakalarz_chatgpt_zamkniete_no_work",
     ),
+    path("adverts/", include(advert_urlpatterns)),
     # Strona glowna
     path("", home_page, name="homepage"),
 ]

@@ -6,6 +6,8 @@ from django.contrib import admin
 from django.contrib.admin import ModelAdmin, register
 
 from core.models import (
+    AdvertPopup,
+    AdvertPopupClick,
     CategoryTrustedUs,
     ContactMessage,
     CrmCompany,
@@ -46,8 +48,10 @@ from core.models import (
     WebinarRecordingToken,
 )
 
-admin.site.register(SpyObject)
+admin.site.register(AdvertPopup)
+admin.site.register(AdvertPopupClick)
 
+admin.site.register(SpyObject)
 
 admin.site.register(CrmNote)
 

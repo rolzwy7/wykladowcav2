@@ -1,4 +1,5 @@
 # flake8: noqa
+from .advert_popup_model import AdvertPopup, AdvertPopupClick
 from .blacklist import (
     BlacklistedDomain,
     BlacklistedEmail,

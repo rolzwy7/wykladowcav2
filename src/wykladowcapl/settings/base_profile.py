@@ -127,6 +127,7 @@ TEMPLATES = [
                 "core.context_processors.company",
                 "core.context_processors.links",
                 "core.context_processors.metadata",
+                "core.context_processors.adverts",
                 # "core.context_processors.loyalty_program", # TODO: delete this ??
             ],
         },

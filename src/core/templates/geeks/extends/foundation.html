@@ -120,6 +120,29 @@
     <!-- Cookie Consent -->
     <script type="module" src="{% static "cookieconsent/cookieconsent-config.js" %}"></script>
 
+    {% if ADVERT_POPUP %}
+    <div class="modal fade" id="onceModal" tabindex="-1" aria-labelledby="onceModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="onceModalLabel">{{ADVERT_POPUP.popup_title}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <a href="{{ADVERT_POPUP_TARGET_URL}}">
+                      <img src="{{ADVERT_POPUP.image_url}}" class="img-fluid rounded mb-3" alt="Advert Popup Image">
+                    </a>
+                </div>
+                <div class="modal-footer">
+                    <!-- Przyciski akcji -->
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancelButton">{{ADVERT_POPUP.popup_cancel_btn_text}}</button>
+                    <button type="button" class="btn btn-primary" id="confirmButton">{{ADVERT_POPUP.popup_confirm_btn_text}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <script>
     // Czekamy na pełne załadowanie DOM, aby bezpiecznie manipulować elementami
     document.addEventListener('DOMContentLoaded', function () {
@@ -308,7 +331,51 @@
         // --- Uruchomienie menu ---
         initMenu();
     });
-</script>
+  </script>
+
+  {% if ADVERT_POPUP %}
+  <script>
+    // Uruchom kod po pełnym załadowaniu struktury DOM
+    document.addEventListener('DOMContentLoaded', () => {
+        // Klucz używany w localStorage do sprawdzenia, czy modal był już pokazany
+        const modalShownKey = 'AdvertPopupSeen-{{ADVERT_POPUP.id}}';
+
+        // Sprawdź, czy w localStorage nie ma zapisanego klucza
+        if (!localStorage.getItem(modalShownKey)) {
+            // Znajdź element modala w dokumencie
+            const modalElement = document.getElementById('onceModal');
+            // Utwórz nową instancję modala Bootstrap
+            const myModal = new bootstrap.Modal(modalElement);
+
+            setTimeout(() => {
+              myModal.show();
+              localStorage.setItem(modalShownKey, 'true');
+            }, {{ADVERT_POPUP_SHOW_AFTER_MS}});
+        }
+
+        // --- Opcjonalna obsługa kliknięć przycisków ---
+        const confirmButton = document.getElementById('confirmButton');
+        const cancelButton = document.getElementById('cancelButton');
+
+        confirmButton.addEventListener('click', () => {
+            console.log('Akcja została zatwierdzona przez użytkownika.');
+            // Po kliknięciu "Zatwierdź", modal musi zostać zamknięty ręcznie,
+            // ponieważ nie ma atrybutu data-bs-dismiss.
+            const modalInstance = bootstrap.Modal.getInstance(document.getElementById('onceModal'));
+            if (modalInstance) {
+                modalInstance.hide();
+            }
+            window.location.href = "{{ADVERT_POPUP_TARGET_URL}}";
+        });
+
+        cancelButton.addEventListener('click', () => {
+            console.log('Akcja została anulowana.');
+            // Modal zamyka się automatycznie dzięki atrybutowi data-bs-dismiss="modal"
+        });
+    });
+  </script>
+  {% endif %}
+
 
     {% block body_scripts %}{% endblock body_scripts %}
     {% comment %} <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
