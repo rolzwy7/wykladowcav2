@@ -125,6 +125,10 @@ def aggregate_sync_active_webinars(aggregate: WebinarAggregate):
 
         if active_webinars_ids.get(webinar_id):
 
+            # Skip conferences
+            if webinar.is_connected_to_conference:
+                continue
+
             webinar.title = aggregate.title
             webinar.program = aggregate.program
             webinar.program_assets = aggregate.program_assets

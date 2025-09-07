@@ -26,6 +26,11 @@
                 Nowość
             </span>
             {% endif %}
+            {% if aggregate.sale_recording %}
+            <span class="badge bg-danger border border-light-subtle rounded-pill">
+                Nagranie dostępne
+            </span>
+            {% endif %}
             {% comment %} category {% endcomment %}
             {% for agg_category in aggregate.categories.all %}
             {% if agg_category.id != category.id and agg_category.parent.id == category.id %}
