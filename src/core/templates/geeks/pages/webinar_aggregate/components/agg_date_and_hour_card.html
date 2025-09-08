@@ -13,7 +13,7 @@
 
         {% if request.user.is_staff %}
         {% for agg_webinar in aggregate_inactive_webinars %}
-          {% include "./agg_date_and_hour_card_item.html" with agg_webinar=agg_webinar %}
+          {% include "./agg_date_and_hour_card_item.html" with agg_webinar=agg_webinar is_inactive=1 %}
         {% endfor %}
         {% endif %}
 
