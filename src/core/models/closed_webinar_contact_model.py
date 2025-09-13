@@ -18,6 +18,14 @@ class ClosedWebinarContactMessage(models.Model):
 
     tracking_info = models.CharField(max_length=100, blank=True)
 
+    spy_object = models.ForeignKey(
+        "SpyObject",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Spy Object",
+    )
+
     def __str__(self):
         return f"{self.full_name} - {self.email}"
 

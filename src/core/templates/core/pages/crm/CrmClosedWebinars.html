@@ -19,6 +19,10 @@
                 {% for contact_message in contact_messages %}
                 <tr>
                     <td>
+                        <a href="{% url "admin:core_closedwebinarcontactmessage_change" object_id=contact_message.pk %}">
+                            <b>CMS</b>
+                        </a>
+                        <br>
                         Wysłano: {{contact_message.created_at}} <br> <br>
                         <b>{{contact_message.company}}</b> <br>
                         {{contact_message.full_name}}

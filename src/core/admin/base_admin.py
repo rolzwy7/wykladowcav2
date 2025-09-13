@@ -9,6 +9,7 @@ from core.models import (
     AdvertPopup,
     AdvertPopupClick,
     CategoryTrustedUs,
+    ClosedWebinarContactMessage,
     ContactMessage,
     CrmCompany,
     CrmContact,
@@ -47,6 +48,8 @@ from core.models import (
     WebinarRecording,
     WebinarRecordingToken,
 )
+
+admin.site.register(ClosedWebinarContactMessage)
 
 admin.site.register(AdvertPopup)
 admin.site.register(AdvertPopupClick)

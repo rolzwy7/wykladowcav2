@@ -8,6 +8,7 @@ from django.urls import reverse
 
 from core.consts import TelegramChats
 from core.forms import ClosedWebinarContactForm
+from core.libs.spy import create_spy_object
 from core.models import ClosedWebinarContactMessage
 from core.services import TelegramService
 
@@ -23,6 +24,9 @@ def closed_webinar_contact_page(request):
             contact_message: ClosedWebinarContactMessage = form.save(commit=False)
             tracking_code = request.session.get("tracking_code", "no_code")
             contact_message.tracking_info = tracking_code
+            contact_message.spy_object = create_spy_object(
+                request, "CLOSED_WEBINAR_CONTACT_FORM"
+            )
             contact_message.save()
             telegram_service = TelegramService()
             telegram_service.send_chat_message(
