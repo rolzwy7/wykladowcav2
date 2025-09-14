@@ -29,6 +29,7 @@ def metadata(request: HttpRequest):
     """Metadata"""
     return {
         "META__APP_ENV": APP_ENV,
+        "BASE_URL": BASE_URL,
         "META__BASE_URL": BASE_URL,
         "META__TITLE": page_title(request),
         "META__DESCRIPTION": "META__DESCRIPTION",  # TODO

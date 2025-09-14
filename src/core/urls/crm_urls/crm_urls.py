@@ -13,6 +13,7 @@ from core.views.crm import (
     crm_clickmeeting_paste_stream,
     crm_contact_messages,
     crm_eventlogs,
+    crm_images_list,
     crm_invoices_list,
     crm_program_text_manual_adjust,
     crm_redirect,
@@ -385,6 +386,11 @@ urlpatterns = [
         "ai/agent.txt",
         crm_ai_konsensus,
         name="crm_ai_konsensus",
+    ),
+    path(
+        "obrazki-generowane/",
+        crm_images_list,
+        name="crm_images_list",
     ),
     # Upcoming webinars
     path(

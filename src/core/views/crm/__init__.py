@@ -5,6 +5,7 @@ from .crm_ai_page import crm_ai_konsensus, crm_ai_page
 from .crm_blacklist_paste import crm_blacklist_paste
 from .crm_contact_messages import crm_contact_messages
 from .crm_eventlogs import crm_eventlogs
+from .crm_images_list import crm_images_list
 from .crm_invoices_list import crm_invoices_list
 from .crm_previews import (
     crm_invoice_email_preview,
