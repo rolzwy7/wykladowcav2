@@ -64,6 +64,51 @@
                    <thead>
                       <tr class="fw-bold fs-6 text-gray-800">
                          <th>Konto wysyłkowe</th>
+                         <th>Domena</th>
+                         <th>Domena (RBL)</th>
+                         <th>Adres IP</th>
+                         <th>Adres IP (RBL)</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                    {% for username, domain, domain_rbls, ip_address, ip_address_rbls in monitored_senders_list %}
+                    <tr>
+                      <td>{{username}}</td>
+                      <td>{{domain}}</td>
+                      <td>
+                        <ol>
+                          {% for domain_rbl in domain_rbls %}
+                            {% if domain_rbl and domain_rbl.is_blacklisted %}
+                              <li><b>{{domain_rbl.rbl_list.address}}</b> - {{domain_rbl.created_at|date:"j E H:i:s"}}</li>
+                            {% endif %}
+                          {% endfor %}
+                        </ol>
+                      </td>
+                      <td>{{ip_address}}</td>
+                      <td>
+                        <ol>
+                          {% for ip_address_rbl in ip_address_rbls %}
+                            {% if ip_address_rbl and ip_address_rbl.is_blacklisted %}
+                              <li><b>{{ip_address_rbl.rbl_list.address}}</b> - {{ip_address_rbl.created_at|date:"j E H:i:s"}}</li>
+                            {% endif %}
+                          {% endfor %}
+                        </ol>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                   </tbody>
+                </table>
+             </div>
+          </div>
+       </div>
+        
+       <div class="card shadow-sm mb-6">
+          <div class="card-body">
+             <div class="table-responsive">
+                <table class="table">
+                   <thead>
+                      <tr class="fw-bold fs-6 text-gray-800">
+                         <th>Konto wysyłkowe</th>
                          <th>Wysłano dzisiaj</th>
                          <th>Wysłano wczoraj</th>
                       </tr>

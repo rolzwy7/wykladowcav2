@@ -18,6 +18,7 @@ from core.models import (
     DiscountApplicationApplied,
     Eventlog,
     FakturowniaCategory,
+    ListRBL,
     LoyaltyProgram,
     LoyaltyProgramIncome,
     LoyaltyProgramPayout,
@@ -25,6 +26,7 @@ from core.models import (
     MailingReplyMessage,
     MailingScheduled,
     MailingTemplate,
+    MonitorRBL,
     SaleRecording,
     SaleRecordingApplication,
     ServiceOffer,
@@ -48,6 +50,18 @@ from core.models import (
     WebinarRecording,
     WebinarRecordingToken,
 )
+
+
+@register(ListRBL)
+class ListRBLModelAdmin(ModelAdmin):
+    """ListRBL ModelAdmin."""
+
+    search_fields = ("address",)
+    list_filter = ("list_type",)
+    list_display = ("address", "list_type")
+
+
+admin.site.register(MonitorRBL)
 
 admin.site.register(ClosedWebinarContactMessage)
 

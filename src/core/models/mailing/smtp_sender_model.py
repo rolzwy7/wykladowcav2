@@ -7,6 +7,7 @@ SMTP Sender Model
 from django.db.models import (
     BooleanField,
     CharField,
+    DateTimeField,
     EmailField,
     Model,
     PositiveSmallIntegerField,
@@ -56,9 +57,33 @@ class SmtpSender(Model):
 
     reply_to = EmailField("Reply-To")
 
-    exclude_from_processing = BooleanField("Exclude from processing", default=False)
+    exclude_from_processing = BooleanField(
+        "Exclude from mailing processing", default=False
+    )
 
     bucket_id = PositiveSmallIntegerField(default=0)
+
+    show_on_crm_panel = BooleanField("Pokaż na stronie CRM", default=True)
+
+    ip_address = CharField("IP Address", max_length=32, blank=True)
+
+    monitor_rbl = BooleanField("Monitoruj listę RBL", default=True)
+
+    TALOS_IP_REPUTATION_CHOICES = [
+        ("POOR", "Poor"),
+        ("NEUTRAL", "Neutral"),
+        ("GOOD", "Good"),
+        ("NO_DATA", "Brak danych"),
+    ]
+    talos_ip_reputation_checked_at = DateTimeField(
+        "Talos IP Reputation Checked At", null=True, blank=True
+    )
+    talos_ip_reputation = CharField(
+        "talosintelligence reputacja",
+        max_length=16,
+        choices=TALOS_IP_REPUTATION_CHOICES,
+        default="NO_DATA",
+    )
 
     class Meta:
         """meta"""

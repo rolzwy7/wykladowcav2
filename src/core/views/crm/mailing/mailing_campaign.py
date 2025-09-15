@@ -6,6 +6,7 @@
 from datetime import datetime, timedelta
 
 from django.conf import settings
+from django.core.cache import cache
 from django.core.mail.utils import DNS_NAME
 from django.db.models import Q
 from django.http import HttpResponse
@@ -21,7 +22,14 @@ from core.forms import (
     MailingSendTestEmailForm,
 )
 from core.libs.mailing.test_email import send_campaign_test_email
-from core.models import MailingCampaign, MailingTemplate, SmtpSender, WebinarMetadata
+from core.models import (
+    ListRBL,
+    MailingCampaign,
+    MailingTemplate,
+    MonitorRBL,
+    SmtpSender,
+    WebinarMetadata,
+)
 from core.models.enums import mailing_pool_status_display_map
 from core.models.mailing import MailingPoolManager
 from core.services.mailing import MailingCampaignService
@@ -31,7 +39,6 @@ BASE_URL = settings.BASE_URL
 
 def crm_mailing_campaign_list(request):
     """CRM mailing campaigns list"""
-    template_name = "core/pages/crm/mailing/MailingCampaignListPage.html"
 
     show_grid = request.GET.get("show_grid", "")
 
@@ -69,10 +76,41 @@ def crm_mailing_campaign_list(request):
         | Q(connection_refused=True)
     )
 
+    # RBL lists
+    cache_key = "monitored_senders_list"
+    monitored_senders_list = cache.get(cache_key)
+
+    if monitored_senders_list is None:
+        monitored_senders = SmtpSender.objects.filter(
+            Q(show_on_crm_panel=True) & Q(monitor_rbl=True)
+        )
+        monitored_senders_list = []
+        for monitored_sender in monitored_senders:
+            monitored_senders_list.append(
+                (
+                    monitored_sender.username,
+                    monitored_sender.domain,
+                    [
+                        MonitorRBL.manager.get_latest(monitored_sender.domain, rbl_list)
+                        for rbl_list in ListRBL.manager.all()
+                    ],
+                    monitored_sender.ip_address,
+                    [
+                        MonitorRBL.manager.get_latest(
+                            monitored_sender.ip_address, rbl_list
+                        )
+                        for rbl_list in ListRBL.manager.all()
+                    ],
+                )
+            )
+        # cache.set(cache_key, monitored_senders_list, 60 * 15)  # 15 minutes cache
+        cache.set(cache_key, monitored_senders_list, 5)  # 5 seconds
+
     return TemplateResponse(
         request,
-        template_name,
+        "core/pages/crm/mailing/MailingCampaignListPage.html",
         {
+            "monitored_senders_list": monitored_senders_list,
             "favourite_mailings": favourite_mailing_campaigns,
             "mailing_errors": mailing_errors,
             "tuple_list": mailing_campaigns,

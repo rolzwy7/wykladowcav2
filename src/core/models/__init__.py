@@ -10,7 +10,13 @@ from .blacklist import (
 from .blog_model import BlogPost
 from .category_trusted_us_model import CategoryTrustedUs
 from .closed_webinar_contact_model import ClosedWebinarContactMessage
-from .conference import ConferenceCycle, ConferenceEdition, ConferenceFreeParticipant
+from .conference import (
+    ConferenceChat,
+    ConferenceChatMessage,
+    ConferenceCycle,
+    ConferenceEdition,
+    ConferenceFreeParticipant,
+)
 from .contact_message_model import ContactMessage
 from .crm_company_model import CrmCompany
 from .crm_contact_model import CrmContact
@@ -29,6 +35,7 @@ from .loyalty_program_model import (
     LoyaltyProgramPayout,
 )
 from .mailing import (
+    ListRBL,
     MailingBounce,
     MailingBounceManager,
     MailingCampaign,
@@ -37,6 +44,7 @@ from .mailing import (
     MailingReplyMessage,
     MailingTemplate,
     MailingTitleTest,
+    MonitorRBL,
     SmtpSender,
 )
 from .mailing.mailing_scheduled_model import MailingScheduled

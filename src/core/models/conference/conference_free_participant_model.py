@@ -89,6 +89,8 @@ class ConferenceFreeParticipant(Model):
 
     consent = BooleanField("Zgody marketingowe", default=False)
 
+    banned_from_chat = BooleanField("Zbanowany z chatu", default=False)
+
     class Meta:
         verbose_name = "Konferencja (darmowy uczestnik)"
         verbose_name_plural = "Konferencje (darmowy uczestnik)"

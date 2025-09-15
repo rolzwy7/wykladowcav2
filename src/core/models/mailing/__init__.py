@@ -10,4 +10,5 @@ from .mailing_scheduled_model import MailingScheduled, MailingScheduledManager
 from .mailing_template_model import MailingTemplate
 from .mailing_title_test_model import MailingTitleTest
 from .mailing_tracking_model import MailingTracking, MailingTrackingManager
+from .rbl_models import ListRBL, MonitorRBL
 from .smtp_sender_model import SmtpSender

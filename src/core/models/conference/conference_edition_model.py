@@ -109,6 +109,10 @@ class ConferenceEdition(Model):
     advert_webinar_url = CharField("Advert FB URL", blank=True, max_length=200)
     advert_webinar_html = TextField("Advert FB HTML", blank=True)
 
+    chat = OneToOneField(
+        "ConferenceChat", on_delete=SET_NULL, null=True, blank=True, verbose_name="Chat"
+    )
+
     class Meta:
         """meta"""
 
