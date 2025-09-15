@@ -103,8 +103,7 @@ def crm_mailing_campaign_list(request):
                     ],
                 )
             )
-        # cache.set(cache_key, monitored_senders_list, 60 * 15)  # 15 minutes cache
-        cache.set(cache_key, monitored_senders_list, 5)  # 5 seconds
+        cache.set(cache_key, monitored_senders_list, 60 * 5)  # 5 minutes cache
 
     return TemplateResponse(
         request,

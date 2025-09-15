@@ -76,9 +76,19 @@
                       <td>{{username}}</td>
                       <td>{{domain}}</td>
                       <td>
+                        <p>Ważne listy:</p>
                         <ol>
                           {% for domain_rbl in domain_rbls %}
-                            {% if domain_rbl and domain_rbl.is_blacklisted %}
+                            {% if domain_rbl and domain_rbl.is_blacklisted and domain_rbl.is_important_list %}
+                              <li><b>{{domain_rbl.rbl_list.address}}</b> - {{domain_rbl.created_at|date:"j E H:i:s"}}</li>
+                            {% endif %}
+                          {% endfor %}
+                        </ol>
+
+                        <p>Mniej ważne listy:</p>
+                        <ol>
+                          {% for domain_rbl in domain_rbls %}
+                            {% if domain_rbl and domain_rbl.is_blacklisted and not domain_rbl.is_important_list %}
                               <li><b>{{domain_rbl.rbl_list.address}}</b> - {{domain_rbl.created_at|date:"j E H:i:s"}}</li>
                             {% endif %}
                           {% endfor %}
@@ -86,9 +96,18 @@
                       </td>
                       <td>{{ip_address}}</td>
                       <td>
+                        <p>Ważne listy:</p>
                         <ol>
                           {% for ip_address_rbl in ip_address_rbls %}
-                            {% if ip_address_rbl and ip_address_rbl.is_blacklisted %}
+                            {% if ip_address_rbl and ip_address_rbl.is_blacklisted and ip_address_rbl.is_important_list %}
+                              <li><b>{{ip_address_rbl.rbl_list.address}}</b> - {{ip_address_rbl.created_at|date:"j E H:i:s"}}</li>
+                            {% endif %}
+                          {% endfor %}
+                        </ol>
+                        <p>Mniej ważne listy:</p>
+                        <ol>
+                          {% for ip_address_rbl in ip_address_rbls %}
+                            {% if ip_address_rbl and ip_address_rbl.is_blacklisted and not ip_address_rbl.is_important_list %}
                               <li><b>{{ip_address_rbl.rbl_list.address}}</b> - {{ip_address_rbl.created_at|date:"j E H:i:s"}}</li>
                             {% endif %}
                           {% endfor %}

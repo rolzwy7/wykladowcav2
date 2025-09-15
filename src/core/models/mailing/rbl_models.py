@@ -34,6 +34,10 @@ class ListRBL(models.Model):
         default="ip",
         help_text="Typ elementów, które śledzi ta lista RBL.",
     )
+    is_important_list = models.BooleanField(
+        default=False,
+        help_text="Ważna lista",
+    )
 
     def __str__(self):
         return f"{self.address} ({self.get_list_type_display()})"
