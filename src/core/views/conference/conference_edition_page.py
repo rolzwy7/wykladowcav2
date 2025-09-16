@@ -90,7 +90,7 @@ def conference_edition_thanks_page(request: HttpRequest, slug_edition: str):
 
 def conference_edition_waiting_room_page(request: HttpRequest, watch_token: str):
     """conference_waiting_room_page"""
-    template_name = "geeks/pages/conference/ConferenceEditionWaitingRoom.html"
+
     free_participant = get_object_or_404(
         ConferenceFreeParticipant, watch_token=watch_token
     )
@@ -135,11 +135,12 @@ def conference_edition_waiting_room_page(request: HttpRequest, watch_token: str)
     # TODO
     # if edition.stream_url_page and webinar_date < (now() + timedelta(seconds=30)):
     if edition.stream_url_page or is_debug_mode:
-        template_name = "geeks/pages/conference/ConferenceEmbedPlayer.html"
         return TemplateResponse(
             request,
             "geeks/pages/conference/ConferenceEmbedPlayer.html",
             {**context, "hide_upper_navbar": True, "disable_navbar_sticky": True},
         )
 
-    return TemplateResponse(request, template_name, context)
+    return TemplateResponse(
+        request, "geeks/pages/conference/ConferenceEditionWaitingRoom.html", context
+    )

@@ -51,18 +51,13 @@ class ConferenceChatMessage(Model):
 
     message = TextField(verbose_name="Treść wiadomości", max_length=500)
 
-    approved = BooleanField("Zaakceptowany", default=False)
-    approved_at = DateTimeField(
-        auto_now_add=True, verbose_name="Data zaakceptowania wiadomości"
-    )
-    is_aggressor = BooleanField("Zaakceptowany", default=False)
-    perspective_score = PositiveSmallIntegerField("Ocena perspektywy", default=0)
+    perspective_score = PositiveSmallIntegerField("Ocena auto-administrator", default=0)
 
     class Meta:
         """Meta"""
 
-        verbose_name = "Wiadomość na chacie"
-        verbose_name_plural = "Wiadomości na chacie"
+        verbose_name = "Chat konferencji: Wiadomość na chacie"
+        verbose_name_plural = "Chat konferencji: Wiadomości na chacie"
         ordering = ["created_at"]
 
     def __str__(self):

@@ -6,6 +6,10 @@ from django.urls import include, path
 
 from api.base.routers import router
 from api.base.views import (
+    ChatMessageCreateView,
+    ChatMessageListView,
+    ModerationMessageListView,
+    ModerationMessageUpdateView,
     conference_watch_url,
     fakturownia_sale_recording_webhook,
     health_check,
@@ -32,6 +36,34 @@ urlpatterns = [
         "conference-watch-url/<uuid:uuid>/",
         conference_watch_url,
         name="conference-watch-url",
+    ),
+    # Endpoint do pobierania wiadomości
+    # np. /api/chat/a1b2c3d4-e5f6-7890-1234-567890abcdef/messages/
+    path(
+        "chat/<uuid:chat_id>/messages/",
+        ChatMessageListView.as_view(),
+        name="chat-message-list",
+    ),
+    # Endpoint do tworzenia wiadomości
+    # np. /api/chat/a1b2c3d4-e5f6-7890-1234-567890abcdef/messages/create/
+    path(
+        "chat/<uuid:chat_id>/messages/create/",
+        ChatMessageCreateView.as_view(),
+        name="chat-message-create",
+    ),
+    # Endpoint do pobierania listy wiadomości do moderacji
+    # np. /api/moderation/chat/a1b2c3d4-e5f6-7890-1234-567890abcdef/messages/
+    path(
+        "moderation/chat/<uuid:chat_id>/messages/",
+        ModerationMessageListView.as_view(),
+        name="moderation-message-list",
+    ),
+    # Endpoint do aktualizacji statusu wiadomości (akceptacja/odrzucenie)
+    # np. /api/moderation/message/a1b2c3d4-e5f6-7890-1234-567890abcdef/update/
+    path(
+        "moderation/message/<uuid:message_id>/update/",
+        ModerationMessageUpdateView.as_view(),
+        name="moderation-message-update",
     ),
     path("", include(router.urls)),
 ]

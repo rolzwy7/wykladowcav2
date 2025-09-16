@@ -1,4 +1,14 @@
-from rest_framework.throttling import SimpleRateThrottle
+from rest_framework.throttling import AnonRateThrottle, SimpleRateThrottle
+
+
+class ChatMessageAnonRateThrottle(AnonRateThrottle):
+    """
+    Niestandardowa klasa throttlingu dla anonimowych użytkowników czatu.
+    Ustawia sztywny limit 1 zapytania na 5 sekund, niezależnie od
+    ustawień w settings.py.
+    """
+
+    rate = "5/minute"
 
 
 class RegonAutocompleteThrottle(SimpleRateThrottle):

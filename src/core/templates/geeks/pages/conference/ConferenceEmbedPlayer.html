@@ -18,7 +18,13 @@
     <section class="p-lg-2 py-3">
       <div class="container">
         <div class="row">
-          <div class="col-lg-12 col-md-12 col-12 mb-5">
+          
+          
+          {% if edition.chat %}
+            <div class="col-lg-9 col-md-12 col-12 mb-5">
+          {% else %}
+            <div class="col-lg-12 col-md-12 col-12 mb-5">
+          {% endif %}
             <div class="rounded-3 position-relative w-100 d-block overflow-hidden p-0" style="height: 500px">
               <iframe
                 class="position-absolute top-0 end-0 start-0 end-0 bottom-0 h-100 w-100"
@@ -31,6 +37,42 @@
                 frameborder="0"></iframe>
             </div>
           </div>
+          {% comment %} CHAT - END {% endcomment %}
+          
+          {% if edition.chat %}
+          <div class="col-lg-3 col-md-12 col-12 mb-5">
+            <div class="d-flex flex-column h-100 bg-light border rounded p-3">
+                <h5 class="mb-3 border-bottom pb-2">Czat na żywo</h5>
+
+                <!-- Kontener na wiadomości -->
+                <div id="chat-messages" class="flex-grow-1" style="overflow-y: auto; min-height: 300px; max-height: 340px;">
+                    <!-- Wiadomości będą wstawiane tutaj przez JavaScript -->
+                    <div class="text-center text-muted mt-5">
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Ładowanie wiadomości...</p>
+                    </div>
+                </div>
+
+                <!-- Formularz do wysyłania wiadomości -->
+                <div class="mt-3">
+                    <form id="chat-form">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <input type="text" id="chat-message-input" class="form-control" placeholder="Napisz wiadomość..."
+                                maxlength="500" required>
+                            <button class="btn btn-primary" type="submit" id="chat-message-submit">
+                                <i class="bi bi-send"></i>
+                            </button>
+                        </div>
+                        <div id="char-counter" class="form-text text-end">0 / 500</div>
+                    </form>
+                </div>
+            </div>
+          </div>
+          {% endif %}
+
         </div>
 
         <div class="row">
@@ -297,1082 +339,6 @@
             </div>
           </div>
 
-          {% comment %} 
-          <div class="col-xl-4 col-lg-12 col-md-12 col-12">
-            <div class="card" id="courseAccordion">
-              <div>
-                <!-- List group -->
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item p-0 bg-transparent">
-                    <!-- Toggle -->
-                    <a class="h4 mb-0 d-flex align-items-center py-3 px-4" data-bs-toggle="collapse" href="#courseTwo" role="button" aria-expanded="false" aria-controls="courseTwo">
-                      <div class="me-auto">
-                        Course Overview
-                        <p class="mb-0 fs-6 mt-1 fw-normal">14 videos (1 hour and 17 minutes)</p>
-                      </div>
-                      <!-- Chevron -->
-                      <span class="chevron-arrow ms-4">
-                      <i class="fe fe-chevron-down fs-4"></i>
-                      </span>
-                    </a>
-                    <!-- Row -->
-                    <!-- Collapse -->
-                    <div class="collapse show" id="courseTwo" data-bs-parent="#courseAccordion">
-                      <!-- List group item -->
-                      <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                          <div>
-                            <div class="progress" style="height: 6px">
-                              <div class="progress-bar bg-success" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <small>5% Completed</small>
-                          </div>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-success text-white icon-sm rounded-circle me-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
-                                  <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z">
-                                  </path>
-                                </svg>
-                              </span>
-                              <span>Introduction</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>1m 7s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item list-group-item-action active">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-white">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-primary icon-sm rounded-circle me-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
-                                  <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z">
-                                  </path>
-                                </svg>
-                              </span>
-                              <span>Installing Development Software</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>3m 11s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-primary icon-sm rounded-circle me-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
-                                  <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z">
-                                  </path>
-                                </svg>
-                              </span>
-                              <span>Hello World Project from GitHub</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>2m 33s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Our Sample Website</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>2m 15s</span>
-                            </div>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </li>
-                  <li class="list-group-item p-0">
-                    <!-- Toggle -->
-                    <a class="h4 mb-0 d-flex align-items-center py-3 px-4" data-bs-toggle="collapse" href="#courseThree" role="button" aria-expanded="false" aria-controls="courseThree">
-                      <div class="me-auto">
-                        <!-- Title -->
-                        JavaScript Beginning
-                        <p class="mb-0 fs-6 mt-1 fw-normal">6 videos (34 minutes)</p>
-                      </div>
-                      <!-- Chevron -->
-                      <span class="chevron-arrow ms-4">
-                      <i class="fe fe-chevron-down fs-4"></i>
-                      </span>
-                    </a>
-                    <!-- Row -->
-                    <!-- Collapse -->
-                    <div class="collapse" id="courseThree" data-bs-parent="#courseAccordion">
-                      <!-- List group item -->
-                      <ul class="list-group list-group-flush">
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <div>
-                            <div class="progress" style="height: 6px">
-                              <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <small>25% Completed</small>
-                          </div>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Introduction</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>1m 41s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Adding JavaScript Code to a Web Page</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>3m 39s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Working with JavaScript Files</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>6m 18s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Formatting Code</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>2m 18s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Detecting and Fixing Errors</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>3m 14s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Case Sensitivity</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>1m 48s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Commenting Code</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>2m 24s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Summary</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>2m 14s</span>
-                            </div>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </li>
-                  <li class="list-group-item p-0">
-                    <!-- Toggle -->
-                    <a class="h4 mb-0 d-flex align-items-center py-3 px-4" data-bs-toggle="collapse" href="#courseFour" role="button" aria-expanded="false" aria-controls="courseFour">
-                      <div class="me-auto">
-                        <!-- Title -->
-                        Variables and Constants
-                        <p class="mb-0 fs-6 mt-1 fw-normal">6 videos (3 hour and 24 minutes)</p>
-                      </div>
-                      <!-- Chevron -->
-                      <span class="chevron-arrow ms-4">
-                      <i class="fe fe-chevron-down fs-4"></i>
-                      </span>
-                    </a>
-                    <!-- Row -->
-                    <!-- Collapse -->
-                    <div class="collapse" id="courseFour" data-bs-parent="#courseAccordion">
-                      <!-- List group item -->
-                      <ul class="list-group list-group-flush">
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <div>
-                            <div class="progress" style="height: 6px">
-                              <div class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <small>0% Completed</small>
-                          </div>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Introduction</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>1m 19s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>What Is a Variable?</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>2m 11s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Declaring Variables</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>2m 30s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Using let to Declare Variables</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>3m 28s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Naming Variables</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>3m 14s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Common Errors Using Variables</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>3m 30s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Changing Variable Values</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>2m 4s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Constants</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>3m 15s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>The var Keyword</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>2m 20s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Summary</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>1m 49s</span>
-                            </div>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </li>
-                  <li class="list-group-item p-0">
-                    <!-- Toggle -->
-                    <a class="h4 mb-0 d-flex align-items-center py-3 px-4" data-bs-toggle="collapse" href="#courseSix" role="button" aria-expanded="false" aria-controls="courseSix">
-                      <div class="me-auto">
-                        <!-- Title -->
-                        Program Flow
-                        <p class="mb-0 fs-6 mt-1 fw-normal">5 videos (2 hour and 10 minutes)</p>
-                      </div>
-                      <!-- Chevron -->
-                      <span class="chevron-arrow ms-4">
-                      <i class="fe fe-chevron-down fs-4"></i>
-                      </span>
-                    </a>
-                    <!-- Row -->
-                    <!-- Collapse -->
-                    <div class="collapse" id="courseSix" data-bs-parent="#courseAccordion">
-                      <!-- List group item -->
-                      <ul class="list-group list-group-flush">
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <div>
-                            <div class="progress" style="height: 6px">
-                              <div class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <small>0% Completed</small>
-                          </div>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Introduction</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>1m 52s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Clip Watched</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>4m 27s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Conditionals Using if()</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>4m 25s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Truthy and Falsy</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>3m 30s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>if ... else</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>3m 30s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Comparing === and ==</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>1m 52s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>The Ternary Operator</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>2m 47s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Block Scope Using let</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>2m 21s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Looping with for()</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>5m 30s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Looping with do ... while()</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>1m 58s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a class="mb-0 d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Summary</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>2m 21s</span>
-                            </div>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </li>
-                  <!-- List group item -->
-                  <li class="list-group-item p-0">
-                    <!-- Toggle -->
-                    <a class="h4 mb-0 d-flex align-items-center py-3 px-4" data-bs-toggle="collapse" href="#courseSeven" role="button" aria-expanded="false" aria-controls="courseSeven">
-                      <div class="me-auto">
-                        <!-- Title -->
-                        Functions
-                        <p class="mb-0 fs-6 mt-1 fw-normal">7 videos (4 hour and 38 minutes)</p>
-                      </div>
-                      <!-- Chevron -->
-                      <span class="chevron-arrow ms-4">
-                      <i class="fe fe-chevron-down fs-4"></i>
-                      </span>
-                    </a>
-                    <!-- Row -->
-                    <!-- Collapse -->
-                    <div class="collapse" id="courseSeven" data-bs-parent="#courseAccordion">
-                      <!-- List group item -->
-                      <ul class="list-group list-group-flush">
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <div>
-                            <div class="progress" style="height: 6px">
-                              <div class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <small>0% Completed</small>
-                          </div>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Introduction</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>1m 52s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Function Basics</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>2m 46s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Function Expressions</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>2m 32s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Passing Information to Functions</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>3m 19s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Function Return Values</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>3m 13s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Function Scope</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>4m 20s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Using Functions to Modify Web Pages</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>3m 42s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item">
-                          <a class="mb-0 d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Summary</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>2m 3s</span>
-                            </div>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </li>
-                  <li class="list-group-item p-0">
-                    <!-- Toggle -->
-                    <a class="h4 mb-0 d-flex align-items-center py-3 px-4" data-bs-toggle="collapse" href="#courseEight" role="button" aria-expanded="false" aria-controls="courseEight">
-                      <div class="me-auto">
-                        <!-- Title -->
-                        Objects and the DOM
-                        <p class="mb-0 fs-6 mt-1 fw-normal">4 videos (2 hour and 10 minutes)</p>
-                      </div>
-                      <!-- Chevron -->
-                      <span class="chevron-arrow ms-4">
-                      <i class="fe fe-chevron-down fs-4"></i>
-                      </span>
-                    </a>
-                    <!-- Row -->
-                    <!-- Collapse -->
-                    <div class="collapse" id="courseEight" data-bs-parent="#courseAccordion">
-                      <!-- List group item -->
-                      <ul class="list-group list-group-flush">
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <div>
-                            <div class="progress" style="height: 6px">
-                              <div class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <small>0% Completed</small>
-                          </div>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Introduction</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>1m 48s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Object Properties</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>4m 28s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Object Methods</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>3m 3s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Passing Objects to Functions</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>3m 27s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Standard Built-in Objects</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>6m 55s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>The Document Object Model (DOM)</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>3m 29s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Styling DOM Elements</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>2m 42s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Detecting Button Clicks</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>2m 3s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Showing and Hiding DOM Elements</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>4m 37s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Summary</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>2m 47s</span>
-                            </div>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </li>
-                  <li class="list-group-item p-0">
-                    <!-- Toggle -->
-                    <a class="h4 mb-0 d-flex align-items-center py-3 px-4" data-bs-toggle="collapse" href="#courseNine" role="button" aria-expanded="false" aria-controls="courseNine">
-                      <div class="me-auto">
-                        <!-- Title -->
-                        Arrays
-                        <p class="mb-0 fs-6 mt-1 fw-normal">3 videos (1 hour and 5 minutes)</p>
-                      </div>
-                      <!-- Chevron -->
-                      <span class="chevron-arrow ms-4">
-                      <i class="fe fe-chevron-down fs-4"></i>
-                      </span>
-                    </a>
-                    <!-- Row -->
-                    <!-- Collapse -->
-                    <div class="collapse" id="courseNine" data-bs-parent="#courseAccordion">
-                      <!-- List group item -->
-                      <ul class="list-group list-group-flush">
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <div>
-                            <div class="progress" style="height: 6px">
-                              <div class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <small>0% Completed</small>
-                          </div>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Introduction</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>1m 48s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Creating and Initializing Arrays</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>4m 7s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Accessing Array Items</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>2m 4s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Manipulating Arrays</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>4m 3s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>slice() and splice()</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>5m 54s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Array Searching and Looping</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>7m 32s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Arrays in the DOM</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>4m 11s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Summary</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>2m 28s</span>
-                            </div>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </li>
-                  <li class="list-group-item p-0">
-                    <!-- Toggle -->
-                    <a class="h4 mb-0 d-flex align-items-center py-3 px-4" data-bs-toggle="collapse" href="#courseTen" role="button" aria-expanded="false" aria-controls="courseTen">
-                      <div class="me-auto">
-                        <!-- Title -->
-                        Scope and Hoisting
-                        <p class="mb-0 fs-6 mt-1 fw-normal">2 videos (3 hour and 15 minutes)</p>
-                      </div>
-                      <!-- Chevron -->
-                      <span class="chevron-arrow ms-4">
-                      <i class="fe fe-chevron-down fs-4"></i>
-                      </span>
-                    </a>
-                    <!-- Row -->
-                    <!-- Collapse -->
-                    <div class="collapse" id="courseTen" data-bs-parent="#courseAccordion">
-                      <!-- List group item -->
-                      <ul class="list-group list-group-flush">
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <div>
-                            <div class="progress" style="height: 6px">
-                              <div class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <small>0% Completed</small>
-                          </div>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Introduction</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>1m 20s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Global Scope</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>4m 7s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Clip Watched</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>3m 14s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Function Scope</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>3m 45s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Var and Hoisting</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>2m 21s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Undeclared Variables and Strict Mode</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>2m 16s</span>
-                            </div>
-                          </a>
-                        </li>
-                        <!-- List group item -->
-                        <li class="list-group-item disabled" aria-disabled="true">
-                          <a href="#" class="d-flex justify-content-between align-items-center text-inherit">
-                            <div class="text-truncate">
-                              <span class="icon-shape bg-light text-secondary icon-sm rounded-circle me-2"><i class="fe fe-lock fs-4"></i></span>
-                              <span>Summary</span>
-                            </div>
-                            <div class="text-truncate">
-                              <span>1m 33s</span>
-                            </div>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </li>
-                  <li class="list-group-item p-0 bg-transparent">
-                    <!-- Toggle -->
-                    <a class="h4 mb-0 d-flex align-items-center py-3 px-4" data-bs-toggle="collapse" href="#courseEleven" role="button" aria-expanded="false" aria-controls="courseEleven">
-                      <div class="me-auto">
-                        <!-- Title -->
-                        Summary
-                        <p class="mb-0 fs-6 mt-1 fw-normal">1 videos (5 minutes)</p>
-                      </div>
-                      <!-- Chevron -->
-                      <span class="chevron-arrow ms-4">
-                      <i class="fe fe-chevron-down fs-4"></i>
-                      </span>
-                    </a>
-                    <!-- Row -->
-                    <!-- Collapse -->
-                    <div class="collapse" id="courseEleven" data-bs-parent="#courseAccordion">
-                      <div class="px-4 pt-0 pb-2">
-                        <p>
-                          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae esse velit eos sunt ab inventore est tenetur blanditiis? Voluptas eius
-                          molestiae ad itaque tempora nobis minima eveniet aperiam molestias, maiores natus expedita dolores ea non possimus magnam corrupt i quas rem
-                          unde quo enim porro culpa! Quaerat veritatis veniam corrupti iusto.
-                        </p>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          {% endcomment %}
-
         </div>
       </div>
     </section>
@@ -1380,4 +346,188 @@
 {% endblock root %}
 
 
-{% block body_scripts %}{% endblock body_scripts %}
+{% block body_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const chatMessages = document.getElementById('chat-messages');
+    const chatForm = document.getElementById('chat-form');
+    const messageInput = document.getElementById('chat-message-input');
+    const charCounter = document.getElementById('char-counter');
+    const submitButton = document.getElementById('chat-message-submit');
+
+    // Pobieranie danych z szablonu Django
+    // Używamy `|| 'null'` aby uniknąć błędów, jeśli zmienna nie istnieje
+    const chatId = '{{ edition.chat.id|default:"null" }}';
+    const watchToken = '{{ free_participant.watch_token|default:"null" }}';
+    const csrfToken = '{{ csrf_token }}';
+
+    // Sprawdzamy, czy czat jest skonfigurowany dla tej edycji
+    if (chatId === 'null' || watchToken === 'null') {
+        chatMessages.innerHTML = '<p class="text-center text-muted mt-5">Czat jest niedostępny dla tej konferencji.</p>';
+        messageInput.disabled = true;
+        submitButton.disabled = true;
+        return;
+    }
+
+    // URL do API
+    const messagesListUrl = `/api/chat/${chatId}/messages/`;
+    const messageCreateUrl = `/api/chat/${chatId}/messages/create/`;
+
+    // --- FUNKCJE ---
+
+    /**
+     * Renderuje pojedynczą wiadomość w oknie czatu
+     * @param {object} msg - Obiekt wiadomości
+     */
+    function renderMessage(msg) {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('mb-2');
+        messageElement.innerHTML = `
+            <div class="p-2 rounded bg-white shadow-sm">
+                <div class="d-flex justify-content-between align-items-center">
+                    <strong class="text-primary">${escapeHtml(msg.chat_user.first_name)}</strong>
+                    <small class="text-muted">${msg.created_at}</small>
+                </div>
+                <p class="mb-0 mt-1">${escapeHtml(msg.message)}</p>
+            </div>
+        `;
+        return messageElement;
+    }
+    
+    /**
+     * Przewija okno czatu na sam dół
+     */
+    function scrollToBottom() {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    /**
+     * Pobiera i wyświetla wiadomości z serwera
+     */
+    async function fetchMessages() {
+        try {
+            const response = await fetch(messagesListUrl);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const messages = await response.json();
+
+            // Zapamiętujemy, czy użytkownik był na dole przed odświeżeniem
+            const isScrolledToBottom = chatMessages.scrollHeight - chatMessages.clientHeight <= chatMessages.scrollTop + 1;
+
+            // Czyścimy kontener i renderujemy wiadomości
+            chatMessages.innerHTML = '';
+            if (messages.length > 0) {
+                messages.forEach(msg => {
+                    chatMessages.appendChild(renderMessage(msg));
+                });
+            } else {
+                chatMessages.innerHTML = '<p class="text-center text-muted mt-5">Brak wiadomości. Bądź pierwszy!</p>';
+            }
+            
+            // Jeśli użytkownik był na dole, przewijamy ponownie
+            if (isScrolledToBottom) {
+                scrollToBottom();
+            }
+
+        } catch (error) {
+            console.error('Błąd podczas pobierania wiadomości:', error);
+            chatMessages.innerHTML = '<p class="text-center text-danger mt-5">Nie udało się załadować wiadomości.</p>';
+        }
+    }
+
+    /**
+     * Wysyła nową wiadomość na serwer
+     * @param {Event} e - Event formularza
+     */
+    async function postMessage(e) {
+        e.preventDefault();
+        const messageText = messageInput.value.trim();
+
+        if (messageText === '') {
+            return;
+        }
+
+        messageInput.disabled = true;
+        messageInput.placeholder = 'Wysyłam wiadomość ...';
+        messageInput.value = '';
+
+        submitButton.disabled = true;
+        submitButton.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+
+        try {
+            const response = await fetch(messageCreateUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                    'X-Watch-Token': watchToken,
+                },
+                body: JSON.stringify({ message: messageText }),
+            });
+
+            if (!response.ok) {
+                 const errorData = await response.json();
+                 throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+            }
+
+            // Czyścimy pole i odświeżamy wiadomości
+            messageInput.value = '';
+            charCounter.textContent = 'Twoja wiadomość pojawi się po zatwierdzeniu przez administratora. Możesz wysłać kolejną wiadomość za 15 sekund.';
+            // await fetchMessages();
+            // scrollToBottom();
+        } catch (error) {
+            console.error('Błąd podczas wysyłania wiadomości:', error);
+            alert(`Błąd: ${error.message}`); // W prawdziwej aplikacji lepiej użyć ładniejszego powiadomienia
+        } finally {
+          
+          messageInput.placeholder = 'Wiadomość wysłana!';
+          
+          setTimeout(() => {
+            messageInput.placeholder = 'Napisz wiadomość...';
+            messageInput.disabled = false;
+            submitButton.disabled = false;
+            submitButton.innerHTML = `<i class="bi bi-send"></i>`;
+            charCounter.textContent = '0 / 500';
+          }, 15000);
+
+        }
+    }
+
+    /**
+     * Prosta funkcja do "uciekania" HTML, aby zapobiec XSS
+     * @param {string} str - Ciąg znaków do przetworzenia
+     */
+    function escapeHtml(str) {
+        return str
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    // --- EVENT LISTENERS ---
+
+    // Obsługa wysyłania formularza
+    chatForm.addEventListener('submit', postMessage);
+
+    // Licznik znaków w polu tekstowym
+    messageInput.addEventListener('input', () => {
+        const count = messageInput.value.length;
+        charCounter.textContent = `${count} / 500`;
+    });
+
+
+    // --- INICJALIZACJA ---
+
+    // Pobierz wiadomości przy pierwszym załadowaniu
+    fetchMessages().then(() => {
+        scrollToBottom();
+    });
+
+    // Ustaw interwał odświeżania wiadomości (co 5 sekund)
+    setInterval(fetchMessages, 7000);
+});
+</script>
+{% endblock body_scripts %}

@@ -51,7 +51,7 @@
             <table class="table">
                 <tbody>
                     <tr>
-                        <td colspan="2">
+                        <td colspan="4">
                             <a href="{% url "core:confirm_free_participants" pk=conference_edition.pk %}" class="btn btn-sm btn-secondary">
                                 Wyślij przypomnienia darmowym uczestnikom
                             </a>
@@ -59,7 +59,7 @@
                     </tr>
                     <tr>
                         <td><b>Adres Strony Konfiguracji</b></td>
-                        <td>
+                        <td colspan="3">
                             {% if conference_edition.dashboard_url %}
                                 <a href="{{conference_edition.dashboard_url}}">
                                     <b>{{conference_edition.dashboard_url}}</b>
@@ -71,8 +71,23 @@
                         </td>
                     </tr>
                     <tr>
+                        <td><b>Chat na żywo</b></td>
+                        <td colspan="3">
+                            {% if conference_edition.chat %}
+                                <a href="{% url "core:chat_moderation_view" id=conference_edition.chat.id %}">
+                                    <b>Administracja chatu</b> / <a href="{% url "admin:core_conferencechat_change" object_id=conference_edition.chat.id %}">
+                                        <b>Edytuj chat w CMS</b>
+                                    </a>
+                                </a> - Inicjalny status dla wiadomości:
+                                <b>{{conference_edition.chat.get_init_status_display}}</b>
+                            {% else %}
+                                Chat na żywo jest niepodłączony.
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
                         <td><b>Typ strumienia</b></td>
-                        <td>
+                        <td colspan="3">
                             <span class="fw-bold text-white px-2 bg-info">
                                 {{conference_edition.get_stream_type_display}}
                             </span>

@@ -10,6 +10,8 @@ from core.models import (
     AdvertPopupClick,
     CategoryTrustedUs,
     ClosedWebinarContactMessage,
+    ConferenceChat,
+    ConferenceChatMessage,
     ContactMessage,
     CrmCompany,
     CrmContact,
@@ -51,14 +53,34 @@ from core.models import (
     WebinarRecordingToken,
 )
 
+admin.site.register(ConferenceChat)
+
+
+@register(ConferenceChatMessage)
+class ConferenceChatMessageModelAdmin(ModelAdmin):
+    """ConferenceChatMessage ModelAdmin."""
+
+    date_hierarchy = "created_at"
+    list_display = (
+        "chat",
+        "chat_user",
+        "status",
+        "created_at",
+        "perspective_score",
+        "message",
+    )
+    list_filter = ("status",)
+    search_fields = ("message",)
+    raw_id_fields = ("chat", "chat_user")
+
 
 @register(ListRBL)
 class ListRBLModelAdmin(ModelAdmin):
     """ListRBL ModelAdmin."""
 
     search_fields = ("address",)
-    list_filter = ("list_type",)
-    list_display = ("address", "list_type")
+    list_filter = ("list_type", "is_important_list")
+    list_display = ("address", "is_important_list", "list_type")
 
 
 admin.site.register(MonitorRBL)

@@ -3,6 +3,7 @@
 from django.urls import include, path
 
 from core.views.crm import (
+    chat_moderation_view,
     conference_from_webinar,
     confirm_free_participants,
     crm_aggregates_page,
@@ -391,6 +392,11 @@ urlpatterns = [
         "obrazki-generowane/",
         crm_images_list,
         name="crm_images_list",
+    ),
+    path(
+        "moderacja-chatu-konferencja/<uuid:id>/",
+        chat_moderation_view,
+        name="chat_moderation_view",
     ),
     # Upcoming webinars
     path(

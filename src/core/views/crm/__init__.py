@@ -3,6 +3,7 @@ from .conference import conference_from_webinar, confirm_free_participants
 from .crm_aggregates_page import crm_aggregates_page, crm_aggregates_webinar_list_page
 from .crm_ai_page import crm_ai_konsensus, crm_ai_page
 from .crm_blacklist_paste import crm_blacklist_paste
+from .crm_conference_chat_admin import chat_moderation_view
 from .crm_contact_messages import crm_contact_messages
 from .crm_eventlogs import crm_eventlogs
 from .crm_images_list import crm_images_list
