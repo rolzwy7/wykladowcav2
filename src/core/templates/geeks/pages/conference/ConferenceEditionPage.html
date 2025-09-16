@@ -42,6 +42,30 @@
 </style>
 {% endblock head_stylesheets %}
 
+{% block meta %}
+    {% block inner_meta %}{% endblock inner_meta %}
+    {% if webinar.description %}
+    <meta name="description" content="{{webinar.description}}" />
+    <meta property="og:description" content="{{webinar.description}}" />
+    {% endif %}
+    {% comment %} <link rel="canonical" href="{{META__BASE_URL}}{{CANONICAL}}" /> {% endcomment %}
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:url" content="{{META__BASE_URL}}{% url "core:conference_edition_page" slug_edition=edition.slug %}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{webinar.title}}" />
+    
+    <meta property="og:image:width" content="940" />
+    <meta property="og:image:height" content="788" />
+    {% if webinar.facebook_post_image %}
+    <meta property="og:image" content="{{META__BASE_URL}}{% get_media_prefix %}{{webinar.facebook_post_image}}" />
+    {% else %}
+    <meta property="og:image" content="{{META__BASE_URL}}{% url "core:webinar_ogimage_page" pk=webinar.pk %}" />
+    {% endif %}
+    <meta property="og:image:alt" content="{{webinar.title}}" />
+
+    <meta property="og:image:type" content="image/png" />
+{% endblock meta %}
+
 {% block title %}
       <title>{{COMPANY_NAME}}</title>
 {% endblock title %}
