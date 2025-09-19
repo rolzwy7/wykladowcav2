@@ -2,6 +2,8 @@
 
 # flake8: noqa=E501
 
+from typing import Union
+
 from django.db import models
 
 
@@ -50,7 +52,9 @@ class ListRBL(models.Model):
 class MonitorRBLManager(models.Manager):
     """Manager dla modelu MonitorRBL."""
 
-    def get_latest(self, monitored_item: str, rbl_list: ListRBL):
+    def get_latest(
+        self, monitored_item: str, rbl_list: ListRBL
+    ) -> Union["MonitorRBL", None]:
         """
         Zwraca ostatni (najnowszy) wpis w tabeli MonitorRBL.
         """

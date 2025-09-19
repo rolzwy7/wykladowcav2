@@ -7,8 +7,11 @@ from typing import Dict, Union
 
 import dns.resolver
 
+from core.consts import TelegramChats
+
 # Załóżmy, że te modele znajdują się w tej samej aplikacji Django
 from core.models import ListRBL, MonitorRBL
+from core.services import TelegramService
 
 
 def _reverse_ip(ip: str) -> str:
@@ -82,6 +85,9 @@ def run_monitoring_for_item(item: str):
     istotnych listach RBL z bazy danych i zapisuje wyniki.
     Ta funkcja powinna być wywoływana np. z zadania Celery lub komendy zarządzania Django.
     """
+
+    telegram_service = TelegramService()
+
     is_ip = False
     try:
         ipaddress.ip_address(item)
@@ -99,6 +105,20 @@ def run_monitoring_for_item(item: str):
     for rbl in lists_to_query:
         print(f"-> Sprawdzam na liście: {rbl.address}...")
         result = check_item_on_rbl(item, rbl.address)
+
+        last_result = MonitorRBL.manager.get_latest(item, rbl)
+
+        if last_result:
+            telegram_msg = ""
+            if last_result.is_blacklisted is True and result["is_blacklisted"] is False:
+                telegram_msg = f"✅ `{item}` został ściągnięty z listy RBL `{rbl}`"
+            if last_result.is_blacklisted is False and result["is_blacklisted"] is True:
+                telegram_msg = f"🛑 `{item}` został dodany do listy RBL `{rbl}`"
+            if telegram_msg:
+                telegram_service.try_send_chat_message(
+                    telegram_msg,
+                    TelegramChats.OTHER,
+                )
 
         # Zapisz wynik do bazy danych
         MonitorRBL.manager.create(

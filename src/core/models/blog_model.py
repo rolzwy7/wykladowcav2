@@ -160,8 +160,8 @@ class BlogPost(Model):
     class Meta:
         """Meta"""
 
-        verbose_name = "Artykuł blogowy"
-        verbose_name_plural = "Artykuły blogowe"
+        verbose_name = "Blog: artykuł"
+        verbose_name_plural = "Blog: artykuły"
         ordering = ["-published_at", "-created_at"]
 
     def __str__(self):
