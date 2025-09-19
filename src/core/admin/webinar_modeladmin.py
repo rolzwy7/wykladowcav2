@@ -50,7 +50,7 @@ class WebinarModelAdminForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         forms.ModelForm.__init__(self, *args, **kwargs)
-        self.fields["categories"].queryset = WebinarCategory.manager.all().order_by(
+        self.fields["categories"].queryset = WebinarCategory.manager.all().order_by(  # type: ignore
             "parent__name"
         )
 
