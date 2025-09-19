@@ -119,6 +119,12 @@ def run_monitoring_for_item(item: str):
                     telegram_msg,
                     TelegramChats.OTHER,
                 )
+        else:
+            if result["is_blacklisted"] is True:
+                telegram_service.try_send_chat_message(
+                    f"🛑 (first check) `{item}` jest na liście RBL `{rbl}`",
+                    TelegramChats.OTHER,
+                )
 
         # Zapisz wynik do bazy danych
         MonitorRBL.manager.create(
