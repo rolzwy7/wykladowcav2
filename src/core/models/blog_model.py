@@ -1,6 +1,11 @@
 """Blog Model"""
 
+# flake8: noqa=E501
+
+import uuid
+
 from django.db.models import (
+    RESTRICT,
     SET_NULL,
     BooleanField,
     CharField,
@@ -17,6 +22,7 @@ from django.db.models import (
     TextChoices,
     TextField,
     URLField,
+    UUIDField,
 )
 from django.utils import timezone
 from django.utils.text import slugify
@@ -30,8 +36,7 @@ class BlogPostQuerySet(QuerySet):
     def published(self):
         """Zwraca tylko opublikowane artykuły, których data publikacji już minęła."""
         return self.filter(
-            Q(status=self.model.Status.PUBLISHED)
-            & (Q(published_at=None) | Q(published_at__lte=timezone.now()))
+            Q(status=self.model.Status.PUBLISHED) & Q(published_at__lte=timezone.now())
         )
 
     def with_related_data(self):
@@ -49,6 +54,17 @@ class BlogPostManager(Manager):
     def get_queryset(self):
         """Używa dedykowanego BlogPostQuerySet."""
         return BlogPostQuerySet(self.model, using=self._db)
+
+    def get_blog_posts_for_category_slugs(
+        self, slugs: list[str]
+    ) -> QuerySet["BlogPost"]:
+        """get_blog_posts_for_category_slugs"""
+        return (
+            self.all_published_with_related()
+            .published()
+            .filter(categories__slug__in=slugs)
+            .order_by("published_at")
+        )
 
     # Możesz dodać "skróty" do najczęściej używanych metod z QuerySet
     # aby można było je wywołać bezpośrednio z managera, np. BlogPost.objects.published()
@@ -156,3 +172,36 @@ class BlogPost(Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+
+
+class BlogView(Model):
+    """Tracks clicks on blog article."""
+
+    id = UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    created_at = DateTimeField("Data wyświetlenia", auto_now_add=True)
+
+    blog_post = ForeignKey(
+        "BlogPost",
+        on_delete=RESTRICT,
+        null=True,
+        blank=True,
+        verbose_name="Blog post",
+    )
+
+    spy_object = ForeignKey(
+        "SpyObject",
+        on_delete=RESTRICT,
+        null=True,
+        blank=True,
+        verbose_name="Spy Object",
+    )
+
+    class Meta:
+        """Meta"""
+
+        verbose_name = "Blog: Wyświetlenie"
+        verbose_name_plural = "Blog: Wyświetlenia"
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"Blog view {self.id}"

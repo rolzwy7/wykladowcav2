@@ -2,9 +2,14 @@
 
 from django.urls import path
 
-from core.views.blog import blog_article_page
+from core.views.blog import blog_article_page, blog_list_page
 
 urlpatterns = [
+    path(
+        "kategoria/<slug:slug>/",
+        blog_list_page,
+        name="blog_list_page",
+    ),
     path(
         "<slug:slug>/",
         blog_article_page,

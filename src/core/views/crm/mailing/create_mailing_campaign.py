@@ -36,7 +36,7 @@ def create_mailing_campaign(request):
         )
 
         if webinar.lecturer.forbid_mailing_alias:
-            form_data["alias"] = "Wykładowca PL"
+            form_data["alias"] = "Wykładowca.pl"
         else:
             form_data["alias"] = webinar.lecturer.fullname
 

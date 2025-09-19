@@ -2,12 +2,14 @@
 
 # flake8: noqa=E501
 
+from django.db import transaction
 from django.db.models import F
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 
 from core.libs.blog.blog_advert import get_blogpost_advert_img_tag
-from core.models import BlogPost, WebinarAggregate
+from core.libs.spy import create_spy_object
+from core.models import BlogPost, BlogView, WebinarAggregate
 
 
 def blog_article_page(request, slug: str):
@@ -38,6 +40,10 @@ def blog_article_page(request, slug: str):
     # aby uniknąć ponownego wywołania sygnałów save().
     if not request.user.is_staff:
         BlogPost.manager.filter(pk=article.pk).update(view_count=F("view_count") + 1)
+        with transaction.atomic():
+            spy_object = create_spy_object(request, "BLOG_ARTICLE_VIEW")
+            blog_view = BlogView(blog_post=article, spy_object=spy_object)
+            blog_view.save()
 
     related_aggregates = []
     if article.show_related_webinars:

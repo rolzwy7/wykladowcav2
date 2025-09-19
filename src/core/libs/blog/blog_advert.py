@@ -5,7 +5,7 @@
 from django.conf import settings
 from django.urls import reverse
 
-from core.models import WebinarAggregate
+from core.models import BlogPost, WebinarAggregate
 
 
 def get_blogpost_advert_img_tag(aggregate: WebinarAggregate):

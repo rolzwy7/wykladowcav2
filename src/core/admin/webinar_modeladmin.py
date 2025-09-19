@@ -134,7 +134,7 @@ class WebinarModelAdmin(SimpleHistoryAdmin):
             },
         ),
         (
-            "Program szkolenia",
+            "Content",
             {
                 "fields": ["program_assets", "program"],
             },

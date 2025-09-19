@@ -14,7 +14,13 @@ from django.urls import reverse
 from django.utils.timezone import now, timedelta
 from markdown import markdown
 
-from core.models import Lecturer, ServiceOffer, Webinar, WebinarCategory
+from core.models import (
+    Lecturer,
+    ServiceOffer,
+    Webinar,
+    WebinarAggregate,
+    WebinarCategory,
+)
 from core.services.webinar import WebinarService
 
 BASE_URL = settings.BASE_URL
@@ -131,15 +137,14 @@ def global_mailing_template_page(request):
         "fb_btn_url": request.GET.get("fb_btn_url"),
     }
 
-    template_name = "mailing_templates/GlobalMailingTemplate.html"
-    all_webinars = []
-    category_webinars = []
-    lecturer_webinars = []
+    all_aggregates = []
+    category_aggregates = []
+    lecturer_aggregates = []
     subcategories_pairs = []
     main_webinar = None
     related_webinars = []
     lecturer = None
-    webinars_map = {}
+    aggregates_map = {}
     cta_href = ""
     cta_text = ""
     program = ""
@@ -187,44 +192,44 @@ def global_mailing_template_page(request):
 
     # Category webinars
     category_slug = request.GET.get("category_slug")
+
     if category_slug:
-        if category_slug == "wszystkie-szkolenia":
-            subcategories = WebinarCategory.manager.get_visible_categories()
-        else:
-            main_category = get_object_or_404(WebinarCategory, slug=category_slug)
-            subcategories = WebinarCategory.manager.get_subcategories(main_category)
-        all_slugs = [category_slug, *[_.slug for _ in subcategories]]
-        # Get all webinars for main category and subcatagories
-        category_webinars = Webinar.manager.get_active_webinars_for_category_slugs(
-            all_slugs
-        ).filter(Q(is_hidden=False))
+        main_category = get_object_or_404(WebinarCategory, slug=category_slug)
+        subcategories = WebinarCategory.manager.get_subcategories(main_category)
+        category_aggregates = (
+            WebinarAggregate.manager.get_active_aggregates_for_category_slugs(
+                [category_slug, *[_.slug for _ in subcategories]]
+            ).filter(has_active_webinars=True)
+        )
         subcategories_pairs = split_pairs(subcategories)
 
     # Lecturer webinars
     lecturer_slug = request.GET.get("lecturer_slug")
     if lecturer_slug:
         lecturer = Lecturer.manager.get(slug=lecturer_slug)
-        lecturer_webinars = Webinar.manager.get_active_webinars_for_lecturer(
-            lecturer.id
+        lecturer_aggregates = WebinarAggregate.manager.get_active_aggregates().filter(
+            Q(lecturer=lecturer) & Q(has_active_webinars=True)
         )
 
-    for webinar in category_webinars:
-        if webinar not in all_webinars:
-            all_webinars.append(webinar)
+    for aggregate in category_aggregates:
+        if aggregate not in all_aggregates:
+            all_aggregates.append(aggregate)
 
-    for webinar in lecturer_webinars:
-        if webinar not in all_webinars:
-            all_webinars.append(webinar)
+    for aggregate in lecturer_aggregates:
+        if aggregate not in all_aggregates:
+            all_aggregates.append(aggregate)
 
     # Create keys for durations
-    for _ in all_webinars:
-        webinars_map[_.get_duration_display()] = []  # type: ignore
-    # Fill duration lists with webinars
-    for _ in all_webinars:
-        webinars_map[_.get_duration_display()].append(_)  # type: ignore
+    for aggregate in all_aggregates:
+
+        if aggregates_map.get(aggregate.duration) is None:
+            aggregates_map[aggregate.duration] = []  # type: ignore
+
+        aggregates_map[aggregate.duration].append(aggregate)
+
     # Make webinar pairs
-    for key, value in webinars_map.items():
-        webinars_map[key] = split_pairs(value)
+    for key, value in aggregates_map.items():
+        aggregates_map[key] = split_pairs(value)
 
     td_classes = [
         "border-collapse:collapse;",
@@ -236,12 +241,12 @@ def global_mailing_template_page(request):
 
     return TemplateResponse(
         request,
-        template_name,
+        "mailing_templates/GlobalMailingTemplate.html",
         {
             "main_webinar": main_webinar,
             "related_webinars": related_webinars,
             "lecturer": lecturer,
-            "webinars_map": webinars_map,
+            "aggregates_map": aggregates_map,
             "subcategories_pairs": subcategories_pairs,
             "BASE_URL": BASE_URL,
             "td_classes": "".join(td_classes),

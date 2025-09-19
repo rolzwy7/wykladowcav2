@@ -10,7 +10,7 @@ from django.contrib import sitemaps
 from django.contrib.sitemaps.views import sitemap
 from django.urls import path, reverse
 
-from core.models import Lecturer, Webinar, WebinarAggregate, WebinarCategory
+from core.models import BlogPost, Lecturer, Webinar, WebinarAggregate, WebinarCategory
 
 
 class HighPrioritySitemap(sitemaps.Sitemap):
@@ -101,12 +101,28 @@ class CategorySitemap(sitemaps.Sitemap):
         return item.updated_at
 
 
+class BlogArticleSitemap(sitemaps.Sitemap):
+    priority = 0.5
+    changefreq = "weekly"
+
+    def items(self):
+        """Items"""
+        return BlogPost.manager.published()
+
+    def location(self, item: BlogPost):
+        return reverse("core:blog_article_page", kwargs={"slug": item.slug})
+
+    def lastmod(self, item: BlogPost):
+        return item.updated_at
+
+
 sitemaps = {
     "homepage": HighPrioritySitemap,
     "aggregate": WebinarAggregateSitemap,
     # "webinar": WebinarSitemap,
     "lecturer": LecturerSitemap,
     "category": CategorySitemap,
+    "blog_article": BlogArticleSitemap,
     "low_priority": LowPrioritySitemap,
 }
 

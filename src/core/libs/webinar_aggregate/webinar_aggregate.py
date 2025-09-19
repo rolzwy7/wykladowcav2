@@ -102,14 +102,24 @@ def aggregate_add_category(aggregate: WebinarAggregate, category: WebinarCategor
 
 def aggregate_refresh_categories(aggregate: WebinarAggregate):
     """aggregate_refresh_categories"""
-    # Clear categories
-    aggregate.categories.clear()
-    # Re-add categories from webinars
+
+    # # Clear categories
+    # aggregate.categories.clear()
+    # # Re-add categories from webinars
+    # for _webinar in aggregate.webinars.all():
+    #     webinar: Webinar = _webinar
+    #     for _category in webinar.categories.all():
+    #         category: WebinarCategory = _category
+    #         aggregate.categories.add(category)
+
     for _webinar in aggregate.webinars.all():
         webinar: Webinar = _webinar
-        for _category in webinar.categories.all():
+        # Dla wyczyść kategorie w terminach agregatu
+        webinar.categories.clear()
+        # Dołącz kategorie agregatu w terminach
+        for _category in aggregate.categories.all():
             category: WebinarCategory = _category
-            aggregate.categories.add(category)
+            webinar.categories.add(category)
 
 
 def aggregate_sync_active_webinars(aggregate: WebinarAggregate):

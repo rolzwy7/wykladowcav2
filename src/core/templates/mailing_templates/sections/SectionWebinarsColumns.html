@@ -1,4 +1,4 @@
-{% for duration, webinar_pairs in webinars_map.items %}
+{% for duration, aggregate_pairs in aggregates_map.items %}
 
 <tr>
    <td colspan="2">
@@ -8,31 +8,35 @@
    </td>
 </tr>
 
-{% for webinar_pair in webinar_pairs %}
+{% for aggregate_pair in aggregate_pairs %}
 <tr>
-   {% for webinar in webinar_pair %}
+   {% for aggregate in aggregate_pair %}
    <td width="50%" style="padding:10px;vertical-align: top;">
       <p style="font-size: 13px;margin-bottom: 1em;font-weight:bold;color:#1e293b;text-align:center;">
-         <strong>{{webinar.title}}</strong>
+         <strong>{{aggregate.title}}</strong>
       </p>
-      <p style="font-size: 12px;margin-bottom: 0;text-align:center;">
-         {{webinar.date|date:"j E"}} godzina {{webinar.date|date:"H:i"}}
-      </p>
-      {% if not webinar.is_lecturer_anonymized %}
-      <p style="font-size: 12px;margin: 0 0 1em 0;font-weight:bold;text-align:center;">
-         <strong>Wykładowca: {{webinar.lecturer}}</strong>
+      {% for webinar in aggregate.webinars.all %}
+      {% if webinar.is_active %}
+      <p style="font-size: 12px;margin: 0;text-align:center;">
+         {{webinar.date|date:"j E Y"}}, godzina {{webinar.date|date:"H:i"}}
       </p>
       {% endif %}
-      {% if webinar.program_short %}
+      {% endfor %}
+      {% if not aggregate.is_anonymized %}
+      <p style="font-size: 12px;margin: 1em 0 1em 0;font-weight:bold;text-align:center;">
+         <strong>Wykładowca: {{aggregate.lecturer}}</strong>
+      </p>
+      {% endif %}
+      {% if aggregate.program_short %}
       <div style="font-size: 10px;">
          <ol style='text-align: left;padding-left: 20px;'>
             <p class="margin-bottom:0;">Między innymi:</p>
-            {{webinar.program_short|safe}}
+            {{aggregate.program_short|safe}}
          </ol>
       </div>
       {% endif %}
       <div style="text-align:center;margin-top:20px;">
-         <a href="{{BASE_URL}}{% url "core:webinar_redirect_to_program_safe" pk=webinar.pk %}{TRACKING_CODE}/{CAMPAIGN_ID}/" style="margin-bottom:0.5em; background-color:#754ffe; font-weight:bold; text-decoration: none; padding: .5em 2em; color: #FCFDFF; display:inline-block; border-radius:.4em; mso-padding-alt:0;text-underline-color:#005959"><!--[if mso]><i style="mso-font-width:200%;mso-text-raise:100%" hidden>&emsp;</i>
+         <a href="{{BASE_URL}}{% url "core:webinar_aggregate_page" slug=aggregate.slug %}" style="margin-bottom:0.5em; background-color:#754ffe; font-weight:bold; text-decoration: none; padding: .5em 2em; color: #FCFDFF; display:inline-block; border-radius:.4em; mso-padding-alt:0;text-underline-color:#005959"><!--[if mso]><i style="mso-font-width:200%;mso-text-raise:100%" hidden>&emsp;</i>
          <span style="mso-text-raise:50%;">
             <![endif]-->Sprawdź program<!--[if mso]>
          </span>

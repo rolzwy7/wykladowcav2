@@ -1,0 +1,168 @@
+{% extends 'geeks/extends/foundation.html' %}
+{% load static %}
+
+{% block head_stylesheets %}{% endblock head_stylesheets %}
+
+{% block meta %}
+    <meta name="keywords" content="{{ article.meta_keywords }}">
+    <meta name="description" content="{{ article.meta_description }}">
+{% endblock meta %}
+
+{% block title %}
+    <title>{{article.meta_title}}</title>
+{% endblock title %}
+
+
+{% block body_tag %}
+<body>
+{% endblock body_tag %}
+
+{% block root %}
+
+<main>
+   <!-- Page header -->
+   <section class="py-7">
+      <div class="container">
+         <div class="row">
+            <div class="offset-xl-2 col-xl-8 offset-lg-1 col-lg-10 col-md-12 col-12">
+               <div class="text-center mb-5">
+                  <h1 class="display-2 fw-bold">{{category}}</h1>
+                  <p class="lead">
+                    xxx
+                  </p>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   <!-- Content -->
+   <section class="pb-8">
+      <div class="container mb-lg-8">
+         <div class="row">
+            <div class="col-lg-8 col-md-7 col-12">
+               <div class="row">
+                  {% for article in articles %}
+                    {% include "./components/BlogCard.html" with article=article %}
+                  {% endfor %}
+               </div>
+            </div>
+            <div class="col-lg-4 col-md-5 col-12 mt-6 mt-md-0">
+               <!-- search -->
+               <div class="mb-4">
+                  <div class="mb-3 position-relative">
+                     <label class="form-label visually-hidden" for="blogSidebarEmail">Email Address</label>
+                     <input type="search" class="form-control" id="blogSidebarEmail" name="blogSidebarEmail" placeholder="Search...">
+                     <span class="position-absolute end-0 top-0 mt-2 me-3"><i class="bi bi-search fs-5"></i></span>
+                  </div>
+               </div>
+               <!-- card -->
+               <div class="card mb-4 border">
+                  <!-- card body -->
+                  <div class="card-body p-4">
+                     <h3>Recent Posts</h3>
+                     <div class="mt-3">
+                        <!-- list -->
+                        <ul class="list-unstyled mb-0">
+                           <li class="mb-3">
+                              <h4 class="lh-lg"><a href="#" class="text-inherit">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a></h4>
+                           </li>
+                           <li class="mb-3">
+                              <h4 class="lh-lg"><a href="#" class="text-inherit">Duis placerat mi quis purus feugiat, at bibendum arcu dignissim.</a></h4>
+                           </li>
+                           <li class="mb-3">
+                              <h4 class="lh-lg"><a href="#" class="text-inherit">Morbi sit amet metus nec elit hendrerit luctus.</a></h4>
+                           </li>
+                           <li>
+                              <h4 class="lh-lg"><a href="#" class="text-inherit">Vivamus ac sapien ultricies dolor ullamcorper porttitor.</a></h4>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+               <!-- card -->
+               <div class="card mb-4 border">
+                  <!-- card body -->
+                  <div class="card-body p-4">
+                     <h3>Categories</h3>
+                     <div class="mt-3">
+                        <!-- list -->
+                        <ul class="list-unstyled mb-0 nav nav-x-0 flex-column">
+                           <li class="lh-lg mb-1">
+                              <i class="fe fe-arrow-right"></i>
+                              <a href="#" class="text-link d-inline">Business</a>
+                           </li>
+                           <li class="lh-lg mb-1">
+                              <i class="fe fe-arrow-right"></i>
+                              <a href="#" class="text-link d-inline">Marketing</a>
+                           </li>
+                           <li class="lh-lg mb-1">
+                              <i class="fe fe-arrow-right"></i>
+                              <a href="#" class="text-link d-inline">Courses</a>
+                           </li>
+                           <li class="lh-lg mb-1">
+                              <i class="fe fe-arrow-right"></i>
+                              <a href="#" class="text-link d-inline">Dashboard</a>
+                           </li>
+                           <li class="lh-lg mb-1">
+                              <i class="fe fe-arrow-right"></i>
+                              <a href="#" class="text-link d-inline">Landings</a>
+                           </li>
+                           <li class="lh-lg mb-1">
+                              <i class="fe fe-arrow-right"></i>
+                              <a href="#" class="text-link d-inline">E-commerce</a>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+               <!-- card -->
+               <div class="card mb-4 border">
+                  <!-- card body -->
+                  <div class="card-body p-4">
+                     <h3>Archive</h3>
+                     <div class="mt-3">
+                        <!-- list -->
+                        <ul class="list-unstyled mb-0 nav nav-x-0 flex-column">
+                           <li class="lh-lg mb-1">
+                              <i class="fe fe-arrow-right"></i>
+                              <a href="#" class="text-link d-inline">March 2021</a>
+                           </li>
+                           <li class="lh-lg mb-1">
+                              <i class="fe fe-arrow-right"></i>
+                              <a href="#" class="text-link d-inline">February 2021</a>
+                           </li>
+                           <li class="lh-lg mb-1">
+                              <i class="fe fe-arrow-right"></i>
+                              <a href="#" class="text-link d-inline">January 2021</a>
+                           </li>
+                           <li class="lh-lg mb-1">
+                              <i class="fe fe-arrow-right"></i>
+                              <a href="#" class="text-link d-inline">December 2020</a>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+               <!-- card -->
+               <div class="card mb-4 border">
+                  <!-- card body -->
+                  <div class="card-body p-4">
+                     <h3>Tags</h3>
+                     <div class="mt-3">
+                        <a href="#" class="btn btn-light btn-xs mb-2">business</a>
+                        <a href="#" class="btn btn-light btn-xs mb-2">e-commerce</a>
+                        <a href="#" class="btn btn-light btn-xs mb-2">course</a>
+                        <a href="#" class="btn btn-light btn-xs mb-2">dashboard</a>
+                        <a href="#" class="btn btn-light btn-xs mb-2">landings</a>
+                        <a href="#" class="btn btn-light btn-xs mb-2">marketing</a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+</main>
+
+{% endblock root %}
+

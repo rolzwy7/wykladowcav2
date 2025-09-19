@@ -8,6 +8,7 @@ from django.contrib.admin import ModelAdmin, register
 from core.models import (
     AdvertPopup,
     AdvertPopupClick,
+    BlogView,
     CategoryTrustedUs,
     ClosedWebinarContactMessage,
     ConferenceChat,
@@ -54,6 +55,8 @@ from core.models import (
 )
 
 admin.site.register(ConferenceChat)
+
+admin.site.register(BlogView)
 
 
 @register(ConferenceChatMessage)

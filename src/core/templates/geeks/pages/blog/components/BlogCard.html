@@ -1,0 +1,62 @@
+{% load static %}
+
+<div class="col-lg-6 col-md-12 col-12">
+    <!-- Card -->
+    <div
+        class="card mb-4 shadow-lg card-lift"
+        style="cursor: pointer;"
+        onclick="window.location.href='{% url "core:blog_article_page" slug=article.slug %}'"
+    >
+    <a href="{% url "core:blog_article_page" slug=article.slug %}">
+        <!-- Img  -->
+        <img src="{% get_media_prefix %}{{article.cover_image}}" class="card-img-top" alt="blogpost">
+    </a>
+    <!-- Card body -->
+    <div class="card-body">
+        <h3>
+            <a href="{% url "core:blog_article_page" slug=article.slug %}" class="text-inherit">
+                {{article.title}}
+            </a>
+        </h3>
+        <p>
+            {{article.excerpt}}
+        </p>
+        <!-- Media content -->
+        
+        {% if article.lecturer %}
+        <div class="row align-items-center g-0 mt-4">
+            <div class="col-auto">
+                <img src="../assets/images/avatar/avatar-7.jpg" alt="avatar" class="rounded-circle avatar-sm me-2">
+            </div>
+            <div class="col lh-1">
+                <h5 class="mb-1">{{article.author}}</h5>
+                <p class="fs-6 mb-0">September 05, 2020</p>
+            </div>
+            <div class="col-auto">
+                <p class="fs-6 mb-0">20 Min Read</p>
+            </div>
+        </div>
+        {% else %}
+        <div class="row align-items-center g-0 mt-4">
+            <div class="col lh-1">
+                <h5 class="mb-1">
+                    {% if article.author_url %}
+                    <a href="{{article.author_url}}">
+                        {{article.author}}
+                    </a>
+                    {% else %}
+                    {{article.author}}
+                    {% endif %}
+                </h5>
+                <p class="fs-6 mb-0">{{article.published_at|date:"j E Y"}}</p>
+            </div>
+            <div class="col-auto">
+                <p class="fs-6 mb-0">{{article.reading_time}}</p>
+            </div>
+        </div>
+        {% endif %}
+
+
+    </div>
+    </div>
+</div>

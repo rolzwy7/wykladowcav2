@@ -2,6 +2,8 @@
 
 # flake8: noqa=E501
 
+from django.conf import settings
+from django.urls import reverse
 from rest_framework import status
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer
@@ -30,4 +32,9 @@ def conference_watch_url(request, uuid: str):
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
 
-    return Response({"watch_url": edition.stream_url_page})
+    watch_url = f"{settings.BASE_URL}" + reverse(
+        "core:conference_waiting_room_page",
+        kwargs={"watch_token": participant.watch_token},
+    )
+
+    return Response({"watch_url": watch_url})

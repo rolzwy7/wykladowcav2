@@ -7,7 +7,7 @@ from .blacklist import (
     BlacklistedPhrase,
     BlacklistedPrefix,
 )
-from .blog_model import BlogPost
+from .blog_model import BlogPost, BlogView
 from .category_trusted_us_model import CategoryTrustedUs
 from .closed_webinar_contact_model import ClosedWebinarContactMessage
 from .conference import (

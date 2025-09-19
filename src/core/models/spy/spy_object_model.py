@@ -33,6 +33,7 @@ class SpyObject(Model):
         ("WEBINAR_APPLICATION", "Formularz: Zgłoszenie webinar"),
         ("ADVERT_POPUP_CLICK", "Advert popup"),
         ("CLOSED_WEBINAR_CONTACT_FORM", "Szkolenie zamknięte: formularz kontaktowy"),
+        ("BLOG_ARTICLE_VIEW", "Blog: Wyświetlono artykuł"),
     ]
 
     source = CharField(
