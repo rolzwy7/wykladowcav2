@@ -44,7 +44,8 @@ def load_emails_into_campaign(emails: list[str], mailing_campaign: MailingCampai
                     email=email,
                     status=MailingPoolStatus.BEING_PROCESSED,
                     priority=priority,
-                    bucket_id=randint(0, settings.MAILING_NUM_OF_PROCESSES - 1),
+                    bucket_id=mailing_campaign.smtp_sender.bucket_id,
+                    # bucket_id=randint(0, settings.MAILING_NUM_OF_PROCESSES - 1),
                     # bucket_id=self.mailing_campaign.smtp_sender.bucket_id,
                 )
             )
