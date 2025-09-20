@@ -146,7 +146,76 @@ admin.site.register(ContactMessage)
 admin.site.register(CategoryTrustedUs)
 
 admin.site.register(MailingTemplate)
-admin.site.register(SmtpSender)
+
+
+@register(SmtpSender)
+class SmtpSenderModelAdmin(ModelAdmin):
+    """SmtpSender ModelAdmin."""
+
+    list_display = (
+        "username",
+        "bucket_id",
+        "sender_alias",
+        "ssl",
+        "exclude_from_processing",
+        "monitor_rbl",
+        "talos_ip_reputation",
+    )
+    list_filter = (
+        "ssl",
+        "show_on_crm_panel",
+        "exclude_from_processing",
+        "monitor_rbl",
+        "talos_ip_reputation",
+    )
+    search_fields = ("sender_alias", "username", "domain", "ip_address")
+    readonly_fields = ("talos_ip_reputation_checked_at",)
+    fieldsets = (
+        (
+            None,
+            {
+                "fields": (
+                    "sender_alias",
+                    "username",
+                    "password",
+                    "reply_to",
+                    "domain",
+                )
+            },
+        ),
+        (
+            "Incoming Server",
+            {"fields": ("incoming_server_hostname", "incoming_server_port")},
+        ),
+        (
+            "Outgoing Server",
+            {"fields": ("outgoing_server_hostname", "outgoing_server_port")},
+        ),
+        (
+            "Configuration",
+            {
+                "fields": (
+                    "ssl",
+                    "exclude_from_processing",
+                    "bucket_id",
+                    "show_on_crm_panel",
+                    "ip_address",
+                )
+            },
+        ),
+        (
+            "Monitoring",
+            {
+                "fields": (
+                    "monitor_rbl",
+                    "talos_ip_reputation",
+                    "talos_ip_reputation_checked_at",
+                )
+            },
+        ),
+    )
+
+
 admin.site.register(MailingCampaign)
 
 admin.site.register(LoyaltyProgram)
