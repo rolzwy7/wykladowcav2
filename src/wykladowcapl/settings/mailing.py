@@ -1,3 +1,3 @@
 """Mailing settings"""
 
-MAILING_NUM_OF_PROCESSES = 4
+MAILING_NUM_OF_PROCESSES = 6
