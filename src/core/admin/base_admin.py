@@ -155,7 +155,7 @@ class SmtpSenderModelAdmin(ModelAdmin):
     list_display = (
         "username",
         "bucket_id",
-        "sender_alias",
+        "ip_address",
         "ssl",
         "exclude_from_processing",
         "monitor_rbl",
