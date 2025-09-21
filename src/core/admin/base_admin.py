@@ -200,6 +200,7 @@ class SmtpSenderModelAdmin(ModelAdmin):
                     "bucket_id",
                     "show_on_crm_panel",
                     "ip_address",
+                    "base_url_override",
                 )
             },
         ),
