@@ -125,6 +125,13 @@ class MailingCampaign(Model):
         "SmtpSender", on_delete=CASCADE, verbose_name="Konto wysyłkowe"
     )
 
+    base_url_override = CharField(
+        "Nadpisz base url",
+        max_length=128,
+        blank=True,
+        help_text="Jeśli base url inny niż https://wykladowca.pl",
+    )
+
     STATUS = (
         (MailingCampaignStatus.PAUSED, "Zatrzymano"),
         (MailingCampaignStatus.SENDING, "Wysyłanie"),
@@ -222,6 +229,8 @@ class MailingCampaign(Model):
         return f"{self.title}"
 
     def save(self, *args, **kwargs):
+        if not self.base_url_override:
+            self.base_url_override = self.smtp_sender.base_url_override  # type: ignore
         if not self.sent_start_at:
             self.sent_start_at = now() + timedelta(days=1)
         super().save(*args, **kwargs)

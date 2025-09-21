@@ -5,10 +5,11 @@
 from poplib import POP3_SSL, error_proto
 from typing import Iterable, Optional
 
+from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.core.mail.backends.smtp import EmailBackend
 
-from core.models.mailing import SmtpSender
+from core.models.mailing import MailingCampaign, SmtpSender
 
 
 class SenderSmtpService:
@@ -65,6 +66,7 @@ class SenderSmtpService:
         html: str,
         text: str,
         resignation_url: str,
+        resignation_path: str,
         tracking_code: str,
         campaign_id: int,
         cc=None,
@@ -80,6 +82,24 @@ class SenderSmtpService:
         list_unsubscribe = f"<mailto:{from_email}?subject=Rezygnacja {email}>"
         reply_to = self.smtp_sender.reply_to
 
+        # Resolve base url for template
+        base_url = settings.BASE_URL
+        if campaign_id != 0:
+            camp_qs = MailingCampaign.manager.filter(id=campaign_id)
+            if camp_qs.exists():
+                campaign: MailingCampaign = camp_qs.first()  # type: ignore
+                if campaign.base_url_override:
+                    base_url = campaign.base_url_override
+                    html_content = html_content.replace(
+                        settings.BASE_URL, campaign.base_url_override
+                    )
+                    text_content = text_content.replace(
+                        settings.BASE_URL, campaign.base_url_override
+                    )
+
+        html_content = html_content.replace("{DOMAIN}", base_url)
+        text_content = text_content.replace("{DOMAIN}", base_url)
+
         html_content = html_content.replace("{ODBIORCA#ADRES}", "{TO_EMAIL}")
         text_content = text_content.replace("{ODBIORCA#ADRES}", "{TO_EMAIL}")
 
@@ -91,6 +111,9 @@ class SenderSmtpService:
 
         html_content = html_content.replace("{RESIGNATION_URL}", resignation_url)
         text_content = text_content.replace("{RESIGNATION_URL}", resignation_url)
+
+        html_content = html_content.replace("{RESIGNATION_PATH}", resignation_path)
+        text_content = text_content.replace("{RESIGNATION_PATH}", resignation_path)
 
         html_content = html_content.replace("{TRACKING_CODE}", tracking_code)
         text_content = text_content.replace("{TRACKING_CODE}", tracking_code)

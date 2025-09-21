@@ -58,6 +58,7 @@ def send_webinar_queue_notification_email(
         html=html,
         text=text,
         resignation_url="",
+        resignation_path="",
         tracking_code="",
         campaign_id=0,
         cc=[settings.COMPANY_OFFICE_EMAIL],

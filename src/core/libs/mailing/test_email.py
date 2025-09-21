@@ -24,13 +24,14 @@ def send_campaign_test_email(email: str, mailing_campaign: MailingCampaign):
     resignation_code = MailingResignationService.get_or_create_inactive_resignation(
         email, mailing_campaign.resignation_list
     )
-    resignation_url = BASE_URL + reverse(
+    resignation_path = reverse(
         "core:mailing_resignation_page_with_list",
         kwargs={
             "resignation_code": resignation_code,
             "resignation_list": mailing_campaign.resignation_list,
         },
     )
+    resignation_url = BASE_URL + resignation_path
     tracking_code = MailingTrackingService.get_or_create_tracking(email)
     subject = f"[PRÓBA] {mailing_campaign.get_random_subject()}"
 
@@ -45,6 +46,7 @@ def send_campaign_test_email(email: str, mailing_campaign: MailingCampaign):
             html=template.html,
             text=template.text,
             resignation_url=resignation_url,
+            resignation_path=resignation_path,
             tracking_code=tracking_code,
             campaign_id=campaign_id,
             test_subject_id=str(test_title.id),  # type: ignore

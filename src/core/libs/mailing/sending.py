@@ -114,13 +114,14 @@ def process_sending(
         time_get_or_create_inactive_resignation = (end_time - start_time) * 1000
 
         # Create resignation URL
-        resignation_url = BASE_URL + reverse(
+        resignation_path = reverse(
             "core:mailing_resignation_page_with_list",
             kwargs={
                 "resignation_code": resignation_code,
                 "resignation_list": campaign.resignation_list,
             },
         )
+        resignation_url = BASE_URL + resignation_path
 
         print(
             f"\n[{loop_idx} / max {limit}] Email: {email}",
@@ -145,6 +146,7 @@ def process_sending(
                 html=html_content,
                 text=text_content,
                 resignation_url=resignation_url,
+                resignation_path=resignation_path,
                 tracking_code=tracking_code,
                 campaign_id=campaign_id,
                 test_subject_id=str(test_title.id),  # type: ignore

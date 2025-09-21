@@ -69,6 +69,13 @@ class SmtpSender(Model):
 
     monitor_rbl = BooleanField("Monitoruj listę RBL", default=True)
 
+    base_url_override = CharField(
+        "Nadpisz base url",
+        max_length=128,
+        blank=True,
+        help_text="Jeśli base url inny niż https://wykladowca.pl",
+    )
+
     TALOS_IP_REPUTATION_CHOICES = [
         ("POOR", "Poor"),
         ("NEUTRAL", "Neutral"),
