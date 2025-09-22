@@ -84,13 +84,17 @@ class Command(BaseCommand):
                 handle_too_much_failures(campaign_id, campaign.title)
             # If everything OK try to send emails batch
             else:
-                process_sending(
+                result = process_sending(
                     pool_manager,
                     campaign_id,
                     bucket_id,
                     limit=campaign.sending_batch_size,
                 )
-                time.sleep(campaign.sleep_between_batches)
+                if result == "no_items_in_pool_for_given_bucket":
+                    print("[*] Skipping wait: campaign.sleep_between_batches")
+                    continue
+                else:
+                    time.sleep(campaign.sleep_between_batches)
 
     def handle(self, *args, **options):
         """handle"""

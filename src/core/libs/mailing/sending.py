@@ -68,7 +68,7 @@ def process_sending(
 
     if len(documents) == 0:
         print(f"[*] No items in pool for bucket_id={bucket_id} -> exiting")
-        return 0
+        return "no_items_in_pool_for_given_bucket"
 
     # Open SMTP connection to sender
     print("[+] Opened SMTP connection")
