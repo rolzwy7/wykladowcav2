@@ -271,16 +271,9 @@
               <tbody>
 
                 {% for pack in tuple_list %}
-                {% with campaign=pack.0 %}
-                {% with metadata=pack.1 %}
-
-                <tr style="background-color:{% cycle '#e6e6e6' '#ffffff' %};">
-                  {% include "./snippets/MailingTr.html" %}
-                </tr>
-
-
-                {% endwith %}
-                {% endwith %}
+                  <tr style="background-color:{% cycle '#e6e6e6' '#ffffff' %};">
+                    {% include "./snippets/MailingTr.html" with campaign=pack.0 metadata=pack.1 %}
+                  </tr>
                 {% endfor %}
 
               </tbody>

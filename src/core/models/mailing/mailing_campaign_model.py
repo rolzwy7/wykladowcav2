@@ -27,6 +27,7 @@ from django.db.models import (
 from django.template.defaultfilters import date as _date
 from django.utils.timezone import now, timedelta
 
+from core.libs.mailing.calculations import total_sending_time
 from core.models.enums import MailingCampaignStatus
 
 
@@ -310,4 +311,16 @@ class MailingCampaign(Model):
         """created_at_plus_one_day"""
         return self.created_at + timedelta(days=1)
 
-    # def is_day_before
+    @property
+    def sending_eta_1k_minutes(self):
+        """sending_eta_1k_minutes"""
+        return round(
+            total_sending_time(
+                1_000,
+                self.sending_batch_size,
+                self.sleep_every_send,
+                self.sleep_between_batches,
+            )
+            / 60,
+            2,
+        )

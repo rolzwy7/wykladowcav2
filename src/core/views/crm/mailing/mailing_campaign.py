@@ -105,6 +105,14 @@ def crm_mailing_campaign_list(request):
             )
         cache.set(cache_key, monitored_senders_list, 60 * 5)  # 5 minutes cache
 
+    # # Sending speed
+    # cache_key = "sending_speed_cache"
+    # sending_speed_map = cache.get(cache_key)
+    # if sending_speed_map is None:
+
+    #     service = MailingCampaignService()
+    #     service.get_email_count_for_campaign(self.id)
+
     return TemplateResponse(
         request,
         "core/pages/crm/mailing/MailingCampaignListPage.html",

@@ -17,7 +17,7 @@ from core.models.enums import MailingCampaignStatus
 
 def create_mailing_campaign(request):
     """create_mailing_campaign"""
-    template_name = "core/pages/crm/mailing/MailingCreate.html"
+
     smtp_senders = SmtpSender.objects.all()  # pylint: disable=no-member
 
     form_data = {
@@ -122,6 +122,6 @@ def create_mailing_campaign(request):
 
     return TemplateResponse(
         request,
-        template_name,
+        "core/pages/crm/mailing/MailingCreate.html",
         {"webinar": webinar, "smtp_senders": smtp_senders, **form_data},
     )

@@ -1,85 +1,110 @@
 
     <td>
-      <b>[ ID={{campaign.id}} ] [ MOD={{campaign.mod_value}} ]</b>
+      <b>[ ID = {{campaign.id}} ]</b>
       <b
         class="text-{{campaign.status_color}}"
       >
         ( {{campaign.get_status_display}} )
       </b>
-      <b>( {{campaign.alias}} )</b>
+      <b>( Alias: {{campaign.alias}} )</b>
       <a href="{% url 'core:crm_mailing_campaign_detail' pk=campaign.pk %}">
         <b>{{campaign}}</b>
       </a>
       <br>
 
-      <small>Rezyg.: <i class="text-info fw-bold">{{campaign.resignation_list}}</i></small>
+      <small>Lista rezygnacji:
+        {% if campaign.resignation_list == "default" %}
+          <i class="text-info fw-bold px-2 fs-5 me-2">
+        {% else %}
+          <i class="bg-warning fw-bold px-2 fs-5 me-2">
+        {% endif %}
+            <b>{{campaign.resignation_list}}</b>
+          </i>
+      </small>
       /
       <a href="{% url 'admin:core_mailingcampaign_change' object_id=campaign.id %}">
-        <small>cms</small>
+        <small>CMS</small>
       </a>
       /
       {% if campaign.template %}
       <a href="{% url 'admin:core_mailingtemplate_change' object_id=campaign.template.id %}">
-        <small>szablon cms</small>
+        <small>Szablon CMS</small>
       </a>
       /
       {% endif %}
       <a href="{% url 'core:crm_mailing_campaign_preview_html' pk=campaign.pk %}">
-        <small>html preview</small>
+        <small>HTML Preview</small>
       </a>
       /
       <a href="{% url 'core:crm_mailing_campaign_preview_text' pk=campaign.pk %}">
-        <small>text preview</small>
+        <small>TEXT preview</small>
       </a>
       <br>
+      <br>
+      <b><u>Konto wysyłkowe:</u></b>
+      {% url 'admin:core_smtpsender_change' object_id=campaign.smtp_sender.id as link %}
+      {% include "include/crm/EditWithCmsButton.html" with link=link %}
+      
+      <br>
       {% if campaign.smtp_sender.exclude_from_processing %}
-        <small class="text-danger">{{campaign.smtp_sender}}</small>
-        {% else %}
-        <small>{{campaign.smtp_sender}}</small>
-        
-        <span class="badge badge-dark">
-          {{campaign.smtp_sender.sender_alias}}
-        </span>
+        <small class="text-danger"><b>{{campaign.smtp_sender}}</b> <b>(excluded from mailing processing)</b></small>
+      {% else %}
+        <small><b>{{campaign.smtp_sender}}</b></small>  
       {% endif %}
-      <br>
-      {% if campaign.webinar %}
-      {% with webinar=campaign.webinar %}
-      <small><b class="text-primary">
-        Powiązane szkolenie
-      </b></small>
-      <small>
-        {% url "core:crm_webinar_detail_dashboard" pk=webinar.pk as link %}
-        {% include "include/crm/EditWithCrmButton.html" with link=link %}
-        {% url 'admin:core_webinar_change' object_id=webinar.id as link %}
-        {% include "include/crm/EditWithCmsButton.html" with link=link %}
-        {% url 'core:webinar_program_page' slug=webinar.slug as link %}
-        {% include "include/crm/ShowOnPageButton.html" with link=link %}
-      </small>
-      <br>
-      <small>( {{webinar.lecturer}} )</small>
-      <small>[ ID={{webinar.id}} ]</small>
-      <small>
-        <b>{{webinar.title}} - {{webinar.date|date:"j E Y"}} godz. {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}</b>
-      </small>
-      <br>
-      <small>
-        {% if campaign.pause_on_too_many_failures %}
-        <span>
-          Pauza przy zbyt wielu ( 1 000 ) błędach <b>włączona</b>
+      
+      <span class="badge badge-dark">
+        {{campaign.smtp_sender.sender_alias}}
+      </span>
+
+      {% if campaign.base_url_override %}
+        <br>
+        <span class="bg-warning px-2">
+          BASE URL OVERRIDE: <b>{{campaign.base_url_override}}</b>
         </span>
-        {% else %}
-        <span class="fw-bold">
-          Pauza przy zbyt wielu błędach wyłączona
-        </span>
-        {% endif %}
-      </small>
-      <br>
-      <small>
-        Pauza <b>{{campaign.sleep_between_batches}}</b> sekund co <b>{{campaign.sending_batch_size}}</b> wysłań
-      </small>
-      {% endwith %}
       {% endif %}
 
+      <br>
+      
+      {% if campaign.webinar %}
+        <br>
+        {% with webinar=campaign.webinar %}
+        <b><u>Powiązane szkolenie:</u></b>
+        <small>
+          {% url "core:crm_webinar_detail_dashboard" pk=webinar.pk as link %}
+          {% include "include/crm/EditWithCrmButton.html" with link=link %}
+          {% url 'admin:core_webinar_change' object_id=webinar.id as link %}
+          {% include "include/crm/EditWithCmsButton.html" with link=link %}
+          {% url 'core:webinar_program_page' slug=webinar.slug as link %}
+          {% include "include/crm/ShowOnPageButton.html" with link=link %}
+        </small>
+        <br>
+        <small>[ webinar.id = {{webinar.id}} ]</small>
+        <small>( {{webinar.lecturer}} ) | <b><u>{{webinar.date|date:"j E Y"}}</u></b> godz. {{webinar.date|date:"H:i"}} - {{webinar.date_end|date:"H:i"}}</small>
+        <br>
+        <small>
+          <b>{{webinar.title}}</b>
+        </small>
+        <br>
+        {% endwith %}
+      {% endif %}
+      <br>
+      <b>
+        <u>Szybkość wysyłania:</u>
+        1 000 maili na {{campaign.sending_eta_1k_minutes}} minut
+      </b>
+      <br>
+      <small>
+        <b>Ilość w paczce:</b> {{campaign.sending_batch_size}}
+      </small>
+      <br>
+      <small>
+        <b>Czekaj między paczkami:</b> {{campaign.sleep_between_batches}}s
+      </small>
+      <br>
+      <small>
+        <b>Czekaj po każdym mailu:</b> {{campaign.sleep_every_send}}s
+      </small>
+      <br>
     </td>
     <td>
       <small>Limit:

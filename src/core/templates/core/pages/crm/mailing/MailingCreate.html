@@ -65,7 +65,8 @@ Oryginalny temat szkolenia: „{{webinar.title_original}}”
 
               <div class="mb-3">
                 <label for="id-sender" class="form-label">Konto wysyłkowe</label>
-                <select id="id-sender" name="smpt_sender_id" class="form-select">
+                <select id="id-sender" name="smpt_sender_id" class="form-select" data-control="select2" data-placeholder="Wybierz konto wysyłkowe">
+                  <option></option>
                   {% for smtp_sender in smtp_senders %}
                   <option value="{{smtp_sender.id}}">{{smtp_sender}}</option>
                   {% endfor %}
