@@ -71,10 +71,14 @@
                       </tr>
                    </thead>
                    <tbody>
-                    {% for username, domain, domain_rbls, ip_address, ip_address_rbls in monitored_senders_list %}
+                    {% for monitored_sender, domain_rbls, ip_address_rbls in monitored_senders_list %}
                     <tr>
-                      <td>{{username}}</td>
-                      <td>{{domain}}</td>
+                      <td>
+                        <b>{{monitored_sender.username}}</b>
+                        <br>
+                        Bucekt id = {{monitored_sender.bucket_id}}
+                      <td>
+                      <td>{{monitored_sender.domain}}</td>
                       <td>
                         <p>Ważne listy:</p>
                         <ol>
@@ -94,7 +98,7 @@
                           {% endfor %}
                         </ol>
                       </td>
-                      <td>{{ip_address}}</td>
+                      <td>{{monitored_sender.ip_address}}</td>
                       <td>
                         <p>Ważne listy:</p>
                         <ol>

@@ -88,13 +88,11 @@ def crm_mailing_campaign_list(request):
         for monitored_sender in monitored_senders:
             monitored_senders_list.append(
                 (
-                    monitored_sender.username,
-                    monitored_sender.domain,
+                    monitored_sender,
                     [
                         MonitorRBL.manager.get_latest(monitored_sender.domain, rbl_list)
                         for rbl_list in ListRBL.manager.all()
                     ],
-                    monitored_sender.ip_address,
                     [
                         MonitorRBL.manager.get_latest(
                             monitored_sender.ip_address, rbl_list
@@ -104,14 +102,6 @@ def crm_mailing_campaign_list(request):
                 )
             )
         cache.set(cache_key, monitored_senders_list, 60 * 5)  # 5 minutes cache
-
-    # # Sending speed
-    # cache_key = "sending_speed_cache"
-    # sending_speed_map = cache.get(cache_key)
-    # if sending_speed_map is None:
-
-    #     service = MailingCampaignService()
-    #     service.get_email_count_for_campaign(self.id)
 
     return TemplateResponse(
         request,
