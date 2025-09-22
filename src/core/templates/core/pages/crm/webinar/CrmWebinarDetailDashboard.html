@@ -438,12 +438,16 @@
                                         {% endif %}
                                         <br>
                                         Kod śledzący: {{application.tracking_code}}
-                                        <div
-                                            hx-get="{% url 'htmx:tracking_mailing' tracking_code=application.tracking_code %}"
-                                            hx-trigger="intersect once delay:3s"
-                                        >
-                                            Ładowanie ...
-                                        </div>
+                                        {% if application.tracking_code %}
+                                                <div
+                                                    hx-get="{% url 'htmx:tracking_mailing' tracking_code=application.tracking_code %}"
+                                                    hx-trigger="intersect once delay:3s"
+                                                >
+                                                    Ładowanie ...
+                                                </div>
+                                        {% else %}
+                                                Tracking code is empty
+                                        {% endif %}
                                         <br>
                                         IP: {{application.metadata.ip_address}}
                                         
@@ -688,12 +692,16 @@
                             <b>{{tracking.campaign_id}}</b>
                         </td>
                         <td>
-                            <div
-                                hx-get="{% url 'htmx:tracking_mailing' tracking_code=tracking.tracking_code %}"
-                                hx-trigger="intersect once delay:3s"
-                            >
-                                Ładowanie ...
-                            </div>
+                            {% if tracking.tracking_code %}
+                                <div
+                                    hx-get="{% url 'htmx:tracking_mailing' tracking_code=tracking.tracking_code %}"
+                                    hx-trigger="intersect once delay:3s"
+                                >
+                                    Ładowanie ...
+                                </div>
+                            {% else %}
+                                Tracking code is empty
+                            {% endif %}
                         </td>
                         <td>
                             {% for application in unfinished_applications %}
