@@ -61,6 +61,9 @@ class Command(BaseCommand):
             "[*] Active campaigns (random order):",
             [_.id for _ in active_campaigns],  # type: ignore
         )
+
+        sleep_after_campaign_loop = 15
+
         for campaign in active_campaigns:
             campaign_id: int = campaign.id  # type: ignore
             print(f"\n[*] Campaign (ID={campaign_id})", campaign.title)
@@ -94,7 +97,10 @@ class Command(BaseCommand):
                     print("[*] Skipping wait: campaign.sleep_between_batches")
                     continue
                 else:
+                    sleep_after_campaign_loop = 0
                     time.sleep(campaign.sleep_between_batches)
+
+        time.sleep(sleep_after_campaign_loop)
 
     def handle(self, *args, **options):
         """handle"""
