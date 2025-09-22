@@ -51,10 +51,12 @@
       {% else %}
         <small><b>{{campaign.smtp_sender}}</b></small>  
       {% endif %}
-      
+
       <span class="badge badge-dark">
         {{campaign.smtp_sender.sender_alias}}
       </span>
+
+      - Sender.bucket_id = {{campaign.smtp_sender.bucket_id}} -&gt; <b>Campaign.bucket_id = {{campaign.bucket_id}}</b>
 
       {% if campaign.base_url_override %}
         <br>

@@ -126,6 +126,8 @@ class MailingCampaign(Model):
         "SmtpSender", on_delete=CASCADE, verbose_name="Konto wysyłkowe"
     )
 
+    bucket_id = PositiveSmallIntegerField(default=999)
+
     base_url_override = CharField(
         "Nadpisz base url",
         max_length=128,
@@ -208,7 +210,6 @@ class MailingCampaign(Model):
 
     # Flags
     pause_on_too_many_failures = BooleanField(default=True)
-    inherit_bucket_id_from_sender = BooleanField(default=True)
 
     # Clicks
     total_clicks = PositiveIntegerField(default=0)
@@ -230,6 +231,8 @@ class MailingCampaign(Model):
         return f"{self.title}"
 
     def save(self, *args, **kwargs):
+        if self.bucket_id == 999:
+            self.bucket_id = self.smtp_sender.bucket_id  # type: ignore
         if not self.base_url_override:
             self.base_url_override = self.smtp_sender.base_url_override  # type: ignore
         if not self.sent_start_at:
