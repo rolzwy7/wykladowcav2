@@ -117,10 +117,10 @@ def conference_edition_waiting_room_page(request: HttpRequest, watch_token: str)
     }
 
     if edition.advert_lecturer:
-        context[
-            "advert_lecturer_aggragates"
-        ] = WebinarAggregate.manager.get_active_aggregates().filter(
-            lecturer=edition.advert_lecturer
+        context["advert_lecturer_aggragates"] = (
+            WebinarAggregate.manager.get_active_aggregates()
+            .filter(lecturer=edition.advert_lecturer)
+            .order_by("closest_webinar_dt")
         )
 
     if edition.advert_category:
