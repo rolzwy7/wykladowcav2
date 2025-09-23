@@ -15,8 +15,6 @@ from core.models import CategoryTrustedUs, Webinar, WebinarAggregate, WebinarCat
 def webinar_category_page(request, slug: str):
     """Webinar category page"""
 
-    template_name = "geeks/pages/category/WebinarCategoryPage.html"
-
     category = get_object_or_404(WebinarCategory, slug=slug)
 
     # TODO: Przekieruj do rodzica
@@ -52,7 +50,7 @@ def webinar_category_page(request, slug: str):
 
     return TemplateResponse(
         request,
-        template_name,
+        "geeks/pages/category/WebinarCategoryPage.html",
         {
             "category": category,
             "slug": slug,

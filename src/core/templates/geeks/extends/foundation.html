@@ -234,7 +234,12 @@
                     const price = document.createElement('div');
                     price.className = 'fw-bold';
                     if(resultData.price != "None") {
-                      price.textContent = resultData.price + "zł {{PRICE_ADNOTATION}}";
+                      console.log(resultData.price)
+                      if(resultData.price == 9999) {
+                        price.textContent = "Za Darmo";
+                      } else {
+                        price.textContent = "od " + resultData.price + "zł {{PRICE_ADNOTATION}}";
+                      }
                     } else {
                       price.textContent = "";
                     }

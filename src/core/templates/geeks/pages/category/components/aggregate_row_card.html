@@ -91,10 +91,17 @@
             <div class="d-flex flex-row gap-2 align-items-center justify-content-between">
             <span>
                 {% if aggregate.minimal_price %}
-                Cena od:
-                <span class="fw-semibold text-dark">
-                    {{aggregate.minimal_price}}zł {{PRICE_ADNOTATION}} za uczestnika
-                </span>
+                    {% if aggregate.minimal_price == 9999 %}
+                        Cena:
+                        <span class="fw-semibold text-dark fs-4">
+                            <u>Za Darmo</u>
+                        </span>
+                    {% else %}
+                        Cena od:
+                        <span class="fw-semibold text-dark">
+                            {{aggregate.minimal_price}}zł {{PRICE_ADNOTATION}} za uczestnika
+                        </span>
+                    {% endif %}
                 {% endif %}
             </span>
             <button
