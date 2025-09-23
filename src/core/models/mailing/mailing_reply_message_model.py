@@ -40,7 +40,7 @@ class MailingReplyMessage(Model):
     is_vacation = BooleanField(default=False)
     is_email_change = BooleanField(default=False)
 
-    subject = CharField("Tytuł wiadomości", max_length=256)
+    subject = CharField("Tytuł wiadomości", max_length=512)
     message_content = TextField("Treść wiadomości", blank=True)
     trigger_content = TextField("Co spowodowało wykrycie?", blank=True)
 
