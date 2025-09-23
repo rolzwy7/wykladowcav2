@@ -6,6 +6,9 @@ from .conference_chat_serializers import (
     ConferenceFreeParticipantSerializer,
     ModeratorChatMessageSerializer,
 )
-from .conference_edition_model_serializers import ConferenceEditionSerializer
+from .conference_edition_model_serializers import (
+    ConferenceEditionSerializer,
+    ConferenceParticipantHeartbeatSerializer,
+)
 from .survey_serializer import SurveyAnswerSerializer, SurveySerializer
 from .webinar_model_serializers import WebinarModelSerializer

@@ -32,9 +32,13 @@ def conference_watch_url(request, uuid: str):
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
 
-    watch_url = f"{settings.BASE_URL}" + reverse(
-        "core:conference_waiting_room_page",
-        kwargs={"watch_token": participant.watch_token},
-    )
+    if edition.start_redirecting_participants and edition.stream_url_page:
+        watch_url = f"{settings.BASE_URL}" + reverse(
+            "core:conference_waiting_room_page",
+            kwargs={"watch_token": participant.watch_token},
+        )
+    else:
+        watch_url = ""
 
+    # If `watch_url` is empty there will be no redirect to watch room
     return Response({"watch_url": watch_url})

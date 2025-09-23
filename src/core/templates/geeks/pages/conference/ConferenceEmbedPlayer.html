@@ -77,12 +77,12 @@
 
         <div class="row">
           {% if edition.advert_webinar_html %}
-          <div class="col-12 col-lg-6">
+          <div class="col-12 {% if edition.advert_facebook_html %}col-lg-6{% endif %}">
             {{edition.advert_webinar_html|safe}}
           </div>
           {% endif %}
           {% if edition.advert_facebook_html %}
-          <div class="col-12 col-lg-6">
+          <div class="col-12 {% if edition.advert_webinar_html %}col-lg-6{% endif %}">
             {{edition.advert_facebook_html|safe}}
           </div>
           {% endif %}
@@ -348,18 +348,18 @@
 
 {% block body_scripts %}
 <script>
+    const chatId = '{{ edition.chat.id|default:"null" }}';
+    const watchToken = '{{ free_participant.watch_token|default:"null" }}';
+    const csrfToken = '{{ csrf_token }}';
+    const heartbeatUrl = '{% url "api:participant-heartbeat" watch_token=free_participant.watch_token %}'
+</script>
+<script>
 document.addEventListener('DOMContentLoaded', function () {
     const chatMessages = document.getElementById('chat-messages');
     const chatForm = document.getElementById('chat-form');
     const messageInput = document.getElementById('chat-message-input');
     const charCounter = document.getElementById('char-counter');
     const submitButton = document.getElementById('chat-message-submit');
-
-    // Pobieranie danych z szablonu Django
-    // Używamy `|| 'null'` aby uniknąć błędów, jeśli zmienna nie istnieje
-    const chatId = '{{ edition.chat.id|default:"null" }}';
-    const watchToken = '{{ free_participant.watch_token|default:"null" }}';
-    const csrfToken = '{{ csrf_token }}';
 
     // Sprawdzamy, czy czat jest skonfigurowany dla tej edycji
     if (chatId === 'null' || watchToken === 'null') {
@@ -386,7 +386,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="p-2 rounded bg-white shadow-sm">
                 <div class="d-flex justify-content-between align-items-center">
                     <strong class="text-primary">${escapeHtml(msg.chat_user.first_name)}</strong>
-                    <small class="text-muted">${msg.created_at}</small>
+                    <small class="text-muted">${msg.chat_user.first_name == "Moderator" ? "" : msg.created_at}</small>
                 </div>
                 <p class="mb-0 mt-1">${escapeHtml(msg.message)}</p>
             </div>
@@ -528,6 +528,44 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Ustaw interwał odświeżania wiadomości (co 5 sekund)
     setInterval(fetchMessages, 7000);
+});
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Sprawdzamy, czy zmienne globalne zostały zdefiniowane w szablonie
+    if (typeof heartbeatUrl === 'undefined' || typeof csrfToken === 'undefined') {
+        console.error("Heartbeat script cannot start. Global variables `heartbeatUrl` and/or `csrfToken` are missing.");
+        return; // Zakończ działanie skryptu, jeśli brakuje zmiennych
+    }
+
+    /**
+     * Wysyła żądanie PATCH do serwera.
+     */
+    const sendHeartbeat = async () => {
+        try {
+            const response = await fetch(heartbeatUrl, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                },
+                body: JSON.stringify({}) // Ciało może być puste
+            });
+
+            if (!response.ok) {
+                // Logujemy błąd, ale nie informujemy użytkownika
+                console.error(`Heartbeat Error: Server responded with status ${response.status}`);
+            }
+        } catch (error) {
+            console.error('Heartbeat Error: Network or other error occurred.', error);
+        }
+    };
+
+    // Natychmiastowe uruchomienie pierwszego heartbeat'u po załadowaniu strony
+    sendHeartbeat();
+
+    // Ustawienie stałego interwału (15 sekund) dla kolejnych wywołań
+    setInterval(sendHeartbeat, 15000);
 });
 </script>
 {% endblock body_scripts %}

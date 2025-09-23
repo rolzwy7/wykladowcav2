@@ -52,7 +52,7 @@
                 <tbody>
                     <tr>
                         <td colspan="4">
-                            <a href="{% url "core:confirm_free_participants" pk=conference_edition.pk %}" class="btn btn-sm btn-secondary">
+                            <a href="{% url "core:confirm_free_participants" pk=conference_edition.pk %}" class="btn btn-sm btn-dark">
                                 Wyślij przypomnienia darmowym uczestnikom
                             </a>
                         </td>
@@ -74,11 +74,11 @@
                         <td><b>Chat na żywo</b></td>
                         <td colspan="3">
                             {% if conference_edition.chat %}
-                                <a href="{% url "core:chat_moderation_view" id=conference_edition.chat.id %}">
-                                    <b>Administracja chatu</b> / <a href="{% url "admin:core_conferencechat_change" object_id=conference_edition.chat.id %}">
+                                <a href="{% url "core:chat_moderation_view" id=conference_edition.chat.id %}" target="_blank">
+                                    <span class="text-white bg-primary px-2"><b>Administracja chatu</b></span> / <a href="{% url "admin:core_conferencechat_change" object_id=conference_edition.chat.id %}">
                                         <b>Edytuj chat w CMS</b>
                                     </a>
-                                </a> - Inicjalny status dla wiadomości:
+                                </a> <br> Inicjalny status dla wiadomości:
                                 <b>{{conference_edition.chat.get_init_status_display}}</b>
                             {% else %}
                                 Chat na żywo jest niepodłączony.
@@ -94,6 +94,20 @@
                         </td>
                     </tr>
                     <tr>
+                        <td><b>Rozpoczęto przekierowywanie</b></td>
+                        <td colspan="3">
+                            {% if conference_edition.start_redirecting_participants %}
+                                <span class="fw-bold bg-success px-2">
+                                    TAK, oczekujący użytkownicy zostaną przekierowani
+                                </span>
+                            {% else %}
+                                <span class="fw-bold bg-warning px-2">
+                                    Nie, oczekujący użytkownicy czekają na przekierowanie
+                                </span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
                         <td><b>Adres URL strony</b></td>
                         <td colspan="3">
                             <div
@@ -102,6 +116,13 @@
                                 hx-trigger="load delay:{{delay_ms|default:"100"}}ms">
                                 Ładuję...
                             </div>
+                            {% if not conference_edition.stream_url_embed %}
+                            <small>
+                                <i>
+                                    Adres powinien mieć postać: https://www.youtube.com/embed/[YT STREAM CODE]
+                                </i>
+                            </small>
+                            {% endif %}
                         </td>
                     </tr>
                     <tr>

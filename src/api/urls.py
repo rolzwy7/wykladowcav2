@@ -8,6 +8,7 @@ from api.base.routers import router
 from api.base.views import (
     ChatMessageCreateView,
     ChatMessageListView,
+    ConferenceParticipantHeartbeatView,
     ModerationMessageListView,
     ModerationMessageUpdateView,
     conference_watch_url,
@@ -64,6 +65,11 @@ urlpatterns = [
         "moderation/message/<uuid:message_id>/update/",
         ModerationMessageUpdateView.as_view(),
         name="moderation-message-update",
+    ),
+    path(
+        "participant/heartbeat/<uuid:watch_token>/",
+        ConferenceParticipantHeartbeatView.as_view(),
+        name="participant-heartbeat",
     ),
     path("", include(router.urls)),
 ]

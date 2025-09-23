@@ -64,6 +64,9 @@ class ConferenceEdition(Model):
     clickmeeting_id = CharField("ClickMeeting ID", blank=True, max_length=200)
     clickmeeting_url = CharField("ClickMeeting URL", blank=True, max_length=200)
 
+    start_redirecting_participants = BooleanField(
+        "Zacznij przekierowywać uczestników", default=False
+    )
     redirect_token = UUIDField(default=uuid.uuid4, editable=True)
 
     STREAM_TYPE = [
@@ -106,8 +109,8 @@ class ConferenceEdition(Model):
     advert_facebook_url = CharField("Advert FB URL", blank=True, max_length=200)
     advert_facebook_html = TextField("Advert FB HTML", blank=True)
 
-    advert_webinar_url = CharField("Advert FB URL", blank=True, max_length=200)
-    advert_webinar_html = TextField("Advert FB HTML", blank=True)
+    advert_webinar_url = CharField("Advert Webinar URL", blank=True, max_length=200)
+    advert_webinar_html = TextField("Advert Webinar HTML", blank=True)
 
     chat = OneToOneField(
         "ConferenceChat", on_delete=SET_NULL, null=True, blank=True, verbose_name="Chat"

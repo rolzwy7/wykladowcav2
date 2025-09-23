@@ -91,6 +91,8 @@ class ConferenceFreeParticipant(Model):
 
     banned_from_chat = BooleanField("Zbanowany z chatu", default=False)
 
+    last_watchroom_heartbeat = DateTimeField(blank=True, null=True)
+
     class Meta:
         verbose_name = "Konferencja (darmowy uczestnik)"
         verbose_name_plural = "Konferencje (darmowy uczestnik)"

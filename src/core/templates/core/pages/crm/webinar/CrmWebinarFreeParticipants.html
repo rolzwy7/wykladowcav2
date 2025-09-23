@@ -31,7 +31,12 @@
                 <tbody>
                     {% for participant in free_participants %}
                     <tr>
-                        <td>{{participant.first_name}} {{participant.last_name}}</td>
+                        <td>
+                          <b>{{participant.first_name}} {{participant.last_name}}</b> <br>
+                          <a href="{% url "admin:core_conferencefreeparticipant_change" object_id=participant.id %}">
+                            <b>Edytuj w CMS</b>
+                          </a>
+                        </td>
                         <td>{{participant.email}}</td>
                         <td>{{participant.phone}}</td>
                         <td>{{participant.get_voivodeship_display}}</td>
@@ -40,13 +45,23 @@
                             {{participant.get_using_closed_webinars_display}}
                         </td>
                         <td>
-                          <a href="{% url "core:conference_waiting_room_page" watch_token=participant.watch_token %}">
-                            {{participant.watch_token}}
+                          <a href="{% url "core:conference_waiting_room_page" watch_token=participant.watch_token %}" target="_blank">
+                            <b>{{participant.watch_token}}</b>
                           </a>
+                          <br><br>
+                          Ostatnie wejście:
+                          <br>
+                          {% if participant.last_watchroom_heartbeat %}
+                            {{participant.last_watchroom_heartbeat|date:"j E Y"}}
+                            <br>
+                            {{participant.last_watchroom_heartbeat|date:"H:i:s"}}
+                          {% else %}
+                            Nigdy nie wszedł
+                          {% endif %}
                         </td>
                         <td>
                           <a href="{% url "core:crm_free_participant_resend_confirmation" pk=participant.pk %}">
-                            Prześlij ponownie potwierdzenie
+                            <b>Prześlij ponownie potwierdzenie</b>
                           </a>
                         </td>
                     </tr>

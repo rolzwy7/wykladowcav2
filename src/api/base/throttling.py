@@ -11,6 +11,16 @@ class ChatMessageAnonRateThrottle(AnonRateThrottle):
     rate = "5/minute"
 
 
+class WatchroomHeartbeatAnonRateThrottle(AnonRateThrottle):
+    """
+    Niestandardowa klasa throttlingu dla anonimowych użytkowników czatu.
+    Ustawia sztywny limit 10 zapytania na minute, niezależnie od
+    ustawień w settings.py.
+    """
+
+    rate = "10/minute"
+
+
 class RegonAutocompleteThrottle(SimpleRateThrottle):
     """Throttling for REGON API calls"""
 
