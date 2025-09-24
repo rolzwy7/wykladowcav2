@@ -1,0 +1,20 @@
+{% if edition.start_redirecting_participants %}
+<button
+    disabled
+    hx-post="{% url 'htmx:htmx_conference_start_redirecting' pk=edition.pk %}"
+    hx-swap="outerHTML"
+    hx-confirm="Czy na pewno chcesz WYŁĄCZYĆ przekierowanie?"
+    class="btn btn-sm btn-success"
+>
+    Przekierowywanie jest WŁĄCZONE
+</button>
+{% else %}
+<button
+    hx-post="{% url 'htmx:htmx_conference_start_redirecting' pk=edition.pk %}"
+    hx-swap="outerHTML"
+    hx-confirm="Czy na pewno chcesz WŁĄCZYĆ przekierowanie? Przekierowywanie uczestników powinno się rozpocząć po potwierdzeniu, że stream jest widoczny na stronie darmowego webinaru."
+    class="btn btn-sm btn-danger"
+>
+    Przekierowywanie jest WYŁĄCZONE
+</button>
+{% endif %}

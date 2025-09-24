@@ -3,7 +3,7 @@
 # flake8: noqa=E501
 
 from django.forms import ModelForm, TextInput
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
@@ -27,6 +27,10 @@ class ConferenceUrlForm(ModelForm):
 
 def htmx_conference_url_form(request: HttpRequest, pk: int, mode: str):
     """htmx_conference_url_form"""
+
+    if not request.user.is_authenticated or not request.user.is_staff:
+        return HttpResponseForbidden()
+
     template_path = "htmx/conference_url_form/form.html"
     edition = get_object_or_404(ConferenceEdition, pk=pk)
     context = {"edition": edition}

@@ -5,6 +5,7 @@ from django.urls import path
 
 from htmx.views.crm import (
     htmx_annoying_alerts,
+    htmx_conference_start_redirecting,
     htmx_conference_url_form,
     htmx_crm_application_cancellation_toggle,
     htmx_crm_cancel_webinar,
@@ -32,6 +33,11 @@ urlpatterns = [
         "conference-url-form/<int:pk>/<str:mode>/",
         htmx_conference_url_form,
         name="htmx_conference_url_form",
+    ),
+    path(
+        "conference-start-redirecting/<int:pk>/",
+        htmx_conference_start_redirecting,
+        name="htmx_conference_start_redirecting",
     ),
     path(
         "application-cancellation-toggle/<int:pk>",
