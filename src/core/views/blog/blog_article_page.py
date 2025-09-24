@@ -45,23 +45,35 @@ def blog_article_page(request, slug: str):
             blog_view = BlogView(blog_post=article, spy_object=spy_object)
             blog_view.save()
 
-    related_aggregates = []
+    related_aggregates: list[WebinarAggregate] = []
     if article.show_related_webinars:
-        related_aggregates = (
-            WebinarAggregate.manager.get_active_aggregates_for_category_slugs(
-                [cat.slug for cat in article.categories.all()]
-            )
-        )
+        for _ in WebinarAggregate.manager.get_active_aggregates_for_category_slugs(
+            [cat.slug for cat in article.categories.all()]
+        ):
+            related_aggregates.append(_)
 
     # Article content
     article_content = article.content
 
     # Advert aggregate
     if article.advert_aggregate and article.advert_aggregate.has_active_webinars:
+        # Ustawiony jest agregat i ma terminy
         advert_aggregate = article.advert_aggregate
         advert_img_tag = get_blogpost_advert_img_tag(advert_aggregate)
-
         article_content = article_content.replace("[[ADVERT_BLOGPOST]]", advert_img_tag)
+    elif len(related_aggregates) != 0:
+        # Wez z powiazanych szkolen
+        _counter = 0
+        while "[[ADVERT_BLOGPOST]]" in article_content:
+            advert_aggregate = related_aggregates[_counter % len(related_aggregates)]
+            _counter += 1
+            advert_img_tag = get_blogpost_advert_img_tag(advert_aggregate)
+            article_content = article_content.replace(
+                "[[ADVERT_BLOGPOST]]", advert_img_tag, 1
+            )
+    else:
+        # Jak nie ma to wyrzuc reklamy
+        article_content = article_content.replace("[[ADVERT_BLOGPOST]]", "")
 
     return TemplateResponse(
         request,

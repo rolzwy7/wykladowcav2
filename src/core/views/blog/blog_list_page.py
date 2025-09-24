@@ -2,13 +2,10 @@
 
 # flake8: noqa=E501
 
-from django.db.models import F
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 
-from core.libs.blog.blog_advert import get_blogpost_advert_img_tag
-from core.models import BlogPost, WebinarAggregate, WebinarCategory
+from core.models import BlogPost, WebinarCategory
 
 
 def blog_list_page(request, slug: str):
@@ -23,7 +20,9 @@ def blog_list_page(request, slug: str):
     w jednym zapytaniu.
     """
     # Pobierz obiekt kategorii lub zwróć błąd 404, jeśli nie istnieje.
-    category = get_object_or_404(WebinarCategory, slug=slug)
+    category = get_object_or_404(
+        WebinarCategory.manager.get_blog_categories(), slug=slug
+    )
 
     # Użyj managera BlogPost do pobrania opublikowanych artykułów
     # dla danej kategorii. Metoda `with_related_data` optymalizuje zapytanie.

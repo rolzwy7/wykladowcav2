@@ -116,6 +116,21 @@ class BlogArticleSitemap(sitemaps.Sitemap):
         return item.updated_at
 
 
+class BlogCategorySitemap(sitemaps.Sitemap):
+    priority = 0.5
+    changefreq = "weekly"
+
+    def items(self):
+        """Items"""
+        return WebinarCategory.manager.get_blog_categories()
+
+    def location(self, item: WebinarCategory):
+        return reverse("core:blog_list_page", kwargs={"slug": item.slug})
+
+    def lastmod(self, item: WebinarCategory):
+        return item.updated_at
+
+
 sitemaps = {
     "homepage": HighPrioritySitemap,
     "aggregate": WebinarAggregateSitemap,
@@ -123,6 +138,7 @@ sitemaps = {
     "lecturer": LecturerSitemap,
     "category": CategorySitemap,
     "blog_article": BlogArticleSitemap,
+    "blog_category": BlogCategorySitemap,
     "low_priority": LowPrioritySitemap,
 }
 

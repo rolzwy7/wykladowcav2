@@ -42,7 +42,7 @@
           {% if edition.chat %}
           <div class="col-lg-3 col-md-12 col-12 mb-5">
             <div class="d-flex flex-column h-100 bg-light border rounded p-3">
-                <h5 class="mb-3 border-bottom pb-2">Czat na żywo</h5>
+                <h5 class="mb-3 border-bottom pb-2">Czat na żywo (&nbsp;<span id="live_count">0</span>&nbsp;)</h5>
 
                 <!-- Kontener na wiadomości -->
                 <div id="chat-messages" class="flex-grow-1" style="overflow-y: auto; min-height: 300px; max-height: 340px;">
@@ -551,6 +551,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 body: JSON.stringify({}) // Ciało może być puste
             });
+
+            const data = await response.json();
+            console.log(data["active_count"]);
+
+            const liveCountElement = document.getElementById('live_count');
+            if (liveCountElement) {
+              liveCountElement.innerHTML = data["active_count"];
+            }
 
             if (!response.ok) {
                 // Logujemy błąd, ale nie informujemy użytkownika

@@ -38,6 +38,10 @@ class WebinarCategoryManager(Manager):
         """Get main categories (visible categories without parents, alphabetical_order)"""
         return self.get_visible_categories().filter(parent=None).order_by("name")
 
+    def get_blog_categories(self) -> QuerySet["WebinarCategory"]:
+        """Get blog categories"""
+        return self.get_visible_categories().filter(blog_visible=True)
+
     def get_subcategories(
         self, category: "WebinarCategory"
     ) -> QuerySet["WebinarCategory"]:
@@ -52,6 +56,8 @@ class WebinarCategory(Model):
 
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
+
+    blog_visible = BooleanField("Widoczna w blogu", default=False)
 
     visible = BooleanField("Widoczna na stronie", default=True)
     name = CharField("Nazwa kategorii", max_length=100)
