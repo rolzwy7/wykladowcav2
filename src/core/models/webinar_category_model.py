@@ -95,6 +95,10 @@ class WebinarCategory(Model):
         "ID Kategorii w Fakturowni", max_length=32, blank=True
     )
 
+    advert_blog_fixed_html = TextField("Reklama blog fixed", blank=True)
+
+    advert_blog_sticky_html = TextField("Reklama blog sticky", blank=True)
+
     class Meta:
         verbose_name = "Kategoria"
         verbose_name_plural = "Kategorie"

@@ -21,21 +21,94 @@
 
 <main>
    <!-- Page header -->
-   <section class="py-7">
+   <section class="pt-7 pb-3">
       <div class="container">
          <div class="row">
             <div class="offset-xl-2 col-xl-8 offset-lg-1 col-lg-10 col-md-12 col-12">
                <div class="text-center mb-5">
-                  <h1 class="display-2 fw-bold">{{category}}</h1>
-                  <p class="lead">
-                    xxx
-                  </p>
+                  <h1 class="display-2 fw-bold">{{category|default:"Blog"}}</h1>
+                  {% if category %}
+                     <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                           <li class="breadcrumb-item"><a href="{{BASE_URL}}">{{COMPANY_NAME}}</a></li>
+                           <li class="breadcrumb-item"><a href="{% url "core:blog_list_page" %}">Blog</a></li>
+                           <li class="breadcrumb-item active" aria-current="page">{{category}}</li>
+                        </ol>
+                     </nav>
+                  {% else %}
+                     <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                           <li class="breadcrumb-item"><a href="{{BASE_URL}}">{{COMPANY_NAME}}</a></li>
+                           <li class="breadcrumb-item active" aria-current="page">Blog</li>
+                        </ol>
+                     </nav>
+                  {% endif %}
                </div>
             </div>
          </div>
       </div>
    </section>
    <!-- Content -->
+   
+   {% if hero_article %}
+   <section class="pb-4">
+      <div class="container">
+      <div class="row">
+         <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+         <!-- Card -->
+         <div class="card mb-4 shadow-lg card-lift">
+            <div class="row g-0">
+               <!-- Image -->
+               <a href="{% url "core:blog_article_page" slug=hero_article.slug %}" class="col-lg-6 col-md-12 col-12 bg-cover img-left-rounded" style="background-image: url({% get_media_prefix %}{{hero_article.cover_image}})">
+                  <img src="{% get_media_prefix %}{{hero_article.cover_image}}" class="img-fluid d-lg-none invisible" alt="{{hero_article.title}}">
+               </a>
+               <div class="col-lg-6 col-md-12 col-12">
+                  <!-- Card body -->
+                  <div class="card-body">
+                     {% if hero_article.main_category %}
+                        <a href="{% url "core:blog_list_page" slug=hero_article.main_category.slug %}" class="fs-5 mb-3 fw-semibold d-block">
+                           {{hero_article.main_category}}
+                        </a>
+                     {% endif %}
+                     <h1 class="mb-2 mb-lg-4">
+                        <a href="{% url "core:blog_article_page" slug=hero_article.slug %}" class="text-inherit">
+                           {{hero_article.title}}
+                        </a>
+                     </h1>
+                     <p>
+                        {{hero_article.excerpt}}
+                     </p>
+                     <!-- Media content -->
+                     <div class="row align-items-center g-0 mt-lg-7 mt-4">
+                        {% if hero_article.lecturer %}
+                        <div class="col-auto">
+                           <!-- Img  -->
+                           <img src="/media/uploads/lecturers/{{hero_article.lecturer.slug}}_80x80.webp" alt="{{hero_article.lecturer}}" class="rounded-circle avatar-sm me-2">
+                        </div>
+                        <div class="col lh-1">
+                           <h5 class="mb-1">{{hero_article.author}}</h5>
+                           <p class="fs-6 mb-0">{{hero_article.published_at|date:"j E Y"}}</p>
+                        </div>
+                        {% else %}
+                        <div class="col lh-1">
+                           <h5 class="mb-1">{{hero_article.author}}</h5>
+                           <p class="fs-6 mb-0">{{hero_article.published_at|date:"j E Y"}}</p>
+                        </div>
+                        {% endif %}
+                        <div class="col-auto">
+                           <p class="fs-6 mb-0">Czas czytania {{hero_article.reading_time}}</p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      </div>
+      </div>
+   </section>
+   {% endif %}
+
    <section class="pb-8">
       <div class="container mb-lg-8">
          <div class="row">
@@ -47,117 +120,45 @@
                </div>
             </div>
             <div class="col-lg-4 col-md-5 col-12 mt-6 mt-md-0">
-               <!-- search -->
-               <div class="mb-4">
-                  <div class="mb-3 position-relative">
-                     <label class="form-label visually-hidden" for="blogSidebarEmail">Email Address</label>
-                     <input type="search" class="form-control" id="blogSidebarEmail" name="blogSidebarEmail" placeholder="Search...">
-                     <span class="position-absolute end-0 top-0 mt-2 me-3"><i class="bi bi-search fs-5"></i></span>
-                  </div>
-               </div>
-               <!-- card -->
+               
+               {% if related_aggregates %}
                <div class="card mb-4 border">
                   <!-- card body -->
                   <div class="card-body p-4">
-                     <h3>Recent Posts</h3>
+                     <h3>{{related_aggregates_title}}</h3>
                      <div class="mt-3">
-                        <!-- list -->
                         <ul class="list-unstyled mb-0">
+                        {% for related_aggregate in related_aggregates %}
                            <li class="mb-3">
-                              <h4 class="lh-lg"><a href="#" class="text-inherit">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a></h4>
+                           <h4 class="lh-lg">
+                              <a href="#" class="text-inherit">
+                                 {{related_aggregate.title}}
+                              </a> - <span class="fw-normal">
+                                    {{related_aggregate.closest_webinar_dt|date:"j E Y"}}
+                                    godz.
+                                    {{related_aggregate.closest_webinar_dt|date:"H:i"}}
+                              </span>
+                           </h4>
                            </li>
-                           <li class="mb-3">
-                              <h4 class="lh-lg"><a href="#" class="text-inherit">Duis placerat mi quis purus feugiat, at bibendum arcu dignissim.</a></h4>
-                           </li>
-                           <li class="mb-3">
-                              <h4 class="lh-lg"><a href="#" class="text-inherit">Morbi sit amet metus nec elit hendrerit luctus.</a></h4>
-                           </li>
-                           <li>
-                              <h4 class="lh-lg"><a href="#" class="text-inherit">Vivamus ac sapien ultricies dolor ullamcorper porttitor.</a></h4>
-                           </li>
+                        {% endfor %}
                         </ul>
                      </div>
                   </div>
                </div>
-               <!-- card -->
-               <div class="card mb-4 border">
-                  <!-- card body -->
-                  <div class="card-body p-4">
-                     <h3>Categories</h3>
-                     <div class="mt-3">
-                        <!-- list -->
-                        <ul class="list-unstyled mb-0 nav nav-x-0 flex-column">
-                           <li class="lh-lg mb-1">
-                              <i class="fe fe-arrow-right"></i>
-                              <a href="#" class="text-link d-inline">Business</a>
-                           </li>
-                           <li class="lh-lg mb-1">
-                              <i class="fe fe-arrow-right"></i>
-                              <a href="#" class="text-link d-inline">Marketing</a>
-                           </li>
-                           <li class="lh-lg mb-1">
-                              <i class="fe fe-arrow-right"></i>
-                              <a href="#" class="text-link d-inline">Courses</a>
-                           </li>
-                           <li class="lh-lg mb-1">
-                              <i class="fe fe-arrow-right"></i>
-                              <a href="#" class="text-link d-inline">Dashboard</a>
-                           </li>
-                           <li class="lh-lg mb-1">
-                              <i class="fe fe-arrow-right"></i>
-                              <a href="#" class="text-link d-inline">Landings</a>
-                           </li>
-                           <li class="lh-lg mb-1">
-                              <i class="fe fe-arrow-right"></i>
-                              <a href="#" class="text-link d-inline">E-commerce</a>
-                           </li>
-                        </ul>
-                     </div>
+               {% endif %}
+               
+               {% comment %} Reklama fixed {% endcomment %}
+               {% if category and category.advert_fixed_html %}
+                  {{category.advert_fixed_html|safe}}
+               {% endif %}
+               
+               {% comment %} Reklama sticky {% endcomment %}
+               {% if category and category.advert_sticky_html %}
+                  <div class="js-sticky-widget">
+                        {{category.advert_sticky_html|safe}}
                   </div>
-               </div>
-               <!-- card -->
-               <div class="card mb-4 border">
-                  <!-- card body -->
-                  <div class="card-body p-4">
-                     <h3>Archive</h3>
-                     <div class="mt-3">
-                        <!-- list -->
-                        <ul class="list-unstyled mb-0 nav nav-x-0 flex-column">
-                           <li class="lh-lg mb-1">
-                              <i class="fe fe-arrow-right"></i>
-                              <a href="#" class="text-link d-inline">March 2021</a>
-                           </li>
-                           <li class="lh-lg mb-1">
-                              <i class="fe fe-arrow-right"></i>
-                              <a href="#" class="text-link d-inline">February 2021</a>
-                           </li>
-                           <li class="lh-lg mb-1">
-                              <i class="fe fe-arrow-right"></i>
-                              <a href="#" class="text-link d-inline">January 2021</a>
-                           </li>
-                           <li class="lh-lg mb-1">
-                              <i class="fe fe-arrow-right"></i>
-                              <a href="#" class="text-link d-inline">December 2020</a>
-                           </li>
-                        </ul>
-                     </div>
-                  </div>
-               </div>
-               <!-- card -->
-               <div class="card mb-4 border">
-                  <!-- card body -->
-                  <div class="card-body p-4">
-                     <h3>Tags</h3>
-                     <div class="mt-3">
-                        <a href="#" class="btn btn-light btn-xs mb-2">business</a>
-                        <a href="#" class="btn btn-light btn-xs mb-2">e-commerce</a>
-                        <a href="#" class="btn btn-light btn-xs mb-2">course</a>
-                        <a href="#" class="btn btn-light btn-xs mb-2">dashboard</a>
-                        <a href="#" class="btn btn-light btn-xs mb-2">landings</a>
-                        <a href="#" class="btn btn-light btn-xs mb-2">marketing</a>
-                     </div>
-                  </div>
-               </div>
+               {% endif %}
+
             </div>
          </div>
       </div>
@@ -166,3 +167,19 @@
 
 {% endblock root %}
 
+
+{% block body_scripts %}
+    {% if category and category.advert_sticky_html %}
+    <script src="{% static 'js/sticksy.min.js' %}"></script>
+    <script>
+        var stickyElement = new Sticksy('.js-sticky-widget', {topSpacing: 70});
+        stickyElement.onStateChanged = function (state) {
+            if(state === 'fixed') {
+                stickyElement.nodeRef.classList.add('widget--sticky')
+            } else {
+                stickyElement.nodeRef.classList.remove('widget--sticky')
+            }
+        }
+    </script>
+    {% endif %}
+{% endblock body_scripts %}

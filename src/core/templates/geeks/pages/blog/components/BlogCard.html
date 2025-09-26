@@ -26,14 +26,14 @@
         {% if article.lecturer %}
         <div class="row align-items-center g-0 mt-4">
             <div class="col-auto">
-                <img src="../assets/images/avatar/avatar-7.jpg" alt="avatar" class="rounded-circle avatar-sm me-2">
+                <img src="/media/uploads/lecturers/{{article.lecturer.slug}}_80x80.webp" alt="{{article.lecturer}}" class="rounded-circle avatar-sm me-2">
             </div>
             <div class="col lh-1">
                 <h5 class="mb-1">{{article.author}}</h5>
-                <p class="fs-6 mb-0">September 05, 2020</p>
+                <p class="fs-6 mb-0">{{article.published_at|date:"j E Y"}}</p>
             </div>
             <div class="col-auto">
-                <p class="fs-6 mb-0">20 Min Read</p>
+                <p class="fs-6 mb-0">Czas czytania {{article.reading_time}}</p>
             </div>
         </div>
         {% else %}

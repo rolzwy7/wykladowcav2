@@ -15,4 +15,9 @@ urlpatterns = [
         blog_article_page,
         name="blog_article_page",
     ),
+    path(
+        "",
+        blog_list_page,
+        name="blog_list_page",
+    ),
 ]

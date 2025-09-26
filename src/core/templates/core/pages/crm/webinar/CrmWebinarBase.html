@@ -99,7 +99,9 @@
                                 <br> Inicjalny status dla wiadomości:
                                 <b>{{conference_edition.chat.get_init_status_display}}</b>
                             {% else %}
-                                Chat na żywo jest niepodłączony.
+                                <span class="bg-warning">
+                                    Chat na żywo jest niepodłączony.
+                                </span>
                             {% endif %}
                         </td>
                     </tr>

@@ -69,7 +69,7 @@ class BlogPostAdmin(admin.ModelAdmin):
     fieldsets = (
         (
             None,
-            {"fields": ("show_related_webinars",)},
+            {"fields": ("show_related_webinars", "show_closed_webinar_advert")},
         ),
         (
             _("Treść i okładka"),
@@ -105,7 +105,12 @@ class BlogPostAdmin(admin.ModelAdmin):
         (
             _("Advert"),
             {
-                "fields": ("advert_aggregate", "advert_category"),
+                "fields": (
+                    "advert_aggregate",
+                    "advert_category",
+                    "advert_fixed_html",
+                    "advert_sticky_html",
+                ),
             },
         ),
     )

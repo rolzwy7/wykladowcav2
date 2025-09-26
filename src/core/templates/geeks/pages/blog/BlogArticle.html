@@ -105,7 +105,8 @@
             </div>
 
                 <div class="col-lg-4 col-12 mt-6 mt-md-0">
-         
+                    
+                   {% comment %} Pokaż powiązane szkolenia {% endcomment %}
                    {% if article.show_related_webinars %}
                    <!-- card -->
                    <div class="card mb-4 border">
@@ -132,8 +133,9 @@
                       </div>
                    </div>
                    {% endif %}
-
-                   <div class="card shadow-sm">
+                   {% comment %} Pokaż reklame szkoleń zamkniętych {% endcomment %}
+                   {% if article.show_closed_webinar_advert %}
+                   <div class="card shadow-sm mb-4">
                         <div class="card-body d-flex flex-column">
                             <h3 class="card-title">Szkolenia zamknięte</h3>
                             <p class="card-text flex-grow-1">
@@ -144,6 +146,19 @@
                             </a>
                         </div>
                     </div>
+                    {% endif %}
+
+                    {% comment %} Reklama fixed {% endcomment %}
+                    {% if article.advert_fixed_html %}
+                        {{article.advert_fixed_html|safe}}
+                    {% endif %}
+                    
+                    {% comment %} Reklama sticky {% endcomment %}
+                    {% if article.advert_sticky_html %}
+                        <div class="js-sticky-widget">
+                            {{article.advert_sticky_html|safe}}
+                        </div>
+                    {% endif %}
    
                 </div>
 
@@ -154,3 +169,18 @@
 
 {% endblock root %}
 
+{% block body_scripts %}
+    {% if article.advert_sticky_html %}
+    <script src="{% static 'js/sticksy.min.js' %}"></script>
+    <script>
+        var stickyElement = new Sticksy('.js-sticky-widget', {topSpacing: 70});
+        stickyElement.onStateChanged = function (state) {
+            if(state === 'fixed') {
+                stickyElement.nodeRef.classList.add('widget--sticky')
+            } else {
+                stickyElement.nodeRef.classList.remove('widget--sticky')
+            }
+        }
+    </script>
+    {% endif %}
+{% endblock body_scripts %}

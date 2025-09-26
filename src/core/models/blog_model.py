@@ -94,6 +94,10 @@ class BlogPost(Model):
         "Pokaż szkolenia powiązane tematycznie", default=False
     )
 
+    show_closed_webinar_advert = BooleanField(
+        "Pokaż reklame szkoleń zamkniętych", default=True
+    )
+
     # Status and dates
     status = CharField(
         "Status", max_length=20, choices=Status.choices, default=Status.DRAFT
@@ -112,7 +116,7 @@ class BlogPost(Model):
 
     # Basic fields
     title = CharField("Tytuł", max_length=200)
-    slug = SlugField("Slug URL", max_length=250, unique=True)
+    slug = SlugField("Slug URL", max_length=250, unique=True, blank=True)
     excerpt = TextField("Krótki opis", max_length=500, blank=True)
     content = TextField("Treść artykułu")
 
@@ -157,6 +161,10 @@ class BlogPost(Model):
         blank=True,
     )
 
+    advert_fixed_html = TextField("Reklama fixed", blank=True)
+
+    advert_sticky_html = TextField("Reklama sticky", blank=True)
+
     class Meta:
         """Meta"""
 
@@ -172,6 +180,11 @@ class BlogPost(Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+
+    @property
+    def main_category(self):
+        """main_category"""
+        return self.categories.filter(parent=None).first()
 
 
 class BlogView(Model):
