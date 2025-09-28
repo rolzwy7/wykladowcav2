@@ -1,6 +1,7 @@
 from .webinar_aggregate import (
     aggregate_add_category,
     aggregate_add_webinar,
+    aggregate_fill_if_no_categories,
     aggregate_refresh_categories,
     aggregate_sync_active_webinars,
     aggregate_update_closest_webinar_dt,

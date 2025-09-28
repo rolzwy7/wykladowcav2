@@ -63,6 +63,7 @@ def get_or_create_aggregate(webinar: Webinar):
             ),
         )
         new_aggregate.save()
+
         return new_aggregate
 
 
@@ -120,6 +121,24 @@ def aggregate_refresh_categories(aggregate: WebinarAggregate):
         for _category in aggregate.categories.all():
             category: WebinarCategory = _category
             webinar.categories.add(category)
+
+
+def aggregate_fill_if_no_categories(aggregate: WebinarAggregate):
+    """aggregate_fill_if_no_categories"""
+
+    # Dodaj do agregatu kategorie z jak najnowszego webinaru
+    # ktory ma kategorie
+
+    if aggregate.categories.all().exists():
+        return
+
+    for _webinar in aggregate.webinars.all().order_by("-updated_at"):
+        webinar: Webinar = _webinar
+        if not webinar.categories.all().exists():
+            continue
+        for category in webinar.categories.all():
+            aggregate.categories.add(category)
+        break
 
 
 def aggregate_sync_active_webinars(aggregate: WebinarAggregate):

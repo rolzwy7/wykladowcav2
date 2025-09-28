@@ -152,10 +152,7 @@ class WebinarAggregate(Model):
 
     # Categories
     categories = ManyToManyField(
-        "WebinarCategory",
-        verbose_name="Kategorie",
-        blank=True,
-        help_text="UZUPEŁNIA SIĘ AUTOMATYCZNIE",
+        "WebinarCategory", verbose_name="Kategorie", blank=True
     )
 
     title_blogpost_advert = TextField(

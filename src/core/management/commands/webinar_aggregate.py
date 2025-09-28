@@ -6,6 +6,7 @@ This script updates invoice categories on Fakturownia for completed webinars.
 from django.core.management.base import BaseCommand
 
 from core.libs.webinar_aggregate import (
+    aggregate_fill_if_no_categories,
     aggregate_refresh_categories,
     aggregate_sync_active_webinars,
     aggregate_update_closest_webinar_dt,
@@ -37,6 +38,8 @@ class Command(BaseCommand):
 
         for aggregate in WebinarAggregate.manager.all():
             print("Aggregate:", aggregate)
+
+            aggregate_fill_if_no_categories(aggregate)
 
             print("Re-linking webinars for aggregate:", aggregate)
             relink_webinars_for_aggregate(aggregate)

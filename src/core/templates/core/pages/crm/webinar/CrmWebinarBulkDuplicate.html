@@ -12,7 +12,23 @@
     Uwaga. Coś jest nie tak z programem tego szkolenia. Jest pusty LUB domyślny LUB podejrznie krótki.
 </p>
 <p class="fw-bold fs-3 text-white fw-bold bg-danger p-3">
-    Napraw to przed duplikacją, bo inaczej będzie bolało.
+    Napraw to przed duplikacją, bo inaczej duplikowane terminy też nie będą miały programów.
+    <br> <br>
+    Alternatywnie dodaj program do agregatu w późniejszym czasie, a terminy same się zsynchronizują.
+</p>
+{% endif %}
+
+{% if not aggregate_categories %}
+<p class="fw-bold fs-3 text-white fw-bold bg-danger p-3">
+    Agregat dla tego terminu nie ma dołączonych kategorii.
+    <br><br>
+    <a href="{% url "admin:core_webinaraggregate_change" object_id=aggregate.grouping_token %}" target="_blank">
+        <u class="text-dark">Kliknij tutaj</u>
+    </a>
+    i dołącz kategorie do agregatu, następnie 
+    <a href=".">
+        <u class="text-dark">kliknij tutaj, aby odświeżyć tę stronę.</u>
+    </a>
 </p>
 {% endif %}
 

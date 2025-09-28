@@ -27,8 +27,10 @@ def on_webinar_create_metadata(sender, **kwargs):
         # Add to aggregate
         aggregate = get_or_create_aggregate(webinar)
         aggregate_add_webinar(aggregate, webinar)
-        for category in webinar.categories.all():
-            aggregate_add_category(aggregate, category)
+
+        # TODO: To nie dziala bo nie ma jeszcze webinar.categories.all()
+        # for category in webinar.categories.all():
+        #     aggregate_add_category(aggregate, category)
 
         # Update conflicts
         aggregate_update_conflicts(aggregate)

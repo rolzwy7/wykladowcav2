@@ -82,13 +82,13 @@ def on_webinar_presave(sender, instance, **kwargs):
         webinar.slug = f"{slugify(webinar.title)}-{randint(1_000, 99_999)}"
 
     # Override grouping token with existing aggragate if created
-    if created:
-        webinar_core_slug = "-".join(webinar.slug.split("-")[:-1])
-        qs_conflict = WebinarAggregate.manager.filter(slug=webinar_core_slug)
-        slug_conflict = qs_conflict.exists()
-        if slug_conflict:
-            already_existing_aggregate: WebinarAggregate = qs_conflict.first()  # type: ignore
-            webinar.grouping_token = already_existing_aggregate.grouping_token
+    # if created:
+    #     webinar_core_slug = "-".join(webinar.slug.split("-")[:-1])
+    #     qs_conflict = WebinarAggregate.manager.filter(slug=webinar_core_slug)
+    #     slug_conflict = qs_conflict.exists()
+    #     if slug_conflict:
+    #         already_existing_aggregate: WebinarAggregate = qs_conflict.first()  # type: ignore
+    #         webinar.grouping_token = already_existing_aggregate.grouping_token
 
     # Remove <br /> tags from webinar's program
     for _ in ["<br />", "<br/>", "<br>"]:

@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.utils.timezone import now
 
 from core.consts.requests_consts import POST
-from core.models import Webinar, WebinarMetadata
+from core.models import Webinar, WebinarAggregate, WebinarMetadata
 from core.models.enums import WebinarStatus
 
 
@@ -25,8 +25,12 @@ class WebinarForm(forms.ModelForm):
 
 def crm_webinar_bulk_duplicate(request, pk):
     """crm_webinar_bulk_duplicate"""
-    template_name = "core/pages/crm/webinar/CrmWebinarBulkDuplicate.html"
+
     original_webinar = get_object_or_404(Webinar, pk=pk)
+
+    aggregate: WebinarAggregate = WebinarAggregate.manager.get(
+        grouping_token=original_webinar.grouping_token
+    )
 
     next_redirect = request.GET.get("next")
 
@@ -101,8 +105,10 @@ def crm_webinar_bulk_duplicate(request, pk):
 
     return TemplateResponse(
         request,
-        template_name,
+        "core/pages/crm/webinar/CrmWebinarBulkDuplicate.html",
         {
+            "aggregate": aggregate,
+            "aggregate_categories": [cat for cat in aggregate.categories.all()],
             "webinar": original_webinar,
             "next_redirect": next_redirect,
             "formset": formset,
