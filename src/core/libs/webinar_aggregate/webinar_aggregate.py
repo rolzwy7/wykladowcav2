@@ -159,6 +159,7 @@ def aggregate_sync_active_webinars(aggregate: WebinarAggregate):
                 continue
 
             webinar.title = aggregate.title
+            webinar.title_original = aggregate.title
             webinar.program = aggregate.program
             webinar.program_assets = aggregate.program_assets
 
