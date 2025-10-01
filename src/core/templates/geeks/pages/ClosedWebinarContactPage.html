@@ -102,15 +102,22 @@
                     </label>
                     {{ form.company }}
                 </div>
-
+                
                 <div class="mb-3 col-12 col-md-12">
+                    <label class="form-label fw-normal" for="id_number_of_participants">
+                        Potencjalna liczba osób do przeszkolenia:
+                    </label>
+                    {{ form.number_of_participants }}
+                </div>
+
+                <div class="mb-3 col-12 col-md-6">
                     <label class="form-label fw-normal" for="id_phone">
                         Telefon (opcjonalnie):
                     </label>
                     {{ form.phone }}
                 </div>
 
-                <div class="mb-3 col-12 col-md-12">
+                <div class="mb-3 col-12 col-md-6">
                     <label class="form-label" for="id_email">
                         E-mail:
                         <span class="text-danger">*</span>

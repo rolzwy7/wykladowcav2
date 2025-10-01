@@ -10,13 +10,26 @@ from core.models import ClosedWebinarContactMessage
 class ClosedWebinarContactForm(forms.ModelForm):
     class Meta:
         model = ClosedWebinarContactMessage
-        fields = ["full_name", "company", "phone", "email", "message"]
+        fields = [
+            "full_name",
+            "company",
+            "number_of_participants",
+            "phone",
+            "email",
+            "message",
+        ]
         widgets = {
             "full_name": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Imię i nazwisko"}
             ),
             "company": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Firma (opcjonalne)"}
+            ),
+            "number_of_participants": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Potencjalna liczba osób do przeszkolenia",
+                }
             ),
             "phone": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Telefon (opcjonalne)"}

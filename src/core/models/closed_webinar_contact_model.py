@@ -12,6 +12,11 @@ class ClosedWebinarContactMessage(models.Model):
 
     full_name = models.CharField(max_length=100, verbose_name="Imię i nazwisko")
     company = models.CharField(max_length=100, blank=True, verbose_name="Firma")
+    number_of_participants = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name="Potencjalna liczba osób do przeszkolenia",
+    )
     phone = models.CharField(max_length=20, blank=True, verbose_name="Telefon")
     email = models.EmailField(verbose_name="Email")
     message = models.TextField(max_length=1000, verbose_name="Treść wiadomości")
