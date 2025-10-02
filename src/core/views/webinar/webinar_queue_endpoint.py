@@ -20,6 +20,7 @@ def webinar_queue_endpoint(request: HttpRequest, grouping_token: str):
 
     if request.method == POST:
         email = request.POST["email"]
+        phone = request.POST["phone"]
 
         # Create webinar queue object
         with transaction.atomic():
@@ -28,6 +29,7 @@ def webinar_queue_endpoint(request: HttpRequest, grouping_token: str):
 
             webinar_queue = WebinarQueue(
                 email=email,
+                phone=phone,
                 aggregate=aggregate,
                 aggregate_current_title=aggregate.title,
                 spy_object=spy_object,

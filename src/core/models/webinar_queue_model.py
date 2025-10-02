@@ -1,6 +1,7 @@
 """Webinar Queue Model"""
 
 # flake8: noqa=E501
+import uuid
 
 from django.db.models import (
     RESTRICT,
@@ -11,6 +12,7 @@ from django.db.models import (
     ForeignKey,
     Manager,
     Model,
+    UUIDField,
 )
 
 
@@ -29,6 +31,9 @@ class WebinarQueue(Model):
 
     # Basic info
     email = EmailField("Adres E-mail")
+
+    phone = CharField("Telefon", max_length=32, blank=True)
+
     aggregate = ForeignKey(
         "WebinarAggregate",
         on_delete=RESTRICT,

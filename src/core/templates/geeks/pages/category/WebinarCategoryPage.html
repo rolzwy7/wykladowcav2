@@ -167,6 +167,8 @@
         {% endif %}
         {% endfor %}
 
+        <h2>Szkolenia archiwalne</h2>
+
         {% for aggregate in aggregates %}
         {% if not aggregate.has_active_webinars %}
         {% include "./components/aggregate_row_card.html" with aggregate=aggregate %}

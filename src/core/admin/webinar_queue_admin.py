@@ -19,6 +19,7 @@ class WebinarQueueModelAdmin(ModelAdmin):
 
     list_display = [
         "email",
+        "phone",
         "created_at",
         "aggregate",
         "aggregate_title",
