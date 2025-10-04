@@ -15,6 +15,7 @@ from .loyalty_program_enums import (
 from .mailing_enums import (
     MailingBounceStatus,
     MailingCampaignStatus,
+    MailingCampaignWarmupStatus,
     MailingPoolStatus,
     mailing_pool_status_display_map,
 )

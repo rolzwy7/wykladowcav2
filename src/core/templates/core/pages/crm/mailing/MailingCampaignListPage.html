@@ -77,14 +77,14 @@
                         <b>{{monitored_sender.username}}</b>
                         <br>
                         Bucekt id = {{monitored_sender.bucket_id}}
-                      <td>
+                      </td>
                       <td>{{monitored_sender.domain}}</td>
                       <td>
                         <p>Ważne listy:</p>
                         <ol>
                           {% for domain_rbl in domain_rbls %}
                             {% if domain_rbl and domain_rbl.is_blacklisted and domain_rbl.is_important_list %}
-                              <li><b>{{domain_rbl.rbl_list.address}}</b> - {{domain_rbl.created_at|date:"j E H:i:s"}}</li>
+                              <li><b class="fw-bold text-danger">{{domain_rbl.rbl_list.address}}</b> - {{domain_rbl.created_at|date:"j E H:i:s"}}</li>
                             {% endif %}
                           {% endfor %}
                         </ol>
@@ -104,7 +104,7 @@
                         <ol>
                           {% for ip_address_rbl in ip_address_rbls %}
                             {% if ip_address_rbl and ip_address_rbl.is_blacklisted and ip_address_rbl.is_important_list %}
-                              <li><b>{{ip_address_rbl.rbl_list.address}}</b> - {{ip_address_rbl.created_at|date:"j E H:i:s"}}</li>
+                              <li><b class="fw-bold text-danger">{{ip_address_rbl.rbl_list.address}}</b> - {{ip_address_rbl.created_at|date:"j E H:i:s"}}</li>
                             {% endif %}
                           {% endfor %}
                         </ol>

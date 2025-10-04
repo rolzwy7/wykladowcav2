@@ -153,7 +153,7 @@ Kliknij, aby załadować statystyki. Klikaj pojedynczo i <b>czekaj aż się zał
             <i class="ki-duotone ki-down fs-1"></i>
          </div>
       </div>
-      <div id="kt_card_today_applications" class="collapse show">
+      <div id="kt_card_today_applications" class="collapse">
          <div class="card-body">
           {% if sent_today_paid_applications_count %}
           <b>
@@ -212,7 +212,8 @@ Kliknij, aby załadować statystyki. Klikaj pojedynczo i <b>czekaj aż się zał
             <i class="ki-duotone ki-down fs-1"></i>
           </div>
       </div>
-      <div id="kt_card_mailings" class="collapse {% if sending_campaigns_with_test_subjects_count %}show{% endif %}">
+      {% comment %} <div id="kt_card_mailings" class="collapse {% if sending_campaigns_with_test_subjects_count %}show{% endif %}"> {% endcomment %}
+      <div id="kt_card_mailings" class="collapse">
           <div class="card-body">
 
             <div class="table-responsive">

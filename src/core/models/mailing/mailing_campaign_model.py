@@ -28,7 +28,7 @@ from django.template.defaultfilters import date as _date
 from django.utils.timezone import now, timedelta
 
 from core.libs.mailing.calculations import total_sending_time
-from core.models.enums import MailingCampaignStatus
+from core.models.enums import MailingCampaignStatus, MailingCampaignWarmupStatus
 
 
 def default_allowed_to_send_after():
@@ -220,6 +220,20 @@ class MailingCampaign(Model):
     sleep_every_send = FloatField(default=0.1)
 
     is_dobijanie = BooleanField("is_dobijanie", default=False)
+
+    # Warmup
+    WARMUP_STATUS = (
+        (MailingCampaignWarmupStatus.NO_WARMUP, "Bez rozgrzewania"),
+        (MailingCampaignWarmupStatus.WARMUP_ACTIVE, "Rozgrzewanie aktywne"),
+        (MailingCampaignWarmupStatus.WARMUP_FINISHED, "Rozgrzewanie zakończone"),
+    )
+    warmup_status = CharField(
+        max_length=32,
+        choices=WARMUP_STATUS,
+        default=MailingCampaignWarmupStatus.NO_WARMUP,
+    )
+    warmup_max = PositiveIntegerField(default=100_000)
+    warmup_multiplier = FloatField(default=1.4)
 
     class Meta:
         """meta"""

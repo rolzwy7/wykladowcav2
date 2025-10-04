@@ -18,6 +18,14 @@ class MailingCampaignStatus:
     DONE = "DONE"
 
 
+class MailingCampaignWarmupStatus:
+    """Represents status of mailing warmup"""
+
+    NO_WARMUP = "NO_WARMUP"
+    WARMUP_ACTIVE = "WARMUP_ACTIVE"
+    WARMUP_FINISHED = "WARMUP_FINISHED"
+
+
 class MailingBounceStatus:
     """Represents bounce status"""
 
