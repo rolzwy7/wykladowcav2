@@ -80,6 +80,9 @@ class MailingPoolStatus:
     # Is customer
     IS_ALREADY_CUSTOMER = "IS_ALREADY_CUSTOMER"
 
+    # Was already sent today to given email
+    ALREADY_SENT_TODAY = "ALREADY_SENT_TODAY"
+
     # Success status
     SENT = "SENT"
 
@@ -102,6 +105,7 @@ mailing_pool_status_display_map = {
     MailingPoolStatus.BOUNCE_TEMPORARY: "Odbicie miękkie",
     MailingPoolStatus.INVALID_EMAIL_FORMAT: "Niepoprawny format e-mail",
     MailingPoolStatus.IS_ALREADY_CUSTOMER: "JUŻ BYŁ KLIENTEM AGREGATU",
+    MailingPoolStatus.ALREADY_SENT_TODAY: "WYSŁANO DZIŚ JUŻ DO TEGO ADRESU E-MAIL",
     MailingPoolStatus.UNEXPECTED_ERROR: "UNEXPECTED_ERROR",
     MailingPoolStatus.SENT: "Wysłano",
     MailingPoolStatus.SMTP_SERVER_DISCONNECTED: "ERROR SMTP_SERVER_DISCONNECTED",

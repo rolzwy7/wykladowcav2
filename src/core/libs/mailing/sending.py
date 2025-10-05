@@ -29,6 +29,7 @@ from core.models import (
     SmtpSender,
 )
 from core.models.enums import MailingPoolStatus
+from core.models.mailing.mailing_duplicate_sends import MailingDuplicateSendsManager
 from core.services import SenderSmtpService
 from core.services.mailing import MailingResignationService, MailingTrackingService
 
@@ -37,6 +38,7 @@ BASE_URL = settings.BASE_URL
 
 def process_sending(
     pool_manager: MailingPoolManager,
+    duplicates_manager: MailingDuplicateSendsManager,
     campaign_id: int,
     bucket_id: int,
     /,
@@ -62,7 +64,7 @@ def process_sending(
     documents = [
         doc
         for doc in pool_manager.get_ready_to_send_for_campaign(
-            campaign_id, bucket_id, limit=100
+            campaign_id, bucket_id, limit=limit
         )
     ]
 
@@ -84,12 +86,20 @@ def process_sending(
             break
 
         # Prepare variables
-        subject = campaign.get_random_subject()
         email = document["email"]
+        subject = campaign.get_random_subject()
         document_id = f"{campaign_id}:{email}"
         text_content = text
         html_content = html
         any_error_occured = False
+
+        # Check if already sent today
+        if not campaign.allow_sending_to_same_email_a_day:
+            if duplicates_manager.is_email_already_sent_today(email):
+                pool_manager.change_status(
+                    document_id, MailingPoolStatus.ALREADY_SENT_TODAY
+                )
+                continue
 
         # Save test a/b subject
         test_title = get_or_create_mailing_title_test(subject, str(campaign_id))
@@ -177,6 +187,7 @@ def process_sending(
             any_error_occured = True
         else:
             pool_manager.change_status(document_id, MailingPoolStatus.SENT)
+            duplicates_manager.mark_email_sent_today(email)
             print(f"[+] SUCCESSFULLY sent to: `{email}`")
 
             # Increment daily counters

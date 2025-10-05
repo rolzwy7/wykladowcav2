@@ -235,6 +235,10 @@ class MailingCampaign(Model):
     warmup_max = PositiveIntegerField(default=100_000)
     warmup_multiplier = FloatField(default=1.4)
 
+    # Duplicate sends
+
+    allow_sending_to_same_email_a_day = BooleanField(default=False)
+
     class Meta:
         """meta"""
 

@@ -23,6 +23,7 @@ from core.libs.mailing.handlers import (
 )
 from core.libs.mailing.sending import process_sending
 from core.models import MailingCampaign
+from core.models.mailing.mailing_duplicate_sends import MailingDuplicateSendsManager
 from core.models.mailing.mailing_pool_model import MailingPoolManager
 
 BASE_URL = settings.BASE_URL
@@ -44,7 +45,12 @@ class Command(BaseCommand):
         parser.add_argument("bucket_id", type=int)
         parser.add_argument("--sender", type=str)
 
-    def start_loop(self, pool_manager: MailingPoolManager, bucket_id: int):
+    def start_loop(
+        self,
+        pool_manager: MailingPoolManager,
+        duplicates_manager: MailingDuplicateSendsManager,
+        bucket_id: int,
+    ):
         """Start infinite loop"""
 
         # Get all active mailing campaigns
@@ -89,6 +95,7 @@ class Command(BaseCommand):
             else:
                 result = process_sending(
                     pool_manager,
+                    duplicates_manager,
                     campaign_id,
                     bucket_id,
                     limit=campaign.sending_batch_size,
@@ -116,9 +123,10 @@ class Command(BaseCommand):
             retry = 0
             while retry <= 5:
                 pool_manager = MailingPoolManager()
+                duplicates_manager = MailingDuplicateSendsManager()
                 try:
                     while True:
-                        self.start_loop(pool_manager, bucket_id)
+                        self.start_loop(pool_manager, duplicates_manager, bucket_id)
                 except Exception as e:
                     retry += 1
                     handle_on_loop_failure(
