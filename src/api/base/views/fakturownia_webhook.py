@@ -34,7 +34,7 @@ def fakturownia_sale_recording_webhook(request):
     telegram_service = TelegramService()
     telegram_service.try_send_chat_message(
         f"fakturownia_sale_recording_webhook webhook:\n\n{data}",
-        TelegramChats.OTHER,
+        TelegramChats.DEBUG,
     )
 
     if api_token != "DO6TPnB6J73IAEn":

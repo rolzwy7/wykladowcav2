@@ -126,7 +126,10 @@ class MailingCampaign(Model):
         "SmtpSender", on_delete=CASCADE, verbose_name="Konto wysyłkowe"
     )
 
-    bucket_id = PositiveSmallIntegerField(default=999)
+    bucket_id = PositiveSmallIntegerField(
+        default=999,
+        help_text="Wpisz 999, aby bucket został pobrany z konta wysyłkowego",
+    )
 
     base_url_override = CharField(
         "Nadpisz base url",

@@ -224,8 +224,24 @@
      <!-- Collapse -->
      <div class="collapse navbar-collapse" id="navbar-default">
         <ul class="navbar-nav">
-         
-           <li class="nav-item dropdown dropdown-fullwidth">
+
+         <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarBrowse" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-display="static">
+            Kategorie szkoleń
+         </a>
+          <ul class="dropdown-menu dropdown-menu-arrow" aria-labelledby="navbarBrowse">
+            {% for category, count, _ in CACHED_MAIN_CATEGORIES %}
+            <li>
+              <a href="{% url 'core:webinar_category_page' slug=category.slug %}" class="dropdown-item">{{category.name}}</a>
+            </li>
+            {% endfor %}
+            <li>
+              <a href="{% url 'core:webinar_category_page' slug="wszystkie-szkolenia" %}" class="dropdown-item">Wszystkie szkolenia</a>
+            </li>
+          </ul>
+        </li>
+
+           <li class="nav-item dropdown dropdown-fullwidth d-none d-lg-block">
               <a class="nav-link dropdown-toggle" href="{% url 'core:webinar_all_categries_page' %}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Szkolenia Online
               </a>
