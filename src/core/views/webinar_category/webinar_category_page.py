@@ -32,7 +32,7 @@ def webinar_category_page(request, slug: str):
         menu_categories = WebinarCategory.manager.get_subcategories(category)
         aggregates = WebinarAggregate.manager.get_active_aggregates_for_category_slugs(
             [slug, *[_.slug for _ in menu_categories]]
-        )
+        ).filter(pod_szkolenie_zamkniete=False)
 
     # TODO: Przekieruj do rodzica
     # if category.parent:

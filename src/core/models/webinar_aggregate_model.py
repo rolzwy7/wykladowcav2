@@ -54,6 +54,12 @@ class WebinarAggregate(Model):
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
 
+    pod_szkolenie_zamkniete = BooleanField(
+        "Pod szkolenie zamknięte",
+        default=False,
+        help_text="Agregat został stworzony pod szkolenie zamknięte",
+    )
+
     hidden = BooleanField("Ukryty", default=False)
 
     # PK

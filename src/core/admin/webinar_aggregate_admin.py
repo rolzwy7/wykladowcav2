@@ -36,6 +36,7 @@ class WebinarAggregateModelAdmin(ModelAdmin):
             {
                 "fields": [
                     "hidden",
+                    "pod_szkolenie_zamkniete",
                     "grouping_token",
                     "slug",
                     "closest_webinar_dt",

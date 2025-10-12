@@ -115,6 +115,17 @@
     <p class="fs-4 mb-1">
         <b>Konto wysyłkowe:</b> {{mailing_campaign.smtp_sender}} | Sender.bucket_id = {{mailing_campaign.smtp_sender.bucket_id}} -&gt; Campaign.bucket_id = {{mailing_campaign.bucket_id}}
     </p>
+    
+    <p class="fs-4 mb-1">
+        <i>- sending_batch_size:</i> <b>{{mailing_campaign.sending_batch_size}}</b>
+    </p>
+    <p class="fs-4 mb-1">
+        <i>- sleep_between_batches:</i> <b>{{mailing_campaign.sleep_between_batches}}</b>
+    </p>
+    <p class="fs-4 mb-1">
+        <i>- sleep_every_send:</i> <b>{{mailing_campaign.sleep_every_send}}</b>
+    </p>
+
     {% if mailing_campaign.webinar %}
     {% with webinar=mailing_campaign.webinar %}
     <p class="fs-4 mb-1">

@@ -154,6 +154,7 @@ class SmtpSenderModelAdmin(ModelAdmin):
 
     list_display = (
         "username",
+        "mailing_server",
         "bucket_id",
         "ip_address",
         "ssl",
@@ -197,6 +198,7 @@ class SmtpSenderModelAdmin(ModelAdmin):
                 "fields": (
                     "ssl",
                     "exclude_from_processing",
+                    "mailing_server",
                     "bucket_id",
                     "show_on_crm_panel",
                     "ip_address",

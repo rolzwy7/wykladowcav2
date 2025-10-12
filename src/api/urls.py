@@ -12,6 +12,7 @@ from api.base.views import (
     ModerationMessageListView,
     ModerationMessageUpdateView,
     conference_watch_url,
+    create_aggregate_pod_zamkniete,
     fakturownia_sale_recording_webhook,
     health_check,
     regon_autocomplete,
@@ -70,6 +71,11 @@ urlpatterns = [
         "participant/heartbeat/<uuid:watch_token>/",
         ConferenceParticipantHeartbeatView.as_view(),
         name="participant-heartbeat",
+    ),
+    path(
+        "agregat-pod-zamkniete/",
+        create_aggregate_pod_zamkniete,
+        name="create_aggregate_pod_zamkniete",
     ),
     path("", include(router.urls)),
 ]

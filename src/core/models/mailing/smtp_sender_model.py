@@ -61,6 +61,13 @@ class SmtpSender(Model):
         "Exclude from mailing processing", default=False
     )
 
+    mailing_server = CharField(
+        "Mailing server",
+        max_length=32,
+        blank=True,
+        help_text="Example: N1, N2, S1, S2 ...",
+    )
+
     bucket_id = PositiveSmallIntegerField(default=0)
 
     show_on_crm_panel = BooleanField("Pokaż na stronie CRM", default=True)

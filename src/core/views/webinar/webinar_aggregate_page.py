@@ -27,7 +27,7 @@ def webinar_aggregate_page(request, slug: str):
     aggregate_all_webinars = aggregate.webinars.all().order_by("date")
 
     # If aggregate doesn't have any webinar return 404
-    if not aggregate_all_webinars:
+    if all([not aggregate_all_webinars, not aggregate.pod_szkolenie_zamkniete]):
         return Http404()
 
     # Get first webinar as reference webinar

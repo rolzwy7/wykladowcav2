@@ -28,6 +28,7 @@ from .mailing import *
 from .mongo import *
 from .niebieski import *
 from .omega_indexer import OMEGA_INDEXER_API_KEY
+from .openapi import *
 from .perspective_api import *
 from .redis import *
 from .regon import *
