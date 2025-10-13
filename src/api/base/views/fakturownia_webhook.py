@@ -60,7 +60,7 @@ def fakturownia_sale_recording_webhook(request):
         task_sale_recording_process_webhook_dispatch_tasks.s(),
         task_send_telegram_notification.si(
             f"Zakończono procedure po płatności. Faktura id={invoice_vat_id}",
-            TelegramChats.OTHER,
+            TelegramChats.DEBUG,
         ),
     ).apply_async()
 

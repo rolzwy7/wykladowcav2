@@ -235,8 +235,10 @@ class MailingCampaign(Model):
         choices=WARMUP_STATUS,
         default=MailingCampaignWarmupStatus.NO_WARMUP,
     )
-    warmup_max = PositiveIntegerField(default=100_000)
-    warmup_multiplier = FloatField(default=1.4)
+    warmup_max = PositiveIntegerField(
+        default=100_000, help_text="Maksymalna ilość wysyłanych maili na godzinę"
+    )
+    warmup_multiplier = FloatField(default=1.4, help_text="Mnożnik warmup")
 
     # Duplicate sends
     allow_sending_to_same_email_a_day = BooleanField(default=False)
@@ -253,8 +255,11 @@ class MailingCampaign(Model):
     def save(self, *args, **kwargs):
         if self.bucket_id == 999:
             self.bucket_id = self.smtp_sender.bucket_id  # type: ignore
-        if not self.base_url_override:
+
+        # Zawsze nadpisuje base url override z konta wysylkowego
+        if self.smtp_sender.base_url_override:
             self.base_url_override = self.smtp_sender.base_url_override  # type: ignore
+
         if not self.sent_start_at:
             self.sent_start_at = now() + timedelta(days=1)
         super().save(*args, **kwargs)
