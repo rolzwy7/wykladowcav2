@@ -256,9 +256,7 @@ class MailingCampaign(Model):
         if self.bucket_id == 999:
             self.bucket_id = self.smtp_sender.bucket_id  # type: ignore
 
-        # Zawsze nadpisuje base url override z konta wysylkowego
-        if self.smtp_sender.base_url_override:
-            self.base_url_override = self.smtp_sender.base_url_override  # type: ignore
+        self.base_url_override = self.smtp_sender.base_url_override  # type: ignore
 
         if not self.sent_start_at:
             self.sent_start_at = now() + timedelta(days=1)
