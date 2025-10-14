@@ -17,7 +17,7 @@ from core.consts import TelegramChats
 from core.libs.justsend.send_sms import send_sms, sms_clean_phone_number
 from core.libs.mailing.schedule import schedule_log, schedule_mailing
 from core.models import MailingScheduled, WebinarParticipant
-from core.models.enums import MailingPoolStatus, WebinarStatus
+from core.models.enums import ApplicationStatus, MailingPoolStatus, WebinarStatus
 from core.models.enums.mailing_enums import MailingScheduledStatus
 from core.models.mailing import MailingPoolManager
 from core.services import TelegramService
@@ -36,14 +36,16 @@ class Command(BaseCommand):
         tz = get_default_timezone()
 
         participants = WebinarParticipant.manager.filter(
-            # Zgodzili sie na nagrania
+            # Zgodzili sie na przypomnienie sms
             Q(sms_reminder_consent=True)
             # Nie wyslano jeszcze sms'a
             & Q(sms_reminder_send=False)
             # Nie bylo bledu podczas poprzedniej proby
             & Q(sms_error_msg="")
-            # Termin jest potiwerdzony
+            # Termin jest potwierdzony
             & Q(application__webinar__status=WebinarStatus.CONFIRMED)
+            # Tylko zgloszenia wyslane
+            & Q(application__status=ApplicationStatus.SENT)
             # Jest minimalnie 1,5h przed szkoleniem, ale nie po starcie
             & (
                 Q(application__webinar__date__gt=now())
