@@ -4,14 +4,29 @@ SMTP Sender Model
 
 # flake8: noqa=E501
 
+from datetime import time
+
 from django.db.models import (
     BooleanField,
     CharField,
     DateTimeField,
     EmailField,
+    FloatField,
     Model,
+    PositiveIntegerField,
     PositiveSmallIntegerField,
+    TimeField,
 )
+
+
+def default_allowed_to_send_after():
+    """Default `allowed to send after` time"""
+    return time(5, 0, 0, 0)
+
+
+def default_allowed_to_send_before():
+    """Default `allowed to send before` time"""
+    return time(13, 0, 0, 0)
 
 
 class SmtpSender(Model):
@@ -98,6 +113,16 @@ class SmtpSender(Model):
         choices=TALOS_IP_REPUTATION_CHOICES,
         default="NO_DATA",
     )
+
+    allowed_to_send_after = TimeField(
+        "Wysyłaj po godzinie", default=default_allowed_to_send_after
+    )
+    allowed_to_send_before = TimeField(
+        "Wysyłaj do godziny", default=default_allowed_to_send_before
+    )
+    sending_batch_size = PositiveIntegerField(default=100)
+    sleep_between_batches = PositiveIntegerField(default=10)
+    sleep_every_send = FloatField(default=0.1)
 
     class Meta:
         """meta"""

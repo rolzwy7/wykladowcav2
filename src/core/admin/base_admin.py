@@ -216,6 +216,18 @@ class SmtpSenderModelAdmin(ModelAdmin):
                 )
             },
         ),
+        (
+            "Override",
+            {
+                "fields": (
+                    "allowed_to_send_after",
+                    "allowed_to_send_before",
+                    "sending_batch_size",
+                    "sleep_between_batches",
+                    "sleep_every_send",
+                )
+            },
+        ),
     )
 
 

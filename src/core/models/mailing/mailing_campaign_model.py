@@ -107,6 +107,12 @@ class MailingCampaign(Model):
 
     created_at = DateTimeField(auto_now_add=True)
 
+    smtp_sender_override = BooleanField(
+        "SmtpSender Override",
+        default=True,
+        help_text="Nadpisuj pola z konta wysyłkowego przy każdym zapisie",
+    )
+
     favourite = BooleanField("Ulubiona kampania", default=False)
 
     is_main_campaign = BooleanField(
@@ -253,13 +259,24 @@ class MailingCampaign(Model):
         return f"{self.title}"
 
     def save(self, *args, **kwargs):
-        if self.bucket_id == 999:
-            self.bucket_id = self.smtp_sender.bucket_id  # type: ignore
 
-        self.base_url_override = self.smtp_sender.base_url_override  # type: ignore
+        if self.smtp_sender_override:
+
+            # Jesli bucket_id=999 to zastap bucket_id z smtp_sender
+            if self.bucket_id == 999:
+                self.bucket_id = self.smtp_sender.bucket_id
+
+            self.base_url_override = self.smtp_sender.base_url_override
+
+            self.allowed_to_send_after = self.smtp_sender.allowed_to_send_after
+            self.allowed_to_send_before = self.smtp_sender.allowed_to_send_before
+            self.sending_batch_size = self.smtp_sender.sending_batch_size
+            self.sleep_between_batches = self.smtp_sender.sleep_between_batches
+            self.sleep_every_send = self.smtp_sender.sleep_every_send
 
         if not self.sent_start_at:
             self.sent_start_at = now() + timedelta(days=1)
+
         super().save(*args, **kwargs)
 
     def get_subjects(self):
