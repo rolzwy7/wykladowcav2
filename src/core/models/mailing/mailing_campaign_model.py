@@ -230,6 +230,10 @@ class MailingCampaign(Model):
 
     is_dobijanie = BooleanField("is_dobijanie", default=False)
 
+    filter_bomba = BooleanField("FILTER_BOMBA", default=True)
+    filter_miedzynarodowe = BooleanField("filter_miedzynarodowe", default=True)
+    filter_ryzykowne = BooleanField("filter_ryzykowne", default=True)
+
     # Warmup
     WARMUP_STATUS = (
         (MailingCampaignWarmupStatus.NO_WARMUP, "Bez rozgrzewania"),

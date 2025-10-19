@@ -319,17 +319,25 @@ def process_anomail(
 
         client, database = get_mongo_connection()
 
-        if database.wykladowcav2_anomail_bomba.find_one({"_id": email}):
+        if campaign.filter_bomba and database.wykladowcav2_anomail_bomba.find_one(
+            {"_id": email}
+        ):
             pool_manager.change_status(document_id, MailingPoolStatus.ANOMAIL_BOMB)
             print(idx, document_id, "->", MailingPoolStatus.ANOMAIL_BOMB)
 
-        elif database.wykladowcav2_anomail_miedzynarodowe.find_one({"_id": email}):
+        elif (
+            campaign.filter_miedzynarodowe
+            and database.wykladowcav2_anomail_miedzynarodowe.find_one({"_id": email})
+        ):
             pool_manager.change_status(
                 document_id, MailingPoolStatus.ANOMAIL_MIEDZYNARODOWE
             )
             print(idx, document_id, "->", MailingPoolStatus.ANOMAIL_MIEDZYNARODOWE)
 
-        elif database.wykladowcav2_anomail_ryzykowne.find_one({"_id": email}):
+        elif (
+            campaign.filter_ryzykowne
+            and database.wykladowcav2_anomail_ryzykowne.find_one({"_id": email})
+        ):
             pool_manager.change_status(document_id, MailingPoolStatus.ANOMAIL_RYZYKOWNE)
             print(idx, document_id, "->", MailingPoolStatus.ANOMAIL_RYZYKOWNE)
 
