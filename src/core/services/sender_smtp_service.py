@@ -36,7 +36,12 @@ class SenderSmtpService:
         num_messages, _ = pop3.stat()
 
         for message_idx in range(1, num_messages + 1):
-            _, message_lines, _ = pop3.retr(message_idx)
+
+            try:
+                _, message_lines, _ = pop3.retr(message_idx)
+            except error_proto:
+                continue
+
             message_bytes = b"\n".join(message_lines)
             yield (message_idx, message_lines, message_bytes)
 
