@@ -242,7 +242,14 @@ def process_blacklist(
         campaign: MailingCampaign = MailingCampaign.manager.get(id=campaign_id)
 
         document_id = f"{campaign_id}:{email}"
-        prefix, domain = email.split("@")
+
+        try:
+            prefix, domain = email.split("@")
+        except Exception as e:
+            pool_manager.change_status(
+                document_id, MailingPoolStatus.INVALID_EMAIL_FORMAT
+            )
+            continue
 
         # If webinar exclude already singed up customers
         if campaign.webinar:
