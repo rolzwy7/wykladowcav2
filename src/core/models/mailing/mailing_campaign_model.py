@@ -262,6 +262,11 @@ class MailingCampaign(Model):
 
         if self.smtp_sender_override:
 
+            if not self.target_code.startswith(f"{self.smtp_sender.mailing_server}_"):
+                self.target_code = (
+                    f"{self.smtp_sender.mailing_server}_" + self.target_code
+                )
+
             # Jesli bucket_id=999 to zastap bucket_id z smtp_sender
             if self.bucket_id == 999:
                 self.bucket_id = self.smtp_sender.bucket_id

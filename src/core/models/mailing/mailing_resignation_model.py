@@ -63,7 +63,9 @@ class MailingResignationManager:
         document = MailingResignation(
             email=email, confirmed=False, resignation_list=resignation_list
         ).dict()
-        self.collection.insert_one({"_id": resignation_code, **document})
+        self.collection.insert_one(
+            {"_id": resignation_code, "created_at": now(), **document}
+        )
         return {"_id": resignation_code, **document}
 
     def get_by_resignation_code(self, code: str):
@@ -85,7 +87,9 @@ class MailingResignationManager:
 
     def mark_confirmed_by_email(self, email: str) -> None:
         """Mark resignation as cofirmed by email"""
-        self.collection.update_one({"email": email}, {"$set": {"confirmed": True}})
+        self.collection.update_one(
+            {"email": email}, {"$set": {"confirmed": True, "resignation_at": now()}}
+        )
 
     def mark_resignation_as_manual(self, email: str) -> None:
         """Mark resignation as manual (by form)"""
@@ -93,7 +97,9 @@ class MailingResignationManager:
 
     def mark_confirmed_by_code(self, code: str) -> None:
         """Mark resignation as cofirmed by code"""
-        self.collection.update_one({"_id": code}, {"$set": {"confirmed": True}})
+        self.collection.update_one(
+            {"_id": code}, {"$set": {"confirmed": True, "resignation_at": now()}}
+        )
 
     def mark_confirmed_by_code_and_list(self, code: str, resignation_list: str) -> None:
         """Mark resignation as cofirmed by code and list"""
