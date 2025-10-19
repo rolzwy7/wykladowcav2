@@ -51,6 +51,11 @@ class MailingPoolStatus:
     # Vacation
     VACATION = "VACATION"
 
+    # Anomail
+    ANOMAIL_BOMB = "ANOMAIL_BOMB"
+    ANOMAIL_MIEDZYNARODOWE = "ANOMAIL_MIEDZYNARODOWE"
+    ANOMAIL_RYZYKOWNE = "ANOMAIL_RYZYKOWNE"
+
     # Blacklisted
     BLACKLISTED_PREFIX = "BLACKLISTED_PREFIX"
     BLACKLISTED_DOMAIN = "BLACKLISTED_DOMAIN"
@@ -88,27 +93,40 @@ class MailingPoolStatus:
 
 
 mailing_pool_status_display_map = {
+    # Podstawowe
     MailingPoolStatus.BEING_PROCESSED: "W trakcie przetwarzania",
     MailingPoolStatus.READY_TO_SEND: "Gotowe do wysyłki",
+    MailingPoolStatus.SENT: "Wysłano",
+    # MX
     MailingPoolStatus.MX_INVALID: "MX niepoprawny",
     MailingPoolStatus.MX_VALID: "MX poprawny",
+    # Niebezpieczne
     MailingPoolStatus.DANGEROUS_TO_SEND: "Niebezpieczny",
+    # Wakacje
     MailingPoolStatus.VACATION: "Wakacje",
+    # Rezygnacje
     MailingPoolStatus.RESIGNATION: "Rezygnacja",
+    # Blokady / Czarne listy
     MailingPoolStatus.BLACKLISTED_PREFIX: "Zablokowany prefix",
     MailingPoolStatus.BLACKLISTED_DOMAIN: "Zablokowana domena",
     MailingPoolStatus.BLACKLISTED_EMAIL: "Zablokowany e-mail",
     MailingPoolStatus.BLACKLISTED_EMAIL_TEMPORARY: "Zablokowano e-mail (tymczasowo)",
     MailingPoolStatus.BLACKLISTED_PHRASE: "Zablokowana fraza",
-    MailingPoolStatus.BOUNCE_UNKNOWN: "Odbicie (unknown)",
-    MailingPoolStatus.BOUNCE_PERMANENT: "Odbicie twarde",
-    MailingPoolStatus.BOUNCE_TEMPORARY: "Odbicie miękkie",
-    MailingPoolStatus.INVALID_EMAIL_FORMAT: "Niepoprawny format e-mail",
+    # Odbicia
+    MailingPoolStatus.BOUNCE_UNKNOWN: "Odbicie - Unknown",
+    MailingPoolStatus.BOUNCE_PERMANENT: "Odbicie - Twarde",
+    MailingPoolStatus.BOUNCE_TEMPORARY: "Odbicie - Miękkie",
+    # Ochrona przed wielokrotną wysyłką
     MailingPoolStatus.IS_ALREADY_CUSTOMER: "JUŻ BYŁ KLIENTEM AGREGATU",
     MailingPoolStatus.ALREADY_SENT_TODAY: "WYSŁANO DZIŚ JUŻ DO TEGO ADRESU E-MAIL",
-    MailingPoolStatus.UNEXPECTED_ERROR: "UNEXPECTED_ERROR",
-    MailingPoolStatus.SENT: "Wysłano",
-    MailingPoolStatus.SMTP_SERVER_DISCONNECTED: "ERROR SMTP_SERVER_DISCONNECTED",
-    MailingPoolStatus.CONNECTION_REFUSED: "ERROR CONNECTION_REFUSED",
-    MailingPoolStatus.RECIPIENT_REFUSED: "ERROR RECIPIENT_REFUSED",
+    # Errors
+    MailingPoolStatus.SMTP_SERVER_DISCONNECTED: "ERROR - SMTP_SERVER_DISCONNECTED",
+    MailingPoolStatus.CONNECTION_REFUSED: "ERROR - CONNECTION_REFUSED",
+    MailingPoolStatus.RECIPIENT_REFUSED: "ERROR - RECIPIENT_REFUSED",
+    MailingPoolStatus.UNEXPECTED_ERROR: "ERROR - UNEXPECTED_ERROR",
+    MailingPoolStatus.INVALID_EMAIL_FORMAT: "ERROR - NIEPOPRAWNY FORMAT E-MAIL",
+    # Anomail
+    MailingPoolStatus.ANOMAIL_BOMB: "Anomail - Zgłaszający Spam",
+    MailingPoolStatus.ANOMAIL_MIEDZYNARODOWE: "Anomail - Zwroty Międzynarodowe",
+    MailingPoolStatus.ANOMAIL_RYZYKOWNE: "Anomail - Ryzykowne adresy",
 }

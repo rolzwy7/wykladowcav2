@@ -150,7 +150,7 @@ class MailingCampaign(Model):
         (MailingCampaignStatus.DONE, "Zakończono"),
     )
 
-    resignation_list = CharField("Lista rezygnacji", max_length=32, default="default")
+    resignation_list = CharField("Lista rezygnacji", max_length=32, default="override")
 
     status = CharField(
         max_length=32, choices=STATUS, default=MailingCampaignStatus.PAUSED
@@ -265,6 +265,9 @@ class MailingCampaign(Model):
             # Jesli bucket_id=999 to zastap bucket_id z smtp_sender
             if self.bucket_id == 999:
                 self.bucket_id = self.smtp_sender.bucket_id
+
+            if self.resignation_list == "override":
+                self.resignation_list = self.smtp_sender.resignation_list
 
             self.base_url_override = self.smtp_sender.base_url_override
 

@@ -36,7 +36,6 @@ from .loyalty_program_model import (
 )
 from .mailing import (
     ListRBL,
-    MailingBounce,
     MailingBounceManager,
     MailingCampaign,
     MailingPool,

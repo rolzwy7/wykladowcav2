@@ -18,7 +18,7 @@ from core.models.enums import MailingCampaignStatus
 def create_mailing_campaign(request):
     """create_mailing_campaign"""
 
-    smtp_senders = SmtpSender.objects.all()  # pylint: disable=no-member
+    smtp_senders = SmtpSender.manager.all()  # pylint: disable=no-member
 
     form_data = {
         "target_code": "",
@@ -26,6 +26,7 @@ def create_mailing_campaign(request):
         "subjects": "nie_ustawiono",
         "alias": "nie_ustawiono",
         "webinar_id": "not_set",
+        "resignation_list": "override",
     }
 
     if request.GET.get("webinar_id"):
@@ -60,7 +61,7 @@ def create_mailing_campaign(request):
     if request.method == POST:
         webinar_id = request.POST.get("webinar_id", "not_set")
         content_url = request.POST.get("content_url", "")
-        resignation_list = request.POST.get("resignation_list", "default")
+        resignation_list = request.POST.get("resignation_list", "override")
         smpt_sender_id = request.POST.get("smpt_sender_id")
         mailing_title = request.POST.get("mailing_title")
         subjects = request.POST.get("subjects")
@@ -74,7 +75,7 @@ def create_mailing_campaign(request):
         else:
             webinar = None
 
-        smtp_sender = SmtpSender.objects.get(  # pylint: disable=no-member
+        smtp_sender = SmtpSender.manager.get(  # pylint: disable=no-member
             id=int(smpt_sender_id)
         )
 

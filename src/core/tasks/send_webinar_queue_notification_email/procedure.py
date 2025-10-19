@@ -42,7 +42,7 @@ def send_webinar_queue_notification_email(
 ):
     """send_webinar_queue_notification_email"""
 
-    smtp_sender = SmtpSender.objects.get(id=procedure_params.smtp_sender_id)
+    smtp_sender = SmtpSender.manager.get(id=procedure_params.smtp_sender_id)
 
     smtp_service = SenderSmtpService(smtp_sender)
     connection = smtp_service.get_smtp_connection()

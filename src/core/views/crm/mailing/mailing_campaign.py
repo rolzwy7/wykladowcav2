@@ -81,7 +81,7 @@ def crm_mailing_campaign_list(request):
     monitored_senders_list = cache.get(cache_key)
 
     if monitored_senders_list is None:
-        monitored_senders = SmtpSender.objects.filter(
+        monitored_senders = SmtpSender.manager.filter(
             Q(show_on_crm_panel=True) & Q(monitor_rbl=True)
         )
         monitored_senders_list = []
@@ -115,7 +115,7 @@ def crm_mailing_campaign_list(request):
             "show_all": show_all,
             "show_grid": show_grid,
             "now": now(),
-            "smpt_senders": SmtpSender.objects.filter(exclude_from_processing=False),
+            "smtp_senders": SmtpSender.manager.all(),
             "today_datestr": datetime.now().strftime("%Y-%m-%d"),
             "yesterday_datestr": (datetime.now() - timedelta(1)).strftime("%Y-%m-%d"),
         },

@@ -63,7 +63,7 @@ class WebinarEmailNotificationForm(Form):
 
     smtp_sender_choice = ModelChoiceField(
         label="Konto wysyłkowe",
-        queryset=SmtpSender.objects.all(),
+        queryset=SmtpSender.manager.all(),
         to_field_name="username",
         required=True,
         widget=Select(attrs={"class": "form-control"}),
@@ -114,7 +114,7 @@ def crm_send_webinar_queue_email_notifications(request, grouping_token: str):
         if form.is_valid():
             # Smtp sender
             smtp_sender_choice = form.data["smtp_sender_choice"]
-            smtp_sender = SmtpSender.objects.get(username=smtp_sender_choice)
+            smtp_sender = SmtpSender.manager.get(username=smtp_sender_choice)
             # Alias
             sender_alias = form.data["sender_alias"]
             # Subject

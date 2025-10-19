@@ -4,16 +4,18 @@
 # pylint: disable=broad-exception-caught
 
 import time
+from email.message import Message
 
+import mailparser
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.db.models import Q
 from django.utils.timezone import now, timedelta
+from mailparser import MailParser
 
-from core.consts import TelegramChats
-from core.libs.inbox import InboxMessage
+from core.libs.mongo.db import get_mongo_connection
 from core.models import (
-    MailingBounce,
     MailingBounceManager,
     MailingPoolManager,
     MailingReplyMessage,
@@ -22,170 +24,140 @@ from core.models import (
     WebinarParticipant,
 )
 from core.models.enums import MailingBounceStatus, MailingPoolStatus
-from core.models.mailing import (
-    MailingCampaign,
-    MailingProcessingCacheManager,
-    MailingResignationManager,
-)
-from core.services import (
-    BlacklistService,
-    MxService,
-    SenderSmtpService,
-    TelegramService,
-)
+from core.models.mailing import MailingCampaign, MailingProcessingCacheManager
+from core.services import BlacklistService, MxService, SenderSmtpService
 from core.services.mailing import MailingResignationService
 
+from .scan_inbox.aggressor import aggressor_action, aggressor_notify, is_email_aggressor
+from .scan_inbox.bounces import (
+    get_emails_permanent_failures,
+    get_emails_temporary_failures,
+    is_bounce_by_subject,
+)
+from .scan_inbox.new_email import is_new_email
+from .scan_inbox.vacation import (
+    is_email_content_vacation,
+    is_email_subject_vacation,
+    vacation_action,
+    vacation_notify,
+)
 
-def process_scan_inbox(smtp_sender: SmtpSender, cache: dict):
-    """Scan inboxes process"""
+
+def process_inbox_message(smtp_sender: SmtpSender, email_parser: MailParser):
+    """process_inbox_message"""
+
+    message_id: str = email_parser.message_id  # type: ignore
+    email_from = email_parser.from_[0][1]
+    email_to = email_parser.to[0][1]
+    email_text = " ".join(email_parser.text_plain)
+    email_subject: str = email_parser.subject  # type: ignore
+    message: Message = email_parser.message  # type: ignore
+
+    bounce_manager = MailingBounceManager()
+
+    # Aggressor detection
+    is_aggressor = is_email_aggressor(email_subject, email_text)
+    if is_aggressor:
+        blocked_emails, phrases_context_list = aggressor_action(
+            email_from, email_subject, email_text
+        )
+        print(f">\n>>>>> AGGRESSOR DETECTED: {blocked_emails}\n>")
+        aggressor_notify(blocked_emails, phrases_context_list)
+
+    # Detect vacation indicator
+    is_vacation_subject = is_email_subject_vacation(email_subject)
+    is_vacation_content = is_email_content_vacation(email_text)
+    if is_vacation_subject or is_vacation_content:
+        print(f">\n>>>>> VACATION DETECTED: {email_from}\n>")
+        blocked_emails, phrases_context_list = vacation_action(
+            email_from, email_subject, email_text
+        )
+        vacation_notify(
+            email_subject,
+            blocked_emails,
+            phrases_context_list,
+            is_vacation_subject,
+            is_vacation_content,
+        )
+
+    # Detect permanent failures
+    permanent_failures = get_emails_permanent_failures(message)
+    for email in permanent_failures:
+        print(f">\n>>>>> PERMANENT FAILURE: {email}\n>")
+        bounce_manager.upsert_bounce(
+            message_id, smtp_sender.username, email, MailingBounceStatus.PERMANENT
+        )
+
+    # Detect temporary failures
+    temporary_failures = get_emails_temporary_failures(message)
+    for email in temporary_failures:
+        print(f">\n>>>>> TEMPORARY FAILURE: {email}\n>")
+        bounce_manager.upsert_bounce(
+            message_id, smtp_sender.username, email, MailingBounceStatus.TEMPORARY
+        )
+
+    bounce_manager.close()
+
+    if all(
+        [
+            not MailingReplyMessage.manager.filter(email_id=message_id).exists(),
+            not permanent_failures,
+            not temporary_failures,
+            not is_bounce_by_subject(email_subject),
+        ]
+    ):
+        MailingReplyMessage(
+            email_id=message_id,
+            from_email=email_from,
+            to_email=email_parser.to,
+            is_aggressor=is_aggressor,
+            is_vacation=is_vacation_content or is_vacation_subject,
+            is_email_change=is_new_email(email_subject, email_text),
+            subject=email_subject,
+            message_content=" ".join(email_parser.text_html),
+        ).save()
+
+
+def process_scan_inbox(smtp_sender: SmtpSender):
+    """process_scan_inbox2"""
 
     smtp_service = SenderSmtpService(smtp_sender)
     pop3 = smtp_service.get_pop3_instance()
-    bounce_manager = MailingBounceManager()
     cache_manager = MailingProcessingCacheManager()
+
+    # Load cache
+    cache = process_load_cache()
 
     # Iterate over inbox messages
     for message in smtp_service.get_inbox_messages(pop3):
         _, _, message_bytes = message
-        inbox_message = InboxMessage(message_bytes)
-        bounces_list = []
 
-        print("\n# MESSAGE:", inbox_message.subject_header)
+        try:
+            email_parser = mailparser.parse_from_bytes(message_bytes)
+        except Exception as e:
+            raise
 
         # Skip cached messages
-        if cache.get(inbox_message.unique_hash):
-            print("# CACHED:", inbox_message.subject_header)
-            continue
-        else:
-            # Cache message ID if not already in cache
-            print("[*] Adding to cache:", inbox_message.unique_hash)
-            # Add to local cache
-            cache[inbox_message.unique_hash] = True
-            # Add to remote cache
-            cache_manager.insert_message_id_into_cache(inbox_message.unique_hash)
+        if settings.APP_ENV == "production":
+            if cache.get(email_parser.message_id):
+                print(">>>>> ALREADY CACHED:", email_parser.subject)
+                continue
+            else:
+                print("[*] Adding to cache:", email_parser.message_id)
+                cache_manager.insert_message_id_into_cache(email_parser.message_id)  # type: ignore
 
-        # Detect permanent failures
-        permanent_failures = inbox_message.get_emails_permanent_failure()
-        for email in permanent_failures:
-            print("Permanent failure:", email)
-            bounces_list.append(
-                (
-                    email,
-                    MailingBounceStatus.PERMANENT,
-                    inbox_message.get_content(),
-                )
-            )
+        print("\n# MESSAGE:", email_parser.message_id)
+        try:
+            process_inbox_message(smtp_sender, email_parser)
+        except Exception as e:
+            raise
 
-        # Detect temporary failures
-        temporary_failures = inbox_message.get_emails_temporary_failure()
-        for email in temporary_failures:
-            print("Temporary failure:", email)
-            bounces_list.append(
-                (
-                    email,
-                    MailingBounceStatus.PERMANENT,
-                    inbox_message.get_content(),
-                )
-            )
-
-        # Save detected failures
-        bounce_manager.upsert_documents(
-            [
-                MailingBounce(
-                    id=inbox_message.unique_hash,
-                    email=email,
-                    bounce_type=bounce_type,
-                    content=content,
-                )
-                for email, bounce_type, content in bounces_list
-            ]
-        )
-
-        # Detect vacation messages and temporarily blacklist emails:
-        # - from email
-        # - emails in subject
-        if inbox_message.is_vacation():
-            print(
-                "Is vacation (temporarily blacklisted):",
-                inbox_message.subject_header,
-            )
-            from_email = inbox_message.from_email
-            subject_emails = inbox_message.get_subject_emails()
-            for tb_email in [from_email, *subject_emails]:
-                BlacklistService.blacklist_email_temporarily(tb_email)
-                print(f"- temporarily blacklisted: {tb_email}")
-
-        # Check if subject is resignation
-        # if message is subject resignation then mark from email
-        # and all email in the subject as resignations
-        if inbox_message.is_subject_resignation():
-            resignation_manager = MailingResignationManager()
-            from_email = inbox_message.from_email
-            print("Resigntion (from e-mail):", from_email)
-            resignation_manager.get_or_create_resignation(from_email)
-            resignation_manager.mark_confirmed_by_email(from_email)
-            subject_emails = inbox_message.get_subject_emails()
-            for subject_email in subject_emails:
-                print("Resigntion (subject e-mail):", subject_email)
-                resignation_manager.get_or_create_resignation(subject_email)
-                resignation_manager.mark_confirmed_by_email(subject_email)
-            resignation_manager.close()
-
-        # Temporarly ban e-mails from aggressor detected message
-        if inbox_message.is_aggressor():
-            from_email = inbox_message.from_email
-            subject_emails = inbox_message.get_subject_emails()
-            for tb_email in [from_email, *subject_emails]:
-                BlacklistService.blacklist_email_temporarily(tb_email, days=14)
-
-            which_phrases = inbox_message.which_aggressor_phrases()
-
-            telegram_service = TelegramService()
-            telegram_service.try_send_chat_message(
-                "\n".join(
-                    [
-                        "👿 [AGGRESSOR DETECTION] Tymczasowo (14 dni) zablokowano:",
-                        " ".join([from_email, *subject_emails]),
-                        "\nPonieważ wykryto:",
-                        " ".join(which_phrases),
-                    ]
-                ),
-                TelegramChats.OTHER,
-            )
-
-        # Save message from inbox into database if
-        # 1. doesn't already exists
-        # 2. there are no bounces
-        # 3. is not bounce by subject
-        if all(
-            [
-                not MailingReplyMessage.manager.filter(
-                    email_id=inbox_message.unique_hash
-                ).exists(),
-                len(permanent_failures) == 0,
-                len(temporary_failures) == 0,
-                not inbox_message.is_bounce_by_subject(),
-            ]
-        ):
-            print("MailingReplyMessage:", inbox_message.subject_header)
-            MailingReplyMessage(
-                email_id=inbox_message.unique_hash,
-                from_email=inbox_message.from_email,
-                to_email=inbox_message.from_email,
-                is_aggressor=inbox_message.is_aggressor(),
-                is_vacation=inbox_message.is_vacation(),
-                is_email_change=inbox_message.is_new_email(),
-                subject=inbox_message.subject_header,
-                message_content=inbox_message.get_content(),
-            ).save()
+    cache_manager.close()
 
     try:
         pop3.quit()
     except Exception as e:
         print("[-] pop3.quit():", str(e))
-
-    bounce_manager.close()
-    cache_manager.close()
 
 
 def process_check_mx(
@@ -320,6 +292,50 @@ def process_blacklist(
         print(idx + 1, document_id, "->", new_status)
 
 
+def process_anomail(
+    pool_manager: MailingPoolManager,
+    campaigns_ids: list[int],
+    /,
+    *,
+    process_count: int = 100,
+):
+    """Process anomail"""
+
+    pool_mx_valid = pool_manager.find_all_by_status_and_campaign_ids(
+        MailingPoolStatus.MX_VALID, campaigns_ids
+    )
+    for idx, document in enumerate(pool_mx_valid):
+        if idx >= process_count:
+            break
+        email = document["email"]
+
+        if "wykladowca.pl" in email:
+            continue
+
+        campaign_id = document["campaign_id"]
+        document_id = f"{campaign_id}:{email}"
+
+        campaign: MailingCampaign = MailingCampaign.manager.get(id=campaign_id)
+
+        client, database = get_mongo_connection()
+
+        if database.wykladowcav2_anomail_bomba.find_one({"_id": email}):
+            pool_manager.change_status(document_id, MailingPoolStatus.ANOMAIL_BOMB)
+            print(idx, document_id, "->", MailingPoolStatus.ANOMAIL_BOMB)
+
+        if database.wykladowcav2_anomail_miedzynarodowe.find_one({"_id": email}):
+            pool_manager.change_status(
+                document_id, MailingPoolStatus.ANOMAIL_MIEDZYNARODOWE
+            )
+            print(idx, document_id, "->", MailingPoolStatus.ANOMAIL_MIEDZYNARODOWE)
+
+        if database.wykladowcav2_anomail_ryzykowne.find_one({"_id": email}):
+            pool_manager.change_status(document_id, MailingPoolStatus.ANOMAIL_RYZYKOWNE)
+            print(idx, document_id, "->", MailingPoolStatus.ANOMAIL_RYZYKOWNE)
+
+        client.close()
+
+
 def process_bounces(
     pool_manager: MailingPoolManager,
     bounce_manager: MailingBounceManager,
@@ -342,7 +358,10 @@ def process_bounces(
         campaign_id = document["campaign_id"]
         document_id = f"{campaign_id}:{email}"
 
-        bounce = bounce_manager.is_email_bounced(email)
+        campaign: MailingCampaign = MailingCampaign.manager.get(id=campaign_id)
+        sender_email = campaign.smtp_sender.username
+
+        bounce = bounce_manager.is_email_bounced_for_sender(sender_email, email)
 
         if not bounce:
             print(f"[*] Not a bounce: `{email}`")
@@ -351,6 +370,7 @@ def process_bounces(
         new_bounce_type = {
             MailingBounceStatus.PERMANENT: MailingPoolStatus.BOUNCE_PERMANENT,
             MailingBounceStatus.TEMPORARY: MailingPoolStatus.BOUNCE_TEMPORARY,
+            MailingBounceStatus.SPAMBLOCK: MailingBounceStatus.SPAMBLOCK,
         }.get(bounce["bounce_type"], MailingPoolStatus.BOUNCE_UNKNOWN)
 
         pool_manager.change_status(document_id, new_bounce_type)

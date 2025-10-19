@@ -75,7 +75,7 @@ def crm_tagging_dashboard_page(request: HttpRequest):
         template_path,
         {
             "all_emails_count": all_emails_count,
-            "senders": SmtpSender.objects.all(),
+            "senders": SmtpSender.manager.all(),
             "untagged_emails_count": untagged_emails_count,
             "INIT_TAGS": INIT_TAGS,
         },
@@ -144,9 +144,7 @@ def crm_tagging_tag_by_domains_page(request: HttpRequest, tag: str):
         form = TaggingAddEmailsForm(request.POST, request.FILES)
         if form.is_valid():
             file = form.cleaned_data["file"]
-            service.load_file_tag_emails_by_domain(
-                file, tag, remove_tags=remove_tags
-            )
+            service.load_file_tag_emails_by_domain(file, tag, remove_tags=remove_tags)
 
     return TemplateResponse(
         request,

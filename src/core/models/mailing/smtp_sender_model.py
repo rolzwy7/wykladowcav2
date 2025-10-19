@@ -12,9 +12,11 @@ from django.db.models import (
     DateTimeField,
     EmailField,
     FloatField,
+    Manager,
     Model,
     PositiveIntegerField,
     PositiveSmallIntegerField,
+    QuerySet,
     TimeField,
 )
 
@@ -29,8 +31,18 @@ def default_allowed_to_send_before():
     return time(13, 0, 0, 0)
 
 
+class SmtpSenderManager(Manager):
+    """SmtpSender query Manager"""
+
+    def get_senders_for_processing(self) -> QuerySet["SmtpSender"]:
+        """get_senders_for_processing"""
+        return self.get_queryset().filter(exclude_from_processing=False)
+
+
 class SmtpSender(Model):
     """Represents SMTP sender"""
+
+    manager = SmtpSenderManager()
 
     sender_alias = CharField("Alias konta wysyłkowego", max_length=32, blank=True)
 
@@ -113,6 +125,10 @@ class SmtpSender(Model):
         choices=TALOS_IP_REPUTATION_CHOICES,
         default="NO_DATA",
     )
+
+    return_path = CharField("Return-Path", max_length=100, blank=True)
+
+    resignation_list = CharField("Lista rezygnacji", max_length=32, default="default")
 
     allowed_to_send_after = TimeField(
         "Wysyłaj po godzinie", default=default_allowed_to_send_after

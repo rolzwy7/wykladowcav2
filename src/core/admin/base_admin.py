@@ -179,8 +179,9 @@ class SmtpSenderModelAdmin(ModelAdmin):
                     "sender_alias",
                     "username",
                     "password",
-                    "reply_to",
                     "domain",
+                    "reply_to",
+                    "return_path",
                 )
             },
         ),
@@ -220,6 +221,7 @@ class SmtpSenderModelAdmin(ModelAdmin):
             "Override",
             {
                 "fields": (
+                    "resignation_list",
                     "allowed_to_send_after",
                     "allowed_to_send_before",
                     "sending_batch_size",

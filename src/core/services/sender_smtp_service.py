@@ -24,7 +24,7 @@ class SenderSmtpService:
             self.smtp_sender.incoming_server_hostname,
             int(self.smtp_sender.incoming_server_port),
         )
-        pop3.user(self.smtp_sender.username)
+        pop3.user(self.smtp_sender.return_path)
         pop3.pass_(self.smtp_sender.password)
         return pop3
 
@@ -32,15 +32,11 @@ class SenderSmtpService:
         self, pop3: POP3_SSL
     ) -> Iterable[tuple[int, list[bytes], bytes]]:
         """Yields messages from POP3 connection"""
-        num_octet_pairs = pop3.list()[1]
-        for _idx, _ in enumerate(num_octet_pairs):
-            message_idx = _idx + 1
 
-            try:
-                message_lines = pop3.retr(message_idx)[1]
-            except error_proto:
-                message_lines = [f"MESSAGE_IDX_{message_idx}".encode()]
+        num_messages, _ = pop3.stat()
 
+        for message_idx in range(1, num_messages + 1):
+            _, message_lines, _ = pop3.retr(message_idx)
             message_bytes = b"\n".join(message_lines)
             yield (message_idx, message_lines, message_bytes)
 
@@ -82,6 +78,12 @@ class SenderSmtpService:
         list_unsubscribe = f"<mailto:{from_email}?subject=Rezygnacja {email}>"
         reply_to = self.smtp_sender.reply_to
 
+        headers = {
+            "Precedence": "bulk",
+            "List-Unsubscribe": list_unsubscribe,
+            "Reply-To": reply_to,
+        }
+
         html_content = html_content.replace("{ODBIORCA#ADRES}", "{TO_EMAIL}")
         text_content = text_content.replace("{ODBIORCA#ADRES}", "{TO_EMAIL}")
 
@@ -112,6 +114,7 @@ class SenderSmtpService:
             camp_qs = MailingCampaign.manager.filter(id=campaign_id)
             if camp_qs.exists():
                 campaign: MailingCampaign = camp_qs.first()  # type: ignore
+
                 if campaign.base_url_override:
                     base_url = campaign.base_url_override
                     html_content = html_content.replace(
@@ -121,6 +124,9 @@ class SenderSmtpService:
                         settings.BASE_URL, campaign.base_url_override
                     )
 
+                if campaign.smtp_sender.return_path:
+                    headers["Return-Path"] = campaign.smtp_sender.return_path
+
         html_content = html_content.replace("{DOMAIN}", base_url)
         text_content = text_content.replace("{DOMAIN}", base_url)
 
@@ -128,11 +134,7 @@ class SenderSmtpService:
             subject=subject,
             body=text_content,
             from_email=from_email,
-            headers={
-                "Precedence": "bulk",
-                "List-Unsubscribe": list_unsubscribe,
-                "Reply-To": reply_to,
-            },
+            headers=headers,
             to=[to_email],
             cc=cc,
             bcc=bcc,
