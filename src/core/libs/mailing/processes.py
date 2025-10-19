@@ -4,6 +4,7 @@
 # pylint: disable=broad-exception-caught
 
 import time
+import traceback
 from email.message import Message
 
 import mailparser
@@ -46,7 +47,11 @@ from .scan_inbox.vacation import (
 def process_inbox_message(smtp_sender: SmtpSender, email_parser: MailParser):
     """process_inbox_message"""
 
-    message_id: str = email_parser.message_id  # type: ignore
+    if isinstance(email_parser.message_id, list):
+        message_id = "-".join(email_parser.message_id)
+    else:
+        message_id = email_parser.message_id
+
     email_from = email_parser.from_[0][1]
     email_to = email_parser.to[0][1]
     email_text = " ".join(email_parser.text_plain)
@@ -137,21 +142,30 @@ def process_scan_inbox(smtp_sender: SmtpSender):
         except Exception as e:
             raise
 
+        if isinstance(email_parser.message_id, list):
+            message_id = "-".join(email_parser.message_id)
+        else:
+            message_id = email_parser.message_id
+
         # Skip cached messages
         if settings.APP_ENV == "production":
-            if cache.get(email_parser.message_id):
+            if cache.get(message_id):
                 print(">>>>> ALREADY CACHED:", email_parser.subject)
                 continue
             else:
-                print("[*] Adding to cache:", email_parser.message_id)
-                cache_manager.insert_message_id_into_cache(email_parser.message_id)  # type: ignore
+                print("[*] Adding to cache:", message_id)
+                cache_manager.insert_message_id_into_cache(message_id)  # type: ignore
 
-        print("\n# MESSAGE:", email_parser.message_id)
+        print("\n# MESSAGE:", message_id)
         try:
             process_inbox_message(smtp_sender, email_parser)
         except Exception as e:
             print(">>>>> PROCESS INBOX MESSAGE EXCEPTION PASS")
-            pass
+            print(e)
+            print("\n".join(traceback.format_exc().splitlines()))
+            import pdb
+
+            pdb.set_trace()
 
     cache_manager.close()
 
