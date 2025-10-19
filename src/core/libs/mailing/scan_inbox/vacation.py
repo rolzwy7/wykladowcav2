@@ -91,15 +91,15 @@ def vacation_notify(
     else:
         msg.append("\nNie wykryto słów kluczowych w treści")
 
-    telegram_service.try_send_chat_message(
-        "\n".join(
-            [
-                "🏝️ [Urlop] Tymczasowo (10 dni) zablokowano:",
-                " ".join(blocked_emails),
-                "\nTytuł wiadomości e-mail:",
-                email_subject,
-                *msg,
-            ]
-        ),
-        TelegramChats.DEBUG,
-    )
+    # telegram_service.try_send_chat_message(
+    #     "\n".join(
+    #         [
+    #             "🏝️ [Urlop] Tymczasowo (10 dni) zablokowano:",
+    #             " ".join(blocked_emails),
+    #             "\nTytuł wiadomości e-mail:",
+    #             email_subject,
+    #             *msg,
+    #         ]
+    #     ),
+    #     TelegramChats.DEBUG,
+    # )
