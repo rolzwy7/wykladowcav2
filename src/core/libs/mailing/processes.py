@@ -150,7 +150,8 @@ def process_scan_inbox(smtp_sender: SmtpSender):
         try:
             process_inbox_message(smtp_sender, email_parser)
         except Exception as e:
-            raise
+            print(">>>>> PROCESS INBOX MESSAGE EXCEPTION PASS")
+            pass
 
     cache_manager.close()
 

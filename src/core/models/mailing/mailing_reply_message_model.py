@@ -31,7 +31,7 @@ class MailingReplyMessage(Model):
 
     checked = BooleanField(default=False)
 
-    email_id = CharField("Message ID", max_length=128, primary_key=True)
+    email_id = CharField("Message ID", max_length=512, primary_key=True)
 
     from_email = EmailField("Adres E-mail (From)")
     to_email = EmailField("Adres E-mail (To)")
