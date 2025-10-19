@@ -5,6 +5,7 @@
 from datetime import time
 
 import requests
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
@@ -18,7 +19,9 @@ from core.models.enums import MailingCampaignStatus
 def create_mailing_campaign(request):
     """create_mailing_campaign"""
 
-    smtp_senders = SmtpSender.manager.all()  # pylint: disable=no-member
+    smtp_senders = SmtpSender.manager.filter(
+        ~Q(mailing_server="")
+    )  # pylint: disable=no-member
 
     form_data = {
         "target_code": "",
@@ -68,7 +71,7 @@ def create_mailing_campaign(request):
         alias = request.POST.get("alias")
         target_code = request.POST.get("target_code")
 
-        mailing_title = mailing_title.replace("[target_code]", target_code)
+        # mailing_title = mailing_title.replace("[target_code]", target_code)
 
         if webinar_id != "not_set":
             webinar = get_object_or_404(Webinar, pk=int(webinar_id))

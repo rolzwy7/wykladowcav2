@@ -264,12 +264,13 @@ class MailingCampaign(Model):
 
     def save(self, *args, **kwargs):
 
-        if self.smtp_sender_override:
+        # Dodaj serwer do tagert code
+        if not self.target_code.startswith(f"{self.smtp_sender.mailing_server}_"):
+            self.target_code = f"{self.smtp_sender.mailing_server}_" + self.target_code
 
-            if not self.target_code.startswith(f"{self.smtp_sender.mailing_server}_"):
-                self.target_code = (
-                    f"{self.smtp_sender.mailing_server}_" + self.target_code
-                )
+        self.title = self.title.replace("[target_code]", self.target_code)
+
+        if self.smtp_sender_override:
 
             # Jesli bucket_id=999 to zastap bucket_id z smtp_sender
             if self.bucket_id == 999:
