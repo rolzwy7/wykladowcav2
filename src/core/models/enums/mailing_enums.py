@@ -39,6 +39,9 @@ class MailingPoolStatus:
 
     # Init status
     BEING_PROCESSED = "BEING_PROCESSED"
+    AWAITING_MX_CHECK = "AWAITING_MX_CHECK"
+    AWAITING_BLACKLIST_CHECK = "AWAITING_BLACKLIST_CHECK"
+    AWAITING_BOUNCE_CHECK = "AWAITING_BOUNCE_CHECK"
     READY_TO_SEND = "READY_TO_SEND"
 
     # MX
@@ -95,6 +98,9 @@ class MailingPoolStatus:
 mailing_pool_status_display_map = {
     # Podstawowe
     MailingPoolStatus.BEING_PROCESSED: "W trakcie przetwarzania",
+    MailingPoolStatus.AWAITING_MX_CHECK: "Czeka na sprawdzenie MX",
+    MailingPoolStatus.AWAITING_BLACKLIST_CHECK: "Czeka na sprawdzenie w czarnych listach",
+    MailingPoolStatus.AWAITING_BOUNCE_CHECK: "Czeka na sprawdzenie odbić",
     MailingPoolStatus.READY_TO_SEND: "Gotowe do wysyłki",
     MailingPoolStatus.SENT: "Wysłano",
     # MX

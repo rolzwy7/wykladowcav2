@@ -171,7 +171,7 @@ def process_check_mx(
 
     # MX check process
     pool_being_processed = pool_manager.find_all_by_status_and_campaign_ids(
-        MailingPoolStatus.BEING_PROCESSED, campaigns_ids
+        MailingPoolStatus.AWAITING_MX_CHECK, campaigns_ids
     )
 
     for idx, document in enumerate(pool_being_processed):
@@ -192,7 +192,7 @@ def process_check_mx(
             time.sleep(0.12)
             # Check MX status
             new_status = {
-                True: MailingPoolStatus.MX_VALID,
+                True: MailingPoolStatus.READY_TO_SEND,
                 False: MailingPoolStatus.MX_INVALID,
             }[MxService().has_email_mx_record(email)]
 
@@ -212,7 +212,7 @@ def process_blacklist(
 
     # Pool blacklist process
     pool_mx_valid = pool_manager.find_all_by_status_and_campaign_ids(
-        MailingPoolStatus.MX_VALID, campaigns_ids
+        MailingPoolStatus.AWAITING_BLACKLIST_CHECK, campaigns_ids
     )
 
     # Aggragete customers
@@ -286,7 +286,7 @@ def process_blacklist(
         ):
             new_status = MailingPoolStatus.IS_ALREADY_CUSTOMER
         else:
-            new_status = MailingPoolStatus.READY_TO_SEND
+            new_status = MailingPoolStatus.AWAITING_MX_CHECK
 
         pool_manager.change_status(document_id, new_status)
         print(idx + 1, document_id, "->", new_status)
@@ -302,7 +302,7 @@ def process_anomail(
     """Process anomail"""
 
     pool_mx_valid = pool_manager.find_all_by_status_and_campaign_ids(
-        MailingPoolStatus.MX_VALID, campaigns_ids
+        MailingPoolStatus.BEING_PROCESSED, campaigns_ids
     )
     for idx, document in enumerate(pool_mx_valid):
         if idx >= process_count:
@@ -323,15 +323,20 @@ def process_anomail(
             pool_manager.change_status(document_id, MailingPoolStatus.ANOMAIL_BOMB)
             print(idx, document_id, "->", MailingPoolStatus.ANOMAIL_BOMB)
 
-        if database.wykladowcav2_anomail_miedzynarodowe.find_one({"_id": email}):
+        elif database.wykladowcav2_anomail_miedzynarodowe.find_one({"_id": email}):
             pool_manager.change_status(
                 document_id, MailingPoolStatus.ANOMAIL_MIEDZYNARODOWE
             )
             print(idx, document_id, "->", MailingPoolStatus.ANOMAIL_MIEDZYNARODOWE)
 
-        if database.wykladowcav2_anomail_ryzykowne.find_one({"_id": email}):
+        elif database.wykladowcav2_anomail_ryzykowne.find_one({"_id": email}):
             pool_manager.change_status(document_id, MailingPoolStatus.ANOMAIL_RYZYKOWNE)
             print(idx, document_id, "->", MailingPoolStatus.ANOMAIL_RYZYKOWNE)
+
+        else:
+            pool_manager.change_status(
+                document_id, MailingPoolStatus.AWAITING_BOUNCE_CHECK
+            )
 
         client.close()
 
@@ -348,7 +353,7 @@ def process_bounces(
 
     # Pool blacklist process
     pool_mx_valid = pool_manager.find_all_by_status_and_campaign_ids(
-        MailingPoolStatus.MX_VALID, campaigns_ids
+        MailingPoolStatus.AWAITING_BOUNCE_CHECK, campaigns_ids
     )
 
     for idx, document in enumerate(pool_mx_valid):
@@ -364,6 +369,9 @@ def process_bounces(
         bounce = bounce_manager.is_email_bounced_for_sender(sender_email, email)
 
         if not bounce:
+            pool_manager.change_status(
+                document_id, MailingPoolStatus.AWAITING_BLACKLIST_CHECK
+            )
             print(f"[*] Not a bounce: `{email}`")
             continue
 
