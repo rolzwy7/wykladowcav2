@@ -146,5 +146,15 @@ class SmtpSender(Model):
         verbose_name = "Konto wysyłkowe"
         verbose_name_plural = "Konta wysyłkowe"
 
+    def save(self, *args, **kwargs):
+
+        if not self.return_path:
+            self.return_path = self.username
+
+        if not self.reply_to:
+            self.reply_to = self.username
+
+        super().save(*args, **kwargs)
+
     def __str__(self) -> str:
         return f"{self.username}"
