@@ -18,20 +18,6 @@ class WebinarParticipantModelAdmin(ModelAdmin):
     """Webinar Participant Model Admin"""
 
     inlines = [WebinarParticipantModelAdminInline]
-    # prepopulated_fields = {"slug": ("title",)}
-    # filter_horizontal = ("categories",)
-    # list_display = ["title", "date", "status", "lecturer", "price_netto"]
-    # search_fields = [
-    #     "title_original",
-    #     "title",
-    #     "slug",
-    # ]
-    # date_hierarchy = "date"
-    # list_filter = [
-    #     "status",
-    #     "is_confirmed",
-    #     "is_fake",
-    #     "show_lecturer",
-    #     "is_hidden",
-    #     "recording_allowed",
-    # ]
+    list_display = ("id", "status", "first_name", "last_name", "email", "phone")
+    list_filter = ("status", "sms_reminder_consent", "sms_reminder_send")
+    search_fields = ("first_name", "last_name", "email", "phone")
