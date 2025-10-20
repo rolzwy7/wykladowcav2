@@ -137,10 +137,7 @@ def process_scan_inbox(smtp_sender: SmtpSender):
     for message in smtp_service.get_inbox_messages(pop3):
         _, _, message_bytes = message
 
-        try:
-            email_parser = mailparser.parse_from_bytes(message_bytes)
-        except Exception as e:
-            raise
+        email_parser = mailparser.parse_from_bytes(message_bytes)
 
         if isinstance(email_parser.message_id, list):
             message_id = "-".join(email_parser.message_id)
@@ -157,15 +154,7 @@ def process_scan_inbox(smtp_sender: SmtpSender):
                 cache_manager.insert_message_id_into_cache(message_id)  # type: ignore
 
         print("\n# MESSAGE:", message_id)
-        try:
-            process_inbox_message(smtp_sender, email_parser)
-        except Exception as e:
-            print(">>>>> PROCESS INBOX MESSAGE EXCEPTION PASS")
-            print(e)
-            print("\n".join(traceback.format_exc().splitlines()))
-            import pdb
-
-            pdb.set_trace()
+        process_inbox_message(smtp_sender, email_parser)
 
     cache_manager.close()
 

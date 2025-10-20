@@ -130,6 +130,7 @@ class SenderSmtpService:
                     )
 
                 if campaign.smtp_sender.return_path:
+                    print(f"Set Return-Path := {campaign.smtp_sender.return_path}")
                     headers["Return-Path"] = campaign.smtp_sender.return_path
 
         html_content = html_content.replace("{DOMAIN}", base_url)
