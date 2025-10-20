@@ -63,7 +63,7 @@ def sale_recording_application_summary_page(request, uuid):
                     f"z dnia: {_date(webinar.date, 'j E Y')} "
                     f"godz. {_date(webinar.date, 'H:i')}\n"
                     f"#{webinar_id}: {webinar.title_original}",
-                    TelegramChats.DEBUG,
+                    TelegramChats.NAGRANIA,
                 ),
             ).apply_async()
 

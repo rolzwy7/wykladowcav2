@@ -35,6 +35,10 @@
                   <a href="{% url 'admin:core_webinarrecording_change' object_id=recording.recording_id %}">
                     {{recording.recording_id}}
                   </a>
+                  <br><br>
+                  <a href="{{BASE_URL}}/media/recordings/{{recording.recording_id}}.mp4" target="_blank">
+                    <b>Pobierz plik MP4</b>
+                  </a>
                 </td>
                 <td>{{recording.recording_name}}</td>
                 <td class="fw-bold">{{recording.get_status_display}}</td>

@@ -4,3 +4,4 @@ class TelegramChats:
     APPLICATIONS = "-439442270"
     DEBUG = "-4817604741"
     OTHER = "-408682505"
+    NAGRANIA = "-4981485790"

@@ -28,7 +28,7 @@ class Command(BaseCommand):
         # Używamy seta, aby uniknąć wielokrotnego sprawdzania tych samych domen/IP
         items_to_check = set()
 
-        senders = SmtpSender.objects.all()
+        senders = SmtpSender.manager.all()
         if not senders.exists():
             self.stdout.write(
                 self.style.WARNING(

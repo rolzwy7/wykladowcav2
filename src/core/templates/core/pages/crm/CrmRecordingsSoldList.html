@@ -1,0 +1,162 @@
+{% extends 'core/pages/crm/extends/CrmBase.html' %} 
+{% load static %}
+
+{% block head_stylesheets %}
+{% endblock head_stylesheets %}
+
+{% block crm_content %}
+
+
+<!--begin::Row-->
+<div class="row g-6 g-xl-9 mb-10">
+
+    <!--begin::Col-->
+    <div class="col-md-12 col-xl-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">
+            Sprzedane nagrania
+          </h3>
+        </div>
+        <div class="card-body">
+
+          {% if param_show_all %}
+          <a href="./" class="btn btn-dark btn-sm">
+            Pokaż tylko sprzedane/oczekujące na płatność
+          </a>
+          {% else %}
+          <a href="./?show_all=1" class="btn btn-primary btn-sm">
+            Pokaż wszystkie zamówienia
+          </a>
+          {% endif %}
+          <hr>
+
+           <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr class="fw-bold fs-6 text-gray-800">
+                  <th>ID Zamówienia</th>
+                  <th>Status zamówienia</th>
+                  <th>Nabywca</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for sale_recording_application, participants in sale_recording_applications %}
+                <tr class="{% if forloop.counter|divisibleby:2 %}{% else %}bg-light{% endif %}" style="border-bottom: 1px solid black;">
+                  <td>
+                    <a href="{% url "admin:core_salerecordingapplication_change" object_id=sale_recording_application.id %}">
+                      <b>Zamówienie {{sale_recording_application.id}}</b>
+                    </a>
+                    <br>
+                    <small><i>Utworzono: {{sale_recording_application.created_at|date:"j E Y H:i:s"}}</i></small>
+                  </td>
+                  <td>
+                    <span
+                      {% if sale_recording_application.status == "PAYED" %}
+                      class="text-white bg-success"
+                      {% elif sale_recording_application.status == "WAITING_FOR_PAYMENT" %}
+                      class="text-dark bg-warning"
+                      {% elif sale_recording_application.status == "INIT" %}
+                      {% endif %}
+                    >
+                      <b>{{sale_recording_application.get_status_display}}</b>
+                  </span>
+                  <br><br>
+                    {% if sale_recording_application.status == "PAYED" %}
+                    <small><i>Klient opłacił zamówienie, a dostępy do nagrania zostały wysłane automatycznie.</i></small>
+                    {% elif sale_recording_application.status == "WAITING_FOR_PAYMENT" %}
+                    <small><i>Oczekiwanie na płatność od klienta.</i></small>
+                    {% endif %}
+                  </td>
+                  <td>
+                    <b>Nagranie ze szkolenia:</b> <br>
+                    {% with webinar=sale_recording_application.sale_recording.recording.webinar %}
+                      {{webinar}} <br>
+                      Z dnia: {{webinar.date|date:"j E Y H:i:s"}}
+                    {% endwith %}
+
+                    <br><br>
+                    <b>Typ zgłoszenia:</b> {{sale_recording_application.get_application_type_display}}
+
+                    {{sale_recording_application.invoice}}
+                    
+                    {% if sale_recording_application.buyer %}
+                      <br><br>
+                      <b>Nabywca:</b> {{sale_recording_application.buyer}} <br>
+                      {% with buyer=sale_recording_application.buyer %}
+                        {{buyer.postal_code}} {{buyer.city}} {{buyer.address}} <br>
+                        <b>Kontakt nabywca:</b> <br>
+                        <ul class="m-0">
+                          <li>E-mail: {{buyer.email|default:"Nie podali"}}</li>
+                          <li>Telefon: {{buyer.phone_number|default:"Nie podali"}}</li>
+                        </ul>
+                      {% endwith %}
+                    {% endif %}
+
+                    {% if sale_recording_application.recipient %}
+                      <br>
+                      <b>Odbiorca:</b> {{sale_recording_application.recipient}} <br>
+                      {% with recipient=sale_recording_application.recipient %}
+                        {{recipient.postal_code}} {{recipient.city}} {{recipient.address}} <br>
+                        <b>Kontakt odbiorcy:</b> <br>
+                        <ul class="m-0">
+                          <li>E-mail: {{recipient.email|default:"Nie podali"}}</li>
+                          <li>Telefon: {{recipient.phone_number|default:"Nie podali"}}</li>
+                        </ul>
+                      {% endwith %}
+                    {% endif %}
+
+                    {% if sale_recording_application.private_person %}
+                      <br><br>
+                      <b>Osoba prywatna:</b> {{sale_recording_application.private_person}} <br>
+                      {% with private_person=sale_recording_application.private_person %}
+                      {{private_person.postal_code}} {{private_person.city}} {{private_person.address}} <br>
+                      Telefon: {{private_person.phone}}
+                      {% endwith %}
+                    {% endif %}
+
+                    {% if participants %}
+                      <br><br>
+                      {% with webinar=sale_recording_application.sale_recording.recording.webinar %}
+                        <a href="{% url "core:crm_webinar_recordings" pk=webinar.pk %}" class="px-2 bg-primary text-white" target="_blank">
+                          <b>&gt;&gt;&nbsp;Kliknij tutaj, żeby zobaczyć dostępy do nagrania&nbsp;&lt;&lt;</b> <br>
+                        </a>
+                      {% endwith %}
+                      <b>Dostępy do nagrań dla:</b>
+                      <br>
+                      <ol class="m-0">
+                      {% for participant in participants %}
+                        <li>{{participant}}</li>
+                      {% endfor %}
+                      </ol>
+                    {% endif %}
+
+                    {% if sale_recording_application.invoice.vat_exemption %}
+                    <br><br>
+                    <b>Faktura:</b> <br>
+                    <b>Zwolnienie z VAT:</b> {{sale_recording_application.invoice.get_vat_exemption_display}} <br>
+                    <b>Uwagi do faktury:</b> {{sale_recording_application.invoice.invoice_additional_info|default:"=Brak="}} <br>
+                    <b>E-mail do faktury:</b> {{sale_recording_application.invoice.invoice_email}}
+                    {% endif %}
+                    
+                    <br><br>
+                    <b>Uwagi do zamównienia:</b> {{sale_recording_application.additional_information|default:"Brak"}} <br>
+
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+      
+        </div>
+      </div>
+    </div>
+    <!--end::Col-->
+
+  </div>
+  <!--end::Row-->
+
+  {% endblock crm_content %}
+
+{% block body_scripts %}{% endblock body_scripts %}

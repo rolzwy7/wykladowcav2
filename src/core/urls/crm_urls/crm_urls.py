@@ -20,6 +20,7 @@ from core.views.crm import (
     crm_redirect,
     crm_resignations_plaintext,
     crm_send_webinar_queue_email_notifications,
+    crm_sold_recordings,
     crm_take_over_account,
     crm_timeseries_chart,
     crm_todos_done_list,
@@ -392,6 +393,11 @@ urlpatterns = [
         "obrazki-generowane/",
         crm_images_list,
         name="crm_images_list",
+    ),
+    path(
+        "sprzedane-nagrania/",
+        crm_sold_recordings,
+        name="crm_sold_recordings",
     ),
     path(
         "moderacja-chatu-konferencja/<uuid:id>/",

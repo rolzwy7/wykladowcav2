@@ -2,6 +2,8 @@
 Base admin
 """
 
+# flake8: noqa=E501
+
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin, register
 
@@ -99,8 +101,39 @@ admin.site.register(CrmNote)
 
 admin.site.register(MailingScheduled)
 
-admin.site.register(SaleRecording)
-admin.site.register(SaleRecordingApplication)
+
+@register(SaleRecording)
+class SaleRecordingModelAdmin(ModelAdmin):
+    """SaleRecording ModelAdmin."""
+
+    list_display = ("__str__", "is_visible", "recording")
+    # search_fields = ("webinar__title", "student__email")
+
+
+@register(SaleRecordingApplication)
+class SaleRecordingApplicationModelAdmin(ModelAdmin):
+    """SaleRecordingApplication ModelAdmin."""
+
+    date_hierarchy = "created_at"
+    list_display = (
+        "id",
+        "status",
+        "application_type",
+        "sale_recording",
+        "created_at",
+        "price_netto",
+    )
+    list_filter = ("status", "application_type", "sale_recording")
+    search_fields = (
+        "id",
+        "uuid",
+        "buyer__name",
+        "buyer__nip",
+        "private_person__email",
+        "private_person__first_name",
+        "private_person__last_name",
+    )
+
 
 admin.site.register(SurveyAnswer)
 admin.site.register(Survey)

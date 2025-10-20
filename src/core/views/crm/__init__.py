@@ -25,6 +25,7 @@ from .crm_resignations_plaintext import crm_resignations_plaintext
 from .crm_send_webinar_queue_email_notifications import (
     crm_send_webinar_queue_email_notifications,
 )
+from .crm_sold_recordings import crm_sold_recordings
 from .crm_take_over_account import crm_take_over_account
 from .crm_timeseries_chart import crm_timeseries_chart
 from .crm_todos_list import crm_todos_done_list, crm_todos_list
