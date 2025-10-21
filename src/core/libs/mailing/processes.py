@@ -321,6 +321,7 @@ def process_anomail(
         email = document["email"]
 
         if "wykladowca.pl" in email:
+            pool_manager.change_status(document_id, MailingPoolStatus.READY_TO_SEND)
             continue
 
         campaign_id = document["campaign_id"]
@@ -330,13 +331,16 @@ def process_anomail(
 
         client, database = get_mongo_connection()
 
+        # Anomail - Bomba
         if campaign.filter_bomba and database.wykladowcav2_anomail_bomba.find_one(
             {"_id": email}
         ):
             pool_manager.change_status(document_id, MailingPoolStatus.ANOMAIL_BOMB)
             print(idx, document_id, "->", MailingPoolStatus.ANOMAIL_BOMB)
+            continue
 
-        elif (
+        # Anomail - Miedzynarodowe
+        if (
             campaign.filter_miedzynarodowe
             and database.wykladowcav2_anomail_miedzynarodowe.find_one({"_id": email})
         ):
@@ -344,18 +348,19 @@ def process_anomail(
                 document_id, MailingPoolStatus.ANOMAIL_MIEDZYNARODOWE
             )
             print(idx, document_id, "->", MailingPoolStatus.ANOMAIL_MIEDZYNARODOWE)
+            continue
 
-        elif (
+        # Anomail - Ryzykowne
+        if (
             campaign.filter_ryzykowne
             and database.wykladowcav2_anomail_ryzykowne.find_one({"_id": email})
         ):
             pool_manager.change_status(document_id, MailingPoolStatus.ANOMAIL_RYZYKOWNE)
             print(idx, document_id, "->", MailingPoolStatus.ANOMAIL_RYZYKOWNE)
+            continue
 
-        else:
-            pool_manager.change_status(
-                document_id, MailingPoolStatus.AWAITING_BOUNCE_CHECK
-            )
+        print("OK", idx, document_id, "->", MailingPoolStatus.AWAITING_BOUNCE_CHECK)
+        pool_manager.change_status(document_id, MailingPoolStatus.AWAITING_BOUNCE_CHECK)
 
         client.close()
 
