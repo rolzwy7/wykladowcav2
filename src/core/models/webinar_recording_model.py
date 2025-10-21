@@ -14,6 +14,7 @@ from django.db.models import (
     Model,
     PositiveIntegerField,
     QuerySet,
+    TextField,
     URLField,
     UUIDField,
 )
@@ -147,6 +148,24 @@ class WebinarRecordingToken(Model):
     participant = ForeignKey(
         "WebinarParticipant",
         verbose_name="Uczestnik",
+        on_delete=CASCADE,
+        null=True,
+        blank=True,
+    )
+
+    participant_extra_info = TextField("Dodatkowe informacje o uczestniku", blank=True)
+
+    sale_recording_application = ForeignKey(
+        "SaleRecordingApplication",
+        verbose_name="Zgłoszenie - nagranie na sprzedaż",
+        on_delete=CASCADE,
+        null=True,
+        blank=True,
+    )
+
+    sale_recording_participant = ForeignKey(
+        "SaleRecordingParticipant",
+        verbose_name="Uczestnik - nagranie na sprzedaż",
         on_delete=CASCADE,
         null=True,
         blank=True,

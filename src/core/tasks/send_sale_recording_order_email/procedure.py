@@ -38,7 +38,7 @@ def send_sale_recording_order_email(
     )
     email_message = EmailMessage(
         email_template,
-        "[WYKŁADOWCA.PL] Otrzymaliśmy twoje zamówienie!",
+        "[Wykładowca.pl] Otrzymaliśmy twoje zamówienie!",
         procedure_params.email,
     )
     email_message.send()

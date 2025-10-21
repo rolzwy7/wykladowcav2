@@ -20,17 +20,8 @@ def task_sale_recording_save_application_invoice_metadata(
     invoice_result = ProformaInvoiceCreateResult(**json.loads(invoice_result_json))
 
     SaleRecordingApplication.manager.filter(id=application_id).update(
-        fakturownia_invoice_id=invoice_result.invoice_id
-    )
-
-    SaleRecordingApplication.manager.filter(id=application_id).update(
-        fakturownia_invoice_number=invoice_result.invoice_number
-    )
-
-    SaleRecordingApplication.manager.filter(id=application_id).update(
-        fakturownia_invoice_url=invoice_result.invoice_view_url
-    )
-
-    SaleRecordingApplication.manager.filter(id=application_id).update(
-        fakturownia_payment_url=invoice_result.invoice_payment_url
+        fakturownia_invoice_id=invoice_result.invoice_id,
+        fakturownia_invoice_number=invoice_result.invoice_number,
+        fakturownia_invoice_url=invoice_result.invoice_view_url,
+        fakturownia_payment_url=invoice_result.invoice_payment_url,
     )

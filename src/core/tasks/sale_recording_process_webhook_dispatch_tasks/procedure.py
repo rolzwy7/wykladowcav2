@@ -14,6 +14,7 @@ from core.models import (
     SaleRecordingParticipant,
     WebinarRecordingToken,
 )
+from core.models.enums import SaleRecordingApplicationStatus
 
 
 def sale_recording_process_webhook_dispatch_tasks(invoice_proforma_id: int):
@@ -35,6 +36,10 @@ def sale_recording_process_webhook_dispatch_tasks(invoice_proforma_id: int):
     application: SaleRecordingApplication = applications.first()  # type: ignore
     application_id: int = application.id  # type: ignore
 
+    # Ustaw jako oplacona
+    application.status = SaleRecordingApplicationStatus.PAYED
+    application.save()
+
     # Send access to recording
     task_chain = []
     participants = SaleRecordingParticipant.manager.filter(application=application)
@@ -43,6 +48,9 @@ def sale_recording_process_webhook_dispatch_tasks(invoice_proforma_id: int):
             expires_at=now() + timedelta(days=7),
             free_access=True,
             recording=application.sale_recording.recording,
+            participant_extra_info="Uczestnik z zamówienia nagrania",
+            sale_recording_application=participants,
+            sale_recording_participant=application,
         )
         token.save()
 
@@ -58,13 +66,16 @@ def sale_recording_process_webhook_dispatch_tasks(invoice_proforma_id: int):
             )
         )
 
-        telegram_msg = (
-            f"{participant.first_name} {participant.last_name} <{participant.email}>"
+        telegram_msg = "\n".join(
+            [
+                "Dostęp do nagrania:",
+                f"{participant.first_name} {participant.last_name} <{participant.email}>",
+            ]
         )
         task_chain.append(
             task_send_telegram_notification.si(
                 telegram_msg,
-                TelegramChats.OTHER,
+                TelegramChats.NAGRANIA,
             )
         )
 

@@ -11,7 +11,11 @@ from django.urls import reverse
 from core.consts import POST, TelegramChats
 from core.forms import SaleRecordingApplicationSummarySubmitForm
 from core.models import SaleRecordingApplication, SaleRecordingParticipant, Webinar
-from core.models.enums import ApplicationStatus, WebinarApplicationStep
+from core.models.enums import (
+    ApplicationStatus,
+    SaleRecordingApplicationStatus,
+    WebinarApplicationStep,
+)
 from core.tasks import (
     params_send_sale_recording_order_email,
     task_sale_recording_create_application_invoice,
@@ -67,6 +71,7 @@ def sale_recording_application_summary_page(request, uuid):
                 ),
             ).apply_async()
 
+            application.status = SaleRecordingApplicationStatus.WAITING_FOR_PAYMENT
             application.save()
 
             return redirect(

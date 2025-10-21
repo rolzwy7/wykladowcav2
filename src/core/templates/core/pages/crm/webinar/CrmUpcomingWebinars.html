@@ -155,7 +155,15 @@ Kliknij, aby załadować statystyki. Klikaj pojedynczo i <b>czekaj aż się zał
       </div>
       <div id="kt_card_today_applications" class="collapse">
          <div class="card-body">
-          {% if sent_today_paid_applications_count %}
+
+           {% if sent_today_paid_applications_count %}
+
+           {% if sent_today_paid_applications_count >= 15 %}
+            <div class="mb-5">
+              <img src="{% static "media/its_over.jpg" %}" alt="its_over" width="200px">
+            </div>
+           {% endif %}
+
           <b>
             DZISIAJ ZGŁOSZEŃ:
             <span class="fs-4">{{sent_today_paid_applications_count}}</span>

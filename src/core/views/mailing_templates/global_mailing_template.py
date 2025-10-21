@@ -61,6 +61,7 @@ def global_mailing_editor_page(request):
 
     try:
         webinar: Webinar = Webinar.manager.get(pk=for_webinar_id)
+        main_aggregate = WebinarAggregate.manager.get(pk=webinar.grouping_token)
         webinar_id = webinar.id  # type: ignore
         less_than_week_webinar = now() > webinar.date - timedelta(days=7)
     except Webinar.DoesNotExist:  # pylint: disable=no-member
@@ -87,6 +88,7 @@ def global_mailing_editor_page(request):
         request,
         template_name,
         {
+            "main_aggregate": main_aggregate,
             "params_str": params_str,
             "lecturers": lecturers,
             "categories": categories,
@@ -142,6 +144,7 @@ def global_mailing_template_page(request):
     lecturer_aggregates = []
     subcategories_pairs = []
     main_webinar = None
+    main_aggregate = None
     related_webinars = []
     lecturer = None
     aggregates_map = {}
@@ -153,6 +156,7 @@ def global_mailing_template_page(request):
     webinar_id = request.GET.get("webinar_id")
     if webinar_id:
         main_webinar = get_object_or_404(Webinar, pk=int(webinar_id))
+        main_aggregate = WebinarAggregate.manager.get(pk=main_webinar.grouping_token)
         lecturer = main_webinar.lecturer
         cta_href = f"{BASE_URL}/szkl/{main_webinar.id}"  # type: ignore
         cta_href += "/{TRACKING_CODE}/{CAMPAIGN_ID}/{TEST_SUBJECT_ID}/"
@@ -244,6 +248,7 @@ def global_mailing_template_page(request):
         "mailing_templates/GlobalMailingTemplate.html",
         {
             "main_webinar": main_webinar,
+            "main_aggregate": main_aggregate,
             "related_webinars": related_webinars,
             "lecturer": lecturer,
             "aggregates_map": aggregates_map,

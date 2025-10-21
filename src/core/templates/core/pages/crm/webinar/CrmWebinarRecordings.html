@@ -124,7 +124,21 @@
                             {% endif %}
                             </b>
                           </td>
-                          <td>{{token.participant}}</td>
+                          <td>
+                            {{token.participant}} <br>
+
+                            {% if token.participant_extra_info %}
+                              {{token.participant_extra_info}} <br><br>
+                            {% endif %}
+                            
+                            {% if token.sale_recording_participant %}
+                            <b>Uczestnik z nagrania:</b> {{token.sale_recording_participant}} <br><br>
+                            {% endif %}
+
+                            {% if token.sale_recording_application %}
+                              <b>Zamówienie:</b> {{token.sale_recording_application}} <br><br>
+                            {% endif %}
+                          </td>
                           <td>
                             <b>
                             {% if token.free_access %}
