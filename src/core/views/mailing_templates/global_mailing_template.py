@@ -66,6 +66,7 @@ def global_mailing_editor_page(request):
         less_than_week_webinar = now() > webinar.date - timedelta(days=7)
     except Webinar.DoesNotExist:  # pylint: disable=no-member
         webinar = None  # type: ignore
+        main_aggregate = None
         webinar_id = None
         less_than_week_webinar = False
 

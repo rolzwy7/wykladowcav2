@@ -36,9 +36,11 @@
                         <a href="{% url 'admin:core_webinar_change' object_id=webinar.id %}">
                            Edytuj termin w CMS
                        </a>
+                       {% if main_aggregate %}
                         <a href="{% url 'admin:core_webinaraggregate_change' object_id=main_aggregate.grouping_token %}">
                            Edytuj agregat w CMS
                        </a>
+                       {% endif %}
                         <a href="{% url 'core:crm_webinar_detail_dashboard' pk=webinar.id %}">
                            Zobacz w CRM
                        </a>
@@ -200,6 +202,7 @@
                             Dodaj przycisk: Zapytaj o szkolenie zamknięte
                             </label>
                          </div>
+                         {% if main_aggregate %}
                          <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="id_button_buy_recording" name="button_buy_recording" {% if main_aggregate.sale_recording %}checked{% endif %}>
                             <label class="form-check-label" for="id_button_buy_recording">
@@ -211,6 +214,7 @@
                             {% endif %}
                             </label>
                          </div>
+                         {% endif %}
                          <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="id_last_spots" name="show_last_spots" {% if less_than_week_webinar %}checked{% endif %}>
                             <label class="form-check-label" for="id_last_spots">
