@@ -5,3 +5,4 @@ class TelegramChats:
     DEBUG = "-4817604741"
     OTHER = "-408682505"
     NAGRANIA = "-4981485790"
+    MAILING = "-4874699051"

@@ -244,17 +244,14 @@ def process_blacklist(
         if campaign.webinar:
             # Get grouping token
             grouping_token: str = campaign.webinar.grouping_token
-            print("[DEBUG] if campaign.webinar, grouping_token:", grouping_token)
             # If not fetched, create a key
             if aggregate_customers.get(grouping_token) is None:
                 aggregate_customers[grouping_token] = []
-                print("[DEBUG] if not aggregate_customers.get(grouping_token):")
                 aggregate_webinars = Webinar.manager.filter(
                     Q(grouping_token=grouping_token)
                     & Q(date__gte=now() - timedelta(days=30))
                 )
                 for aggregate_webinar in aggregate_webinars:
-                    print("[DEBUG] aggregate_webinar", aggregate_webinar)
                     for (
                         participant
                     ) in WebinarParticipant.manager.get_valid_participants_for_webinar(
@@ -263,11 +260,6 @@ def process_blacklist(
                         aggregate_customers[grouping_token].append(
                             participant.email.lower()
                         )
-
-                    print(
-                        "[DEBUG] aggregate_customers:",
-                        aggregate_customers[grouping_token],
-                    )
 
         # Blacklist
         if BlacklistService.is_email_dangerous_to_send(email):
@@ -315,54 +307,68 @@ def process_anomail(
     pool_mx_valid = pool_manager.find_all_by_status_and_campaign_ids(
         MailingPoolStatus.BEING_PROCESSED, campaigns_ids
     )
+
+    # Get current batch
+    current_batch = []
     for idx, document in enumerate(pool_mx_valid):
         if idx >= process_count:
             break
-        email = document["email"]
+        current_batch.append((idx, document))
 
-        if "wykladowca.pl" in email:
-            pool_manager.change_status(document_id, MailingPoolStatus.READY_TO_SEND)
-            continue
-
-        campaign_id = document["campaign_id"]
+    # Create status change tuples
+    status_change_tuples: list[tuple[str, str]] = []
+    for idx, document in current_batch:
+        email: str = document["email"]
+        campaign_id: int = document["campaign_id"]
         document_id = f"{campaign_id}:{email}"
-
         campaign: MailingCampaign = MailingCampaign.manager.get(id=campaign_id)
 
-        client, database = get_mongo_connection()
+        print("campaign.filter_bomba :=", campaign.filter_bomba)
+        print("campaign.filter_miedzynarodowe :=", campaign.filter_miedzynarodowe)
+        print("campaign.filter_ryzykowne :=", campaign.filter_ryzykowne)
 
-        # Anomail - Bomba
-        if campaign.filter_bomba and database.wykladowcav2_anomail_bomba.find_one(
-            {"_id": email}
-        ):
-            pool_manager.change_status(document_id, MailingPoolStatus.ANOMAIL_BOMB)
-            print(idx, document_id, "->", MailingPoolStatus.ANOMAIL_BOMB)
+        # Przepusc nasze maile od razu
+        if "wykladowca.pl" in email:
+            status_change_tuples.append((document_id, MailingPoolStatus.READY_TO_SEND))
             continue
 
-        # Anomail - Miedzynarodowe
+        # db alias
+        db = pool_manager.database
+
+        # Anomail - BOMBA
+        # TODO: Zawsze sprawdzaj bombe: campaign.filter_bomba
+        if db.wykladowcav2_anomail_bomba.find_one({"_id": email}):
+            status_change_tuples.append((document_id, MailingPoolStatus.ANOMAIL_BOMB))
+            continue
+
+        # Anomail - MIEDZYNARODOWE
         if (
             campaign.filter_miedzynarodowe
-            and database.wykladowcav2_anomail_miedzynarodowe.find_one({"_id": email})
+            and db.wykladowcav2_anomail_miedzynarodowe.find_one({"_id": email})
         ):
-            pool_manager.change_status(
-                document_id, MailingPoolStatus.ANOMAIL_MIEDZYNARODOWE
+            status_change_tuples.append(
+                (document_id, MailingPoolStatus.ANOMAIL_MIEDZYNARODOWE)
             )
-            print(idx, document_id, "->", MailingPoolStatus.ANOMAIL_MIEDZYNARODOWE)
             continue
 
-        # Anomail - Ryzykowne
-        if (
-            campaign.filter_ryzykowne
-            and database.wykladowcav2_anomail_ryzykowne.find_one({"_id": email})
+        # Anomail - RYZYKOWNE
+        if campaign.filter_ryzykowne and db.wykladowcav2_anomail_ryzykowne.find_one(
+            {"_id": email}
         ):
-            pool_manager.change_status(document_id, MailingPoolStatus.ANOMAIL_RYZYKOWNE)
-            print(idx, document_id, "->", MailingPoolStatus.ANOMAIL_RYZYKOWNE)
+            status_change_tuples.append(
+                (document_id, MailingPoolStatus.ANOMAIL_RYZYKOWNE)
+            )
             continue
 
-        print("OK", idx, document_id, "->", MailingPoolStatus.AWAITING_BOUNCE_CHECK)
-        pool_manager.change_status(document_id, MailingPoolStatus.AWAITING_BOUNCE_CHECK)
+        # Przepusc do sprawdzania odbic
+        status_change_tuples.append(
+            (document_id, MailingPoolStatus.AWAITING_BOUNCE_CHECK)
+        )
 
-        client.close()
+    # Change statuses
+    for document_id, status in status_change_tuples:
+        print("status_change_tuples:", document_id, "->", status)
+        pool_manager.change_status(document_id, status)
 
 
 def process_bounces(
