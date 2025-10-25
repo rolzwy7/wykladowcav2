@@ -1,5 +1,7 @@
 """OpenAI"""
 
+# flake8: noqa=E501
+
 from typing import Optional
 
 from django.conf import settings

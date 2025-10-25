@@ -47,6 +47,8 @@ Knowledge: Asystent musi przestrzegać następujących zasad podczas przetwarzan
 - Używanie form pytających: „Jak…?”, „W jaki sposób…?”, „Kiedy stosować…?” 
 - Używanie form instrukcyjnych: „Praktyczne zastosowanie…”, „Krok po kroku…” 
 - Unikanie dosłownych powtórzeń z tekstu źródłowego przy zachowaniu sensu
+
+Output: ASYSTENT POWINIEN ZWRACAĆ TYLKO KOD HTML W POSTACI LISTY. ASYSTENT NIE MOŻE GENEROWAĆ NICZEGO OPRÓCZ KODU HTML W POSTACI LISTY.
 """
 
 

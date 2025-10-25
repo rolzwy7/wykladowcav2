@@ -48,6 +48,7 @@ def crm_aggregates_page(request):
 
     q_grouping_token = request.GET.get("q_grouping_token")
     only_without_active_webinars = request.GET.get("only_without_active_webinars")
+    pod_szkolenie_zamkniete = request.GET.get("pod_szkolenie_zamkniete")
 
     if q_grouping_token:
         aggregates = WebinarAggregate.manager.filter(
@@ -58,6 +59,9 @@ def crm_aggregates_page(request):
 
     if only_without_active_webinars:
         aggregates = aggregates.filter(has_active_webinars=False)
+
+    if pod_szkolenie_zamkniete:
+        aggregates = aggregates.filter(pod_szkolenie_zamkniete=True)
 
     return TemplateResponse(
         request,
